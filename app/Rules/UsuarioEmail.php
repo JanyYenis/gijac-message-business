@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Rules;
+
+use App\Models\Usuario;
+use Illuminate\Contracts\Validation\Rule;
+
+class UsuarioEmail implements Rule
+{
+    protected $userId;
+
+    /**
+     * Create a new rule instance.
+     *
+     * @return void
+     */
+    public function __construct($userId = null)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * Determine if the validation rule passes.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function passes($attribute, $value)
+    {
+        // Verifica si existe un usuario activo con la telefono proporcionada
+        $registro = Usuario::where('email', $value)->where('estado', '!=', Usuario::ELIMINADO);
+
+        if ($this->userId) {
+            $registro = $registro->where('id', '!=', $this->userId);
+        }
+        
+        $registro = $registro->exists();
+
+        return $registro ? false : true;
+    }
+
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function message()
+    {
+        return 'Este email ya está en uso.';
+    }
+}

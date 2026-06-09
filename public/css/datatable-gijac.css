@@ -1,0 +1,294 @@
+div.row.dt-row>div.col-sm-12 {
+    border-radius: 10px !important;
+    border: 1px solid var(--border-widget, #E0E5FF) !important;
+}
+
+/* table.dataTable>tbody>tr.odd {
+    background: var(--tabla-color-row , white) !important;
+    color: var(--original-theme-texts-ot-general-text, #6C73A9) !important;
+} */
+.fc .fc-toolbar-title {
+    font-size: 1.75em;
+    margin: 0;
+    color: #0D9EFF;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border: 1px solid #C3D2EE;
+}
+
+.fc-theme-standard td, .fc-theme-standard th {
+    border: 1px solid #C3D2EE;
+}
+
+.fc-event-main {
+    background: #0ace82 !important;
+    border-radius: 5px 0px 0px 5px !important;
+    color: #ffffff !important;
+    font-size: 1.1em !important;
+}
+
+.fc-daygrid-event {
+    background: #0d9eff !important;
+    border-radius: 5px !important;
+    color: #ffffff !important;
+    font-size: 1.1em !important;
+}
+
+.fc-h-event {
+    border: none !important;
+}
+
+.fc-today-button {
+    border: 1px solid #c3d2ee !important;
+    border-radius: 0px !important;
+    color: #798baf !important;
+    background-color: #ffffff00 !important;
+    font-size: 1.1em !important;
+
+}
+
+
+.fc-dayGridMonth-button {
+    background-color: #ffffff00 !important;
+    border: 1px solid #c3d2ee !important;
+    box-shadow: 0px 0px 5px rgba(26, 188, 253, 0.3) !important;
+    color: #798baf !important;
+    font-size: 1.1em !important;
+}
+
+.fc-dayGridMonth-button:focus {
+    background: #1abcfd !important;
+    border-radius: 10px 0px 0px 10px !important;
+    box-shadow: 0px 0px 5px rgba(26, 188, 253, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.fc-timeGridWeek-button {
+    background-color: #ffffff00 !important;
+    border: 1px solid #c3d2ee !important;
+    box-shadow: 0px 0px 5px rgba(26, 188, 253, 0.3) !important;
+    color: #798baf !important;
+    font-size: 1.1em !important;
+}
+
+.fc-timeGridWeek-button:focus {
+    background: #1abcfd !important;
+    border-radius: 0px 0px 0px 0px !important;
+    box-shadow: 0px 0px 5px rgba(26, 188, 253, 0.3) !important;
+    color: #ffffff !important;
+}
+
+.fc-timeGridDay-button {
+    background-color: #ffffff00 !important;
+    border: 1px solid #c3d2ee !important;
+    box-shadow: 0px 0px 5px rgba(26, 188, 253, 0.3) !important;
+    color: #798baf !important;
+    font-size: 1.1em !important;
+}
+
+.fc-timeGridDay-button:focus {
+    background: #1abcfd !important;
+    border-radius: 0px 10px 10px 0px !important;
+    box-shadow: 0px 0px 5px rgba(26, 188, 253, 0.3) !important;
+    color: #ffffff !important;
+}
+
+
+.fc-next-button {
+    background: #ffffff00 !important;
+    border-radius: 100px !important;
+    color: #A8B7D6 !important;
+
+}
+
+.fc-prev-button {
+    background: #ffffff00 !important;
+    border-radius: 100px !important;
+    color: #A8B7D6 !important;
+}
+
+.fc-next-button:focus {
+    background: #404e8b !important;
+    border-radius: 100px !important;
+    color: #ffffff !important;
+
+}
+
+.fc-prev-button:focus {
+    background: #404e8b !important;
+    border-radius: 100px !important;
+    color: #ffffff !important;
+
+}
+
+.fc .fc-button-group {
+    margin: 5px !important;
+}
+
+table.table-bordered.dataTable thead tr:first-child th,
+table.table-bordered.dataTable thead tr:first-child td {
+    color: var(--bs-app-sidebar-primary-base-bg-color) !important;
+    font-weight: bold !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    font-size: 1.4rem !important;
+    font-weight: 500 !important;
+    line-height: 1.5 !important;
+    background: #ffffff;
+    border: 1px solid #c3d2ee;
+    border-radius: 10px;
+    box-shadow: inset 0px 2px 8px rgba(61, 88, 141, 0.2);
+    width: 100%;
+
+}
+
+div.dataTables_wrapper div.dataTables_length select {
+    background: #ffffff;
+    border: 1px solid #c3d2ee;
+    border-radius: 10px;
+    box-shadow: inset 0px 2px 8px rgba(61, 88, 141, 0.2);
+    font-size: 1.6rem !important;
+    /* width: 100px; */
+
+}
+
+div.dataTables_wrapper div.dataTables_filter label {
+    position: relative !important;
+    width: 100%;
+}
+
+input[type="search"] {
+    padding-right: 30px !important;
+    /* añade espacio a la derecha para el ícono */
+}
+
+div.dataTables_wrapper div.dataTables_filter label img {
+    position: absolute !important;
+    top: 50% !important;
+    right: 10px !important;
+    transform: translateY(-50%) !important;
+}
+
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after {
+    display: none !important;
+}
+
+/* Aplica una imagen personalizada como fondo para las flechas de ordenamiento */
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_desc:before {
+    content: "" !important;
+    background-image: url('ruta_de_la_imagen.png') !important;
+    background-repeat: no-repeat !important;
+    background-position: center right !important;
+    padding-right: 16px !important;
+    /* Ajusta según el ancho de la imagen */
+}
+
+table.dataTable thead>tr>th.sorting:after,
+table.dataTable thead>tr>th.sorting_asc:after,
+table.dataTable thead>tr>th.sorting_desc:after,
+table.dataTable thead>tr>th.sorting_asc_disabled:after,
+table.dataTable thead>tr>th.sorting_desc_disabled:after,
+table.dataTable thead>tr>td.sorting:after,
+table.dataTable thead>tr>td.sorting_asc:after,
+table.dataTable thead>tr>td.sorting_desc:after,
+table.dataTable thead>tr>td.sorting_asc_disabled:after,
+table.dataTable thead>tr>td.sorting_desc_disabled:after {
+    content: url('../img/iconos/flechita-datatable.png') !important;
+}
+
+.dataTables_wrapper .dataTable th.sorting_desc:before,
+.dataTables_wrapper .dataTable th.sorting_desc:after,
+.dataTables_wrapper .dataTable th.orting_asc_disabled:before,
+.dataTables_wrapper .dataTable th.orting_asc_disabled:after,
+.dataTables_wrapper .dataTable th.orting_desc_disabled:before,
+.dataTables_wrapper .dataTable th.orting_desc_disabled:after,
+.dataTables_wrapper .dataTable th.sorting_asc:before,
+.dataTables_wrapper .dataTable th.sorting_asc:after,
+.dataTables_wrapper .dataTable th.sorting:before,
+.dataTables_wrapper .dataTable th.sorting:after,
+.dataTables_wrapper .dataTable td.sorting_desc:before,
+.dataTables_wrapper .dataTable td.sorting_desc:after,
+.dataTables_wrapper .dataTable td.orting_asc_disabled:before,
+.dataTables_wrapper .dataTable td.orting_asc_disabled:after,
+.dataTables_wrapper .dataTable td.orting_desc_disabled:before,
+.dataTables_wrapper .dataTable td.orting_desc_disabled:after,
+.dataTables_wrapper .dataTable td.sorting_asc:before,
+.dataTables_wrapper .dataTable td.sorting_asc:after,
+.dataTables_wrapper .dataTable td.sorting:before,
+.dataTables_wrapper .dataTable td.sorting:after {
+    top: 50% !important;
+    margin-top: 0 !important;
+    bottom: auto !important;
+}
+
+table.dataTable>thead .sorting_asc:after {
+    opacity: 1 !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-color: transparent !important;
+    background-image: url('../img/iconos/flechita-datatable1.png') !important;
+}
+
+.dataTables_wrapper .dataTable th,
+.dataTables_wrapper .dataTable td {
+    color: var(--original-theme-texts-ot-general-text, #51648a) !important;
+    font-size: 1.16em !important;
+
+}
+
+/* div.dataTables_filter label input {
+    background-image: url('../img/iconos/lupa-primary.svg') !important;
+    background-size: 1.5rem !important;
+    background-repeat: no-repeat !important;
+    background-position-x: 93% !important;
+    background-position-y: center !important;
+} */
+
+.table-bordered> :not(caption)>*>* {
+    border-width: 0 !important;
+}
+
+table.dataTable>thead>tr>th:not(.sorting_disabled),
+table.dataTable>thead>tr>td:not(.sorting_disabled) {
+    padding-right: 30px;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: #A8B7D6 !important;
+
+}
+
+.dataTables_wrapper .dataTable th.sorting_asc,
+.dataTables_wrapper .dataTable td.sorting_asc {
+    color: #A8B7D6 !important;
+}
+
+.table:not(.table-bordered) td:last-child,
+.table:not(.table-bordered) th:last-child,
+.table:not(.table-bordered) tr:last-child {
+    padding-right: 0;
+    font-size: 1.1rem !important;
+    font-weight: 500;
+    color: #A8B7D6 !important;
+
+}
+
+.dataTables_wrapper .dataTables_paginate .pagination .page-item.disabled>.page-link {
+    opacity: 0.8;
+    border-radius: 100%;
+}
+
+.dataTables_wrapper .dataTables_paginate .pagination .page-item>.page-link>i {
+    color: #000000 !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .pagination .page-item.active>.page-link {
+    background-color: #04dce9;
+    color: #ffffff;
+    border-radius: 100% !important;
+}

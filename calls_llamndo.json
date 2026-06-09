@@ -1,0 +1,42 @@
+{
+    "object": "whatsapp_business_account",
+    "entry": [
+        {
+            "id": "106202962472888",
+            "changes": [
+                {
+                    "value": {
+                        "messaging_product": "whatsapp",
+                        "metadata": {
+                            "display_phone_number": "15550534684",
+                            "phone_number_id": "110450798716118"
+                        },
+                        "contacts": [
+                            {
+                                "profile": {
+                                    "name": "."
+                                },
+                                "wa_id": "573152094191"
+                            }
+                        ],
+                        "calls": [
+                            {
+                                "id": "wacid.HBgONjA4NjAwMzg5NjM0MDgVEgASGCBBQzQxMjcyRUUyMDkwQkU0NzUwRENGRTM2RDRFRjIxMBwYCzE1NTUwNTM0Njg0FQIAFRAA",
+                                "from": "573152094191",
+                                "to": "15550534684",
+                                "event": "connect",
+                                "timestamp": "1764174795",
+                                "direction": "USER_INITIATED",
+                                "session": {
+                                    "sdp": "v=0\r\no=- 1764174795628 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE audio\r\na=msid-semantic: WMS 152b0caa-ac7e-42b6-849f-beb76e79ec12\r\na=ice-lite\r\nm=audio 3484 UDP\/TLS\/RTP\/SAVPF 111 126\r\nc=IN IP4 163.70.152.130\r\na=rtcp:9 IN IP4 0.0.0.0\r\na=candidate:4214847002 1 udp 2122260223 163.70.152.130 3484 typ host generation 0 network-cost 50\r\na=candidate:787809868 1 udp 2122262783 2a03:2880:f202:d4:face:b00c:0:699c 3484 typ host generation 0 network-cost 50\r\na=ice-ufrag:YLsUtTU+wtQMoalP\r\na=ice-pwd:C6zrnfSe44rNHlgUGCOabA==\r\na=fingerprint:sha-256 91:EC:8D:7E:18:53:73:1E:FE:F4:92:9E:DE:71:E5:85:A3:D6:7F:CE:58:6A:B0:17:30:3A:61:6D:31:42:D8:8B\r\na=setup:actpass\r\na=mid:audio\r\na=sendrecv\r\na=msid:152b0caa-ac7e-42b6-849f-beb76e79ec12 WhatsAppTrack1\r\na=rtcp-mux\r\na=rtpmap:111 opus\/48000\/2\r\na=rtcp-fb:111 transport-cc\r\na=fmtp:111 maxaveragebitrate=20000;maxplaybackrate=16000;minptime=20;sprop-maxcapturerate=16000;useinbandfec=1\r\na=rtpmap:126 telephone-event\/8000\r\na=maxptime:20\r\na=ptime:20\r\na=ssrc:215167368 cname:WhatsAppAudioStream1\r\n",
+                                    "sdp_type": "offer"
+                                }
+                            }
+                        ]
+                    },
+                    "field": "calls"
+                }
+            ]
+        }
+    ]
+}

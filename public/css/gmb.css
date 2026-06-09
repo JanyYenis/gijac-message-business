@@ -1,0 +1,316 @@
+/* Custom styles for WhatsApp Business API Platform */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #1E6A75;
+    --secondary-color: #FFFFFF;
+    --text-dark: #333333;
+    --text-light: #666666;
+    --bg-light: #f8f9fa;
+    --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 20px rgba(30, 106, 117, 0.15);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--secondary-color);
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+/* Header Styles */
+.navbar {
+    background-color: var(--secondary-color) !important;
+    box-shadow: var(--shadow-light);
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--primary-color) !important;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: var(--primary-color) !important;
+}
+
+/* Button Styles */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 500;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #155a63;
+    border-color: #155a63;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+    font-weight: 500;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+}
+
+/* Hero Section */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #155a63 100%);
+    color: var(--secondary-color);
+    padding: 100px 0;
+    min-height: 600px;
+    display: flex;
+    align-items: center;
+}
+
+.hero-section h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.hero-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Section Styles */
+.section {
+    padding: 80px 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    border-radius: 15px 15px 0 0 !important;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.card-body {
+    padding: 2rem;
+}
+
+/* Feature Icons */
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    color: var(--secondary-color);
+    font-size: 2rem;
+}
+
+/* Pricing Cards */
+.pricing-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-card.featured {
+    border: 2px solid var(--primary-color);
+}
+
+.pricing-card.featured::before {
+    content: "Más Popular";
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 5px 40px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transform: rotate(45deg);
+}
+
+.price {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.price-period {
+    font-size: 1rem;
+    color: var(--text-light);
+}
+
+/* Form Styles */
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(30, 106, 117, 0.25);
+}
+
+/* Accordion Styles */
+.accordion-button {
+    background-color: var(--bg-light);
+    color: var(--text-dark);
+    font-weight: 500;
+    border-radius: 10px !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(30, 106, 117, 0.25);
+}
+
+.accordion-item {
+    border: none;
+    margin-bottom: 1rem;
+    border-radius: 10px !important;
+    overflow: hidden;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    padding: 60px 0 20px;
+}
+
+.footer h5 {
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.footer a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer a:hover {
+    color: var(--secondary-color);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 2rem;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.social-icons a {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    text-align: center;
+    line-height: 40px;
+    margin: 0 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-section p {
+        font-size: 1.1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}
+
+.required:after {
+    content: "*";
+    position: relative;
+    font-size: inherit;
+    color: var(--bs-danger);
+    padding-left: .25rem;
+    font-weight: 600
+}

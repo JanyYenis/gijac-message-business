@@ -1,0 +1,118 @@
+/* Modal */
+#incomingCallModal .modal-content {
+    background: linear-gradient(135deg, #1a1f3a 0%, rgba(26, 31, 58, 0.95) 100%);
+    border: 2px solid #00d4ff;
+    border-radius: 20px;
+    box-shadow: 0 25px 60px rgba(0, 212, 255, 0.2);
+}
+
+#incomingCallModal .modal-header {
+    border-bottom: 1px solid #2a2f4a;
+    padding: 25px;
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+}
+
+#incomingCallModal .modal-title {
+    font-weight: 700;
+    font-size: 24px;
+    color: #00d4ff;
+}
+
+#incomingCallModal .modal-body {
+    padding: 25px;
+    text-align: center;
+}
+
+#incomingCallModal .caller-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+#incomingCallModal .caller-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00d4ff, #00ff88);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+
+#incomingCallModal .caller-name {
+    font-size: 20px;
+    font-weight: 600;
+    color: #00d4ff;
+}
+
+#incomingCallModal .caller-status {
+    font-size: 13px;
+    color: rgba(232, 234, 237, 0.7);
+}
+
+#incomingCallModal .modal-footer {
+    border-top: 1px solid #2a2f4a;
+    padding: 20px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+#incomingCallModal .btn-accept {
+    background: linear-gradient(135deg, #00ff88 0%, #00dd77 100%);
+    border: none;
+    color: var(--primary-dark);
+    font-weight: 700;
+    padding: 12px 30px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
+}
+
+#incomingCallModal .btn-accept:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+}
+
+#incomingCallModal .btn-reject {
+    background: rgba(255, 68, 68, 0.2);
+    border: 2px solid #ff4444;
+    color: #ff4444;
+    font-weight: 700;
+    padding: 12px 30px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+#incomingCallModal .btn-reject:hover {
+    background: #ff4444;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #incomingCallModal .modal-title {
+        font-size: 18px;
+    }
+}
+
+/* Animaciones */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#incomingCallModal .modal.show .modal-content {
+    animation: slideIn 0.3s ease;
+}

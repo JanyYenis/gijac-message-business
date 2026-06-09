@@ -1,0 +1,31 @@
+stages:
+  - deploy
+
+before_script:
+  # Prepara SSH
+  - 'which ssh-agent || (apt-get update && apt-get install -y openssh-client rsync)'
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+  - mkdir -p ~/.ssh
+  - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+deploy:
+  stage: deploy
+  only:
+    - main          # despliega solo la rama main
+  script: |
+    ssh $DEPLOY_USER@$DEPLOY_HOST "
+      set -e
+      mkdir -p $DEPLOY_PATH
+      if [ ! -d $DEPLOY_PATH/.git ]; then
+        git clone git@gitlab.com:gijac/gijac-message-business.git $DEPLOY_PATH
+      fi
+    "
+    # Sincroniza cambios
+    rsync -az --delete --exclude='.env*' ./ $DEPLOY_USER@$DEPLOY_HOST:$DEPLOY_PATH
+    # Construye/actualiza contenedores
+    ssh $DEPLOY_USER@$DEPLOY_HOST "
+      cd $DEPLOY_PATH &&
+      cp .env.production .env &&        # o usa tus secrets via GitLab
+      docker compose up -d --build
+    "

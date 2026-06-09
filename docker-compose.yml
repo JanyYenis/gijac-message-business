@@ -1,0 +1,68 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: laravel-app
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html          # tu proyecto Laravel
+    env_file:
+      - .env              # variables para este contenedor
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: laravel-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env              # reutiliza las mismas variables
+    environment:                # ← **mapping, no lista**
+      MYSQL_DATABASE:  ${DB_DATABASE}
+      MYSQL_USER:      ${DB_USERNAME}
+      MYSQL_PASSWORD:  ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: password_gijac
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  websocket:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: websocket-server
+    command: php artisan websocket:serve
+    depends_on:
+      - app
+    env_file:
+      - .env
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: scheduler
+    command: |
+      sh -c "while true; do php artisan schedule:run --no-interaction >> /dev/null 2>&1; sleep 60; done"
+    depends_on:
+      - app
+    env_file:
+      - .env
+
+  queue:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: queue-worker
+    command: php artisan queue:work --tries=3
+    depends_on:
+      - app
+    env_file:
+      - .env
+
+volumes:
+  mysql_data:

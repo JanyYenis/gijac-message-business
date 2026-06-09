@@ -1,0 +1,81 @@
+@font-face {
+    font-family: 'Agrandir';
+    src: url('Agrandir-ThinItalic.woff2') format('woff2'),
+        url('Agrandir-ThinItalic.woff') format('woff');
+    font-weight: 100;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Agrandir Grand';
+    src: url('Agrandir-GrandHeavy.woff2') format('woff2'),
+        url('Agrandir-GrandHeavy.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Agrandir';
+    src: url('Agrandir-TextBold.woff2') format('woff2'),
+        url('Agrandir-TextBold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Agrandir Wide';
+    src: url('Agrandir-WideLight.woff2') format('woff2'),
+        url('Agrandir-WideLight.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Agrandir Grand';
+    src: url('Agrandir-GrandLight.woff2') format('woff2'),
+        url('Agrandir-GrandLight.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Agrandir Tight';
+    src: url('Agrandir-Tight.woff2') format('woff2'),
+        url('Agrandir-Tight.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Agrandir Narrow';
+    src: url('Agrandir-Narrow.woff2') format('woff2'),
+        url('Agrandir-Narrow.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Agrandir';
+    src: url('Agrandir-Regular.woff2') format('woff2'),
+        url('Agrandir-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Agrandir Wide';
+    src: url('Agrandir-WideBlackItalic.woff2') format('woff2'),
+        url('Agrandir-WideBlackItalic.woff') format('woff');
+    font-weight: 900;
+    font-style: italic;
+    font-display: swap;
+}
+

@@ -1,0 +1,18 @@
+@font-face {
+    font-family: 'Sequel Sans Medium Disp';
+    src: url('SequelSans-MediumDisp.woff2') format('woff2'),
+        url('SequelSans-MediumDisp.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Sequel Sans Heavy Disp';
+    src: url('SequelSans-HeavyDisp.woff2') format('woff2'),
+        url('SequelSans-HeavyDisp.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+

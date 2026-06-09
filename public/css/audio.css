@@ -1,0 +1,97 @@
+.track {
+    display: flex;
+    flex-direction: row;
+    flex: 4 0px;
+    flex-wrap: wrap;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 2px;
+    width: 280px !important;
+    overflow: hidden;
+    align-items: center;
+    align-content: stretch;
+    -moz-box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.1);
+  }
+
+  .track:hover {
+    /* -webkit-box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.25); */
+    -moz-box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.25);
+    /* box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.25); */
+  }
+
+  .btn-play {
+    cursor: pointer;
+    font-size: 2em;
+    padding: 2%;
+    z-index: 2;
+    color: #00bcd4;
+    order: 1;
+  }
+
+  .btn-play:hover {
+    color: #03d8f3;
+  }
+
+  .btn-stop {
+    cursor: pointer;
+    font-size: 2em;
+    padding: 2%;
+    z-index: 2;
+    color: #76c7d2;
+    order: 4;
+  }
+
+  .btn-stop:hover {
+    color: #00bcd4;
+  }
+
+  .progreso {
+    display: block;
+    height: 5px;
+    bottom: 0px;
+    order: 5;
+    flex: 1 100%;
+  }
+
+  .progreso div {
+    height: 5px;
+    background-color: #00bcd4;
+  }
+
+  .cancion {
+    font-size: 0.9em;
+    color: #0394a7;
+    order: 2;
+    width: 12vw;
+    overflow: hidden;
+  }
+
+  .tiempos {
+    font-size: 0.7em;
+    float: right;
+    color: #4bafa6;
+    order: 3;
+    margin-left: auto;
+  }
+/*
+  * {
+    font-family: "Open Sans", sans-serif;
+  }
+
+  header {
+    height: 2%;
+    background-color: #3f51b5;
+    padding: 1%;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+    color: #d2d2d2;
+    margin-bottom: 30px;
+  }
+
+  .contenedor {
+    background-color: #f7f7f7;
+    padding: 0.5em;
+    margin: 0 4%;
+    height: 26vw;
+  }
+   */

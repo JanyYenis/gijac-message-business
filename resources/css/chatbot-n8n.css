@@ -1,0 +1,22 @@
+@import url('https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css');
+
+/* PEGAR DENTRO DEL  */
+:root {
+
+    /*Colores chat n8n */
+    --chat--color-primary: #25D366; /*Color circulo pequeño*/
+    --chat--color-primary-shade-50: #128C7E; /*Color hover*/
+    --chat--color-primary-shade-100: #F2F2F2; /*Color hover clic*/
+
+    --chat--color-dark: #128C7E; /*Color encabezado y texto*/
+    --chat--color-light: #F2F2F2; /*Color background chat*/
+
+    --chat--message--bot--background: #d4edda; /*Color background texto bot*/
+    --chat--message--bot--color: #000000; /*Color texto bot*/
+
+    --chat--message--user--background: #128C7E;/*Color background texto user*/
+    --chat--message--user--color: #ffffff; /*Color texto user*/
+
+    --chat--color-secondary: #128C7E; /*Color boton enviar*/
+    --chat--color-white: #F2F2F2; /*Color chat pequeño*/
+}

@@ -27,6 +27,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\ButtonAction;
@@ -241,8 +242,8 @@ class WebhookMessage implements ShouldQueue
                         $nombre_audio = $idMedia.'.mp3';
                     }
 
-                    $response = Http::post(
-                        'https://discord.com/channels/@me/987719605541810236/1514025931445108757',
+                    $response = Http::withoutVerifying()->post(
+                        'https://n8n.gijac.com/webhook/4e200b58-e8e8-4d9b-a975-ceb681ce0a68',
                         [
                             'numero'  => $waFrom,
                             'nombre'  => $contacto?->nombre_completo,
@@ -252,7 +253,28 @@ class WebhookMessage implements ShouldQueue
 
                     if ($response->successful()) {
                         $data = $response->json();
-                        $response = $whatsapp_cloud_api->sendTextMessage($waFrom, $data['output']);
+                        $response_mensaje = $whatsapp_cloud_api->sendTextMessage($waFrom, $data['output']);
+
+                        if ($response_mensaje?->body()) {
+                            // Datos base del mensaje
+                            $datos_chat = [
+                                'campaign_id' => null,
+                                'contact_id'  => $config->uuid,
+                                'wa_message_id' => null,
+                                'wa_from' => $config->phone_number_id,
+                                'wa_to'   => $waFrom,
+                                'type'    => Mensaje::TEXTO,
+                                'body'    => $data['output'] ?? null,
+                                'metadata'=> null,
+                                'estado'  => Mensaje::ENVIADO,
+                                'sent_at' => now(),
+                            ];
+                            $data = json_decode($response_mensaje?->body());
+                            $messages = $data->messages ?? [];
+                            $datos_chat['wa_message_id'] = $messages[0]->id ?? null;
+                            $nuevo_mensaje = Mensaje::create($datos_chat);
+                        }
+
                     }
                 }
             }

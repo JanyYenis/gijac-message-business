@@ -21,6 +21,9 @@ class ServiciosSeeder extends Seeder
             ['nombre' => 'Chatbots Conversacionales con IA', 'slug' => 'chatbots.ia'],
             ['nombre' => 'Chatbots Avanzados', 'slug' => 'chatbots.avanzados'],
             ['nombre' => 'Integración con Flows de WhatsApp', 'slug' => 'flows.whatsapp'],
+            ['nombre' => 'Integración de Chatbot con n8n', 'slug' => 'chatbot.n8n'],
+            ['nombre' => 'Clasificación con IA', 'slug' => 'clasificacion.ia'],
+            ['nombre' => 'Análisis Predictivo con IA', 'slug' => 'analisis.ia'],
         ];
 
         foreach ($servicios as $servicio) {

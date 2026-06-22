@@ -17,7 +17,7 @@ class ApiKeyController extends Controller
         // }
 
         $apis = ApiKey::whereNot('estado', ApiKey::ELIMINADO)
-            ->where('id_usuario', auth()->user()->id);
+            ->where('uuid', auth()->user()->uuid);
 
         return DataTables::eloquent($apis)
             ->addColumn("estado", function ($model) {
@@ -41,7 +41,7 @@ class ApiKeyController extends Controller
         // }
 
         $apis = ApiKeyLog::whereHas('apiKey', function($query) {
-                $query->where('id_usuario', auth()->user()->id);
+                $query->where('uuid', auth()->user()->uuid);
             })
             ->orderByDesc('fecha');
 
@@ -59,7 +59,7 @@ class ApiKeyController extends Controller
         $user = $request->user();
         $apiKey = ApiKey::create([
             'etiqueta' => $request->input('etiqueta') ?? null,
-            'id_usuario' => $user->id,
+            'uuid' => $user->uuid,
             'key' => ApiKey::generate(),
         ]);
 

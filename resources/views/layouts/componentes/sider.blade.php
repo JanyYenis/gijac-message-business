@@ -41,6 +41,14 @@
                         </div>
                     </div>
                 </div>
+                <a href="{{ route('negocios.index')}}" class="menu-item py-2 {{request()->is('negocios') ? 'here' : ''}}">
+                    <span class="menu-link menu-center">
+                        <span
+                            class="menu-icon me-0">
+                            <i class="bi bi-building fs-2x"></i>
+                        </span>
+                    </span>
+                </a>
                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
                     class="menu-item py-2 {{request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') ? 'here' : ''}}">
                     <span class="menu-link menu-center">
@@ -484,6 +492,18 @@
                                 </span>
                                 <span class="menu-title">
                                     Dashboard
+                                </span>
+                            </a>
+                        </div>
+                    @endif
+                    @if (request()->is('negocios'))
+                        <div class="menu-item">
+                            <a href="{{ route('negocios.index') }}" class="menu-link {{request()->is('negocios') ? 'active' : ''}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">
+                                    Negocios
                                 </span>
                             </a>
                         </div>

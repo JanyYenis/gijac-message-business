@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Classes\Models\Model;
+use Illuminate\Support\Str;
 
 class ApiKeyLog extends Model
 {
@@ -12,6 +13,10 @@ class ApiKeyLog extends Model
     const ALVERTENCIA = 3;
 
     protected $table = 'api_key_logs';
+    protected $primaryKey = 'id';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
         'api_key_id',
         'ip_address',
@@ -21,6 +26,20 @@ class ApiKeyLog extends Model
         'comentario',
         'bloqueado_hasta'
     ];
+
+    protected $casts = [
+        'id' => 'string',
+        "fecha" => "date:d/m/Y",
+    ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = Str::uuid();
+        });
+    }
 
     public function apiKey()
     {

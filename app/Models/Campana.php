@@ -117,4 +117,9 @@ class Campana extends Model
     {
         return $this->belongsTo(Etiqueta::class, 'cod_etiqueta', 'id');
     }
+
+    public function plantilla()
+    {
+        return $this->belongsTo(Plantilla::class, 'id_plantilla', 'id');
+    }
 }

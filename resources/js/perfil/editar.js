@@ -121,7 +121,7 @@ const enviarDatos = (form) => {
         generalidades.toastrGenerico(response?.estado, response?.mensaje);
         generalidades.mostrarValidaciones(formEditarUsuario, response.validaciones);
     }
-    const rutaActualizar = route("perfil.update", { "usuario": formData.get("id") });
+    const rutaActualizar = route("perfil.update", { "usuario": formData.get("uuid") });
     generalidades.create(rutaActualizar, config, success, error);
     generalidades.mostrarCargando(formEditarUsuario);
 }
@@ -185,7 +185,7 @@ const cancelar = () => {
         generalidades.toastrGenerico(response?.estado, response?.mensaje);
         generalidades.mostrarValidaciones(formEditarUsuario, response.validaciones);
     }
-    const rutaActualizar = route("perfil.update", { "usuario": formData.get("id") });
+    const rutaActualizar = route("perfil.update", { "usuario": formData.get("uuid") });
     generalidades.create(rutaActualizar, config, success, error);
     generalidades.mostrarCargando(formEditarUsuario);
 }

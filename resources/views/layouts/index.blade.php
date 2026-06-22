@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light"><!--begin::Head-->
 <head>
-    <title>GIJAC MESSAGE BUSINESS</title>
+    <title>GIJAC MESSAGE BUSINESS {{ isset($nombre_titulo) ? '- '.$nombre_titulo : '' }}</title>
     <meta charset="utf-8">
     <meta name="description" content="Plataforma de procesos de GIJAC MESSAGE BUSINESS">
     <meta name="keywords"
@@ -23,6 +23,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Drawflow CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drawflow@0.0.59/dist/drawflow.min.css" />
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet"
@@ -2139,6 +2141,8 @@
     <!-- Añadir antes de cerrar el body -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tagify/4.9.3/tagify.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+    <!-- Drawflow JS -->
+    <script src="https://cdn.jsdelivr.net/npm/drawflow@0.0.59/dist/drawflow.min.js"></script>
     @section('scripts')
     @show
 </body><!--end::Body-->

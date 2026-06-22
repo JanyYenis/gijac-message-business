@@ -188,7 +188,7 @@ const enviarDatosInicioEmail = (t, m) => {
         generalidades.toastrGenerico(response?.estado, response?.mensaje);
         generalidades.mostrarValidaciones(kt_signin_change_email, response.validaciones);
     }
-    const rutaActualizar = route("perfil.email", { "usuario": formData.get("id") });
+    const rutaActualizar = route("perfil.email", { "usuario": formData.get("uuid") });
     generalidades.edit(rutaActualizar, config, success, error);
     generalidades.mostrarCargando(kt_signin_change_email);
 }
@@ -230,7 +230,7 @@ const enviarDatosInicioContrasena = (t, m) => {
         generalidades.toastrGenerico(response?.estado, response?.mensaje);
         generalidades.mostrarValidaciones(kt_signin_change_email, response.validaciones);
     }
-    const rutaActualizar = route("perfil.contrasena", { "usuario": formData.get("id") });
+    const rutaActualizar = route("perfil.contrasena", { "usuario": formData.get("uuid") });
     generalidades.edit(rutaActualizar, config, success, error);
     generalidades.mostrarCargando(kt_signin_change_email);
 }

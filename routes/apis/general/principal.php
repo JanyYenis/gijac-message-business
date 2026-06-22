@@ -7,3 +7,4 @@ Route::middleware('validate_api_key')->get('/campanas', [GeneralController::clas
 Route::middleware('validate_api_key')->get('/campana', [GeneralController::class, 'campana']);
 Route::middleware('validate_api_key')->get('/detalle-campanas', [GeneralController::class, 'detalleCampanas']);
 Route::middleware('validate_api_key')->post('/enviar-mensaje', [GeneralController::class, 'enviarMensaje']);
+Route::middleware('validate_api_key')->post('/plantillas/enviar-individual', [GeneralController::class, 'enviarPlantillaIndividual']);

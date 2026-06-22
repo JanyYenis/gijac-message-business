@@ -13,20 +13,34 @@ class ApiKey extends Model
     const ELIMINADO = 0;
 
     protected $table = 'api_keys';
+    protected $primaryKey = 'id';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable = [
-        'id_usuario',
+        'uuid',
         'etiqueta',
         'key',
         'estado'
     ];
 
     protected $casts = [
+        'id' => 'string',
         "created_at" => "date:d/m/Y",
     ];
 
     protected $dates = [
         "created_at" => "date:d/m/Y",
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->id = Str::uuid();
+        });
+    }
 
     public static function generate()
     {
@@ -35,6 +49,6 @@ class ApiKey extends Model
 
     public function user()
     {
-        return $this->belongsTo(Usuario::class, 'id_usuario', 'id');
+        return $this->belongsTo(Usuario::class, 'uuid', 'id');
     }
 }

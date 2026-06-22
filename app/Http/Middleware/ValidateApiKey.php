@@ -23,10 +23,13 @@ class ValidateApiKey
         $apiKey = $request->header('X-API-KEY');
 
         $location = null;
-        // Obtener ubicación desde la API externa
-        $geoData = Http::get("http://ip-api.com/json/{$ip}")->json();
-        if (count($geoData)) {
-            $location = (array_key_exists('country', $geoData) ? $geoData['country'] : '') . ', ' . (array_key_exists('regionName', $geoData) ? $geoData['regionName'] : '') . ', ' . (array_key_exists('city', $geoData) ? $geoData['city'] : '');
+
+        if (!in_array($ip, ['127.0.0.1', '::1'])) {
+            // Obtener ubicación desde la API externa
+            $geoData = Http::get("http://ip-api.com/json/{$ip}")->json();
+            if (count($geoData)) {
+                $location = (array_key_exists('country', $geoData) ? $geoData['country'] : '') . ', ' . (array_key_exists('regionName', $geoData) ? $geoData['regionName'] : '') . ', ' . (array_key_exists('city', $geoData) ? $geoData['city'] : '');
+            }
         }
 
         // Verificar si la IP está bloqueada
@@ -106,7 +109,7 @@ class ValidateApiKey
         ]);
 
         // 🔹 Agregar el ID del usuario a la request
-        $request->merge(['user_id' => $key->id_usuario]);
+        $request->merge(['user_id' => $key->uuid]);
 
         return $next($request);
     }

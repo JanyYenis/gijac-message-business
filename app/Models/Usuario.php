@@ -280,6 +280,11 @@ class Usuario extends User implements MustVerifyEmail
         return $tel;
     }
 
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'cod_empresa', 'id');
+    }
+
     /**
      * Send the password reset notification.
      *

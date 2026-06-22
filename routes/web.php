@@ -78,7 +78,7 @@ Route::get('/chatbot-n8n', function (\Illuminate\Http\Request $request) {
     dd($response->json());
 });
 
-Route::middleware(['web', 'auth', '2fa', 'verified'])->group(function () {
+Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(function () {
     // Dashboard
     Route::get('/home', [HomeController::class, 'index'])
         ->name('home');
@@ -220,6 +220,7 @@ Route::get('/wompi/callback', [WompiController::class, 'callback'])->name('wompi
 // Route::get('/prueba', [PruebaController::class, 'index']);
 
 Route::get('/prueba', function(){
+    dd(Plantilla::with('componentes')->find(3209960805854522));
     dd(Usuario::darTipoDocumento());
     $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
         ->where('app_id', '189706530645476')

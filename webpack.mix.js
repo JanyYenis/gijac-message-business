@@ -97,12 +97,13 @@ mix.js("resources/js/contactarnos/principal.js", "public/js/contactarnos/princip
 
 // CHATBOT
 mix.js("resources/js/chatbots/principal.js", "public/js/chatbots/principal.js");
-mix.js("resources/js/chatbots/crear.js", "public/js/chatbots/crear.js");
-mix.js("resources/js/chatbots/editar.js", "public/js/chatbots/editar.js");
-mix.js("resources/js/chatbots/demo.js", "public/js/chatbots/demo.js");
+mix.js("resources/js/chatbots/nodos/principal.js", "public/js/chatbots/nodos/principal.js");
 
 // CLASIFICACION CON IA
-mix.js("resources/js/clasificacion-ia/principal.js", "public/js/clasificacion-ia/principal.js")
+mix.js("resources/js/clasificacion-ia/principal.js", "public/js/clasificacion-ia/principal.js");
+
+// NEGOCIOS O EMPRESAS
+mix.js("resources/js/empresas/principal.js", "public/js/empresas/principal.js");
 
 // ----------------------------------------------------------------------------------------------------
 // Carpetas
@@ -119,6 +120,11 @@ mix.styles(
 mix.styles(
     "resources/css/cel.css",
     "public/css/cel.css"
+);
+
+mix.styles(
+    "resources/css/perfil.css",
+    "public/css/perfil.css"
 );
 
 mix.styles(

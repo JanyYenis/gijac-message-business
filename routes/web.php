@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginQrController;
 use App\Http\Controllers\Auth\OutlookController;
 use App\Http\Controllers\CampanaController;
 use App\Http\Controllers\ContactoPaginaController;
@@ -107,6 +108,9 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(f
     Route::post('/2fa', function () {
         return redirect(route('home'));
     })->name('2fa');
+
+    Route::get('/login-qr', [LoginQrController::class, 'index'])
+        ->name('login-qr');
 });
 
 Route::get('/epayco/bancos', [EpaycoController::class, 'obtenerBancos'])

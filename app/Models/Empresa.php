@@ -62,4 +62,9 @@ class Empresa extends Model
             $model->id = Str::uuid();
         });
     }
+
+    public function facturas()
+    {
+        return $this->hasMany(Factura::class, 'cod_empresa', 'id');
+    }
 }

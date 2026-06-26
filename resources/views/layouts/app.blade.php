@@ -3,18 +3,9 @@
 <head>
     <title>GIJAC MESSAGE BUSINESS</title>
     <meta charset="utf-8">
-    <meta name="description" content="Plataforma de procesos de GIJAC MESSAGE BUSINESS">
-    <meta name="keywords"
-        content="tailwind, tailwindcss, metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js,
-        Node.js, Flask, Symfony &amp; Laravel starter kits, admin themes, web design, figma, web development, free templates,
-        free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button,
-        bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:locale" content="es_ES">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="GIJAC MESSAGE BUSINESS - Te ayudamos a crecer">
-    <meta property="og:url" content="https://message-business.gijac.com">
-    <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
+
+    <meta name="robots" content="noindex,nofollow">
+
     <link rel="shortcut icon" href="{{ asset('img/logo_gmb.png') }}">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">

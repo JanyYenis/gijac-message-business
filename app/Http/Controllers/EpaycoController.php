@@ -70,6 +70,7 @@ class EpaycoController extends Controller
     public function confirmation(Request $request)
     {
         $datos = $request->all();
+        Log::info('Datos Transferencia: '. json_encode($datos));
         // 1. Validar IPs de ePayco (Opcional pero recomendado)
         // $this->validateEpaycoIp($request->ip());
 
@@ -121,6 +122,7 @@ class EpaycoController extends Controller
             'x_customer_address' => isset($datos['x_customer_address']) ? $datos['x_customer_address'] : null,
             'cod_plan' => isset($datos['x_extra1']) ? $datos['x_extra1'] : null,
             'cod_usuario' => isset($datos['x_extra2']) ? $datos['x_extra2'] : null,
+            'cod_empresa' => isset($datos['x_extra4']) ? $datos['x_extra4'] : null,
             'tiempo' => isset($datos['x_extra3']) ? $datos['x_extra3'] : null,
             'fecha_vencimiento' => $fecha_vencimiento,
         ]);

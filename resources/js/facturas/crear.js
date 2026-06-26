@@ -175,7 +175,8 @@ async function processPayment() {
             response: route('home'),
             extra1: validatedData.cod_plan,
             extra2: validatedData.cod_usuario,
-            extra3: validatedData.tiempo
+            extra3: validatedData.tiempo,
+            extra4: validatedData.cod_empresa,
         };
 
         // 4️⃣ Abrir ePayco solo con datos verificados

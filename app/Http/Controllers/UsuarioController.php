@@ -189,16 +189,19 @@ class UsuarioController extends Controller
         $info['qr'] = $QR_Image ?? null;
         $info['secret'] = $google2fa_secret ?? null;
 
-        $info['ultimaTransaccion'] = Factura::where('cod_usuario', auth()->user()->id)
-            ->latest('created_at')
-            ->first() ?? null;
-        $info['ultimaFacturaPagada'] = Factura::where('cod_usuario', auth()->user()->id)
-            ->where('x_response', 'Aceptada')
+        $info['ultimaTransaccion'] = Factura::where('cod_usuario', auth()->user()->uuid)
             ->latest('created_at')
             ->first() ?? null;
 
-        $info['validarFechaVencimiento'] = optional($info['ultimaFacturaPagada'])->fecha_vencimiento < now();
-        $info['plan'] = auth()->user()->cod_plan ? Plan::find(auth()->user()->cod_plan) : null;
+        $ultimaFacturaPagada = Factura::where('cod_usuario', auth()->user()->uuid)
+            ->where('x_response', 'Aceptada')
+            ->latest('created_at')
+            ->first() ?? null;
+        $info['ultimaFacturaPagada'] = $ultimaFacturaPagada;
+
+        $validarFechaVencimiento = optional($ultimaFacturaPagada)->fecha_vencimiento < now();
+        $info['validarFechaVencimiento'] = $validarFechaVencimiento;
+        $info['plan'] = !$validarFechaVencimiento ? Plan::find($ultimaFacturaPagada->cod_plan) : null;
         $info['cantidad_contactos_activos'] = Contacto::where('estado', Contacto::ACTIVO)
             ->where('uuid', $this->uuid)
             ->count();

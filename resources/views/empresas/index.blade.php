@@ -949,7 +949,10 @@
                 <div class="flex-column flex-lg-row-auto w-100 mb-10 mb-lg-0">
                     <div class="card card-flush">
                         <div class="card-body pt-5" id="kt_chat_contacts_body">
-                            <form id="formEmpresa">
+                            <form id="formEmpresa" enctype="multipart/form-data">
+                                @if ($negocio)
+                                    <input type="hidden" name="id" value="{{ $negocio?->id }}">
+                                @endif
                                 <!-- Main Card -->
                                 <div class="main-card fade-in">
                                     <!-- ===== Logo Section ===== -->
@@ -966,7 +969,11 @@
 
                                         <div class="logo-upload-area">
                                             <div class="logo-preview-container" id="logoPreviewContainer">
-                                                <i class="fa-regular fa-image fs-5x logo-placeholder-icon" id="logoPlaceholder"></i>
+                                                @if ($negocio)
+                                                    <img src="{{ asset($negocio?->foto) }}" alt="" width="100%" id="logoPlaceholder">
+                                                @else
+                                                    <i class="fa-regular fa-image fs-5x logo-placeholder-icon" id="logoPlaceholder"></i>
+                                                @endif
                                                 <img class="logo-preview-img" id="logoPreview" alt="Logo preview">
                                                 <div class="logo-remove-btn" id="logoRemoveBtn">
                                                     <i class="fa-solid fa-xmark"></i>
@@ -995,7 +1002,7 @@
                                                 </div>
                                                 <input type="file" id="logoInput" name="imagen" accept="image/png,image/jpeg"
                                                     style="display: none;">
-                                                <button class="btn btn-outline btn-outline-primary btn-sm fs-4" id="btnUploadLogo">
+                                                <button type="button" class="btn btn-outline btn-outline-primary btn-sm fs-4" id="btnUploadLogo">
                                                     <i class="las la-cloud-upload-alt fs-1"></i>
                                                     Subir Logo
                                                 </button>
@@ -1020,7 +1027,8 @@
                                                 <label class="form-label required">Nombre o Razón Social</label>
                                                 <div class="input-icon-group">
                                                     <input type="text" class="form-control-gijac" id="companyName"
-                                                        placeholder="Nombre de la empresa" name="razon_social" required>
+                                                        placeholder="Nombre de la empresa" name="razon_social" required
+                                                        value="{{ $negocio?->razon_social ?? '' }}">
                                                     <div class="input-icon">
                                                         <i class="bi bi-building"></i>
                                                     </div>
@@ -1030,7 +1038,8 @@
                                                 <label class="form-label required">NIT</label>
                                                 <div class="input-icon-group">
                                                     <input type="text" class="form-control-gijac" id="companyNit"
-                                                        placeholder="NIT de la empresa" name="nit" required inputmode="numeric">
+                                                        placeholder="NIT de la empresa" name="nit" required inputmode="numeric"
+                                                        value="{{ $negocio?->nit ?? '' }}">
                                                     <div class="input-icon">
                                                         <i class="bi bi-upc"></i>
                                                     </div>
@@ -1056,7 +1065,8 @@
                                                 <label class="form-label required">Dirección</label>
                                                 <div class="input-icon-group">
                                                     <input type="text" class="form-control-gijac" id="companyAddress"
-                                                        placeholder="Dirección completa" required name="direccion">
+                                                        placeholder="Dirección completa" required name="direccion"
+                                                        value="{{ $negocio?->direccion ?? '' }}">
                                                     <div class="input-icon">
                                                         <i class="bi bi-geo-alt-fill"></i>
                                                     </div>
@@ -1082,7 +1092,8 @@
                                                 <label class="form-label required">Correo Corporativo</label>
                                                 <div class="input-icon-group">
                                                     <input type="email" class="form-control-gijac" id="companyEmail"
-                                                        placeholder="contacto@empresa.com" required name="email">
+                                                        placeholder="contacto@empresa.com" required name="email"
+                                                        value="{{ $negocio?->email ?? '' }}">
                                                     <div class="input-icon">
                                                         <i class="bi bi-envelope-fill"></i>
                                                     </div>
@@ -1093,7 +1104,7 @@
                                                 <div class="input-icon-group">
                                                     <input type="tel" class="form-control-gijac" id="companyPhone"
                                                         placeholder="Teléfono de contacto" inputmode="numeric" name="telefono"
-                                                        required>
+                                                        required value="{{ $negocio?->telefono ? '+'.$negocio?->telefono : '' }}">
                                                     <div class="input-icon">
                                                         <i class="bi bi-telephone-fill"></i>
                                                     </div>
@@ -1120,7 +1131,8 @@
                                                 <label class="form-label">Instagram</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialInstagram"
-                                                        placeholder="https://instagram.com/empresa" name="instagram">
+                                                        placeholder="https://instagram.com/empresa" name="instagram"
+                                                        value="{{ $negocio?->instagram ?? '' }}">
                                                     <div class="social-input-icon">
                                                         <svg viewBox="0 0 24 24" fill="none"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -1137,7 +1149,8 @@
                                                 <label class="form-label">Facebook</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialFacebook"
-                                                        placeholder="https://facebook.com/empresa" name="facebook">
+                                                        placeholder="https://facebook.com/empresa" name="facebook"
+                                                        value="{{ $negocio?->facebook ?? '' }}">
                                                     <div class="social-input-icon">
                                                         <svg viewBox="0 0 24 24" fill="#1877F2"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -1151,7 +1164,8 @@
                                                 <label class="form-label">TikTok</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialTiktok"
-                                                        placeholder="https://tiktok.com/@empresa" name="tiktok">
+                                                        placeholder="https://tiktok.com/@empresa" name="tiktok"
+                                                        value="{{ $negocio?->tiktok ?? '' }}">
                                                     <div class="social-input-icon">
                                                         <svg viewBox="0 0 24 24" fill="#000000"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -1165,7 +1179,8 @@
                                                 <label class="form-label">LinkedIn</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialLinkedin"
-                                                        placeholder="https://linkedin.com/company/empresa" name="linkendin">
+                                                        placeholder="https://linkedin.com/company/empresa" name="linkendin"
+                                                        value="{{ $negocio?->linkendin ?? '' }}">
                                                     <div class="social-input-icon">
                                                         <svg viewBox="0 0 24 24" fill="#0A66C2"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -1179,7 +1194,8 @@
                                                 <label class="form-label">Sitio Web</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialWebsite"
-                                                        placeholder="https://empresa.com" name="web">
+                                                        placeholder="https://empresa.com" name="web"
+                                                        value="{{ $negocio?->web ?? '' }}">
                                                     <div class="social-input-icon">
                                                         <svg viewBox="0 0 24 24" fill="none"
                                                             xmlns="http://www.w3.org/2000/svg">
@@ -1210,10 +1226,10 @@
 
                                         <div class="row g-3">
                                             <div class="col-12">
-                                                <label class="form-label required">Descripción de la Empresa</label>
+                                                <label class="form-label">Descripción de la Empresa</label>
                                                 <textarea class="form-control-gijac no-icon" id="companyDescription" name="descripcion"
                                                     placeholder="Describe brevemente tu empresa, su propósito y los servicios que ofrece." maxlength="500"
-                                                    rows="4"></textarea>
+                                                    rows="4">{{ $negocio?->descripcion ?? '' }}</textarea>
                                                 <div class="char-counter" id="charCounter">0 / 500 caracteres</div>
                                             </div>
                                         </div>
@@ -1243,7 +1259,7 @@
                                             <div class="d-flex align-items-center">
                                                 <span class="config-status-pill active" id="statusPill">Activa</span>
                                                 <label class="toggle-switch">
-                                                    <input type="checkbox" checked id="toggleStatus" name="estado">
+                                                    <input type="checkbox" {{ !$negocio || $negocio?->estado == 1 ? 'checked' : '' }} id="toggleStatus" name="estado">
                                                     <span class="toggle-slider"></span>
                                                 </label>
                                             </div>
@@ -1259,7 +1275,7 @@
                                                     visibles en el directorio público.</div>
                                             </div>
                                             <label class="toggle-switch">
-                                                <input type="checkbox" id="togglePublic" checked name="publicar">
+                                                <input type="checkbox" id="togglePublic" {{ !$negocio || $negocio?->publicar == 1 ? 'checked' : '' }} name="publicar">
                                                 <span class="toggle-slider"></span>
                                             </label>
                                         </div>
@@ -1274,7 +1290,7 @@
                                                     actividad de la cuenta.</div>
                                             </div>
                                             <label class="toggle-switch">
-                                                <input type="checkbox" id="toggleNotifications" checked name="notificacion">
+                                                <input type="checkbox" id="toggleNotifications" {{ !$negocio || $negocio?->notificacion == 1 ? 'checked' : '' }} name="notificacion">
                                                 <span class="toggle-slider"></span>
                                             </label>
                                         </div>

@@ -11,7 +11,9 @@ class EmpresaController extends Controller
 {
     public function index(Request $request)
     {
-        return view('empresas.index');
+        $info['negocio'] = Empresa::where('cod_usuario', auth()->user()->uuid)->first();
+
+        return view('empresas.index', $info);
     }
 
     public function store(Request $request)
@@ -20,14 +22,14 @@ class EmpresaController extends Controller
         $datos['cod_usuario'] = auth()->user()->uuid;
 
         $path = null;
-        if (isset($data['imagen'])) {
-            $path = $data['imagen']->store('clinicas', 'public');
+
+        if ($request->hasFile('imagen')) {
+            $archivo = $request->file('imagen');
+            $path = $archivo->store('negocios', 'public');
             $datos['foto'] = url(Storage::url($path));
         }
 
-        $empresa = Empresa::updateOrCreate([
-            'nit' => $datos['nit']
-        ], $datos);
+        $empresa = Empresa::create($datos);
 
         if (!$empresa) {
             throw new ErrorException('Ha ocurrido un error al interntar crear el negocio.');

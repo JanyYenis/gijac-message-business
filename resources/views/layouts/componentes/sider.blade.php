@@ -50,7 +50,8 @@
                     </span>
                 </a>
                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
-                    class="menu-item py-2 {{request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') ? 'here' : ''}}">
+                    class="menu-item py-2 {{request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear')
+                        || request()->is('login-qr') ? 'here' : ''}}">
                     <span class="menu-link menu-center">
                         <span
                             class="menu-icon me-0">
@@ -77,6 +78,14 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Chatbot</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{ route('login-qr') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Conertar app movil</span>
                             </a>
                         </div>
                     </div>
@@ -582,7 +591,7 @@
                             </a>
                         </div>
                     @endif
-                    @if (request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear'))
+                    @if (request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') || request()->is('login-qr'))
                         <div class="menu-item">
                             <a href="{{ route('chats.index') }}" class="menu-link {{request()->is('chats') ? 'active' : ''}}">
                                 <span class="menu-bullet">
@@ -600,6 +609,16 @@
                                 </span>
                                 <span class="menu-title">
                                     Chatbot
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="{{ route('login-qr') }}" class="menu-link {{request()->is('login-qr') ? 'active' : ''}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">
+                                    Conertar app movil
                                 </span>
                             </a>
                         </div>

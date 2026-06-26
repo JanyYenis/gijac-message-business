@@ -39,6 +39,7 @@ class Factura extends Model
         'x_customer_address',
         'cod_plan',
         'cod_usuario',
+        'cod_empresa',
         'tiempo',
         'fecha_vencimiento',
     ];

@@ -44,7 +44,7 @@ class ApiKey extends Model
 
     public static function generate()
     {
-        return Str::random(40);
+        return 'GMB-' . Str::random(40);
     }
 
     public function user()

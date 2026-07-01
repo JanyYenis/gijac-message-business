@@ -605,10 +605,11 @@ class WebhookMessage implements ShouldQueue
                 $data = $response->json();
 
                 $etiqueta = Etiqueta::updateOrCreate([
-                    'slug' => Str::slug($data['etiqueta'], '.')
+                    'slug' => Str::slug($data['etiqueta'], '.'),
+                    'uuid' => $uuid,
+                    'cod_empresa' => $uuid,
                 ], [
                     'nombre' => $data['etiqueta'],
-                    'uuid' => $uuid,
                     'estado' => Etiqueta::ACTIVO
                 ]);
 

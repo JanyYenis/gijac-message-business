@@ -24,6 +24,7 @@ class Etiqueta extends Model
         "color",
         "nombre",
         "uuid",
+        "cod_empresa",
         "estado",
     ];
 

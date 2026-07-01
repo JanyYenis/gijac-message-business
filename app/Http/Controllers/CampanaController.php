@@ -42,7 +42,12 @@ class CampanaController extends Controller
             throw new ErrorException("No tienes permisos para acceder a esta sección.");
         }
 
-        $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)->get();
+        $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)
+            ->where(function($query) {
+                $query->where('uuid', $this->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
+            ->get();
         $info['plantillas'] = Plantilla::with('body')
             ->where('status', Plantilla::APROBADO)
             ->where('cod_config', $this->cod_config)
@@ -504,7 +509,10 @@ class CampanaController extends Controller
     {
         $campana->load('enviosActivos');
         $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)
-            ->where('uuid', $this->uuid)
+            ->where(function($query) {
+                $query->where('uuid', $this->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
             ->get();
         $info['plantillas'] = Plantilla::with('body')
             ->where('status', Plantilla::APROBADO)

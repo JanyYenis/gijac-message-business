@@ -1108,7 +1108,7 @@
                                                 <div class="input-icon-group">
                                                     <input type="tel" class="form-control-gijac" id="companyPhone"
                                                         placeholder="Teléfono de contacto" inputmode="numeric" name="telefono"
-                                                        required value="{{ $negocio?->telefono ? '+'.$negocio?->telefono : '' }}"
+                                                        required value="{{ $negocio && $negocio?->telefono ? '+'.$negocio?->telefono : '' }}"
                                                         {{ $disabled }}>
                                                     <div class="input-icon">
                                                         <i class="bi bi-telephone-fill"></i>

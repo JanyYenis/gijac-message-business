@@ -47,6 +47,7 @@ class Contacto extends Model
         'codigo_telefono',
         'estado',
         'uuid',
+        'cod_empresa',
         'tratamiento_datos',
         'preferencia',
         'estado_chatbot',

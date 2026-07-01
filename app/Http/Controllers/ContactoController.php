@@ -28,7 +28,12 @@ class ContactoController extends Controller
             throw new ErrorException("No tienes permisos para acceder a esta sección.");
         }
 
-        $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)->get();
+        $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)
+            ->where(function($query) {
+                $query->where('uuid', $this->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
+            ->get();
         $info['generos'] = Contacto::darTipoGenero();
 
         return view('contactos.index', $info);
@@ -75,6 +80,7 @@ class ContactoController extends Controller
     {
         $datos = $request->all();
         $datos['uuid'] = auth()->user()->uuid;
+        $datos['cod_empresa'] = auth()->user()->empresa?->id;
         $contacto = Contacto::create($datos);
 
         if (!$contacto) {
@@ -165,13 +171,17 @@ class ContactoController extends Controller
                         if ($etiqueta) {
                             $slug = Str::slug($row[2], '.');
                             $etiqueta = Etiqueta::where('slug', $slug)
-                                ->where('uuid', $this->uuid)
+                                ->where(function($query) {
+                                    $query->where('uuid', $this->uuid)
+                                        ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+                                })
                                 ->first();
 
                             if (!$etiqueta) {
                                 $etiqueta = Etiqueta::create([
                                     'nombre' => $row[2],
                                     'uuid' => auth()->user()->uuid,
+                                    'cod_empresa' => auth()->user()->empresa?->id,
                                 ]);
                                 $etiqueta->refresh();
                                 // Verifica el ID
@@ -238,7 +248,12 @@ class ContactoController extends Controller
             ->where('estado', EtiquetaContacto::ACTIVO)
             ->get()
             ->toArray(), 'cod_etiqueta');
-        $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)->get();
+        $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)
+            ->where(function($query) {
+                $query->where('uuid', $this->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
+            ->get();
         $info['generos'] = Contacto::darTipoGenero();
 
         $respuesta["estado"] = "success";

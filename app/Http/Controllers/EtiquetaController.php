@@ -28,7 +28,10 @@ class EtiquetaController extends Controller
         $etiquetas = Etiqueta::with(
             'infoEstado',
         )->where('estado', '!=', Etiqueta::ELIMINADO)
-        ->where('uuid', $this->uuid)
+        ->where(function($query) {
+            $query->where('uuid', $this->uuid)
+                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+        })
         ->orderByDesc('created_at');
 
         return DataTables::eloquent($etiquetas)
@@ -47,6 +50,7 @@ class EtiquetaController extends Controller
     {
         $datos = $request->all();
         $datos['uuid'] = auth()->user()->uuid;
+        $datos['cod_empresa'] = auth()->user()->empresa->id;
         $etiqueta = Etiqueta::create($datos);
 
         if (!$etiqueta) {
@@ -112,7 +116,10 @@ class EtiquetaController extends Controller
                 $query->whereRaw("LOWER(nombre) LIKE LOWER(?)", $filtro);
             })
             ->where('estado', Etiqueta::ACTIVO)
-            ->where('uuid', $this->uuid)
+            ->where(function($query) {
+                $query->where('uuid', $this->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
             ->orderBy('text')
             ->get();
 

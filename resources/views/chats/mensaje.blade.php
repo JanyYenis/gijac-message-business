@@ -9,7 +9,7 @@
         @if ($contacto?->numero_completo == $mensaje['wa_from'])
             {{-- AUDIO --}}
             @if ($mensaje['type'] == \App\Models\Mensaje::AUDIO)
-                <div class="audio-player received" data-audio-id="{{ $mensaje['wa_message_id'] }}">
+                <div class="audio-player received mb-1" data-audio-id="{{ $mensaje['wa_message_id'] }}">
                     <button class="play-button" aria-label="Reproducir audio">
                         <i class="fas fa-play"></i>
                     </button>
@@ -126,7 +126,7 @@
         @else
             {{-- AUDIO --}}
             @if ($mensaje['type'] == \App\Models\Mensaje::AUDIO)
-                <div class="audio-player sent" data-audio-id="{{ $mensaje['wa_message_id'] }}">
+                <div class="audio-player sent mb-1" data-audio-id="{{ $mensaje['wa_message_id'] }}">
                     @if ($mensaje['estado'] == \App\Models\Mensaje::FALLIDO)
                         {{-- BOTÓN DE OPCIONES --}}
                         <button type="button" style="position: relative; left: 20rem; top: -19px;"

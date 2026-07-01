@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\ConfiguracionMeta;
+use App\Models\Mensaje;
 use App\Observers\ConfigObserver;
+use App\Observers\MensajeObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -28,5 +30,6 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         ConfiguracionMeta::observe(ConfigObserver::class);
+        Mensaje::observe(MensajeObserver::class);
     }
 }

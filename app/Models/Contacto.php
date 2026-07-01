@@ -153,4 +153,9 @@ class Contacto extends Model
             ->whereDate('created_at', Carbon::now())
             ->exists() ? false : true;
     }
+
+    public function conversaciones()
+    {
+        return $this->hasOne(Conversacion::class, 'contacto_id', 'id');
+    }
 }

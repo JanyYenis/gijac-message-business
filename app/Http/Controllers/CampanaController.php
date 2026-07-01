@@ -76,8 +76,8 @@ class CampanaController extends Controller
             ->orderByDesc('fecha_envio');
 
         $campanas = $campanas->where(function($query) {
-            $query->where('uuid', $this->uuid)
-                ->orWhere('cod_empresa', auth()->user()->empresa->id);
+            $query->where('campanas.uuid', $this->uuid)
+                ->orWhere('campanas.cod_empresa', auth()->user()->empresa->id);
         });
 
         return DataTables::eloquent($campanas)

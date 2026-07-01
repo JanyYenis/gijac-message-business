@@ -110,7 +110,7 @@ class RolController extends Controller
         if (!$asignar) {
             throw new ErrorException('Error al intentar registrar los roles al usuario.');
         }
-        
+
         return [
             'estado' => 'success',
             'mensaje' => 'Se asignaron correctamente los roles.'
@@ -142,7 +142,7 @@ class RolController extends Controller
         if (!$usuario) {
             throw new ErrorException("Por favor, seleccione un usuario.");
         }
-        $usuario = Usuario::find($usuario);
+        $usuario = Usuario::where('uuid', $usuario)->first();
         $rolesUsuario = $usuario->getRoleNames()->toArray();
 
         $roles = Role::selectRaw('id, nombre as text, name')
@@ -170,7 +170,7 @@ class RolController extends Controller
         if (!$usuario) {
             throw new ErrorException("Por favor, seleccione un usuario.");
         }
-        $usuario = Usuario::find($usuario);
+        $usuario = Usuario::where('uuid', $usuario)->first();
         $permisosUsuario = $usuario->getPermissionNames()->toArray();
 
         $permisos = Permission::selectRaw('id, nombre as text, name')
@@ -183,7 +183,7 @@ class RolController extends Controller
                 }
                 return $item;
             });
-        
+
         return [
             'estado' => 'success',
             'permisos' => $permisos,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorException;
 use App\Models\Contacto;
+use App\Models\Conversacion;
 use App\Models\Mensaje;
 use Carbon\Carbon;
 use DateTime;
@@ -16,30 +17,20 @@ class MensajeController extends Controller
 {
     public function index()
     {
-        $usuarios = Contacto::selectRaw('contactos.id as id, contactos.nombre, contactos.apellido,
-            contactos.codigo_telefono, contactos.telefono, MAX(mensajes.created_at) as fecha,
-            COUNT(CASE
-                WHEN mensajes.estado IN (' . Mensaje::ENTREGADO . ',' . Mensaje::ENVIADO . ')
-                AND mensajes.wa_to = "' . $this->phone_number_id . '"
-                THEN 1 ELSE NULL
-            END) as mensajes_no_leidos,
-            (SELECT body FROM mensajes WHERE (CONCAT(contactos.codigo_telefono, contactos.telefono) = mensajes.wa_from AND mensajes.wa_to = "' . $this->phone_number_id . '")
-               OR (CONCAT(contactos.codigo_telefono, contactos.telefono) = mensajes.wa_to AND mensajes.wa_from = "' . $this->phone_number_id . '" ) ORDER BY mensajes.created_at DESC
-            LIMIT 1) as mensaje,
-            (SELECT type FROM mensajes WHERE (CONCAT(contactos.codigo_telefono, contactos.telefono) = mensajes.wa_from AND mensajes.wa_to = "' . $this->phone_number_id . '")
-               OR (CONCAT(contactos.codigo_telefono, contactos.telefono) = mensajes.wa_to AND mensajes.wa_from = "' . $this->phone_number_id . '" ) ORDER BY mensajes.created_at DESC
-            LIMIT 1) as tipo_mensaje')
-            ->leftJoin('mensajes', function ($join) {
-                $join->on(DB::raw('CONCAT(contactos.codigo_telefono, contactos.telefono)'), '=', 'mensajes.wa_from')
-                    ->orOn(DB::raw('CONCAT(contactos.codigo_telefono, contactos.telefono)'), '=', 'mensajes.wa_to');
-            })
-            ->where('contactos.estado', Contacto::ACTIVO)
-            ->groupBy('contactos.id', 'nombre', 'apellido', 'contactos.codigo_telefono', 'contactos.telefono')
-            ->orderByDesc('fecha')
+        $contactos = Contacto::query()
+            ->with([
+                'conversaciones' => function ($q) {
+                    $q->where(
+                        'phone_number_id',
+                        $this->phone_number_id
+                    );
+                }
+            ])
+            ->where('estado', Contacto::ACTIVO)
             ->get();
 
         $info['numero'] = $this->phone_number_id;
-        $info['usuarios'] = $usuarios;
+        $info['contactos'] = $contactos;
         $info['datosPerfilWhatsapp'] = $this->whatsapp_cloud_api->businessProfile('about,address,description,email,profile_picture_url,websites,vertical')->body() ?? null;
         if ($info['datosPerfilWhatsapp']) {
             $info['datosPerfilWhatsapp'] = json_decode($info['datosPerfilWhatsapp'], true)['data'][0];
@@ -162,6 +153,7 @@ class MensajeController extends Controller
 
     public function store(Request $request)
     {
+        $path = null;
         $offset = $request->input('offset', 0); // Valor predeterminado 0
         $limit = $request->input('limit', 50); // Valor predeterminado 50
 
@@ -363,13 +355,13 @@ class MensajeController extends Controller
             $link_id = new LinkID($datos['body']);
             $response = $this->whatsapp_cloud_api->sendAudio($datos['wa_to'], $link_id);
         } elseif ($datos['type'] == Mensaje::IMAGEN) {
-            $link_id = new LinkID(asset('img/chat/' . $nombreOriginal));
+            $link_id = new LinkID(url(Storage::url($path)));
             $response = $this->whatsapp_cloud_api->sendImage($datos['wa_to'], $link_id, $datos['body']);
         } elseif ($datos['type'] == Mensaje::VIDEO) {
-            $link_id = new LinkID(asset('videos/chat/' . $nombreOriginal));
+            $link_id = new LinkID(url(Storage::url($path)));
             $response = $this->whatsapp_cloud_api->sendVideo($datos['wa_to'], $link_id, $datos['body']);
         } elseif ($datos['type'] == Mensaje::DOCUMENTO) {
-            $document_link = asset('documentos/chat/' . $nombreOriginal);
+            $document_link = url(Storage::url($path));
             $link_id = new LinkID($document_link);
             $response = $this->whatsapp_cloud_api->sendDocument($datos['wa_to'], $link_id, $nombreOriginal, $datos['body']);
         } else { // TEXTO
@@ -471,39 +463,19 @@ class MensajeController extends Controller
 
     public function actualizarContactos(Request $request)
     {
-        // $usuarios = Usuario::whereNot('id', auth()->user()->id)->get();
-        $authId = auth()->user()->id;
-
-        $usuarios = Contacto::selectRaw('contactos.id as id, contactos.nombre, contactos.apellido,
-            contactos.codigo_telefono, contactos.telefono, MAX(mensajes.created_at) as fecha,
-            COUNT(CASE
-                WHEN mensajes.estado IN (' . Mensaje::ENTREGADO . ',' . Mensaje::ENVIADO . ')
-                AND mensajes.wa_to = "' . $this->phone_number_id . '"
-                THEN 1 ELSE NULL
-            END) as mensajes_no_leidos,
-            (SELECT body FROM mensajes WHERE (CONCAT(contactos.codigo_telefono, contactos.telefono) = mensajes.wa_from AND mensajes.wa_to = "' . $this->phone_number_id . '")
-               OR (CONCAT(contactos.codigo_telefono, contactos.telefono) = mensajes.wa_to AND mensajes.wa_from = "' . $this->phone_number_id . '" ) ORDER BY mensajes.created_at DESC
-            LIMIT 1) as mensaje,
-            (SELECT type FROM mensajes WHERE (CONCAT(contactos.codigo_telefono, contactos.telefono) = mensajes.wa_from AND mensajes.wa_to = "' . $this->phone_number_id . '")
-               OR (CONCAT(contactos.codigo_telefono, contactos.telefono) = mensajes.wa_to AND mensajes.wa_from = "' . $this->phone_number_id . '" ) ORDER BY mensajes.created_at DESC
-            LIMIT 1) as tipo_mensaje')
-            ->leftJoin('mensajes', function ($join) {
-                $join->on(DB::raw('CONCAT(contactos.codigo_telefono, contactos.telefono)'), '=', 'mensajes.wa_from')
-                    ->orOn(DB::raw('CONCAT(contactos.codigo_telefono, contactos.telefono)'), '=', 'mensajes.wa_to');
-            })
-            ->where('contactos.estado', Contacto::ACTIVO)
-            ->where(function ($query) use ($request) {
-                if ($request->input('valor')) {
-                    $query->whereRaw("CONCAT(contactos.nombre, ' ', contactos.apellido) LIKE ?", ["%{$request->input('valor')}%"])
-                        ->orWhereRaw("contactos.telefono LIKE ?", ["%{$request->input('valor')}%"]);
+        $contactos = Contacto::query()
+            ->with([
+                'conversaciones' => function ($q) {
+                    $q->where(
+                        'phone_number_id',
+                        $this->phone_number_id
+                    );
                 }
-            })
-            ->groupBy('contactos.id', 'nombre', 'apellido', 'contactos.codigo_telefono', 'contactos.telefono')
-            ->orderByDesc('fecha')
+            ])
+            ->where('estado', Contacto::ACTIVO)
             ->get();
 
-        // dd($usuarios, $this->phone_number_id);
-        $info['usuarios'] = $usuarios;
+        $info['contactos'] = $contactos;
 
         $respuesta["estado"] = "success";
         $respuesta['html'] = view("chats.listado-contactos", $info)->render();
@@ -621,7 +593,7 @@ class MensajeController extends Controller
         $contacto = Contacto::selectRaw('contactos.id as id, CONCAT(contactos.nombre, " ",contactos.apellido) as nombre_contacto,
             DATE(contactos.created_at) as fecha_creacion, estado_chatbot, estado_chatbot_ia, CONCAT(contactos.codigo_telefono, contactos.telefono) as numero')
             ->whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$contacto}%"])
-            ->where('uuid', $this->uuid)
+            ->where('cod_empresa', $this->uuid)
             ->first();
 
         return [

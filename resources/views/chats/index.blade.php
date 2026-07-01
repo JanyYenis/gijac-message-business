@@ -1053,7 +1053,7 @@
 
             <div class="contacts-list" id="seccionListadoContactos">
                 @component('chats.listado-contactos')
-                    @slot('usuarios', $usuarios)
+                    @slot('contactos', $contactos)
                 @endcomponent
             </div>
         </div>

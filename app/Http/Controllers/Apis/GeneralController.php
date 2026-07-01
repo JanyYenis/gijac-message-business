@@ -138,8 +138,8 @@ class GeneralController extends Controller
         $nombres_variables        = $request->input('nombres_variables', []);
         $variables   = $info['variables'] ?? [];
 
-        if (!str_starts_with($telefono, '+')) {
-            $telefono = '+' . $telefono;
+        if (str_starts_with($telefono, '+')) {
+            $telefono = str_replace(' ', '', substr($telefono, 1));
         }
 
         $usuario = Usuario::where('uuid', $request->input('user_id'))->first();

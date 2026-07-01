@@ -631,7 +631,7 @@ class ChatController extends Controller
         $contacto = Contacto::selectRaw('contactos.id as id, CONCAT(contactos.nombre, " ",contactos.apellido) as nombre_contacto,
             DATE(contactos.created_at) as fecha_creacion, estado_chatbot, estado_chatbot_ia, CONCAT(contactos.codigo_telefono, contactos.telefono) as numero')
             ->whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$contacto}%"])
-            ->where('uuid', $this->uuid)
+            ->where('cod_empresa', $this->uuid)
             ->first();
 
         return [

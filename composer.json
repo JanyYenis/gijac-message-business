@@ -9,6 +9,7 @@
         "bacon/bacon-qr-code": "^2.0",
         "barryvdh/laravel-dompdf": "^2.0",
         "beyondcode/laravel-websockets": "^1.14",
+        "doctrine/dbal": "^3.10",
         "endroid/qr-code": "^5.0",
         "epayco/epayco-php": "^1.6",
         "giggsey/libphonenumber-for-php": "^8.13",

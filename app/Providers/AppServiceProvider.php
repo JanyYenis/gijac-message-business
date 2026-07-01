@@ -29,10 +29,10 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view) {
             // Verificar primero si el usuario está autenticado
             if (auth()->check()) {
-                $uuid = auth()->user()->hasRole(Usuario::ROL_AGENTE) ? auth()->user()->cod_empresa : auth()->user()->uuid;
+                $uuid = auth()->user()->empresa?->id ?? false;
                 // Cargar la configuración solo con los campos necesarios
                 $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-                            ->where('uuid', $uuid)
+                            ->where('cod_empresa', $uuid)
                             ->select('phone_number_id')
                             ->first();
 

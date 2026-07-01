@@ -52,7 +52,7 @@ class ProgramacionCampanaCommand extends Command
     public function iniciar($id)
     {
         $config = ConfiguracionMeta::Where('estado', ConfiguracionMeta::ACTIVO)
-            ->where('uuid', $id)
+            ->where('cod_empresa', $id)
             ->first() ?? null;
 
         if ($config) {
@@ -125,7 +125,7 @@ class ProgramacionCampanaCommand extends Command
                         }
 
                         foreach ($envios_campana as $envio_c) {
-                            dispatch(new SendWhatsAppMessage($envio_c?->contacto, $plantilla, $variables, $campana->id, $campana->uuid, $nombres_variables));
+                            dispatch(new SendWhatsAppMessage($envio_c?->contacto, $plantilla, $variables, $campana->id, $campana->cod_empresa, $nombres_variables));
                         }
                     } else {
                         $campana->update(['estado' => Campana::CANCELADO]);

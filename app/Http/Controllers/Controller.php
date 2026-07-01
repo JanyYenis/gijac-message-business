@@ -34,9 +34,9 @@ class Controller extends BaseController
             setlocale(LC_TIME, 'es_ES.utf8');
             Carbon::setLocale('es');
             if (Auth::check()) { // Verifica si el usuario está autenticado
-                $this->uuid = Auth::user()->hasRole(Usuario::ROL_AGENTE) ? Auth::user()->cod_empresa : Auth::user()->uuid;
+                $this->uuid = Auth::user()->empresa?->id ?? null;
                 $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-                    ->where('uuid', $this->uuid)
+                    ->where('cod_empresa', $this->uuid)
                     ->first();
                 $this->demo = Auth::user()->demo;
                 $this->plan = Auth::user()->cod_plan;

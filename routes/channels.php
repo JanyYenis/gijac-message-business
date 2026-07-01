@@ -20,7 +20,7 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 
 Broadcast::channel('chat.{id}', function ($user, $id) {
     $config = ConfiguracionMeta::firstWhere([
-        'uuid' => (int) $user->uuid,
+        'cod_empresa' => $user->empresa?->id,
         'estado' => ConfiguracionMeta::ACTIVO
     ]) ?? null;
 
@@ -33,7 +33,7 @@ Broadcast::channel('chat.{id}', function ($user, $id) {
 
 Broadcast::channel('chat.leido.{id}', function ($user, $id) {
     $config = ConfiguracionMeta::firstWhere([
-        'uuid' => (int) $user->uuid,
+        'cod_empresa' => $user->empresa?->id,
         'estado' => ConfiguracionMeta::ACTIVO
     ]) ?? null;
 
@@ -56,7 +56,7 @@ Broadcast::channel('online', function ($user) {
 
 Broadcast::channel('calls.{id}', function ($user, $id) {
     $config = ConfiguracionMeta::firstWhere([
-        'uuid' => (int) $user->uuid,
+        'cod_empresa' => $user->empresa?->id,
         'estado' => ConfiguracionMeta::ACTIVO
     ]) ?? null;
 

@@ -1,5 +1,6 @@
 @php
     $usuario = auth()->user();
+    $esPersonalizado = $esPersonalizado ?? true;
 @endphp
 @extends('layouts.index')
 
@@ -454,14 +455,40 @@
         <div class="payment-layout">
             <!-- Plans Section -->
             <div class="plans-section">
-                @foreach ($planes as $index => $itemPlan)
-                    <div class="plan-card {{ $plan->id == $itemPlan->id ? 'selected' : '' }} selectPlan" data-plan="{{ $itemPlan->id }}" data-price="{{$itemPlan->valor}}">
-                        @if ($plan->id == $itemPlan->id)
-                            <div class="popular-badge">Más Popular</div>
-                        @endif
+                @if ($esPersonalizado)
+                    @foreach ($planes as $index => $itemPlan)
+                        <div class="plan-card {{ $plan->id == $itemPlan->id ? 'selected' : '' }} selectPlan" data-plan="{{ $itemPlan->id }}" data-price="{{$itemPlan->valor}}">
+                            @if ($plan->id == $itemPlan->id)
+                                <div class="popular-badge">Más Popular</div>
+                            @endif
+                            <div class="plan-header">
+                                <h3 class="plan-name">{{$itemPlan->nombre}}</h3>
+                                <div class="plan-price">${{number_format($itemPlan->valor, 0, ',', '.')}}</div>
+                                <div class="plan-period">/ Mes</div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>
+                                    <div class="feature-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    {{$itemPlan?->max_contactos}} Contactos Activos
+                                </li>
+                                @foreach ($itemPlan->serviciosHabilitados as $item)
+                                    <li>
+                                        <div class="feature-icon">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        {{$item?->nombre}}
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="plan-card selected selectPlan" data-plan="{{ $plan->id }}" data-price="{{$plan->valor}}">
                         <div class="plan-header">
-                            <h3 class="plan-name">{{$itemPlan->nombre}}</h3>
-                            <div class="plan-price">${{number_format($itemPlan->valor, 0, ',', '.')}}</div>
+                            <h3 class="plan-name">{{$plan->nombre}}</h3>
+                            <div class="plan-price">${{number_format($plan->valor, 0, ',', '.')}}</div>
                             <div class="plan-period">/ Mes</div>
                         </div>
                         <ul class="plan-features">
@@ -469,9 +496,9 @@
                                 <div class="feature-icon">
                                     <i class="fas fa-check"></i>
                                 </div>
-                                {{$itemPlan?->max_contactos}} Contactos Activos
+                                {{$plan?->max_contactos}} Contactos Activos
                             </li>
-                            @foreach ($itemPlan->serviciosHabilitados as $item)
+                            @foreach ($plan->serviciosHabilitados as $item)
                                 <li>
                                     <div class="feature-icon">
                                         <i class="fas fa-check"></i>
@@ -481,7 +508,7 @@
                             @endforeach
                         </ul>
                     </div>
-                @endforeach
+                @endif
             </div>
 
             <!-- Payment Details -->

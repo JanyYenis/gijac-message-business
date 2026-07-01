@@ -40,6 +40,7 @@ use Netflie\WhatsAppCloudApi\Message\OptionsList\Action;
 use Netflie\WhatsAppCloudApi\Message\OptionsList\Row;
 use Netflie\WhatsAppCloudApi\Message\OptionsList\Section;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
+use Spatie\Sitemap\SitemapGenerator;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 
 /*
@@ -57,6 +58,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/generar-sitemap', function () {
+    SitemapGenerator::create('https://message-business.gijac.com')
+        ->writeToFile(public_path('sitemap.xml'));
+
+    return 'Sitemap generado';
+});
 
 Auth::routes(['verify' => true]);
 
@@ -65,7 +72,6 @@ Route::get('/contactarnos', [ContactoPaginaController::class, 'index'])->name('c
 Route::post('/contactarnos/guardar', [ContactoPaginaController::class, 'store'])->name('contactarnos.store');
 
 Route::get('/campanas/redireccion/{telefono}/{idCampana}/{indexBtn}/link', [CampanaController::class, 'redireccionLink']);
-
 
 Route::get('/chatbot-n8n', function (\Illuminate\Http\Request $request) {
     $userMessage = $request->input('message');

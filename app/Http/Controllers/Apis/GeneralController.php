@@ -7,7 +7,9 @@ use App\Jobs\SendWhatsAppMessage;
 use App\Models\Campana;
 use App\Models\ConfiguracionMeta;
 use App\Models\Contacto;
+use App\Models\Mensaje;
 use App\Models\Plantilla;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
@@ -83,7 +85,7 @@ class GeneralController extends Controller
             ]);
         }
 
-        // dispatch(new SendWhatsAppMessage($envio_c?->contacto, $plantilla, $variables, $campana->id, $campana->uuid, $nombres_variables));
+        // dispatch(new SendWhatsAppMessage($envio_c?->contacto, $plantilla, $variables, $campana->id, $campana->cod_empresa, $nombres_variables));
     }
 
     public function crearCampana(Request $request)
@@ -116,7 +118,7 @@ class GeneralController extends Controller
             ]);
         }
 
-        // dispatch(new SendWhatsAppMessage($envio_c?->contacto, $plantilla, $variables, $campana->id, $campana->uuid, $nombres_variables));
+        // dispatch(new SendWhatsAppMessage($envio_c?->contacto, $plantilla, $variables, $campana->id, $campana->cod_empresa, $nombres_variables));
     }
 
     public function enviarPlantillaIndividual(Request $request)
@@ -131,10 +133,12 @@ class GeneralController extends Controller
         $idPlantilla = $request->input('plantilla');
         $telefono    = $request->input('telefono');
         $info        = $request->input('info', []);
+        $nombres_variables        = $request->input('nombres_variables', []);
         $variables   = $info['variables'] ?? [];
 
+        $usuario = Usuario::where('uuid', $request->input('user_id'))->first();
         $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-            ->where('uuid', $request->input('user_id'))
+            ->where('cod_empresa', $usuario?->empresa?->id)
             ->first();
 
         if (!$config || !$config->token || !$config->version) {
@@ -299,6 +303,55 @@ class GeneralController extends Controller
 
         $data  = json_decode($resultado->body());
         $wamid = $data->messages[0]->id ?? null;
+
+        $valores = [];
+        foreach ($variables as $key => $value) {
+            $llave = "{{".($nombres_variables[$key] ?? $key + 1)."}}";
+            $valor = $value->valor;
+            $campo = $value?->valor;
+
+            // Bug corregido: era $contacto (indefinida), debe ser $this->contacto
+            if ($campo && property_exists($contacto, $campo)) {
+                $valor = $contacto->$campo;
+            }
+            $valores[$llave] = $valor;
+        }
+
+        $mensaje = $plantilla?->body?->text ?? null;
+        $mensaje = str_replace(array_keys($valores), array_values($valores), $mensaje);
+
+        $tipo_header = $plantilla?->header?->format ?? null;
+        $header = null;
+        if ($tipo_header && in_array($tipo_header, [Mensaje::IMAGEN, Mensaje::VIDEO, Mensaje::DOCUMENTO])) {
+            $header = $this->info['file'] ?? null;
+        } elseif ($tipo_header == Mensaje::TEXTO) {
+            $header = $plantilla?->header?->text ?? null;
+        }
+
+        $mensajeEnviado = Mensaje::create([
+            "contact_id"    => $contacto->id,
+            "wa_message_id" => $wamid ?? 'error',
+            "wa_from"       => $config->phone_number_id,
+            "wa_to"         => $contacto->numero_completo,
+            "type"          => Mensaje::PLANTILLA,
+            "body"          => $mensaje,
+            "metadata"      => (object) [
+                "tipo_header" => $tipo_header,
+                "header"      => $header,
+                "footer"      => $plantilla?->footer?->text ?? null,
+                "buttons"     => $plantilla?->buttons?->buttons ?? '',
+                "variables"   => $valores,
+            ],
+            "estado"        => Mensaje::ENVIADO,
+            "sent_at"       => now(),
+        ]);
+
+        if (!$mensajeEnviado) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'Error al registrar el mensaje.'
+                ], 422);
+        }
 
         return response()->json([
             'estado' => 'success',

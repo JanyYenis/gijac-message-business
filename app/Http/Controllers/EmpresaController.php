@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorException;
 use App\Models\Empresa;
+use App\Models\Usuario;
+use App\Models\UsuarioEmpresa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -11,7 +13,8 @@ class EmpresaController extends Controller
 {
     public function index(Request $request)
     {
-        $info['negocio'] = Empresa::where('cod_usuario', auth()->user()->uuid)->first();
+        $info['negocio'] = auth()->user()->empresa ?? false;
+        $info['tienePermiso'] = canAny([Usuario::PERMISO_EMPRESA_EDITAR, Usuario::PERMISO_EMPRESA_CREAR]);
 
         return view('empresas.index', $info);
     }
@@ -43,6 +46,12 @@ class EmpresaController extends Controller
         }
 
         auth()->user()->update(['cod_empresa' => $empresa->id]);
+
+        UsuarioEmpresa::create([
+            'cod_empresa' => $empresa->id,
+            'cod_usuario' => auth()->user()?->uuid,
+            'principal'   => UsuarioEmpresa::PRINCIPAL,
+        ]);
 
         return [
             'estado' => 'success',

@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use App\Models\ApiKey;
 use App\Models\ApiKeyLog;
+use App\Models\Empresa;
+use App\Models\Plan;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
@@ -96,6 +98,31 @@ class ValidateApiKey
             ]);
 
             return response()->json(['error' => 'El API Key es inválido'], 403);
+        }
+
+        $usuario = $key?->user ?? null;
+        $tiene = false;
+        if ($usuario?->empresa) {
+            $empresa = Empresa::with('facturaVigente')->find($usuario?->empresa?->id);
+            if ($empresa?->facturaVigente) {
+                $factura = $empresa?->facturaVigente ?? null;
+                $plan = Plan::find($factura->cod_plan);
+                $tiene = $plan->tieneServicio('api');
+            }
+        } else {
+            return response()->json(['error' => 'No cuenta asociado a ningun negocio.'], 403);
+        }
+
+        if (!$tiene) {
+             ApiKeyLog::create([
+                'api_key_id' => $key->id,
+                'ip_address' => $ip,
+                'user_agent' => $userAgent,
+                'fecha' => now(),
+                'estado' => ApiKeyLog::ALVERTENCIA,
+                'location' => $location
+            ]);
+            return response()->json(['error' => 'Por favor revise que tenga un plan activo.'], 403);
         }
 
         // Registrar uso exitoso

@@ -17,7 +17,7 @@ class SubirFotoPerfilWhatsApp implements ShouldQueue
 
     protected $url;
     protected $imagen;
-    protected $userId;
+    protected $empresaId;
     public $version;
     public $waba_id;
     public $app_id;
@@ -29,9 +29,9 @@ class SubirFotoPerfilWhatsApp implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct($userId, $imagen, $url)
+    public function __construct($empresaId, $imagen, $url)
     {
-        $this->userId = $userId;
+        $this->empresaId = $empresaId;
         $this->imagen = $imagen;
         $this->url = $url;
     }
@@ -41,7 +41,7 @@ class SubirFotoPerfilWhatsApp implements ShouldQueue
      */
     public function handle(): void
     {
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('cod_usuario', $this->userId)->first();
+        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('cod_empresa', $this->empresaId)->first();
         $this->version = $config?->version ?? null;
         $this->waba_id = $config?->waba_id ?? null;
         $this->app_id = $config?->app_id ?? null;

@@ -10,10 +10,12 @@ use App\Models\Factura;
 use App\Models\Pais;
 use App\Models\Plan;
 use App\Models\Usuario;
+use App\Models\UsuarioEmpresa;
 use App\Models\UsuarioProyecto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use PragmaRX\Google2FALaravel\Facade as Google2FA;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Yajra\DataTables\Facades\DataTables;
@@ -79,7 +81,6 @@ class UsuarioController extends Controller
         }
 
         $datos = $request->all();
-        $datos['cod_empresa'] = auth()->user()->hasRole(Usuario::ROL_CLIENTE) ? auth()->user()->uuid : null;
         $datos['password'] = password_hash($datos['identificacion'], PASSWORD_DEFAULT);
         $usuario = Usuario::create($datos);
 
@@ -92,6 +93,18 @@ class UsuarioController extends Controller
         } else {
             $usuario->assignRole(Usuario::ROL_CLIENTE);
         }
+
+        $usuario->refresh();
+
+        // Verifica el ID
+        if (empty($usuario->id)) {
+            throw new ErrorException("El usuario no tiene un ID asignado.");
+        }
+
+        UsuarioEmpresa::create([
+            'cod_empresa' => auth()->user()->cod_empresa,
+            'cod_usuario' => $usuario?->uuid,
+        ]);
 
         return [
             'estado' => 'success',
@@ -142,8 +155,8 @@ class UsuarioController extends Controller
         $image = $request->file('avatar') ?? null;
         if ($image) {
             $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('img/perfil'), $imageName);
-            $datos['foto'] = 'img/perfil/'.$imageName;
+            $path = $image->storeAs('perfil', $imageName, 'public');
+            $datos['foto'] = url(Storage::url($path));
             $usuario = Usuario::find($request->input('id'));
             if (count($datos)) {
                 $actualizar = $usuario->update($datos);
@@ -189,11 +202,11 @@ class UsuarioController extends Controller
         $info['qr'] = $QR_Image ?? null;
         $info['secret'] = $google2fa_secret ?? null;
 
-        $info['ultimaTransaccion'] = Factura::where('cod_usuario', auth()->user()->uuid)
+        $info['ultimaTransaccion'] = Factura::where('cod_empresa', auth()->user()->empresa?->id)
             ->latest('created_at')
             ->first() ?? null;
 
-        $ultimaFacturaPagada = Factura::where('cod_usuario', auth()->user()->uuid)
+        $ultimaFacturaPagada = Factura::where('cod_empresa', auth()->user()->empresa?->id)
             ->where('x_response', 'Aceptada')
             ->latest('created_at')
             ->first() ?? null;

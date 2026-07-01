@@ -26,7 +26,7 @@ class SendWhatsAppMessage implements ShouldQueue
     protected $plantilla;
     protected $info;
     protected $idCampana;
-    protected $userId;
+    protected $empresaId;
     protected $nombres_variables;
     public $version;
     public $waba_id;
@@ -39,13 +39,13 @@ class SendWhatsAppMessage implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct($contacto, $plantilla, $info, $idCampana, $userId, $nombres_variables)
+    public function __construct($contacto, $plantilla, $info, $idCampana, $empresaId, $nombres_variables)
     {
         $this->contacto = $contacto;
         $this->plantilla = $plantilla;
         $this->info = $info;
         $this->idCampana = $idCampana;
-        $this->userId = $userId;
+        $this->empresaId = $empresaId;
         $this->nombres_variables = $nombres_variables;
     }
 
@@ -54,7 +54,7 @@ class SendWhatsAppMessage implements ShouldQueue
      */
     public function handle(): void
     {
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('uuid', $this->userId)->first();
+        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('cod_empresa', $this->empresaId)->first();
         $this->version = $config?->version ?? null;
         $this->waba_id = $config?->waba_id ?? null;
         $this->app_id = $config?->app_id ?? null;

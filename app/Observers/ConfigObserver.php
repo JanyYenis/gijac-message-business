@@ -51,9 +51,9 @@ class ConfigObserver
         if ($config->wasChanged('estado')) {
             if ($config->estado == ConfiguracionMeta::ACTIVO) {
                 ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-                    ->where('uuid', $config->uuid)
+                    ->where('cod_empresa', $config->cod_empresa)
                     ->whereNot('id', $config->id)
-                    ->update(['estado' => ConfiguracionMeta::INACTIVO]);
+                    ->updateQuietly(['estado' => ConfiguracionMeta::INACTIVO]);
             }
         }
     }

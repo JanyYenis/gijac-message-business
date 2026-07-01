@@ -7,6 +7,7 @@ use App\Http\Resources\MessageResource;
 use App\Models\Contacto;
 use App\Models\Mensaje;
 use App\Models\ConfiguracionMeta;
+use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -18,6 +19,7 @@ class MessageController extends Controller
      */
     public function index(Request $request, $contactId)
     {
+        $usuario = Usuario::where('uuid', $request->user()->uuid)->first();
         $offset = $request->input('offset', 0);
         $limit = $request->input('limit', 50);
 
@@ -26,7 +28,7 @@ class MessageController extends Controller
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = ConfiguracionMeta::where('uuid', $request->user()->uuid)->firstOrFail();
+        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
@@ -71,6 +73,7 @@ class MessageController extends Controller
      */
     public function store(Request $request, $contactId)
     {
+        $usuario = Usuario::where('uuid', $request->user()->uuid)->first();
         $validated = $request->validate([
             'content' => 'required|string|max:4096',
             'type' => 'nullable|string|in:text,image,video,audio,document',
@@ -81,7 +84,7 @@ class MessageController extends Controller
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = ConfiguracionMeta::where('uuid', $request->user()->uuid)->firstOrFail();
+        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
@@ -110,12 +113,13 @@ class MessageController extends Controller
      */
     public function markAsRead(Request $request)
     {
+        $usuario = Usuario::where('uuid', $request->user()->uuid)->first();
         $validated = $request->validate([
             'contact_id' => 'required|exists:contactos,id',
         ]);
 
         $contacto = Contacto::findOrFail($validated['contact_id']);
-        $config = ConfiguracionMeta::where('uuid', $request->user()->uuid)->firstOrFail();
+        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
@@ -132,11 +136,12 @@ class MessageController extends Controller
      */
     public function contactStatus(Request $request, $contactId)
     {
+        $usuario = Usuario::where('uuid', $request->user()->uuid)->first();
         $contacto = Contacto::where('id', $contactId)
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = ConfiguracionMeta::where('uuid', $request->user()->uuid)->firstOrFail();
+        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 

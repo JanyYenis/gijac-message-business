@@ -17,7 +17,7 @@ class SincronizarPlantillasCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sincronizar:plantillas';
+    protected $signature = 'sincronizar:plantillas {app_id}';
 
     /**
      * The console command description.
@@ -33,12 +33,14 @@ class SincronizarPlantillasCommand extends Command
      */
     public function handle()
     {
-        $this->sincronizar();
+        $appId = $this->argument('app_id');
+        $this->sincronizar($appId);
     }
 
-    public function sincronizar()
+    public function sincronizar($appId)
     {
         $configuraciones = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
+            ->where('app_id', $appId)
             ->get();
 
         foreach ($configuraciones as $config) {
@@ -48,7 +50,6 @@ class SincronizarPlantillasCommand extends Command
             $obj = json_decode($response);
 
             $templates = $obj?->data ?? [];
-            // dd($templates);
             foreach ($templates as $tpl) {
                 // Guardar la plantilla principal
                 $template = Plantilla::updateOrCreate([

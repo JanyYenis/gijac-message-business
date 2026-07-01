@@ -49,6 +49,6 @@ class ApiKey extends Model
 
     public function user()
     {
-        return $this->belongsTo(Usuario::class, 'uuid', 'id');
+        return $this->belongsTo(Usuario::class, 'uuid', 'uuid');
     }
 }

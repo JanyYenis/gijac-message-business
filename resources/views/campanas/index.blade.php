@@ -748,10 +748,12 @@
             </div>
             <div class="mt-3 mt-md-0">
                 @can('campana.crear')
-                    <button type="button" class="btn btn-new-template" id="abrirModalPredictivo">
-                        <i class="fas fa-rocket"></i>
-                        Análisis Predictivo
-                    </button>
+                    @if (servicioPlan('analisis.ia'))
+                        <button type="button" class="btn btn-new-template" id="abrirModalPredictivo">
+                            <i class="fas fa-rocket"></i>
+                            Análisis Predictivo
+                        </button>
+                    @endif
                     <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearCampana">
                         <i class="fas fa-plus fs-1"></i>
                         Crear Campaña

@@ -27,7 +27,7 @@ class ConfigController extends Controller
         }
 
         $info['demo'] = $this->demo;
-        $info['existeConfig'] = ConfiguracionMeta::where('uuid', $this->uuid)
+        $info['existeConfig'] = ConfiguracionMeta::where('cod_empresa', $this->uuid)
             ->where('estado', ConfiguracionMeta::ACTIVO)
             ->exists();
         $info['plan'] = $this->plan;
@@ -44,7 +44,7 @@ class ConfigController extends Controller
         }
 
         $configs = ConfiguracionMeta::where('estado', '!=', ConfiguracionMeta::ELIMINADO)
-            ->where('uuid', $this->uuid);
+            ->where('cod_empresa', $this->uuid);
 
         return DataTables::eloquent($configs)
             ->addColumn("token", function ($model) {
@@ -72,7 +72,7 @@ class ConfigController extends Controller
     public function store(StoreConfigRequest $request)
     {
         $datos = $request->all();
-        $datos['uuid'] = auth()->user()->uuid;
+        $datos['uuid'] = auth()->user()->empresa?->id;
         $datos['estado'] = ConfiguracionMeta::ACTIVO;
         $config = ConfiguracionMeta::create($datos);
 

@@ -12,6 +12,7 @@ use App\Models\Contacto;
 use App\Models\Mensaje;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\ButtonAction;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
@@ -47,7 +48,7 @@ class WebhookController extends Controller
     public function acctionWebhook(Request $request, $app_id)
     {
         try {
-            // $fileName = "calls.json";
+            // $fileName = "plantilla.json";
 
             // // Escribe el JSON en el archivo
             // if (file_put_contents($fileName, $request->getContent())) {
@@ -79,6 +80,16 @@ class WebhookController extends Controller
 
             if (array_key_exists('calls', $datos)) {
                 // broadcast(new CallsEvent($nuevo_mensaje));
+            }
+
+            if (array_key_exists('message_template_components_update', $datos) ||
+                array_key_exists('message_template_quality_update', $datos) ||
+                array_key_exists('message_template_status_update', $datos) ||
+                array_key_exists('template_category_update', $datos) ||
+                array_key_exists('template_correct_category_detection', $datos)) {
+                Artisan::call('sincronizar:plantillas', [
+                    'app_id' => $app_id
+                ]);
             }
 
             return response()->json([

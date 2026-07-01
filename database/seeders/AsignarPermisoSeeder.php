@@ -66,6 +66,14 @@ class AsignarPermisoSeeder extends Seeder
             Usuario::PERMISO_CHATBOT_LISTADO,
             Usuario::PERMISO_CHATBOT_EDITAR,
             Usuario::PERMISO_CHATBOT_ELIMINAR,
+            Usuario::PERMISO_EMPRESA_CREAR,
+            Usuario::PERMISO_EMPRESA_LISTADO,
+            Usuario::PERMISO_EMPRESA_EDITAR,
+            Usuario::PERMISO_EMPRESA_ELIMINAR,
+            Usuario::PERMISO_FACTURA_CREAR,
+            Usuario::PERMISO_FACTURA_LISTADO,
+            Usuario::PERMISO_FACTURA_EDITAR,
+            Usuario::PERMISO_FACTURA_ELIMINAR,
         ]);
         $rolCliente = Role::findByName(Usuario::ROL_CLIENTE);
         $rolCliente->syncPermissions([
@@ -109,6 +117,13 @@ class AsignarPermisoSeeder extends Seeder
             Usuario::PERMISO_CHATBOT_LISTADO,
             Usuario::PERMISO_CHATBOT_EDITAR,
             Usuario::PERMISO_CHATBOT_ELIMINAR,
+            Usuario::PERMISO_EMPRESA_LISTADO,
+            Usuario::PERMISO_EMPRESA_EDITAR,
+            Usuario::PERMISO_EMPRESA_ELIMINAR,
+            Usuario::PERMISO_FACTURA_CREAR,
+            Usuario::PERMISO_FACTURA_LISTADO,
+            Usuario::PERMISO_FACTURA_EDITAR,
+            Usuario::PERMISO_FACTURA_ELIMINAR,
         ]);
         $rolAgente = Role::findByName(Usuario::ROL_AGENTE);
         $rolAgente->syncPermissions([
@@ -127,6 +142,7 @@ class AsignarPermisoSeeder extends Seeder
             Usuario::PERMISO_CONFIGURACION_META_LISTADO,
             Usuario::PERMISO_CLASIFICACION_IA_LISTADO,
             Usuario::PERMISO_CHATBOT_LISTADO,
+            Usuario::PERMISO_EMPRESA_LISTADO,
         ]);
     }
 }

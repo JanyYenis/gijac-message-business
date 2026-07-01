@@ -1,3 +1,6 @@
+@php
+    $puederVer = $puederVer ?? false;
+@endphp
 <div>
     <button type="button" class="btn btn-bg-secondary rotate" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" data-kt-menu-offset="30px, 30px">
         <i class="fas fa-ellipsis-h"></i>
@@ -10,11 +13,13 @@
             </div>
         </div>
         <div class="separator mb-3 opacity-75"></div>
-        <div class="menu-item px-3">
-            <a href="{{ route('facturas.ver', ['factura' => $model->invoice]) }}" target="_blank" class="menu-link fs-5 px-3">
-                <i class="fas fa-eye text-info fs-4 m-2"></i>
-                Ver Factura
-            </a>
-        </div>
+        @if ($puederVer)
+            <div class="menu-item px-3">
+                <a href="{{ route('facturas.ver', ['factura' => $model->invoice]) }}" target="_blank" class="menu-link fs-5 px-3">
+                    <i class="fas fa-eye text-info fs-4 m-2"></i>
+                    Ver Factura
+                </a>
+            </div>
+        @endif
     </div>
 </div>

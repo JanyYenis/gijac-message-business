@@ -105,9 +105,28 @@ if (!function_exists("servicioPlan")) {
     function servicioPlan($servicio)
     {
         $tiene = false;
-        if (auth()->user()?->cod_plan) {
-            $plan = Plan::find(auth()->user()->cod_plan);
-            $tiene = $plan->tieneServicio($servicio);
+        if (auth()->user()?->empresa) {
+            $empresa = auth()->user()?->empresa;
+            if ($empresa?->facturaVigente) {
+                $factura = $empresa?->facturaVigente ?? null;
+                $plan = Plan::find($factura->cod_plan);
+                $tiene = $plan->tieneServicio($servicio);
+            }
+        }
+        return $tiene;
+    }
+}
+
+if (!function_exists("esDemo")) {
+    /**
+     * Valida que el usuario tenga al menos UNO de los roles dados.
+     * @return array - Arreglo con los roles.
+     */
+    function esDemo()
+    {
+        $tiene = false;
+        if (auth()->user()?->demo) {
+            $tiene = true;
         }
         return $tiene;
     }

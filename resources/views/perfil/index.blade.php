@@ -125,18 +125,22 @@
                                 <i class="bi bi-shield-lock me-2 text-primary"></i>Seguridad
                             </button>
                         </li>
-                        <li class="nav-item text-primary" role="presentation">
-                            <button class="nav-link btnTabFacturas" id="faturas-tab" data-bs-toggle="tab"
-                                    data-bs-target="#tabFacturas" type="button" role="tab">
-                                <i class="bi bi-phone me-2 text-primary"></i>Facturas
-                            </button>
-                        </li>
-                        <li class="nav-item text-primary" role="presentation">
-                            <button class="nav-link" id="btnTabApiKey" data-bs-toggle="tab"
-                                    data-bs-target="#tabAPI" type="button" role="tab">
-                                <i class="bi bi-phone me-2 text-primary"></i>API Keys
-                            </button>
-                        </li>
+                        @can('factura.listado')
+                            <li class="nav-item text-primary" role="presentation">
+                                <button class="nav-link btnTabFacturas" id="faturas-tab" data-bs-toggle="tab"
+                                        data-bs-target="#tabFacturas" type="button" role="tab">
+                                    <i class="bi bi-phone me-2 text-primary"></i>Facturas
+                                </button>
+                            </li>
+                        @endcan
+                        @if (servicioPlan('api'))
+                            <li class="nav-item text-primary" role="presentation">
+                                <button class="nav-link" id="btnTabApiKey" data-bs-toggle="tab"
+                                        data-bs-target="#tabAPI" type="button" role="tab">
+                                    <i class="bi bi-phone me-2 text-primary"></i>API Keys
+                                </button>
+                            </li>
+                        @endif
                     </ul>
                 </div>
 
@@ -161,21 +165,25 @@
                         </div>
                     </div>
 
-                    <!-- Tab facturas -->
-                    <div class="tab-pane fade" id="tabFacturas" role="tabpanel">
-                        @component('perfil.componentes.facturacion.index')
-                            @slot('ultimaTransaccion', $ultimaTransaccion)
-                            @slot('ultimaFacturaPagada', $ultimaFacturaPagada)
-                            @slot('validarFechaVencimiento', $validarFechaVencimiento)
-                            @slot('plan', $plan)
-                            @slot('cantidad_contactos_activos', $cantidad_contactos_activos)
-                        @endcomponent
-                    </div>
+                    @can('factura.listado')
+                        <!-- Tab facturas -->
+                        <div class="tab-pane fade" id="tabFacturas" role="tabpanel">
+                            @component('perfil.componentes.facturacion.index')
+                                @slot('ultimaTransaccion', $ultimaTransaccion)
+                                @slot('ultimaFacturaPagada', $ultimaFacturaPagada)
+                                @slot('validarFechaVencimiento', $validarFechaVencimiento)
+                                @slot('plan', $plan)
+                                @slot('cantidad_contactos_activos', $cantidad_contactos_activos)
+                            @endcomponent
+                        </div>
+                    @endcan
 
-                    <div class="tab-pane fade" id="tabAPI" role="tabpanel">
-                        @component('perfil.componentes.apis.api')
-                        @endcomponent
-                    </div>
+                    @if (servicioPlan('api'))
+                        <div class="tab-pane fade" id="tabAPI" role="tabpanel">
+                            @component('perfil.componentes.apis.api')
+                            @endcomponent
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -191,13 +199,17 @@
             @slot('secret', $secret)
         @endcomponent
     @endif
-    @component('perfil.componentes.apis.crear')
-    @endcomponent
+    @if (servicioPlan('api'))
+        @component('perfil.componentes.apis.crear')
+        @endcomponent
+    @endif
 @endsection
 
 @section('scripts')
     <script src="{{ mix('/js/perfil/principal.js') }}"></script>
-    <script src="{{ mix('/js/facturas/principal.js') }}"></script>
+    @can('factura.listado')
+        <script src="{{ mix('/js/facturas/principal.js') }}"></script>
+    @endcan
     <script src="{{ asset('assets/js/custom/modals/two-factor-authentication.js') }}"></script>
     <script src="{{ asset('assets/js/custom/account/settings/signin-methods.js') }}"></script>
 @endsection

@@ -140,9 +140,9 @@ class Contacto extends Model
 
     public function getPermisoEnvioAttribute()
     {
-        $uuid = auth()->user()->hasRole(Usuario::ROL_AGENTE) ? auth()->user()->cod_empresa : auth()->user()->uuid;
+        $uuid = auth()->user()?->empresa?->id ?? null;
         $configuracion_meta = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-            ->where('uuid', $uuid)
+            ->where('cod_empresa', $uuid)
             ->first();
 
         return Mensaje::where('wa_to', $this->numero_completo)

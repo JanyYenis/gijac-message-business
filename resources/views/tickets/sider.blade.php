@@ -5,6 +5,33 @@
         <h2 class="text-gray-900 fw-bold mb-11">Otros canales</h2>
         <!--end::Title-->
 
+        @if (servicioPlan('soporte.vip.whatsapp'))
+            <!--begin::Item-->
+            <div class="d-flex align-items-center mb-10">
+                <!--begin::Icon-->
+                <i class="fa-brands fa-whatsapp fs-1 text-primary me-5"></i>
+                <!--end::Icon-->
+
+                <!--begin::Info-->
+                <div class="d-flex flex-column">
+                    <h5 class="text-gray-800 fw-bold">Soporte por Whatsapp</h5>
+
+                    <!--begin::Section-->
+                    <div class="fw-semibold">
+                        <!--begin::Desc-->
+                        <span class="text-muted">Atencion directa</span>
+                        <!--end::Desc-->
+
+                        <!--begin::Link-->
+                        <a href="https://wa.me/573171789584" class="link-primary">573171789584</a>
+                        <!--end::Link-->
+                    </div>
+                    <!--end::Section-->
+                </div>
+                <!--end::Info-->
+            </div>
+            <!--end::Item-->
+        @endif
         <!--begin::Item-->
         <div class="d-flex align-items-center mb-10">
             <!--begin::Icon-->

@@ -29,7 +29,9 @@
                     <div class="row mb-7">
                         <div class="col-lg-6 col-md-6">
                             <label class="required fs-5">Tipo Identificación</label>
-                            <select name="tipo_identificacion" id="selectTipoIdentificacion" data-control="select2" data-placeholder="Seleccione el tipo de identificación" data-allow-clear="true" data-hide-search="true" class="form-control" required data-dropdown-parent="body">
+                            <select name="tipo_identificacion" id="selectTipoIdentificacion" data-control="select2"
+                                data-placeholder="Seleccione el tipo de identificación" data-allow-clear="true"
+                                data-hide-search="true" class="form-control" required data-dropdown-parent="body">
                                 <option value=""></option>
                                 @foreach ($tiposDocumentos as $item)
                                     <option value="{{$item->codigo}}">{{$item->nombre_corto}}</option>
@@ -44,7 +46,9 @@
                     <div class="row mb-7">
                         <div class="col-lg-6 col-md-6">
                             <label class="required fs-5">Genero</label>
-                            <select name="genero" id="selectGenero" data-control="select2" data-placeholder="Seleccione el genero" data-allow-clear="true" data-hide-search="true" class="form-control" required data-dropdown-parent="body">
+                            <select name="genero" id="selectGenero" data-control="select2"
+                                data-placeholder="Seleccione el genero" data-allow-clear="true" data-hide-search="true"
+                                class="form-control" required data-dropdown-parent="body">
                                 <option value=""></option>
                                 @foreach ($generos as $item)
                                     <option value="{{$item->codigo}}">{{$item->nombre}}</option>
@@ -59,7 +63,8 @@
                     <div class="row mb-7">
                         <div class="col-lg-6 col-md-6">
                             <label class="required fs-5">País</label>
-                            <select class="form-control" name="pais_id" placeholder="..." id="selectPais" required>
+                            <select class="form-control" name="pais_id" placeholder="..." id="selectPais" required
+                                data-dropdown-parent="#modalCrearUsuario">
                                 <option value="">Seleccione un país</option>
                                 @foreach ($paises as $pais)
                                     <option value="{{$pais->id}}" data-kt-select2-country="{{$pais->bandera}}">{{$pais->nombre}} - {{$pais->nombre_corto}}</option>
@@ -68,7 +73,9 @@
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <label class="required fs-5">Ciudad</label>
-                            <select name="cod_ciudad" id="selectCiudad" disabled data-control="select2" data-placeholder="Seleccione una ciudad" data-allow-clear="true" class="form-control" required data-dropdown-parent="#modalCrearUsuario">
+                            <select name="cod_ciudad" id="selectCiudad" disabled data-control="select2"
+                                data-placeholder="Seleccione una ciudad" data-allow-clear="true" class="form-control"
+                                required data-dropdown-parent="#modalCrearUsuario">
                             </select>
                         </div>
                     </div>

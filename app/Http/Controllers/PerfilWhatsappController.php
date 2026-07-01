@@ -54,11 +54,12 @@ class PerfilWhatsappController extends Controller
             $archivo = $request->file('profile_picture_url');
             $nombreOriginal = time() . '.' . $archivo->getClientOriginalExtension();
 
+            $path = $archivo->storeAs('perfil-whatsapp', $nombreOriginal, 'public');
             $archivo->move(public_path('img/perfil-whatsapp'), $nombreOriginal);
             // $datos['profile_picture_url'] = asset('img/perfil-whatsapp/'.$nombreOriginal);
             $datos['profile_picture_url'] = public_path('img/perfil-whatsapp/'.$nombreOriginal);
             $url = 'img/perfil-whatsapp/'.$nombreOriginal;
-            dispatch(new SubirFotoPerfilWhatsApp(auth()->user()->id, $datos['profile_picture_url'], $url));
+            dispatch(new SubirFotoPerfilWhatsApp(auth()->user()->empresa?->id, $datos['profile_picture_url'], $url));
             // dd(generarSeccionSubirArchivo($datos['profile_picture_url'], $this->app_id, $this->version, $this->token));
             // $response = $this->whatsapp_cloud_api->uploadMedia($datos['profile_picture_url']);
             // $datos['profile_picture_url'] = $response->decodedBody()['id'];

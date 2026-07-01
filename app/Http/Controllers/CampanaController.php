@@ -23,6 +23,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
 use Stichoza\GoogleTranslate\GoogleTranslate;
 use Yajra\DataTables\Facades\DataTables;
@@ -69,9 +70,10 @@ class CampanaController extends Controller
             ->with('infoEstado')
             ->orderByDesc('fecha_envio');
 
-        if (role(Usuario::ROL_CLIENTE)) {
-            $campanas = $campanas->where('uuid', $this->uuid);
-        }
+        $campanas = $campanas->where(function($query) {
+            $query->where('uuid', $this->uuid)
+                ->orWhere('cod_empresa', auth()->user()->empresa->id);
+        });
 
         return DataTables::eloquent($campanas)
             ->filterColumn('nombre_gerente', function($query, $keyword) {
@@ -110,7 +112,10 @@ class CampanaController extends Controller
             'usuario',
             'infoEstado'
         )
-        ->where('uuid', $this->uuid)
+        ->where(function($query) {
+            $query->where('uuid', $this->uuid)
+                ->orWhere('cod_empresa', auth()->user()->empresa->id);
+        })
         ->orderByDesc('fecha_envio');
 
         $campanas = $campanasQuery->paginate($cantidad, ["*"], "campanas", $pagina);
@@ -139,6 +144,7 @@ class CampanaController extends Controller
         $datos['contenido'] = extraerContenidoPlantilla($plantilla);
         $datos['tipo'] = conocerTipoPlantilla($plantilla);
         $datos['uuid'] = auth()->user()->uuid;
+        $datos['cod_empresa'] = auth()->user()->empresa?->id;
         $datos['cod_etiqueta'] = $request->input('etiquetas') ?? null;
         $urls = $request->input('urls') ?? [];
 
@@ -200,17 +206,17 @@ class CampanaController extends Controller
 
             // Verificar si el archivo es un PDF
             if ($mimeType == 'application/pdf') {
-                $archivo->move(public_path('documentos/campana'), $nombreOriginal);
-                $variablesMensaje['file'] = asset('documentos/campana/'.$nombreOriginal);
-                $datos['contenido_multimedia'] = asset('documentos/campana/'.$nombreOriginal);
+                $path = $archivo->storeAs('campanas/documentos', $nombreOriginal, 'public');
+                $variablesMensaje['file'] = url(Storage::url($path));
+                $datos['contenido_multimedia'] = url(Storage::url($path));
             } elseif (str_starts_with($mimeType, 'image/')) {
-                $archivo->move(public_path('img/campana'), $nombreOriginal);
-                $variablesMensaje['file'] = asset('img/campana/'.$nombreOriginal);
-                $datos['contenido_multimedia'] = asset('img/campana/'.$nombreOriginal);
+                $path = $archivo->storeAs('campanas/img', $nombreOriginal, 'public');
+                $variablesMensaje['file'] = url(Storage::url($path));
+                $datos['contenido_multimedia'] = url(Storage::url($path));
             } elseif ($mimeType == 'video/mp4') {
-                $archivo->move(public_path('videos/campana'), $nombreOriginal);
-                $variablesMensaje['file'] = asset('videos/campana/'.$nombreOriginal);
-                $datos['contenido_multimedia'] = asset('videos/campana/'.$nombreOriginal);
+                $path = $archivo->storeAs('campanas/videos', $nombreOriginal, 'public');
+                $variablesMensaje['file'] = url(Storage::url($path));
+                $datos['contenido_multimedia'] = url(Storage::url($path));
             } else {
                 throw new ErrorException('Error al intentar cargar la imagen.');
             }
@@ -322,7 +328,7 @@ class CampanaController extends Controller
         $info['estado'] = EnvioCampana::ACTIVO;
 
         if ($estado == Campana::ENVIADO) {
-            dispatch(new SendWhatsAppMessage($contacto, $plantilla, $variables, $idCampana, auth()->user()->uuid, $nombres_variables));
+            dispatch(new SendWhatsAppMessage($contacto, $plantilla, $variables, $idCampana, auth()->user()->empresa?->id, $nombres_variables));
         } else {
             $envio_campana = EnvioCampana::updateOrCreate([
                 'cod_campana' => $info['cod_campana'],
@@ -590,17 +596,17 @@ class CampanaController extends Controller
 
             // Verificar si el archivo es un PDF
             if ($mimeType == 'application/pdf') {
-                $archivo->move(public_path('documentos/campana'), $nombreOriginal);
-                $variablesMensaje['file'] = asset('documentos/campana/'.$nombreOriginal);
-                $datos['contenido_multimedia'] = asset('documentos/campana/'.$nombreOriginal);
+                $path = $archivo->storeAs('campanas/documentos', $nombreOriginal, 'public');
+                $variablesMensaje['file'] = url(Storage::url($path));
+                $datos['contenido_multimedia'] = url(Storage::url($path));
             } elseif (str_starts_with($mimeType, 'image/')) {
-                $archivo->move(public_path('img/campana'), $nombreOriginal);
-                $variablesMensaje['file'] = asset('img/campana/'.$nombreOriginal);
-                $datos['contenido_multimedia'] = asset('img/campana/'.$nombreOriginal);
+                $path = $archivo->storeAs('campanas/img', $nombreOriginal, 'public');
+                $variablesMensaje['file'] = url(Storage::url($path));
+                $datos['contenido_multimedia'] = url(Storage::url($path));
             } elseif ($mimeType == 'video/mp4') {
-                $archivo->move(public_path('videos/campana'), $nombreOriginal);
-                $variablesMensaje['file'] = asset('videos/campana/'.$nombreOriginal);
-                $datos['contenido_multimedia'] = asset('videos/campana/'.$nombreOriginal);
+                $path = $archivo->storeAs('campanas/videos', $nombreOriginal, 'public');
+                $variablesMensaje['file'] = url(Storage::url($path));
+                $datos['contenido_multimedia'] = url(Storage::url($path));
             } else {
                 throw new ErrorException('Error al intentar cargar la imagen.');
             }

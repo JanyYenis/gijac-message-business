@@ -47,6 +47,7 @@ class Campana extends Model
         'tipo',
         'categoria',
         'cod_etiqueta',
+        'cod_empresa',
         'estado',
     ];
 
@@ -121,5 +122,10 @@ class Campana extends Model
     public function plantilla()
     {
         return $this->belongsTo(Plantilla::class, 'id_plantilla', 'id');
+    }
+
+    public function empresa()
+    {
+        return $this->belongsTo(Empresa::class, 'cod_empresa', 'id');
     }
 }

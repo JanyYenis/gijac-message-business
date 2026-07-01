@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Netflie\WhatsAppCloudApi\Message\Media\LinkID;
 
 class MensajeController extends Controller
@@ -241,7 +242,7 @@ class MensajeController extends Controller
                     throw new ErrorException('El archivo excede el tamaño máximo permitido de 100MB.');
                 }
                 $nombreOriginal = $nombreOriginal . '.' . $extension;
-                $archivo->move(public_path('documentos/chat'), $nombreOriginal);
+                $path = $archivo->storeAs('campanas/documentos', $nombreOriginal, 'public');
                 $datos['metadata'] = (object) [
                     "from" => $this->phone_number_id,
                     "id" => null,
@@ -263,7 +264,7 @@ class MensajeController extends Controller
                     throw new ErrorException('El archivo excede el tamaño máximo permitido de 5MB.');
                 }
                 $nombreOriginal = $nombreOriginal . '.jpg';
-                $archivo->move(public_path('img/chat'), $nombreOriginal);
+                $path = $archivo->storeAs('campanas/img', $nombreOriginal, 'public');
                 $datos['metadata'] = (object) [
                     "from" => $this->phone_number_id,
                     "id" => null,
@@ -283,7 +284,7 @@ class MensajeController extends Controller
                 if ($archivo->getSize() > $maxSize) {
                     throw new ErrorException('El archivo excede el tamaño máximo permitido de 16MB.');
                 }
-                $archivo->move(public_path('videos/chat'), $nombreOriginal);
+                $path = $archivo->storeAs('campanas/videos', $nombreOriginal, 'public');
                 $datos['metadata'] = (object) [
                     "from" => $this->phone_number_id,
                     "id" => null,
@@ -316,29 +317,45 @@ class MensajeController extends Controller
 
             $filename = 'grabacion_' . time();
             $webmPath = storage_path("app/temp/{$filename}.webm");
-            $oggPath = public_path("audios/chat/{$filename}.ogg");
 
-            if (!file_exists(dirname($webmPath))) mkdir(dirname($webmPath), 0755, true);
-            if (!file_exists(dirname($oggPath))) mkdir(dirname($oggPath), 0755, true);
+            if (!file_exists(dirname($webmPath))) {
+                mkdir(dirname($webmPath), 0755, true);
+            }
 
             $audioFile->move(dirname($webmPath), basename($webmPath));
+            $tempOggPath = storage_path("app/temp/{$filename}.ogg");
 
             $isWindows = strtoupper(substr(PHP_OS, 0, 3)) === 'WIN';
-            $inputPath = $isWindows ? "\"{$webmPath}\"" : escapeshellarg($webmPath);
-            $outputPath = $isWindows ? "\"{$oggPath}\"" : escapeshellarg($oggPath);
+
+            $inputPath = $isWindows
+                ? "\"{$webmPath}\""
+                : escapeshellarg($webmPath);
+
+            $outputPath = $isWindows
+                ? "\"{$tempOggPath}\""
+                : escapeshellarg($tempOggPath);
 
             $command = "ffmpeg -i {$inputPath} -c:a libopus {$outputPath}";
             exec($command . ' 2>&1', $output, $returnCode);
 
-            unlink($webmPath);
+            @unlink($webmPath);
 
             if ($returnCode !== 0) {
-                throw new ErrorException("Error al convertir el archivo de audio.");
+                throw new ErrorException('Error al convertir el archivo de audio.');
             }
 
+            // Guardar en storage/app/public/audios/chat
+            $storagePath = 'audios/chat/' . $filename . '.ogg';
+
+            Storage::disk('public')->put(
+                $storagePath,
+                file_get_contents($tempOggPath)
+            );
+
+            @unlink($tempOggPath);
+
             $datos['type'] = Mensaje::AUDIO;
-            $filename = $filename . '.ogg';
-            $datos['body'] = asset('audios/chat/' . $filename);
+            $datos['body'] = url(Storage::url($storagePath));
         }
 
         // --- Envío a WhatsApp Cloud API ---

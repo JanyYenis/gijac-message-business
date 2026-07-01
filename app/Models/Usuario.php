@@ -90,6 +90,18 @@ class Usuario extends User implements MustVerifyEmail
     const PERMISO_CLASIFICACION_IA_EDITAR    = 'clasificacion.ia.editar';
     const PERMISO_CLASIFICACION_IA_ELIMINAR  = 'clasificacion.ia.eliminar';
 
+    // PERMISOS EMPRESA/NEGOCIO
+    const PERMISO_EMPRESA_LISTADO   = 'empresa.listado';
+    const PERMISO_EMPRESA_CREAR     = 'empresa.crear';
+    const PERMISO_EMPRESA_EDITAR    = 'empresa.editar';
+    const PERMISO_EMPRESA_ELIMINAR  = 'empresa.eliminar';
+
+    // PERMISOS FACTURA
+    const PERMISO_FACTURA_LISTADO   = 'factura.listado';
+    const PERMISO_FACTURA_CREAR     = 'factura.crear';
+    const PERMISO_FACTURA_EDITAR    = 'factura.editar';
+    const PERMISO_FACTURA_ELIMINAR  = 'factura.eliminar';
+
     const TC_ESTADO = 'TC_ESTADO_GENERAL';
     const ACTIVO    = 1;
     const INACTIVO  = 2;
@@ -234,7 +246,14 @@ class Usuario extends User implements MustVerifyEmail
 
     public function configuracion()
     {
-        return $this->hasOne(ConfiguracionMeta::class, 'cod_usuario', 'id');
+        return $this->hasOneThrough(
+            ConfiguracionMeta::class,
+            UsuarioEmpresa::class,
+            'cod_usuario',
+            'cod_empresa',
+            'uuid',
+            'cod_empresa'
+        );
     }
 
     public function plan()
@@ -282,7 +301,14 @@ class Usuario extends User implements MustVerifyEmail
 
     public function empresa()
     {
-        return $this->belongsTo(Empresa::class, 'cod_empresa', 'id');
+        return $this->hasOneThrough(
+            Empresa::class,
+            UsuarioEmpresa::class,
+            'cod_usuario',
+            'id',
+            'uuid',
+            'cod_empresa'
+        );
     }
 
     /**

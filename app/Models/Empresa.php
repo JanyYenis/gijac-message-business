@@ -67,4 +67,16 @@ class Empresa extends Model
     {
         return $this->hasMany(Factura::class, 'cod_empresa', 'id');
     }
+
+    public function factura()
+    {
+        return $this->hasOne(Factura::class, 'cod_empresa', 'id');
+    }
+
+    public function facturaVigente()
+    {
+        return $this->factura()
+            ->whereDate('fecha_vencimiento', '>=', now())
+            ->where('x_response', 'Aceptada');
+    }
 }

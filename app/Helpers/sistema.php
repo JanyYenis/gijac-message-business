@@ -1109,7 +1109,7 @@ if (!function_exists('generarInvoice')) {
     {
         return DB::transaction(function () {
             $maxIntentos = 100; // por si hay muchos en uso
-            $prefijo = 'INV';
+            $prefijo = env('PREFIJO_FACTURA', 'INV');
             $numero = 1;
 
             for ($i = 0; $i < $maxIntentos; $i++) {

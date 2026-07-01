@@ -49,47 +49,53 @@
                         </span>
                     </span>
                 </a>
-                <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
-                    class="menu-item py-2 {{request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear')
-                        || request()->is('login-qr') ? 'here' : ''}}">
-                    <span class="menu-link menu-center">
-                        <span
-                            class="menu-icon me-0">
-                            <i class="fas fa-comments fs-2x"></i>
+                @if ((servicioPlan('chat.atencion') || esDemo()) || servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
+                    <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
+                        class="menu-item py-2 {{request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear')
+                            || request()->is('login-qr') ? 'here' : ''}}">
+                        <span class="menu-link menu-center">
+                            <span
+                                class="menu-icon me-0">
+                                <i class="fas fa-comments fs-2x"></i>
+                            </span>
                         </span>
-                    </span>
-                    <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto">
-                        <div class="menu-item">
-                            <div class="menu-content ">
-                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">Chats</span>
+                        <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto">
+                            <div class="menu-item">
+                                <div class="menu-content ">
+                                    <span class="menu-section fs-5 fw-bolder ps-1 py-1">Chats</span>
+                                </div>
+                            </div>
+                            @if (servicioPlan('chat.atencion') || esDemo())
+                                <div class="menu-item">
+                                    <a class="menu-link" href="{{ route('chats.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Chat</span>
+                                    </a>
+                                </div>
+                            @endif
+                            @if (servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
+                                <div class="menu-item">
+                                    <a class="menu-link" href="{{ route('chatbots.index') }}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">Chatbot</span>
+                                    </a>
+                                </div>
+                            @endif
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{ route('login-qr') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Conertar app movil</span>
+                                </a>
                             </div>
                         </div>
-                        <div class="menu-item">
-                            <a class="menu-link" href="{{ route('chats.index') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Chat</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link" href="{{ route('chatbots.index') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Chatbot</span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a class="menu-link" href="{{ route('login-qr') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Conertar app movil</span>
-                            </a>
-                        </div>
                     </div>
-                </div>
+                @endif
                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
                     class="menu-item py-2 {{request()->is('campañas') || request()->is('plantillas') || request()->is('calendario') || request()->is('configs') ? 'here' : ''}}"><!--begin:Menu link-->
                     <span class="menu-link menu-center">
@@ -166,14 +172,16 @@
                                 <span class="menu-title">Etiquetas</span>
                             </a>
                         </div>
-                        <div class="menu-item">
-                            <a class="menu-link" href="{{ route('clasificacion-ia.index') }}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Clasificación (Con IA)</span>
-                            </a>
-                        </div>
+                        @if (servicioPlan('clasificacion.ia'))
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{ route('clasificacion-ia.index') }}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">Clasificación (Con IA)</span>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 @canAny([
@@ -203,16 +211,18 @@
                         </span>
                     </a>
                 @endcanany
-                @canany(['tickets.crear', 'tickets.listado', 'tickets.editar', 'tickets.eliminar'])
-                    <a href="{{ route('tickets.index')}}" class="menu-item py-2 {{request()->is('tickets') || request()->is('tickets/editar/*') ? 'here' : ''}}">
-                        <span class="menu-link menu-center">
-                            <span
-                                class="menu-icon me-0">
-                                <i class="fas fa-ticket-alt fs-2x"></i>
+                @if (servicioPlan('soporte.vip.whatsapp') || servicioPlan('soporte.ticket'))
+                    @canany(['tickets.crear', 'tickets.listado', 'tickets.editar', 'tickets.eliminar'])
+                        <a href="{{ route('tickets.index')}}" class="menu-item py-2 {{request()->is('tickets') || request()->is('tickets/editar/*') ? 'here' : ''}}">
+                            <span class="menu-link menu-center">
+                                <span
+                                    class="menu-icon me-0">
+                                    <i class="fas fa-ticket-alt fs-2x"></i>
+                                </span>
                             </span>
-                        </span>
-                    </a>
-                @endcanany
+                        </a>
+                    @endcanany
+                @endif
             </div>
         </div>
         <div class="d-flex flex-column flex-center pb-4 pb-lg-8" id="kt_app_sidebar_footer">
@@ -580,48 +590,56 @@
                                 </span>
                             </a>
                         </div>
-                        <div class="menu-item">
-                            <a href="{{ route('clasificacion-ia.index') }}" class="menu-link {{request()->is('clasificacion-ia') ? 'active' : ''}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">
-                                    Clasificación (Con IA)
-                                </span>
-                            </a>
-                        </div>
+                        @if (servicioPlan('clasificacion.ia'))
+                            <div class="menu-item">
+                                <a href="{{ route('clasificacion-ia.index') }}" class="menu-link {{request()->is('clasificacion-ia') ? 'active' : ''}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">
+                                        Clasificación (Con IA)
+                                    </span>
+                                </a>
+                            </div>
+                        @endif
                     @endif
-                    @if (request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') || request()->is('login-qr'))
-                        <div class="menu-item">
-                            <a href="{{ route('chats.index') }}" class="menu-link {{request()->is('chats') ? 'active' : ''}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">
-                                    Chat
-                                </span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a href="{{ route('chatbots.index') }}" class="menu-link {{request()->is('chatbots') || request()->is('chatbots/crear') ? 'active' : ''}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">
-                                    Chatbot
-                                </span>
-                            </a>
-                        </div>
-                        <div class="menu-item">
-                            <a href="{{ route('login-qr') }}" class="menu-link {{request()->is('login-qr') ? 'active' : ''}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">
-                                    Conertar app movil
-                                </span>
-                            </a>
-                        </div>
+                    @if ((servicioPlan('chat.atencion') || esDemo()) || servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
+                        @if (request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') || request()->is('login-qr'))
+                            @if ((servicioPlan('chat.atencion') || esDemo()))
+                                <div class="menu-item">
+                                    <a href="{{ route('chats.index') }}" class="menu-link {{request()->is('chats') ? 'active' : ''}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">
+                                            Chat
+                                        </span>
+                                    </a>
+                                </div>
+                            @endif
+                            @if (servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
+                                <div class="menu-item">
+                                    <a href="{{ route('chatbots.index') }}" class="menu-link {{request()->is('chatbots') || request()->is('chatbots/crear') ? 'active' : ''}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                        <span class="menu-title">
+                                            Chatbot
+                                        </span>
+                                    </a>
+                                </div>
+                            @endif
+                            <div class="menu-item">
+                                <a href="{{ route('login-qr') }}" class="menu-link {{request()->is('login-qr') ? 'active' : ''}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                    <span class="menu-title">
+                                        Conertar app movil
+                                    </span>
+                                </a>
+                            </div>
+                        @endif
                     @endif
                     @if (request()->is('usuarios'))
                         <div class="menu-item">

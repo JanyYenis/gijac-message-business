@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Factura;
 use App\Models\Plan;
+use App\Models\Usuario;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Epayco\Epayco;
 use Illuminate\Http\Request;
@@ -23,17 +24,24 @@ class FacturaController extends Controller
 
     public function pagar($plan = null)
     {
-        $info['plan'] = $plan;
         if ($plan) {
-            $info['plan'] = Plan::with('serviciosHabilitados')->find($plan);
+            $plan = Plan::with('serviciosHabilitados')->find($plan);
         } else {
-            $info['plan'] = Plan::with('serviciosHabilitados')->where('estado', Plan::ACTIVO)->first();
+            $plan = Plan::with('serviciosHabilitados')
+                ->where('estado', Plan::ACTIVO)
+                ->orderBy('categoria')
+                ->first();
         }
-        $info['planes'] = Plan::with('serviciosHabilitados')
+        $info['plan'] = $plan;
+        $planes = Plan::with('serviciosHabilitados')
             ->where('estado', Plan::ACTIVO)
             ->whereNot('categoria', Plan::PERSONALIZADO)
             ->orderBy('categoria')
             ->get();
+
+        $info['planes'] = $planes;
+
+        $info['esPersonalizado'] = in_array($plan?->id, array_column($planes->toArray(), 'id'));
 
         return view('facturas.index', $info);
     }
@@ -42,10 +50,14 @@ class FacturaController extends Controller
     {
         $facturas = Factura::with(
             'plan'
-        )->where('cod_usuario', auth()->user()->id);
+        )->where('cod_empresa', auth()->user()?->empresa?->id);
 
         return DataTables::eloquent($facturas)
-            ->addColumn("action", "facturas.columnas.acciones")
+            ->addColumn("action", function($model) {
+                $info['model'] = $model;
+                $info['puederVer'] = can(Usuario::PERMISO_FACTURA_LISTADO);
+                return view("facturas.columnas.acciones", $info);
+            })
             ->rawColumns(["action"])
             ->make(true);
     }

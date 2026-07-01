@@ -60,7 +60,11 @@
                     <!--begin::Heading-->
                     <div class="d-flex text-muted fw-bold fs-5 mb-3">
                         <span class="flex-grow-1 text-gray-800">Contactos</span>
-                        <span class="text-gray-800">{{ $cantidad_contactos_activos }} de {{ $plan?->max_contactos ?? 0 }} contactos</span>
+                        @if ($plan?->max_contactos)
+                            <span class="text-gray-800">{{ $cantidad_contactos_activos }} de {{ $plan?->max_contactos ?? 'Ilimitado' }} contactos</span>
+                        @else
+                            <span class="text-gray-800">Ilimitados</span>
+                        @endif
                     </div>
                     <!--end::Heading-->
 
@@ -71,11 +75,13 @@
                     </div>
                     <!--end::Progress-->
 
-                    <!--begin::Description-->
-                    <div class="fs-6 text-gray-600 fw-semibold mb-10">
-                        Quedan {{ ($plan?->max_contactos ?? 0) - $cantidad_contactos_activos }} contactos hasta que su plan requiera actualización
-                    </div>
-                    <!--end::Description-->
+                    @if ($plan?->max_contactos)
+                        <!--begin::Description-->
+                        <div class="fs-6 text-gray-600 fw-semibold mb-10">
+                            Quedan {{ ($plan?->max_contactos ?? 0) && $cantidad_contactos_activos ? ($plan?->max_contactos ?? 0) - $cantidad_contactos_activos : 0 }} contactos hasta que su plan requiera actualización
+                        </div>
+                        <!--end::Description-->
+                    @endif
 
                     <!--begin::Action-->
                     <div class="d-flex justify-content-end pb-0 px-0">

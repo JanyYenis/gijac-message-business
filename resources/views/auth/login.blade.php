@@ -97,5 +97,7 @@
 @endsection
 
 @section('js')
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="{{ asset('assets/js/custom/authentication/sign-in/general.js') }}"></script>
 @endsection

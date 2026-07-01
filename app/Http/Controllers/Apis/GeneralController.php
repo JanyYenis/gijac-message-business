@@ -8,9 +8,11 @@ use App\Models\Campana;
 use App\Models\ConfiguracionMeta;
 use App\Models\Contacto;
 use App\Models\Mensaje;
+use App\Models\Plan;
 use App\Models\Plantilla;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use libphonenumber\PhoneNumberUtil;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
@@ -136,6 +138,10 @@ class GeneralController extends Controller
         $nombres_variables        = $request->input('nombres_variables', []);
         $variables   = $info['variables'] ?? [];
 
+        if (!str_starts_with($telefono, '+')) {
+            $telefono = '+' . $telefono;
+        }
+
         $usuario = Usuario::where('uuid', $request->input('user_id'))->first();
         $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
             ->where('cod_empresa', $usuario?->empresa?->id)
@@ -159,8 +165,49 @@ class GeneralController extends Controller
         }
 
         $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$telefono}%"])
-            ->where('uuid', $request->input('user_id'))
-            ->first();
+            ->where(function($query) use($request, $usuario) {
+                $query->where('uuid', $request->input('user_id'))
+                    ->orWhere('cod_empresa', $usuario->empresa?->id);
+            })
+            ->first() ?? null;
+
+        if (!$contacto) {
+            $empresa = $usuario?->empresa ?? false;
+            $tienePlan = $empresa?->facturaVigente?->cod_plan ?? null;
+            $esDemo = $usuario?->demo ?? null;
+            $cantidadContactosActivos = Contacto::where('estado', Contacto::ACTIVO)
+                ->where('cod_empresa', $empresa->id)
+                ->count();
+            if ($tienePlan) {
+                $plan = Plan::find($tienePlan);
+                if ($plan?->max_contactos) {
+                    if ($plan?->max_contactos <= $cantidadContactosActivos) {
+                        return response()->json(['estado' => 'error', 'mensaje' => 'Has superado el limite de contactos activos para tu plan.'], 500);
+                    }
+                }
+            } else if ($esDemo) {
+                if (30 <= $cantidadContactosActivos) {
+                    return response()->json(['estado' => 'error', 'mensaje' => 'Has superado el limite de 30 contactos activos para tu plan demo.'], 500);
+                }
+            } else {
+                return response()->json(['estado' => 'error', 'mensaje' => 'Por favor selecciona uno de nuestros planes para crear un contacto.'], 500);
+            }
+
+            $phoneUtil = PhoneNumberUtil::getInstance();
+            $parsedNumber = $phoneUtil->parse($telefono, null);
+                // Obtener el código del país
+            $countryCode = $parsedNumber->getCountryCode();
+
+            // Obtener el resto del número sin el código del país
+            $nationalNumber = $parsedNumber->getNationalNumber();
+
+            $contacto = Contacto::create([
+                'telefono' => $nationalNumber,
+                'codigo_telefono' => $countryCode,
+                'uuid' => $usuario->uuid,
+                'cod_empresa' => $empresa?->id,
+            ]);
+        }
 
         $whatsapp_cloud_api = new WhatsAppCloudApi([
             'from_phone_number_id' => $config->phone_number_id,
@@ -307,8 +354,8 @@ class GeneralController extends Controller
         $valores = [];
         foreach ($variables as $key => $value) {
             $llave = "{{".($nombres_variables[$key] ?? $key + 1)."}}";
-            $valor = $value->valor;
-            $campo = $value?->valor;
+            $valor = $value;
+            $campo = $value;
 
             // Bug corregido: era $contacto (indefinida), debe ser $this->contacto
             if ($campo && property_exists($contacto, $campo)) {
@@ -317,13 +364,14 @@ class GeneralController extends Controller
             $valores[$llave] = $valor;
         }
 
+        $plantilla = Plantilla::find($idPlantilla);
         $mensaje = $plantilla?->body?->text ?? null;
         $mensaje = str_replace(array_keys($valores), array_values($valores), $mensaje);
 
         $tipo_header = $plantilla?->header?->format ?? null;
         $header = null;
         if ($tipo_header && in_array($tipo_header, [Mensaje::IMAGEN, Mensaje::VIDEO, Mensaje::DOCUMENTO])) {
-            $header = $this->info['file'] ?? null;
+            $header = $info['file'] ?? null;
         } elseif ($tipo_header == Mensaje::TEXTO) {
             $header = $plantilla?->header?->text ?? null;
         }

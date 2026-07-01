@@ -17,11 +17,12 @@ class CantidadContacto implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $tienePlan = auth()->user()?->cod_plan ?? null;
+        $empresa = auth()->user()?->empresa ?? false;
+        $tienePlan = $empresa?->facturaVigente?->cod_plan ?? null;
         $esDemo = auth()->user()?->demo ?? null;
-        $uuid = auth()->user()->hasRole(Usuario::ROL_AGENTE) ? auth()->user()->cod_empresa : auth()->user()->uuid;
+        $uuid = $empresa->id;
         $cantidadContactosActivos = Contacto::where('estado', Contacto::ACTIVO)
-            ->where('uuid', $uuid)
+            ->where('cod_empresa', $uuid)
             ->count();
         if ($tienePlan) {
             $plan = Plan::find($tienePlan);

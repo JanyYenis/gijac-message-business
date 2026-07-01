@@ -230,51 +230,51 @@ Route::get('/wompi/callback', [WompiController::class, 'callback'])->name('wompi
 // Route::get('/prueba', [PruebaController::class, 'index']);
 
 Route::get('/prueba', function(){
-    dd(Plantilla::with('componentes')->find(3209960805854522));
-    dd(Usuario::darTipoDocumento());
-    $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-        ->where('app_id', '189706530645476')
-        ->first();
-    $whatsapp_cloud_api = new WhatsAppCloudApi([
-        'from_phone_number_id' => $config->phone_number_id,
-        'access_token' => $config->token,
-        'graph_version' => $config->version,
-    ]);
+    // dd(Plantilla::with('componentes')->find(3209960805854522));
+    // dd(Usuario::darTipoDocumento());
+    // $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
+    //     ->where('app_id', '189706530645476')
+    //     ->first();
+    // $whatsapp_cloud_api = new WhatsAppCloudApi([
+    //     'from_phone_number_id' => $config->phone_number_id,
+    //     'access_token' => $config->token,
+    //     'graph_version' => $config->version,
+    // ]);
 
-    $usuario = Usuario::find(1);
-    $dosMeses = Carbon::now()->subMonths(2);
+    // $usuario = Usuario::find(1);
+    // $dosMeses = Carbon::now()->subMonths(2);
 
-    $datos = Contacto::selectRaw(
-            'contactos.id, CONCAT(contactos.nombre, " ", contactos.apellido) AS nombre_cliente,
-            envios_campanas.apertura, envios_campanas.fecha_apertura, envios_campanas.telefono,
-            envios_campanas.wamid, campanas.nombre AS nombre_campana,
-            campanas.contenido AS contenido_campana, campanas.fecha_envio'
-        )
-        ->join('envios_campanas', 'envios_campanas.cod_contacto', '=', 'contactos.id')
-        ->join('campanas', 'campanas.id', '=', 'envios_campanas.cod_campana')
-        ->where('contactos.id', '45bf225e-f996-40c2-907a-c7e3df925aaf')
-        ->where('contactos.estado', Contacto::ACTIVO)
-        ->where('campanas.fecha_envio', '>=', $dosMeses)
-        ->orderBy('campanas.fecha_envio', 'desc')
-        ->get();
+    // $datos = Contacto::selectRaw(
+    //         'contactos.id, CONCAT(contactos.nombre, " ", contactos.apellido) AS nombre_cliente,
+    //         envios_campanas.apertura, envios_campanas.fecha_apertura, envios_campanas.telefono,
+    //         envios_campanas.wamid, campanas.nombre AS nombre_campana,
+    //         campanas.contenido AS contenido_campana, campanas.fecha_envio'
+    //     )
+    //     ->join('envios_campanas', 'envios_campanas.cod_contacto', '=', 'contactos.id')
+    //     ->join('campanas', 'campanas.id', '=', 'envios_campanas.cod_campana')
+    //     ->where('contactos.id', '45bf225e-f996-40c2-907a-c7e3df925aaf')
+    //     ->where('contactos.estado', Contacto::ACTIVO)
+    //     ->where('campanas.fecha_envio', '>=', $dosMeses)
+    //     ->orderBy('campanas.fecha_envio', 'desc')
+    //     ->get();
 
-    $info = [];
+    // $info = [];
 
-    if (count($datos)) {
-        $info['id'] = $datos[0]->id;
-        $info['nombre_cliente'] = $datos[0]->nombre_cliente;
-        $info['telefono'] = $datos[0]->telefono;
-        $info['envios'] = [];
-        foreach ($datos as $dato) {
-            $info['envios']['nombre_campana'] = $dato->nombre_campana;
-            $info['envios']['contenido_campana'] = $dato->contenido_campana;
-            $info['envios']['apertura'] = $dato->apertura;
-            $info['envios']['fecha_apertura'] = $dato->fecha_apertura;
-            $info['envios']['fecha_envio'] = $dato->fecha_envio;
-        }
-    }
+    // if (count($datos)) {
+    //     $info['id'] = $datos[0]->id;
+    //     $info['nombre_cliente'] = $datos[0]->nombre_cliente;
+    //     $info['telefono'] = $datos[0]->telefono;
+    //     $info['envios'] = [];
+    //     foreach ($datos as $dato) {
+    //         $info['envios']['nombre_campana'] = $dato->nombre_campana;
+    //         $info['envios']['contenido_campana'] = $dato->contenido_campana;
+    //         $info['envios']['apertura'] = $dato->apertura;
+    //         $info['envios']['fecha_apertura'] = $dato->fecha_apertura;
+    //         $info['envios']['fecha_envio'] = $dato->fecha_envio;
+    //     }
+    // }
 
-    dd($datos, $info);
+    // dd($datos, $info);
 
     // $response = Http::withToken($config->token)
     //     ->post("https://graph.facebook.com/v24.0/" . $config->phone_number_id . "/calls", [
@@ -482,20 +482,20 @@ Route::get('/prueba', function(){
     // } else {
     //     dd('Error: ' . $response->status()); // Muestra el código de estado si falla
     // }
-    // $telefono = '15550534684';
-    // // $telefono = '573152094191';
-    // // Asegurarte de que el número incluya el signo '+'
-    // if (!str_starts_with($telefono, '+')) {
-    //     $telefono = '+' . $telefono;
-    // }
-    // $phoneUtil = PhoneNumberUtil::getInstance();
-    // $parsedNumber = $phoneUtil->parse($telefono, null);
-    //     // Obtener el código del país
-    // $countryCode = $parsedNumber->getCountryCode();
+    $telefono = '15550534684';
+    // $telefono = '573152094191';
+    // Asegurarte de que el número incluya el signo '+'
+    if (!str_starts_with($telefono, '+')) {
+        $telefono = '+' . $telefono;
+    }
+    $phoneUtil = PhoneNumberUtil::getInstance();
+    $parsedNumber = $phoneUtil->parse($telefono, null);
+        // Obtener el código del país
+    $countryCode = $parsedNumber->getCountryCode();
 
-    // // Obtener el resto del número sin el código del país
-    // $nationalNumber = $parsedNumber->getNationalNumber();
-    // dd($countryCode, $nationalNumber);
+    // Obtener el resto del número sin el código del país
+    $nationalNumber = $parsedNumber->getNationalNumber();
+    dd($countryCode, $nationalNumber);
     // $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('id', 1)->first();
     // $whatsapp_cloud_api = new WhatsAppCloudApi([
     //     'from_phone_number_id' => $config->phone_number_id,

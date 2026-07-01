@@ -25,6 +25,7 @@ class ChatbotFlowVersion extends Model
         'snapshot',
         'estado',
         'creado_por',
+        'cod_empresa',
         'nota_cambio',
         'fecha_publicado',
     ];

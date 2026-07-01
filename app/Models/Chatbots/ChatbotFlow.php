@@ -41,6 +41,7 @@ class ChatbotFlow extends Model
         'versión_actual',
         'fecha_publicado',
         'creado_por',
+        'cod_empresa',
         'ajustes',
     ];
 

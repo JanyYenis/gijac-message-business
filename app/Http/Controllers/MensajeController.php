@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorException;
+use App\Models\ConfiguracionMeta;
 use App\Models\Contacto;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
@@ -18,15 +19,24 @@ class MensajeController extends Controller
     public function index()
     {
         $contactos = Contacto::query()
+            ->leftJoin('conversaciones', function ($join) {
+                $join->on('contactos.id', '=', 'conversaciones.contacto_id')
+                    ->where(
+                        'conversaciones.phone_number_id',
+                        $this->phone_number_id
+                    );
+            })
             ->with([
-                'conversaciones' => function ($q) {
+                'conversacion' => function ($q) {
                     $q->where(
                         'phone_number_id',
                         $this->phone_number_id
                     );
                 }
             ])
-            ->where('estado', Contacto::ACTIVO)
+            ->where('contactos.estado', Contacto::ACTIVO)
+            ->orderByDesc('conversaciones.ultima_fecha')
+            ->select('contactos.*')
             ->get();
 
         $info['numero'] = $this->phone_number_id;
@@ -456,6 +466,16 @@ class MensajeController extends Controller
             $this->whatsapp_cloud_api->markMessageAsRead($mensaje->wa_message_id);
         }
 
+        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('phone_number_id', $this->phone_number_id)->first();
+        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$de}%"])
+                ->where('cod_empresa', $config->cod_empresa)
+                ->first();
+        Conversacion::where('contacto_id', $contacto->id)
+            ->where('phone_number_id', $this->phone_number_id)
+            ->update([
+                'mensajes_no_leidos' => 0
+            ]);
+
         // broadcast(new MensajeLeido($de))->toOthers();
 
         return ['estado' => 'success'];
@@ -464,15 +484,24 @@ class MensajeController extends Controller
     public function actualizarContactos(Request $request)
     {
         $contactos = Contacto::query()
+            ->leftJoin('conversaciones', function ($join) {
+                $join->on('contactos.id', '=', 'conversaciones.contacto_id')
+                    ->where(
+                        'conversaciones.phone_number_id',
+                        $this->phone_number_id
+                    );
+            })
             ->with([
-                'conversaciones' => function ($q) {
+                'conversacion' => function ($q) {
                     $q->where(
                         'phone_number_id',
                         $this->phone_number_id
                     );
                 }
             ])
-            ->where('estado', Contacto::ACTIVO)
+            ->where('contactos.estado', Contacto::ACTIVO)
+            ->orderByDesc('conversaciones.ultima_fecha')
+            ->select('contactos.*')
             ->get();
 
         $info['contactos'] = $contactos;

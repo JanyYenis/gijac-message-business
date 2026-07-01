@@ -62,10 +62,16 @@ class ChatbotNodoController extends Controller
             throw new ErrorException("No tienes permisos para acceder a esta sección.");
         }
 
-        $info['total_flujos'] = ChatbotFlow::where('creado_por', auth()->user()->uuid)
+        $info['total_flujos'] = ChatbotFlow::where(function($query) {
+                $query->where('creado_por', auth()->user()->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
             ->where('estado', ChatbotFlow::ACTIVO)
             ->count();
-        $info['ultimo_flujo'] = ChatbotFlow::where('creado_por', auth()->user()->uuid)
+        $info['ultimo_flujo'] = ChatbotFlow::where(function($query) {
+                $query->where('creado_por', auth()->user()->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
             ->where('estado', ChatbotFlow::ACTIVO)
             ->orderByDesc('fecha_publicado')
             ->first();
@@ -90,20 +96,29 @@ class ChatbotNodoController extends Controller
                 // Prioridad 1: El ID específico que envió el Javascript (si existe y es del usuario)
                 if ($inputFlowId) {
                     $flow = ChatbotFlow::where('id', $inputFlowId)
-                        ->where('creado_por', $userId)
+                        ->where(function($query) use($userId) {
+                            $query->where('creado_por', $userId)
+                                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+                        })
                         ->first();
                 }
 
                 // Prioridad 2: Si no hay ID (o es inválido), buscar el flujo ACTIVO del usuario
                 if (!$flow) {
-                    $flow = ChatbotFlow::where('creado_por', $userId)
-                        ->where('estado', ChatbotFlow::ACTIVO)
+                    $flow = ChatbotFlow::where('estado', ChatbotFlow::ACTIVO)
+                        ->where(function($query) use($userId) {
+                            $query->where('creado_por', $userId)
+                                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+                        })
                         ->first();
                 }
 
                 // Prioridad 3: Si no hay activo, buscar el último borrador que haya creado
                 if (!$flow) {
-                    $flow = ChatbotFlow::where('creado_por', $userId)
+                    $flow = ChatbotFlow::where(function($query) use($userId) {
+                            $query->where('creado_por', $userId)
+                                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+                        })
                         ->latest()
                         ->first();
                 }
@@ -121,6 +136,7 @@ class ChatbotNodoController extends Controller
                     'canal'          => $flow->canal, // Mantener canal existente
                     'estado'         => $action === 'published' ? ChatbotFlow::ACTIVO : ChatbotFlow::BORRADOR,
                     'creado_por'     => $flow->creado_por ?? $userId, // Mantener creador original
+                    'cod_empresa'     => $flow->cod_empresa ?? auth()->user()->empresa?->id, // Mantener creador original
                     'versión_actual' => $action === 'published'
                         ? ($flow->exists ? $flow->versión_actual + 1 : 1)
                         : ($flow->versión_actual ?? 1),
@@ -192,6 +208,7 @@ class ChatbotNodoController extends Controller
                         ]),
                         'estado'         => ChatbotFlowVersion::PUBLICADO,
                         'creado_por'     => $userId,
+                        'cod_empresa'    => auth()->user()->empresa?->id,
                         'fecha_publicado'=> now(),
                     ]);
                 }
@@ -310,7 +327,10 @@ class ChatbotNodoController extends Controller
         $user = Auth::user();
 
         // 1. Buscar el flujo del usuario (Asumiendo que solo tiene uno activo/borrador)
-        $flow = ChatbotFlow::where('creado_por', $user->uuid)
+        $flow = ChatbotFlow::where(function($query) use($user) {
+                $query->where('creado_por', $user->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
             ->orderBy('updated_at', 'desc') // Traer el último editado
             ->first();
 
@@ -425,7 +445,10 @@ class ChatbotNodoController extends Controller
 
     public function listadoVersiones(Request $request)
     {
-        $versiones = ChatbotFlowVersion::where('creado_por', auth()->user()->uuid)
+        $versiones = ChatbotFlowVersion::where(function($query) {
+                $query->where('creado_por', auth()->user()->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
             ->oderbyDesc('numero_version');
 
         return DataTables::eloquent($versiones)

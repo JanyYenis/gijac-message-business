@@ -6,6 +6,7 @@ use App\Models\ConfiguracionMeta;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MensajeObserver
 {
@@ -51,22 +52,38 @@ class MensajeObserver
 
     public function actualizarConversacion(Mensaje $mensaje)
     {
-        if ($mensaje->contact_id) {
-            $config = ConfiguracionMeta::whereIn('phone_number_id', [$mensaje?->wa_from, $mensaje?->wa_to])
-                ->first() ?? null;
-
-            Conversacion::updateOrCreate(
-                [
-                    'contacto_id' => $mensaje?->contact_id,
-                    'phone_number_id' => $config->phone_number_id,
-                ],
-                [
-                    'ultimo_mensaje' => $mensaje->body,
-                    'tipo_ultimo_mensaje' => $mensaje->type,
-                    'ultima_fecha' => $mensaje->created_at,
-                    'mensajes_no_leidos' => DB::raw('mensajes_no_leidos + 1'),
-                ]
-            );
+        if (!$mensaje->contact_id) {
+            return;
         }
+
+        $config = ConfiguracionMeta::whereIn(
+            'phone_number_id',
+            [$mensaje->wa_from, $mensaje->wa_to]
+        )->first();
+
+        if (!$config) {
+            return;
+        }
+
+        // El mensaje viene del contacto
+        $esMensajeEntrante = $mensaje->wa_from != $config->phone_number_id;
+
+        $datos = [
+            'ultimo_mensaje' => $mensaje->body,
+            'tipo_ultimo_mensaje' => $mensaje->type,
+            'ultima_fecha' => $mensaje->created_at,
+        ];
+
+        if ($esMensajeEntrante) {
+            $datos['mensajes_no_leidos'] = DB::raw('mensajes_no_leidos + 1');
+        }
+
+        Conversacion::updateOrCreate(
+            [
+                'contacto_id' => $mensaje->contact_id,
+                'phone_number_id' => $config->phone_number_id,
+            ],
+            $datos
+        );
     }
 }

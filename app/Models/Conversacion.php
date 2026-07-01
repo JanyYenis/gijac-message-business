@@ -23,7 +23,7 @@ class Conversacion extends Model
 
     protected $casts = [
         'id' => 'string',
-        'uuid' => 'string',
+        'contacto_id' => 'string',
     ];
 
     protected static function boot()

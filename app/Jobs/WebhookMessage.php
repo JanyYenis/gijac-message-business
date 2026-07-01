@@ -12,6 +12,7 @@ use App\Models\Chatbots\ChatbotSessionLog;
 use App\Models\ClasificacionIa;
 use App\Models\ConfiguracionMeta;
 use App\Models\Contacto;
+use App\Models\Empresa;
 use App\Models\EnvioCampana;
 use App\Models\Etiqueta;
 use App\Models\EtiquetaContacto;
@@ -75,6 +76,7 @@ class WebhookMessage implements ShouldQueue
         $mensajeData = $datos['messages'][0] ?? null;
         if (!$mensajeData) return;
 
+        $contact_id = null;
         $tipo     = $mensajeData['type'] ?? 'text';
         $waFrom   = $mensajeData['from'] ?? '00000';
         $waTo     = $datos['metadata']['phone_number_id'] ?? null;
@@ -130,8 +132,17 @@ class WebhookMessage implements ShouldQueue
             $body = json_encode($mensajeData['contacts'] ?? []);
         }
 
+        if ($estado == Mensaje::ENVIADO && $waFrom != $config->phone_number_id) {
+            $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$waFrom}%"])
+                ->where('cod_empresa', $config->cod_empresa)
+                ->first();
+            if ($contacto) {
+                $contact_id = $contacto?->id;
+            }
+        }
+
         $mensaje = Mensaje::updateOrCreate(['wa_message_id' => $waMsgId], [
-            'wa_from' => $waFrom, 'wa_to' => $waTo, 'type' => $tipoMapped,
+            'wa_from' => $waFrom, 'wa_to' => $waTo, 'type' => $tipoMapped, 'contact_id' => $contact_id,
             'body' => $body, 'metadata' => $mensajeData, 'estado' => $estado, 'sent_at' => $sentAt,
         ]);
 
@@ -140,7 +151,9 @@ class WebhookMessage implements ShouldQueue
         }
 
         if ($estado == Mensaje::ENVIADO && $waFrom != $config->phone_number_id) {
-            $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$waFrom}%"])->where('uuid', $config->uuid)->first();
+            $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$waFrom}%"])
+                ->where('cod_empresa', $config->cod_empresa)
+                ->first();
             $nuevo_mensaje = Mensaje::where('wa_message_id', $waMsgId)->first();
             if ($nuevo_mensaje && $contacto) { $nuevo_mensaje->nombre_completo = $contacto?->nombre_completo ?? null; }
             broadcast(new MensajeSent($nuevo_mensaje));
@@ -148,9 +161,9 @@ class WebhookMessage implements ShouldQueue
 
         // --- NÚCLEO DEL CHATBOT NUEVO ---
         if ($estado == Mensaje::ENVIADO && $waFrom != $config->phone_number_id && $waTo == $config->phone_number_id && ($tipoMapped == Mensaje::TEXTO || $valorChat)) {
-            $usuario = Usuario::where('uuid', $config->uuid)->first();
-            if ($usuario) {
-                $plan = Plan::find($usuario->cod_plan);
+            $empresa = Empresa::find($config->cod_empresa)->first();
+            if ($empresa) {
+                $plan = Plan::find($empresa?->facturaVigente?->cod_plan);
 
                 // Clasificador IA (Mantenido igual)
                 // $etiqueta_contacto = EtiquetaContacto::where('estado', EtiquetaContacto::ACTIVO)->where('cod_contacto', $contacto->id)->get();
@@ -187,7 +200,7 @@ class WebhookMessage implements ShouldQueue
                             // Datos base del mensaje
                             $datos_chat = [
                                 'campaign_id' => null,
-                                'contact_id'  => $config->uuid,
+                                'contact_id'  => $contacto->id,
                                 'wa_message_id' => null,
                                 'wa_from' => $config->phone_number_id,
                                 'wa_to'   => $waFrom,
@@ -216,12 +229,12 @@ class WebhookMessage implements ShouldQueue
         Log::info("=== INICIO PROCESO CHATBOT === Tel: {$waFrom}");
 
         // 1. Buscar el flujo activo del usuario
-        $flow = ChatbotFlow::where('creado_por', $config->uuid)
+        $flow = ChatbotFlow::where('cod_empresa', $config->cod_empresa)
             ->where('estado', ChatbotFlow::ACTIVO)
             ->first();
 
         if (!$flow) {
-            Log::warning("CHATBOT: No se encontró flujo ACTIVO para el usuario UUID: {$config->uuid}");
+            Log::warning("CHATBOT: No se encontró flujo ACTIVO para el usuario UUID: {$config->cod_empresa}");
             return;
         }
         Log::info("CHATBOT: Flujo encontrado ID: {$flow->id}");
@@ -453,9 +466,11 @@ class WebhookMessage implements ShouldQueue
         Log::info("ENVIAR MENSAJE: Message extraido: " . substr($message, 0, 50) . "...");
         Log::info("ENVIAR MENSAJE: MediaURL extraido: " . ($mediaUrl ?? 'NULO'));
 
+        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$waFrom}%"])
+            ->where('cod_empresa', $config->cod_empresa)->first();
         // Datos base...
         $datos = [
-            'campaign_id' => null, 'contact_id' => $config->uuid, 'wa_message_id' => null,
+            'campaign_id' => null, 'contact_id' => $contacto->id, 'wa_message_id' => null,
             'wa_from' => $config->phone_number_id, 'wa_to' => $waFrom, 'type' => Mensaje::TEXTO,
             'body' => null, 'metadata' => null, 'estado' => Mensaje::ENVIADO, 'sent_at' => now(),
         ];

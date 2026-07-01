@@ -154,7 +154,7 @@ class Contacto extends Model
             ->exists() ? false : true;
     }
 
-    public function conversaciones()
+    public function conversacion()
     {
         return $this->hasOne(Conversacion::class, 'contacto_id', 'id');
     }

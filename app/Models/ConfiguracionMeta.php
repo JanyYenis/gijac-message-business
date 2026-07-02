@@ -22,6 +22,6 @@ class ConfiguracionMeta extends Model
         "token_1",
         "numero",
         "estado",
-        "uuid",
+        "cod_empresa",
     ];
 }

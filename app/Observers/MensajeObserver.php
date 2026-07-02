@@ -52,6 +52,7 @@ class MensajeObserver
 
     public function actualizarConversacion(Mensaje $mensaje)
     {
+        Log::info('contacto_id: '.$mensaje->contact_id);
         if (!$mensaje->contact_id) {
             return;
         }
@@ -61,9 +62,11 @@ class MensajeObserver
             [$mensaje->wa_from, $mensaje->wa_to]
         )->first();
 
+        Log::info('config: '.$config);
         if (!$config) {
             return;
         }
+
 
         // El mensaje viene del contacto
         $esMensajeEntrante = $mensaje->wa_from != $config->phone_number_id;

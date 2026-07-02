@@ -72,7 +72,7 @@ class ConfigController extends Controller
     public function store(StoreConfigRequest $request)
     {
         $datos = $request->all();
-        $datos['uuid'] = auth()->user()->empresa?->id;
+        $datos['cod_empresa'] = auth()->user()->empresa?->id;
         $datos['estado'] = ConfiguracionMeta::ACTIVO;
         $config = ConfiguracionMeta::create($datos);
 

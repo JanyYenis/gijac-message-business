@@ -133,7 +133,7 @@ class WebhookMessage implements ShouldQueue
         }
 
         if ($estado == Mensaje::ENVIADO && $waFrom != $config->phone_number_id) {
-            $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$waFrom}%"])
+            $contacto = Contacto::where("numero_completo", $waFrom)
                 ->where('cod_empresa', $config->cod_empresa)
                 ->first();
             if ($contacto) {
@@ -151,7 +151,7 @@ class WebhookMessage implements ShouldQueue
         }
 
         if ($estado == Mensaje::ENVIADO && $waFrom != $config->phone_number_id) {
-            $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$waFrom}%"])
+            $contacto = Contacto::where("numero_completo", $waFrom)
                 ->where('cod_empresa', $config->cod_empresa)
                 ->first();
             $nuevo_mensaje = Mensaje::where('wa_message_id', $waMsgId)->first();
@@ -466,7 +466,7 @@ class WebhookMessage implements ShouldQueue
         Log::info("ENVIAR MENSAJE: Message extraido: " . substr($message, 0, 50) . "...");
         Log::info("ENVIAR MENSAJE: MediaURL extraido: " . ($mediaUrl ?? 'NULO'));
 
-        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$waFrom}%"])
+        $contacto = Contacto::where("numero_completo", $waFrom)
             ->where('cod_empresa', $config->cod_empresa)->first();
         // Datos base...
         $datos = [

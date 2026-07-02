@@ -19,7 +19,7 @@ class Contacto extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $appends = ['nombre_completo', 'numero_completo', 'permiso_envio'];
+    protected $appends = ['nombre_completo', 'permiso_envio'];
 
     const TC_ESTADO = 'TC_ESTADO_GENERAL';
     const ACTIVO    = 1;
@@ -45,6 +45,7 @@ class Contacto extends Model
         'genero',
         'telefono',
         'codigo_telefono',
+        'numero_completo',
         'estado',
         'uuid',
         'cod_empresa',
@@ -65,6 +66,11 @@ class Contacto extends Model
 
         static::creating(function ($model) {
             $model->id = Str::uuid();
+        });
+        static::saving(function ($model) {
+            $model->numero_completo =
+                $model->codigo_telefono .
+                $model->telefono;
         });
     }
 
@@ -129,15 +135,15 @@ class Contacto extends Model
         return $nombre.' '.$apellido;
     }
 
-    public function getNumeroCompletoAttribute()
-    {
-        $tel = $this->telefono;
-        if ((int) substr($this->telefono, 0, strlen($this->codigo_telefono)) != $this->codigo_telefono) {
-            $tel = $this->codigo_telefono.$this->telefono;
-        }
+    // public function getNumeroCompletoAttribute()
+    // {
+    //     $tel = $this->telefono;
+    //     if ((int) substr($this->telefono, 0, strlen($this->codigo_telefono)) != $this->codigo_telefono) {
+    //         $tel = $this->codigo_telefono.$this->telefono;
+    //     }
 
-        return $tel;
-    }
+    //     return $tel;
+    // }
 
     public function getPermisoEnvioAttribute()
     {

@@ -164,7 +164,7 @@ class GeneralController extends Controller
             ], 404);
         }
 
-        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$telefono}%"])
+        $contacto = Contacto::where("numero_completo", $telefono)
             ->where(function($query) use($request, $usuario) {
                 $query->where('uuid', $request->input('user_id'))
                     ->orWhere('cod_empresa', $usuario->empresa?->id);

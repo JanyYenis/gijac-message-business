@@ -467,7 +467,7 @@ class MensajeController extends Controller
         }
 
         $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('phone_number_id', $this->phone_number_id)->first();
-        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$de}%"])
+        $contacto = Contacto::where("numero_completo", $de)
                 ->where('cod_empresa', $config->cod_empresa)
                 ->first();
         Conversacion::where('contacto_id', $contacto->id)
@@ -621,7 +621,7 @@ class MensajeController extends Controller
     {
         $contacto = Contacto::selectRaw('contactos.id as id, CONCAT(contactos.nombre, " ",contactos.apellido) as nombre_contacto,
             DATE(contactos.created_at) as fecha_creacion, estado_chatbot, estado_chatbot_ia, CONCAT(contactos.codigo_telefono, contactos.telefono) as numero')
-            ->whereRaw("CONCAT(codigo_telefono, '', telefono) LIKE ?", ["%{$contacto}%"])
+            ->where("numero_completo", $contacto)
             ->where('cod_empresa', $this->uuid)
             ->first();
 

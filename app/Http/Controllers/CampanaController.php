@@ -392,7 +392,7 @@ class CampanaController extends Controller
 
         $contactos = Contacto::selectRaw("contactos.id,
             CONCAT(contactos.nombre, ' ', COALESCE(contactos.apellido, '')) AS nombre_completo_select,
-            CONCAT(contactos.codigo_telefono, '', contactos.telefono) AS numero_completo_select,
+            numero_completo AS numero_completo_select,
             GROUP_CONCAT(e.nombre SEPARATOR ',') as etiquetas_texto
             ")
             ->leftJoin('etiquetas_contactos as ec', 'ec.cod_contacto', '=', 'contactos.id')

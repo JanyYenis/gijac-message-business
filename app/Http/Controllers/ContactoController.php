@@ -49,7 +49,7 @@ class ContactoController extends Controller
         $contactos = Contacto::selectRaw(
             "contactos.id,
             CONCAT(contactos.nombre, ' ', COALESCE(contactos.apellido, '')) AS nombre_completo_select,
-            CONCAT(contactos.codigo_telefono, '', contactos.telefono) AS numero_completo_select,
+            numero_completo AS numero_completo_select,
             cp.nombre as genero,
             contactos.tratamiento_datos,
             contactos.estado"
@@ -58,14 +58,14 @@ class ContactoController extends Controller
         ->join('tipos_conceptos as tc', 'tc.id', '=', 'cp.id_tipo')
         ->where('tc.nombre', Contacto::TC_GENERO_USUARIOS)
         ->where('contactos.estado', '!=', Contacto::ELIMINADO)
-        ->where('uuid', $this->uuid);
+        ->where('cod_empresa', $this->uuid);
 
         return DataTables::eloquent($contactos)
             ->filterColumn('nombre_completo_select', function($query, $keyword) {
                 $query->whereRaw("CONCAT(contactos.nombre, ' ', COALESCE(contactos.apellido, '')) LIKE ?", ["%{$keyword}%"]);
             })
             ->filterColumn('numero_completo_select', function($query, $keyword) {
-                $query->whereRaw("CONCAT(contactos.codigo_telefono, '', contactos.telefono) LIKE ?", ["%{$keyword}%"]);
+                $query->whereRaw("numero_completo LIKE ?", ["%{$keyword}%"]);
             })
             ->addColumn('numero_completo_select', function($model) {
                 return $model?->numero_completo_select ? formatoTelefono($model->numero_completo_select) : 'N/A';

@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["TU_TEAM_ID.com.example.gmb"],
+        "components": [
+          {
+            "/": "/device-link/*"
+          }
+        ]
+      }
+    ]
+  }
+}

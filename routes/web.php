@@ -121,6 +121,19 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(f
         ->name('login-qr');
 });
 
+Route::get('/device-link', function () {
+    $token = request()->query('token');
+    $server = request()->query('server');
+
+    // Si no hay token, redirigir al inicio
+    if (!$token) {
+        return redirect('/');
+    }
+
+    // Página bonita que se ve al escanear desde fuera de la app
+    return view('device-link', compact('token', 'server'));
+});
+
 Route::get('/epayco/bancos', [EpaycoController::class, 'obtenerBancos'])
         ->withoutMiddleware(['auth']);
 Route::post('/epayco/pago', [EpaycoController::class, 'transaccionPse'])

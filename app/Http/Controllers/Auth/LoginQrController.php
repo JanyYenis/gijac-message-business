@@ -20,10 +20,7 @@ class LoginQrController extends Controller
             'expira_en' => now()->addMinutes(2),
         ]);
 
-        $qrData = json_encode([
-            'token' => $token,
-            'server' => config('app.url')
-        ]);
+        $qrData = config('app.url') . '/device-link?token=' . urlencode($token) . '&server=' . urlencode(config('app.url'));
 
         $info['qr'] = QrCode::size(300)->generate($qrData);
 

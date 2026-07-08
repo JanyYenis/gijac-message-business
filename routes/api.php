@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Apis\Mobile\AuthController;
 use App\Http\Controllers\ChatbotController;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -38,6 +39,23 @@ if (config('app.env') === 'local') {
         ]);
     });
 }
+
+Route::prefix('mobile')->group(function () {
+
+    // Rutas protegidas por token móvil
+    Route::middleware('mobile.auth')->group(function () {
+
+        // Perfil del usuario
+        Route::get('/profile', [AuthController::class, 'getProfile']);
+
+        // Cerrar sesión
+        Route::post('/logout', [AuthController::class, 'logout']);
+
+        // Aquí irán las demás rutas protegidas...
+        // Route::get('/chats', [ChatController::class, 'index']);
+        // Route::get('/notifications', [NotificationController::class, 'index']);
+    });
+});
 
 include 'apis/movil/principal.php';
 include 'apis/general/principal.php';

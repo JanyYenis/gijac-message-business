@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'validaracceso' => \App\Http\Middleware\ValidadAcceso::class,
         '2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
         'verify.company' => \App\Http\Middleware\VerifyCompany::class,
+        'mobile.auth' => \App\Http\Middleware\MobileAuth::class,
     ];
 
     protected $routeMiddleware = [

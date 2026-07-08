@@ -5,7 +5,7 @@ namespace App\DTO;
 class ParsedWhatsAppMessage
 {
     public function __construct(
-        public readonly ?string $tipo,
+        public readonly ?int $tipo,
         public readonly ?string $body,
         public readonly ?string $header,
         public readonly ?string $tipoHeader,

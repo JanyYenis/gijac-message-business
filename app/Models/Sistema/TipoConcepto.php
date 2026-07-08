@@ -6,6 +6,8 @@ use App\Classes\Models\Model;
 
 class TipoConcepto extends Model
 {
+    public $timestamps = false;
+
     const ACTIVO = 1;
     const INACTIVO = 0;
 
@@ -25,7 +27,7 @@ class TipoConcepto extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'activo',
+        'estado',
         // 'tabla',
     ];
 

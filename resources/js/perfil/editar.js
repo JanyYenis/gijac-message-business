@@ -11,7 +11,6 @@ $(function () {
     generalidades.validarFormulario(formEditarUsuario, enviarDatos);
 });
 
-
 const iniciarComponentes = (form = "") => {
     generalidades.initTelefonoInput(`${form} #tel`);
 
@@ -86,6 +85,48 @@ const iniciarComponentes = (form = "") => {
         }
     });
     $('#selectPaisEdit').trigger('change');
+
+    $('#changePhotoBtn, #profilePhoto').on('click', function (e) {
+        e.preventDefault();
+        $('#photoInput').trigger('click');
+    });
+
+    $('#photoInput').on('change', function () {
+
+        const file = this.files[0];
+
+        if (!file) {
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#profilePhoto').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+
+        const formData = new FormData();
+        formData.append('foto', file);
+
+        $.ajax({
+            url: '/perfil/foto',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                generalidades.toastrGenerico(response?.estado, response?.mensaje);
+            },
+            error: function (response) {
+                generalidades.toastrGenerico(response?.estado, response?.mensaje);
+            }
+        });
+    });
 }
 
 const enviarDatos = (form) => {

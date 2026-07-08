@@ -18,7 +18,8 @@ use App\Models\Plantilla;
 use App\Models\PlantillaComponente;
 use App\Models\Usuario;
 use App\Notifications\NuevaCampana;
-use App\Services\PrediccionContenidoService;
+use App\Services\AI\CampanaAiService;
+use App\Services\Campanas\PrediccionContenidoService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -194,11 +195,20 @@ class CampanaController extends Controller
             if ($extension == '') {
                 throw new ErrorException('Error al intentar crear la imagen de la campaña.');
             }
-            $rutaDestino = "descargas/meta_".time().$extension; // Ruta donde guardar
+            $nombreArchivo = 'meta_' . time() . $extension;
+            $rutaDestino = "descargas/{$nombreArchivo}";
 
-            file_put_contents($rutaDestino, file_get_contents($url));
-            $variablesMensaje['file'] = asset($rutaDestino);
-            $datos['contenido_multimedia'] = asset($rutaDestino);
+            // Descargar y guardar
+            Storage::disk('public')->put(
+                $rutaDestino,
+                file_get_contents($url)
+            );
+
+            // URL pública
+            $urlArchivo = Storage::disk('public')->url($rutaDestino);
+
+            $variablesMensaje['file'] = $urlArchivo;
+            $datos['contenido_multimedia'] = $urlArchivo;
         } else {
             $variablesMensaje['file'] = null;
             $datos['contenido_multimedia'] = null;
@@ -587,11 +597,20 @@ class CampanaController extends Controller
             if ($extension == '') {
                 throw new ErrorException('Error al intentar crear la imagen de la campaña.');
             }
-            $rutaDestino = "descargas/meta_".time().$extension; // Ruta donde guardar
+            $nombreArchivo = 'meta_' . time() . $extension;
+            $rutaDestino = "descargas/{$nombreArchivo}";
 
-            file_put_contents($rutaDestino, file_get_contents($url));
-            $variablesMensaje['file'] = asset($rutaDestino);
-            $datos['contenido_multimedia'] = asset($rutaDestino);
+            // Descargar y guardar
+            Storage::disk('public')->put(
+                $rutaDestino,
+                file_get_contents($url)
+            );
+
+            // URL pública
+            $urlArchivo = Storage::disk('public')->url($rutaDestino);
+
+            $variablesMensaje['file'] = $urlArchivo;
+            $datos['contenido_multimedia'] = $urlArchivo;
         } else {
             $variablesMensaje['file'] = null;
             $datos['contenido_multimedia'] = null;
@@ -934,14 +953,31 @@ class CampanaController extends Controller
     }
 
     // Inyección automática en el método
-    public function predecir(Request $request, PrediccionContenidoService $prediccionService)
-    {
-        $resultado = $prediccionService->predecirApertura(
-            explode(',', $request->contactos_ids),
-            $request->contenido_mensaje,
-            $request->nombre_campana
+    public function predecir(
+        Request $request,
+        PrediccionContenidoService $service
+    ) {
+
+        $contactos = Contacto::query()
+            ->with('enviosCampanas')
+            ->whereIn(
+                'id',
+                explode(',', $request->contactos_ids)
+            )
+            ->get();
+
+        $resultado = $service->predecirCampana(
+            $contactos->all(),
+            $request->contenido_mensaje
         );
 
+        $analisisIa = app(CampanaAiService::class)
+        ->analizar(
+            $request->contenido_mensaje,
+            $resultado
+        );
+
+        dd($analisisIa, $resultado);
         return response()->json($resultado);
     }
 }

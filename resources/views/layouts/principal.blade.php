@@ -29,6 +29,7 @@
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/chatbot-n8n.css') }}">
 </head>
 
 @section('css')
@@ -151,6 +152,7 @@
     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/custom/widgets.js') }}"></script>
+    <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js') }}"></script>
     <script src="{{ mix('/js/app.js') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
@@ -159,14 +161,11 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
     <script src="{{ mix('js/jquery-validator.init.js') }}"></script>
 
-    <link rel="stylesheet" href="{{ asset('css/chatbot-n8n.css') }}">
     <script type="module">
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
         createChat({
-            webhookUrl: 'https://n8n.gijac.com/webhook/12f759d2-871b-4021-9e9b-04d443443aa9/chat',
-            // webhookUrl: 'http://localhost:5678/webhook/141808e4-72e6-4927-889c-3a8abaec79cc/chat',
-            // webhookUrl: 'https://jany1207.app.n8n.cloud/webhook/d2081356-62b0-4cac-970e-58d070efc7fe/chat',
+            webhookUrl: 'https://n8n.gijac.com/webhook/2cc503de-973b-4f46-b516-d5d9708bd4ec/chat',
             webhookConfig: {
                 method: 'POST',
                 headers: {}

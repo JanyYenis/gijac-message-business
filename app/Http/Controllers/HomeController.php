@@ -72,7 +72,7 @@ class HomeController extends Controller
                 if ($request->input('contactos')) {
                     $query->whereIn('envios_campanas.cod_contacto', $request->input('contactos'));
                 }
-                $query->where('c.uuid', $this->uuid);
+                $query->where('c.cod_empresa', $this->uuid);
             })
             ->orderBy('rango_horas')
             ->groupBy('rango_horas')
@@ -108,7 +108,7 @@ class HomeController extends Controller
                     if ($request->input('etiquetas')) {
                         $query->whereIn('cod_etiqueta', $request->input('etiquetas'));
                     }
-                    $query->where('campanas.uuid', $this->uuid);
+                    $query->where('campanas.cod_empresa', $this->uuid);
                 });
             })
             ->where(function($query) use($request){
@@ -127,7 +127,7 @@ class HomeController extends Controller
             $seriesEtiquetas['colores'][] = $dato?->color ?? 0;
         }
 
-        $cantidad_campanas = Campana::where('uuid', $this->uuid)
+        $cantidad_campanas = Campana::where('cod_empresa', $this->uuid)
             ->whereBetween('fecha_envio', [$fechas[0].' 00:00:00', $fechas[1].' 23:59:59'])
             ->where(function ($query) use ($request) {
                 if ($request->input('etiquetas')) {
@@ -141,21 +141,21 @@ class HomeController extends Controller
             })
             ->whereNot('estado', Campana::ELIMINADO)
             ->count();
-        $cantidad_contactos = Contacto::where('uuid', $this->uuid)
+        $cantidad_contactos = Contacto::where('cod_empresa', $this->uuid)
             ->whereNot('estado', Contacto::ELIMINADO)
-            ->whereHas('etiquetasActivas', function($query) use($request) {
+            ->orWhereHas('etiquetasActivas', function($query) use($request) {
                 if ($request->input('etiquetas')) {
                     $query->whereIn('cod_etiqueta', $request->input('etiquetas'));
                 }
             })
             ->where(function($query) use($request){
                 if ($request->input('contactos')) {
-                    $query->whereIn('uuid', $request->input('contactos'));
+                    $query->whereIn('id', $request->input('contactos'));
                 }
             })
             ->count();
         $cantidad_envios = EnvioCampana::whereHas('campana', function($query) use($fechas, $request) {
-                $query->where('uuid', $this->uuid)
+                $query->where('cod_empresa', $this->uuid)
                     ->where('estado', Campana::ENVIADO)
                     ->whereBetween('fecha_envio', [$fechas[0].' 00:00:00', $fechas[1].' 23:59:59']);
                 if ($request->input('etiquetas')) {
@@ -170,7 +170,7 @@ class HomeController extends Controller
             ->where('estado', EnvioCampana::ACTIVO)
             ->count();
         $cantidad_aperturas = EnvioCampana::whereHas('campana', function($query) use($fechas, $request) {
-                $query->where('uuid', $this->uuid)
+                $query->where('cod_empresa', $this->uuid)
                     ->where('estado', Campana::ENVIADO)
                     ->whereBetween('fecha_envio', [$fechas[0].' 00:00:00', $fechas[1].' 23:59:59']);
                 if ($request->input('etiquetas')) {
@@ -189,7 +189,7 @@ class HomeController extends Controller
         $cantidad_efectividad = $cantidad_aperturas && $cantidad_envios ? ($cantidad_aperturas / $cantidad_envios) * 100 : 0;
 
         $resultados = EnvioCampana::whereHas('campana', function($query) use($fechas, $request) {
-            $query->where('c.uuid', $this->uuid)
+            $query->where('c.cod_empresa', $this->uuid)
                 ->where('c.estado', Campana::ENVIADO)
                 ->whereBetween('c.fecha_envio', [$fechas[0].' 00:00:00', $fechas[1].' 23:59:59']);
             if ($request->input('etiquetas')) {
@@ -227,7 +227,7 @@ class HomeController extends Controller
         $response['alcance'] = EnvioCampana::with('campana')
             ->whereHas('campana', function($query) use($fechas, $request) {
                 $query->whereBetween('fecha_envio', [$fechas[0].' 00:00:00', $fechas[1].' 23:59:59']);
-                $query->where('uuid', $this->uuid);
+                $query->where('cod_empresa', $this->uuid);
                 if ($request->input('etiquetas')) {
                     $query->whereIn('cod_etiqueta', $request->input('etiquetas'));
                 }
@@ -273,7 +273,7 @@ class HomeController extends Controller
             MONTH(fecha_envio) as mes,
             COUNT(*) as total
         ')
-        ->where('uuid', $this->uuid)
+        ->where('cod_empresa', $this->uuid)
         ->whereBetween('fecha_envio', [$fechas[0].' 00:00:00', $fechas[1].' 23:59:59'])
         ->where(function ($query) use ($request) {
             if ($request->input('etiquetas')) {

@@ -333,28 +333,35 @@ class ContactoController extends Controller
         $contactos = Contacto::selectRaw('
             contactos.id,
             CONCAT(contactos.nombre," ", COALESCE(contactos.apellido, "")) as text,
-            CONCAT(contactos.codigo_telefono, contactos.telefono) AS numero_cliente,
+            contactos.numero_completo AS numero_cliente,
+            contactos.cod_empresa AS cod_empresa,
 
             -- Tasa de apertura: aperturas / total enviados * 100
-            (
-                SELECT
-                    ROUND((SUM(CASE WHEN apertura = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2)
-                FROM envios_campanas ec
-                WHERE ec.cod_contacto = contactos.id
+            COALESCE(
+                (
+                    SELECT
+                        ROUND((SUM(CASE WHEN apertura = 1 THEN 1 ELSE 0 END) / COUNT(*)) * 100, 2)
+                    FROM envios_campanas ec
+                    WHERE ec.cod_contacto = contactos.id
+                ),
+                0
             ) AS tasa_apertura,
 
             -- Última fecha de apertura del usuario
-            (
-                SELECT fecha_apertura
-                FROM envios_campanas ec2
-                WHERE ec2.cod_contacto = contactos.id
-                    AND ec2.apertura = 1
-                ORDER BY ec2.fecha_apertura DESC
-                LIMIT 1
+            COALESCE(
+                (
+                    SELECT fecha_apertura
+                    FROM envios_campanas ec2
+                    WHERE ec2.cod_contacto = contactos.id
+                        AND ec2.apertura = 1
+                    ORDER BY ec2.fecha_apertura DESC
+                    LIMIT 1
+                ),
+                "Sin aperturas"
             ) AS ultima_apertura
         ')
         ->where('contactos.estado', Contacto::ACTIVO)
-        ->where('contactos.uuid', $this->uuid)
+        ->where('contactos.cod_empresa', $this->uuid)
         ->orderBy('text')
         ->get();
 

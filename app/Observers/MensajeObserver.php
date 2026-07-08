@@ -6,7 +6,6 @@ use App\Models\ConfiguracionMeta;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class MensajeObserver
 {
@@ -52,7 +51,6 @@ class MensajeObserver
 
     public function actualizarConversacion(Mensaje $mensaje)
     {
-        Log::info('contacto_id: '.$mensaje->contact_id);
         if (!$mensaje->contact_id) {
             return;
         }
@@ -62,7 +60,6 @@ class MensajeObserver
             [$mensaje->wa_from, $mensaje->wa_to]
         )->first();
 
-        Log::info('config: '.$config);
         if (!$config) {
             return;
         }

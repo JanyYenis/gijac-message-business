@@ -187,7 +187,7 @@ class ChatController extends Controller
 
         $filename = null;
 
-        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, telefono) = {$request->input('id')}")->first();
+        $contacto = Contacto::whereRaw("numero_completo = {$request->input('id')}")->first();
         if (!$contacto) {
             return [
                 'estado' => 'error',

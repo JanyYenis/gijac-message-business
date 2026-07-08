@@ -152,24 +152,44 @@ class UsuarioController extends Controller
             throw new ErrorException('Error al intentar actualizar el usuario.');
         }
 
-        $image = $request->file('avatar') ?? null;
-        if ($image) {
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('perfil', $imageName, 'public');
-            $datos['foto'] = url(Storage::url($path));
-            $usuario = Usuario::find($request->input('id'));
-            if (count($datos)) {
-                $actualizar = $usuario->update($datos);
-                if (!$actualizar) {
-                    throw new ErrorException("No se ha actualizado la imagen.");
-                }
-            }
-        }
+        // $image = $request->file('avatar') ?? null;
+        // if ($image) {
+        //     $imageName = time() . '.' . $image->getClientOriginalExtension();
+        //     $path = $image->storeAs('perfil', $imageName, 'public');
+        //     $datos['foto'] = url(Storage::url($path));
+        //     $usuario = Usuario::find($request->input('id'));
+        //     if (count($datos)) {
+        //         $actualizar = $usuario->update($datos);
+        //         if (!$actualizar) {
+        //             throw new ErrorException("No se ha actualizado la imagen.");
+        //         }
+        //     }
+        // }
 
         return [
             'estado' => 'success',
             'mensaje' => 'Se actualizo correctamente el usuario.',
         ];
+    }
+
+    public function actualizarFoto(Request $request)
+    {
+        $request->validate([
+            'foto' => 'required|image|max:2048'
+        ]);
+
+        $ruta = $request->file('foto')
+            ->store('perfil', 'public');
+
+        auth()->user()->update([
+            'foto' => 'storage/' . $ruta
+        ]);
+
+        return response()->json([
+            'estado' => 'success',
+            'mensaje' => 'Se actualizo correctamente la foto',
+            'foto' => asset('storage/' . $ruta)
+        ]);
     }
 
     public function show(Request $request)

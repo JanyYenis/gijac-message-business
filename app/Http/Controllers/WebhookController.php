@@ -60,7 +60,7 @@ class WebhookController extends Controller
             $datos = $bodyContent['entry'][0]['changes'][0]['value'];
             if (array_key_exists('contacts', $datos)) {
                 $telefono = $datos['contacts'][0]['wa_id'];
-                $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, telefono) = ?", [$telefono])?->first() ?? null;
+                $contacto = Contacto::whereRaw("numero_completo = ?", [$telefono])?->first() ?? null;
                 if (!$contacto) {
                     dispatch(new WebhookContacts($datos, $app_id));
                 }

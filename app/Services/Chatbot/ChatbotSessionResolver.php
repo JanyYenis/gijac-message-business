@@ -3,7 +3,6 @@
 namespace App\Services\Chatbot;
 
 use App\Models\Chatbots\{ChatbotConnection, ChatbotFlow, ChatbotNode, ChatbotNodeConfig, ChatbotSession};
-use Illuminate\Support\Facades\Log;
 
 class ChatbotSessionResolver
 {

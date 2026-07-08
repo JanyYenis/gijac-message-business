@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class MessageStore
 {
-    public function guardarEntrante(array $mensajeData, ParsedWhatsAppMessage $parsed, string $waFrom, ?string $waTo, string $waMsgId, string $estado, Carbon $sentAt, ?int $contactId): Mensaje
+    public function guardarEntrante(array $mensajeData, ParsedWhatsAppMessage $parsed, string $waFrom, ?string $waTo, string $waMsgId, int $estado, Carbon $sentAt, ?string $contactId): Mensaje
     {
         return Mensaje::updateOrCreate(['wa_message_id' => $waMsgId], [
             'wa_from' => $waFrom,

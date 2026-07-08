@@ -135,19 +135,9 @@ class Contacto extends Model
         return $nombre.' '.$apellido;
     }
 
-    // public function getNumeroCompletoAttribute()
-    // {
-    //     $tel = $this->telefono;
-    //     if ((int) substr($this->telefono, 0, strlen($this->codigo_telefono)) != $this->codigo_telefono) {
-    //         $tel = $this->codigo_telefono.$this->telefono;
-    //     }
-
-    //     return $tel;
-    // }
-
     public function getPermisoEnvioAttribute()
     {
-        $uuid = auth()->user()?->empresa?->id ?? null;
+        $uuid = $this->cod_empresa ?? null;
         $configuracion_meta = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
             ->where('cod_empresa', $uuid)
             ->first();

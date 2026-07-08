@@ -95,6 +95,8 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(f
     // Perfil de usuario
     Route::get('/perfil', [UsuarioController::class, 'show'])
         ->name('perfil');
+    Route::post('/perfil/foto', [UsuarioController::class, 'actualizarFoto'])
+        ->name('perfil.foto');
     Route::post('/perfil/{usuario}/actualizar', [UsuarioController::class, 'update'])
         ->name('perfil.update');
     Route::put('/perfil/{usuario}/actualizar/email', [UsuarioController::class, 'actualizarEmail'])

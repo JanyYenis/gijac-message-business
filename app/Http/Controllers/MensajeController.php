@@ -169,7 +169,7 @@ class MensajeController extends Controller
 
         $filename = null;
 
-        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, telefono) = {$request->input('id')}")->first();
+        $contacto = Contacto::whereRaw("numero_completo = {$request->input('id')}")->first();
         if (!$contacto) {
             return [
                 'estado' => 'error',
@@ -200,8 +200,11 @@ class MensajeController extends Controller
 
             $idArchivo = time();
             $nombreOriginal = $idArchivo . '.jpg';
-            $rutaImagen = public_path('img/chat/' . $nombreOriginal);
-            file_put_contents($rutaImagen, $data);
+            $path = 'chats/img/' . $nombreOriginal;
+            Storage::disk('public')->put(
+                "chats/img/{$nombreOriginal}",
+                $data
+            );
 
             $datos['metadata'] = (object) [
                 "from" => $this->phone_number_id,
@@ -244,7 +247,7 @@ class MensajeController extends Controller
                     throw new ErrorException('El archivo excede el tamaño máximo permitido de 100MB.');
                 }
                 $nombreOriginal = $nombreOriginal . '.' . $extension;
-                $path = $archivo->storeAs('campanas/documentos', $nombreOriginal, 'public');
+                $path = $archivo->storeAs('chats/documentos', $nombreOriginal, 'public');
                 $datos['metadata'] = (object) [
                     "from" => $this->phone_number_id,
                     "id" => null,
@@ -266,7 +269,7 @@ class MensajeController extends Controller
                     throw new ErrorException('El archivo excede el tamaño máximo permitido de 5MB.');
                 }
                 $nombreOriginal = $nombreOriginal . '.jpg';
-                $path = $archivo->storeAs('campanas/img', $nombreOriginal, 'public');
+                $path = $archivo->storeAs('chats/img', $nombreOriginal, 'public');
                 $datos['metadata'] = (object) [
                     "from" => $this->phone_number_id,
                     "id" => null,
@@ -286,7 +289,7 @@ class MensajeController extends Controller
                 if ($archivo->getSize() > $maxSize) {
                     throw new ErrorException('El archivo excede el tamaño máximo permitido de 16MB.');
                 }
-                $path = $archivo->storeAs('campanas/videos', $nombreOriginal, 'public');
+                $path = $archivo->storeAs('chats/videos', $nombreOriginal, 'public');
                 $datos['metadata'] = (object) [
                     "from" => $this->phone_number_id,
                     "id" => null,
@@ -347,7 +350,7 @@ class MensajeController extends Controller
             }
 
             // Guardar en storage/app/public/audios/chat
-            $storagePath = 'audios/chat/' . $filename . '.ogg';
+            $storagePath = 'chats/audios/' . $filename . '.ogg';
 
             Storage::disk('public')->put(
                 $storagePath,

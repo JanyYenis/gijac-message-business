@@ -98,6 +98,8 @@ mix.js("resources/js/contactarnos/principal.js", "public/js/contactarnos/princip
 // CHATBOT
 mix.js("resources/js/chatbots/principal.js", "public/js/chatbots/principal.js");
 mix.js("resources/js/chatbots/nodos/principal.js", "public/js/chatbots/nodos/principal.js");
+mix.js("resources/js/chatbots/n8n/principal.js", "public/js/chatbots/n8n/principal.js");
+mix.js("resources/js/chatbots/n8n/crear.js", "public/js/chatbots/n8n/crear.js");
 
 // CLASIFICACION CON IA
 mix.js("resources/js/clasificacion-ia/principal.js", "public/js/clasificacion-ia/principal.js");

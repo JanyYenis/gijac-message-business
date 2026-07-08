@@ -40,7 +40,7 @@ class WebhookContacts implements ShouldQueue
         $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('app_id', $app_id)->first();
         $nombre = $datos['contacts'][0]['profile']['name'] ?? 'Sin nombre';
         $telefono = $datos['contacts'][0]['wa_id'];
-        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, telefono) = ?", [$telefono])?->first() ?? null;
+        $contacto = Contacto::whereRaw("numero_completo = ?", [$telefono])?->first() ?? null;
         if (!$contacto) {
             if (!str_starts_with($telefono, '+')) {
                 $telefono = '+' . $telefono;

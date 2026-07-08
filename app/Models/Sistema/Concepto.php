@@ -6,6 +6,8 @@ use App\Classes\Models\Model;
 
 class Concepto extends Model
 {
+    public $timestamps = false;
+
     const ACTIVO = 1;
     const INACTIVO = 0;
 
@@ -19,10 +21,10 @@ class Concepto extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
         'id_tipo',
         'codigo',
         'nombre',
+        'nombre_corto',
         'estado',
         'color',
         'icono'

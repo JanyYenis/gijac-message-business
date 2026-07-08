@@ -56,7 +56,7 @@
                     {{-- IMAGEN --}}
                     @if ($mensaje['type'] == \App\Models\Mensaje::IMAGEN)
                         @if (!empty($mensaje['metadata']['image']['id']))
-                            <img src="{{ asset('img/chat/' . $mensaje['metadata']['image']['id'] . '.jpg') }}"
+                            <img src="{{ asset('storage/chats/img/' . $mensaje['metadata']['image']['id'] . '.jpg') }}"
                                 alt="{{ $mensaje['metadata']['image']['caption'] ?? 'imagen' }}"
                                 style="border-radius: 1rem;" class="mb-2">
                         @else
@@ -68,7 +68,7 @@
                     {{-- VIDEO --}}
                     @elseif ($mensaje['type'] == \App\Models\Mensaje::VIDEO)
                         @if (!empty($mensaje['metadata']['video']['id']))
-                            <video src="{{ asset('videos/chat/' . $mensaje['metadata']['video']['id'] . '.mp4') }}"
+                            <video src="{{ asset('storage/chats/videos/' . $mensaje['metadata']['video']['id'] . '.mp4') }}"
                                 controls style="border-radius: 1rem; width: 100%;" class="mb-2"></video>
                         @else
                             <video src="{{ $mensaje['body'] }}" controls style="border-radius: 1rem; width: 100%;"
@@ -83,7 +83,7 @@
                             $nombre = $array[count($array) - 1];
                         @endphp
                         <div style="background-color: #e3e3e3; padding: 1rem; margin-bottom: 1rem; border-radius: 0.2rem;">
-                            <a href="{{ asset('documentos/chat/'.$nombre) }}" target="_blank" class="text-dark fs-3">
+                            <a href="{{ asset('storage/chats/documentos/'.$nombre) }}" target="_blank" class="text-dark fs-3">
                                 @if (str_contains($nombre, '.xlsx') || str_contains($nombre, '.xls'))
                                     <i class="fs-1 far fa-file-excel text-primary"></i>
                                 @elseif (str_contains($nombre, '.doc') || str_contains($nombre, '.docx'))
@@ -218,7 +218,7 @@
                     {{-- MEDIOS --}}
                     @if ($mensaje['type'] == \App\Models\Mensaje::IMAGEN || ($mensaje['type'] == \App\Models\Mensaje::PLANTILLA && $mensaje['metadata']['tipo_header'] == \App\Models\Mensaje::IMAGEN))
                         @if (!empty($mensaje['metadata']['image']['id']))
-                            <img src="{{ asset('img/chat/' . $mensaje['metadata']['image']['id'] . '.jpg') }}"
+                            <img src="{{ asset('storage/chats/img/' . $mensaje['metadata']['image']['id'] . '.jpg') }}"
                                 alt="{{ $mensaje['metadata']['image']['caption'] ?? 'imagen' }}"
                                 style="border-radius: 1rem;" class="mb-2">
                         @elseif (!empty($mensaje['metadata']['header']))
@@ -231,7 +231,7 @@
                         @endif
                     @elseif ($mensaje['type'] == \App\Models\Mensaje::VIDEO || ($mensaje['type'] == \App\Models\Mensaje::PLANTILLA && $mensaje['metadata']['tipo_header'] == \App\Models\Mensaje::VIDEO))
                         @if (!empty($mensaje['metadata']['video']['id']))
-                            <video src="{{ asset('videos/chat/' . $mensaje['metadata']['video']['id'] . '.mp4') }}"
+                            <video src="{{ asset('storage/chats/videos/' . $mensaje['metadata']['video']['id'] . '.mp4') }}"
                                 controls style="border-radius: 1rem; width: 100%;" class="mb-2"></video>
                         @elseif (!empty($mensaje['metadata']['header']))
                             <video src="{{ $mensaje['metadata']['header'] }}"
@@ -255,7 +255,7 @@
                                 $url = $mensaje['metadata']['document']['id'] ?? $mensaje['body'];
                                 $array = explode('/', $mensaje['metadata']['document']['filename']);
                                 $nombre = $array[count($array) - 1];
-                                $url = asset('documentos/chat/'.$nombre);
+                                $url = asset('storage/chats/documentos/'.$nombre);
                             @endphp
                         @endif
                         <div style="background-color: #e3e3e3; padding: 1rem; margin-bottom: 1rem; border-radius: 0.2rem;">

@@ -37,7 +37,7 @@ class WebhookUserPreferences implements ShouldQueue
     public function user_preferences($datos, $app_id)
     {
         $telefono = $datos['user_preferences'][0]['wa_id'];
-        $contacto = Contacto::whereRaw("CONCAT(codigo_telefono, telefono) = ?", [$telefono])?->first() ?? null;
+        $contacto = Contacto::whereRaw("numero_completo = ?", [$telefono])?->first() ?? null;
         if ($contacto) {
             PreferenciaContacto::create([
                 'cod_contacto' => $contacto?->id,

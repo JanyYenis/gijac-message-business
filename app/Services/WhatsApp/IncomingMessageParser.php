@@ -4,16 +4,17 @@ namespace App\Services\WhatsApp;
 
 use App\DTO\ParsedWhatsAppMessage;
 use App\Models\Mensaje;
+use Illuminate\Support\Facades\Storage;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
 class IncomingMessageParser
 {
-    public function parse(array $mensajeData, string $tipoMapped, string $tipoOriginal, WhatsAppCloudApi $api): ParsedWhatsAppMessage
+    public function parse(array $mensajeData, int $tipoMapped, string $tipoOriginal, WhatsAppCloudApi $api): ParsedWhatsAppMessage
     {
         return match (true) {
             $tipoMapped === Mensaje::TEXTO => $this->parseTexto($mensajeData),
-            $tipoMapped === Mensaje::IMAGEN => $this->parseMedia($mensajeData, 'image', 'img/chat', 'jpg', $api),
-            $tipoMapped === Mensaje::VIDEO  => $this->parseMedia($mensajeData, 'video', 'videos/chat', 'mp4', $api),
+            $tipoMapped === Mensaje::IMAGEN => $this->parseMedia($mensajeData, 'image', 'chats/img', 'jpg', $api),
+            $tipoMapped === Mensaje::VIDEO  => $this->parseMedia($mensajeData, 'video', 'chats/videos', 'mp4', $api),
             $tipoMapped === Mensaje::DOCUMENTO => $this->parseDocumento($mensajeData, $api),
             $tipoMapped === Mensaje::AUDIO  => $this->parseAudio($mensajeData, $api),
             $tipoOriginal === 'interactive'  => $this->parseInteractive($mensajeData),
@@ -35,8 +36,14 @@ class IncomingMessageParser
 
         if ($idMedia) {
             $response = $api->downloadMedia($idMedia);
-            file_put_contents(public_path("{$dir}/{$idMedia}.{$ext}"), $response->body());
-            $header = asset("{$dir}/{$idMedia}.{$ext}");
+            Storage::disk('public')->put(
+                "chats/{$dir}/{$idMedia}.{$ext}",
+                $response->body()
+            );
+
+            $header = Storage::disk('public')->url(
+                "{$dir}/{$idMedia}.{$ext}"
+            );
         }
 
         $tipoMapped = match ($key) {
@@ -55,8 +62,14 @@ class IncomingMessageParser
 
         if ($idMedia) {
             $response = $api->downloadMedia($idMedia);
-            file_put_contents(public_path("documentos/chat/{$nombreDoc}"), $response->body());
-            $header = asset("documentos/chat/{$nombreDoc}");
+            Storage::disk('public')->put(
+                "chats/documentos/{$nombreDoc}",
+                $response->body()
+            );
+
+            $header = Storage::disk('public')->url(
+                "chats/documentos/{$nombreDoc}"
+            );
         }
 
         return new ParsedWhatsAppMessage(Mensaje::DOCUMENTO, $d['document']['caption'] ?? null, $header, 'DOCUMENT', null, $idMedia);
@@ -69,8 +82,14 @@ class IncomingMessageParser
 
         if ($idMedia) {
             $response = $api->downloadMedia($idMedia);
-            file_put_contents(public_path("audios/chat/{$idMedia}.mp3"), $response->body());
-            $header = asset("audios/chat/{$idMedia}.mp3");
+            Storage::disk('public')->put(
+                "chats/audios/{$idMedia}.mp3",
+                $response->body()
+            );
+
+            $header = Storage::disk('public')->url(
+                "chats/audios/{$idMedia}.mp3"
+            );
         }
 
         return new ParsedWhatsAppMessage(Mensaje::AUDIO, $header, $header, 'AUDIO', null, $idMedia);

@@ -3,14 +3,18 @@
 namespace App\Jobs;
 
 use App\DTO\ParsedWhatsAppMessage;
+use App\Models\AutomatizacionN8n;
 use App\Models\Chatbots\ChatbotFlow;
 use App\Models\ConfiguracionMeta;
 use App\Models\Contacto;
 use App\Models\Empresa;
 use App\Models\Mensaje;
 use App\Models\Plan;
+use App\Services\AI\AudioTranscriptionService;
 use App\Services\Chatbot\ChatbotNodeExecutor;
 use App\Services\Chatbot\ChatbotSessionResolver;
+use App\Services\Mensajes\MessageContentService;
+use App\Services\N8n\N8nService;
 use App\Services\WhatsApp\IncomingMessageParser;
 use App\Services\WhatsApp\MessageStore;
 use Carbon\Carbon;
@@ -20,7 +24,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
 class WebhookMessage implements ShouldQueue
@@ -52,7 +55,6 @@ class WebhookMessage implements ShouldQueue
             ->first();
 
         if (!$config) {
-            Log::warning("WEBHOOK: No hay ConfiguracionMeta activa para app_id {$app_id}");
             return;
         }
 
@@ -89,9 +91,6 @@ class WebhookMessage implements ShouldQueue
                 ->where('cod_empresa', $config->cod_empresa)
                 ->first();
         }
-        Log::info('Telefono: '.$waFrom);
-        Log::info('Cod Empresa: '.$config?->cod_empresa);
-        Log::info('Contacto: '.$contacto);
 
         // --- 4. Guardar el mensaje entrante ---
         $store = app(MessageStore::class);
@@ -124,7 +123,7 @@ class WebhookMessage implements ShouldQueue
         if ($plan->tieneServicio('chatbots.avanzados') && $contacto?->estado_chatbot == Contacto::ACTIVO) {
             $this->runChatbotAvanzado($config, $api, $waFrom, $contacto, $parsed);
         } elseif ($plan->tieneServicio('chatbots.ia') && $contacto?->estado_chatbot_ia == Contacto::ACTIVO) {
-            $this->runChatbotIaBasico($config, $api, $waFrom, $contacto, $tipoOriginal, $parsed);
+            $this->runChatbotIaBasico($config, $api, $waFrom, $contacto, $tipoOriginal, $parsed, $waMsgId);
         }
     }
 
@@ -138,7 +137,6 @@ class WebhookMessage implements ShouldQueue
             ->first();
 
         if (!$flow) {
-            Log::warning("CHATBOT: No hay flujo ACTIVO para cod_empresa {$config->cod_empresa}");
             return;
         }
 
@@ -157,22 +155,50 @@ class WebhookMessage implements ShouldQueue
     /**
      * Chatbot IA básico (webhook a n8n).
      */
-    private function runChatbotIaBasico(ConfiguracionMeta $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, string $tipoOriginal, ParsedWhatsAppMessage $parsed): void
+    private function runChatbotIaBasico(ConfiguracionMeta $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, string $tipoOriginal, ParsedWhatsAppMessage $parsed, string $waMsgId): void
     {
-        $mensaje = Mensaje::where('wa_from', $waFrom)->latest('id')->first();
+        $mensaje = Mensaje::where(
+            'wa_message_id',
+            $waMsgId
+        )->first();
 
-        $response = Http::withoutVerifying()->post(
-            'https://n8n.gijac.com/webhook/4e200b58-e8e8-4d9b-a975-ceb681ce0a68',
-            [
-                'numero'  => $waFrom,
-                'nombre'  => $contacto->nombre_completo,
-                'mensaje' => $mensaje,
-            ]
-        );
+        if (!$mensaje) {
+            return;
+        }
 
-        if (!$response->successful()) return;
+        $texto = app(MessageContentService::class)
+            ->obtenerTexto($mensaje);
 
-        $data = $response->json();
+        if (!$texto) {
+            return;
+        }
+
+        $automatizacion = AutomatizacionN8n::query()
+            ->where('cod_empresa', $config->cod_empresa)
+            ->where('estado', AutomatizacionN8n::ACTIVO)
+            ->where('webhook_activo', AutomatizacionN8n::ACTIVO)
+            ->first();
+
+        if (!$automatizacion) {
+            return;
+        }
+
+        $payload = [
+            'numero'     => $waFrom,
+            'nombre'     => $contacto->nombre_completo,
+            'mensaje'    => $texto,
+            'mensaje_id' => $waMsgId,
+            'empresa_id' => $config->cod_empresa,
+            'canal'      => 'whatsapp',
+            'fecha'      => now(),
+        ];
+
+        $data = app(N8nService::class)
+            ->ejecutar($automatizacion, $payload, $contacto);
+
+        if (!$data || empty($data['output'])) {
+            return;
+        }
         $responseMensaje = $api->sendTextMessage($waFrom, $data['output']);
 
         if (!$responseMensaje?->body()) return;

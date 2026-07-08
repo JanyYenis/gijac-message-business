@@ -392,8 +392,8 @@
                 <div class="user-avatar">
                     <i class="fas fa-user"></i>
                 </div>
-                <div class="user-name" id="userName">Juan Pérez García</div>
-                <div class="user-email" id="userEmail">juan.perez@gijacweb.com</div>
+                <div class="user-name" id="userName">{{ auth()->user()->nombre_completo }}</div>
+                <div class="user-email" id="userEmail">{{ auth()->user()->email }}</div>
 
                 <div class="user-status">
                     <span class="status-badge disconnected" id="statusBadge"></span>
@@ -404,7 +404,7 @@
 
                 <div class="info-section">
                     <div class="info-label">Último intento</div>
-                    <div class="info-value" id="lastAttempt">Hace 5 minutos</div>
+                    <div class="info-value" id="lastAttempt">N/A</div>
                 </div>
 
                 <div class="info-section">
@@ -414,7 +414,7 @@
 
                 <div class="info-section">
                     <div class="info-label">Versión</div>
-                    <div class="info-value">2.24.6</div>
+                    <div class="info-value">1.0</div>
                 </div>
             </div>
         </div>
@@ -430,7 +430,7 @@
                 </div>
 
                 <div class="qr-container">
-                    <div class="qr-code" id="qrCode">📱</div>
+                    <div class="qr-code" id="qrCode">{!! $qr !!} </div>
                 </div>
 
                 <div class="waiting-text" id="waitingText">

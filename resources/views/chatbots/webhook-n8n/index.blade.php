@@ -1,3 +1,6 @@
+@php
+    $automatizacion = $automatizacion ?? null;
+@endphp
 @extends('layouts.index')
 
 @section('css')
@@ -31,7 +34,8 @@
                     <i class="bi bi-plug-fill text-white"></i>
                     Conectado
                 </span>
-                <button class="btn btn-light-wa" id="btnGuardar">
+                <button type="button"
+                    class="btn btn-light-wa" id="btnGuardar">
                     <i class="bi bi-save text-primary fs-1"></i>
                     Guardar
                 </button>
@@ -46,7 +50,7 @@
                 <div class="stat-ico" style="background:var(--wa-green)">
                     <i class="bi bi-link-45deg text-white fs-1"></i>
                 </div>
-                <h3>1</h3>
+                <h3>{{ $automatizacion ? 1 : 0 }}</h3>
                 <small class="fs-6">Webhook Configurado</small>
             </div>
         </div>
@@ -55,7 +59,7 @@
                 <div class="stat-ico" style="background:var(--blue)">
                     <i class="bi bi-lightning-charge-fill text-white fs-1"></i>
                 </div>
-                <h3>2,847</h3>
+                <h3>0</h3>
                 <small class="fs-6">Automatizaciones Ejecutadas</small>
             </div>
         </div>
@@ -64,7 +68,7 @@
                 <div class="stat-ico" style="background:var(--wa-dark)">
                     <i class="bi bi-chat-dots-fill text-white fs-1"></i>
                 </div>
-                <h3>18,920</h3>
+                <h3>0</h3>
                 <small class="fs-6">Mensajes Procesados</small>
             </div>
         </div>
@@ -73,7 +77,7 @@
                 <div class="stat-ico" style="background:var(--gray)">
                     <i class="bi bi-clock-history text-white fs-1"></i>
                 </div>
-                <h3>Hace 3 min</h3>
+                <h3>N/A</h3>
                 <small class="fs-6">Última Ejecución</small>
             </div>
         </div>
@@ -85,194 +89,168 @@
         <!-- LEFT COLUMN 65% -->
         <div class="col-lg-8">
 
-            <!-- WEBHOOK CONFIG -->
-            <div class="card-mod mb-4">
-                <div class="card-header fs-1">
-                    <i class="bi bi-gear-fill text-primary fs-1"></i>
-                    Configuración del Webhook
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label fs-6">Nombre de la Automatización</label>
-                            <input type="text" class="form-control" value="Atención al Cliente IA">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fs-6">Método HTTP</label>
-                            <select class="form-select">
-                                <option selected>POST</option>
-                                <option>GET</option>
-                                <option>PUT</option>
-                                <option>PATCH</option>
-                            </select>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fs-6">Descripción</label>
-                            <textarea class="form-control" rows="2">Procesa los mensajes entrantes de WhatsApp y los reenvía al flujo de n8n.</textarea>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fs-6">URL Webhook n8n</label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-link-45deg"></i>
-                                </span>
-                                <input type="text" class="form-control"
-                                    value="https://n8n.miempresa.com/webhook/whatsapp-gijac">
+            <form id="formN8n">
+                <!-- WEBHOOK CONFIG -->
+                <div class="card-mod mb-4">
+                    <div class="card-header fs-1">
+                        <i class="bi bi-gear-fill text-primary fs-1"></i>
+                        Configuración del Webhook
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label required fs-6">Nombre de la Automatización</label>
+                                <input type="text" class="form-control" value="{{ $automatizacion?->nombre ?? '' }}" name="nombre" required
+                                    placeholder="Atención al Cliente IA">
                             </div>
-                        </div>
-                        <div class="col-md-8">
-                            <label class="form-label fs-6">Token de Seguridad</label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-shield-lock"></i>
-                                </span>
-                                <input type="password" class="form-control" id="tokenInput" value="gjc_sk_8f3a91b27c">
-                                <button class="btn btn-outline-secondary" type="button" id="toggleToken">
-                                    <i class="bi bi-eye"></i>
-                                </button>
+                            <div class="col-md-6">
+                                <label class="form-label fs-6">Método HTTP</label>
+                                <select class="form-select" data-control="select2" data-placeholder="Seleccion el metodo HTTPS"
+                                    data-allow-clear="true" required data-hide-search="true" required name="metodo_http">
+                                    @foreach ($metodos as $item)
+                                        <option value="{{ $item?->codigo }}"
+                                            {{ $item?->codigo == $automatizacion?->metodo_http ? 'selected' : ''}}>{{ $item?->nombre }}</option>
+                                    @endforeach
+                                </select>
                             </div>
-                        </div>
-                        <div class="col-md-4 d-flex align-items-end">
-                            <div class="form-check form-switch fs-5">
-                                <input class="form-check-input" type="checkbox" id="webhookActivo" checked>
-                                <label class="form-check-label fs-6 fw-semibold" for="webhookActivo">Webhook Activo</label>
+                            <div class="col-12">
+                                <label class="form-label required fs-6">Descripción</label>
+                                <textarea class="form-control" rows="2" required name="descripcion"
+                                    placeholder="Procesa los mensajes entrantes de WhatsApp y los reenvía al flujo de n8n."
+                                    >{{ $automatizacion?->descripcion ?? '' }}</textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label required fs-6">URL Webhook n8n</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-link-45deg"></i>
+                                    </span>
+                                    <input type="text" class="form-control" required name="url_webhook"
+                                        value="{{ $automatizacion?->url_webhook ?? '' }}" placeholder="https://n8n.miempresa.com/webhook/whatsapp-gijac">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label fs-6">Token de Seguridad</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-shield-lock"></i>
+                                    </span>
+                                    <input type="password" class="form-control" id="tokenInput"
+                                        value="{{ $automatizacion?->token_seguridad ?? '' }}" placeholder="gjc_sk_8f3a91b27c"
+                                        name="token_seguridad">
+                                    <button class="btn btn-outline-secondary" type="button" id="toggleToken">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-end">
+                                <div class="form-check form-switch fs-5">
+                                    <input class="form-check-input" type="checkbox" id="webhookActivo" {{ $automatizacion && !$automatizacion?->webhook_activo  ? '' : 'checked' }}>
+                                    <label class="form-check-label fs-6 fw-semibold" for="webhookActivo">Webhook Activo</label>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- DATA SENT -->
-            <div class="card-mod mb-4">
-                <div class="card-header fs-1">
-                    <i class="bi bi-braces text-primary fs-1"></i>
-                    Datos Enviados a n8n
-                </div>
-                <div class="card-body">
-                    <p class="text-muted fs-6 small mb-2">
-                        Estos son los datos que GIJAC MESSAGE BUSINESS enviará en cada evento:
-                    </p>
-                    <div class="json-viewer" id="jsonExample">
-                        <button class="btn btn-sm btn-light btn-copy" id="btnCopyJson">
-                            <i class="bi bi-clipboard me-1"></i>
-                            Copiar Ejemplo
-                        </button>
-                        <span class="p">{</span>
-                        <span class="k">"numero"</span>
-                        <span class="p">:</span>
-                        <span class="s">"573001234567"</span>
-                        <span class="p">,</span>
-                        <span class="k">"nombre"</span>
-                        <span class="p">:</span>
-                        <span class="s">"Juan Pérez"</span>
-                        <span class="p">,</span>
-                        <span class="k">"mensaje"</span>
-                        <span class="p">:</span>
-                        <span class="s">"Hola"</span>
-                        <span class="p">,</span><br>
-                        <span class="k">"mensaje_id"</span>
-                        <span class="p">:</span>
-                        <span class="s">"MSG001"</span>
-                        <span class="p">,</span>
-                        <span class="k">"empresa_id"</span>
-                        <span class="p">:</span>
-                        <span class="s">"1"</span>
-                        <span class="p">,</span>
-                        <span class="k">"canal"</span>
-                        <span class="p">:</span>
-                        <span class="s">"whatsapp"</span>
-                        <span class="p">,</span><br>
-                        <span class="k">"fecha"</span>
-                        <span class="p">:</span>
-                        <span class="s">"2026-06-11 10:00:00"</span>
-                        <span class="p">}</span>
+                <!-- DATA SENT -->
+                <div class="card-mod mb-4">
+                    <div class="card-header fs-1">
+                        <i class="bi bi-braces text-primary fs-1"></i>
+                        Datos Enviados a n8n
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted fs-6 small mb-2">
+                            Estos son los datos que GIJAC MESSAGE BUSINESS enviará en cada evento:
+                        </p>
+                        <div class="json-viewer" id="jsonExample">
+                            <button class="btn btn-sm btn-light btn-copy" id="btnCopyJson">
+                                <i class="bi bi-clipboard me-1"></i>
+                                Copiar Ejemplo
+                            </button>
+                            <span class="p">{</span>
+                            <span class="k">"numero"</span>
+                            <span class="p">:</span>
+                            <span class="s">"573001234567"</span>
+                            <span class="p">,</span>
+                            <span class="k">"nombre"</span>
+                            <span class="p">:</span>
+                            <span class="s">"Juan Pérez"</span>
+                            <span class="p">,</span>
+                            <span class="k">"mensaje"</span>
+                            <span class="p">:</span>
+                            <span class="s">"Hola"</span>
+                            <span class="p">,</span><br>
+                            <span class="k">"mensaje_id"</span>
+                            <span class="p">:</span>
+                            <span class="s">"MSG001"</span>
+                            <span class="p">,</span>
+                            <span class="k">"empresa_id"</span>
+                            <span class="p">:</span>
+                            <span class="s">"1"</span>
+                            <span class="p">,</span>
+                            <span class="k">"canal"</span>
+                            <span class="p">:</span>
+                            <span class="s">"whatsapp"</span>
+                            <span class="p">,</span><br>
+                            <span class="k">"fecha"</span>
+                            <span class="p">:</span>
+                            <span class="s">"2026-06-11 10:00:00"</span>
+                            <span class="p">}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- EVENTS -->
-            <div class="card-mod mb-4">
-                <div class="card-header fs-1">
-                    <i class="bi bi-bell-fill fs-1 text-warning"></i>
-                    Eventos Disponibles
-                </div>
-                <div class="card-body">
-                    <div class="row g-2">
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ev1" checked>
-                                <label class="form-check-label" for="ev1">Nuevo mensaje</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ev2">
-                                <label class="form-check-label" for="ev2">Mensaje enviado</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ev3" checked>
-                                <label class="form-check-label" for="ev3">Conversación iniciada</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ev4">
-                                <label class="form-check-label" for="ev4">Conversación cerrada</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ev5">
-                                <label class="form-check-label" for="ev5">Etiqueta agregada</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ev6" checked>
-                                <label class="form-check-label" for="ev6">Cliente creado</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ev7">
-                                <label class="form-check-label" for="ev7">Campaña entregada</label>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="ev8">
-                                <label class="form-check-label" for="ev8">Campaña leída</label>
-                            </div>
+                <!-- EVENTS -->
+                <div class="card-mod mb-4">
+                    <div class="card-header fs-1">
+                        <i class="bi bi-bell-fill fs-1 text-warning"></i>
+                        Eventos Disponibles
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            @foreach ($eventos as $item)
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input evento-checkbox" type="checkbox" name="eventos[]" id="ev{{ $item?->codigo }}"
+                                            value="{{ $item->codigo }}" checked>
+                                        <label class="form-check-label" for="ev{{ $item?->codigo }}">{{ $item?->nombre }}</label>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- RETRIES -->
-            <div class="card-mod">
-                <div class="card-header fs-1">
-                    <i class="bi bi-arrow-repeat text-secondary"></i>
-                    Reintentos
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label fs-6">Cantidad de reintentos</label>
-                            <input type="number" class="form-control" value="3" min="0" max="10">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fs-6">Tiempo entre intentos (s)</label>
-                            <input type="number" class="form-control" value="5" min="1">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label fs-6">Timeout (s)</label>
-                            <input type="number" class="form-control" value="30" min="5">
+                <!-- RETRIES -->
+                <div class="card-mod">
+                    <div class="card-header fs-1">
+                        <i class="bi bi-arrow-repeat text-secondary"></i>
+                        Reintentos
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label required fs-6">Cantidad de reintentos</label>
+                                <input type="number" class="form-control" required name="cantidad_reintentos"
+                                    placeholder="3" value="{{ $automatizacion?->cantidad_reintentos ? $automatizacion?->cantidad_reintentos : 3 }}" min="0" max="10">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label required fs-6">Tiempo entre intentos (s)</label>
+                                <input type="number" class="form-control" required name="tiempo_entre_intentos"
+                                    placeholder="5" value="{{ $automatizacion?->tiempo_entre_intentos ? $automatizacion?->tiempo_entre_intentos : 5 }}" min="1">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label required fs-6">Timeout (s)</label>
+                                <input type="number" class="form-control" required name="timeout_segundos"
+                                    placeholder="30" value=""{{ $automatizacion?->timeout_segundos ? $automatizacion?->timeout_segundos : 30 }}" min="5">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+
+                <button type="submit" id="btnGuardarTodo" class="d-none"></button>
+            </form>
         </div>
 
         <!-- RIGHT COLUMN 35% -->
@@ -354,22 +332,22 @@
                 </div>
                 <div class="card-body">
                     <button class="btn btn-wa w-100 mb-3" id="btnProbar">
-                        <i class="bi bi-play-circle me-1"></i>
+                        <i class="bi bi-play-circle text-white me-1"></i>
                         Probar Webhook
                     </button>
                     <button class="btn btn-wa-outline w-100 mb-3" data-bs-toggle="modal" data-bs-target="#modalProbar">
-                        <i class="bi bi-send me-1"></i>
+                        <i class="fa-solid fa-paper-plane me-1"></i>
                         Enviar Prueba Personalizada
                     </button>
                     <div class="test-result test-ok" id="resOk">
-                        <i class="bi bi-check-circle-fill me-1"></i>
+                        <i class="bi bi-check-circle-fill text-primary me-1"></i>
                         Conexión Exitosa
                         <span class="d-block fw-normal small mt-1">
                             Respuesta 200 OK · 312 ms
                         </span>
                     </div>
                     <div class="test-result test-err" id="resErr">
-                        <i class="bi bi-x-circle-fill me-1"></i>
+                        <i class="bi bi-x-circle-fill text-danger me-1"></i>
                         Error de Conexión
                         <span class="d-block fw-normal small mt-1">
                             Tiempo de espera agotado.
@@ -507,167 +485,13 @@
 @endsection
 
 @section('modal')
-    <!-- MODAL TEMPLATE -->
-    <div class="modal fade" id="modalTpl" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius:16px;border:none;">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title" id="tplTitle">Plantilla</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="text-center mb-3">
-                        <div style="font-size:3rem" id="tplEmoji">📩</div>
-                    </div>
-                    <p class="text-muted" id="tplDesc"></p>
-                    <div class="bg-light rounded p-3 text-center mb-3">
-                        <i class="bi bi-diagram-3 text-primary fs-1" style="font-size:2.5rem"></i>
-                        <div class="small text-muted mt-2">Vista previa del flujo</div>
-                    </div>
-                    <p class="mb-0"><strong>Nodos:</strong> <span id="tplNodes"></span></p>
-                </div>
-                <div class="modal-footer border-0">
-                    <button class="btn btn-wa" id="btnDownloadJson"><i class="bi bi-filetype-json me-1"></i>Descargar
-                        JSON</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL TEST -->
-    <div class="modal fade" id="modalProbar" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius:16px;border:none;">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title"><i class="bi bi-send me-2 text-primary fs-1"></i>Probar Webhook</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-2"><label class="form-label">Número</label><input type="text"
-                            class="form-control" id="tNum" value="573001234567"></div>
-                    <div class="mb-2"><label class="form-label">Nombre</label><input type="text"
-                            class="form-control" id="tName" value="Juan Pérez"></div>
-                    <div class="mb-3"><label class="form-label">Mensaje</label><input type="text"
-                            class="form-control" id="tMsg" value="Hola"></div>
-                    <button class="btn btn-wa w-100 mb-3" id="btnEnviarPrueba"><i class="bi bi-send me-1"></i>Enviar
-                        Prueba</button>
-                    <div id="testOut" style="display:none">
-                        <label class="form-label">Request enviado</label>
-                        <div class="req-box mb-2" id="reqBox"></div>
-                        <label class="form-label">Response recibida</label>
-                        <div class="req-box mb-2" id="resBox"></div>
-                        <span class="badge bg-success" id="timeBadge"></span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @component('chatbots.webhook-n8n.modals.template')
+    @endcomponent
+    @component('chatbots.webhook-n8n.modals.prueba')
+    @endcomponent
 @endsection
 
 @section('scripts')
-    {{-- <script src="{{ mix('/js/chatbots/principal.js') }}" ></script> --}}
-    <script>
-        $(function() {
-            // Guardar
-            $('#btnGuardar').on('click', function() {
-                var t = bootstrap.Toast.getOrCreateInstance(document.getElementById('toastSave'));
-                t.show();
-            });
-
-            // Toggle token
-            $('#toggleToken').on('click', function() {
-                var $i = $('#tokenInput'),
-                    $ic = $(this).find('i');
-                if ($i.attr('type') === 'password') {
-                    $i.attr('type', 'text');
-                    $ic.removeClass('bi-eye').addClass('bi-eye-slash');
-                } else {
-                    $i.attr('type', 'password');
-                    $ic.removeClass('bi-eye-slash').addClass('bi-eye');
-                }
-            });
-
-            // Copiar JSON
-            $('#btnCopyJson').on('click', function() {
-                var txt = $('#jsonExample').text().replace('Copiar Ejemplo', '').trim();
-                navigator.clipboard.writeText(txt);
-                var $b = $(this);
-                $b.html('<i class="bi bi-check2 me-1"></i>Copiado');
-                setTimeout(function() {
-                    $b.html('<i class="bi bi-clipboard me-1"></i>Copiar Ejemplo');
-                }, 1500);
-            });
-
-            // Probar webhook (simulado)
-            $('#btnProbar').on('click', function() {
-                var $b = $(this);
-                $b.prop('disabled', true).html(
-                    '<span class="spinner-border spinner-border-sm me-1"></span>Probando...');
-                $('#resOk,#resErr').hide();
-                setTimeout(function() {
-                    $b.prop('disabled', false).html(
-                        '<i class="bi bi-play-circle me-1"></i>Probar Webhook');
-                    if (Math.random() > 0.2) {
-                        $('#resOk').fadeIn();
-                    } else {
-                        $('#resErr').fadeIn();
-                    }
-                }, 1400);
-            });
-
-            // Template modal
-            $('.tpl-item').on('click', function() {
-                $('#tplTitle').text($(this).data('name'));
-                $('#tplDesc').text($(this).data('desc'));
-                $('#tplNodes').text($(this).data('nodes') + ' nodos');
-                $('#tplEmoji').text($(this).data('emoji'));
-                bootstrap.Modal.getOrCreateInstance(document.getElementById('modalTpl')).show();
-            });
-
-            $('#btnDownloadJson').on('click', function() {
-                var name = $('#tplTitle').text();
-                var data = {
-                    name: name,
-                    nodes: [],
-                    connections: {},
-                    active: true
-                };
-                var blob = new Blob([JSON.stringify(data, null, 2)], {
-                    type: 'application/json'
-                });
-                var a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = name.toLowerCase().replace(/ /g, '-') + '-n8n.json';
-                a.click();
-            });
-
-            // Enviar prueba en modal
-            $('#btnEnviarPrueba').on('click', function() {
-                var req = {
-                    numero: $('#tNum').val(),
-                    nombre: $('#tName').val(),
-                    mensaje: $('#tMsg').val(),
-                    mensaje_id: 'MSG' + Math.floor(Math.random() * 9999),
-                    empresa_id: '1',
-                    canal: 'whatsapp',
-                    fecha: '2026-06-11 10:00:00'
-                };
-                var $b = $(this);
-                $b.prop('disabled', true).html(
-                    '<span class="spinner-border spinner-border-sm me-1"></span>Enviando...');
-                setTimeout(function() {
-                    $('#reqBox').text(JSON.stringify(req, null, 2));
-                    $('#resBox').text(JSON.stringify({
-                        status: 'ok',
-                        received: true,
-                        workflow: 'whatsapp-gijac'
-                    }, null, 2));
-                    $('#timeBadge').text('Tiempo de respuesta: ' + (180 + Math.floor(Math.random() *
-                        200)) + ' ms');
-                    $('#testOut').fadeIn();
-                    $b.prop('disabled', false).html('<i class="bi bi-send me-1"></i>Enviar Prueba');
-                }, 1200);
-            });
-        });
-    </script>
+    <script src="{{ mix('/js/chatbots/n8n/principal.js') }}" ></script>
+    <script src="{{ mix('/js/chatbots/n8n/crear.js') }}" ></script>
 @endsection

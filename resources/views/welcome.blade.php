@@ -216,17 +216,17 @@
 @endsection
 
 @section('scripts')
-<script>
-    window.chatbaseUserConfig = {
-        user_id: '123456789',
-        user_hash: '123456789', // this is the hash of the user_id, should be generated on the server
-          user_metadata: {
-            "name": "Jany Esteban",
-            "email": "janytj1207@gmail.com",
-            "company": "GIJAC WEB",
-            // Add any other relevant user information
-          }
-    }
+    {{-- <script>
+        window.chatbaseUserConfig = {
+            user_id: '123456789',
+            user_hash: '123456789', // this is the hash of the user_id, should be generated on the server
+            user_metadata: {
+                "name": "Jany Esteban",
+                "email": "janytj1207@gmail.com",
+                "company": "GIJAC WEB",
+                // Add any other relevant user information
+            }
+        }
     </script>
     <script>
         (function(){
@@ -259,5 +259,5 @@
                 }
             })();
     </script>
-    <script src="{{ mix('js/prueba.js') }}"></script>
+    <script src="{{ mix('js/prueba.js') }}"></script> --}}
 @endsection

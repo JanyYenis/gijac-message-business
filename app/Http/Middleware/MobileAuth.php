@@ -26,7 +26,7 @@ class MobileAuth
 
         // Buscar la autenticación por token
         $auth = Dispositivo::where('token', $token)
-            ->where('estado', 1) // Activa
+            // ->where('estado', 1) // Activa
             ->first();
 
         if (!$auth) {

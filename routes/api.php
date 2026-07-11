@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Apis\Mobile\AuthController;
+use App\Http\Controllers\Apis\Mobile\ChatController;
 use App\Http\Controllers\ChatbotController;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -51,9 +52,11 @@ Route::prefix('mobile')->group(function () {
         // Cerrar sesión
         Route::post('/logout', [AuthController::class, 'logout']);
 
-        // Aquí irán las demás rutas protegidas...
-        // Route::get('/chats', [ChatController::class, 'index']);
-        // Route::get('/notifications', [NotificationController::class, 'index']);
+        // Rutas de Chats
+        Route::get('/chats', [ChatController::class, 'index']);
+        Route::get('/chats/{numero}', [ChatController::class, 'showMessages']);
+        Route::post('/chats/{numero}/messages', [ChatController::class, 'sendMessage']);
+        Route::post('/chats/{numero}/read', [ChatController::class, 'markAsRead']);
     });
 });
 

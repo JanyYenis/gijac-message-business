@@ -17,21 +17,32 @@ class AuthController extends Controller
      */
     public function getProfile(Request $request): JsonResponse
     {
-        $user = $request->user();
+        try {
+            $user = $request->user();
 
-        // Cargar relaciones necesarias
-        $user->load([
-            'infoGenero',
-            'ciudad.pais',
-            'empresa',
-            'plan',
-            'roles',
-        ]);
+            // Cargar relaciones necesarias
+            $user->load([
+                'infoGenero',
+                'ciudad.pais',
+                'empresa',
+                'plan',
+                'roles',
+            ]);
 
-        return response()->json([
-            'success' => true,
-            'data'    => new UserProfileResource($user),
-        ]);
+            return response()->json([
+                'success' => true,
+                'data'    => new UserProfileResource($user),
+            ]);
+
+        } catch (\Exception $e) {
+            // ESTO ES TEMPORAL PARA VER EL ERROR
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+            ], 500);
+        }
     }
 
     /**

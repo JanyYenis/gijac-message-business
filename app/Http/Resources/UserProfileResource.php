@@ -45,8 +45,8 @@ class UserProfileResource extends JsonResource
             'empresa'       => $this->whenLoaded('empresa', function () {
                 return [
                     'id'     => $this->empresa?->uuid,
-                    'nombre' => $this->empresa?->nombre,
-                    'logo'   => $this->empresa?->logo ? asset('storage/' . $this->empresa->logo) : null,
+                    'nombre' => $this->empresa?->razon_social,
+                    'logo'   => $this->empresa?->foto ? $this->empresa->foto : null,
                 ];
             }),
             'plan'          => $this->whenLoaded('plan', function () {
@@ -56,7 +56,7 @@ class UserProfileResource extends JsonResource
                 ];
             }),
             'roles'         => $this->whenLoaded('roles', function () {
-                return $this->roles->pluck('name')->toArray();
+                return $this->roles->pluck('nombre')->toArray();
             }),
             'tiene_2fa'     => !empty($this->google2fa_secret),
             'verificado'    => !is_null($this->email_verified_at),

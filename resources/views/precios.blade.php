@@ -1,5 +1,9 @@
 @extends('layouts.principal')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
+@endsection
+
 @section('content')
     <section class="hero">
         <div class="container">

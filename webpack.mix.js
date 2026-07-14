@@ -39,6 +39,9 @@ mix.js("resources/js/jquery-validator.init.js", "public/js/jquery-validator.init
 mix.js("resources/js/home.js", "public/js/home.js");
 mix.js("resources/js/prueba.js", "public/js/prueba.js");
 
+mix.js("resources/js/main.js", "public/js/main.js");
+mix.js("resources/js/phones-3d.js", "public/js/phones-3d.js");
+
 // USUARIOS
 mix.js("resources/js/usuarios/principal.js", "public/js/usuarios/principal.js");
 
@@ -117,6 +120,11 @@ mix.copyDirectory('resources/img', 'public/img');
 mix.styles(
     "resources/css/gmb.css",
     "public/css/gmb.css"
+);
+
+mix.styles(
+    "resources/css/style.css",
+    "public/css/style.css"
 );
 
 mix.styles(

@@ -1,6 +1,7 @@
 @extends('layouts.principal')
 
 @section('css')
+    <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
     <style>
         :root {
             --whatsapp-green: #25D366;

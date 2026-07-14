@@ -1,5 +1,9 @@
 @extends('layouts.principal')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
+@endsection
+
 @section('content')
     <!-- Contact Section -->
     <section class="section mt-5">

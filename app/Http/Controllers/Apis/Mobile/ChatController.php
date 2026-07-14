@@ -40,7 +40,7 @@ class ChatController extends Controller
         return new \Netflie\WhatsAppCloudApi\WhatsAppCloudApi([
             'from_phone_number_id' => $phoneNumberId,
             'access_token' => $config->token,
-            'version' => 'v18.0', // O la versión que uses
+            'version' => $config->version, // O la versión que uses
         ]);
     }
 
@@ -83,7 +83,7 @@ class ChatController extends Controller
                 'codigo_telefono' => $contacto->codigo_telefono,
                 'numero_completo' => $contacto->numero_completo,
                 'ultimo_mensaje' => $this->parseLastMessage($ultimoMensaje),
-                'hora_ultimo_mensaje' => $conversacion ? $conversacion->ultima_fecha->diffForHumans() : null,
+                'hora_ultimo_mensaje' => $conversacion ? $conversacion->ultima_fecha : null,
                 'no_leidos' => $conversacion ? $conversacion->mensajes_no_leidos : 0,
                 'estado_chatbot' => $contacto->estado_chatbot,
             ];

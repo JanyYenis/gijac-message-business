@@ -27,6 +27,7 @@
         "luecano/numero-a-letras": "^4.0",
         "maatwebsite/excel": "^3.1",
         "maennchen/zipstream-php": "^3.1",
+        "microsoft/microsoft-graph": "^3.3",
         "netflie/whatsapp-cloud-api": "^2.2",
         "pragmarx/google2fa-laravel": "^2.2",
         "predis/predis": "^2.3",
@@ -92,7 +93,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "tbachert/spi": true
         }
     },
     "minimum-stability": "stable",

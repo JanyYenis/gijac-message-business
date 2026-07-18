@@ -61,29 +61,26 @@ class ChatController extends Controller
                 $q->where('phone_number_id', $phoneNumberId);
             }])
             ->where('contactos.estado', Contacto::ACTIVO)
-            ->whereNotNull('conversaciones.id') // Solo los que tienen conversación
-            ->orderByDesc('conversaciones.ultima_fecha')
+            ->orderByRaw('conversaciones.ultima_fecha IS NULL, conversaciones.ultima_fecha DESC')
             ->select('contactos.*')
             ->get();
 
         $chats = $contactos->map(function ($contacto) {
-            $conversacion = $contacto->conversacion->first();
-
-            // Obtener el último mensaje para el preview
-            $ultimoMensaje = Mensaje::where(function ($q) use ($contacto) {
-                $q->where('wa_from', $contacto->numero_completo)
-                  ->orWhere('wa_to', $contacto->numero_completo);
-            })->orderByDesc('created_at')->first();
+            // SEGURO: Si no hay conversación, esto será null. Si hay, obtiene la primera.
+            $conversacion = $contacto->conversacion ? $contacto->conversacion->first() : null;
 
             return [
-                'id' => $contacto->numero_completo, // Usaremos el teléfono como ID en Flutter
+                'id' => $contacto->numero_completo,
                 'contact_id' => $contacto->id,
-                'nombre' => $contacto->nombre . ' ' . $contacto->apellido,
+                'nombre' => trim(($contacto->nombre ?? '') . ' ' . ($contacto->apellido ?? '')),
                 'telefono' => $contacto->telefono,
                 'codigo_telefono' => $contacto->codigo_telefono,
                 'numero_completo' => $contacto->numero_completo,
-                'ultimo_mensaje' => $this->parseLastMessage($ultimoMensaje),
+                // Si es null, devuelve 'Sin mensajes'. Si tiene datos, los parsea.
+                'ultimo_mensaje' => $conversacion ? $this->parseLastMessage($conversacion) : '',
+                // Si es null, devuelve null. Si tiene, envía la fecha cruda.
                 'hora_ultimo_mensaje' => $conversacion ? $conversacion->ultima_fecha : null,
+                // Si es null, devuelve 0. Si tiene, envía los no leídos.
                 'no_leidos' => $conversacion ? $conversacion->mensajes_no_leidos : 0,
                 'estado_chatbot' => $contacto->estado_chatbot,
             ];
@@ -94,7 +91,6 @@ class ChatController extends Controller
             'data' => $chats
         ]);
     }
-
     /**
      * MENSAJES DE UN CHAT ESPECÍFICO
      */
@@ -252,14 +248,14 @@ class ChatController extends Controller
 
     private function parseLastMessage($mensaje)
     {
-        if (!$mensaje) return 'Sin mensajes';
+        if (!$mensaje) return '';
 
-        if ($mensaje->type == Mensaje::IMAGEN) return '📷 Imagen';
-        if ($mensaje->type == Mensaje::VIDEO) return '🎬 Video';
-        if ($mensaje->type == Mensaje::AUDIO) return '🎤 Audio';
-        if ($mensaje->type == Mensaje::DOCUMENTO) return '📄 Documento';
+        if ($mensaje->tipo_ultimo_mensaje == Mensaje::IMAGEN) return '📷 Imagen';
+        if ($mensaje->tipo_ultimo_mensaje == Mensaje::VIDEO) return '🎬 Video';
+        if ($mensaje->tipo_ultimo_mensaje == Mensaje::AUDIO) return '🎤 Audio';
+        if ($mensaje->tipo_ultimo_mensaje == Mensaje::DOCUMENTO) return '📄 Documento';
 
-        return $mensaje->body ?? 'Sin mensajes';
+        return $mensaje->ultimo_mensaje ?? '';
     }
 
     private function getFileUrl($mensaje)

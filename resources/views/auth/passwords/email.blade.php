@@ -1,42 +1,44 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="login-card" style="margin-top: 1rem;">
-        <h3 class="login-title">Recuperar contraseña</h3>
-        <div class="divider">
-            <span></span>
+    <div class="auth-card">
+        <div class="auth-head">
+            <h2>Recuperar contraseña</h2>
         </div>
+
+        <div class="divider">
+            Email
+        </div>
+
         @if (session('status'))
             <div class="alert alert-success" role="alert">
                 {{ session('status') }}
             </div>
         @endif
+
         <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" id="kt_password_reset_form"
             data-kt-redirect-url="{{ route('password.email') }}" action="{{ route('password.email') }}" method="POST">
-            <div class="fv-row mb-8 fv-plugins-icon-container">
-                <!--begin::Email-->
-                <input type="text" name="email" autocomplete="off" placeholder="Correo electrónico"
-                    class="form-control bg-transparent">
-                <!--end::Email-->
-                <div
-                    class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                </div>
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
+            <div class="field">
+                <input id="email" type="email" name="email" placeholder=" " required
+                    autocomplete="off" class="@error('email') is-invalid @enderror"/>
+                <label for="email">Email</label>
             </div>
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
 
-            <button type="submit" id="kt_password_reset_submit" class="btn btn-primary w-100">
+            <button type="submit" id="kt_password_reset_submit" class="btn-primary-x magnetic">
                 <!--begin::Indicator label-->
                 <span class="indicator-label">
                     Enviar correo</span>
                 <!--end::Indicator label-->
             </button>
 
-            <a href="{{ route('login') }}" type="button" class="btn btn-trial">
-                Iniciar Sesión
+            <a class="btn-outline-x magnetic text-center" type="button" href="{{ route('login') }}">
+                <i class="fa-solid fa-right-to-bracket me-1"></i>
+                Iniciar sesión
             </a>
         </form>
     </div>

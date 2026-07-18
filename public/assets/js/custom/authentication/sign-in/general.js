@@ -36,7 +36,7 @@ var KTSigninGeneral = function () {
                 plugins: {
                     trigger: new FormValidation.plugins.Trigger(),
                     bootstrap: new FormValidation.plugins.Bootstrap5({
-                        rowSelector: '.fv-row',
+                        rowSelector: '.field',
                         eleInvalidClass: '',  // comment to enable invalid state icons
                         eleValidClass: '' // comment to enable valid state icons
                     })

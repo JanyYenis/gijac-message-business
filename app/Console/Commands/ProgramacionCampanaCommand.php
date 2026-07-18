@@ -85,7 +85,7 @@ class ProgramacionCampanaCommand extends Command
             ->get();
 
         foreach ($campanas as $campana) {
-            $tieneConfiguracion = $this->iniciar($campana->uuid);
+            $tieneConfiguracion = $this->iniciar($campana->cod_empresa);
             if ($tieneConfiguracion) {
                 // Convertir el campo de tipo timestamp a un objeto Carbon
                 $horaCampana = Carbon::parse($campana->fecha_envio);

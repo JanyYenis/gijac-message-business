@@ -49,10 +49,8 @@ class ContactoController extends Controller
         $contactos = Contacto::selectRaw(
             "contactos.id,
             CONCAT(contactos.nombre, ' ', COALESCE(contactos.apellido, '')) AS nombre_completo_select,
-            numero_completo AS numero_completo_select,
-            cp.nombre as genero,
-            contactos.tratamiento_datos,
-            contactos.estado"
+            numero_completo AS numero_completo_select, cp.nombre as genero, contactos.tratamiento_datos,
+            contactos.estado, contactos.cod_empresa"
         )
         ->join('conceptos as cp', 'cp.codigo', '=', 'contactos.genero')
         ->join('tipos_conceptos as tc', 'tc.id', '=', 'cp.id_tipo')

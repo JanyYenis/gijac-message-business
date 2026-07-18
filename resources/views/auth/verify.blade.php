@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="login-card" style="margin-top: 1rem;">
-        <h3 class="login-title">Verifique su dirección de correo electrónico</h3>
+    <div class="auth-card">
+        <div class="auth-head">
+            <h2 >Verifique su dirección de correo electrónico</h2>
+        </div>
         <div class="divider">
             <span></span>
         </div>
@@ -16,7 +18,7 @@
         </div>
         <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" action="{{ route('verification.resend') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-primary w-100">
+            <button type="submit" class="btn-primary-x magnetic">
                 <!--begin::Indicator label-->
                 <span class="indicator-label">
                     Haga clic aquí para solicitar el correo de verificación

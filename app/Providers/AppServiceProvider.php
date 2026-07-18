@@ -26,15 +26,15 @@ class AppServiceProvider extends ServiceProvider
         }
 
         // Compartir variable con todas las vistas
-        view()->composer('*', function ($view) {
+        view()->composer('layouts.index', function ($view) {
             // Verificar primero si el usuario está autenticado
             if (auth()->check()) {
                 $uuid = auth()->user()->empresa?->id ?? false;
                 // Cargar la configuración solo con los campos necesarios
                 $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-                            ->where('cod_empresa', $uuid)
-                            ->select('phone_number_id')
-                            ->first();
+                    ->where('cod_empresa', $uuid)
+                    ->select('phone_number_id')
+                    ->first();
 
                 // Compartir la variable (incluso si es null)
                 $view->with('numeroTelefono', optional($config)->phone_number_id);

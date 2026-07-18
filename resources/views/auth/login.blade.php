@@ -1,96 +1,78 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="login-card" style="margin-top: 1rem;">
-        <h3 class="login-title">Iniciar Sesión</h3>
-        <p class="login-subtitle">Accede a tu cuenta de GIJAC MESSAGE BUSINESS</p>
+    <div class="auth-card">
+        <div class="auth-head">
+            <h2>Bienvenido de nuevo</h2>
+            <p>Inicia sesión en tu cuenta empresarial GIJAC</p>
+        </div>
 
-        <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" id="kt_sign_in_form"
-            data-kt-redirect-url="{{ route('login') }}" action="{{ route('login') }}" method="POST">
-            <a href="{{ route('login-google') }}" type="button" class="btn btn-google">
-                <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" style="width: 1.3rem;">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        <div class="social">
+            <a class="btn-social magnetic" type="button" href="{{ route('login-google') }}">
+                <svg width="18" height="18" viewBox="0 0 48 48">
+                    <path fill="#FFC107"
+                        d="M43.6 20.5H42V20H24v8h11.3C33.9 32.5 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.2-.1-2.3-.4-3.5z" />
+                    <path fill="#FF3D00"
+                        d="M6.3 14.7l6.6 4.8C14.6 15.1 18.9 12 24 12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" />
+                    <path fill="#4CAF50"
+                        d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35 26.7 36 24 36c-5.3 0-9.8-3.4-11.3-8.1l-6.5 5C9.5 39.6 16.2 44 24 44z" />
+                    <path fill="#1976D2"
+                        d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.7-3.7 5l6.2 5.2C41.6 34.6 44 29.7 44 24c0-1.2-.1-2.3-.4-3.5z" />
                 </svg>
                 Continuar con Google
             </a>
+            <a class="btn-social btn-ms magnetic" type="button" href="{{ route('login-outlook') }}">
+                <svg width="18" height="18" viewBox="0 0 48 48">
+                    <rect x="4" y="4" width="19" height="19" fill="#F25022" />
+                    <rect x="25" y="4" width="19" height="19" fill="#7FBA00" />
+                    <rect x="4" y="25" width="19" height="19" fill="#00A4EF" />
+                    <rect x="25" y="25" width="19" height="19" fill="#FFB900" />
+                </svg>
+                Continuar con Microsoft
+            </a>
+        </div>
 
-            <div class="divider">
-                <span style="z-index: 30;">o continúa con email</span>
+        <div class="divider">o con email</div>
+
+        <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" id="kt_sign_in_form"
+            data-kt-redirect-url="{{ route('login') }}" action="{{ route('login') }}" method="POST">
+            <div class="field">
+                <input id="email" type="email" name="email" placeholder=" " required />
+                <label for="email">Correo electrónico</label>
             </div>
-
-            <div class="fv-row mb-8 fv-plugins-icon-container">
-                <!--begin::Email-->
-                <input type="text" name="email" autocomplete="off" placeholder="Correo electrónico"
-                    class="form-control bg-transparent">
-                <!--end::Email-->
-                <div
-                    class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
-                </div>
-                @error('email')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-            </div>
-
-            <div class="fv-row mb-10 fv-plugins-icon-container" data-kt-password-meter="true">
-                <!--begin::Wrapper-->
-                <div class="d-flex flex-stack ">
-                </div>
-                <!--end::Wrapper-->
-
-                <!--begin::Input-->
-                <div class="position-relative mb-2">
-                    <input class="form-control bg-transparent" type="password" name="password"
-                        autocomplete="off" placeholder="Contraseña" required>
-                    <span class="btn btn-sm btn-icon position-absolute translate-middle top-50 end-0 me-n2"
-                        data-kt-password-meter-control="visibility">
-                        <i class="far fa-eye fs-4 text-muted">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                            <span class="path3"></span>
-                            <span class="path4"></span>
-                        </i>
-                        <i class="far fa-eye-slash d-none fs-4 text-muted">
-                            <span class="path1"></span>
-                            <span class="path2"></span>
-                            <span class="path3"></span>
-                        </i>
-                    </span>
-                </div>
-                @error('password')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                <!--end::Input-->
-                <div
-                    class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
+            @error('email')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+            <div class="field">
+                <input id="password" type="password" name="password" placeholder=" " required />
+                <label for="password">Contraseña</label>
+                <span class="eye" id="togglePw">
+                    <i class="fa-regular fa-eye"></i>
+                </span>
+                <div class="strength">
+                    <i id="strengthBar"></i>
                 </div>
             </div>
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="remember">
-                    <label class="form-check-label" for="remember">
-                        Recordarme
-                    </label>
-                </div>
-                <a href="{{ route('password.request') }}" class="forgot-password">¿Olvidaste tu contraseña?</a>
+            <div class="row-opts">
+                <label class="check">
+                    <input type="checkbox" checked name="remember"> Recordarme
+                </label>
+                <a href="{{ route('password.request') }}" class="link">¿Olvidaste tu contraseña?</a>
             </div>
 
-            <button type="submit" id="kt_sign_in_submit" class="btn btn-primary w-100">
-                <!--begin::Indicator label-->
-                <span class="indicator-label">
-                    Iniciar Sesión</span>
-                <!--end::Indicator label-->
+            <button class="btn-primary-x magnetic" id="kt_sign_in_submit" type="submit">
+                <i class="fa-solid fa-right-to-bracket me-1"></i> Iniciar sesión
             </button>
-
-            <a href="{{ route('register') }}" type="button" class="btn btn-trial">
-                Iniciar Prueba Gratis
+            <a class="btn-outline-x magnetic text-center" type="button" href="{{ route('register') }}">
+                <i class="fa-solid fa-rocket me-1"></i> Comenzar prueba gratuita
             </a>
         </form>
     </div>
@@ -100,4 +82,27 @@
     <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="{{ asset('assets/js/custom/authentication/sign-in/general.js') }}"></script>
+    <script>
+        $(function() {
+            // Password toggle
+            $('#togglePw').on('click', function() {
+                const $i = $('#password');
+                const t = $i.attr('type') === 'password' ? 'text' : 'password';
+                $i.attr('type', t);
+                $(this).find('i').attr('class', t === 'password' ? 'fa-regular fa-eye' :
+                    'fa-regular fa-eye-slash');
+            });
+
+            // Password strength
+            $('#password').on('input', function() {
+                const v = this.value;
+                let s = 0;
+                if (v.length >= 6) s += 25;
+                if (/[A-Z]/.test(v)) s += 25;
+                if (/[0-9]/.test(v)) s += 25;
+                if (/[^A-Za-z0-9]/.test(v)) s += 25;
+                $('#strengthBar').css('width', s + '%');
+            });
+        });
+    </script>
 @endsection

@@ -37,7 +37,7 @@ class MobileAuth
         }
 
         // Buscar el usuario
-        $user = Usuario::find($auth->usuario_id);
+        $user = Usuario::where('uuid', $auth->usuario_id)->first();
 
         if (!$user || $user->estado != Usuario::ACTIVO) {
             return response()->json([

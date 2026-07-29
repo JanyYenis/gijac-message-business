@@ -690,8 +690,8 @@ if (!function_exists("generarQR")) {
     {
         $writer = new PngWriter();
 
-        $logo = Logo::create(asset("img/fondo.png"))
-            ->setResizeToWidth(50);
+        $logo = Logo::create(public_path("img/logo_gmb.png"))
+            ->setResizeToWidth(40);
 
         $qr = QrCode::create($ruta)
             ->setEncoding(new Encoding('UTF-8'))

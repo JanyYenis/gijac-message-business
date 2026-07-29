@@ -99,6 +99,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            border-radius: 6px 0 0 6px;
         }
 
         .contacts-header {
@@ -237,6 +238,7 @@
             display: flex;
             flex-direction: column;
             background-color: var(--whatsapp-bg);
+            border-radius: 0 6px 6px 0;
         }
 
         .chat-header {

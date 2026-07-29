@@ -32,7 +32,7 @@
                 </div>
                 <div>
                     <p class="stat-title fs-3">Chatbots Activos</p>
-                    <p class="stat-value fs-3">5</p>
+                    <p class="stat-value fs-3">{{ $chatbot_nodo ?? 0 }}</p>
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div>
                     <p class="stat-title fs-3">Asistentes IA</p>
-                    <p class="stat-value fs-3">2</p>
+                    <p class="stat-value fs-3">{{ $chatbot_ia ?? 0 }}</p>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
                 </div>
                 <div>
                     <p class="stat-title fs-3">Integraciones n8n</p>
-                    <p class="stat-value fs-3">1</p>
+                    <p class="stat-value fs-3">{{ $chatbot_n8n ?? 0 }}</p>
                 </div>
             </div>
         </div>
@@ -65,7 +65,7 @@
                 </div>
                 <div>
                     <p class="stat-title fs-3">Conversaciones Automatizadas</p>
-                    <p class="stat-value fs-3">12,540</p>
+                    <p class="stat-value fs-3">0</p>
                 </div>
             </div>
         </div>

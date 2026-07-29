@@ -24,38 +24,55 @@ class EmpresaController extends Controller
         $datos = $request->all();
         $datos['cod_usuario'] = auth()->user()->uuid;
 
-        $path = null;
+        // Obtener la empresa actual (si existe)
+        $empresa = Empresa::where('cod_usuario', auth()->user()->uuid)->first();
 
         if ($request->hasFile('imagen')) {
-            $archivo = $request->file('imagen');
-            $path = $archivo->store('negocios', 'public');
+
+            // Eliminar imagen anterior
+            if ($empresa && !empty($empresa->foto)) {
+
+                // Convierte la URL en la ruta del storage
+                $rutaAnterior = str_replace(url(Storage::url('')), '', $empresa->foto);
+
+                if (Storage::disk('public')->exists($rutaAnterior)) {
+                    Storage::disk('public')->delete($rutaAnterior);
+                }
+            }
+
+            // Guardar nueva imagen
+            $path = $request->file('imagen')->store('negocios', 'public');
             $datos['foto'] = url(Storage::url($path));
         }
 
-        $empresa = Empresa::create($datos);
+        $empresa = Empresa::updateOrCreate(
+            [
+                'cod_usuario' => auth()->user()->uuid
+            ],
+            $datos
+        );
 
         if (!$empresa) {
-            throw new ErrorException('Ha ocurrido un error al interntar crear el negocio.');
+            throw new ErrorException('Ha ocurrido un error al intentar crear el negocio.');
         }
 
-        $empresa->refresh();
-
-        // Verifica el ID
-        if (empty($empresa->id)) {
-            throw new ErrorException("El empresa no tiene un ID asignado.");
-        }
-
-        auth()->user()->update(['cod_empresa' => $empresa->id]);
-
-        UsuarioEmpresa::create([
-            'cod_empresa' => $empresa->id,
-            'cod_usuario' => auth()->user()?->uuid,
-            'principal'   => UsuarioEmpresa::PRINCIPAL,
+        auth()->user()->update([
+            'cod_empresa' => $empresa->id
         ]);
+
+        UsuarioEmpresa::updateOrCreate(
+            [
+                'cod_empresa' => $empresa->id,
+                'cod_usuario' => auth()->user()->uuid,
+            ],
+            [
+                'principal' => UsuarioEmpresa::PRINCIPAL,
+            ]
+        );
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se registro correctamente la empresa.',
+            'mensaje' => 'Se registró correctamente la empresa.',
         ];
     }
 }

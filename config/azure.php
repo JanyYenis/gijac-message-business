@@ -13,4 +13,5 @@ return [
   'authority'         => env('OAUTH_AUTHORITY', 'https://login.microsoftonline.com/common'),
   'authorizeEndpoint' => env('OAUTH_AUTHORIZE_ENDPOINT', '/oauth2/v2.0/authorize'),
   'tokenEndpoint'     => env('OAUTH_TOKEN_ENDPOINT', '/oauth2/v2.0/token'),
+  'tenantId'          => env('OAUTH_TENANT_ID', 'common'),
 ];

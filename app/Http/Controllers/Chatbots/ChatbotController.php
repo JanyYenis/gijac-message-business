@@ -3,6 +3,9 @@ namespace App\Http\Controllers\Chatbots;
 
 use App\Exceptions\ErrorException;
 use App\Http\Controllers\Controller;
+use App\Models\AutomatizacionN8n;
+use App\Models\Chatbots\ChatbotFlow;
+use App\Models\ConfiguracionAi;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 
@@ -15,6 +18,22 @@ class ChatbotController extends Controller
             throw new ErrorException("No tienes permisos para acceder a esta sección.");
         }
 
-        return view('chatbots.index');
+        $info['chatbot_nodo'] = ChatbotFlow::where('cod_empresa', auth()->user()->empresa->id)
+            ->where('estado', ChatbotFlow::ACTIVO)
+            ->count();
+
+        $info['chatbot_ia'] = ConfiguracionAi::where('cod_empresa', auth()->user()->empresa->id)
+            ->where('estado', ConfiguracionAi::ACTIVO)
+            ->count();
+
+        $info['chatbot_n8n'] = AutomatizacionN8n::where('cod_empresa', auth()->user()->empresa->id)
+            ->where('estado', AutomatizacionN8n::ACTIVO)
+            ->count();
+
+        // $info['conversaciones'] = ChatbotFlow::where('cod_empresa', auth()->user()->empresa->id)
+        //     ->where('estado', ChatbotFlow::ACTIVO)
+        //     ->count();
+
+        return view('chatbots.index', $info);
     }
 }

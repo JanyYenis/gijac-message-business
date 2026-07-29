@@ -15,8 +15,8 @@ class ConfiguracionAi extends Model
 
     protected $fillable = [
         "cod_usuario",
+        "cod_empresa",
         "prompt",
-        "app_id",
         "estado",
     ];
 

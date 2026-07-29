@@ -157,13 +157,11 @@
             width: 250px;
             height: 250px;
             background: white;
-            border: 2px solid var(--whatsapp-dark);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 100px;
-            color: var(--whatsapp-dark);
         }
 
         .qr-title {
@@ -430,7 +428,9 @@
                 </div>
 
                 <div class="qr-container">
-                    <div class="qr-code" id="qrCode">{!! $qr !!} </div>
+                    <div class="qr-code" id="qrCode">
+                        <img src="{{ $qr }}" alt="Código QR" width="100%">
+                    </div>
                 </div>
 
                 <div class="waiting-text" id="waitingText">

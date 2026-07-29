@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Dispositivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class LoginQrController extends Controller
 {
@@ -16,13 +15,15 @@ class LoginQrController extends Controller
 
         Dispositivo::create([
             'usuario_id' => auth()->user()->id,
-            'token' => $token,
-            'expira_en' => now()->addMinutes(2),
+            'token'      => $token,
+            'expira_en'  => now()->addMinutes(2),
         ]);
 
-        $qrData = config('app.url') . '/device-link?token=' . urlencode($token) . '&server=' . urlencode(config('app.url'));
+        $qrData = config('app.url')
+            . '/device-link?token=' . urlencode($token)
+            . '&server=' . urlencode(config('app.url'));
 
-        $info['qr'] = QrCode::size(300)->generate($qrData);
+        $info['qr'] = generarQR($qrData);
 
         return view('auth.login-qr', $info);
     }

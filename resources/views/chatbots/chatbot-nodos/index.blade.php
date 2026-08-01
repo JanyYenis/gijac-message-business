@@ -77,7 +77,7 @@
                 </div>
                 <div>
                     <p class="stat-title fs-4">Última Publicación</p>
-                    <p class="stat-value fs-5">{{ $ultimo_flujo?->fecha_publicado ?? 'N/A' }}</p>
+                    <p class="stat-value fs-5">{{ $ultimo_flujo?->fecha_publicado->formatLocalized('%d de %B del %Y a las %H:%M') ?? 'N/A' }}</p>
                 </div>
             </div>
         </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Dispositivo;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -73,7 +74,7 @@ class LoginQrController extends Controller
             ], 404);
         }
 
-        if ($dispositivo->expira_en->isPast()) {
+        if (Carbon::parse($dispositivo->expira_en)->isPast()) {
             return response()->json([
                 'error' => 'Token expirado.'
             ], 400);

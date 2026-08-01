@@ -99,12 +99,24 @@
                 </ul>
                 <div class="status-row">
                     <span class="status-label fs-6">
-                        Estado: <span class="status-value text-success fs-6">Activo</span>
+                        Estado:
+                        @if ($chatbot_nodo > 0)
+                            <span class="status-value text-success fs-6">Activo</span>
+                        @else
+                            <span class="status-value text-warning fs-6">No configurado</span>
+                        @endif
                     </span>
-                    <span class="badge-soft-green fs-6">
-                        <i class="bi bi-check-circle-fill me-1"></i>
-                        Configurado
-                    </span>
+                    @if ($chatbot_nodo > 0)
+                        <span class="badge-soft-green fs-6">
+                            <i class="bi bi-check-circle-fill me-1"></i>
+                            Configurado
+                        </span>
+                    @else
+                        <span class="badge-soft-yellow fs-6">
+                            <i class="bi bi-exclamation-circle-fill me-1"></i>
+                            Pendiente
+                        </span>
+                    @endif
                 </div>
                 <div class="card-actions">
                     <a href="{{ route('chatbots.nodos.index') }}" class="btn btn-wa fs-4">
@@ -140,14 +152,23 @@
                 <div class="status-row">
                     <span class="status-label fs-6">
                         Estado:
-                        <span class="status-value text-warning fs-6">
-                            No configurado
+                        @if ($chatbot_ia > 0)
+                            <span class="status-value text-success fs-6">Activo</span>
+                        @else
+                            <span class="status-value text-warning fs-6">No configurado</span>
+                        @endif
+                    </span>
+                    @if ($chatbot_ia > 0)
+                        <span class="badge-soft-green fs-6">
+                            <i class="bi bi-check-circle-fill me-1"></i>
+                            Configurado
                         </span>
-                    </span>
-                    <span class="badge-soft-yellow fs-6">
-                        <i class="bi bi-exclamation-circle-fill me-1"></i>
-                        Pendiente
-                    </span>
+                    @else
+                        <span class="badge-soft-yellow fs-6">
+                            <i class="bi bi-exclamation-circle-fill me-1"></i>
+                            Pendiente
+                        </span>
+                    @endif
                 </div>
                 <div class="card-actions">
                     <a href="{{ route('chatbots.asistente.index') }}" class="btn btn-wa fs-4">
@@ -183,14 +204,23 @@
                 <div class="status-row">
                     <span class="status-label fs-6">
                         Estado:
-                        <span class="status-value text-success fs-6">
+                        @if ($chatbot_n8n > 0)
+                            <span class="status-value text-success fs-6">Configurado</span>
+                        @else
+                            <span class="status-value text-warning fs-6">No configurado</span>
+                        @endif
+                    </span>
+                    @if ($chatbot_n8n > 0)
+                        <span class="badge-soft-green fs-6">
+                            <i class="bi bi-check-circle-fill me-1"></i>
                             Configurado
                         </span>
-                    </span>
-                    <span class="badge-soft-green fs-6">
-                        <i class="bi bi-plug-fill me-1"></i>
-                        Conectado
-                    </span>
+                    @else
+                        <span class="badge-soft-yellow fs-6">
+                            <i class="bi bi-exclamation-circle-fill me-1"></i>
+                            Pendiente
+                        </span>
+                    @endif
                 </div>
                 <div class="card-actions">
                     <a href="{{ route('chatbots.n8n.index') }}" class="btn btn-wa fs-4">

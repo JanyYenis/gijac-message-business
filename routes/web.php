@@ -121,7 +121,7 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(f
         ->name('login-qr');
 });
 
-Route::get('/device-link', [LoginQrController::class, 'deviceLink']);
+Route::post('/device-link', [LoginQrController::class, 'deviceLink']);
 
 Route::get('/epayco/bancos', [EpaycoController::class, 'obtenerBancos'])
         ->withoutMiddleware(['auth']);

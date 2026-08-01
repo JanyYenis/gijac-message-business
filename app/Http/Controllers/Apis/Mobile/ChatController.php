@@ -260,18 +260,24 @@ class ChatController extends Controller
 
     private function getFileUrl($mensaje)
     {
+        // Verificamos que metadata sea un array (Laravel ya lo convierte por el cast)
+        if (!is_array($mensaje->metadata)) {
+            return null;
+        }
+
         if (in_array($mensaje->type, [Mensaje::IMAGEN, Mensaje::VIDEO, Mensaje::DOCUMENTO])) {
-            $metadata = json_decode($mensaje->metadata);
-            // Asumiendo que guardaste el path en storage
-            // Ajusta esto según cómo guardes tus archivos
+            // Ya NO necesitamos json_decode, ya es un array
+            $metadata = $mensaje->metadata;
+
+            // Usamos corchetes [] en vez de flechas -> porque es un array
             if ($mensaje->type == Mensaje::IMAGEN) {
-                return isset($metadata->image->id) ? url(Storage::url("chats/img/{$metadata->image->id}.jpg")) : null;
+                return isset($metadata['image']['id']) ? url(Storage::url("chats/img/{$metadata['image']['id']}.jpg")) : null;
             }
             if ($mensaje->type == Mensaje::DOCUMENTO) {
-                return isset($metadata->document->id) ? url(Storage::url("chats/documentos/{$metadata->document->id}")) : null;
+                return isset($metadata['document']['id']) ? url(Storage::url("chats/documentos/{$metadata['document']['id']}")) : null;
             }
             if ($mensaje->type == Mensaje::AUDIO) {
-                return $mensaje->body; // En tu controlador original guardabas la URL directa en body para audios
+                return $mensaje->body;
             }
         }
         return null;

@@ -10,4 +10,5 @@ Route::group(['prefix' => 'nodos', 'as' => 'nodos.'], function() {
     Route::get('/editar/{chatbot}', [ChatbotNodoController::class, 'edit'])->name('edit');
     Route::put('/actualizar/{chatbot}', [ChatbotNodoController::class, 'update'])->name('update');
     Route::get('/consultar-nodes', [ChatbotNodoController::class, 'getFlowData'])->name('consultar-nodes');
+    Route::get('/versiones', [ChatbotNodoController::class, 'listadoVersiones'])->name('listado-versiones');
 });

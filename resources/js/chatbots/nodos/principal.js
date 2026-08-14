@@ -1188,3 +1188,5 @@ function sendSim() {
         chat.scrollTop = chat.scrollHeight;
     }, 700);
 }
+
+require('./versiones');

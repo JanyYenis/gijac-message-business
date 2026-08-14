@@ -30,7 +30,7 @@
                 <!-- Step 1: Seleccionar Plantilla -->
                 <div class="wizard-step active" id="step-1">
                     <div class="step-title">
-                        <i class="bi bi-card-text"></i> Selecciona una Plantilla
+                        <i class="bi bi-card-text text-dark"></i> Selecciona una Plantilla
                     </div>
                     <div class="step-description">
                         Elige la plantilla de campaña que deseas analizar para predecir la tasa de apertura.
@@ -43,7 +43,7 @@
                 <!-- Step 2: Seleccionar Usuarios -->
                 <div class="wizard-step" id="step-2">
                     <div class="step-title">
-                        <i class="bi bi-people-fill"></i> Selecciona Usuarios
+                        <i class="bi bi-people-fill text-dark"></i> Selecciona Usuarios
                     </div>
                     <div class="step-description">
                         Elige los usuarios a los que deseas analizar la predicción de apertura.
@@ -75,47 +75,38 @@
 
                 <!-- Step 3: Resultados del Análisis -->
                 <div class="wizard-step" id="step-3">
-                    <div class="step-title">
-                        <i class="bi bi-bar-chart-fill"></i> Análisis Predictivo
+                    <!--begin::Alert-->
+                    <div class="alert alert-dismissible bg-light-info border border-info d-flex flex-column flex-sm-row p-5 mb-10">
+                        <i class="fas fa-info-circle fs-2hx text-info me-4 mb-5 mb-sm-0">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                            <span class="path3"></span>
+                        </i>
+                        <div class="d-flex flex-column pe-0 pe-sm-10">
+                            <h5 class="mb-1">Reporte de predicción por correo</h5>
+                            <span>Al generar la predicción de la campaña, el análisis se procesa en segundo plano y puede tardar unos minutos. Cuando esté listo, recibirás un correo con el reporte completo en Excel, incluyendo la probabilidad de apertura, el nivel de confianza y la mejor hora de envío por cada contacto.</span>
+                        </div>
+                        <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
+                            <i class="las la-times fs-1 text-info">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </button>
                     </div>
-                    <div class="step-description">
-                        Resultados del análisis de predicción para los usuarios seleccionados.
-                    </div>
-                    <div class="selected-info" id="analysisInfo" style="display: none;">
-                        Plantilla: <strong id="analysisTemplateName"></strong> | Usuarios: <strong
-                            id="analysisUserCount">0</strong>
-                    </div>
-                    <div class="results-stats" id="resultStats">
-                        <!-- Las estadísticas se cargarán aquí -->
-                    </div>
-                    <div class="results-table-container">
-                        <table class="table results-table">
-                            <thead>
-                                <tr>
-                                    <th>Usuario</th>
-                                    <th>Probabilidad</th>
-                                    <th>Progreso</th>
-                                    <th>Estado Probable</th>
-                                </tr>
-                            </thead>
-                            <tbody id="resultsTableBody">
-                                <!-- Los resultados se cargarán aquí con JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
+                    <!--end::Alert-->
                 </div>
             </div>
 
             <!-- Footer -->
             <div class="modal-footer-wizard">
                 <button type="button" class="btn-custom btn-secondary-wizard" id="btnAnterior" style="display: none;">
-                    <i class="bi bi-chevron-left"></i> Anterior
+                    <i class="bi bi-chevron-left text-dark"></i> Anterior
                 </button>
                 <button type="button" class="btn-custom btn-secondary-wizard" id="btnCerrar">
                     Cerrar
                 </button>
                 <button type="button" class="btn-custom btn-primary-wizard" id="btnSiguiente" disabled>
-                    Siguiente <i class="bi bi-chevron-right"></i>
+                    Siguiente <i class="bi bi-chevron-right text-white"></i>
                 </button>
             </div>
         </div>

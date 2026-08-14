@@ -136,7 +136,7 @@ class ChatController extends Controller
                     'fecha' => $m->created_at->toISOString(), // Flutter se encarga de formatear "Hoy", "Ayer"
                     'url_archivo' => $this->getFileUrl($m),
                 ];
-            }),
+            })->values()->toArray(),
             'contacto' => [
                 'nombre' => $contacto->nombre . ' ' . $contacto->apellido,
                 'telefono' => $contacto->numero_completo,
@@ -260,22 +260,37 @@ class ChatController extends Controller
 
     private function getFileUrl($mensaje)
     {
-        // Verificamos que metadata sea un array (Laravel ya lo convierte por el cast)
         if (!is_array($mensaje->metadata)) {
             return null;
         }
 
         if (in_array($mensaje->type, [Mensaje::IMAGEN, Mensaje::VIDEO, Mensaje::DOCUMENTO])) {
-            // Ya NO necesitamos json_decode, ya es un array
             $metadata = $mensaje->metadata;
 
-            // Usamos corchetes [] en vez de flechas -> porque es un array
             if ($mensaje->type == Mensaje::IMAGEN) {
-                return isset($metadata['image']['id']) ? url(Storage::url("chats/img/{$metadata['image']['id']}.jpg")) : null;
+                if (isset($metadata['image']['id'])) {
+                    // Usamos Storage::url directamente sin la función url() de Laravel
+                    return Storage::url("chats/img/{$metadata['image']['id']}.jpg");
+                }
+                // Si no hay ID, intenta con el body directo (a veces WA envía la URL ahí)
+                return filter_var($mensaje->body, FILTER_VALIDATE_URL) ? $mensaje->body : null;
             }
+
+            if ($mensaje->type == Mensaje::VIDEO) {
+                if (isset($metadata['video']['id'])) {
+                    return Storage::url("chats/videos/{$metadata['video']['id']}.mp4");
+                }
+                return filter_var($mensaje->body, FILTER_VALIDATE_URL) ? $mensaje->body : null;
+            }
+
             if ($mensaje->type == Mensaje::DOCUMENTO) {
-                return isset($metadata['document']['id']) ? url(Storage::url("chats/documentos/{$metadata['document']['id']}")) : null;
+                if (isset($metadata['document']['filename'])) {
+                    $nombre = basename($metadata['document']['filename']);
+                    return Storage::url("chats/documentos/$nombre");
+                }
+                return filter_var($mensaje->body, FILTER_VALIDATE_URL) ? $mensaje->body : null;
             }
+
             if ($mensaje->type == Mensaje::AUDIO) {
                 return $mensaje->body;
             }

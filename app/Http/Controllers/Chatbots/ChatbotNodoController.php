@@ -345,8 +345,6 @@ class ChatbotNodoController extends Controller
         // 2. Obtener nodos con sus configuraciones
         $nodes = ChatbotNode::where('flow_id', $flow->id)->get();
 
-        // Mapa inverso: ID Entero -> String
-        $typeMap = array_flip(ChatbotNode::darTipo(false)); // Esto depende de tu helper darConcepto
         // Si darTipo devuelve objetos, constrúyelo manualmente:
         $typeMap = [
             ChatbotNode::TEXT      => 'text',
@@ -448,22 +446,19 @@ class ChatbotNodoController extends Controller
                 $query->where('creado_por', auth()->user()->uuid)
                     ->orWhere('cod_empresa', auth()->user()->empresa?->id);
             })
-            ->oderbyDesc('numero_version');
+            ->orderByDesc('numero_version');
 
         return DataTables::eloquent($versiones)
+            ->addColumn("version", fn($model) => 'v.'.($model?->numero_version ?? 1))
+            ->addColumn("fecha", fn($model) => $model->created_at->formatLocalized('%d de %B del %Y a las %H:%M'))
+            ->addColumn("usuario", fn($model) => $model->creadoPor?->nombre_completo ?? 'N/A')
             ->addColumn("estado", function ($model) {
                 $info['concepto'] = $model?->infoEstado;
                 return view("sistema.estado", $info);
             })
             ->addColumn("action", function ($model) {
                 $info['model'] = $model;
-                // $info['estado_eliminado'] = $model?->estado == Campana::ELIMINADO;
-                // $info['estado_enviado'] = $model?->estado == Campana::ENVIADO;
-                // $info['puede_listado'] = can(Usuario::PERMISO_CAMPANA_LISTADO);
-                // $info['puede_crear'] = can(Usuario::PERMISO_CAMPANA_CREAR);
-                // $info['puede_editar'] = can(Usuario::PERMISO_CAMPANA_EDITAR);
-                // $info['puede_eliminar'] = can(Usuario::PERMISO_CAMPANA_ELIMINAR);
-                return view("campanas.columnas.acciones", $info);
+                return view("chatbots.chatbot-nodos.columnas.acciones", $info);
             })
             ->rawColumns(["action", "estado"])
             ->make(true);

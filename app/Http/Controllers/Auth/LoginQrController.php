@@ -64,6 +64,7 @@ class LoginQrController extends Controller
             'sistema_operativo' => 'required',
             'version_so' => 'nullable',
             'ip' => 'nullable',
+            'fcm_token' => 'nullable',
         ]);
 
         $dispositivo = Dispositivo::where('token', $request->token)->first();
@@ -86,6 +87,7 @@ class LoginQrController extends Controller
             'sistema_operativo' => $request->sistema_operativo,
             'version_so' => $request->version_so,
             'ip' => $request->ip ?? $request->ip(),
+            'fcm_token' => $request->fcm_token,
             'vinculado_en' => now(),
         ]);
 

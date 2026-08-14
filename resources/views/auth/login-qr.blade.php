@@ -394,8 +394,8 @@
                 <div class="user-email" id="userEmail">{{ auth()->user()->email }}</div>
 
                 <div class="user-status">
-                    <span class="status-badge disconnected" id="statusBadge"></span>
-                    <span id="statusText">Desconectado</span>
+                    <span class="status-badge {{ $dispositivo?->vinculado_en ? 'connected' : 'disconnected' }}" id="statusBadge"></span>
+                    <span id="statusText">{{ $dispositivo?->vinculado_en ? 'Conectado' : 'Desconectado' }}</span>
                 </div>
 
                 <div class="divider"></div>
@@ -407,12 +407,12 @@
 
                 <div class="info-section">
                     <div class="info-label">Navegador</div>
-                    <div class="info-value">Chrome 120</div>
+                    <div class="info-value">{{ $dispositivo?->vinculado_en ? $dispositivo?->sistema_operativo : 'N/A' }}</div>
                 </div>
 
                 <div class="info-section">
                     <div class="info-label">Versión</div>
-                    <div class="info-value">1.0</div>
+                    <div class="info-value">{{ $dispositivo?->vinculado_en ? $dispositivo?->version_so : 'N/A' }}</div>
                 </div>
             </div>
         </div>
@@ -420,7 +420,7 @@
         <!-- PANEL PRINCIPAL -->
         <div class="main-panel">
             <!-- QR CARD -->
-            <div class="qr-card" id="qrCard">
+            <div class="qr-card {{ $dispositivo?->vinculado_en ? 'd-none' : '' }}" id="qrCard">
                 <div class="qr-title">Escanea tu código QR</div>
                 <div class="qr-description">
                     Abre la app móvil de GIJAC MESSAGE y escanea este código desde el menú de seguridad para iniciar sesión
@@ -438,17 +438,17 @@
                     Esperando escaneo...
                 </div>
 
-                <button class="btn-qr" onclick="simularEscaneoQR()">
+                {{-- <button class="btn-qr" onclick="simularEscaneoQR()">
                     <i class="fas fa-qrcode"></i> Simular Escaneo QR
                 </button>
 
                 <button class="btn-secondary-light" onclick="mostrarMasOpciones()">
                     <i class="fas fa-ellipsis-h"></i> Más opciones
-                </button>
+                </button> --}}
             </div>
 
             <!-- SESSION CARD -->
-            <div class="session-card hidden" id="sessionCard">
+            <div class="session-card {{ $dispositivo?->vinculado_en ? '' : 'd-none' }}" id="sessionCard">
                 <div class="qr-title">
                     <i class="fas fa-check-circle" style="color: var(--whatsapp-green); margin-right: 10px;"></i>
                     Sesión iniciada
@@ -462,19 +462,19 @@
                 <div class="session-info">
                     <div class="device-item">
                         <span class="device-label"><i class="fas fa-mobile-alt"></i> Dispositivo</span>
-                        <span class="device-value" id="deviceName">iPhone 14 Pro</span>
+                        <span class="device-value" id="deviceName">{{ $dispositivo?->vinculado_en ? $dispositivo?->nombre_dispositivo : 'N/A' }}</span>
                     </div>
                     <div class="device-item">
                         <span class="device-label"><i class="fas fa-microchip"></i> Sistema</span>
-                        <span class="device-value" id="deviceOS">iOS 17.2</span>
+                        <span class="device-value" id="deviceOS">{{ $dispositivo?->vinculado_en ? $dispositivo?->sistema_operativo : 'N/A' }}</span>
                     </div>
                     <div class="device-item">
                         <span class="device-label"><i class="fas fa-link"></i> IP Remota</span>
-                        <span class="device-value" id="deviceIP">192.168.1.45</span>
+                        <span class="device-value" id="deviceIP">{{ $dispositivo?->vinculado_en ? $dispositivo?->ip : 'N/A' }}</span>
                     </div>
                     <div class="device-item">
                         <span class="device-label"><i class="fas fa-clock"></i> Conectado</span>
-                        <span class="device-value" id="connectionTime">Hace 2 minutos</span>
+                        <span class="device-value" id="connectionTime">{{ $dispositivo?->vinculado_en ? $dispositivo?->vinculado_en->diffForHumans() : 'N/A' }}</span>
                     </div>
                 </div>
 

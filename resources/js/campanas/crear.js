@@ -330,7 +330,7 @@ $(document).on('change', '#selectEtiqueta', function () {
     window.contactosSeleccionados = [];
     listadoContactosEnviar();
     $('.checkSeleccionarTodos').prop("checked", false);
-    if ($('#selectEtiqueta').val().length) {
+    if ($('#selectEtiqueta').val()?.length) {
         $('.seccionContactos').removeClass('d-none');
     } else {
         $('.seccionContactos').addClass('d-none');
@@ -419,6 +419,11 @@ const enviarDatos = (form) => {
  * Función que permite cargar el listado.
  */
 const listadoContactosEnviar = () => {
+    if ($.fn.DataTable.isDataTable(tablaContactos)) {
+        $(tablaContactos).DataTable().destroy();
+        $(tablaContactos).empty();
+    }
+
     var table = $("#tablaContactos").DataTable({
         paging: true,
         responsive: true,
@@ -515,10 +520,43 @@ const marcarSeleccionados = () => {
 
 $(document).on('hidden.bs.modal', modalCrearCampana, function (e) {
     generalidades.resetValidate(formCrearCampana);
+
+    // Reset de campos de recurso/adjunto
     $('#divUrl').addClass('d-none');
-    $('#inputFile').attr('disabled', true);
+    $('#inputFile').attr('disabled', true).val('');
     $('#checkUsarRecurso').prop('checked', false).trigger('change');
     validar_carga = 0;
+
+    // Reset de plantilla seleccionada SIN disparar el 'change' que hace la petición
+    $('#selectPlantilla').val(null).trigger('change.select2');
+    $('#templatePreview').empty();
+    $('.seccionEncabezado').addClass('d-none');
+    $('.inputVariable').remove();
+    $('#divTituloVariable').addClass('d-none');
+    nombres_variables = [];
+    urlArchivoOriginal = '';
+    tipo_header = 1;
+
+    // Reset de contactos/etiquetas
+    $('#selectEtiqueta').val(null).trigger('change.select2');
+    $('.seccionContactos').addClass('d-none');
+    window.contactosSeleccionados = [];
+
+    // Destruye el DataTable para que la próxima vez se cree limpio y no duplique peticiones
+    if ($.fn.DataTable.isDataTable(tablaContactos)) {
+        $(tablaContactos).DataTable().destroy();
+        $(tablaContactos).empty(); // limpia thead/tbody residual que deja DataTables
+    }
+
+    // Reset del stepper al paso 1
+    document.getElementById(`step-${currentStep}`)?.classList.remove('active');
+    document.querySelector(`.stepper-item[data-step="${currentStep}"]`)?.classList.remove('active');
+    document.querySelectorAll('.stepper-item').forEach(item => item.classList.remove('completed'));
+
+    currentStep = 1;
+    document.getElementById('step-1')?.classList.add('active');
+    document.querySelector(`.stepper-item[data-step="1"]`)?.classList.add('active');
+    updateNavigationButtons();
 });
 
 let currentStep = 1;

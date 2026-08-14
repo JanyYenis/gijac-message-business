@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="mt-3 mt-md-0">
-                <button class="btn btn-light-soft" id="btnImportTop">
+                <button class="btn btn-light-soft d-none" id="btnImportTop">
                     <i class="bi bi-upload text-white"></i>
                     Importar Flujo
                 </button>
@@ -300,11 +300,11 @@
                         </svg>
                         Publicar
                     </button> --}}
-                    <button class="btn btn-sm btn-toolbar" data-bs-toggle="modal" data-bs-target="#modalProbar">
+                    <button class="btn btn-sm btn-toolbar d-none" data-bs-toggle="modal" data-bs-target="#modalProbar">
                         <i class="bi bi-play-circle text-dark me-1"></i>
                         Probar Flujo
                     </button>
-                    <button class="btn btn-sm btn-toolbar" id="btnDuplicar">
+                    <button class="btn btn-sm btn-toolbar d-none" id="btnDuplicar">
                         <i class="bi bi-files text-dark me-1"></i>
                         Duplicar
                     </button>
@@ -360,152 +360,27 @@
                     Historial de cambios y publicaciones del flujo actual.
                 </p>
             </div>
-            <button class="btn btn-sm btn-toolbar">
-                <i class="bi bi-arrow-clockwise text-dark me-1"></i>
-                Actualizar
-            </button>
         </div>
         <div class="table-responsive">
-            <table class="table align-middle mb-0">
+            <table class="table" id="tablaVersiones">
                 <thead>
                     <tr>
-                        <th>Versión</th>
-                        <th>Fecha</th>
-                        <th>Usuario</th>
-                        <th>Estado</th>
-                        <th class="text-end">Acciones</th>
+                        <th width="5%" class="text-center all">Versión</th>
+                        <th width="10%" class="text-center all">Fecha</th>
+                        <th width="10%" class="text-center all">Usuario</th>
+                        <th width="10%" class="text-center all">Estado</th>
+                        <th width="10%" class="text-center all">Acciones</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>v1.4</strong></td>
-                        <td>09 Jun 2026, 14:32</td>
-                        <td>Juan García</td>
-                        <td><span class="badge badge-pub">Publicada</span></td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-toolbar"><i class="bi bi-eye"></i></button>
-                            <button class="btn btn-sm btn-toolbar"><i
-                                    class="bi bi-arrow-counterclockwise"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>v1.3</strong></td>
-                        <td>07 Jun 2026, 10:11</td>
-                        <td>Ana Ruiz</td>
-                        <td><span class="badge badge-draft">Borrador</span></td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-toolbar"><i class="bi bi-eye"></i></button>
-                            <button class="btn btn-sm btn-toolbar"><i
-                                    class="bi bi-arrow-counterclockwise"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><strong>v1.2</strong></td>
-                        <td>02 Jun 2026, 09:45</td>
-                        <td>Juan García</td>
-                        <td><span class="badge badge-arch">Archivada</span></td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-toolbar"><i class="bi bi-eye"></i></button>
-                            <button class="btn btn-sm btn-toolbar"><i
-                                    class="bi bi-arrow-counterclockwise"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
 @endsection
 
 @section('modal')
-    <!-- ====== MODAL NUEVO FLUJO ====== -->
-    <div class="modal fade" id="modalNuevoFlujo" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius:14px;">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="bi bi-plus-circle me-1"></i>Nuevo Flujo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body prop-form">
-                    <div class="prop-group">
-                        <label>Nombre del flujo</label>
-                        <input type="text" class="form-control" placeholder="Ej. Atención al cliente" />
-                    </div>
-                    <div class="prop-group">
-                        <label>Descripción</label>
-                        <textarea class="form-control" rows="2" placeholder="Describe el propósito del flujo..."></textarea>
-                    </div>
-                    <div class="prop-group">
-                        <label>Canal</label>
-                        <select class="form-select">
-                            <option>WhatsApp Business</option>
-                        </select>
-                    </div>
-                    <div class="prop-group">
-                        <label>Estado</label>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="swEstado" checked />
-                            <label class="form-check-label" for="swEstado">Activo</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-toolbar" data-bs-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-white" style="background:var(--wa-green); color:#fff;"
-                        data-bs-dismiss="modal"><i class="bi bi-check-lg me-1"></i>Crear Flujo</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ====== MODAL PROBAR FLUJO ====== -->
-    <div class="modal fade" id="modalProbar" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content" style="border-radius:14px; overflow:hidden;">
-                <div class="modal-header">
-                    <h5 class="modal-title"><i class="bi bi-play-circle me-1"></i>Probar Flujo — Simulador</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body p-0">
-                    <div class="sim-grid">
-                        <!-- Panel izquierdo: flujo -->
-                        <div class="sim-left">
-                            <h6 class="fw-bold mb-2" style="font-size:0.9rem;">Flujo</h6>
-                            <div class="sim-flow-item active"><span class="dn-icon dn-start"
-                                    style="width:24px;height:24px;"><i class="bi bi-play-fill"></i></span>Inicio</div>
-                            <div class="sim-flow-item"><span class="dn-icon dn-text" style="width:24px;height:24px;"><i
-                                        class="bi bi-chat-left-text"></i></span>Mensaje Bienvenida</div>
-                            <div class="sim-flow-item"><span class="dn-icon dn-buttons"
-                                    style="width:24px;height:24px;"><i class="bi bi-ui-checks-grid"></i></span>Botones
-                                Acepto / No</div>
-                            <div class="sim-flow-item"><span class="dn-icon dn-list" style="width:24px;height:24px;"><i
-                                        class="bi bi-list-ul"></i></span>Lista Principal</div>
-                        </div>
-                        <!-- Panel derecho: chat -->
-                        <div class="wa-chat">
-                            <div class="wa-chat-head">
-                                <div class="avatar"><i class="bi bi-robot"></i></div>
-                                <div>
-                                    <div style="font-weight:600; font-size:0.9rem;">Chatbot GIJAC</div>
-                                    <div style="font-size:0.72rem; opacity:.85;">en línea</div>
-                                </div>
-                            </div>
-                            <div class="wa-chat-body" id="simChat">
-                                <div class="wa-msg bot">¡Hola! Bienvenido a GIJAC MESSAGE BUSINESS. ¿En qué podemos
-                                    ayudarte hoy?</div>
-                                <div class="wa-msg bot">Por favor acepta nuestros términos para continuar:</div>
-                            </div>
-                            <div class="wa-chat-foot">
-                                <input type="text" class="form-control" id="simInput"
-                                    placeholder="Escribe un mensaje..." />
-                                <button class="btn btn-wa" id="simSend"
-                                    style="background:var(--wa-green); color:#fff;"><i class="bi bi-send"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    @component('chatbots.chatbot-nodos.modals.ver')
+    @endcomponent
 @endsection
 
 @section('scripts')

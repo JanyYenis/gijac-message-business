@@ -26,12 +26,14 @@ class Dispositivo extends Model
         'ip',
         'modelo',
         'expira_en',
+        'fcm_token',
         'vinculado_en',
     ];
 
     protected $casts = [
         'id' => 'string',
         'usuario_id' => 'string',
+        'vinculado_en' => 'datetime',
     ];
 
     protected static function boot()

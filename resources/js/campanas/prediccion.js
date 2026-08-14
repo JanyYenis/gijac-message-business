@@ -199,70 +199,7 @@ function renderResultados() {
 
     const success = (response) => {
         if (response.success) {
-            // Actualizar información
-            document.getElementById('analysisInfo').style.display = 'block';
-            document.getElementById('analysisTemplateName').textContent = wizard.selectedTemplate.name;
-            document.getElementById('analysisUserCount').textContent = wizard.selectedUsers.length;
 
-            // Calcular estadísticas
-            const totalUsers = wizard.selectedUsers.length;
-            const willOpen = response?.data?.estadisticas_generales?.contactos_alta_confianza +
-                response?.data?.estadisticas_generales?.contactos_media_confianza ?? 0;
-            const wontOpen = response?.data?.estadisticas_generales?.contactos_baja_confianza ?? 0;
-            const avgProbability = (response?.data?.estadisticas_generales?.probabilidad_promedio * 100) ?? 0;
-
-            // Renderizar estadísticas
-            const statsContainer = document.getElementById('resultStats');
-            statsContainer.innerHTML = `
-                        <div class="stats-card">
-                            <div class="stats-label">Total de Usuarios</div>
-                            <div class="stats-value">${totalUsers}</div>
-                        </div>
-                        <div class="stats-card">
-                            <div class="stats-label">Probabilidad Promedio</div>
-                            <div class="stats-value">${parseFloat(avgProbability.toFixed(2))}%</div>
-                        </div>
-                        <div class="stats-card">
-                            <div class="stats-label">Aperturas Esperadas</div>
-                            <div class="stats-value" style="color: var(--success-color);">${willOpen}</div>
-                        </div>
-                        <div class="stats-card">
-                            <div class="stats-label">No Aperturas Esperadas</div>
-                            <div class="stats-value" style="color: var(--danger-color);">${wontOpen}</div>
-                        </div>
-                    `;
-
-            // Renderizar tabla de resultados
-            const tbody = document.getElementById('resultsTableBody');
-            tbody.innerHTML = response?.data.resultados.map(pred => {
-                let badgeClass = 'probability-high';
-                if ((pred.probabilidad_apertura * 100) < 50) badgeClass = 'probability-low';
-                else if ((pred.probabilidad_apertura * 100) < 75) badgeClass = 'probability-medium';
-
-                let statusClass = 'status-will-open';
-                if (pred.nivel_confianza === 'Baja') statusClass = 'status-wont-open';
-
-                return `
-                            <tr>
-                                <td>${pred.nombre_cliente} - ${pred.telefono}</td>
-                                <td>
-                                    <div class="probability-badge ${badgeClass}">
-                                        ${parseFloat(pred.probabilidad_apertura * 100).toFixed(2)}%
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="probability-bar">
-                                        <div class="probability-bar-fill" style="width: ${(pred.probabilidad_apertura * 100).toFixed(2)}%"></div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="status-badge ${statusClass}">
-                                        ${pred.nivel_confianza}
-                                    </span>
-                                </td>
-                            </tr>
-                        `;
-            }).join('');
         }
         generalidades.ocultarCargando('body');
         generalidades.toastrGenerico(response?.estado, response?.mensaje);
@@ -375,6 +312,8 @@ function resetWizard() {
 }
 
 function formatearFecha(fechaString) {
+    if (fechaString === null || fechaString === undefined || fechaString === 'Sin aperturas' || fechaString === '') return 'N/A';
+
     const fecha = new Date(fechaString);
     const opciones = {
         day: 'numeric',

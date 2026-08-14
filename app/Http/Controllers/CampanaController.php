@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\NotificacionEvent;
 use App\Exceptions\ErrorException;
 use App\Exports\ReporteCampana;
+use App\Jobs\GenerarReporteCampanaJob;
 use App\Jobs\SendWhatsAppMessage;
 use App\Models\DetalleErrorMensaje;
 use App\Models\DetalleLink;
@@ -407,8 +408,7 @@ class CampanaController extends Controller
             ")
             ->leftJoin('etiquetas_contactos as ec', 'ec.cod_contacto', '=', 'contactos.id')
             ->leftJoin('etiquetas as e', 'ec.cod_etiqueta', '=', 'e.id')
-            ->groupBy('contactos.id', 'contactos.nombre', 'contactos.apellido', 'contactos.codigo_telefono',
-                'contactos.telefono')
+            ->groupBy('contactos.id', 'contactos.nombre', 'contactos.apellido', 'contactos.numero_completo')
             ->where(function($query) use($etiquetas){
                 if ($etiquetas) {
                     $query->where('ec.cod_etiqueta', $etiquetas);
@@ -953,31 +953,17 @@ class CampanaController extends Controller
     }
 
     // Inyección automática en el método
-    public function predecir(
-        Request $request,
-        PrediccionContenidoService $service
-    ) {
-
-        $contactos = Contacto::query()
-            ->with('enviosCampanas')
-            ->whereIn(
-                'id',
-                explode(',', $request->contactos_ids)
-            )
-            ->get();
-
-        $resultado = $service->predecirCampana(
-            $contactos->all(),
-            $request->contenido_mensaje
-        );
-
-        $analisisIa = app(CampanaAiService::class)
-        ->analizar(
+    public function predecir(Request $request)
+    {
+        dispatch(new GenerarReporteCampanaJob(
+            explode(',', $request->contactos_ids),
             $request->contenido_mensaje,
-            $resultado
-        );
+            $request->user()->email
+        ));
 
-        dd($analisisIa, $resultado);
-        return response()->json($resultado);
+        return response()->json([
+            'status' => 'procesando',
+            'mensaje' => 'Te enviaremos el reporte por correo en breve.',
+        ]);
     }
 }

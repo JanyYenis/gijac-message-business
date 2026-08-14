@@ -3,6 +3,7 @@
 namespace App\Services\Campanas;
 
 use App\Models\Contacto;
+use Illuminate\Support\Facades\DB;
 
 class PrediccionContenidoService
 {
@@ -144,28 +145,54 @@ class PrediccionContenidoService
             . ':00';
     }
 
-    public function predecirCampana(
-        array $contactos,
-        string $contenido
-    ): array {
+    public function predecirCampana(array $contactos, string $contenido): array
+    {
+        $scoreContenido = $this->analizarContenido($contenido); // una sola vez
+
+        $ids = array_map(fn ($c) => $c->id, $contactos);
+
+        // 1 query: total y aperturas por contacto
+        $stats = DB::table('envios_campanas')
+            ->whereIn('cod_contacto', $ids)
+            ->selectRaw('cod_contacto as contacto_id, COUNT(*) total, SUM(apertura) aperturas')
+            ->groupBy('cod_contacto')
+            ->get()
+            ->keyBy('cod_contacto');
+
+        // 1 query: mejor hora por contacto
+        $horas = DB::table('envios_campanas')
+            ->whereIn('cod_contacto', $ids)
+            ->where('apertura', 1)
+            ->selectRaw('cod_contacto as contacto_id, HOUR(fecha_apertura) hora, COUNT(*) total')
+            ->groupBy('cod_contacto', 'hora')
+            ->get()
+            ->groupBy('cod_contacto');
 
         $resultados = [];
 
         foreach ($contactos as $contacto) {
+            $s = $stats->get($contacto->id);
+            $tasaHistorica = $s && $s->total ? $s->aperturas / $s->total : 0.5;
 
-            $resultados[] = $this->predecir(
-                $contacto,
-                $contenido
-            );
+            $probabilidad = ($tasaHistorica * 0.60) + ($scoreContenido * 0.40);
+
+            $mejorHora = $horas->get($contacto->id)
+                ?->sortByDesc('total')
+                ?->first()
+                ?->hora;
+
+            $resultados[] = [
+                'contacto_id' => $contacto->id,
+                'probabilidad' => round($probabilidad, 2),
+                'nivel' => $this->nivelConfianza($probabilidad),
+                'mejor_hora' => $mejorHora !== null
+                    ? str_pad($mejorHora, 2, '0', STR_PAD_LEFT) . ':00'
+                    : '09:00',
+                'tasa_historica' => round($tasaHistorica * 100, 2),
+            ];
         }
 
-        usort(
-            $resultados,
-            fn ($a, $b) =>
-                $b['probabilidad']
-                <=>
-                $a['probabilidad']
-        );
+        usort($resultados, fn ($a, $b) => $b['probabilidad'] <=> $a['probabilidad']);
 
         return $resultados;
     }

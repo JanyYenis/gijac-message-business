@@ -51,8 +51,18 @@ class PlantillaController extends Controller
             ->make(true);
     }
 
-    public function show(Request $request, Plantilla $plantilla)
+    public function show(Request $request, $plantilla = null)
     {
+        if (!$plantilla) {
+            $respuesta['numeroTel'] = $this->numeroG;
+            $respuesta["estado"] = "success";
+            $respuesta["mensaje"] = "Sin datos de plantilla";
+
+            return response()->json($respuesta);
+        }
+
+        $plantilla = Plantilla::find($plantilla);
+
         $plantilla->load(
             'header',
             'body',

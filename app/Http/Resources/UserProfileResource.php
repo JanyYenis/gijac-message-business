@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ConfiguracionMeta;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,6 +15,13 @@ class UserProfileResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $configMeta = $this->empresa
+            ? ConfiguracionMeta::firstWhere([
+                'cod_empresa' => $this->empresa->id,
+                'estado' => ConfiguracionMeta::ACTIVO,
+            ])
+            : null;
+
         return [
             'id'            => $this->uuid,
             'nombre'        => $this->nombre,
@@ -58,6 +66,7 @@ class UserProfileResource extends JsonResource
             'roles'         => $this->whenLoaded('roles', function () {
                 return $this->roles->pluck('nombre')->toArray();
             }),
+            'phone_number_id' => $configMeta?->phone_number_id,
             'tiene_2fa'     => !empty($this->google2fa_secret),
             'verificado'    => !is_null($this->email_verified_at),
         ];

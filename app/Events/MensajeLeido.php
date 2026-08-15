@@ -33,4 +33,9 @@ class MensajeLeido implements ShouldBroadcast
             new PresenceChannel('chat.leido.'.$this->mensaje->wa_from),
         ];
     }
+
+    public function broadcastAs(): string
+    {
+        return 'mensaje.leido';
+    }
 }

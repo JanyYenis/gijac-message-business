@@ -35,4 +35,9 @@ class MensajeSent implements ShouldBroadcast
             new PresenceChannel('chat.'.$this->mensaje->wa_to),
         ];
     }
+
+    public function broadcastAs(): string
+    {
+        return 'mensaje.enviado';
+    }
 }

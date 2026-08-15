@@ -5,6 +5,7 @@ use App\Http\Controllers\Apis\Mobile\ChatController;
 use App\Http\Controllers\ChatbotController;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,6 +46,10 @@ Route::prefix('mobile')->group(function () {
 
     // Rutas protegidas por token móvil
     Route::middleware('mobile.auth')->group(function () {
+
+        Route::post('/broadcasting/auth', function (Request $request) {
+            return Broadcast::auth($request);
+        });
 
         // Perfil del usuario
         Route::get('/profile', [AuthController::class, 'getProfile']);

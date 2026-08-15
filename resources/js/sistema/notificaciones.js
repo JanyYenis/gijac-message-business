@@ -25,7 +25,7 @@ Echo.join(`notificacion.${window.user}`).listen('NotificacionEvent', (e) => {
 //     }, false);
 // });
 
-Echo.join(`chat.${window.numeroTelefono}`).listen('mensaje.enviado', (e) => {
+Echo.join(`chat.${window.numeroTelefono}`).listen('.mensaje.enviado', (e) => {
     if (Notification.permission === 'granted') {
         let contenido_mensaje = e?.mensaje?.body ?? 'Tienes un mensaje';
         let tipo = e?.mensaje?.type ?? 1;

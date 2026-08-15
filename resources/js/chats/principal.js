@@ -535,7 +535,7 @@ require('./documentos');
 
 // ----------------------------------------------------------------------------------------------
 // Echo
-Echo.join(`chat.${window.numeroTelefono}`).listen('mensaje.enviado', (e) => {
+Echo.join(`chat.${window.numeroTelefono}`).listen('.mensaje.enviado', (e) => {
     // console.log('Mensaje', e);
 
     generalidades.refrescarSeccion(null, route('chats.actualizarContactos'), '#seccionListadoContactos', function () {
@@ -562,7 +562,7 @@ Echo.join(`chat.${window.numeroTelefono}`).listen('mensaje.enviado', (e) => {
     // actualizarEstadoUsuario();
 });
 
-Echo.join(`chat.leido.${window.numeroTelefono}`).listen('mensaje.leido', (e) => {
+Echo.join(`chat.leido.${window.numeroTelefono}`).listen('.mensaje.leido', (e) => {
     // console.log('Leer mensaje', e);
 
     let contacto = e?.mensaje?.wa_to ?? 0;

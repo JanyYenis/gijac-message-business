@@ -15,13 +15,15 @@ class MensajeSent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $mensaje;
+    public $phone_number_id;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($mensaje)
+    public function __construct($mensaje, $phone_number_id = null)
     {
         $this->mensaje = $mensaje;
+        $this->phone_number_id = $phone_number_id;
     }
 
     /**
@@ -31,6 +33,11 @@ class MensajeSent implements ShouldBroadcast
      */
     public function broadcastOn(): array
     {
+        if ($this->phone_number_id) {
+            return [
+                new PresenceChannel('chat.'.$this->phone_number_id),
+            ];
+        }
         return [
             new PresenceChannel('chat.'.$this->mensaje->wa_to),
         ];

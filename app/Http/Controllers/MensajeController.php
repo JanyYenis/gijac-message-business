@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MensajeSent;
 use App\Exceptions\ErrorException;
 use App\Models\ConfiguracionMeta;
 use App\Models\Contacto;
@@ -394,6 +395,8 @@ class MensajeController extends Controller
         if (!$mensaje) {
             throw new ErrorException("Error al intentar enviar el mensaje.");
         }
+
+        broadcast(new MensajeSent($mensaje, $this->phone_number_id))->toOthers();
 
         // === Recargar mensajes del chat ===
         $mensajes = Mensaje::where(function ($query) {

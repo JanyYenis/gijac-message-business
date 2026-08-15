@@ -41,3 +41,13 @@ window.Echo = new Echo({
     },
     authEndpoint: '/broadcasting/auth',
 });
+
+window.Echo.connector.pusher.connection.bind('connected', () => {
+    if (window.axios) {
+        window.axios.defaults.headers.common['X-Socket-Id'] = window.Echo.socketId();
+    }
+    // Si usas jQuery/AJAX en vez de axios:
+    if (window.$) {
+        $.ajaxSetup({ headers: { 'X-Socket-Id': window.Echo.socketId() } });
+    }
+});

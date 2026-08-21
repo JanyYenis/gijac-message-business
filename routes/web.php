@@ -119,6 +119,9 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(f
 
     Route::get('/login-qr', [LoginQrController::class, 'index'])
         ->name('login-qr');
+
+    Route::get('/login-qr/refresh', [LoginQrController::class, 'refresh'])
+        ->name('login-qr.refresh');
 });
 
 Route::post('/device-link', [LoginQrController::class, 'deviceLink']);

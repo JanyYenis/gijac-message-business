@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Chatbots;
 
 use App\Exceptions\ErrorException;
@@ -56,21 +57,23 @@ class ChatbotNodoController extends Controller
 
     public function index(Request $request)
     {
-        if (!can(Usuario::PERMISO_CHATBOT_CREAR) && !can(Usuario::PERMISO_CHATBOT_EDITAR) &&
-            !can(Usuario::PERMISO_CHATBOT_ELIMINAR) && !can(Usuario::PERMISO_CHATBOT_LISTADO)) {
+        if (
+            !can(Usuario::PERMISO_CHATBOT_CREAR) && !can(Usuario::PERMISO_CHATBOT_EDITAR) &&
+            !can(Usuario::PERMISO_CHATBOT_ELIMINAR) && !can(Usuario::PERMISO_CHATBOT_LISTADO)
+        ) {
             throw new ErrorException("No tienes permisos para acceder a esta sección.");
         }
 
-        $info['total_flujos'] = ChatbotFlow::where(function($query) {
-                $query->where('creado_por', auth()->user()->uuid)
-                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
-            })
+        $info['total_flujos'] = ChatbotFlow::where(function ($query) {
+            $query->where('creado_por', auth()->user()->uuid)
+                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+        })
             ->where('estado', ChatbotFlow::ACTIVO)
             ->count();
-        $info['ultimo_flujo'] = ChatbotFlow::where(function($query) {
-                $query->where('creado_por', auth()->user()->uuid)
-                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
-            })
+        $info['ultimo_flujo'] = ChatbotFlow::where(function ($query) {
+            $query->where('creado_por', auth()->user()->uuid)
+                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+        })
             ->where('estado', ChatbotFlow::ACTIVO)
             ->orderByDesc('fecha_publicado')
             ->first();
@@ -95,7 +98,7 @@ class ChatbotNodoController extends Controller
                 // Prioridad 1: El ID específico que envió el Javascript (si existe y es del usuario)
                 if ($inputFlowId) {
                     $flow = ChatbotFlow::where('id', $inputFlowId)
-                        ->where(function($query) use($userId) {
+                        ->where(function ($query) use ($userId) {
                             $query->where('creado_por', $userId)
                                 ->orWhere('cod_empresa', auth()->user()->empresa?->id);
                         })
@@ -105,7 +108,7 @@ class ChatbotNodoController extends Controller
                 // Prioridad 2: Si no hay ID (o es inválido), buscar el flujo ACTIVO del usuario
                 if (!$flow) {
                     $flow = ChatbotFlow::where('estado', ChatbotFlow::ACTIVO)
-                        ->where(function($query) use($userId) {
+                        ->where(function ($query) use ($userId) {
                             $query->where('creado_por', $userId)
                                 ->orWhere('cod_empresa', auth()->user()->empresa?->id);
                         })
@@ -114,10 +117,10 @@ class ChatbotNodoController extends Controller
 
                 // Prioridad 3: Si no hay activo, buscar el último borrador que haya creado
                 if (!$flow) {
-                    $flow = ChatbotFlow::where(function($query) use($userId) {
-                            $query->where('creado_por', $userId)
-                                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
-                        })
+                    $flow = ChatbotFlow::where(function ($query) use ($userId) {
+                        $query->where('creado_por', $userId)
+                            ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+                    })
                         ->latest()
                         ->first();
                 }
@@ -139,7 +142,7 @@ class ChatbotNodoController extends Controller
                     'versión_actual' => $action === 'published'
                         ? ($flow->exists ? $flow->versión_actual + 1 : 1)
                         : ($flow->versión_actual ?? 1),
-                    'fecha_publicado'=> $action === 'published' ? now() : $flow->fecha_publicado,
+                    'fecha_publicado' => $action === 'published' ? now() : $flow->fecha_publicado,
                 ]);
                 $flow->save();
 
@@ -208,7 +211,7 @@ class ChatbotNodoController extends Controller
                         'estado'         => ChatbotFlowVersion::PUBLICADO,
                         'creado_por'     => $userId,
                         'cod_empresa'    => auth()->user()->empresa?->id,
-                        'fecha_publicado'=> now(),
+                        'fecha_publicado' => now(),
                     ]);
                 }
 
@@ -326,10 +329,10 @@ class ChatbotNodoController extends Controller
         $user = Auth::user();
 
         // 1. Buscar el flujo del usuario (Asumiendo que solo tiene uno activo/borrador)
-        $flow = ChatbotFlow::where(function($query) use($user) {
-                $query->where('creado_por', $user->uuid)
-                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
-            })
+        $flow = ChatbotFlow::where(function ($query) use ($user) {
+            $query->where('creado_por', $user->uuid)
+                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+        })
             ->orderBy('updated_at', 'desc') // Traer el último editado
             ->first();
 
@@ -442,14 +445,14 @@ class ChatbotNodoController extends Controller
 
     public function listadoVersiones(Request $request)
     {
-        $versiones = ChatbotFlowVersion::where(function($query) {
-                $query->where('creado_por', auth()->user()->uuid)
-                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
-            })
+        $versiones = ChatbotFlowVersion::where(function ($query) {
+            $query->where('creado_por', auth()->user()->uuid)
+                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+        })
             ->orderByDesc('numero_version');
 
         return DataTables::eloquent($versiones)
-            ->addColumn("version", fn($model) => 'v.'.($model?->numero_version ?? 1))
+            ->addColumn("version", fn($model) => 'v.' . ($model?->numero_version ?? 1))
             ->addColumn("fecha", fn($model) => $model->created_at->formatLocalized('%d de %B del %Y a las %H:%M'))
             ->addColumn("usuario", fn($model) => $model->creadoPor?->nombre_completo ?? 'N/A')
             ->addColumn("estado", function ($model) {
@@ -462,5 +465,132 @@ class ChatbotNodoController extends Controller
             })
             ->rawColumns(["action", "estado"])
             ->make(true);
+    }
+
+    public function verVersion(ChatbotFlowVersion $version)
+    {
+        if ($version->creado_por !== auth()->user()->uuid && $version->cod_empresa !== auth()->user()->empresa?->id) {
+            throw new ErrorException("No tienes permisos para ver esta versión.");
+        }
+
+        $snapshot = $version->darSnapshot();
+
+        $connections = collect($snapshot['connections'] ?? [])->map(function ($c) {
+            return [
+                'source_id' => $c['source_node_drawflow_id'],
+                'target_id' => $c['target_node_drawflow_id'],
+                'output'    => $c['source_output'],
+                'input'     => $c['target_input'],
+            ];
+        })->values();
+
+        return response()->json([
+            'numero_version' => $version->numero_version,
+            'fecha'          => $version->created_at->formatLocalized('%d de %B del %Y a las %H:%M'),
+            'usuario'        => $version->creadoPor?->nombre_completo ?? 'N/A',
+            'nodes'          => $snapshot['nodes'] ?? [],
+            'connections'    => $connections,
+        ]);
+    }
+
+    public function deshacerVersion(ChatbotFlowVersion $version)
+    {
+        try {
+            DB::transaction(function () use ($version) {
+                $flow = $version->flow;
+                if (!$flow) {
+                    throw new ErrorException('El flujo asociado ya no existe.');
+                }
+
+                $snapshot   = $version->darSnapshot();
+                $nodesInput = $snapshot['nodes'] ?? [];
+                $connsInput = $snapshot['connections'] ?? [];
+
+                // Limpiar estado actual del flujo (misma estrategia que store())
+                ChatbotConnection::where('flow_id', $flow->id)->delete();
+                $nodeIds = $flow->nodos()->pluck('id');
+                if ($nodeIds->isNotEmpty()) {
+                    ChatbotNodeConfig::whereIn('node_id', $nodeIds)->delete();
+                }
+                $flow->nodos()->delete();
+
+                // Recrear nodos desde el snapshot
+                $idMap = [];
+                foreach ($nodesInput as $nodeData) {
+                    $node = ChatbotNode::create([
+                        'flow_id'     => $flow->id,
+                        'tipo'        => $this->tipoToInt($nodeData['type']),
+                        'etiqueta'    => $nodeData['label'],
+                        'pos_x'       => $nodeData['pos_x'],
+                        'pos_y'       => $nodeData['pos_y'],
+                        'inputs'      => $nodeData['inputs'],
+                        'outputs'     => $nodeData['outputs'],
+                        'drawflow_id' => $nodeData['drawflow_id'],
+                        'principal'   => $nodeData['principal'] ?? 0,
+                        'auto_send'   => $nodeData['auto_send'] ?? 0,
+                    ]);
+
+                    $idMap[$nodeData['drawflow_id']] = $node->id;
+
+                    foreach (($nodeData['config'] ?? []) as $key => $value) {
+                        $configKey = self::CONFIG_KEY_MAP[$key] ?? null;
+                        if ($configKey === null) continue;
+
+                        ChatbotNodeConfig::create([
+                            'node_id' => $node->id,
+                            'key'     => $configKey,
+                            'valor'   => $value,
+                        ]);
+                    }
+                }
+
+                foreach ($connsInput as $conn) {
+                    $sourceId = $idMap[$conn['source_node_drawflow_id']] ?? null;
+                    $targetId = $idMap[$conn['target_node_drawflow_id']] ?? null;
+                    if (!$sourceId || !$targetId) continue;
+
+                    ChatbotConnection::create([
+                        'flow_id'        => $flow->id,
+                        'source_node_id' => $sourceId,
+                        'target_node_id' => $targetId,
+                        'source_output'  => $conn['source_output'],
+                        'target_input'   => $conn['target_input'],
+                        'etiqueta'       => $conn['label'] ?? null,
+                    ]);
+                }
+
+                // Registrar la restauración como una nueva versión
+                $flow->versión_actual  = $flow->versión_actual + 1;
+                $flow->fecha_publicado = now();
+                $flow->estado          = ChatbotFlow::ACTIVO;
+                $flow->save();
+
+                ChatbotFlowVersion::create([
+                    'flow_id'         => $flow->id,
+                    'numero_version'  => $flow->versión_actual,
+                    'snapshot'        => json_encode([
+                        'drawflow'    => $snapshot['drawflow'] ?? null,
+                        'nodes'       => $nodesInput,
+                        'connections' => $connsInput,
+                    ]),
+                    'estado'          => ChatbotFlowVersion::PUBLICADO,
+                    'creado_por'      => auth()->user()->uuid,
+                    'cod_empresa'     => auth()->user()->empresa?->id,
+                    'nota_cambio'     => 'Restaurado desde versión ' . $version->numero_version,
+                    'fecha_publicado' => now(),
+                ]);
+            });
+        } catch (Throwable $e) {
+            report($e);
+            return response()->json([
+                'estado'  => 'error',
+                'mensaje' => 'Ocurrió un error al restaurar la versión.',
+            ], 500);
+        }
+
+        return response()->json([
+            'estado'  => 'success',
+            'mensaje' => 'Versión restaurada correctamente.',
+        ]);
     }
 }

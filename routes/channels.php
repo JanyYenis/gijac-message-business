@@ -66,3 +66,7 @@ Broadcast::channel('calls.{id}', function ($user, $id) {
         }
     }
 });
+
+Broadcast::channel('dispositivos.{usuarioId}', function ($user, $usuarioId) {
+    return (string) $user->uuid === (string) $usuarioId;
+});

@@ -319,7 +319,7 @@ class ContactoController extends Controller
                     ->orWhereRaw("LOWER(apellido) LIKE LOWER(?)", $filtro);
             })
             ->where('estado', Contacto::ACTIVO)
-            ->where('uuid', $this->uuid)
+            ->where('cod_empresa', $this->uuid)
             ->orderBy('text')
             ->get();
 

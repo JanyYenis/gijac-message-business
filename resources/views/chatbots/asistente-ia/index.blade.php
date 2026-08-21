@@ -43,7 +43,7 @@
                 <div class="stat-icon ic-green">
                     <i class="bi bi-chat-dots-fill text-white"></i>
                 </div>
-                <div class="stat-value fs-4">1,248</div>
+                <div class="stat-value fs-4">0</div>
                 <div class="stat-label fs-5">Conversaciones IA</div>
             </div>
         </div>
@@ -52,7 +52,7 @@
                 <div class="stat-icon ic-dark">
                     <i class="fa-regular fa-paper-plane text-white"></i>
                 </div>
-                <div class="stat-value fs-4">9,532</div>
+                <div class="stat-value fs-4">0</div>
                 <div class="stat-label fs-5">Mensajes Respondidos</div>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <div class="stat-icon ic-blue">
                     <i class="bi bi-bullseye text-white"></i>
                 </div>
-                <div class="stat-value fs-4">94%</div>
+                <div class="stat-value fs-4">0%</div>
                 <div class="stat-label fs-5">Precisión Estimada</div>
             </div>
         </div>
@@ -70,7 +70,7 @@
                 <div class="stat-icon ic-amber">
                     <i class="bi bi-file-earmark-text-fill text-white"></i>
                 </div>
-                <div class="stat-value fs-4">12</div>
+                <div class="stat-value fs-4">0</div>
                 <div class="stat-label fs-5">Documentos Cargados</div>
             </div>
         </div>
@@ -93,16 +93,16 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fs-5 required">Nombre del Asistente</label>
-                        <input type="text" class="form-control" required id="asstName" value="Gibot" placeholder="Ej: Gibot" />
+                        <input type="text" class="form-control" name="nombre" required id="asstName" value="" placeholder="Ej: Gibot" />
                     </div>
                     <div class="col-md-6">
                         <label class="form-label fs-5 required">Rol del Asistente</label>
-                        <input type="text" class="form-control" required id="asstRole" value="Asesor Comercial"
+                        <input type="text" class="form-control" name="rol" required id="asstRole" value=""
                             placeholder="Ej: Asesor Comercial" />
                     </div>
                     <div class="col-12">
                         <label class="form-label fs-5 required">Descripción corta</label>
-                        <textarea class="form-control" rows="2" required placeholder="Breve descripción del asistente">Asistente virtual de GIJAC WEB enfocado en atención y ventas.</textarea>
+                        <textarea class="form-control" name="descripcion" rows="2" required placeholder="Describe brevemente el propósito del asistente..."></textarea>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                     <p class="section-subtitle fs-3">El prompt del sistema define la personalidad y las reglas del asistente.</p>
                 </div>
                 <label class="form-label fs-5 required">Prompt del Sistema</label>
-                <textarea class="form-control" id="systemPrompt" rows="6" maxlength="2000"
+                <textarea class="form-control" id="systemPrompt" name="system_prompt" rows="6" maxlength="2000"
                     placeholder="Eres el asistente virtual de GIJAC WEB. Tu objetivo es ayudar a los clientes a conocer nuestros servicios y resolver dudas de manera profesional."></textarea>
                 <div class="d-flex justify-content-between align-items-center mt-2">
                     <div class="char-counter">
@@ -159,14 +159,12 @@
                     <p class="section-subtitle fs-3">Selecciona el proveedor y el modelo que impulsará tu asistente.</p>
                 </div>
                 <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label fs-5 required">Proveedor</label>
-                        <select class="form-select" id="provider">
-                            <option value="openrouter">OpenRouter</option>
-                            <option value="ollama">Ollama</option>
-                        </select>
+                    <div class="col-md-12">
+                        <span class="badge bg-light text-dark mb-2 fs-5">
+                            <i class="bi bi-hdd-network text-dark me-1 fs-5"></i>Ollama (modelos locales, 100% gratis)
+                        </span>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label class="form-label fs-5 required">Modelo</label>
                         <select class="form-select" id="modelSelect"></select>
                     </div>
@@ -192,7 +190,7 @@
                                 <span class="form-label fs-6 mb-0">Creatividad</span>
                                 <span id="vCrea">60%</span>
                             </div>
-                            <input type="range" min="0" max="100" value="60"
+                            <input type="range" min="0" max="100" value="60" name="creatividad" id="slider-creatividad"
                                 oninput="document.getElementById('vCrea').textContent=this.value+'%'">
                         </div>
                         <div class="slider-row">
@@ -200,7 +198,7 @@
                                 <span class="form-label fs-6 mb-0">Formalidad</span>
                                 <span id="vForm">75%</span>
                             </div>
-                            <input type="range" min="0" max="100" value="75"
+                            <input type="range" min="0" max="100" value="75" name="formalidad" id="slider-formalidad"
                                 oninput="document.getElementById('vForm').textContent=this.value+'%'">
                         </div>
                     </div>
@@ -210,7 +208,7 @@
                                 <span class="form-label fs-6 mb-0">Brevedad</span>
                                 <span id="vBrev">50%</span>
                             </div>
-                            <input type="range" min="0" max="100" value="50"
+                            <input type="range" min="0" max="100" value="50" name="brevedad" id="slider-brevedad"
                                 oninput="document.getElementById('vBrev').textContent=this.value+'%'">
                         </div>
                         <div class="slider-row">
@@ -218,13 +216,12 @@
                                 <span class="form-label fs-6 mb-0">Empatía</span>
                                 <span id="vEmp">80%</span>
                             </div>
-                            <input type="range" min="0" max="100" value="80"
+                            <input type="range" min="0" max="100" value="80" name="empatia" id="slider-empatia"
                                 oninput="document.getElementById('vEmp').textContent=this.value+'%'">
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <!-- ===== RIGHT COLUMN 35% ===== -->
@@ -295,11 +292,11 @@
                 <div class="row g-2">
                     <div class="col-6">
                         <label class="form-label fs-6">Hora inicio</label>
-                        <input type="time" class="form-control" value="08:00">
+                        <input type="time" class="form-control" name="hora_inicio" value="08:00">
                     </div>
                     <div class="col-6">
                         <label class="form-label fs-6">Hora fin</label>
-                        <input type="time" class="form-control" value="18:00">
+                        <input type="time" class="form-control" name="hora_fin" value="18:00">
                     </div>
                 </div>
             </div>
@@ -325,11 +322,11 @@
                     </p>
                 </div>
                 <label class="form-label fs-6">Mensaje de bienvenida</label>
-                <textarea class="form-control mb-3" rows="2">¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?</textarea>
+                <textarea class="form-control mb-3" rows="2" name="mensaje_bienvenida">¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?</textarea>
                 <label class="form-label fs-6">Mensaje fuera de horario</label>
-                <textarea class="form-control mb-3" rows="2">Gracias por escribirnos. Nuestro horario es de 8:00 a 18:00. Te responderemos pronto.</textarea>
+                <textarea class="form-control mb-3" rows="2" name="mensaje_fuera_horario">Gracias por escribirnos. Nuestro horario es de 8:00 a 18:00. Te responderemos pronto.</textarea>
                 <label class="form-label fs-6">Mensaje de transferencia</label>
-                <textarea class="form-control" rows="2">Un momento por favor, te estoy conectando con un asesor humano.</textarea>
+                <textarea class="form-control" rows="2" name="mensaje_transferencia">Un momento por favor, te estoy conectando con un asesor humano.</textarea>
             </div>
 
         </div>
@@ -497,8 +494,11 @@
 @endsection
 
 @section('scripts')
-    {{-- <script src="{{ mix('/js/chatbots/nodos/principal.js') }}"></script> --}}
     <script>
+        window.asistenteInicial = @json($asistente);
+    </script>
+    <script src="{{ mix('/js/chatbots/ai-assistant/principal.js') }}"></script>
+    {{-- <script>
         $(function() {
             /* ===== MODEL DATA ===== */
             const models = {
@@ -748,5 +748,5 @@
                 new bootstrap.Toast(document.getElementById('saveToast')).show();
             });
         });
-    </script>
+    </script> --}}
 @endsection

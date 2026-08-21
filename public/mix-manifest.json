@@ -31,6 +31,7 @@
     "/js/chatbots/nodos/principal.js": "/js/chatbots/nodos/principal.js",
     "/js/chatbots/n8n/principal.js": "/js/chatbots/n8n/principal.js",
     "/js/chatbots/n8n/crear.js": "/js/chatbots/n8n/crear.js",
+    "/js/chatbots/ai-assistant/principal.js": "/js/chatbots/ai-assistant/principal.js",
     "/js/clasificacion-ia/principal.js": "/js/clasificacion-ia/principal.js",
     "/js/empresas/principal.js": "/js/empresas/principal.js",
     "/css/app.css": "/css/app.css",

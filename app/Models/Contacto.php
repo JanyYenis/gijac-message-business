@@ -142,6 +142,10 @@ class Contacto extends Model
             ->where('cod_empresa', $uuid)
             ->first();
 
+        if (!$configuracion_meta) {
+            return false;
+        }
+
         return Mensaje::where('wa_to', $this->numero_completo)
             ->where('wa_from', $configuracion_meta->phone_number_id)
             ->where('type', Mensaje::PLANTILLA)

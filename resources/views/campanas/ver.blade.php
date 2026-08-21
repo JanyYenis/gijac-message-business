@@ -244,6 +244,10 @@
 @endsection
 
 @section('modal')
+    @component('sistema.modales.modal-errores')
+    @endcomponent
+    @component('campanas.modals.modal-links')
+    @endcomponent
 @endsection
 
 @section('scripts')

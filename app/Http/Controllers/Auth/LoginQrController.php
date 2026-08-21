@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\DeviceLinked;
 use App\Http\Controllers\Controller;
 use App\Models\Dispositivo;
 use Carbon\Carbon;
@@ -52,6 +53,7 @@ class LoginQrController extends Controller
         return view('auth.login-qr', [
             'qr' => generarQR($qrData),
             'dispositivo' => null,
+            'expiraEnMs' => $dispositivo->expira_en->timestamp * 1000,
         ]);
     }
 
@@ -91,8 +93,33 @@ class LoginQrController extends Controller
             'vinculado_en' => now(),
         ]);
 
+        broadcast(new DeviceLinked($dispositivo));
+
         return response()->json([
             'success' => true
+        ]);
+    }
+
+    public function refresh(Request $request)
+    {
+        // Limpia el token viejo no vinculado de este usuario
+        Dispositivo::where('usuario_id', auth()->user()->uuid)
+            ->whereNull('vinculado_en')
+            ->delete();
+
+        $dispositivo = Dispositivo::create([
+            'usuario_id' => auth()->user()->uuid,
+            'token' => Str::uuid(),
+            'expira_en' => now()->addMinutes(2),
+        ]);
+
+        $qrData = config('app.url')
+            . '/device-link?token=' . urlencode($dispositivo->token)
+            . '&server=' . urlencode(config('app.url'));
+
+        return response()->json([
+            'qr' => generarQR($qrData),
+            'expira_en' => $dispositivo->expira_en->timestamp * 1000,
         ]);
     }
 }

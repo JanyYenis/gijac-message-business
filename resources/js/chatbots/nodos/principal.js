@@ -3,7 +3,7 @@
 /* =========================================================
    Definición de tipos de nodo
    ========================================================= */
-var NODE_DEFS = {
+window.NODE_DEFS = {
     start:     { cls: "df-start",     icon: "bi-play-fill",          label: "Inicio",               body: "Punto de partida del flujo", inputs: 0, outputs: 1 },
     text:      { cls: "df-text",      icon: "bi-chat-left-text",     label: "Mensaje de Texto",      body: "Envía un mensaje de texto",  inputs: 1, outputs: 1 },
     image:     { cls: "df-image",     icon: "bi-image",              label: "Imagen",                body: "Envía una imagen",           inputs: 1, outputs: 1 },
@@ -39,7 +39,7 @@ var currentFlowId = null;
 /* =========================================================
    HTML de un nodo en el canvas
    ========================================================= */
-function nodeHTML(type, title, flags) {
+window.nodeHTML = function(type, title, flags) {
     var def   = NODE_DEFS[type];
     var name  = title || def.label;
     flags     = flags || {};

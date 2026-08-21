@@ -241,7 +241,7 @@ class HomeController extends Controller
         $response['aperturas'] = EnvioCampana::with('campana')
             ->whereHas('campana', function($query) use($fechas, $request) {
                 $query->whereBetween('fecha_envio', [$fechas[0].' 00:00:00', $fechas[1].' 23:59:59']);
-                $query->where('uuid', $this->uuid);
+                $query->where('cod_empresa', $this->uuid);
                 if ($request->input('etiquetas')) {
                     $query->whereIn('cod_etiqueta', $request->input('etiquetas'));
                 }
@@ -266,7 +266,7 @@ class HomeController extends Controller
             })
             ->where('mensajes.estado', Mensaje::FALLIDO)
             ->whereBetween('mensajes.created_at', [$fechas[0].' 00:00:00', $fechas[1].' 23:59:59'])
-            ->where('mensajes.wa_to', $this->phone_number_id)
+            ->where('mensajes.wa_from', $this->phone_number_id)
             ->count() ?? 0;
 
         $campanasPorMes = Campana::selectRaw('

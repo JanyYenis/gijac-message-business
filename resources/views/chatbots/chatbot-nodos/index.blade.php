@@ -379,6 +379,8 @@
 @endsection
 
 @section('modal')
+    @component('chatbots.chatbot-nodos.modals.probar')
+    @endcomponent
     @component('chatbots.chatbot-nodos.modals.ver')
     @endcomponent
 @endsection

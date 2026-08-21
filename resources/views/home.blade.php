@@ -26,7 +26,7 @@
             <div class="col-lg-12 col-md-12 mt-2">
                 <div class="row">
                     <div class="col-lg-6 col-md-6">
-                        <button type="reset" class="btn btn-secondary" id="btnLimpiar">Limpiar</button>
+                        <button type="button" class="btn btn-secondary" id="btnLimpiar">Limpiar</button>
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <button type="submit" class="btn btn-success">Filtrar</button>
@@ -90,7 +90,7 @@
                     <div class="metric-icon messages">
                         <i class="fas fa-calendar-day"></i>
                     </div>
-                    <h3 class="metric-value" id="diaEfectivo">0</h3>
+                    <h3 class="metric-value fs-2" id="diaEfectivo">N/A</h3>
                     <p class="metric-label">Tu día más efectivo</p>
                     {{-- <div class="metric-change negative">
                         <i class="fas fa-arrow-down"></i>

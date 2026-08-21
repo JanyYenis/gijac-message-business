@@ -624,5 +624,61 @@
             console.log("[v0] Página de login QR cargada");
             console.log("[v0] Estado inicial: ", appState);
         });
+
+        let qrTimer = null;
+
+        function iniciarTemporizadorQR(expiraEnMs) {
+            if (qrTimer) clearTimeout(qrTimer);
+            const msRestantes = expiraEnMs - Date.now();
+
+            if (msRestantes <= 0) {
+                refrescarQR();
+                return;
+            }
+            qrTimer = setTimeout(refrescarQR, msRestantes);
+        }
+
+        async function refrescarQR() {
+            try {
+                const res = await fetch('{{ route("login-qr.refresh") }}', {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                });
+                const data = await res.json();
+
+                document.querySelector('#qrCode img').src = data.qr;
+                iniciarTemporizadorQR(data.expira_en);
+            } catch (e) {
+                console.error('[v0] Error refrescando QR:', e);
+                mostrarAlerta('No se pudo actualizar el código QR', 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(!$dispositivo)
+                iniciarTemporizadorQR({{ $expiraEnMs }});
+            @endif
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            @if(!$dispositivo)
+                iniciarTemporizadorQR({{ $expiraEnMs }});
+            @endif
+
+            Echo.private('dispositivos.{{ auth()->user()->uuid }}')
+                .listen('.device.linked', (data) => {
+                    if (qrTimer) clearTimeout(qrTimer);
+
+                    document.getElementById('qrCard').classList.add('hidden');
+                    document.getElementById('sessionCard').classList.remove('hidden');
+
+                    document.getElementById('deviceName').textContent = data.nombre_dispositivo;
+                    document.getElementById('deviceOS').textContent = data.sistema_operativo;
+                    document.getElementById('deviceIP').textContent = data.ip;
+                    document.getElementById('connectionTime').textContent = data.vinculado_en;
+
+                    actualizarSidebar(true);
+                    mostrarAlerta('Sesión iniciada correctamente desde dispositivo móvil', 'success');
+                });
+        });
     </script>
 @endsection

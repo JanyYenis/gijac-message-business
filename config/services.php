@@ -42,4 +42,8 @@ return [
         'client_secret' => env('OUTLOOK_OAUTH_KEY'),
         // 'redirect' => '/google-callback',
     ],
+
+    'ollama' => [
+        'base_url' => env('OLLAMA_BASE_URL', 'http://localhost:11434'),
+    ],
 ];

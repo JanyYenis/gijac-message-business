@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'asistente', 'as' => 'asistente.'], function() {
     Route::get('/', [ChatbotAsistenteController::class, 'index'])->name('index');
-    Route::get('/listado', [ChatbotAsistenteController::class, 'listado'])->name('listado');
-    Route::post('/guardar', [ChatbotAsistenteController::class, 'store'])->name('store');
-    Route::get('/editar/{chatbot}', [ChatbotAsistenteController::class, 'edit'])->name('edit');
-    Route::put('/actualizar/{chatbot}', [ChatbotAsistenteController::class, 'update'])->name('update');
+    Route::get('/modelos', [ChatbotAsistenteController::class, 'modelos'])->name('modelos');
+    Route::post('/guardar', [ChatbotAsistenteController::class, 'guardar'])->name('guardar');
+    Route::post('/simular', [ChatbotAsistenteController::class, 'simular'])->name('simular');
 });

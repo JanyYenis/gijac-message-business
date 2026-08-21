@@ -307,7 +307,17 @@ const filtrar = () => {
             $('#totalCampaigns').text(response?.cantidad_campanas ?? 0);
             $('#totalContacts').text(response?.cantidad_contactos ?? 0);
             $('#effectiveness').text(response?.cantidad_efectividad ? response?.cantidad_efectividad + '<span style="font-size: 1.5rem;">%</span>' : '0<span style="font-size: 1.5rem;">%</span>');
-            $('#diaEfectivo').text(response?.diaMaxEfectividad ? response?.diaMaxEfectividad : 'N/A');
+            const fecha = response?.diaMaxEfectividad;
+
+            $('#diaEfectivo').text(
+                fecha
+                    ? new Date(fecha + 'T00:00:00').toLocaleDateString('es-ES', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                    })
+                    : 'N/A'
+            );
 
             animateValue('totalContacts', 0, response?.cantidad_contactos ?? 0, 2000);
             animateValue('totalCampaigns', 0, response?.cantidad_campanas ?? 0, 2000);
@@ -388,8 +398,6 @@ const graficaCampanas = (campanasPorMes) => {
     campaignsChart.render();
 }
 
-
-
 // Animate numbers on load
 function animateValue(id, start, end, duration) {
     const obj = document.getElementById(id);
@@ -420,3 +428,13 @@ function animateValue(id, start, end, duration) {
     timer = setInterval(run, stepTime);
     run();
 }
+
+$(document).on('click', '#btnLimpiar', function () {
+    var start = moment().subtract(29, "days");
+    var end = moment();
+    generalidades.resetValidate(fromFiltros);
+    $('#selectEtiquetas').val(null).trigger('change');
+    $('#selectContactos').val(null).trigger('change');
+    $("#inputFechas").data('daterangepicker').setStartDate(start);
+    $("#inputFechas").data('daterangepicker').setEndDate(end);
+});

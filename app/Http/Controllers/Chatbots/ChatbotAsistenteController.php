@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Chatbots\ChatbotAiAssistant;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Services\AI\ChatbotAiPromptBuilder;
+use App\Services\AI\DocumentTextExtractor;
 use App\Services\AI\OllamaService;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -24,6 +27,7 @@ class ChatbotAsistenteController extends Controller
         }
 
         $info['asistente'] = $this->asistenteDelUsuario();
+        $info['capacidadOpciones'] = ChatbotAiAssistant::darCapacidad();
 
         return view('chatbots.asistente-ia.index', $info);
     }
@@ -32,10 +36,11 @@ class ChatbotAsistenteController extends Controller
     {
         return response()->json([
             'modelos' => $this->ollama->listarModelos(),
+            'modelo_actual' => $this->asistenteDelUsuario()?->modelo ?? null,
         ]);
     }
 
-    public function guardar(Request $request)
+    public function store(Request $request)
     {
         $data = $request->validate([
             'nombre'                 => 'required|string|max:120',
@@ -50,7 +55,7 @@ class ChatbotAsistenteController extends Controller
             'capacidades'            => 'nullable|array',
             'respetar_horario'       => 'boolean',
             'hora_inicio'            => 'nullable|date_format:H:i',
-            'hora_fin'               => 'nullable|date_format:H:i',
+            'hora_fin'               => 'nullable|date_format:H:i|after:hora_inicio',
             'palabras_clave'         => 'nullable|array',
             'mensaje_bienvenida'     => 'nullable|string',
             'mensaje_fuera_horario'  => 'nullable|string',
@@ -82,10 +87,7 @@ class ChatbotAsistenteController extends Controller
         $asistente = $this->asistenteDelUsuario();
 
         if (!$asistente) {
-            return response()->json([
-                'estado'  => 'error',
-                'mensaje' => 'Primero guarda la configuración del asistente.',
-            ], 422);
+            throw new ErrorException("No se encontró un asistente configurado para este usuario.");
         }
 
         $historial = collect($request->input('historial', []))
@@ -96,17 +98,14 @@ class ChatbotAsistenteController extends Controller
 
         try {
             $respuesta = $this->ollama->chat(
-                $this->construirSystemPrompt($asistente),
+                app(ChatbotAiPromptBuilder::class)->construir($asistente),
                 $historial,
                 $asistente->modelo,
                 ['temperature' => $asistente->creatividad / 100]
             );
         } catch (Throwable $e) {
             report($e);
-            return response()->json([
-                'estado'  => 'error',
-                'mensaje' => 'No se pudo contactar al modelo. Verifica que Ollama esté corriendo.',
-            ], 500);
+            throw new ErrorException("No se pudo contactar al modelo. Verifica que Ollama esté corriendo: ".$e->getMessage());
         }
 
         return response()->json([
@@ -125,29 +124,76 @@ class ChatbotAsistenteController extends Controller
             ->first();
     }
 
-    private function construirSystemPrompt(ChatbotAiAssistant $asistente): string
+    public function subirDocumento(Request $request, DocumentTextExtractor $extractor)
     {
-        $tono = [];
+        $request->validate([
+            'documento' => 'required|file|mimes:pdf,docx,txt|max:10240', // 10 MB
+        ]);
 
-        if ($asistente->formalidad >= 70) $tono[] = 'formal';
-        elseif ($asistente->formalidad <= 30) $tono[] = 'muy casual y cercano';
-        else $tono[] = 'semi-formal';
-
-        if ($asistente->brevedad >= 70) $tono[] = 'responde de forma breve y directa';
-        elseif ($asistente->brevedad <= 30) $tono[] = 'puedes dar respuestas más detalladas';
-
-        if ($asistente->empatia >= 70) $tono[] = 'muestra empatía y calidez en tus respuestas';
-
-        $prompt  = $asistente->system_prompt . "\n\n";
-        $prompt .= "Tu nombre es {$asistente->nombre} y tu rol es {$asistente->rol}. ";
-        $prompt .= 'Estilo de comunicación: ' . implode(', ', $tono) . ".\n";
-
-        if (!empty($asistente->palabras_clave)) {
-            $prompt .= 'Si el usuario menciona alguna de estas palabras clave (' .
-                implode(', ', $asistente->palabras_clave) .
-                '), indica que lo vas a transferir con un agente humano.' . "\n";
+        $asistente = $this->asistenteDelUsuario();
+        if (!$asistente) {
+            throw new ErrorException("Primero guarda la configuración básica del asistente.");
         }
 
-        return $prompt;
+        $file = $request->file('documento');
+
+        try {
+            $contenido = $extractor->extraer($file);
+        } catch (Throwable $e) {
+            report($e);
+            throw new ErrorException("No se pudo leer el archivo: " . $e->getMessage());
+        }
+
+        if (trim($contenido) === '') {
+            throw new ErrorException("No se pudo extraer texto de este documento.");
+        }
+
+        // Solo se permite 1 documento por asistente: si ya había uno, se reemplaza
+        if ($asistente->documento_path) {
+            Storage::disk('local')->delete($asistente->documento_path);
+        }
+
+        $path = $file->store('chatbots/ai-assistant/docs', 'local');
+
+        $asistente->update([
+            'documento_path'         => $path,
+            'documento_nombre'       => $file->getClientOriginalName(),
+            'documento_size'         => $file->getSize(),
+            'documento_contenido'    => $contenido,
+            'documento_procesado_en' => now(),
+        ]);
+
+        return response()->json([
+            'estado'    => 'success',
+            'mensaje'   => 'Documento procesado correctamente.',
+            'documento' => [
+                'nombre' => $asistente->documento_nombre,
+                'size'   => $asistente->documento_size,
+                'fecha'  => $asistente->documento_procesado_en->format('d/m/Y'),
+            ],
+        ]);
+    }
+
+    public function eliminarDocumento()
+    {
+        $asistente = $this->asistenteDelUsuario();
+        if (!$asistente || !$asistente->documento_path) {
+            throw new ErrorException("No hay ningún documento para eliminar.");
+        }
+
+        Storage::disk('local')->delete($asistente->documento_path);
+
+        $asistente->update([
+            'documento_path'         => null,
+            'documento_nombre'       => null,
+            'documento_size'         => null,
+            'documento_contenido'    => null,
+            'documento_procesado_en' => null,
+        ]);
+
+        return response()->json([
+            'estado'  => 'success',
+            'mensaje' => 'Documento eliminado.',
+        ]);
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Classes\Models\Model;
+use App\Models\Chatbots\ChatbotAiAssistant;
+use App\Models\Chatbots\ChatbotFlow;
 use Illuminate\Support\Str;
 
 class Empresa extends Model
@@ -78,5 +80,44 @@ class Empresa extends Model
         return $this->factura()
             ->whereDate('fecha_vencimiento', '>=', now())
             ->where('x_response', 'Aceptada');
+    }
+
+    public function nodos()
+    {
+        return $this->hasMany(ChatbotFlow::class, 'cod_empresa', 'id');
+    }
+
+    public function nodo()
+    {
+        return $this->hasOne(ChatbotFlow::class, 'cod_empresa', 'id');
+    }
+
+    public function nodoActivo()
+    {
+        return $this->nodo()
+            ->where('estado', ChatbotFlow::ACTIVO)
+            ->whereDate('fecha_publicado', '<=', now());
+    }
+
+    public function asistente()
+    {
+        return $this->hasOne(ChatbotAiAssistant::class, 'cod_empresa', 'id');
+    }
+
+    public function asistenteActivo()
+    {
+        return $this->asistente()
+            ->where('activo', ChatbotAiAssistant::ACTIVO);
+    }
+
+    public function automatizacionN8n()
+    {
+        return $this->hasOne(AutomatizacionN8n::class, 'cod_empresa', 'id');
+    }
+
+    public function automatizacionN8nActiva()
+    {
+        return $this->automatizacionN8n()
+            ->where('webhook_activo', AutomatizacionN8n::ACTIVO);
     }
 }

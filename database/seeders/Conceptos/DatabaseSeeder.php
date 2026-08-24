@@ -15,6 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             NodosSeeder::class,
             N8nSeeder::class,
+            ChatbotIaSeeder::class,
+            MensajeSeeder::class,
         ]);
     }
 }

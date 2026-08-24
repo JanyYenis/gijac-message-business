@@ -1,3 +1,12 @@
+@php
+    $ext  = strtolower(pathinfo($asistente->documento_nombre ?? '', PATHINFO_EXTENSION));
+    $icon = match($ext) {
+        'pdf'   => 'fa-regular fa-file-pdf',
+        'docx'  => 'fa-regular fa-file-word',
+        default => 'fa-regular fa-file-lines',
+    };
+@endphp
+
 @extends('layouts.index')
 
 @section('css')
@@ -25,8 +34,10 @@
             </div>
             <div class="mt-3 mt-md-0">
                 <span class="badge-active me-1">
-                    <span class="dot"></span>
-                    Estado: Activo
+                    @if ($asistente?->activo)
+                        <span class="dot"></span>
+                    @endif
+                    Estado: {{ $asistente?->activo ? 'Activo' : 'Inactivo' }}
                 </span>
                 <button class="btn btn-white" id="btnSave">
                     <i class="bi bi-check2-circle fs-4 text-primary"></i>
@@ -76,261 +87,283 @@
         </div>
     </div>
 
-    <!-- ====== MAIN LAYOUT ====== -->
-    <div class="row g-4">
-        <!-- ===== LEFT COLUMN 65% ===== -->
-        <div class="col-12 col-lg-8">
+    <form id="formAsistente">
+        <!-- ====== MAIN LAYOUT ====== -->
+        <div class="row g-4">
+            <!-- ===== LEFT COLUMN 65% ===== -->
+            <div class="col-12 col-lg-8">
+                <!-- IDENTIDAD -->
+                <div class="panel">
+                    <div class="mb-3">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-person-badge text-primary fs-1"></i>
+                            Identidad del Asistente
+                        </p>
+                        <p class="section-subtitle fs-3">Define cómo se presenta tu asistente ante los clientes.</p>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fs-5 required">Nombre del Asistente</label>
+                            <input type="text" class="form-control" name="nombre" required id="asstName"
+                                value="{{ $asistente?->nombre ?? '' }}" placeholder="Ej: Gibot"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fs-5 required">Rol del Asistente</label>
+                            <input type="text" class="form-control" name="rol" required id="asstRole" value="{{ $asistente?->rol ?? '' }}"
+                                placeholder="Ej: Asesor Comercial"/>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fs-5 required">Descripción corta</label>
+                            <textarea class="form-control" name="descripcion" rows="2" required
+                                placeholder="Describe brevemente el propósito del asistente..."
+                                >{{ $asistente?->descripcion ?? '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- IDENTIDAD -->
-            <div class="panel">
-                <div class="mb-3">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-person-badge text-primary fs-1"></i>
-                        Identidad del Asistente
-                    </p>
-                    <p class="section-subtitle fs-3">Define cómo se presenta tu asistente ante los clientes.</p>
-                </div>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label fs-5 required">Nombre del Asistente</label>
-                        <input type="text" class="form-control" name="nombre" required id="asstName" value="" placeholder="Ej: Gibot" />
+                <!-- COMPORTAMIENTO -->
+                <div class="panel">
+                    <div class="mb-3">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-chat-square-text text-primary fs-1"></i>
+                            Comportamiento
+                        </p>
+                        <p class="section-subtitle fs-3">El prompt del sistema define la personalidad y las reglas del asistente.</p>
                     </div>
-                    <div class="col-md-6">
-                        <label class="form-label fs-5 required">Rol del Asistente</label>
-                        <input type="text" class="form-control" name="rol" required id="asstRole" value=""
-                            placeholder="Ej: Asesor Comercial" />
+                    <label class="form-label fs-5 required">Prompt del Sistema</label>
+                    <textarea class="form-control" id="systemPrompt" name="system_prompt" rows="6" maxlength="2000"
+                        placeholder="Eres el asistente virtual de GIJAC WEB. Tu objetivo es ayudar a los clientes a conocer nuestros servicios y resolver dudas de manera profesional."
+                        >{{ $asistente?->system_prompt ?? '' }}</textarea>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <div class="char-counter">
+                            <span id="charCount">0</span> / 2000 caracteres
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <label class="form-label fs-5 required">Descripción corta</label>
-                        <textarea class="form-control" name="descripcion" rows="2" required placeholder="Describe brevemente el propósito del asistente..."></textarea>
-                    </div>
-                </div>
-            </div>
-
-            <!-- COMPORTAMIENTO -->
-            <div class="panel">
-                <div class="mb-3">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-chat-square-text text-primary fs-1"></i>
-                        Comportamiento
-                    </p>
-                    <p class="section-subtitle fs-3">El prompt del sistema define la personalidad y las reglas del asistente.</p>
-                </div>
-                <label class="form-label fs-5 required">Prompt del Sistema</label>
-                <textarea class="form-control" id="systemPrompt" name="system_prompt" rows="6" maxlength="2000"
-                    placeholder="Eres el asistente virtual de GIJAC WEB. Tu objetivo es ayudar a los clientes a conocer nuestros servicios y resolver dudas de manera profesional."></textarea>
-                <div class="d-flex justify-content-between align-items-center mt-2">
-                    <div class="char-counter">
-                        <span id="charCount">0</span> / 2000 caracteres
-                    </div>
-                </div>
-                <div class="mt-3">
-                    <span class="form-label d-block mb-2 fs-5">Ejemplos rápidos</span>
-                    <span class="chip"
-                        data-prompt="Eres un asistente de atención al cliente de GIJAC WEB. Responde de forma amable, clara y profesional. Resuelve dudas frecuentes y guía al cliente paso a paso.">
-                        <i class="bi bi-headset"></i>
-                        Atención al cliente
-                    </span>
-                    <span class="chip"
-                        data-prompt="Eres un asesor de ventas de GIJAC WEB. Tu objetivo es presentar los servicios, destacar beneficios y motivar al cliente a solicitar una cotización.">
-                        <i class="bi bi-cart-check"></i>
-                        Ventas
-                    </span>
-                    <span class="chip"
-                        data-prompt="Eres un especialista de soporte técnico de GIJAC WEB. Diagnostica problemas, ofrece soluciones paso a paso y escala a un agente humano si es necesario.">
-                        <i class="bi bi-tools"></i>
-                        Soporte técnico
-                    </span>
-                    <span class="chip"
-                        data-prompt="Eres un asistente de agendamiento de GIJAC WEB. Ayuda al cliente a reservar citas, confirmar disponibilidad y enviar recordatorios.">
-                        <i class="bi bi-calendar-check"></i>
-                        Agendamiento
-                    </span>
-                </div>
-            </div>
-
-            <!-- MODELO IA -->
-            <div class="panel">
-                <div class="mb-3">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-cpu text-primary fs-1"></i>
-                        Modelo IA
-                    </p>
-                    <p class="section-subtitle fs-3">Selecciona el proveedor y el modelo que impulsará tu asistente.</p>
-                </div>
-                <div class="row g-3">
-                    <div class="col-md-12">
-                        <span class="badge bg-light text-dark mb-2 fs-5">
-                            <i class="bi bi-hdd-network text-dark me-1 fs-5"></i>Ollama (modelos locales, 100% gratis)
+                    <div class="mt-3">
+                        <span class="form-label d-block mb-2 fs-5">Ejemplos rápidos</span>
+                        <span class="chip"
+                            data-prompt="Eres un asistente de atención al cliente de GIJAC WEB. Responde de forma amable, clara y profesional. Resuelve dudas frecuentes y guía al cliente paso a paso.">
+                            <i class="bi bi-headset"></i>
+                            Atención al cliente
+                        </span>
+                        <span class="chip"
+                            data-prompt="Eres un asesor de ventas de GIJAC WEB. Tu objetivo es presentar los servicios, destacar beneficios y motivar al cliente a solicitar una cotización.">
+                            <i class="bi bi-cart-check"></i>
+                            Ventas
+                        </span>
+                        <span class="chip"
+                            data-prompt="Eres un especialista de soporte técnico de GIJAC WEB. Diagnostica problemas, ofrece soluciones paso a paso y escala a un agente humano si es necesario.">
+                            <i class="bi bi-tools"></i>
+                            Soporte técnico
+                        </span>
+                        <span class="chip"
+                            data-prompt="Eres un asistente de agendamiento de GIJAC WEB. Ayuda al cliente a reservar citas, confirmar disponibilidad y enviar recordatorios.">
+                            <i class="bi bi-calendar-check"></i>
+                            Agendamiento
                         </span>
                     </div>
-                    <div class="col-md-12">
-                        <label class="form-label fs-5 required">Modelo</label>
-                        <select class="form-select" id="modelSelect"></select>
+                </div>
+
+                <!-- MODELO IA -->
+                <div class="panel">
+                    <div class="mb-3">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-cpu text-primary fs-1"></i>
+                            Modelo IA
+                        </p>
+                        <p class="section-subtitle fs-3">Selecciona el proveedor y el modelo que impulsará tu asistente.</p>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <span class="badge bg-light text-dark mb-2 fs-5">
+                                <i class="bi bi-hdd-network text-dark me-1 fs-5"></i>Ollama (modelos locales, 100% gratis)
+                            </span>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fs-5 required">Modelo</label>
+                            <select class="form-select" id="modelSelect" name="modelo" required
+                                data-control="select2" data-placeholder="Seleccione el modelo" data-allow-clear="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-1" id="modelMeta">
+                        <!-- dynamic -->
                     </div>
                 </div>
-                <div class="row g-3 mt-1" id="modelMeta">
-                    <!-- dynamic -->
+
+                <!-- PERSONALIDAD -->
+                <div class="panel">
+                    <div class="mb-3">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-sliders text-primary fs-1"></i>
+                            Personalidad
+                        </p>
+                        <p class="section-subtitle fs-3">Ajusta el tono y estilo de las respuestas del asistente.</p>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="slider-row">
+                                <div class="d-flex justify-content-between">
+                                    <span class="form-label fs-6 mb-0">Creatividad</span>
+                                    <span id="vCrea">{{ $asistente->creatividad ?? 60 }}%</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="{{ $asistente->creatividad ?? 60 }}"
+                                    name="creatividad" id="slider-creatividad"
+                                    oninput="document.getElementById('vCrea').textContent=this.value+'%'">
+                            </div>
+                            <div class="slider-row">
+                                <div class="d-flex justify-content-between">
+                                    <span class="form-label fs-6 mb-0">Formalidad</span>
+                                    <span id="vForm">{{ $asistente->formalidad ?? 75 }}%</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="{{ $asistente->formalidad ?? 75 }}"
+                                    name="formalidad" id="slider-formalidad"
+                                    oninput="document.getElementById('vForm').textContent=this.value+'%'">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="slider-row">
+                                <div class="d-flex justify-content-between">
+                                    <span class="form-label fs-6 mb-0">Brevedad</span>
+                                    <span id="vBrev">{{ $asistente->brevedad ?? 50 }}%</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="{{ $asistente->brevedad ?? 50 }}"
+                                    name="brevedad" id="slider-brevedad"
+                                    oninput="document.getElementById('vBrev').textContent=this.value+'%'">
+                            </div>
+                            <div class="slider-row">
+                                <div class="d-flex justify-content-between">
+                                    <span class="form-label fs-6 mb-0">Empatía</span>
+                                    <span id="vEmp">{{ $asistente->empatia ?? 80 }}%</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="{{ $asistente->empatia ?? 80 }}"
+                                    name="empatia" id="slider-empatia"
+                                    oninput="document.getElementById('vEmp').textContent=this.value+'%'">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <!-- PERSONALIDAD -->
-            <div class="panel">
-                <div class="mb-3">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-sliders text-primary fs-1"></i>
-                        Personalidad
-                    </p>
-                    <p class="section-subtitle fs-3">Ajusta el tono y estilo de las respuestas del asistente.</p>
-                </div>
-                <div class="row g-4">
-                    <div class="col-md-6">
-                        <div class="slider-row">
-                            <div class="d-flex justify-content-between">
-                                <span class="form-label fs-6 mb-0">Creatividad</span>
-                                <span id="vCrea">60%</span>
-                            </div>
-                            <input type="range" min="0" max="100" value="60" name="creatividad" id="slider-creatividad"
-                                oninput="document.getElementById('vCrea').textContent=this.value+'%'">
-                        </div>
-                        <div class="slider-row">
-                            <div class="d-flex justify-content-between">
-                                <span class="form-label fs-6 mb-0">Formalidad</span>
-                                <span id="vForm">75%</span>
-                            </div>
-                            <input type="range" min="0" max="100" value="75" name="formalidad" id="slider-formalidad"
-                                oninput="document.getElementById('vForm').textContent=this.value+'%'">
-                        </div>
+            <!-- ===== RIGHT COLUMN 35% ===== -->
+            <div class="col-12 col-lg-4">
+
+                <!-- CONOCIMIENTO -->
+                <div class="panel">
+                    <div class="mb-3">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-journal-richtext text-primary fs-1"></i>
+                            Base de Conocimiento
+                        </p>
+                        <p class="section-subtitle fs-3">Sube documentos para que el asistente responda con tu información.</p>
                     </div>
-                    <div class="col-md-6">
-                        <div class="slider-row">
-                            <div class="d-flex justify-content-between">
-                                <span class="form-label fs-6 mb-0">Brevedad</span>
-                                <span id="vBrev">50%</span>
+                    <div class="dropzone" id="dropzone">
+                        <i class="bi bi-cloud-arrow-up"></i>
+                        <p class="mb-1 mt-2 fw-semibold">Arrastra archivos aquí</p>
+                        <small>PDF, DOCX o TXT (máx. 10 MB)</small>
+                    </div>
+                    <div id="docList">
+                        @if($asistente?->documento_nombre)
+                            <div class="doc-item" id="docItemActual">
+                                <div class="doc-ico">
+                                    <i class="{{ $icon }}"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold small">{{ $asistente->documento_nombre }}</div>
+                                    <div class="doc-meta">
+                                        {{ number_format($asistente->documento_size / 1024, 0) }} KB · {{ $asistente->documento_procesado_en->format('d/m/Y') }}
+                                    </div>
+                                </div>
+                                <span class="res-badge res-ok">Procesado</span>
+                                <button type="button" class="btn btn-sm btn-link text-danger" id="btnEliminarDoc">
+                                    <i class="bi bi-trash text-danger"></i>
+                                </button>
                             </div>
-                            <input type="range" min="0" max="100" value="50" name="brevedad" id="slider-brevedad"
-                                oninput="document.getElementById('vBrev').textContent=this.value+'%'">
-                        </div>
-                        <div class="slider-row">
-                            <div class="d-flex justify-content-between">
-                                <span class="form-label fs-6 mb-0">Empatía</span>
-                                <span id="vEmp">80%</span>
-                            </div>
-                            <input type="range" min="0" max="100" value="80" name="empatia" id="slider-empatia"
-                                oninput="document.getElementById('vEmp').textContent=this.value+'%'">
-                        </div>
+                        @endif
                     </div>
                 </div>
+
+                <!-- CAPACIDADES -->
+                <div class="panel">
+                    <div class="mb-2">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-toggles text-primary fs-1"></i>
+                            Capacidades
+                        </p>
+                    </div>
+                    <div class="switch-list" id="capList">
+                        @foreach ($capacidadOpciones as $item)
+                            <div class="switch-row">
+                                <span class="lbl">{{ $item?->nombre }}</span>
+                                <div class="form-check form-switch m-0">
+                                    <input class="form-check-input" type="checkbox" id="cap{{ $item?->codigo }}"
+                                        value="{{ $item?->codigo }}" name="capacidades[]"
+                                        {{ in_array($item?->codigo, $asistente->capacidades) ? 'checked' : '' }}>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- HORARIO -->
+                <div class="panel">
+                    <div class="mb-2">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-clock-history text-primary fs-1"></i>
+                            Horario
+                        </p>
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        <input class="form-check-input" type="checkbox" id="scheduleSwitch" checked>
+                        <label class="form-check-label fw-semibold" for="scheduleSwitch">Respetar horario laboral</label>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <label class="form-label fs-6">Hora inicio</label>
+                            <input type="time" class="form-control" name="hora_inicio" value="{{ $asistente->hora_inicio ? \Carbon\Carbon::parse($asistente->hora_inicio)->format('H:i') : '08:00' }}">
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label fs-6">Hora fin</label>
+                            <input type="time" class="form-control" name="hora_fin" value="{{ $asistente->hora_fin ? \Carbon\Carbon::parse($asistente->hora_fin)->format('H:i') : '18:00' }}">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PALABRAS CLAVE -->
+                <div class="panel">
+                    <div class="mb-2">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-key text-primary fs-1"></i>
+                            Palabras Clave
+                        </p>
+                        <p class="section-subtitle fs-3">Si aparecen, la conversación se transfiere a un agente humano.</p>
+                    </div>
+                    <textarea class="form-control" rows="4" placeholder="cotización, precio, asesor, factura, soporte"
+                        name="palabras_clave" id="palabrasClave">{{ implode(', ', $asistente?->palabras_clave) ?? 'cotización, precio, asesor, factura, soporte' }}</textarea>
+                </div>
+
+                <!-- MENSAJES ESPECIALES -->
+                <div class="panel">
+                    <div class="mb-2">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-envelope-paper text-primary fs-1"></i>
+                            Mensajes Especiales
+                        </p>
+                    </div>
+                    <label class="form-label fs-6">Mensaje de bienvenida</label>
+                    <textarea class="form-control mb-3" rows="2" name="mensaje_bienvenida" id="mensajeBienvenida"
+                        >{{ $asistente?->mensaje_bienvenida ?? '¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?' }}</textarea>
+                    <label class="form-label fs-6">Mensaje fuera de horario</label>
+                    <textarea class="form-control mb-3" rows="2" name="mensaje_fuera_horario"
+                        >{{ $asistente?->mensaje_fuera_horario ?? 'Gracias por escribirnos. Nuestro horario es de 8:00 a 18:00. Te responderemos pronto.' }}</textarea>
+                    <label class="form-label fs-6">Mensaje de transferencia</label>
+                    <textarea class="form-control" rows="2" name="mensaje_transferencia"
+                        >{{ $asistente?->mensaje_transferencia ?? 'Un momento por favor, te estoy conectando con un asesor humano.' }}</textarea>
+                </div>
+
             </div>
         </div>
-
-        <!-- ===== RIGHT COLUMN 35% ===== -->
-        <div class="col-12 col-lg-4">
-
-            <!-- CONOCIMIENTO -->
-            <div class="panel">
-                <div class="mb-3">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-journal-richtext text-primary fs-1"></i>
-                        Base de Conocimiento
-                    </p>
-                    <p class="section-subtitle fs-3">Sube documentos para que el asistente responda con tu información.</p>
-                </div>
-                <div class="dropzone" id="dropzone">
-                    <i class="bi bi-cloud-arrow-up"></i>
-                    <p class="mb-1 mt-2 fw-semibold">Arrastra archivos aquí</p>
-                    <small>PDF, DOCX o TXT (máx. 10 MB)</small>
-                    <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt" hidden />
-                </div>
-                <div id="docList">
-                    <div class="doc-item">
-                        <div class="doc-ico">
-                            <i class="fa-regular fa-file-pdf"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold small">Catalogo-Servicios.pdf</div>
-                            <div class="doc-meta">2.4 MB · 10/06/2026</div>
-                        </div>
-                        <span class="res-badge res-ok">Procesado</span>
-                    </div>
-                    <div class="doc-item">
-                        <div class="doc-ico">
-                            <i class="fa-regular fa-file-word"></i>
-                        </div>
-                        <div class="flex-grow-1">
-                            <div class="fw-semibold small">Preguntas-Frecuentes.docx</div>
-                            <div class="doc-meta">820 KB · 09/06/2026</div>
-                        </div>
-                        <span class="res-badge res-trans">Procesando</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- CAPACIDADES -->
-            <div class="panel">
-                <div class="mb-2">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-toggles text-primary fs-1"></i>
-                        Capacidades
-                    </p>
-                </div>
-                <div class="switch-list" id="capList"></div>
-            </div>
-
-            <!-- HORARIO -->
-            <div class="panel">
-                <div class="mb-2">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-clock-history text-primary fs-1"></i>
-                        Horario
-                    </p>
-                </div>
-                <div class="form-check form-switch mb-3">
-                    <input class="form-check-input" type="checkbox" id="scheduleSwitch" checked>
-                    <label class="form-check-label fw-semibold" for="scheduleSwitch">Respetar horario laboral</label>
-                </div>
-                <div class="row g-2">
-                    <div class="col-6">
-                        <label class="form-label fs-6">Hora inicio</label>
-                        <input type="time" class="form-control" name="hora_inicio" value="08:00">
-                    </div>
-                    <div class="col-6">
-                        <label class="form-label fs-6">Hora fin</label>
-                        <input type="time" class="form-control" name="hora_fin" value="18:00">
-                    </div>
-                </div>
-            </div>
-
-            <!-- PALABRAS CLAVE -->
-            <div class="panel">
-                <div class="mb-2">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-key text-primary fs-1"></i>
-                        Palabras Clave
-                    </p>
-                    <p class="section-subtitle fs-3">Si aparecen, la conversación se transfiere a un agente humano.</p>
-                </div>
-                <textarea class="form-control" rows="4" placeholder="cotización, precio, asesor, factura, soporte">cotización, precio, asesor, factura, soporte</textarea>
-            </div>
-
-            <!-- MENSAJES ESPECIALES -->
-            <div class="panel">
-                <div class="mb-2">
-                    <p class="section-title fs-1">
-                        <i class="bi bi-envelope-paper text-primary fs-1"></i>
-                        Mensajes Especiales
-                    </p>
-                </div>
-                <label class="form-label fs-6">Mensaje de bienvenida</label>
-                <textarea class="form-control mb-3" rows="2" name="mensaje_bienvenida">¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?</textarea>
-                <label class="form-label fs-6">Mensaje fuera de horario</label>
-                <textarea class="form-control mb-3" rows="2" name="mensaje_fuera_horario">Gracias por escribirnos. Nuestro horario es de 8:00 a 18:00. Te responderemos pronto.</textarea>
-                <label class="form-label fs-6">Mensaje de transferencia</label>
-                <textarea class="form-control" rows="2" name="mensaje_transferencia">Un momento por favor, te estoy conectando con un asesor humano.</textarea>
-            </div>
-
-        </div>
-    </div>
+    </form>
 
     <!-- ====== SIMULADOR ====== -->
     <div class="panel mt-2">
@@ -346,23 +379,23 @@
                 <div class="sim-avatar">
                     <i class="fas fa-robot"></i>
                 </div>
-                <h5 id="simName" class="fs-1 text-white">Gibot</h5>
-                <div class="role fs-4" id="simRole">Asesor Comercial</div>
+                <h5 id="simName" class="fs-1 text-white">{{ $asistente?->nombre ?? 'Asistente' }}</h5>
+                <div class="role fs-4" id="simRole">{{ $asistente?->rol ?? 'Asistente IA' }}</div>
                 <hr style="border-color:rgba(255,255,255,.2)">
                 <div class="feat fs-4">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="bi bi-check-circle-fill text-white"></i>
                     Respuestas automáticas
                 </div>
                 <div class="feat fs-4">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="bi bi-check-circle-fill text-white"></i>
                     Basado en documentos
                 </div>
                 <div class="feat fs-4">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="bi bi-check-circle-fill text-white"></i>
                     Transferencia a humano
                 </div>
                 <div class="feat fs-4">
-                    <i class="bi bi-check-circle-fill"></i>
+                    <i class="bi bi-check-circle-fill text-white"></i>
                     Memoria de conversación
                 </div>
             </div>
@@ -372,7 +405,7 @@
                     Vista previa WhatsApp
                 </div>
                 <div class="sim-body" id="simBody">
-                    <div class="bubble in">¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?
+                    <div class="bubble in">{{ $asistente?->mensaje_bienvenida ?? '¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?' }}
                         <span class="time">09:30</span>
                     </div>
                 </div>
@@ -494,259 +527,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        window.asistenteInicial = @json($asistente);
-    </script>
     <script src="{{ mix('/js/chatbots/ai-assistant/principal.js') }}"></script>
-    {{-- <script>
-        $(function() {
-            /* ===== MODEL DATA ===== */
-            const models = {
-                openrouter: [{
-                        id: 'google/gemma',
-                        name: 'google/gemma',
-                        meta: [
-                            ['Costo', 'Gratis'],
-                            ['Velocidad', 'Rápida'],
-                            ['Contexto', '8K']
-                        ]
-                    },
-                    {
-                        id: 'mistralai/devstral-small',
-                        name: 'mistralai/devstral-small',
-                        meta: [
-                            ['Costo', '$0.10/1M'],
-                            ['Velocidad', 'Media'],
-                            ['Contexto', '32K']
-                        ]
-                    },
-                    {
-                        id: 'qwen/qwen3',
-                        name: 'qwen/qwen3',
-                        meta: [
-                            ['Costo', 'Gratis'],
-                            ['Velocidad', 'Media'],
-                            ['Contexto', '128K']
-                        ]
-                    },
-                    {
-                        id: 'deepseek/deepseek-chat',
-                        name: 'deepseek/deepseek-chat',
-                        meta: [
-                            ['Costo', '$0.14/1M'],
-                            ['Velocidad', 'Media'],
-                            ['Contexto', '64K']
-                        ]
-                    }
-                ],
-                ollama: [{
-                        id: 'llama3',
-                        name: 'llama3',
-                        meta: [
-                            ['RAM', '8 GB'],
-                            ['Velocidad', 'Rápida']
-                        ]
-                    },
-                    {
-                        id: 'qwen3',
-                        name: 'qwen3',
-                        meta: [
-                            ['RAM', '6 GB'],
-                            ['Velocidad', 'Media']
-                        ]
-                    },
-                    {
-                        id: 'gemma3',
-                        name: 'gemma3',
-                        meta: [
-                            ['RAM', '4 GB'],
-                            ['Velocidad', 'Muy rápida']
-                        ]
-                    },
-                    {
-                        id: 'mistral',
-                        name: 'mistral',
-                        meta: [
-                            ['RAM', '8 GB'],
-                            ['Velocidad', 'Rápida']
-                        ]
-                    },
-                    {
-                        id: 'phi4',
-                        name: 'phi4',
-                        meta: [
-                            ['RAM', '5 GB'],
-                            ['Velocidad', 'Rápida']
-                        ]
-                    }
-                ]
-            };
-
-            function renderModels() {
-                const prov = $('#provider').val();
-                const $sel = $('#modelSelect').empty();
-                models[prov].forEach(m => $sel.append(`<option value="${m.id}">${m.name}</option>`));
-                renderMeta();
-            }
-
-            function renderMeta() {
-                const prov = $('#provider').val();
-                const id = $('#modelSelect').val();
-                const model = models[prov].find(m => m.id === id);
-                const $meta = $('#modelMeta').empty();
-                if (!model) return;
-                model.meta.forEach(([lbl, val]) => {
-                    $meta.append(
-                        `<div class="col-4"><div class="meta-pill"><div class="lbl">${lbl}</div><div class="val">${val}</div></div></div>`
-                        );
-                });
-            }
-            $('#provider').on('change', renderModels);
-            $('#modelSelect').on('change', renderMeta);
-            renderModels();
-
-            /* ===== PROMPT CHIPS + COUNTER ===== */
-            const $prompt = $('#systemPrompt');
-
-            function updateCount() {
-                $('#charCount').text($prompt.val().length);
-            }
-            $prompt.on('input', updateCount);
-            $('.chip').on('click', function() {
-                $prompt.val($(this).data('prompt'));
-                updateCount();
-            });
-            $prompt.val(
-                "Eres el asistente virtual de GIJAC WEB. Tu objetivo es ayudar a los clientes a conocer nuestros servicios y resolver dudas de manera profesional."
-                );
-            updateCount();
-
-            /* ===== CAPABILITIES ===== */
-            const caps = [
-                ['Responder automáticamente', true],
-                ['Enviar botones', true],
-                ['Enviar listas', false],
-                ['Transferir a agente humano', true],
-                ['Usar documentos cargados', true],
-                ['Guardar contexto', true],
-                ['Recordar conversación', false]
-            ];
-            const $cap = $('#capList');
-            caps.forEach((c, i) => {
-                $cap.append(`
-          <div class="switch-row">
-            <span class="lbl">${c[0]}</span>
-            <div class="form-check form-switch m-0">
-              <input class="form-check-input" type="checkbox" id="cap${i}" ${c[1]?'checked':''}>
-            </div>
-          </div>`);
-            });
-
-            /* ===== DROPZONE ===== */
-            const $dz = $('#dropzone'),
-                $fi = $('#fileInput'),
-                $dl = $('#docList');
-            $dz.on('click', () => $fi.click());
-            $dz.on('dragover', e => {
-                e.preventDefault();
-                $dz.addClass('drag');
-            });
-            $dz.on('dragleave drop', () => $dz.removeClass('drag'));
-            $dz.on('drop', e => {
-                e.preventDefault();
-                addFiles(e.originalEvent.dataTransfer.files);
-            });
-            $fi.on('change', function() {
-                addFiles(this.files);
-            });
-
-            function iconFor(name) {
-                if (name.endsWith('.pdf')) return 'bi-filetype-pdf';
-                if (name.endsWith('.docx')) return 'bi-filetype-docx';
-                return 'bi-filetype-txt';
-            }
-
-            function addFiles(files) {
-                Array.from(files).forEach(f => {
-                    const size = f.size > 1048576 ? (f.size / 1048576).toFixed(1) + ' MB' : Math.round(f
-                        .size / 1024) + ' KB';
-                    const date = new Date().toLocaleDateString('es-ES');
-                    $dl.append(`
-            <div class="doc-item">
-              <div class="doc-ico"><i class="bi ${iconFor(f.name)}"></i></div>
-              <div class="flex-grow-1">
-                <div class="fw-semibold small">${f.name}</div>
-                <div class="doc-meta">${size} · ${date}</div>
-              </div>
-              <span class="res-badge res-trans">Procesando</span>
-            </div>`);
-                });
-            }
-
-            /* ===== IDENTITY -> SIMULATOR SYNC ===== */
-            $('#asstName').on('input', function() {
-                $('#simName').text($(this).val() || 'Asistente');
-            });
-            $('#asstRole').on('input', function() {
-                $('#simRole').text($(this).val() || 'Asistente IA');
-            });
-
-            /* ===== SIMULATOR ===== */
-            const $body = $('#simBody'),
-                $input = $('#simInput');
-
-            function time() {
-                return new Date().toLocaleTimeString('es-ES', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                });
-            }
-
-            function addBubble(text, dir) {
-                $body.append(`<div class="bubble ${dir}">${text}<span class="time">${time()}</span></div>`);
-                $body.scrollTop($body[0].scrollHeight);
-            }
-
-            function botReply(userText) {
-                const t = userText.toLowerCase();
-                const keywords = ['cotización', 'cotizacion', 'precio', 'asesor', 'factura', 'soporte'];
-                if (keywords.some(k => t.includes(k))) {
-                    return 'Un momento por favor, te estoy conectando con un asesor humano. 🧑‍💼';
-                }
-                if (t.includes('hola') || t.includes('buenas')) {
-                    return '¡Hola! Con gusto te ayudo. ¿Sobre qué servicio te gustaría saber más?';
-                }
-                if (t.includes('horario')) {
-                    return 'Nuestro horario de atención es de 8:00 a 18:00, de lunes a viernes.';
-                }
-                if (t.includes('servicio') || t.includes('ofrecen')) {
-                    return 'En GIJAC WEB ofrecemos desarrollo web, chatbots y automatización de WhatsApp. ¿Cuál te interesa?';
-                }
-                return 'Entiendo tu consulta. Según nuestra base de conocimiento, puedo ayudarte con eso. ¿Deseas más detalles?';
-            }
-
-            function send() {
-                const text = $input.val().trim();
-                if (!text) return;
-                addBubble(text, 'out');
-                $input.val('');
-                const $typing = $('<div class="bubble in typing">escribiendo...</div>');
-                $body.append($typing);
-                $body.scrollTop($body[0].scrollHeight);
-                setTimeout(() => {
-                    $typing.remove();
-                    addBubble(botReply(text), 'in');
-                }, 900);
-            }
-            $('#simSend').on('click', send);
-            $input.on('keypress', e => {
-                if (e.which === 13) send();
-            });
-
-            /* ===== SAVE TOAST ===== */
-            $('#btnSave').on('click', function() {
-                new bootstrap.Toast(document.getElementById('saveToast')).show();
-            });
-        });
-    </script> --}}
 @endsection

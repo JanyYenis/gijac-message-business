@@ -14,6 +14,20 @@ class ChatbotAiAssistant extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
+    const TC_ESTADO = 'TC_ESTADO_GENERAL';
+    const ACTIVO    = 1;
+    const INACTIVO  = 2;
+    const ELIMINADO = 0;
+
+    const TC_CAPACIDAD = 'TC_CAPACIDAD_CHATBOT_IA';
+    const RESPONDER_AUTOMATICAMENTE  = 1;
+    const ENVIAR_BOTONES             = 2;
+    const ENVIAR_LISTAS              = 3;
+    const TRANSFERIR_A_AGENTE_HUMANO = 4;
+    const USAR_DOCUMENTOS_CARGADOS   = 5;
+    const GUARDAR_CONTEXTO           = 6;
+    const REMEMBRAR_CONVERSACION     = 7;
+
     protected $fillable = [
         'nombre', 'rol', 'descripcion', 'system_prompt',
         'provider', 'modelo',
@@ -23,6 +37,7 @@ class ChatbotAiAssistant extends Model
         'palabras_clave',
         'mensaje_bienvenida', 'mensaje_fuera_horario', 'mensaje_transferencia',
         'activo', 'creado_por', 'cod_empresa', 'estado',
+        'documento_path', 'documento_nombre', 'documento_size', 'documento_contenido', 'documento_procesado_en',
     ];
 
     protected $casts = [
@@ -33,6 +48,7 @@ class ChatbotAiAssistant extends Model
         'palabras_clave'   => 'array',
         'respetar_horario' => 'boolean',
         'activo'           => 'boolean',
+        'documento_procesado_en' => 'datetime',
     ];
 
     protected static function boot()
@@ -52,5 +68,10 @@ class ChatbotAiAssistant extends Model
     public function empresa()
     {
         return $this->belongsTo(Empresa::class, 'cod_empresa', 'uuid');
+    }
+
+    public static function darCapacidad($infoTipoConcepto = false)
+    {
+        return darConceptos(self::TC_CAPACIDAD, $infoTipoConcepto);
     }
 }

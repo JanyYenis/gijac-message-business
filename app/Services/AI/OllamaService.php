@@ -23,6 +23,7 @@ class OllamaService
         }
 
         return collect($response->json('models', []))
+            ->filter(fn ($m) => !str_starts_with($m['name'], 'EstebanEscobar/'))
             ->map(fn ($m) => [
                 'id'   => $m['name'],
                 'name' => $m['name'],
@@ -37,8 +38,11 @@ class OllamaService
         $payload = [
             'model'    => $modelo,
             'messages' => array_merge(
-                [['role' => 'system', 'content' => $systemPrompt]],
-                $mensajes
+                [['role' => 'system', 'content' => $this->limpiarUtf8($systemPrompt)]],
+                array_map(fn ($m) => [
+                    'role'    => $m['role'],
+                    'content' => $this->limpiarUtf8($m['content']),
+                ], $mensajes)
             ),
             'stream'   => false,
             'options'  => [
@@ -53,5 +57,11 @@ class OllamaService
         }
 
         return $response->json('message.content', '');
+    }
+
+    private function limpiarUtf8(string $texto): string
+    {
+        $texto = mb_convert_encoding($texto, 'UTF-8', 'UTF-8');
+        return preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F]/', '', $texto);
     }
 }

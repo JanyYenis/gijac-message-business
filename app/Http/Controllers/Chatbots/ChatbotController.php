@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Chatbots;
 use App\Exceptions\ErrorException;
 use App\Http\Controllers\Controller;
 use App\Models\AutomatizacionN8n;
+use App\Models\Chatbots\ChatbotAiAssistant;
 use App\Models\Chatbots\ChatbotFlow;
 use App\Models\ConfiguracionAi;
 use Illuminate\Http\Request;
@@ -22,8 +23,8 @@ class ChatbotController extends Controller
             ->where('estado', ChatbotFlow::ACTIVO)
             ->count();
 
-        $info['chatbot_ia'] = ConfiguracionAi::where('cod_empresa', auth()->user()->empresa->id)
-            ->where('estado', ConfiguracionAi::ACTIVO)
+        $info['chatbot_ia'] = ChatbotAiAssistant::where('cod_empresa', auth()->user()->empresa->id)
+            ->where('activo', ChatbotAiAssistant::ACTIVO)
             ->count();
 
         $info['chatbot_n8n'] = AutomatizacionN8n::where('cod_empresa', auth()->user()->empresa->id)

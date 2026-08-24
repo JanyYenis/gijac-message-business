@@ -1,6 +1,6 @@
 <!-- MODAL TEMPLATE -->
 <div class="modal fade" id="modalTpl" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content" style="border-radius:16px;border:none;">
             <div class="modal-header border-0">
                 <h5 class="modal-title text-white" id="tplTitle">
@@ -13,9 +13,8 @@
                     <div style="font-size:3rem" id="tplEmoji">📩</div>
                 </div>
                 <p class="text-muted" id="tplDesc"></p>
-                <div class="bg-light rounded p-3 text-center mb-3">
-                    <i class="bi bi-diagram-3 text-primary fs-1" style="font-size:2.5rem"></i>
-                    <div class="small text-muted mt-2">Vista previa del flujo</div>
+                <div class="flow-preview-container">
+                    <div id="drawflowPreview"></div>
                 </div>
                 <p class="mb-0">
                     <strong>Nodos:</strong> <span id="tplNodes"></span>

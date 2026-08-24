@@ -52,6 +52,12 @@ class Mensaje extends Model
         'template' => self::PLANTILLA
     ];
 
+    const TC_TIPO_RESPUESTA = 'TC_TIPO_RESPUESTA';
+    const HUMANA = 1;
+    const NODO   = 2;
+    const IA     = 3;
+    const N8N    = 4;
+
     protected $table = 'mensajes';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
@@ -66,6 +72,7 @@ class Mensaje extends Model
         'type',
         'body',
         'metadata',
+        'response_type',
         'estado',
         'sent_at',
     ];

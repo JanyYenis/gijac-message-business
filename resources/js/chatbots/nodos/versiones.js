@@ -38,7 +38,14 @@ window.listadoVersiones = () => {
                 className: "btn btn-light-success",
                 title: "Listado Versiones.",
                 exportOptions: {
-                    columns: ":not(.excluir)"
+                    columns: [0,1,2,3],
+                    format: {
+                        body: function (data, row, column, node) {
+                            // eliminar HTML
+                            let text = $('<div>').html(data).text();
+                            return text.trim();
+                        }
+                    }
                 }
             },
             {

@@ -94,6 +94,24 @@
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
             border: 1px solid #e5e7eb;
         }
+
+        #drawflowPreview .connection .main-path {
+            stroke: #198754 !important;
+            stroke-width: 3px !important;
+            fill: none !important;
+        }
+
+        #drawflowPreview .input,
+        #drawflowPreview .output {
+            width: 12px !important;
+            height: 12px !important;
+            border: 2px solid #198754 !important;
+            background: #fff !important;
+        }
+
+        #drawflowPreview .drawflow-node {
+            min-width: 190px;
+        }
     </style>
 @endsection
 
@@ -150,7 +168,7 @@
                 <div class="stat-ico" style="background:var(--blue)">
                     <i class="bi bi-lightning-charge-fill text-white fs-1"></i>
                 </div>
-                <h3>0</h3>
+                <h3>{{ $total_ejecuciones ?? 0 }}</h3>
                 <small class="fs-6">Automatizaciones Ejecutadas</small>
             </div>
         </div>
@@ -168,7 +186,7 @@
                 <div class="stat-ico" style="background:var(--gray)">
                     <i class="bi bi-clock-history text-white fs-1"></i>
                 </div>
-                <h3>N/A</h3>
+                <h3>{{ $ultima_ejecucion?->fecha_ejecucion ? $ultima_ejecucion?->fecha_ejecucion->formatLocalized('%d de %B del %Y a las %H:%M') : 'N/A' }}</h3>
                 <small class="fs-6">Última Ejecución</small>
             </div>
         </div>
@@ -375,7 +393,7 @@
                                 <label class="form-label required fs-6">Timeout (s)</label>
                                 <input type="number" class="form-control" required name="timeout_segundos"
                                     placeholder="30"
-                                    value=""{{ $automatizacion?->timeout_segundos ? $automatizacion?->timeout_segundos : 30 }}"
+                                    value="{{ $automatizacion?->timeout_segundos ? $automatizacion?->timeout_segundos : 30 }}"
                                     min="5">
                             </div>
                         </div>
@@ -548,69 +566,19 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-mod align-middle mb-0">
+                <table class="table" id="tablaEjecicionN8n">
                     <thead>
                         <tr>
-                            <th>Fecha</th>
-                            <th>Cliente</th>
-                            <th>Evento</th>
-                            <th>Estado</th>
-                            <th>Duración</th>
-                            <th>Respuesta</th>
+                            <th  width="5%" class="text-center all">#</th>
+                            <th  width="10%" class="text-center all">Fecha</th>
+                            <th  width="10%" class="text-center all">Cliente</th>
+                            <th  width="10%" class="text-center all">Evento</th>
+                            <th  width="10%" class="text-center all">Estado</th>
+                            <th  width="10%" class="text-center all">Duración</th>
+                            <th  width="10%" class="text-center all">Respuesta</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>2026-06-11 10:03</td>
-                            <td>Juan Pérez</td>
-                            <td>Nuevo mensaje</td>
-                            <td>
-                                <span class="badge-soft badge-ok">Exitoso</span>
-                            </td>
-                            <td>312 ms</td>
-                            <td>200 OK</td>
-                        </tr>
-                        <tr>
-                            <td>2026-06-11 10:01</td>
-                            <td>María Gómez</td>
-                            <td>Conversación iniciada</td>
-                            <td>
-                                <span class="badge-soft badge-ok">Exitoso</span>
-                            </td>
-                            <td>248 ms</td>
-                            <td>200 OK</td>
-                        </tr>
-                        <tr>
-                            <td>2026-06-11 09:58</td>
-                            <td>Carlos Ruiz</td>
-                            <td>Cliente creado</td>
-                            <td>
-                                <span class="badge-soft badge-warn">Pendiente</span>
-                            </td>
-                            <td>—</td>
-                            <td>En cola</td>
-                        </tr>
-                        <tr>
-                            <td>2026-06-11 09:55</td>
-                            <td>Ana Torres</td>
-                            <td>Nuevo mensaje</td>
-                            <td>
-                                <span class="badge-soft badge-err">Error</span>
-                            </td>
-                            <td>30 s</td>
-                            <td>504 Timeout</td>
-                        </tr>
-                        <tr>
-                            <td>2026-06-11 09:50</td>
-                            <td>Luis Mejía</td>
-                            <td>Nuevo mensaje</td>
-                            <td>
-                                <span class="badge-soft badge-ok">Exitoso</span>
-                            </td>
-                            <td>290 ms</td>
-                            <td>200 OK</td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
         </div>
@@ -625,6 +593,9 @@
 @endsection
 
 @section('scripts')
+    <script>
+        window.automatizacion = '{{ $automatizacion?->id }}'
+    </script>
     <script src="{{ mix('/js/chatbots/n8n/principal.js') }}"></script>
     <script src="{{ mix('/js/chatbots/n8n/crear.js') }}"></script>
 @endsection

@@ -50,7 +50,14 @@ window.listadoFacturas = () => {
                 className: "btn btn-light-primary",
                 title: "Listado Facturas.",
                 exportOptions: {
-                    columns: ":not(.excluir)"
+                    columns: [0,1,2,3,4,5,6,7,8],
+                    format: {
+                        body: function (data, row, column, node) {
+                            // eliminar HTML
+                            let text = $('<div>').html(data).text();
+                            return text.trim();
+                        }
+                    }
                 }
             },
             {

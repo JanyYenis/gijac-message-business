@@ -37,4 +37,9 @@ class ChatbotController extends Controller
 
         return view('chatbots.index', $info);
     }
+
+    public function configuracion(Request $request)
+    {
+        return view('chatbots.general.index');
+    }
 }

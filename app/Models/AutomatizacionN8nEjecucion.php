@@ -33,6 +33,8 @@ class AutomatizacionN8nEjecucion extends Model
 
     protected $casts = [
         'id' => 'string',
+        'cod_automatizacion' => 'string',
+        'cod_contacto' => 'string',
         "created_at" => "date:d/m/Y",
         "fecha_ejecucion" => "date:d/m/Y",
     ];
@@ -49,5 +51,20 @@ class AutomatizacionN8nEjecucion extends Model
         static::creating(function ($model) {
             $model->id = Str::uuid();
         });
+    }
+
+    public function contacto()
+    {
+        return $this->belongsTo(Contacto::class, 'cod_contacto', 'id');
+    }
+
+    public function infoEvento()
+    {
+        return darInfoConcepto($this, AutomatizacionN8nEvento::TC_EVENTOS, 'evento')->selectRaw('conceptos.*');
+    }
+
+    public static function darEvento($infoTipoConcepto = false)
+    {
+        return darConceptos(AutomatizacionN8nEvento::TC_EVENTOS, $infoTipoConcepto);
     }
 }

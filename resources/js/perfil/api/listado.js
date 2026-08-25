@@ -24,10 +24,10 @@ window.listadoApiKeys = (id = 0) => {
         serverSide: true,
         scrollX: true,
         searchDelay: 500,
-        
+
         ajax: {
             "url": route("api-keys.listado"),
-            "type": "GET",                  
+            "type": "GET",
             "headers": {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
             },
@@ -47,7 +47,14 @@ window.listadoApiKeys = (id = 0) => {
                 className: "btn btn-primary",
                 title: "Listado API Key.",
                 exportOptions: {
-                    columns: ":not(.excluir)"
+                    columns: [0,1,2,3,4],
+                    format: {
+                        body: function (data, row, column, node) {
+                            // eliminar HTML
+                            let text = $('<div>').html(data).text();
+                            return text.trim();
+                        }
+                    }
                 }
             },
             {
@@ -108,7 +115,7 @@ window.listadoApiKeys = (id = 0) => {
         ],
         order: [
             [0, "asc"]
-        ], 
+        ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
             [15, 20, 50, 100, "Todos"]
@@ -141,10 +148,10 @@ window.listadoApiKeysLogs = (id = 0) => {
         serverSide: true,
         scrollX: true,
         searchDelay: 500,
-        
+
         ajax: {
             "url": route("api-keys.listado-log"),
-            "type": "GET",                  
+            "type": "GET",
             "headers": {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
             },
@@ -164,7 +171,14 @@ window.listadoApiKeysLogs = (id = 0) => {
                 className: "btn btn-primary",
                 title: "Listado Logs de las API Keys.",
                 exportOptions: {
-                    columns: ":not(.excluir)"
+                    columns: [0,1,2,3,4,5],
+                    format: {
+                        body: function (data, row, column, node) {
+                            // eliminar HTML
+                            let text = $('<div>').html(data).text();
+                            return text.trim();
+                        }
+                    }
                 }
             },
             {
@@ -226,7 +240,7 @@ window.listadoApiKeysLogs = (id = 0) => {
         ],
         order: [
             [0, "asc"]
-        ], 
+        ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
             [15, 20, 50, 100, "Todos"]

@@ -65,5 +65,4 @@ Route::prefix('mobile')->group(function () {
     });
 });
 
-include 'apis/movil/principal.php';
 include 'apis/general/principal.php';

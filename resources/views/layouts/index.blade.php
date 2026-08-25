@@ -2001,7 +2001,8 @@
     data-kt-app-sidebar-fixed="true" data-kt-app-sidebar-push-header="true"
     data-kt-app-sidebar-push-toolbar="true" data-kt-app-sidebar-push-footer="true"
     data-kt-app-sidebar-stacked="true" data-kt-app-sidebar-secondary-enabled="true"
-    data-kt-app-toolbar-enabled="true" class="app-default">
+    data-kt-app-toolbar-enabled="true" data-kt-app-sidebar-secondary-collapse="on"
+    class="app-default">
     <!--begin::Theme mode setup on page load-->
     <script>
         var defaultThemeMode = "light";

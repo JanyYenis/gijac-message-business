@@ -17,9 +17,13 @@
                     disponibles para tu negocio.</p>
             </div>
             <div class="mt-3 mt-md-0">
-                <span class="badge-available">
+                <span class="badge-available me-1">
                     <i class="bi bi-check2-circle me-1 text-white"></i>3 tipos disponibles
                 </span>
+                <a type="button" class="btn btn-light-wa" href="{{ route('chatbots.configuracion.index') }}">
+                    <i class="bi bi-gear text-primary fs-1"></i>
+                    Configuración
+                </a>
             </div>
         </div>
     </div>

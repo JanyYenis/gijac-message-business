@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorException;
 use App\Models\AutomatizacionN8n;
+use App\Models\AutomatizacionN8nEjecucion;
 use App\Models\AutomatizacionN8nEvento;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -21,11 +22,18 @@ class AutomatizacionN8nController extends Controller
         $info['metodos'] = AutomatizacionN8n::darMetodo();
         $info['eventos'] = AutomatizacionN8nEvento::darEvento();
         $info['automatizacion'] = null;
+        $info['total_ejecuciones'] = 0;
+        $info['ultima_ejecucion'] = null;
         $automatizacion = AutomatizacionN8n::where('estado', AutomatizacionN8n::ACTIVO)
             ->where('cod_empresa', auth()->user()->empresa?->id)
             ->first() ?? null;
         if ($automatizacion) {
             $info['automatizacion'] = $automatizacion;
+            $info['total_ejecuciones'] = AutomatizacionN8nEjecucion::where('cod_automatizacion', $automatizacion?->id)
+                ->count();
+            $info['ultima_ejecucion'] = AutomatizacionN8nEjecucion::where('cod_automatizacion', $automatizacion?->id)
+                ->orderByDesc('fecha_ejecucion')
+                ->first();
         }
 
         return view('chatbots.webhook-n8n.index', $info);

@@ -8,9 +8,7 @@ window.driver = driver;
 window.intlTelInput = require("intl-tel-input");
 
 $(function() {
-    if ($('body').find('#kt_app_sidebar_secondary_toggle')) {
-        $('#kt_app_sidebar_secondary_toggle').trigger('click');
-    }
+    //
 })
 
 require('./generalidades');

@@ -42,10 +42,10 @@ window.listadoUsuarios = (id = 0) => {
         serverSide: false,
         scrollX: true,
         searchDelay: 500,
-        
+
         ajax: {
             "url": route("usuarios.listado"),
-            "type": "GET",                  
+            "type": "GET",
             "headers": {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
             },
@@ -65,7 +65,14 @@ window.listadoUsuarios = (id = 0) => {
                 className: "btn btn-light-primary",
                 title: "Listado Usuarios.",
                 exportOptions: {
-                    columns: ":not(.excluir)"
+                    columns: [0,1,2,3,4,5,6,7,8],
+                    format: {
+                        body: function (data, row, column, node) {
+                            // eliminar HTML
+                            let text = $('<div>').html(data).text();
+                            return text.trim();
+                        }
+                    }
                 }
             },
             {
@@ -154,7 +161,7 @@ window.listadoUsuarios = (id = 0) => {
         ],
         order: [
             [0, "asc"]
-        ], 
+        ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
             [15, 20, 50, 100, "Todos"]
@@ -273,7 +280,7 @@ const enviarDatosRoles = (form = '') => {
     let formData = new FormData(document.querySelector(formRoles));
     formData.set('roles', $('#selectRoles').val());
     formData.set('id', $('#idUsuario').val());
-    
+
     const config = {
         'method': 'POST',
         'headers': {
@@ -304,7 +311,7 @@ const enviarDatosPermisos = (form = '') => {
     let formData = new FormData(document.querySelector(formPermisos));
     formData.set('permisos', $('#selectPermisos').val());
     formData.set('id', $('#idUsuario').val());
-    
+
     const config = {
         'method': 'POST',
         'headers': {

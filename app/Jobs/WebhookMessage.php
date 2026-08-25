@@ -125,14 +125,14 @@ class WebhookMessage implements ShouldQueue
         $plan = Plan::find($empresa->facturaVigente?->cod_plan);
         if (!$plan) return;
 
-        // if ($plan->tieneServicio('chatbots.avanzados') && $contacto?->estado_chatbot == Contacto::ACTIVO && $empresa?->nodoActivo()) {
-        //     $this->runChatbotAvanzado($config, $api, $waFrom, $contacto, $parsed);
-        // } else
+        if ($plan->tieneServicio('chatbots.avanzados') && $contacto?->estado_chatbot == Contacto::ACTIVO && $empresa?->nodoActivo()) {
+            $this->runChatbotAvanzado($config, $api, $waFrom, $contacto, $parsed);
+        } else
         if ($plan->tieneServicio('chatbots.ia') && $contacto?->estado_chatbot_ia == Contacto::ACTIVO && $empresa?->asistenteActivo()) {
             $asistente = $empresa->asistenteActivo;
             $this->runChatbotIaBasico($config, $api, $waFrom, $contacto, $asistente, $waMsgId);
-        // } elseif ($plan->tieneServicio('chatbot.n8n') && $contacto?->estado_chatbot_ia == Contacto::ACTIVO && $empresa?->automatizacionN8nActiva()) {
-        //     $this->runChatbotWebhook($config, $api, $waFrom, $contacto, $tipoOriginal, $parsed, $waMsgId);
+        } elseif ($plan->tieneServicio('chatbot.n8n') && $contacto?->estado_chatbot_ia == Contacto::ACTIVO && $empresa?->automatizacionN8nActiva()) {
+            $this->runChatbotWebhook($config, $api, $waFrom, $contacto, $tipoOriginal, $parsed, $waMsgId);
         }
     }
 

@@ -1,6 +1,10 @@
 'use strict';
 
 let drawflowPreview = null;
+let plantillaActual = {
+    url: null,
+    name: null
+};
 
 $(function () {
     //
@@ -10,17 +14,15 @@ const initDrawflowPreview = () => {
 
     const container = document.getElementById('drawflowPreview');
 
-    container.innerHTML = '';
-
-    drawflowPreview = new Drawflow(container);
-
-    drawflowPreview.reroute = true;
-    drawflowPreview.reroute_fix_curvature = true;
-
-    drawflowPreview.start();
-
-    // Solo lectura
-    drawflowPreview.editor_mode = 'view';
+    if (!drawflowPreview) {
+        drawflowPreview = new Drawflow(container);
+        drawflowPreview.reroute = true;
+        drawflowPreview.reroute_fix_curvature = true;
+        drawflowPreview.start();
+        drawflowPreview.editor_mode = 'fixed';
+    } else {
+        drawflowPreview.clear();
+    }
 };
 
 const getNodeInfo = (node) => {
@@ -95,6 +97,7 @@ const construirDrawflow = (workflow) => {
 
     const data = {};
     const nodeMap = {};
+    const SCALE = 1.8;
 
     /*
      * 1. Crear nodos Drawflow
@@ -140,8 +143,8 @@ const construirDrawflow = (workflow) => {
             class: 'n8n-node',
             html: html,
             typenode: false,
-            pos_x: (node.position?.[0] ?? 0) * 2.2,
-            pos_y: (node.position?.[1] ?? 0) * 1.8,
+            pos_x: (node.position?.[0] ?? 0) * SCALE,
+            pos_y: (node.position?.[1] ?? 0),
             inputs: {},
             outputs: {}
         };
@@ -528,6 +531,9 @@ $(document).on('click', '.tpl-item', function () {
     const emoji = item.data('emoji');
     const jsonUrl = item.data('json');
 
+    plantillaActual.url = jsonUrl;
+    plantillaActual.name = name;
+
     $('#tplTitle').text(name);
     $('#tplDesc').text(desc);
     $('#tplNodes').text(nodes + ' nodos');
@@ -542,21 +548,48 @@ $(document).on('click', '.tpl-item', function () {
     cargarPreview(jsonUrl);
 });
 
-$(document).on('click', '#btnDownloadJson', function () {
-    var name = $('#tplTitle').text();
-    var data = {
-        name: name,
-        nodes: [],
-        connections: {},
-        active: true
-    };
-    var blob = new Blob([JSON.stringify(data, null, 2)], {
-        type: 'application/json'
-    });
-    var a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = name.toLowerCase().replace(/ /g, '-') + '-n8n.json';
-    a.click();
+$(document).on('click', '#btnDownloadJson', async function () {
+    if (!plantillaActual.url) {
+        return;
+    }
+
+    try {
+        const response = await fetch(plantillaActual.url);
+
+        if (!response.ok) {
+            throw new Error(
+                'No se pudo descargar la plantilla'
+            );
+        }
+
+        const blob = await response.blob();
+
+        /*
+         * Crear URL temporal
+         */
+        const url = window.URL.createObjectURL(blob);
+
+        /*
+         * Crear enlace temporal
+         */
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `${plantillaActual.name}.json`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        /*
+         * Liberar memoria
+         */
+        window.URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error(error);
+        generalidades.toastrGenerico(
+            'error',
+            'No se pudo descargar la plantilla.'
+        );
+    }
 });
 
 $(document).on('click', '#btnEnviarPrueba', function () {
@@ -626,3 +659,5 @@ $(document).on('click', '#btnEnviarPrueba', function () {
         });
 
 });
+
+require('./ejecuciones');

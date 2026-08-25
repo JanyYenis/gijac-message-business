@@ -21,7 +21,7 @@
                 </p>
             </div>
             <div class="modal-footer border-0">
-                <button class="btn btn-wa" id="btnDownloadJson">
+                <button type="button" class="btn btn-wa" id="btnDownloadJson">
                     <i class="fa-regular fa-file-code me-1"></i>
                     Descargar JSON
                 </button>

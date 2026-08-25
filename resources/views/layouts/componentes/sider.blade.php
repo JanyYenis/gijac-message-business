@@ -52,7 +52,7 @@
                 @if ((servicioPlan('chat.atencion') || esDemo()) || servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
                         class="menu-item py-2 {{request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear')
-                            || request()->is('login-qr') ? 'here' : ''}}">
+                            || request()->is('login-qr') || request()->is('chatbots/configuracion') ? 'here' : ''}}">
                         <span class="menu-link menu-center">
                             <span
                                 class="menu-icon me-0">
@@ -118,6 +118,14 @@
                             </a>
                         </div>
                         <div class="menu-item">
+                            <a class="menu-link" href="{{ route('calendario.index') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Calendario</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
                             <a class="menu-link" href="{{ route('plantillas.index') }}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
@@ -125,14 +133,6 @@
                                 <span class="menu-title">Mis Plantillas</span>
                             </a>
                         </div>
-                        {{-- <div class="menu-item">
-                            <a class="menu-link" href="#">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">Calendario</span>
-                            </a>
-                        </div> --}}
                         <div class="menu-item">
                             <a class="menu-link" href="{{ route('configs.index') }}">
                                 <span class="menu-bullet">
@@ -539,6 +539,16 @@
                             </a>
                         </div>
                         <div class="menu-item">
+                            <a href="{{ route('calendario.index') }}" class="menu-link {{request()->is('calendario') ? 'active' : ''}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">
+                                    Calendario
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
                             <a href="{{ route('plantillas.index') }}" class="menu-link {{request()->is('plantillas') ? 'active' : ''}}">
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
@@ -548,16 +558,6 @@
                                 </span>
                             </a>
                         </div>
-                        {{-- <div class="menu-item">
-                            <a class="menu-link {{request()->is('calendario') ? 'active' : ''}}">
-                                <span class="menu-bullet">
-                                    <span class="bullet bullet-dot"></span>
-                                </span>
-                                <span class="menu-title">
-                                    Calendario
-                                </span>
-                            </a>
-                        </div> --}}
                         <div class="menu-item">
                             <a href="{{ route('configs.index') }}" class="menu-link {{request()->is('configs') ? 'active' : ''}}">
                                 <span class="menu-bullet">
@@ -604,7 +604,7 @@
                         @endif
                     @endif
                     @if ((servicioPlan('chat.atencion') || esDemo()) || servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
-                        @if (request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') || request()->is('login-qr'))
+                        @if (request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') || request()->is('login-qr') || request()->is('chatbots/configuracion'))
                             @if ((servicioPlan('chat.atencion') || esDemo()))
                                 <div class="menu-item">
                                     <a href="{{ route('chats.index') }}" class="menu-link {{request()->is('chats') ? 'active' : ''}}">
@@ -685,7 +685,8 @@
 
     <!--begin::Sidebar secondary toggle-->
     <button id="kt_app_sidebar_secondary_toggle"
-        class="app-sidebar-secondary-toggle btn btn-sm btn-icon bg-body btn-color-gray-600 btn-active-color-primary position-absolute translate-middle z-index-1 start-100 end-0 bottom-0 shadow-sm d-none d-lg-flex mb-4"
+        class="app-sidebar-secondary-toggle btn btn-sm btn-icon bg-body btn-color-gray-600 btn-active-color-primary
+            position-absolute translate-middle z-index-1 start-100 end-0 bottom-0 shadow-sm d-none d-lg-flex mb-4 active"
         data-kt-toggle="true" data-kt-toggle-state="active" data-kt-toggle-target="body"
         data-kt-toggle-name="app-sidebar-secondary-collapse">
         <i class="fas fa-long-arrow-alt-left fs-2 rotate-180"></i>

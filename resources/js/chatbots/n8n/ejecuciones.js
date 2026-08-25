@@ -1,39 +1,33 @@
 "use strict";
 
-const tablaPlantilla = "#tablaPlantilla";
-const rutaCargarListadoPlantillas = route("plantillas.listado");
+const tablaEjecicionN8n = '#tablaEjecicionN8n';
+const rutaCargarListadoEjecucionesN8n = route('chatbots.n8n.ejecuciones.listado', { automatizacion: window.automatizacion});
 
 $(function () {
-    listadoPlantillas();
+    listadoEjecucionesN8n();
 });
 
-/**
- * Función que permite cargar el listado.
- */
-const listadoPlantillas = () => {
-    if ($.fn.DataTable.isDataTable('#tablaPlantilla')) {
-        $('#tablaPlantilla').DataTable().destroy();
-    }
-
-    var table = $("#tablaPlantilla").DataTable({
+window.listadoEjecucionesN8n = () => {
+    var table = $(tablaEjecicionN8n).DataTable({
         paging: true,
         responsive: true,
-        serverSide: false,
+        serverSide: true,
         scrollX: true,
         searchDelay: 500,
 
         ajax: {
-            "url": rutaCargarListadoPlantillas,
+            "url": rutaCargarListadoEjecucionesN8n,
             "type": "GET",
+
             "headers": {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
             },
             data: function (data) {
-                generalidades.mostrarCargando(tablaPlantilla);
+                generalidades.mostrarCargando(tablaEjecicionN8n);
                 data = Object.assign(data);
             },
             dataSrc: function (json) {
-                generalidades.ocultarCargando(tablaPlantilla);
+                generalidades.ocultarCargando(tablaEjecicionN8n);
                 return json.data
             },
         },
@@ -42,9 +36,9 @@ const listadoPlantillas = () => {
                 extend: "excel",
                 text: '<i class="fa fa-download"></i> Excel',
                 className: "btn btn-light-success",
-                title: "Listado Plantillas.",
+                title: "Listado Ejecuciones.",
                 exportOptions: {
-                    columns: [0,1,2,3,4],
+                    columns: [0,1,2,3,4,5,6],
                     format: {
                         body: function (data, row, column, node) {
                             // eliminar HTML
@@ -79,42 +73,59 @@ const listadoPlantillas = () => {
                 }
             },
             {
-                data: 'name',
-                name: 'name'
+                data: 'fecha',
+                name: 'fecha',
+                render: function(data, type, full, meta) {
+                    return full?.fecha ?? 'N/A';
+                },
             },
             {
-                data: 'category',
-                name: 'category',
+                data: 'cliente',
+                name: 'cliente',
+                render: function(data, type, full, meta) {
+                    return full?.cliente ?? 'N/A';
+                },
             },
             {
-                data: 'language',
-                name: 'language'
+                data: 'evento',
+                name: 'evento',
+                render: function(data, type, full, meta) {
+                    return full?.evento ?? 'N/A';
+                },
             },
             {
                 data: 'estado',
-                name: 'estado'
+                name: 'estado',
             },
             {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
+                data: 'duracion',
+                name: 'duracion',
+                render: function(data, type, full, meta) {
+                    return full?.duracion ?? 'N/A';
+                },
+            },
+            {
+                data: 'respuesta',
+                name: 'respuesta',
+                render: function(data, type, full, meta) {
+                    return full?.respuesta ?? 'N/A';
+                },
             },
         ],
         order: [
-            [0, "asc"]
+            [1, "asc"]
         ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
             [15, 20, 50, 100, "Todos"]
         ],
         pageLength: 15,
-        dom: `<'table-responsive'tr>
+        dom: `<'row d-flex align-items-center justify-content-end'
+                <'d-flex align-items-center justify-content-end'B>><'row d-flex align-items-center justify-content-between'<'col-sm-6 col-lg-6 col-md-6'l><'col-sm-6 col-lg-6 col-md-6'f>>
+            <'table-responsive'tr>
             <'row'<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i><'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>`,
-        initComplete: function () {},
         drawCallback: function(settings) {
             KTMenu.createInstances();
         }
     });
 }
-

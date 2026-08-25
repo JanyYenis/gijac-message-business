@@ -1,5 +1,5 @@
 @php
-    $ext  = strtolower(pathinfo($asistente->documento_nombre ?? '', PATHINFO_EXTENSION));
+    $ext  = strtolower(pathinfo($asistente?->documento_nombre ?? '', PATHINFO_EXTENSION));
     $icon = match($ext) {
         'pdf'   => 'fa-regular fa-file-pdf',
         'docx'  => 'fa-regular fa-file-word',
@@ -81,7 +81,7 @@
                 <div class="stat-icon ic-amber">
                     <i class="bi bi-file-earmark-text-fill text-white"></i>
                 </div>
-                <div class="stat-value fs-4">0</div>
+                <div class="stat-value fs-4">{{ $asistente?->documento_nombre ? 1 : 0 }}</div>
                 <div class="stat-label fs-5">Documentos Cargados</div>
             </div>
         </div>
@@ -205,18 +205,18 @@
                             <div class="slider-row">
                                 <div class="d-flex justify-content-between">
                                     <span class="form-label fs-6 mb-0">Creatividad</span>
-                                    <span id="vCrea">{{ $asistente->creatividad ?? 60 }}%</span>
+                                    <span id="vCrea">{{ $asistente?->creatividad ?? 60 }}%</span>
                                 </div>
-                                <input type="range" min="0" max="100" value="{{ $asistente->creatividad ?? 60 }}"
+                                <input type="range" min="0" max="100" value="{{ $asistente?->creatividad ?? 60 }}"
                                     name="creatividad" id="slider-creatividad"
                                     oninput="document.getElementById('vCrea').textContent=this.value+'%'">
                             </div>
                             <div class="slider-row">
                                 <div class="d-flex justify-content-between">
                                     <span class="form-label fs-6 mb-0">Formalidad</span>
-                                    <span id="vForm">{{ $asistente->formalidad ?? 75 }}%</span>
+                                    <span id="vForm">{{ $asistente?->formalidad ?? 75 }}%</span>
                                 </div>
-                                <input type="range" min="0" max="100" value="{{ $asistente->formalidad ?? 75 }}"
+                                <input type="range" min="0" max="100" value="{{ $asistente?->formalidad ?? 75 }}"
                                     name="formalidad" id="slider-formalidad"
                                     oninput="document.getElementById('vForm').textContent=this.value+'%'">
                             </div>
@@ -225,18 +225,18 @@
                             <div class="slider-row">
                                 <div class="d-flex justify-content-between">
                                     <span class="form-label fs-6 mb-0">Brevedad</span>
-                                    <span id="vBrev">{{ $asistente->brevedad ?? 50 }}%</span>
+                                    <span id="vBrev">{{ $asistente?->brevedad ?? 50 }}%</span>
                                 </div>
-                                <input type="range" min="0" max="100" value="{{ $asistente->brevedad ?? 50 }}"
+                                <input type="range" min="0" max="100" value="{{ $asistente?->brevedad ?? 50 }}"
                                     name="brevedad" id="slider-brevedad"
                                     oninput="document.getElementById('vBrev').textContent=this.value+'%'">
                             </div>
                             <div class="slider-row">
                                 <div class="d-flex justify-content-between">
                                     <span class="form-label fs-6 mb-0">Empatía</span>
-                                    <span id="vEmp">{{ $asistente->empatia ?? 80 }}%</span>
+                                    <span id="vEmp">{{ $asistente?->empatia ?? 80 }}%</span>
                                 </div>
-                                <input type="range" min="0" max="100" value="{{ $asistente->empatia ?? 80 }}"
+                                <input type="range" min="0" max="100" value="{{ $asistente?->empatia ?? 80 }}"
                                     name="empatia" id="slider-empatia"
                                     oninput="document.getElementById('vEmp').textContent=this.value+'%'">
                             </div>
@@ -269,9 +269,9 @@
                                     <i class="{{ $icon }}"></i>
                                 </div>
                                 <div class="flex-grow-1">
-                                    <div class="fw-semibold small">{{ $asistente->documento_nombre }}</div>
+                                    <div class="fw-semibold small">{{ $asistente?->documento_nombre }}</div>
                                     <div class="doc-meta">
-                                        {{ number_format($asistente->documento_size / 1024, 0) }} KB · {{ $asistente->documento_procesado_en->format('d/m/Y') }}
+                                        {{ number_format($asistente?->documento_size / 1024, 0) }} KB · {{ $asistente?->documento_procesado_en->format('d/m/Y') }}
                                     </div>
                                 </div>
                                 <span class="res-badge res-ok">Procesado</span>
@@ -298,7 +298,7 @@
                                 <div class="form-check form-switch m-0">
                                     <input class="form-check-input" type="checkbox" id="cap{{ $item?->codigo }}"
                                         value="{{ $item?->codigo }}" name="capacidades[]"
-                                        {{ in_array($item?->codigo, $asistente->capacidades) ? 'checked' : '' }}>
+                                        {{ $asistente?->capacidades && in_array($item?->codigo, $asistente?->capacidades) ? 'checked' : '' }}>
                                 </div>
                             </div>
                         @endforeach
@@ -320,11 +320,11 @@
                     <div class="row g-2">
                         <div class="col-6">
                             <label class="form-label fs-6">Hora inicio</label>
-                            <input type="time" class="form-control" name="hora_inicio" value="{{ $asistente->hora_inicio ? \Carbon\Carbon::parse($asistente->hora_inicio)->format('H:i') : '08:00' }}">
+                            <input type="time" class="form-control" name="hora_inicio" value="{{ $asistente?->hora_inicio ? \Carbon\Carbon::parse($asistente?->hora_inicio)->format('H:i') : '08:00' }}">
                         </div>
                         <div class="col-6">
                             <label class="form-label fs-6">Hora fin</label>
-                            <input type="time" class="form-control" name="hora_fin" value="{{ $asistente->hora_fin ? \Carbon\Carbon::parse($asistente->hora_fin)->format('H:i') : '18:00' }}">
+                            <input type="time" class="form-control" name="hora_fin" value="{{ $asistente?->hora_fin ? \Carbon\Carbon::parse($asistente?->hora_fin)->format('H:i') : '18:00' }}">
                         </div>
                     </div>
                 </div>
@@ -339,7 +339,7 @@
                         <p class="section-subtitle fs-3">Si aparecen, la conversación se transfiere a un agente humano.</p>
                     </div>
                     <textarea class="form-control" rows="4" placeholder="cotización, precio, asesor, factura, soporte"
-                        name="palabras_clave" id="palabrasClave">{{ implode(', ', $asistente?->palabras_clave) ?? 'cotización, precio, asesor, factura, soporte' }}</textarea>
+                        name="palabras_clave" id="palabrasClave">{{ $asistente?->palabras_clave ? implode(', ', $asistente?->palabras_clave) : 'cotización, precio, asesor, factura, soporte' }}</textarea>
                 </div>
 
                 <!-- MENSAJES ESPECIALES -->

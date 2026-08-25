@@ -43,7 +43,14 @@ window.listadoDetalleCampana = (id) => {
                 className: "btn btn-light-success",
                 title: "Listado Detalle Campaña.",
                 exportOptions: {
-                    columns: ":not(.excluir)"
+                    columns: [0,1,2,3,4],
+                    format: {
+                        body: function (data, row, column, node) {
+                            // eliminar HTML
+                            let text = $('<div>').html(data).text();
+                            return text.trim();
+                        }
+                    }
                 }
             },
             {
@@ -180,7 +187,14 @@ window.listadoDetalleLinksCampana = (id) => {
                 className: "btn btn-light-success",
                 title: "Listado Detalle Links Campaña.",
                 exportOptions: {
-                    columns: ":not(.excluir)"
+                    columns: [0,1,2,3],
+                    format: {
+                        body: function (data, row, column, node) {
+                            // eliminar HTML
+                            let text = $('<div>').html(data).text();
+                            return text.trim();
+                        }
+                    }
                 }
             },
             {

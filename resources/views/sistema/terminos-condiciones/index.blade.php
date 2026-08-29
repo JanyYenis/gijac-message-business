@@ -16,10 +16,6 @@
             color: var(--text-primary);
         }
 
-        .hero-section {
-            min-height: 100px !important;
-        }
-
         .content-section {
             padding: 3rem 0;
         }
@@ -63,6 +59,16 @@
             border-radius: 8px;
             margin-bottom: 2rem;
             border-left: 4px solid #2196f3;
+        }
+        .hero-section {
+            min-height: auto !important;
+        }
+        .site-header .nav-link {
+            color: #fff !important;
+            margin: auto !important;
+        }
+        .site-header .nav-link.active {
+            color: #fff !important;
         }
     </style>
 @endsection

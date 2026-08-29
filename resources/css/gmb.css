@@ -45,9 +45,9 @@ body {
 
 /* Header Styles */
 .navbar {
-    background-color: var(--secondary-color) !important;
+    /* background-color: var(--secondary-color) !important;
     box-shadow: var(--shadow-light);
-    padding: 1rem 0;
+    padding: 1rem 0; */
 }
 
 .navbar-brand {

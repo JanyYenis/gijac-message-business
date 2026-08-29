@@ -34,6 +34,8 @@
     "/js/chatbots/ai-assistant/principal.js": "/js/chatbots/ai-assistant/principal.js",
     "/js/clasificacion-ia/principal.js": "/js/clasificacion-ia/principal.js",
     "/js/empresas/principal.js": "/js/empresas/principal.js",
+    "/js/recursos/app.js": "/js/recursos/app.js",
+    "/js/recursos/particles.js": "/js/recursos/particles.js",
     "/css/app.css": "/css/app.css",
     "/img/benefits-3d.png": "/img/benefits-3d.png",
     "/img/bg-chat.png": "/img/bg-chat.png",
@@ -55,6 +57,7 @@
     "/img/logo_mini.png": "/img/logo_mini.png",
     "/img/logo_mini_blanco.png": "/img/logo_mini_blanco.png",
     "/img/Meta-1.jpg": "/img/Meta-1.jpg",
+    "/img/precios.png": "/img/precios.png",
     "/img/rocket-3d.png": "/img/rocket-3d.png",
     "/img/switch.png": "/img/switch.png",
     "/img/user.png": "/img/user.png",
@@ -69,5 +72,6 @@
     "/css/chats.css": "/css/chats.css",
     "/css/audio.css": "/css/audio.css",
     "/css/chatbot-n8n.css": "/css/chatbot-n8n.css",
-    "/css/llamada.css": "/css/llamada.css"
+    "/css/llamada.css": "/css/llamada.css",
+    "/css/recursos.css": "/css/recursos.css"
 }

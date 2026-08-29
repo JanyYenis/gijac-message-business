@@ -96,6 +96,33 @@ h6,
     color: var(--teal-dark);
 }
 
+/* ===== Botón Ghost - estado inicial ===== */
+.site-header .btn-ghost {
+    color: #fff !important;
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, .35) !important;
+    transition: all .3s ease !important;
+}
+
+.site-header .btn-ghost:hover {
+    background: rgba(255, 255, 255, .12) !important;
+    color: #fff !important;
+    border-color: rgba(255, 255, 255, .6) !important;
+}
+
+/* ===== Botón Ghost - después del scroll ===== */
+.site-header.scrolled .btn-ghost {
+    color: var(--teal-dark) !important;
+    background: transparent !important;
+    border: 1px solid rgba(20, 89, 98, .2) !important;
+}
+
+.site-header.scrolled .btn-ghost:hover {
+    background: var(--mint) !important;
+    color: var(--teal-dark) !important;
+    border-color: rgba(20, 89, 98, .3) !important;
+}
+
 .btn-dark-glass {
     background: rgba(255, 255, 255, .08);
     color: #fff;
@@ -148,6 +175,7 @@ h6,
 .site-header.scrolled {
     background: rgba(248, 250, 252, .75);
     backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 8px 30px -12px rgba(20, 89, 98, .25);
     border-bottom: 1px solid rgba(20, 89, 98, .08);
 }
@@ -168,15 +196,29 @@ h6,
     font-size: 1rem;
     letter-spacing: .3px;
     color: var(--teal-dark);
+    transition: color .3s ease;
 }
 
+/* Inicio */
+.site-header .brand-name {
+    color: #fff !important;
+}
+
+/* Scroll */
+.site-header.scrolled .brand-name {
+    color: var(--teal-dark) !important;
+}
+
+/* Links del navbar cuando está arriba */
 .site-header .nav-link {
-    color: #123f45;
-    font-weight: 500;
-    position: relative;
+    color: #fff !important;
+    font-weight: 500 !important;
+    position: relative !important;
     padding: .4rem .9rem !important;
+    transition: color .3s ease !important;
 }
 
+/* Línea inferior */
 .site-header .nav-link::after {
     content: '';
     position: absolute;
@@ -190,14 +232,30 @@ h6,
     border-radius: 2px;
 }
 
+/* Hover y activo */
 .site-header .nav-link:hover::after,
 .site-header .nav-link.active::after {
     width: 60%;
 }
 
+/* Hover y activo cuando está arriba */
 .site-header .nav-link:hover,
 .site-header .nav-link.active {
-    color: var(--teal);
+    color: #fff !important;
+}
+
+
+/* =========================================
+   NAVBAR DESPUÉS DEL SCROLL
+   ========================================= */
+
+.site-header.scrolled .nav-link {
+    color: #123f45 !important;
+}
+
+.site-header.scrolled .nav-link:hover,
+.site-header.scrolled .nav-link.active {
+    color: var(--teal) !important;
 }
 
 .navbar-toggler {
@@ -205,6 +263,14 @@ h6,
     font-size: 1.6rem;
     color: var(--teal-dark);
     box-shadow: none;
+}
+
+.site-header .navbar-toggler {
+    color: #fff !important;
+}
+
+.site-header.scrolled .navbar-toggler {
+    color: var(--teal-dark) !important;
 }
 
 /* ===== Hero ===== */
@@ -1228,7 +1294,7 @@ h6,
 #back-to-top {
     position: fixed;
     right: 24px;
-    bottom: 24px;
+    bottom: 87px;
     z-index: 999;
     width: 48px;
     height: 48px;

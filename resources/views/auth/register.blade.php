@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <div class="field">
-                        <input id="nombre" type="text" name="nombre" placeholder=" " required
+                        <input id="nombre" type="text" name="nombre" placeholder="" required
                             autocomplete="off" class="@error('nombre') is-invalid @enderror"/>
                         <label for="nombre">Nombre</label>
                     </div>
@@ -53,7 +53,7 @@
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="field">
-                        <input id="apellido" type="text" name="apellido" placeholder=" " required
+                        <input id="apellido" type="text" name="apellido" placeholder="" required
                             autocomplete="off" class="@error('apellido') is-invalid @enderror"/>
                         <label for="apellido">Apellido</label>
                     </div>
@@ -67,7 +67,7 @@
             <!--begin::Input group--->
 
             <div class="field">
-                <input id="email" type="email" name="email" placeholder=" " required
+                <input id="email" type="email" name="email" placeholder="" required
                     autocomplete="off" class="@error('email') is-invalid @enderror"/>
                 <label for="email">Email</label>
             </div>
@@ -78,7 +78,7 @@
             @enderror
 
             <div class="field">
-                <input id="password" type="password" name="password" placeholder=" " required
+                <input id="password" type="password" name="password" placeholder="" required
                     autocomplete="off" class="@error('password') is-invalid @enderror"/>
                 <label for="password">Contraseña</label>
                 <span class="eye" id="togglePw">
@@ -98,7 +98,7 @@
             </div>
 
             <div class="field">
-                <input id="password_confirmation" type="password" name="password_confirmation" placeholder=" " required
+                <input id="password_confirmation" type="password" name="password_confirmation" placeholder="" required
                     autocomplete="off" class="@error('password_confirmation') is-invalid @enderror"/>
                 <label for="password_confirmation">Confirmar Contraseña</label>
                 <span class="eye" id="togglePw1">

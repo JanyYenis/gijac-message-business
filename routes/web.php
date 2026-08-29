@@ -27,6 +27,7 @@ use App\Models\Plantilla;
 use App\Models\Sistema\Autenticacion;
 use App\Models\Usuario;
 use App\Models\VariableCampana;
+use App\Services\Meta\WabaService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -593,4 +594,12 @@ Route::get('/prueba', function(){
     // } catch (\Netflie\WhatsAppCloudApi\Response\ResponseException $e) {
     //     dd($e->response()); // You can still check the Response returned from Meta servers
     // }
+});
+
+Route::get('/meta', function() {
+    $config = ConfiguracionMeta::find(1);
+    // dd($config);
+
+    // dd(app(WabaService::class)->subscribeWaba($config->version, $config->token, $config->waba_id));
+    // dd(app(WabaService::class)->getWaba($config->version, $config->token, $config->waba_id));
 });

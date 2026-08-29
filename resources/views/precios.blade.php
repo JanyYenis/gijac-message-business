@@ -2,10 +2,22 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
+    <style>
+        .hero-section {
+            min-height: auto !important;
+        }
+        .site-header .nav-link {
+            color: #fff !important;
+            margin: auto !important;
+        }
+        .site-header .nav-link.active {
+            color: #fff !important;
+        }
+    </style>
 @endsection
 
 @section('content')
-    <section class="hero">
+    <section id="hero" class="hero-section">
         <div class="container">
             <div class="row align-items-center g-4">
                 <div class="col-lg-7">
@@ -13,7 +25,7 @@
                     <p class="lead mb-0">Escala cuando lo necesites, sin sorpresas.</p>
                 </div>
                 <div class="col-lg-5 text-lg-end">
-                    <img src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?q=80&w=1600&auto=format&fit=crop"
+                    <img src="{{ asset('img/precios.png') }}"
                         alt="Personas trabajando y planificando" class="img-fluid rounded shadow-sm">
                 </div>
             </div>

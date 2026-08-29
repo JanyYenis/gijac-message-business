@@ -389,48 +389,5 @@
 @endsection
 
 @section('scripts')
-    {{-- <script>
-        window.chatbaseUserConfig = {
-            user_id: '123456789',
-            user_hash: '123456789', // this is the hash of the user_id, should be generated on the server
-            user_metadata: {
-                "name": "Jany Esteban",
-                "email": "janytj1207@gmail.com",
-                "company": "GIJAC WEB",
-                // Add any other relevant user information
-            }
-        }
-    </script>
-    <script>
-        (function(){
-            if (!window.chatbase || window.chatbase("getState") !== "initialized") {
-                window.chatbase=(...arguments) => {
-                    if (!window.chatbase.q) {
-                        window.chatbase.q = []
-                    }
-                    window.chatbase.q.push(arguments)
-                };
-                window.chatbase = new Proxy(window.chatbase, {
-                    get(target, prop) {
-                        if (prop === "q") {
-                            return target.q
-                        }
-                        return (...args) => target(prop, ...args)
-                    }
-                })
-            }
-            const onLoad = function() {
-                const script = document.createElement("script");
-                script.src = "https://www.chatbase.co/embed.min.js";
-                script.id = "xWApUWTKG2Mo0xzsLz2_6";
-                script.domain = "www.chatbase.co";
-                document.body.appendChild(script)};
-                if (document.readyState === "complete") {
-                    onLoad()
-                } else {
-                    window.addEventListener("load", onLoad)
-                }
-            })();
-    </script>
-    <script src="{{ mix('js/prueba.js') }}"></script> --}}
+    {{-- <script src="{{ mix('js/prueba.js') }}"></script> --}}
 @endsection

@@ -2,6 +2,29 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
+    <style>
+        .hero-section {
+            min-height: auto !important;
+        }
+        .site-header .nav-link {
+            color: #123f45 !important;
+            margin: auto !important;
+        }
+        .site-header .nav-link.active {
+            color: #123f45 !important;
+        }
+        .site-header .brand-name {
+            color: var(--teal-dark) !important;
+        }
+
+        .site-header .btn-ghost {
+            color: var(--teal-dark) !important;
+            border: 1px solid rgba(20, 89, 98, .2) !important;
+        }
+        .btn {
+            border: 1px solid rgba(20, 89, 98, .2) !important;
+        }
+    </style>
 @endsection
 
 @section('content')

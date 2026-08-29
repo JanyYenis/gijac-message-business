@@ -140,6 +140,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->as("calendario.")
                 ->middleware(['web', 'auth', '2fa', 'verified'])
                 ->group(base_path('routes/web/calendario/principal.php'));
+
+            Route::prefix('recursos')
+                ->as("recursos.")
+                ->middleware(['web'])
+                ->group(base_path('routes/web/recursos/principal.php'));
         });
     }
 }

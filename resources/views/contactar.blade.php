@@ -2,6 +2,29 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
+    <style>
+        .hero-section {
+            min-height: auto !important;
+        }
+        .site-header .nav-link {
+            color: #123f45 !important;
+            margin: auto !important;
+        }
+        .site-header .nav-link.active {
+            color: #123f45 !important;
+        }
+        .site-header .brand-name {
+            color: var(--teal-dark) !important;
+        }
+
+        .site-header .btn-ghost {
+            color: var(--teal-dark) !important;
+            border: 1px solid rgba(20, 89, 98, .2) !important;
+        }
+        .btn {
+            border: 1px solid rgba(20, 89, 98, .2) !important;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -174,16 +197,21 @@
                         <div class="card-body">
                             <address class="mb-3">
                                 <strong>GIJAC MESSAGE BUSINESS</strong><br>
-                                Corregimiento de Navarro, callejón El Recuerdo.<br>
+                                {{-- Corregimiento de Navarro, callejón El Recuerdo.<br> --}}
                                 Santiago de Cali<br>
                                 Colombia
                             </address>
 
                             <h6>Horarios de Atención:</h6>
                             <ul class="list-unstyled">
-                                <li><i class="far fa-clock me-2"></i><strong>Lunes a Viernes:</strong> 9:00 AM - 5:00 PM
-                                    (EST)</li>
-                                <li><i class="fas fa-times me-2"></i><strong>Sábados y Domingos:</strong> Cerrado</li>
+                                <li>
+                                    <i class="far fa-clock me-2"></i>
+                                    <strong>Lunes a Viernes:</strong> 9:00 AM - 5:00 PM (EST)
+                                </li>
+                                <li>
+                                    <i class="fas fa-times me-2"></i>
+                                    <strong>Sábados y Domingos:</strong> Cerrado
+                                </li>
                             </ul>
 
                             <div class="alert alert-info">
@@ -212,7 +240,7 @@
                             <div
                                 style="width: 100%; height: 400px; background: linear-gradient(135deg, #1E6A75 0%, #155a63 100%); display: flex; align-items: center; justify-content: center; color: white; border-radius: 0.375rem;">
                                     <iframe
-                                        src="https://www.google.com/maps?q=corregimiento%20de%20Navarro&output=embed"
+                                        src="https://www.google.com/maps?q=cali&output=embed"
                                         loading="lazy"
                                         referrerpolicy="no-referrer-when-downgrade"
                                         aria-label="Mapa de nuestra ubicación" width="90%" height="90%">

@@ -54,7 +54,7 @@
     <header id="main-header" class="site-header">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}#hero">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
                     <img src="{{ asset('img/logo_gmb.png') }}" alt="Logo GIJAC Message Business" class="brand-logo" />
                     <span class="brand-name">GIJAC MESSAGE BUSINESS</span>
                 </a>
@@ -67,13 +67,13 @@
                 <div class="collapse navbar-collapse" id="navContent">
                     <ul class="navbar-nav mx-auto gap-lg-2">
                         <li class="nav-item">
-                            <a class="nav-link {{request()->is('/') ? 'active' : ''}}" href="{{ url('/') }}#hero">{{ __('menu-inicio.inicio') }}</a>
+                            <a class="nav-link {{request()->is('/') ? 'active' : ''}}" href="{{ url('/') }}">{{ __('menu-inicio.inicio') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/') }}#modulos">Módulos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}#ia">IA</a>
+                            <a class="nav-link {{request()->is('recursos') ? 'active' : ''}}" href="{{ route('recursos.index') }}">Recursos</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/') }}#app">App</a>
@@ -131,7 +131,10 @@
                     <h6>{{ __('pie-inicio.enlaces.rapidos') }}</h6>
                     <ul class="footer-links">
                         <li>
-                            <a href="{{ url('/') }}#hero">{{ __('pie-inicio.inicio') }}</a>
+                            <a href="{{ url('/') }}">{{ __('pie-inicio.inicio') }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ route('recursos.index') }}">Recursos</a>
                         </li>
                         <li>
                             <a href="{{ route('contactarnos') }}">{{ __('pie-inicio.contacto') }}</a>
@@ -177,7 +180,7 @@
                             <i class="bi bi-telephone"></i> +57 (317) 178-9584
                         </li>
                         <li>
-                            <i class="bi bi-geo-alt"></i> Corregimiento de Navarro, callejón El Recuerdo.
+                            <i class="bi bi-geo-alt"></i> Cali, Colombia.
                         </li>
                     </ul>
                 </div>

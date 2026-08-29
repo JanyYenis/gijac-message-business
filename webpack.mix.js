@@ -111,6 +111,10 @@ mix.js("resources/js/clasificacion-ia/principal.js", "public/js/clasificacion-ia
 // NEGOCIOS O EMPRESAS
 mix.js("resources/js/empresas/principal.js", "public/js/empresas/principal.js");
 
+// RECURSOS
+mix.js("resources/js/recursos/app.js", "public/js/recursos/app.js");
+mix.js("resources/js/recursos/particles.js", "public/js/recursos/particles.js");
+
 // ----------------------------------------------------------------------------------------------------
 // Carpetas
 mix.copyDirectory('resources/img', 'public/img');
@@ -166,4 +170,9 @@ mix.styles(
 mix.styles(
     "resources/css/llamada.css",
     "public/css/llamada.css"
+);
+
+mix.styles(
+    "resources/css/recursos.css",
+    "public/css/recursos.css"
 );

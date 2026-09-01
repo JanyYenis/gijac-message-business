@@ -49,10 +49,6 @@
             margin-top: 2rem;
         }
 
-        ul li {
-            margin-bottom: 0.5rem;
-        }
-
         .last-updated {
             background-color: #e3f2fd;
             padding: 1rem;
@@ -112,21 +108,33 @@
                         <h5>2.1 Uso Permitido</h5>
                         <p>Usted se compromete a utilizar nuestros servicios únicamente:</p>
                         <ul>
-                            <li>De conformidad con todas las leyes y regulaciones aplicables</li>
-                            <li>En cumplimiento de las políticas oficiales de WhatsApp Business API</li>
-                            <li>Para fines comerciales legítimos y éticos</li>
-                            <li>Respetando los derechos de privacidad y protección de datos de terceros</li>
+                            <li style="margin-bottom: 0.5rem;">De conformidad con todas las leyes y regulaciones aplicables</li>
+                            <li style="margin-bottom: 0.5rem;">En cumplimiento de las políticas oficiales de WhatsApp Business API</li>
+                            <li style="margin-bottom: 0.5rem;">Para fines comerciales legítimos y éticos</li>
+                            <li style="margin-bottom: 0.5rem;">Respetando los derechos de privacidad y protección de datos de terceros</li>
                         </ul>
 
                         <h5>2.2 Prohibiciones</h5>
                         <p>Está estrictamente prohibido utilizar nuestros servicios para:</p>
                         <ul>
-                            <li><strong>Spam:</strong> Envío masivo de mensajes no solicitados o no autorizados</li>
-                            <li><strong>Fraude:</strong> Actividades fraudulentas, engañosas o que induzcan a error</li>
-                            <li><strong>Uso indebido de datos:</strong> Recopilación, procesamiento o uso no autorizado de datos personales sensibles</li>
-                            <li><strong>Actividades ilegales:</strong> Cualquier actividad que viole leyes locales, nacionales o internacionales</li>
-                            <li><strong>Contenido inapropiado:</strong> Difusión de contenido ofensivo, discriminatorio, violento o que incite al odio</li>
-                            <li><strong>Violación de derechos:</strong> Infracción de derechos de autor, marcas registradas o propiedad intelectual</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                <strong>Spam:</strong> Envío masivo de mensajes no solicitados o no autorizados
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                <strong>Fraude:</strong> Actividades fraudulentas, engañosas o que induzcan a error
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                <strong>Uso indebido de datos:</strong> Recopilación, procesamiento o uso no autorizado de datos personales sensibles
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                <strong>Actividades ilegales:</strong> Cualquier actividad que viole leyes locales, nacionales o internacionales
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                <strong>Contenido inapropiado:</strong> Difusión de contenido ofensivo, discriminatorio, violento o que incite al odio
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                <strong>Violación de derechos:</strong> Infracción de derechos de autor, marcas registradas o propiedad intelectual
+                            </li>
                         </ul>
                     </div>
 
@@ -138,18 +146,32 @@
 
                         <h5>3.2 Condiciones de Pago</h5>
                         <ul>
-                            <li>Los pagos se procesan de forma automática según el ciclo de facturación seleccionado (mensual o anual)</li>
-                            <li>Todos los precios se muestran en la moneda local aplicable e incluyen impuestos cuando corresponda</li>
-                            <li>El acceso a los servicios se mantiene mientras la suscripción esté activa y al día</li>
-                            <li>Los cargos no pagados pueden resultar en la suspensión temporal o permanente del servicio</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Los pagos se procesan de forma automática según el ciclo de facturación seleccionado (mensual o anual)
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Todos los precios se muestran en la moneda local aplicable e incluyen impuestos cuando corresponda
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                El acceso a los servicios se mantiene mientras la suscripción esté activa y al día
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Los cargos no pagados pueden resultar en la suspensión temporal o permanente del servicio
+                            </li>
                         </ul>
 
                         <h5>3.3 Reembolsos</h5>
                         <p>Ofrecemos reembolsos únicamente en las siguientes circunstancias:</p>
                         <ul>
-                            <li>Fallas técnicas prolongadas atribuibles exclusivamente a nuestra plataforma</li>
-                            <li>Cancelación dentro de los primeros 7 días de la primera suscripción (período de prueba)</li>
-                            <li>Cargos duplicados por errores del sistema de facturación</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Fallas técnicas prolongadas atribuibles exclusivamente a nuestra plataforma
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Cancelación dentro de los primeros 7 días de la primera suscripción (período de prueba)
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Cargos duplicados por errores del sistema de facturación
+                            </li>
                         </ul>
 
                         <h5>3.4 Cancelación</h5>
@@ -165,10 +187,18 @@
 
                         <p>Nos esforzamos por mantener la máxima disponibilidad posible, pero pueden ocurrir interrupciones debido a:</p>
                         <ul>
-                            <li>Mantenimiento programado de la API de WhatsApp</li>
-                            <li>Actualizaciones de seguridad y mejoras del sistema</li>
-                            <li>Circunstancias imprevistas o fuerza mayor</li>
-                            <li>Problemas técnicos de proveedores externos</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Mantenimiento programado de la API de WhatsApp
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Actualizaciones de seguridad y mejoras del sistema
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Circunstancias imprevistas o fuerza mayor
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Problemas técnicos de proveedores externos
+                            </li>
                         </ul>
 
                         <p>En caso de interrupciones prolongadas, notificaremos a nuestros usuarios y trabajaremos para restaurar el servicio lo antes posible.</p>
@@ -180,8 +210,12 @@
                         <h5>5.1 Roles de Tratamiento de Datos</h5>
                         <p>En el marco de la protección de datos personales:</p>
                         <ul>
-                            <li><strong>GIJAC MESSAGE BUSINESS</strong> actúa como <strong>encargado del tratamiento</strong> de los datos que procesa a través de nuestra plataforma</li>
-                            <li><strong>El Cliente</strong> (usted) es el <strong>responsable del tratamiento</strong> frente a sus usuarios finales y debe cumplir con todas las obligaciones legales correspondientes</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                <strong>GIJAC MESSAGE BUSINESS</strong> actúa como <strong>encargado del tratamiento</strong> de los datos que procesa a través de nuestra plataforma
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                <strong>El Cliente</strong> (usted) es el <strong>responsable del tratamiento</strong> frente a sus usuarios finales y debe cumplir con todas las obligaciones legales correspondientes
+                            </li>
                         </ul>
 
                         <h5>5.2 Política de Privacidad</h5>
@@ -195,10 +229,18 @@
                         <h5>5.4 Responsabilidades del Cliente</h5>
                         <p>Como responsable del tratamiento, usted debe:</p>
                         <ul>
-                            <li>Obtener los consentimientos necesarios de sus usuarios finales</li>
-                            <li>Cumplir con las leyes de protección de datos aplicables</li>
-                            <li>Informar a sus usuarios sobre el tratamiento de sus datos</li>
-                            <li>Implementar medidas de seguridad adecuadas</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Obtener los consentimientos necesarios de sus usuarios finales
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Cumplir con las leyes de protección de datos aplicables
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Informar a sus usuarios sobre el tratamiento de sus datos
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Implementar medidas de seguridad adecuadas
+                            </li>
                         </ul>
                     </div>
 
@@ -211,19 +253,35 @@
                         <h5>6.2 Responsabilidad del Contenido</h5>
                         <p>El usuario es completamente responsable de:</p>
                         <ul>
-                            <li>Todo el contenido enviado a través de chatbots y campañas automatizadas</li>
-                            <li>La configuración y programación de respuestas automáticas</li>
-                            <li>El cumplimiento de las políticas de WhatsApp Business en mensajes automatizados</li>
-                            <li>La veracidad y legalidad de la información difundida</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Todo el contenido enviado a través de chatbots y campañas automatizadas
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                La configuración y programación de respuestas automáticas
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                El cumplimiento de las políticas de WhatsApp Business en mensajes automatizados
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                La veracidad y legalidad de la información difundida
+                            </li>
                         </ul>
 
                         <h5>6.3 Mejores Prácticas</h5>
                         <p>Recomendamos:</p>
                         <ul>
-                            <li>Revisar periódicamente las conversaciones automatizadas</li>
-                            <li>Proporcionar opciones claras para contactar con un humano</li>
-                            <li>Mantener actualizadas las respuestas y flujos de conversación</li>
-                            <li>Respetar los horarios y frecuencias apropiadas de mensajería</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Revisar periódicamente las conversaciones automatizadas
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Proporcionar opciones claras para contactar con un humano
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Mantener actualizadas las respuestas y flujos de conversación
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Respetar los horarios y frecuencias apropiadas de mensajería
+                            </li>
                         </ul>
                     </div>
 
@@ -236,9 +294,15 @@
                         <h5>7.2 Limitación de Daños</h5>
                         <p>En ningún caso GIJAC MESSAGE BUSINESS será responsable por:</p>
                         <ul>
-                            <li>Daños indirectos, incidentales, especiales o consecuenciales</li>
-                            <li>Pérdida de beneficios, datos, uso, buena voluntad u otras pérdidas intangibles</li>
-                            <li>Interrupciones del servicio causadas por terceros o circunstancias fuera de nuestro control</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Daños indirectos, incidentales, especiales o consecuenciales
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Pérdida de beneficios, datos, uso, buena voluntad u otras pérdidas intangibles
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Interrupciones del servicio causadas por terceros o circunstancias fuera de nuestro control
+                            </li>
                         </ul>
 
                         <h5>7.3 Responsabilidad Máxima</h5>
@@ -253,27 +317,49 @@
                         <h5>8.1 Terminación por Parte de GIJAC</h5>
                         <p>Nos reservamos el derecho de suspender o terminar su acceso a nuestros servicios, con o sin previo aviso, en los siguientes casos:</p>
                         <ul>
-                            <li>Violación de estos Términos y Condiciones</li>
-                            <li>Incumplimiento de las políticas de WhatsApp Business API</li>
-                            <li>Actividades fraudulentas o ilegales</li>
-                            <li>Falta de pago de las suscripciones</li>
-                            <li>Uso que comprometa la seguridad o estabilidad de la plataforma</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Violación de estos Términos y Condiciones
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Incumplimiento de las políticas de WhatsApp Business API
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Actividades fraudulentas o ilegales
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Falta de pago de las suscripciones
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Uso que comprometa la seguridad o estabilidad de la plataforma
+                            </li>
                         </ul>
 
                         <h5>8.2 Terminación por Parte del Usuario</h5>
                         <p>Puede cancelar su cuenta y terminar estos términos en cualquier momento:</p>
                         <ul>
-                            <li>Accediendo a la configuración de su cuenta</li>
-                            <li>Contactando a nuestro equipo de soporte</li>
-                            <li>La terminación será efectiva al final del período de facturación actual</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Accediendo a la configuración de su cuenta
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Contactando a nuestro equipo de soporte
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                La terminación será efectiva al final del período de facturación actual
+                            </li>
                         </ul>
 
                         <h5>8.3 Efectos de la Terminación</h5>
                         <p>Al terminar el servicio:</p>
                         <ul>
-                            <li>Se suspenderá inmediatamente el acceso a la plataforma</li>
-                            <li>Los datos podrán ser eliminados según nuestra política de retención</li>
-                            <li>Las obligaciones de pago pendientes permanecerán vigentes</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Se suspenderá inmediatamente el acceso a la plataforma
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Los datos podrán ser eliminados según nuestra política de retención
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Las obligaciones de pago pendientes permanecerán vigentes
+                            </li>
                         </ul>
                     </div>
 
@@ -286,9 +372,15 @@
                         <h5>9.2 Modificaciones de Términos</h5>
                         <p>Podemos actualizar estos Términos y Condiciones ocasionalmente. Las modificaciones significativas serán notificadas con al menos 15 días de anticipación a través de:</p>
                         <ul>
-                            <li>Notificación por correo electrónico</li>
-                            <li>Aviso en la plataforma</li>
-                            <li>Actualización en nuestro sitio web</li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Notificación por correo electrónico
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Aviso en la plataforma
+                            </li>
+                            <li style="margin-bottom: 0.5rem;">
+                                Actualización en nuestro sitio web
+                            </li>
                         </ul>
 
                         <h5>9.3 Aceptación de Cambios</h5>

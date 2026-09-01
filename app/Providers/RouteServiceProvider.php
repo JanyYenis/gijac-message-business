@@ -145,6 +145,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->as("recursos.")
                 ->middleware(['web'])
                 ->group(base_path('routes/web/recursos/principal.php'));
+
+            Route::prefix('catalogo')
+                ->as("catalogo.")
+                ->middleware(['web', 'auth', '2fa', 'verified'])
+                ->group(base_path('routes/web/catalogo/principal.php'));
         });
     }
 }

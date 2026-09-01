@@ -36,6 +36,7 @@
     "/js/empresas/principal.js": "/js/empresas/principal.js",
     "/js/recursos/app.js": "/js/recursos/app.js",
     "/js/recursos/particles.js": "/js/recursos/particles.js",
+    "/js/catalogo/principal.js": "/js/catalogo/principal.js",
     "/css/app.css": "/css/app.css",
     "/img/benefits-3d.png": "/img/benefits-3d.png",
     "/img/bg-chat.png": "/img/bg-chat.png",
@@ -73,5 +74,7 @@
     "/css/audio.css": "/css/audio.css",
     "/css/chatbot-n8n.css": "/css/chatbot-n8n.css",
     "/css/llamada.css": "/css/llamada.css",
-    "/css/recursos.css": "/css/recursos.css"
+    "/css/recursos.css": "/css/recursos.css",
+    "/css/plantillas.css": "/css/plantillas.css",
+    "/css/catalogo.css": "/css/catalogo.css"
 }

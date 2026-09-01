@@ -1,6 +1,7 @@
 @extends('layouts.index')
 
 @section('css')
+    <link rel="stylesheet" href="{{ mix('css/plantillas.css') }}">
     <style>
         .main-container {
             min-height: 100vh;
@@ -314,43 +315,10 @@
                     <p class="subtitle mb-0">Gestiona y previsualiza tus plantillas aprobadas</p>
                 </div>
                 <div class="mt-3 mt-md-0">
-                    <button type="button" class="btn btn-new-template" disabled>
+                    <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearPlantilla">
                         <i class="fas fa-plus fs-1"></i>
                         Nueva Plantilla
                     </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Filter Bar -->
-        <div class="filter-bar">
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text bg-white border-end-0" style="border-color: var(--gray-200);">
-                            <i class="fas fa-search text-muted"></i>
-                        </span>
-                        <input type="text" class="form-control search-input border-start-0"
-                            placeholder="Buscar plantillas..." id="searchInput">
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select filter-select" data-control="select2" data-hide-search="true"
-                        data-placeholder="Categoría" data-allow-clear="true" id="categoryFilter">
-                        <option value=""></option>
-                        @foreach ($categorias as $item)
-                            <option value="{{ $item?->codigo }}">{{ $item?->nombre }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select filter-select" data-control="select2" data-hide-search="true"
-                        data-placeholder="Estados" data-allow-clear="true" id="statusFilter">
-                        <option value=""></option>
-                        @foreach ($estados as $item)
-                            <option value="{{ $item?->codigo }}">{{ $item?->nombre }}</option>
-                        @endforeach
-                    </select>
                 </div>
             </div>
         </div>
@@ -398,6 +366,8 @@
 @section('modal')
     @component('plantillas.modals.crear')
         @slot('numeroTel', $numeroTel)
+        @slot('categorias', $categorias)
+        @slot('idiomas', $idiomas)
     @endcomponent
     @component('plantillas.modals.ver')
     @endcomponent
@@ -405,102 +375,4 @@
 
 @section('scripts')
     <script src="{{ mix('/js/plantillas/principal.js') }}"></script>
-    <script>
-        // Template data (in a real app, this would come from an API)
-        const templates = {
-            'bienvenida_cliente': {
-                name: 'bienvenida_cliente',
-                header: {
-                    type: 'IMAGE',
-                    url: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=200&fit=crop'
-                },
-                body: '¡Hola {{1}}! 👋\n\nBienvenido a *Mi Business*. Estamos emocionados de tenerte como parte de nuestra familia.\n\nTu cuenta ha sido activada exitosamente y ya puedes comenzar a disfrutar de todos nuestros servicios.',
-                footer: 'Gracias por confiar en nosotros',
-                buttons: [
-                    { type: 'URL', text: 'Ver mi cuenta', url: 'https://mibusiness.com/cuenta' },
-                    { type: 'PHONE_NUMBER', text: 'Llamar soporte', phone: '+1234567890' }
-                ]
-            },
-            'confirmacion_pedido': {
-                name: 'confirmacion_pedido',
-                body: 'Hola {{1}},\n\nTu pedido #{{2}} ha sido confirmado exitosamente.\n\n📦 *Detalles del pedido:*\n• Total: ${{3}}\n• Fecha estimada de entrega: {{4}}\n• Dirección: {{5}}\n\nTe notificaremos cuando tu pedido esté en camino.',
-                footer: 'Equipo de Mi Business',
-                buttons: [
-                    { type: 'URL', text: 'Rastrear pedido', url: 'https://mibusiness.com/tracking/{{2}}' }
-                ]
-            },
-            'codigo_verificacion': {
-                name: 'codigo_verificacion',
-                body: 'Tu código de verificación es: *{{1}}*\n\nEste código expira en 10 minutos.\n\n⚠️ No compartas este código con nadie.',
-                footer: 'Código de seguridad'
-            },
-            'promocion_especial': {
-                name: 'promocion_especial',
-                header: {
-                    type: 'IMAGE',
-                    url: 'https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=400&h=200&fit=crop'
-                },
-                body: '🎉 *¡OFERTA ESPECIAL!* 🎉\n\nHola {{1}},\n\nTenemos una promoción increíble solo para ti:\n\n✨ *50% de descuento* en todos nuestros productos\n⏰ Válido hasta {{2}}\n🎁 Envío gratis en compras superiores a $100',
-                footer: 'Términos y condiciones aplican',
-                buttons: [
-                    { type: 'URL', text: 'Comprar ahora', url: 'https://mibusiness.com/promocion' },
-                    { type: 'PHONE_NUMBER', text: 'Más información', phone: '+1234567890' }
-                ]
-            }
-        };
-
-        function previewTemplate(templateName) {
-            const template = templates[templateName];
-            if (!template) return;
-
-            let previewHTML = '';
-
-            // Header (image/video)
-            if (template.header) {
-                if (template.header.type === 'IMAGE') {
-                    previewHTML += `<img src="${template.header.url}" alt="Header" class="template-header-media">`;
-                }
-            }
-
-            // Body
-            if (template.body) {
-                let bodyText = template.body
-                    .replace(/{{1}}/g, 'Juan Pérez')
-                    .replace(/{{2}}/g, 'ORD-2024-001')
-                    .replace(/{{3}}/g, '299.99')
-                    .replace(/{{4}}/g, '15 de Enero, 2024')
-                    .replace(/{{5}}/g, 'Av. Siempre Viva 123')
-                    .replace(/\*([^*]+)\*/g, '<strong>$1</strong>')
-                    .replace(/\n/g, '<br>');
-
-                previewHTML += `<div class="template-body">${bodyText}</div>`;
-            }
-
-            // Footer
-            if (template.footer) {
-                previewHTML += `<div class="template-footer">${template.footer}</div>`;
-            }
-
-            // Buttons
-            if (template.buttons && template.buttons.length > 0) {
-                previewHTML += '<div class="template-buttons">';
-                template.buttons.forEach(button => {
-                    const buttonClass = button.type === 'PHONE_NUMBER' ? 'call-button' : '';
-                    const icon = button.type === 'PHONE_NUMBER' ? '<i class="fas fa-phone me-1"></i>' :
-                                button.type === 'URL' ? '<i class="fas fa-external-link-alt me-1"></i>' : '';
-                    previewHTML += `<button class="template-button ${buttonClass}">${icon}${button.text}</button>`;
-                });
-                previewHTML += '</div>';
-            }
-
-            // Add timestamp
-            previewHTML += '<div class="message-time">12:34 ✓✓</div>';
-
-            document.getElementById('templatePreview').innerHTML = previewHTML;
-            document.getElementById('previewModalLabel').innerHTML = `<i class="fab fa-whatsapp me-2"></i>Vista Previa - ${templateName}`;
-
-            const modal = new bootstrap.Modal(document.getElementById('previewModal'));
-            modal.show();
-        }
-    </script>
 @endsection

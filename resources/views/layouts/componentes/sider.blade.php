@@ -97,7 +97,8 @@
                     </div>
                 @endif
                 <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
-                    class="menu-item py-2 {{request()->is('campañas') || request()->is('plantillas') || request()->is('calendario') || request()->is('configs') ? 'here' : ''}}"><!--begin:Menu link-->
+                    class="menu-item py-2 {{request()->is('campañas') || request()->is('plantillas') ||
+                        request()->is('calendario') || request()->is('configs') || request()->is('catalogo') ? 'here' : ''}}">
                     <span class="menu-link menu-center">
                         <span class="menu-icon me-0">
                             <i class="fas fa-bullhorn fs-2x"></i>
@@ -131,6 +132,14 @@
                                     <span class="bullet bullet-dot"></span>
                                 </span>
                                 <span class="menu-title">Mis Plantillas</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a class="menu-link" href="{{ route('catalogo.index') }}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">Catalogo</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -211,7 +220,7 @@
                         </span>
                     </a>
                 @endcanany
-                @if (servicioPlan('soporte.vip.whatsapp') || servicioPlan('soporte.ticket'))
+                @if (servicioPlan('soporte.vip.whatsapp') || servicioPlan('soporte.ticket') || esDemo())
                     @canany(['tickets.crear', 'tickets.listado', 'tickets.editar', 'tickets.eliminar'])
                         <a href="{{ route('tickets.index')}}" class="menu-item py-2 {{request()->is('tickets') || request()->is('tickets/editar/*') ? 'here' : ''}}">
                             <span class="menu-link menu-center">
@@ -527,7 +536,8 @@
                             </a>
                         </div>
                     @endif
-                    @if (request()->is('campañas') || request()->is('plantillas') || request()->is('calendario') || request()->is('configs'))
+                    @if (request()->is('campañas') || request()->is('plantillas') || request()->is('calendario') ||
+                        request()->is('configs') || request()->is('catalogo'))
                         <div class="menu-item">
                             <a href="{{ route('campanas.index') }}" class="menu-link {{request()->is('campañas') ? 'active' : ''}}">
                                 <span class="menu-bullet">
@@ -555,6 +565,16 @@
                                 </span>
                                 <span class="menu-title">
                                     Mis Plantillas
+                                </span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                            <a href="{{ route('catalogo.index') }}" class="menu-link {{request()->is('catalogo') ? 'active' : ''}}">
+                                <span class="menu-bullet">
+                                    <span class="bullet bullet-dot"></span>
+                                </span>
+                                <span class="menu-title">
+                                    Catálogo
                                 </span>
                             </a>
                         </div>

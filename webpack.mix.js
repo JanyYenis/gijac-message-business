@@ -115,6 +115,9 @@ mix.js("resources/js/empresas/principal.js", "public/js/empresas/principal.js");
 mix.js("resources/js/recursos/app.js", "public/js/recursos/app.js");
 mix.js("resources/js/recursos/particles.js", "public/js/recursos/particles.js");
 
+// CATALOGO
+mix.js("resources/js/catalogo/principal.js", "public/js/catalogo/principal.js");
+
 // ----------------------------------------------------------------------------------------------------
 // Carpetas
 mix.copyDirectory('resources/img', 'public/img');
@@ -175,4 +178,14 @@ mix.styles(
 mix.styles(
     "resources/css/recursos.css",
     "public/css/recursos.css"
+);
+
+mix.styles(
+    "resources/css/plantillas.css",
+    "public/css/plantillas.css"
+);
+
+mix.styles(
+    "resources/css/catalogo.css",
+    "public/css/catalogo.css"
 );

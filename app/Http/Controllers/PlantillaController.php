@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorException;
 use App\Models\Campana;
+use App\Models\IdiomaPlantilla;
 use App\Models\Plantilla;
 use App\Models\Usuario;
 use App\Models\VariableCampana;
+use App\Services\Meta\TemplatesService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -22,6 +24,9 @@ class PlantillaController extends Controller
         $info['numeroTel'] = $this->numeroG;
         $info['estados'] = Plantilla::darEstados();
         $info['categorias'] = Plantilla::darCategoria();
+        $info['idiomas'] = IdiomaPlantilla::where('estado', IdiomaPlantilla::ACTIVO)
+            ->orderBy('nombre')
+            ->get();
 
         return view('plantillas.index', $info);
     }
@@ -113,6 +118,7 @@ class PlantillaController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         // if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
         // !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
         //     throw new ErrorException("No tienes permisos para acceder a esta sección.");
@@ -394,6 +400,29 @@ class PlantillaController extends Controller
             'estado'     => 'success',
             'mensaje'    => 'Se cargo correctamente.',
             'plantillas' => $plantillas,
+        ];
+    }
+
+    public function delete(Request $request, $plantilla)
+    {
+        $plantilla = Plantilla::find($plantilla);
+        if (!$plantilla) {
+            return [
+                'estado'  => 'error',
+                'mensaje' => 'No se encontró la plantilla.',
+            ];
+        }
+
+        $eliminar = $plantilla->eliminar();
+        if (!$eliminar) {
+            throw new ErrorException("No se pudo eliminar la plantilla.");
+        }
+
+        app(TemplatesService::class)->deleteMessageTemplate($plantilla->name);
+
+        return [
+            'estado'  => 'success',
+            'mensaje' => 'Plantilla eliminada correctamente.',
         ];
     }
 }

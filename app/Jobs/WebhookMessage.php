@@ -28,6 +28,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 use Throwable;
 
@@ -166,10 +167,7 @@ class WebhookMessage implements ShouldQueue
      */
     private function runChatbotWebhook(ConfiguracionMeta $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, string $tipoOriginal, ParsedWhatsAppMessage $parsed, string $waMsgId): void
     {
-        $mensaje = Mensaje::where(
-            'wa_message_id',
-            $waMsgId
-        )->first();
+        $mensaje = Mensaje::where('wa_message_id', $waMsgId)->first();
 
         if (!$mensaje) {
             return;

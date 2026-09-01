@@ -36,13 +36,16 @@ class MensajeController extends Controller
                 }
             ])
             ->where('contactos.estado', Contacto::ACTIVO)
+            ->where('cod_empresa', $this->uuid)
             ->orderByDesc('conversaciones.ultima_fecha')
             ->select('contactos.*')
             ->get();
 
         $info['numero'] = $this->phone_number_id;
         $info['contactos'] = $contactos;
-        $info['datosPerfilWhatsapp'] = $this->whatsapp_cloud_api->businessProfile('about,address,description,email,profile_picture_url,websites,vertical')->body() ?? null;
+        $info['datosPerfilWhatsapp'] = $this->whatsapp_cloud_api ?
+            $this->whatsapp_cloud_api->businessProfile('about,address,description,email,profile_picture_url,websites,vertical')->body()
+            : null;
         if ($info['datosPerfilWhatsapp']) {
             $info['datosPerfilWhatsapp'] = json_decode($info['datosPerfilWhatsapp'], true)['data'][0];
         }

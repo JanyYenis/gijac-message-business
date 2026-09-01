@@ -10,7 +10,7 @@ $(function () {
 /**
  * Función que permite cargar el listado.
  */
-const listadoPlantillas = () => {
+window.listadoPlantillas = () => {
     if ($.fn.DataTable.isDataTable('#tablaPlantilla')) {
         $('#tablaPlantilla').DataTable().destroy();
     }
@@ -109,7 +109,9 @@ const listadoPlantillas = () => {
             [15, 20, 50, 100, "Todos"]
         ],
         pageLength: 15,
-        dom: `<'table-responsive'tr>
+        dom: `<'row d-flex align-items-center justify-content-end'
+                <'d-flex align-items-center justify-content-end'B>><'row d-flex align-items-center justify-content-between'<'col-sm-6 col-lg-6 col-md-6'l><'col-sm-6 col-lg-6 col-md-6'f>>
+            <'table-responsive'tr>
             <'row'<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i><'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>`,
         initComplete: function () {},
         drawCallback: function(settings) {

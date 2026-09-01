@@ -27,6 +27,7 @@ use App\Models\Plantilla;
 use App\Models\Sistema\Autenticacion;
 use App\Models\Usuario;
 use App\Models\VariableCampana;
+use App\Services\Meta\CatalogoService;
 use App\Services\Meta\WabaService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -602,4 +603,5 @@ Route::get('/meta', function() {
 
     // dd(app(WabaService::class)->subscribeWaba($config->version, $config->token, $config->waba_id));
     // dd(app(WabaService::class)->getWaba($config->version, $config->token, $config->waba_id));
+    dd(app(CatalogoService::class)->getCatalogProducts($config->version, '', $config->token));
 });

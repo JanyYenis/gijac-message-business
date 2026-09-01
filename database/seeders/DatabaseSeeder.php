@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use Database\Seeders\Conceptos\DatabaseSeeder as ConceptosDatabaseSeeder;
+use Database\Seeders\Datos\DatabaseSeeder as DatosDatabaseSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -33,6 +34,8 @@ class DatabaseSeeder extends Seeder
             AsignarPermisoSeeder::class,
 
             ConceptosDatabaseSeeder::class,
+
+            DatosDatabaseSeeder::class,
         ]);
     }
 }

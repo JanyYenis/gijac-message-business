@@ -13,6 +13,9 @@
         .site-header .nav-link.active {
             color: #fff !important;
         }
+        .btn {
+            border: 1px solid rgba(20, 89, 98, .2) !important;
+        }
     </style>
 @endsection
 

@@ -8,8 +8,10 @@ use App\Models\IdiomaPlantilla;
 use App\Models\Plantilla;
 use App\Models\Usuario;
 use App\Models\VariableCampana;
+use App\Services\Meta\MediaService;
 use App\Services\Meta\TemplatesService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Yajra\DataTables\Facades\DataTables;
 
 class PlantillaController extends Controller
@@ -34,14 +36,15 @@ class PlantillaController extends Controller
     public function listado()
     {
         $plantillas = Plantilla::with(
-                'infoEstado',
-                'infoCategoria',
-                'body'
-            )
-            ->where('cod_config', $this->cod_config);
+            'infoEstado',
+            'infoCategoria',
+            'body'
+        )
+            ->where('cod_config', $this->cod_config)
+            ->orderByDesc('created_at');
 
         return DataTables::eloquent($plantillas)
-            ->addColumn("action", function($model){
+            ->addColumn("action", function ($model) {
                 $info['model'] = $model;
                 return view("plantillas.columnas.acciones", $info);
             })
@@ -116,283 +119,102 @@ class PlantillaController extends Controller
         return response()->json($respuesta);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, TemplatesService $templatesService, MediaService $uploadService)
     {
         // dd($request->all());
-        // if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
-        // !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
-        //     throw new ErrorException("No tienes permisos para acceder a esta sección.");
-        // }
+        // El frontend ya envía el payload completo y correcto en el formato
+        // de Meta (buildMetaPayload() -> name, language, category, components).
+        $payload = json_decode($request->input('payload'), true);
 
-        $nombre = $request->input('nombre');
-        $tipo_encabezado = $request->input('tipo_encabezado') ?? null;
-        $texto_encabzado = $request->input('texto_encabzado') ?? null;
-        $boton = $request->input('boton') ?? null;
-        $multimedia = $request->input('multimedia') ?? 1;
-        $contenido = $request->input('contenido') ?? '';
-        $archivo = $request->file('archivo');
-
-        if ($request->input('variables')) {
-            $variablesMensaje = $request->input('variables');
-            // dd($variablesMensaje);
-        }
-        // dd($request->input('multimedia'));
-        $info = [];
-        if ($tipo_encabezado) {
-            // dd($tipo_encabezado);
-            if ($tipo_encabezado == 1) {
-                $info[] = json_encode([
-                    "type" => "HEADER",
-                    "format" => 'TEXT',
-                    "text" => $texto_encabzado
-                ]);
-            } else {
-                $tipo = 'IMAGE';
-                if ($multimedia == 1) {
-                    $tipo = 'IMAGE';
-                } elseif ($multimedia == 2) {
-                    $tipo = 'VIDEO';
-                } else {
-                    $tipo = 'DOCUMENT';
-                }
-
-                if ($archivo) {
-                    dd($archivo);
-                    // $nombreOriginal = str_replace(' ', '_', $_FILES['archivo']['name']);
-                    $nombreOriginal = time();
-                    $extencionArchivo = $archivo->getClientOriginalExtension() ?? '.png';
-                    $rutaTemporal = $_FILES['archivo']['tmp_name'];
-
-                    $rutaDestino = $_SERVER['DOCUMENT_ROOT'] . '/public/img/' . $nombreOriginal.$extencionArchivo;
-                    $urlArchivo = 'img/' . $nombreOriginal.$extencionArchivo;
-                    if (strpos($extencionArchivo, 'pdf')) {
-                        $extencionArchivo = '.pdf';
-                        $rutaDestino = $_SERVER['DOCUMENT_ROOT'] . '/public/documentos/' . $nombreOriginal.$extencionArchivo;
-                        $urlArchivo = 'documentos/' . $nombreOriginal.$extencionArchivo;
-                    }
-                    if (strpos($extencionArchivo, 'mp4')) {
-                        $extencionArchivo = '.mp4';
-                       $rutaDestino = $_SERVER['DOCUMENT_ROOT'].'/public/videos/'. $nombreOriginal.$extencionArchivo;
-                       $urlArchivo = 'videos/' . $nombreOriginal.$extencionArchivo;
-                    }
-
-                    if(move_uploaded_file($rutaTemporal, $rutaDestino)) {
-                        if (file_exists($urlArchivo)) {
-                            $infoArchivo = $this->generarSeccionSubirArchivo($urlArchivo);
-
-                            $info[] = json_encode([
-                                "type" => "HEADER",
-                                "format" => $tipo,
-                                "example" => json_encode([
-                                    "header_handle" => [
-                                        $infoArchivo
-                                    ]
-                                ])
-                            ]);
-                        } else {
-                            echo "El archivo no existe.";
-                            echo '<br><br>';
-                        }
-                    }
-
-                }
-            }
+        if (! is_array($payload) || empty($payload['name']) || empty($payload['category']) || empty($payload['components'])) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => 'El payload de la plantilla es inválido o está incompleto.',
+            ], 422);
         }
 
-        $datos = [
-            "type" => "BODY",
-            "text" => $contenido,
-        ];
-        if (isset($variablesMensaje)) {
-            $datos["example"] = json_encode([
-                "body_text" => [
-                    $variablesMensaje
-                ]
-            ]);
-        }
-        $info[] = json_encode($datos);
+        $components = $payload['components'];
 
-        if ($boton) {
-            if ($boton == 1) {
-                $url = '';
-                // Verificar si el string comienza con "https://"
-                if (strpos($request->input('url'), "https://") === 0) {
-                    $url = $request->input('url');
-                }
-                // Verificar si el string comienza con "http://"
-                elseif (strpos($request->input('url'), "http://") === 0) {
-                    $url = $request->input('url');
-                }
-                // Si no contiene ninguno de los dos, agregar "https://"
-                else {
-                    $url = "https://" . $request->input('url');
-                }
+        // Si el header es IMAGE/VIDEO/DOCUMENT, el JSON llega SIN header_handle
+        // (el frontend no puede generarlo). El archivo real viaja en el mismo
+        // FormData bajo "archivo"; aquí se sube con la Resumable Upload
+        // API y se inyecta el handle en el componente HEADER correspondiente.
+        $headerIndex = collect($components)->search(function ($c) {
+            return ($c['type'] ?? '') === 'HEADER' && in_array($c['format'] ?? '', ['IMAGE', 'VIDEO', 'DOCUMENT']);
+        });
 
-                $datosBoton = json_encode([
-                    "type" => "URL",
-                    "text" => "Sitio Web",
-                    "url" => $url,
-                ]);
-            } else {
-                $datosBoton = json_encode([
-                    "type" => "URL",
-                    "text" => "Contacte a su visitador",
-                    "url" => "https://message-business.gijac.com/{{1}}",
-                    "example" => [
-                        "https://message-business.gijac.com/hola"
-                    ]
-                ]);
+        if ($headerIndex !== false) {
+            $archivo = $request->file('archivo');
+
+            if (! $archivo || ! $archivo->isValid()) {
+                return response()->json([
+                    'estado' => 'error',
+                    'mensaje' => 'Falta el archivo del encabezado (imagen, video o documento).',
+                ], 422);
             }
 
-            $info[] = json_encode([
-                "type" => "BUTTONS",
-                "buttons" => [
-                    $datosBoton
-                ]
-            ]);
+            try {
+                $handle = $uploadService->uploadHeaderMedia(
+                    $this->version,
+                    $this->token,
+                    $this->app_id,
+                    $archivo->getRealPath(),
+                    $archivo->getMimeType()
+                );
+            } catch (\Throwable $e) {
+                return response()->json([
+                    'estado' => 'error',
+                    'mensaje' => 'No se pudo subir el archivo del encabezado a Meta.',
+                    'error' => $e->getMessage(),
+                ], 502);
+            }
+
+            $components[$headerIndex]['example'] = ['header_handle' => [$handle]];
         }
 
+        $respuestaMeta = $templatesService->createTemplateFromComponents(
+            $this->version,
+            $this->token,
+            $this->waba_id,
+            $payload['name'],
+            $payload['language'],
+            $payload['category'],
+            $components
+        );
 
-        $info = json_encode($info);
-        // dd($info);
+        // createTemplateFromComponents() devuelve el array decodificado de Meta
+        // cuando todo sale bien, o una JsonResponse de error si Meta rechazó
+        // la plantilla (nombre repetido, texto inválido, etc.).
+        if ($respuestaMeta instanceof \Illuminate\Http\JsonResponse) {
+            $error = $respuestaMeta->getData(true);
 
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://graph.facebook.com/{$this->version}/{$this->waba_id}/message_templates",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS =>"{
-            'name': '$nombre',
-            'language': 'es_ES',
-            'category': 'MARKETING',
-            'components': $info
-        }",
-        CURLOPT_HTTPHEADER => array(
-            "Content-Type: application/json",
-            "Authorization: Bearer {$this->token}"
-        ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        echo $response;
-
-        header("location: ".$this->baseUrl."Plantilla");
-    }
-
-    public function generarSeccionSubirArchivo($urlArchivo)
-    {
-        $bytes = filesize($urlArchivo);
-        echo "El tamaño de la imagen es $bytes bytes. app_id: {$this->app_id}";
-        echo '<br><br>';
-
-        $headers = get_headers($this->baseUrl.$urlArchivo, 1);
-        // dd($headers);
-        // echo '<br><br>';
-
-
-        if (isset($headers['Content-Type'])) {
-            $tipo_de_archivo = $headers['Content-Type'];
-        } else {
-            echo "No se pudo determinar el tipo de archivo.";
-            echo '<br><br>';
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => $error['error']['error']['message']
+                    ?? $error['message']
+                    ?? 'Meta rechazó la plantilla.',
+                'validaciones' => [],
+            ], $respuestaMeta->getStatusCode());
         }
 
-        // dd($this->token);
+        // Aquí, si además quieres guardar un registro local de la plantilla
+        // (nombre, categoría, estado PENDING, id devuelto por Meta, etc.),
+        // es el lugar: Plantilla::create([...]) con $respuestaMeta['id'].
 
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://graph.facebook.com/{$this->version}/{$this->app_id}/uploads?file_length={$bytes}&file_type={$tipo_de_archivo}",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_HTTPHEADER => array(
-            "Content-Type: application/json",
-            "Authorization: Bearer {$this->token}"
-        ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        // echo $response;
-        // echo '<br><br>';
-
-        // Decodificar el JSON
-        $data = json_decode($response, true);
-
-        // Verificar si la decodificación fue exitosa
-        $info = null;
-        if (count($data)) {
-            dd($data);
-            echo '<br><br>';
-            // Acceder al valor de la clave 'id'
-            $id = $data['id'];
-            echo "El valor del ID es: $id";
-            echo '<br><br>';
-            $info = $this->subirArchivo($urlArchivo, $tipo_de_archivo, $id);
-        }
-
-        return $info;
-    }
-
-    public function subirArchivo($urlArchivo, $tipo_de_archivo, $seccion)
-    {
-        $url = "https://graph.facebook.com/{$this->version}/{$seccion}"; // Facebook Upload URL
-        // $filePath = $urlArchivo; // Local File Path
-        $filePath = $this->baseUrl.$urlArchivo; // Local File Path
-        $fileOffset = 0; // Set the file offset
-        $archivo = file_get_contents($filePath);
-        // dd($archivo);
-        // echo '<br><br>';
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, [
-            CURLOPT_URL => $url,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => $archivo,
-            CURLOPT_HTTPHEADER => [
-                "Authorization: OAuth {$this->token}",
-                "file_offset: " . $fileOffset,
-                "Content-Type: {$tipo_de_archivo}",
-            ],
+        return response()->json([
+            'estado' => 'success',
+            'mensaje' => 'Plantilla enviada a revisión de Meta.',
+            'plantilla' => $respuestaMeta,
         ]);
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-
-        echo $response;
-        echo '<br><br>';
-
-        $data = json_decode($response, true);
-        return $data['h'];
     }
 
     public function buscar(Request $request)
     {
         $plantillas = Plantilla::with(
-                'infoEstado',
-                'infoCategoria',
-                'body'
-            )
+            'infoEstado',
+            'infoCategoria',
+            'body'
+        )
             ->where('cod_config', $this->cod_config)
             ->get();
 
@@ -423,6 +245,18 @@ class PlantillaController extends Controller
         return [
             'estado'  => 'success',
             'mensaje' => 'Plantilla eliminada correctamente.',
+        ];
+    }
+
+    public function sincronizar(Request $request)
+    {
+        Artisan::call('sincronizar:plantillas', [
+            'app_id' => $this->app_id
+        ]);
+
+        return [
+            'estado'  => 'success',
+            'mensaje' => 'Se ha sincronizado correctamente.',
         ];
     }
 }

@@ -9,3 +9,4 @@ Route::get('/{plantilla}/ver', [PlantillaController::class, 'show'])->name('show
 Route::post('/crear', [PlantillaController::class, 'store'])->name('store');
 Route::get('/buscar', [PlantillaController::class, 'buscar'])->name('buscar');
 Route::delete('/eliminar/{plantilla}', [PlantillaController::class, 'delete'])->name('delete');
+Route::post('/sincronizar', [PlantillaController::class, 'sincronizar'])->name('sincronizar');

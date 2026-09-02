@@ -130,7 +130,7 @@
                                             </div>
                                             <div class="dz-sub">JPG o PNG · Máx. 16 MB</div>
                                         </div>
-                                        <input type="file" id="file-IMAGE" class="d-none" />
+                                        <input type="file" id="file-IMAGE" name="header_media" class="d-none" />
                                         <div id="chip-IMAGE" class="d-none"></div>
                                         <div class="field-error" id="dzErr-IMAGE"></div>
                                     </div>
@@ -143,7 +143,7 @@
                                             </div>
                                             <div class="dz-sub">MP4 o 3GPP · Máx. 16 MB</div>
                                         </div>
-                                        <input type="file" id="file-VIDEO" class="d-none" />
+                                        <input type="file" id="file-VIDEO" name="header_media" class="d-none" />
                                         <div id="chip-VIDEO" class="d-none"></div>
                                         <div class="field-error" id="dzErr-VIDEO"></div>
                                     </div>
@@ -156,7 +156,7 @@
                                             </div>
                                             <div class="dz-sub">PDF · Máx. 16 MB</div>
                                         </div>
-                                        <input type="file" id="file-DOCUMENT" class="d-none" />
+                                        <input type="file" id="file-DOCUMENT" name="header_media" class="d-none" />
                                         <div id="chip-DOCUMENT" class="d-none"></div>
                                         <div class="field-error" id="dzErr-DOCUMENT"></div>
                                     </div>

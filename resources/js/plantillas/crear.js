@@ -26,6 +26,7 @@
     'use strict';
 
     const formCrearPlantilla = '#formCrearPlantilla';
+    const modalCrearPlantilla = '#modalCrearPlantilla';
 
     /* ---------------- Constantes ---------------- */
     var LIMITS = {
@@ -226,7 +227,7 @@
             if (ok.indexOf(file.type) === -1) { toast('Formato no permitido para ' + kind.toLowerCase() + '.', true); return; }
             if (file.size > 16 * 1024 * 1024) { toast('El archivo supera 16 MB.', true); return; }
             var url = URL.createObjectURL(file);
-            state.media[kind] = { name: file.name, size: file.size, type: file.type, url: url };
+            state.media[kind] = { name: file.name, size: file.size, type: file.type, url: url, file: file };
             var media = kind === 'IMAGE' ? '<img src="' + url + '" alt="">'
                 : kind === 'VIDEO' ? '<video src="' + url + '" muted></video>'
                     : '<i class="fa-solid fa-file-pdf fa-2x text-danger"></i>';
@@ -782,29 +783,75 @@
         var metaCategory = CATEGORY_META_MAP[categoryCode]; // string que espera la API de Meta
 
         if (categoryCode === CATEGORY_AUTH) {
-            var components = [
-                { type: 'body', add_security_recommendation: $('#authSecurityRec').is(':checked') }
+            var authComponents = [
+                { type: 'BODY', add_security_recommendation: $('#authSecurityRec').is(':checked') }
             ];
             var min = parseInt($('#authExpiration').val(), 10);
-            if (min) components.push({ type: 'footer', code_expiration_minutes: min });
+            if (min) authComponents.push({ type: 'FOOTER', code_expiration_minutes: min });
 
             var otp = state.buttons[0] || { otp_type: 'COPY_CODE' };
-            var otpBtn = { type: 'otp', otp_type: otp.otp_type || 'COPY_CODE' };
+            var otpBtn = { type: 'OTP', otp_type: otp.otp_type || 'COPY_CODE' };
             if (otp.text) otpBtn.text = otp.text;
             if (otp.otp_type === 'ONE_TAP' || otp.otp_type === 'ZERO_TAP') {
                 otpBtn.package_name = otp.package || '';
                 otpBtn.signature_hash = otp.signature || '';
             }
             if (otp.otp_type === 'ZERO_TAP') otpBtn.zero_tap_terms_accepted = !!otp.zeroTermsAccepted;
-            components.push({ type: 'buttons', buttons: [otpBtn] });
+            authComponents.push({ type: 'BUTTONS', buttons: [otpBtn] });
 
-            return { name: name, language: language, category: metaCategory, components: components };
+            return { name: name, language: language, category: metaCategory, components: authComponents };
         }
 
-        // MARKETING / UTILITY: header + body + footer + buttons "planos".
-        var d = getTemplateData(true);
-        d.category = metaCategory;
-        return d;
+        // MARKETING / UTILITY: se arma el árbol real de "components" que
+        // espera la API de Meta (mismo formato que consume TemplatesService
+        // en el backend). El header_handle de archivos (IMAGE/VIDEO/DOCUMENT)
+        // NO se resuelve aquí: el backend lo agrega después de subir el
+        // archivo, por eso ese componente sale sin "example".
+        var components = [];
+
+        var h = HeaderBuilder.data();
+        if (h) {
+            if (h.format === 'TEXT') {
+                var hc = { type: 'HEADER', format: 'TEXT', text: h.text };
+                if (h.examples && h.examples.length) hc.example = { header_text: h.examples };
+                components.push(hc);
+            } else if (h.format === 'LOCATION') {
+                components.push({ type: 'HEADER', format: 'LOCATION' });
+            } else {
+                components.push({ type: 'HEADER', format: h.format });
+            }
+        }
+
+        var b = BodyBuilder.data();
+        var bodyComponent = { type: 'BODY', text: b.text };
+        var bvars = VariableManager.detect(b.text);
+        if (bvars.length) {
+            if (VariableManager.kind(bvars) === 'named') {
+                bodyComponent.example = {
+                    body_text_named_params: bvars.map(function (v, i) { return { param_name: v, example: b.examples[i] }; })
+                };
+            } else {
+                bodyComponent.example = { body_text: [b.examples] };
+            }
+        }
+        components.push(bodyComponent);
+
+        var f = FooterBuilder.data();
+        if (f && f.text) components.push({ type: 'FOOTER', text: f.text });
+
+        var buttons = state.buttons.map(function (bt) {
+            if (bt.type === 'URL') {
+                var out = { type: 'URL', text: bt.text, url: bt.url };
+                if (VariableManager.detect(bt.url).length) out.example = [bt.urlExample];
+                return out;
+            }
+            if (bt.type === 'PHONE_NUMBER') return { type: 'PHONE_NUMBER', text: bt.text, phone_number: bt.phone };
+            if (bt.type === 'COPY_CODE') return { type: 'COPY_CODE', example: [bt.example] };
+            return { type: bt.type, text: bt.text }; // QUICK_REPLY, CATALOG, MPM
+        });
+        if (buttons.length) components.push({ type: 'BUTTONS', buttons: buttons });
+
+        return { name: name, language: language, category: metaCategory, components: components };
     }
 
     // Muestra/oculta secciones según la categoría elegida.
@@ -991,8 +1038,19 @@
     });
 
     const enviarDatos = (form) => {
+        if (!validate()) return;
+
         let formData = new FormData(document.getElementById("formCrearPlantilla"));
         formData.append('payload', JSON.stringify(buildMetaPayload()));
+
+        // Si el header es de tipo archivo (IMAGE/VIDEO/DOCUMENT), se adjunta
+        // el archivo real bajo la clave "archivo" para que el backend lo
+        // suba a Meta y arme el header_handle.
+        if ($('#headerSwitch').is(':checked')) {
+            var headerType = $('#headerTypeGrid .type-opt.active').data('htype');
+            var media = state.media[headerType];
+            if (media && media.file) formData.append('archivo', media.file);
+        }
 
         const config = {
             'method': 'POST',
@@ -1004,7 +1062,9 @@
 
         const success = (response) => {
             if (response.estado == 'success') {
+                $('.btnCerrarModal').trigger('click');
                 generalidades.ocultarValidaciones(formCrearPlantilla);
+                window.listadoPlantillas();
             }
             generalidades.ocultarCargando(formCrearPlantilla);
             generalidades.toastrGenerico(response?.estado, response?.mensaje);
@@ -1019,6 +1079,11 @@
         generalidades.create(ruta, config, success, error);
         generalidades.mostrarCargando(formCrearPlantilla);
     }
+
+    $(document).on('hidden.bs.modal', modalCrearPlantilla, function (e) {
+        generalidades.resetValidate(formCrearPlantilla);
+    });
+
 
     /* Exponer API */
     window.openTemplateModal = openTemplateModal;

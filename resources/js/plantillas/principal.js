@@ -146,5 +146,30 @@ const eliminar = (id) => {
     generalidades.mostrarCargando('body');
 }
 
+$(document).on('click', '#btnSincronizar', function() {
+    const config = {
+        "method": "POST",
+        "body": {},
+        "headers": {
+            "Content-Type": generalidades.CONTENT_TYPE_JSON,
+            "Accept": generalidades.CONTENT_TYPE_JSON
+        }
+    };
+
+    const success = (response) => {
+        if (response.estado === "success") {
+            window.listadoPlantillas();
+        }
+        generalidades.ocultarCargando("body");
+    };
+    const error = (response) => {
+        generalidades.toastrGenerico(response.estado, response.mensaje);
+        generalidades.ocultarCargando("body");
+    }
+
+    generalidades.mostrarCargando("body");
+    generalidades.post(route('plantillas.sincronizar'), config, success, error);
+});
+
 require('./listado');
 require('./crear');

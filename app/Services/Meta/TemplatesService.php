@@ -1412,4 +1412,86 @@ class TemplatesService
             'error' => $response->json(),
         ], $response->status());
     }
+
+    /**
+     * Crea una plantilla de mensajes de WhatsApp Business enviando
+     * directamente el arreglo de "components" ya armado.
+     *
+     * A diferencia de createMessageTemplate() (que reconstruye los
+     * componentes a partir de $body/$header/$footer/$buttons sueltos),
+     * este método reenvía tal cual el arreglo que ya llega listo desde
+     * el frontend (ver buildMetaPayload() en plantillas.js), que arma
+     * el formato exacto que exige Meta para cada categoría
+     * (AUTHENTICATION / MARKETING / UTILITY).
+     *
+     * Útil para no duplicar la lógica de armado de componentes en dos
+     * lugares (JS y PHP) cuando el cliente ya la hizo correctamente.
+     *
+     * Guías oficiales:
+     * https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates
+     * https://developers.facebook.com/docs/whatsapp/business-management-api/authentication-templates
+     *
+     * Referencia del endpoint:
+     * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
+     */
+    public function createTemplateFromComponents(
+        string $version,
+        string $accessToken,
+        string $wabaId,
+        string $name,
+        string $language,
+        string $category,
+        array $components
+    ) {
+        $response = Http::withToken($accessToken)
+            ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
+                'name' => $name,
+                'language' => $language,
+                'category' => $category,
+                'components' => $components,
+            ]);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al crear la plantilla de WhatsApp.',
+            'error' => $response->json(),
+        ], $response->status());
+    }
+
+    /**
+     * Igual que createTemplateFromComponents(), pero para actualizar una
+     * plantilla existente identificada por su TEMPLATE_ID (POST a
+     * /{TEMPLATE_ID} en vez de /{WABA_ID}/message_templates).
+     */
+    public function updateTemplateFromComponents(
+        string $version,
+        string $accessToken,
+        string $templateId,
+        string $name,
+        string $language,
+        string $category,
+        array $components
+    ) {
+        $response = Http::withToken($accessToken)
+            ->post("https://graph.facebook.com/{$version}/{$templateId}", [
+                'name' => $name,
+                'language' => $language,
+                'category' => $category,
+                'components' => $components,
+            ]);
+
+        if ($response->successful()) {
+            return $response->json();
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Error al actualizar la plantilla de WhatsApp.',
+            'error' => $response->json(),
+        ], $response->status());
+    }
 }

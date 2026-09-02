@@ -315,6 +315,10 @@
                     <p class="subtitle mb-0">Gestiona y previsualiza tus plantillas aprobadas</p>
                 </div>
                 <div class="mt-3 mt-md-0">
+                    <button type="button" class="btn btn-new-template" id="btnSincronizar">
+                        <i class="fa fa-sync-alt fs-4"></i>
+                        Sincronizar Plantillas
+                    </button>
                     <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearPlantilla">
                         <i class="fas fa-plus fs-1"></i>
                         Nueva Plantilla

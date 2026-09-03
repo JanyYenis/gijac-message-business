@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\ConfiguracionMeta;
+use App\Models\Sistema\Concepto;
 use App\Models\Usuario;
 use Illuminate\Support\ServiceProvider;
 
@@ -41,6 +42,19 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 $view->with('numeroTelefono', null);
             }
+        });
+
+        // Compartir variable con todas las vistas
+        view()->composer('layouts.componentes.sider', function ($view) {
+            $idiomas = Concepto::whereHas('tipoConcepto', function ($query) {
+                    $query->where('nombre', 'TC_IDIOMAS_SISTEMA');
+                })
+                ->where('estado', Concepto::ACTIVO)
+                ->get();
+
+            $idioma_actual = $idiomas->firstWhere('nombre_corto', app()->getLocale());
+            $view->with('idioma_actual', $idioma_actual);
+            $view->with('idiomas', $idiomas);
         });
     }
 }

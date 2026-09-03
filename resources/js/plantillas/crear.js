@@ -1064,7 +1064,7 @@
             if (response.estado == 'success') {
                 $('.btnCerrarModal').trigger('click');
                 generalidades.ocultarValidaciones(formCrearPlantilla);
-                window.listadoPlantillas();
+                window.sincronizarPlantillas();
             }
             generalidades.ocultarCargando(formCrearPlantilla);
             generalidades.toastrGenerico(response?.estado, response?.mensaje);

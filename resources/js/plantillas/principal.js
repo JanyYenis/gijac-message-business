@@ -147,6 +147,10 @@ const eliminar = (id) => {
 }
 
 $(document).on('click', '#btnSincronizar', function() {
+    window.sincronizarPlantillas();
+});
+
+window.sincronizarPlantillas = () => {
     const config = {
         "method": "POST",
         "body": {},
@@ -169,7 +173,7 @@ $(document).on('click', '#btnSincronizar', function() {
 
     generalidades.mostrarCargando("body");
     generalidades.post(route('plantillas.sincronizar'), config, success, error);
-});
+}
 
 require('./listado');
 require('./crear');

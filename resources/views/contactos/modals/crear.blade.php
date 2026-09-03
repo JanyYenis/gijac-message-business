@@ -3,10 +3,10 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title text-white">Crear Contacto</h1>
+                    <h1 class="modal-title text-white">{{ __('Crear Contacto') }}</h1>
                     <!--begin::Close-->
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal"
-                        aria-label="Close">
+                        aria-label="{{ __('Close') }}">
                         <span class="svg-icon svg-icon-2x">
                             <i class="las la-times fs-1 text-white"></i>
                         </span>
@@ -22,24 +22,24 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="fv-row mb-10">
-                                <label class="form-label required">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                                <label class="form-label required">{{ __('Nombre') }}</label>
+                                <input type="text" class="form-control" name="nombre" placeholder="{{ __('Nombre') }}"
                                     required />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="fv-row mb-10">
-                                <label class="form-label">Apellido</label>
-                                <input type="text" class="form-control" name="apellido" placeholder="Apellido" />
+                                <label class="form-label">{{ __('Apellido') }}</label>
+                                <input type="text" class="form-control" name="apellido" placeholder="{{ __('Apellido') }}" />
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="fv-row mb-10">
-                                <label class="form-label">Genero</label>
+                                <label class="form-label">{{ __('Genero') }}</label>
                                 <select name="genero" id="selectGenero" class="form-control" data-control="select2"
-                                    data-placeholder="Genero" data-allow-clear="true" data-hide-search="true"
+                                    data-placeholder="{{ __('Genero') }}" data-allow-clear="true" data-hide-search="true"
                                     data-dropdown-parent="body">
                                     <option value=""></option>
                                     @foreach ($generos as $item)
@@ -50,9 +50,9 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="fv-row mb-10">
-                                <label class="form-label">Etiquetas</label>
+                                <label class="form-label">{{ __('Etiquetas') }}</label>
                                 <select name="etiquetas[]" id="selectEtiquetas" class="form-control"
-                                    data-control="select2" multiple data-placeholder="Etiquetas" data-allow-clear="true"
+                                    data-control="select2" multiple data-placeholder="{{ __('Etiquetas') }}" data-allow-clear="true"
                                     data-dropdown-parent="body">
                                     <option></option>
                                     @foreach ($etiquetas as $etiquetas)
@@ -65,17 +65,17 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <div class="fv-row mb-10">
-                                <label class="required form-label">Telefono</label>
+                                <label class="required form-label">{{ __('Telefono') }}</label>
                                 <input type="tel" name="telefono" id="tel" class="form-control" maxlength="15"
-                                    placeholder="Ingrese el eléfono" required>
+                                    placeholder="{{ __('Ingrese el eléfono') }}" required>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-primary">Crear</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cancelar') }}</button>
+                    <button type="submit" class="btn btn-primary">{{ __('Crear') }}</button>
                 </div>
             </div>
         </div>

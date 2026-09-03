@@ -2,7 +2,7 @@
     <div class="contact-item btnIrChat" data-contacto="{{$item?->numero_completo}}">
         <div class="contact-avatar-wrapper">
             <div class="contact-avatar">
-                <img class="profile-image" src="{{asset('img/user.png')}}" alt="{{$item?->nombre_completo ?? 'Sin Nombre'}}">
+                <img class="profile-image" src="{{asset('img/user.png')}}" alt="{{ $item?->nombre_completo ?? __('Sin Nombre') }}">
             </div>
         </div>
         <div class="contact-info">
@@ -21,15 +21,15 @@
                     {{$item?->conversacion?->ultimo_mensaje ?? ''}}
                 @else
                     @if ($item?->conversacion?->tipo_ultimo_mensaje == \App\Models\Mensaje::IMAGEN)
-                        Imagen
+                        {{ __('Imagen') }}
                     @elseif ($item?->conversacion?->tipo_ultimo_mensaje == \App\Models\Mensaje::VIDEO)
-                        Video
+                        {{ __('Video') }}
                     @elseif ($item?->conversacion?->tipo_ultimo_mensaje == \App\Models\Mensaje::AUDIO)
-                        Audio
+                        {{ __('Audio') }}
                     @elseif ($item?->conversacion?->tipo_ultimo_mensaje == \App\Models\Mensaje::DOCUMENTO)
-                        Documento
+                        {{ __('Documento') }}
                     @elseif ($item?->conversacion?->tipo_ultimo_mensaje == \App\Models\Mensaje::FLOWS)
-                        Respuesta Formulario
+                        {{ __('Respuesta Formulario') }}
                     @endif
                 @endif
             </div>

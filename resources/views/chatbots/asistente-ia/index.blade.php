@@ -24,11 +24,9 @@
                     </a>
                     <div class="ms-3">
                         <h1 class="text-white">
-                            <i class="fas fa-robot text-white fs-1"></i>
-                            Asistente IA para WhatsApp
-                        </h1>
-                        <p class="subtitle mb-0">Configura un asistente inteligente capaz de responder automáticamente a tus
-                            clientes.</p>
+                            <i class="fas fa-robot text-white fs-1"></i>{{ __('Asistente IA para WhatsApp') }}</h1>
+                        <p class="subtitle mb-0">{{ __('Configura un asistente inteligente capaz de responder automáticamente a tus
+                            clientes.') }</p>
                     </div>
                 </div>
             </div>
@@ -40,9 +38,7 @@
                     Estado: {{ $asistente?->activo ? 'Activo' : 'Inactivo' }}
                 </span>
                 <button class="btn btn-white" id="btnSave">
-                    <i class="bi bi-check2-circle fs-4 text-primary"></i>
-                    Guardar Configuración
-                </button>
+                    <i class="bi bi-check2-circle fs-4 text-primary"></i>{{ __('Guardar Configuración') }}</button>
             </div>
         </div>
     </div>
@@ -55,7 +51,7 @@
                     <i class="bi bi-chat-dots-fill text-white"></i>
                 </div>
                 <div class="stat-value fs-4">0</div>
-                <div class="stat-label fs-5">Conversaciones IA</div>
+                <div class="stat-label fs-5">{{ __('Conversaciones IA') }}</div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
@@ -64,7 +60,7 @@
                     <i class="fa-regular fa-paper-plane text-white"></i>
                 </div>
                 <div class="stat-value fs-4">0</div>
-                <div class="stat-label fs-5">Mensajes Respondidos</div>
+                <div class="stat-label fs-5">{{ __('Mensajes Respondidos') }}</div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
@@ -73,7 +69,7 @@
                     <i class="bi bi-bullseye text-white"></i>
                 </div>
                 <div class="stat-value fs-4">0%</div>
-                <div class="stat-label fs-5">Precisión Estimada</div>
+                <div class="stat-label fs-5">{{ __('Precisión Estimada') }}</div>
             </div>
         </div>
         <div class="col-6 col-lg-3">
@@ -82,7 +78,7 @@
                     <i class="bi bi-file-earmark-text-fill text-white"></i>
                 </div>
                 <div class="stat-value fs-4">{{ $asistente?->documento_nombre ? 1 : 0 }}</div>
-                <div class="stat-label fs-5">Documentos Cargados</div>
+                <div class="stat-label fs-5">{{ __('Documentos Cargados') }}</div>
             </div>
         </div>
     </div>
@@ -96,26 +92,24 @@
                 <div class="panel">
                     <div class="mb-3">
                         <p class="section-title fs-1">
-                            <i class="bi bi-person-badge text-primary fs-1"></i>
-                            Identidad del Asistente
-                        </p>
-                        <p class="section-subtitle fs-3">Define cómo se presenta tu asistente ante los clientes.</p>
+                            <i class="bi bi-person-badge text-primary fs-1"></i>{{ __('Identidad del Asistente') }}</p>
+                        <p class="section-subtitle fs-3">{{ __('Define cómo se presenta tu asistente ante los clientes.') }}</p>
                     </div>
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label fs-5 required">Nombre del Asistente</label>
+                            <label class="form-label fs-5 required">{{ __('Nombre del Asistente') }}</label>
                             <input type="text" class="form-control" name="nombre" required id="asstName"
-                                value="{{ $asistente?->nombre ?? '' }}" placeholder="Ej: Gibot"/>
+                                value="{{ $asistente?->nombre ?? '' }}" placeholder="{{ __('Ej: Gibot') }}"/>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label fs-5 required">Rol del Asistente</label>
+                            <label class="form-label fs-5 required">{{ __('Rol del Asistente') }}</label>
                             <input type="text" class="form-control" name="rol" required id="asstRole" value="{{ $asistente?->rol ?? '' }}"
-                                placeholder="Ej: Asesor Comercial"/>
+                                placeholder="{{ __('Ej: Asesor Comercial') }}"/>
                         </div>
                         <div class="col-12">
-                            <label class="form-label fs-5 required">Descripción corta</label>
+                            <label class="form-label fs-5 required">{{ __('Descripción corta') }}</label>
                             <textarea class="form-control" name="descripcion" rows="2" required
-                                placeholder="Describe brevemente el propósito del asistente..."
+                                placeholder="{{ __('Describe brevemente el propósito del asistente...') }}"
                                 >{{ $asistente?->descripcion ?? '' }}</textarea>
                         </div>
                     </div>
@@ -125,14 +119,12 @@
                 <div class="panel">
                     <div class="mb-3">
                         <p class="section-title fs-1">
-                            <i class="bi bi-chat-square-text text-primary fs-1"></i>
-                            Comportamiento
-                        </p>
-                        <p class="section-subtitle fs-3">El prompt del sistema define la personalidad y las reglas del asistente.</p>
+                            <i class="bi bi-chat-square-text text-primary fs-1"></i>{{ __('Comportamiento') }}</p>
+                        <p class="section-subtitle fs-3">{{ __('El prompt del sistema define la personalidad y las reglas del asistente.') }}</p>
                     </div>
-                    <label class="form-label fs-5 required">Prompt del Sistema</label>
+                    <label class="form-label fs-5 required">{{ __('Prompt del Sistema') }}</label>
                     <textarea class="form-control" id="systemPrompt" name="system_prompt" rows="6" maxlength="2000"
-                        placeholder="Eres el asistente virtual de GIJAC WEB. Tu objetivo es ayudar a los clientes a conocer nuestros servicios y resolver dudas de manera profesional."
+                        placeholder="{{ __('Eres el asistente virtual de GIJAC WEB. Tu objetivo es ayudar a los clientes a conocer nuestros servicios y resolver dudas de manera profesional.') }}"
                         >{{ $asistente?->system_prompt ?? '' }}</textarea>
                     <div class="d-flex justify-content-between align-items-center mt-2">
                         <div class="char-counter">
@@ -140,27 +132,19 @@
                         </div>
                     </div>
                     <div class="mt-3">
-                        <span class="form-label d-block mb-2 fs-5">Ejemplos rápidos</span>
+                        <span class="form-label d-block mb-2 fs-5">{{ __('Ejemplos rápidos') }}</span>
                         <span class="chip"
                             data-prompt="Eres un asistente de atención al cliente de GIJAC WEB. Responde de forma amable, clara y profesional. Resuelve dudas frecuentes y guía al cliente paso a paso.">
-                            <i class="bi bi-headset"></i>
-                            Atención al cliente
-                        </span>
+                            <i class="bi bi-headset"></i>{{ __('Atención al cliente') }}</span>
                         <span class="chip"
                             data-prompt="Eres un asesor de ventas de GIJAC WEB. Tu objetivo es presentar los servicios, destacar beneficios y motivar al cliente a solicitar una cotización.">
-                            <i class="bi bi-cart-check"></i>
-                            Ventas
-                        </span>
+                            <i class="bi bi-cart-check"></i>{{ __('Ventas') }}</span>
                         <span class="chip"
                             data-prompt="Eres un especialista de soporte técnico de GIJAC WEB. Diagnostica problemas, ofrece soluciones paso a paso y escala a un agente humano si es necesario.">
-                            <i class="bi bi-tools"></i>
-                            Soporte técnico
-                        </span>
+                            <i class="bi bi-tools"></i>{{ __('Soporte técnico') }}</span>
                         <span class="chip"
                             data-prompt="Eres un asistente de agendamiento de GIJAC WEB. Ayuda al cliente a reservar citas, confirmar disponibilidad y enviar recordatorios.">
-                            <i class="bi bi-calendar-check"></i>
-                            Agendamiento
-                        </span>
+                            <i class="bi bi-calendar-check"></i>{{ __('Agendamiento') }}</span>
                     </div>
                 </div>
 
@@ -168,21 +152,18 @@
                 <div class="panel">
                     <div class="mb-3">
                         <p class="section-title fs-1">
-                            <i class="bi bi-cpu text-primary fs-1"></i>
-                            Modelo IA
-                        </p>
-                        <p class="section-subtitle fs-3">Selecciona el proveedor y el modelo que impulsará tu asistente.</p>
+                            <i class="bi bi-cpu text-primary fs-1"></i>{{ __('Modelo IA') }}</p>
+                        <p class="section-subtitle fs-3">{{ __('Selecciona el proveedor y el modelo que impulsará tu asistente.') }}</p>
                     </div>
                     <div class="row g-3">
                         <div class="col-md-12">
                             <span class="badge bg-light text-dark mb-2 fs-5">
-                                <i class="bi bi-hdd-network text-dark me-1 fs-5"></i>Ollama (modelos locales, 100% gratis)
-                            </span>
+                                <i class="bi bi-hdd-network text-dark me-1 fs-5"></i>{{ __('Ollama (modelos locales, 100% gratis)') }}</span>
                         </div>
                         <div class="col-md-12">
-                            <label class="form-label fs-5 required">Modelo</label>
+                            <label class="form-label fs-5 required">{{ __('Modelo') }}</label>
                             <select class="form-select" id="modelSelect" name="modelo" required
-                                data-control="select2" data-placeholder="Seleccione el modelo" data-allow-clear="true">
+                                data-control="select2" data-placeholder="{{ __('Seleccione el modelo') }}" data-allow-clear="true">
                             </select>
                         </div>
                     </div>
@@ -195,16 +176,14 @@
                 <div class="panel">
                     <div class="mb-3">
                         <p class="section-title fs-1">
-                            <i class="bi bi-sliders text-primary fs-1"></i>
-                            Personalidad
-                        </p>
-                        <p class="section-subtitle fs-3">Ajusta el tono y estilo de las respuestas del asistente.</p>
+                            <i class="bi bi-sliders text-primary fs-1"></i>{{ __('Personalidad') }}</p>
+                        <p class="section-subtitle fs-3">{{ __('Ajusta el tono y estilo de las respuestas del asistente.') }}</p>
                     </div>
                     <div class="row g-4">
                         <div class="col-md-6">
                             <div class="slider-row">
                                 <div class="d-flex justify-content-between">
-                                    <span class="form-label fs-6 mb-0">Creatividad</span>
+                                    <span class="form-label fs-6 mb-0">{{ __('Creatividad') }}</span>
                                     <span id="vCrea">{{ $asistente?->creatividad ?? 60 }}%</span>
                                 </div>
                                 <input type="range" min="0" max="100" value="{{ $asistente?->creatividad ?? 60 }}"
@@ -213,7 +192,7 @@
                             </div>
                             <div class="slider-row">
                                 <div class="d-flex justify-content-between">
-                                    <span class="form-label fs-6 mb-0">Formalidad</span>
+                                    <span class="form-label fs-6 mb-0">{{ __('Formalidad') }}</span>
                                     <span id="vForm">{{ $asistente?->formalidad ?? 75 }}%</span>
                                 </div>
                                 <input type="range" min="0" max="100" value="{{ $asistente?->formalidad ?? 75 }}"
@@ -224,7 +203,7 @@
                         <div class="col-md-6">
                             <div class="slider-row">
                                 <div class="d-flex justify-content-between">
-                                    <span class="form-label fs-6 mb-0">Brevedad</span>
+                                    <span class="form-label fs-6 mb-0">{{ __('Brevedad') }}</span>
                                     <span id="vBrev">{{ $asistente?->brevedad ?? 50 }}%</span>
                                 </div>
                                 <input type="range" min="0" max="100" value="{{ $asistente?->brevedad ?? 50 }}"
@@ -233,7 +212,7 @@
                             </div>
                             <div class="slider-row">
                                 <div class="d-flex justify-content-between">
-                                    <span class="form-label fs-6 mb-0">Empatía</span>
+                                    <span class="form-label fs-6 mb-0">{{ __('Empatía') }}</span>
                                     <span id="vEmp">{{ $asistente?->empatia ?? 80 }}%</span>
                                 </div>
                                 <input type="range" min="0" max="100" value="{{ $asistente?->empatia ?? 80 }}"
@@ -252,15 +231,13 @@
                 <div class="panel">
                     <div class="mb-3">
                         <p class="section-title fs-1">
-                            <i class="bi bi-journal-richtext text-primary fs-1"></i>
-                            Base de Conocimiento
-                        </p>
-                        <p class="section-subtitle fs-3">Sube documentos para que el asistente responda con tu información.</p>
+                            <i class="bi bi-journal-richtext text-primary fs-1"></i>{{ __('Base de Conocimiento') }}</p>
+                        <p class="section-subtitle fs-3">{{ __('Sube documentos para que el asistente responda con tu información.') }}</p>
                     </div>
                     <div class="dropzone" id="dropzone">
                         <i class="bi bi-cloud-arrow-up"></i>
-                        <p class="mb-1 mt-2 fw-semibold">Arrastra archivos aquí</p>
-                        <small>PDF, DOCX o TXT (máx. 10 MB)</small>
+                        <p class="mb-1 mt-2 fw-semibold">{{ __('Arrastra archivos aquí') }}</p>
+                        <small>{{ __('PDF, DOCX o TXT (máx. 10 MB)') }}</small>
                     </div>
                     <div id="docList">
                         @if($asistente?->documento_nombre)
@@ -274,7 +251,7 @@
                                         {{ number_format($asistente?->documento_size / 1024, 0) }} KB · {{ $asistente?->documento_procesado_en->format('d/m/Y') }}
                                     </div>
                                 </div>
-                                <span class="res-badge res-ok">Procesado</span>
+                                <span class="res-badge res-ok">{{ __('Procesado') }}</span>
                                 <button type="button" class="btn btn-sm btn-link text-danger" id="btnEliminarDoc">
                                     <i class="bi bi-trash text-danger"></i>
                                 </button>
@@ -287,9 +264,7 @@
                 <div class="panel">
                     <div class="mb-2">
                         <p class="section-title fs-1">
-                            <i class="bi bi-toggles text-primary fs-1"></i>
-                            Capacidades
-                        </p>
+                            <i class="bi bi-toggles text-primary fs-1"></i>{{ __('Capacidades') }}</p>
                     </div>
                     <div class="switch-list" id="capList">
                         @foreach ($capacidadOpciones as $item)
@@ -309,21 +284,19 @@
                 <div class="panel">
                     <div class="mb-2">
                         <p class="section-title fs-1">
-                            <i class="bi bi-clock-history text-primary fs-1"></i>
-                            Horario
-                        </p>
+                            <i class="bi bi-clock-history text-primary fs-1"></i>{{ __('Horario') }}</p>
                     </div>
                     <div class="form-check form-switch mb-3">
                         <input class="form-check-input" type="checkbox" id="scheduleSwitch" checked>
-                        <label class="form-check-label fw-semibold" for="scheduleSwitch">Respetar horario laboral</label>
+                        <label class="form-check-label fw-semibold" for="scheduleSwitch">{{ __('Respetar horario laboral') }}</label>
                     </div>
                     <div class="row g-2">
                         <div class="col-6">
-                            <label class="form-label fs-6">Hora inicio</label>
+                            <label class="form-label fs-6">{{ __('Hora inicio') }}</label>
                             <input type="time" class="form-control" name="hora_inicio" value="{{ $asistente?->hora_inicio ? \Carbon\Carbon::parse($asistente?->hora_inicio)->format('H:i') : '08:00' }}">
                         </div>
                         <div class="col-6">
-                            <label class="form-label fs-6">Hora fin</label>
+                            <label class="form-label fs-6">{{ __('Hora fin') }}</label>
                             <input type="time" class="form-control" name="hora_fin" value="{{ $asistente?->hora_fin ? \Carbon\Carbon::parse($asistente?->hora_fin)->format('H:i') : '18:00' }}">
                         </div>
                     </div>
@@ -333,12 +306,10 @@
                 <div class="panel">
                     <div class="mb-2">
                         <p class="section-title fs-1">
-                            <i class="bi bi-key text-primary fs-1"></i>
-                            Palabras Clave
-                        </p>
-                        <p class="section-subtitle fs-3">Si aparecen, la conversación se transfiere a un agente humano.</p>
+                            <i class="bi bi-key text-primary fs-1"></i>{{ __('Palabras Clave') }}</p>
+                        <p class="section-subtitle fs-3">{{ __('Si aparecen, la conversación se transfiere a un agente humano.') }}</p>
                     </div>
-                    <textarea class="form-control" rows="4" placeholder="cotización, precio, asesor, factura, soporte"
+                    <textarea class="form-control" rows="4" placeholder="{{ __('cotización, precio, asesor, factura, soporte') }}"
                         name="palabras_clave" id="palabrasClave">{{ $asistente?->palabras_clave ? implode(', ', $asistente?->palabras_clave) : 'cotización, precio, asesor, factura, soporte' }}</textarea>
                 </div>
 
@@ -346,17 +317,15 @@
                 <div class="panel">
                     <div class="mb-2">
                         <p class="section-title fs-1">
-                            <i class="bi bi-envelope-paper text-primary fs-1"></i>
-                            Mensajes Especiales
-                        </p>
+                            <i class="bi bi-envelope-paper text-primary fs-1"></i>{{ __('Mensajes Especiales') }}</p>
                     </div>
-                    <label class="form-label fs-6">Mensaje de bienvenida</label>
+                    <label class="form-label fs-6">{{ __('Mensaje de bienvenida') }}</label>
                     <textarea class="form-control mb-3" rows="2" name="mensaje_bienvenida" id="mensajeBienvenida"
                         >{{ $asistente?->mensaje_bienvenida ?? '¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?' }}</textarea>
-                    <label class="form-label fs-6">Mensaje fuera de horario</label>
+                    <label class="form-label fs-6">{{ __('Mensaje fuera de horario') }}</label>
                     <textarea class="form-control mb-3" rows="2" name="mensaje_fuera_horario"
                         >{{ $asistente?->mensaje_fuera_horario ?? 'Gracias por escribirnos. Nuestro horario es de 8:00 a 18:00. Te responderemos pronto.' }}</textarea>
-                    <label class="form-label fs-6">Mensaje de transferencia</label>
+                    <label class="form-label fs-6">{{ __('Mensaje de transferencia') }}</label>
                     <textarea class="form-control" rows="2" name="mensaje_transferencia"
                         >{{ $asistente?->mensaje_transferencia ?? 'Un momento por favor, te estoy conectando con un asesor humano.' }}</textarea>
                 </div>
@@ -369,10 +338,8 @@
     <div class="panel mt-2">
         <div class="mb-3">
             <p class="section-title fs-1">
-                <i class="bi bi-whatsapp text-primary fs-1"></i>
-                Probar Asistente
-            </p>
-            <p class="section-subtitle fs-3">Simula una conversación para validar el comportamiento del asistente.</p>
+                <i class="bi bi-whatsapp text-primary fs-1"></i>{{ __('Probar Asistente') }}</p>
+            <p class="section-subtitle fs-3">{{ __('Simula una conversación para validar el comportamiento del asistente.') }}</p>
         </div>
         <div class="sim-wrap flex-column flex-md-row">
             <div class="sim-info">
@@ -383,34 +350,24 @@
                 <div class="role fs-4" id="simRole">{{ $asistente?->rol ?? 'Asistente IA' }}</div>
                 <hr style="border-color:rgba(255,255,255,.2)">
                 <div class="feat fs-4">
-                    <i class="bi bi-check-circle-fill text-white"></i>
-                    Respuestas automáticas
-                </div>
+                    <i class="bi bi-check-circle-fill text-white"></i>{{ __('Respuestas automáticas') }}</div>
                 <div class="feat fs-4">
-                    <i class="bi bi-check-circle-fill text-white"></i>
-                    Basado en documentos
-                </div>
+                    <i class="bi bi-check-circle-fill text-white"></i>{{ __('Basado en documentos') }}</div>
                 <div class="feat fs-4">
-                    <i class="bi bi-check-circle-fill text-white"></i>
-                    Transferencia a humano
-                </div>
+                    <i class="bi bi-check-circle-fill text-white"></i>{{ __('Transferencia a humano') }}</div>
                 <div class="feat fs-4">
-                    <i class="bi bi-check-circle-fill text-white"></i>
-                    Memoria de conversación
-                </div>
+                    <i class="bi bi-check-circle-fill text-white"></i>{{ __('Memoria de conversación') }}</div>
             </div>
             <div class="sim-chat">
                 <div class="sim-chat-head fs-4">
-                    <i class="bi bi-whatsapp text-white fs-4"></i>
-                    Vista previa WhatsApp
-                </div>
+                    <i class="bi bi-whatsapp text-white fs-4"></i>{{ __('Vista previa WhatsApp') }}</div>
                 <div class="sim-body" id="simBody">
                     <div class="bubble in">{{ $asistente?->mensaje_bienvenida ?? '¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?' }}
-                        <span class="time">09:30</span>
+                        <span class="time">{{ __('09:30') }}</span>
                     </div>
                 </div>
                 <div class="sim-input">
-                    <input type="text" id="simInput" placeholder="Escribe un mensaje..." />
+                    <input type="text" id="simInput" placeholder="{{ __('Escribe un mensaje...') }}" />
                     <button class="sim-send" id="simSend">
                         <i class="fa-regular fa-paper-plane text-white"></i>
                     </button>
@@ -423,56 +380,54 @@
     <div class="panel">
         <div class="mb-3">
             <p class="section-title fs-1">
-                <i class="fa-solid fa-chart-line text-primary fs-1"></i>
-                Últimas Conversaciones
-            </p>
+                <i class="fa-solid fa-chart-line text-primary fs-1"></i>{{ __('Últimas Conversaciones') }}</p>
         </div>
         <div class="table-responsive">
             <table class="table table-modern align-middle mb-0">
                 <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Cliente</th>
-                        <th>Mensajes</th>
-                        <th>Duración</th>
-                        <th>Resultado</th>
+                        <th>{{ __('Fecha') }}</th>
+                        <th>{{ __('Cliente') }}</th>
+                        <th>{{ __('Mensajes') }}</th>
+                        <th>{{ __('Duración') }}</th>
+                        <th>{{ __('Resultado') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>11/06/2026 10:24</td>
-                        <td>María López</td>
+                        <td>{{ __('11/06/2026 10:24') }}</td>
+                        <td>{{ __('María López') }}</td>
                         <td>8</td>
-                        <td>3m 12s</td>
-                        <td><span class="res-badge res-ok">Resuelto</span></td>
+                        <td>{{ __('3m 12s') }}</td>
+                        <td><span class="res-badge res-ok">{{ __('Resuelto') }}</span></td>
                     </tr>
                     <tr>
-                        <td>11/06/2026 09:58</td>
-                        <td>Carlos Ruiz</td>
-                        <td>14</td>
-                        <td>6m 40s</td>
-                        <td><span class="res-badge res-trans">Transferido</span></td>
+                        <td>{{ __('11/06/2026 09:58') }}</td>
+                        <td>{{ __('Carlos Ruiz') }}</td>
+                        <td>{{ __('14') }}</td>
+                        <td>{{ __('6m 40s') }}</td>
+                        <td><span class="res-badge res-trans">{{ __('Transferido') }}</span></td>
                     </tr>
                     <tr>
-                        <td>11/06/2026 09:31</td>
-                        <td>Ana Torres</td>
+                        <td>{{ __('11/06/2026 09:31') }}</td>
+                        <td>{{ __('Ana Torres') }}</td>
                         <td>5</td>
-                        <td>1m 55s</td>
-                        <td><span class="res-badge res-ok">Resuelto</span></td>
+                        <td>{{ __('1m 55s') }}</td>
+                        <td><span class="res-badge res-ok">{{ __('Resuelto') }}</span></td>
                     </tr>
                     <tr>
-                        <td>10/06/2026 18:12</td>
-                        <td>Jorge Méndez</td>
+                        <td>{{ __('10/06/2026 18:12') }}</td>
+                        <td>{{ __('Jorge Méndez') }}</td>
                         <td>3</td>
-                        <td>0m 48s</td>
-                        <td><span class="res-badge res-pend">Pendiente</span></td>
+                        <td>{{ __('0m 48s') }}</td>
+                        <td><span class="res-badge res-pend">{{ __('Pendiente') }}</span></td>
                     </tr>
                     <tr>
-                        <td>10/06/2026 16:45</td>
-                        <td>Lucía Fernández</td>
-                        <td>11</td>
-                        <td>4m 30s</td>
-                        <td><span class="res-badge res-ok">Resuelto</span></td>
+                        <td>{{ __('10/06/2026 16:45') }}</td>
+                        <td>{{ __('Lucía Fernández') }}</td>
+                        <td>{{ __('11') }}</td>
+                        <td>{{ __('4m 30s') }}</td>
+                        <td><span class="res-badge res-ok">{{ __('Resuelto') }}</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -481,46 +436,44 @@
 
     <!-- ====== MODELOS RECOMENDADOS ====== -->
     <h2 class="section-title fs-1">
-        <i class="bi bi-stars me-2 text-primary fs-1"></i>
-        Modelos Recomendados
-    </h2>
+        <i class="bi bi-stars me-2 text-primary fs-1"></i>{{ __('Modelos Recomendados') }}</h2>
     <div class="row g-3 mb-4 mt-1">
         <div class="col-6 col-lg-3">
             <div class="rec-card">
-                <h6 class="fs-4">Gemma</h6>
+                <h6 class="fs-4">{{ __('Gemma') }}</h6>
                 <div>
-                    <span class="tag tag-free fs-7">Gratis</span>
-                    <span class="tag tag-fast fs-7">Rápido</span>
+                    <span class="tag tag-free fs-7">{{ __('Gratis') }}</span>
+                    <span class="tag tag-fast fs-7">{{ __('Rápido') }}</span>
                 </div>
-                <p class="text-muted fs-7 small mt-2 mb-0">Ideal para atención básica.</p>
+                <p class="text-muted fs-7 small mt-2 mb-0">{{ __('Ideal para atención básica.') }}</p>
             </div>
         </div>
         <div class="col-6 col-lg-3">
             <div class="rec-card">
-                <h6 class="fs-4">Qwen</h6>
+                <h6 class="fs-4">{{ __('Qwen') }}</h6>
                 <div>
-                    <span class="tag tag-free fs-7">Gratis</span>
-                    <span class="tag tag-precise fs-7">Muy preciso</span>
+                    <span class="tag tag-free fs-7">{{ __('Gratis') }}</span>
+                    <span class="tag tag-precise fs-7">{{ __('Muy preciso') }}</span>
                 </div>
-                <p class="text-muted fs-7 small mt-2 mb-0">Ideal para ventas.</p>
+                <p class="text-muted fs-7 small mt-2 mb-0">{{ __('Ideal para ventas.') }}</p>
             </div>
         </div>
         <div class="col-6 col-lg-3">
             <div class="rec-card">
-                <h6 class="fs-4">DeepSeek</h6>
+                <h6 class="fs-4">{{ __('DeepSeek') }}</h6>
                 <div>
-                    <span class="tag tag-precise fs-7">Razonamiento</span>
+                    <span class="tag tag-precise fs-7">{{ __('Razonamiento') }}</span>
                 </div>
-                <p class="text-muted fs-7 small mt-2 mb-0">Ideal para soporte.</p>
+                <p class="text-muted fs-7 small mt-2 mb-0">{{ __('Ideal para soporte.') }}</p>
             </div>
         </div>
         <div class="col-6 col-lg-3">
             <div class="rec-card">
-                <h6 class="fs-4">Mistral</h6>
+                <h6 class="fs-4">{{ __('Mistral') }}</h6>
                 <div>
-                    <span class="tag tag-balanced fs-7">Equilibrado</span>
+                    <span class="tag tag-balanced fs-7">{{ __('Equilibrado') }}</span>
                 </div>
-                <p class="text-muted fs-7 small mt-2 mb-0">Uso general.</p>
+                <p class="text-muted fs-7 small mt-2 mb-0">{{ __('Uso general.') }}</p>
             </div>
         </div>
     </div>

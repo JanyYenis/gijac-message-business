@@ -3,12 +3,10 @@
 @section('content')
     <div class="auth-card">
         <div class="auth-head">
-            <h2>Recuperar contraseña</h2>
+            <h2>{{ __('Recuperar contraseña') }}</h2>
         </div>
 
-        <div class="divider">
-            Email
-        </div>
+        <div class="divider">{{ __('Email') }}</div>
 
         @if (session('status'))
             <div class="alert alert-success" role="alert">
@@ -21,7 +19,7 @@
             <div class="field">
                 <input id="email" type="email" name="email" placeholder=" " required
                     autocomplete="off" class="@error('email') is-invalid @enderror"/>
-                <label for="email">Email</label>
+                <label for="email">{{ __('Email') }}</label>
             </div>
             @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -31,15 +29,12 @@
 
             <button type="submit" id="kt_password_reset_submit" class="btn-primary-x magnetic">
                 <!--begin::Indicator label-->
-                <span class="indicator-label">
-                    Enviar correo</span>
+                <span class="indicator-label">{{ __('Enviar correo') }}</span>
                 <!--end::Indicator label-->
             </button>
 
             <a class="btn-outline-x magnetic text-center" type="button" href="{{ route('login') }}">
-                <i class="fa-solid fa-right-to-bracket me-1"></i>
-                Iniciar sesión
-            </a>
+                <i class="fa-solid fa-right-to-bracket me-1"></i>{{ __('Iniciar sesión') }}</a>
         </form>
     </div>
 @endsection

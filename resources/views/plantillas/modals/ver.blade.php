@@ -5,20 +5,18 @@
             <div class="modal-content border-0 bg-transparent">
                 <div class="modal-header border-0 pb-0">
                     <h5 class="modal-title text-white" id="previewModalLabel">
-                        <i class="fab fa-whatsapp me-2"></i>
-                        Vista Previa
-                    </h5>
+                        <i class="fab fa-whatsapp me-2"></i>{{ __('Vista Previa') }}</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                        aria-label="{{ __('Close') }}"></button>
                 </div>
                 <div class="modal-body p-0">
                     <div class="phone-mockup">
                         <div class="phone-screen">
                             <div class="whatsapp-header">
-                                <div class="business-avatar">MB</div>
+                                <div class="business-avatar">{{ __('MB') }}</div>
                                 <div class="business-info">
-                                    <h6>Mi Business</h6>
-                                    <small>Empresa verificada</small>
+                                    <h6>{{ __('Mi Business') }}</h6>
+                                    <small>{{ __('Empresa verificada') }}</small>
                                 </div>
                             </div>
                             <div class="message-area">

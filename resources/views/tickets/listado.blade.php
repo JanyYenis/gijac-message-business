@@ -25,7 +25,7 @@
                 <!--end::Content-->
 
                 <!--begin::Text-->
-                <span class="text-muted fw-semibold fs-6">{!! acortarCadena($ticket?->descripcion) !!}</span>
+                <span class="text-muted fw-semibold fs-6">{{ __('{!! acortarCadena($ticket?->descripcion) !!}') }}</span>
                 <!--end::Text-->
             </div>
             <!--end::Section-->
@@ -34,7 +34,7 @@
     @endforeach
 @else
     <div class="text-center m-5">
-        <h1>No cuenta con tickets disponibles.</h1>
+        <h1>{{ __('No cuenta con tickets disponibles.') }}</h1>
     </div>
 @endif
 

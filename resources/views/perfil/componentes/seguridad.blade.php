@@ -5,7 +5,7 @@
         <div class="d-flex flex-wrap align-items-center">
             <!--begin::Label-->
             <div id="kt_signin_email">
-                <div class="fs-4 fw-bold mb-1 text-dark">Email</div>
+                <div class="fs-4 fw-bold mb-1 text-dark">{{ __('Email') }}</div>
                 <div class="fw-semibold text-gray-600 fs-4">{{ $usuario?->email ?? 'N/A' }}</div>
             </div>
             <!--end::Label-->
@@ -20,8 +20,8 @@
                     <div class="row mb-6">
                         <div class="col-lg-6 mb-4 mb-lg-0">
                             <div class="fv-row mb-0 fv-plugins-icon-container">
-                                <label for="emailaddress" class="form-label fs-6 fw-bold mb-3">Nuevo Email</label>
-                                <input type="email" class="form-control" id="emailaddress" placeholder="Email Address"
+                                <label for="emailaddress" class="form-label fs-6 fw-bold mb-3">{{ __('Nuevo Email') }}</label>
+                                <input type="email" class="form-control" id="emailaddress" placeholder="{{ __('Email Address') }}"
                                     name="emailaddress" value="{{ $usuario?->email ?? '' }}">
                                 <div
                                     class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
@@ -30,8 +30,7 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="fv-row mb-0 fv-plugins-icon-container">
-                                <label for="confirmemailpassword" class="form-label fs-6 fw-bold mb-3">Confimar
-                                    Password</label>
+                                <label for="confirmemailpassword" class="form-label fs-6 fw-bold mb-3">{{ __('Confimar Password') }}</label>
                                 <input type="password" class="form-control" name="confirmemailpassword"
                                     id="confirmemailpassword">
                                 <div
@@ -41,10 +40,9 @@
                         </div>
                     </div>
                     <div class="d-flex">
-                        <button id="kt_signin_submit" type="button" class="btn btn-primary me-2 px-6">Actualizar
-                            Email</button>
+                        <button id="kt_signin_submit" type="button" class="btn btn-primary me-2 px-6">{{ __('Actualizar Email') }}</button>
                         <button id="kt_signin_cancel" type="button"
-                            class="btn btn-cancelar btn-active-light-primary px-6">Cancelar</button>
+                            class="btn btn-cancelar btn-active-light-primary px-6">{{ __('Cancelar') }}</button>
                     </div>
                 </form>
                 <!--end::Form-->
@@ -53,7 +51,7 @@
 
             <!--begin::Action-->
             <div id="kt_signin_email_button" class="ms-auto">
-                <button class="btn btn-primary">Cambiar Email</button>
+                <button class="btn btn-primary">{{ __('Cambiar Email') }}</button>
             </div>
             <!--end::Action-->
         </div>
@@ -67,7 +65,7 @@
         <div class="d-flex flex-wrap align-items-center mb-10">
             <!--begin::Label-->
             <div id="kt_signin_password">
-                <div class="fs-5 fw-bold mb-1 text-dark">Password</div>
+                <div class="fs-5 fw-bold mb-1 text-dark">{{ __('Password') }}</div>
                 <div class="fw-semibold text-gray-600">************</div>
             </div>
             <!--end::Label-->
@@ -82,8 +80,7 @@
                     <div class="row mb-1">
                         <div class="col-lg-4">
                             <div class="fv-row mb-0 fv-plugins-icon-container">
-                                <label for="currentpassword" class="form-label fs-5 fw-bold mb-3">Actual
-                                    Password</label>
+                                <label for="currentpassword" class="form-label fs-5 fw-bold mb-3">{{ __('Actual Password') }}</label>
                                 <input type="password" class="form-control" name="currentpassword" id="currentpassword">
                                 <div
                                     class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
@@ -93,7 +90,7 @@
 
                         <div class="col-lg-4">
                             <div class="fv-row mb-0 fv-plugins-icon-container">
-                                <label for="newpassword" class="form-label fs-5 fw-bold mb-3">Nuevo Password</label>
+                                <label for="newpassword" class="form-label fs-5 fw-bold mb-3">{{ __('Nuevo Password') }}</label>
                                 <input type="password" class="form-control" name="newpassword" id="newpassword">
                                 <div
                                     class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
@@ -103,8 +100,7 @@
 
                         <div class="col-lg-4">
                             <div class="fv-row mb-0 fv-plugins-icon-container">
-                                <label for="confirmpassword" class="form-label fs-5 fw-bold mb-3">Confirmar
-                                    Nuevo Password</label>
+                                <label for="confirmpassword" class="form-label fs-5 fw-bold mb-3">{{ __('Confirmar Nuevo Password') }}</label>
                                 <input type="password" class="form-control" name="confirmpassword" id="confirmpassword">
                                 <div
                                     class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
@@ -113,13 +109,11 @@
                         </div>
                     </div>
 
-                    <div class="form-text mb-5">La contraseña debe tener al menos 8 caracteres y contener símbolos.
-                    </div>
+                    <div class="form-text mb-5">{{ __('La contraseña debe tener al menos 8 caracteres y contener símbolos.') }}</div>
 
                     <div class="d-flex">
-                        <button id="kt_password_submit" type="button" class="btn btn-primary me-2 px-6">Actualizar
-                            Password</button>
-                        <button id="kt_password_cancel" type="button" class="btn btn-cancelar px-6">Cancelar</button>
+                        <button id="kt_password_submit" type="button" class="btn btn-primary me-2 px-6">{{ __('Actualizar Password') }}</button>
+                        <button id="kt_password_cancel" type="button" class="btn btn-cancelar px-6">{{ __('Cancelar') }}</button>
                     </div>
                 </form>
                 <!--end::Form-->
@@ -128,7 +122,7 @@
 
             <!--begin::Action-->
             <div id="kt_signin_password_button" class="ms-auto">
-                <button class="btn btn-primary">Cambiar Password</button>
+                <button class="btn btn-primary">{{ __('Cambiar Password') }}</button>
             </div>
             <!--end::Action-->
         </div>
@@ -150,14 +144,14 @@
             <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
                 <!--begin::Content-->
                 <div class="mb-3 mb-md-0 fw-semibold">
-                    <h4 class="text-gray-900 fw-bold">Asegure su cuenta</h4>
+                    <h4 class="text-gray-900 fw-bold">{{ __('Asegure su cuenta') }}</h4>
                     @if (!$usuario->google2fa_secret)
-                        <div class="fs-6 text-gray-700 pe-7">La autenticación de dos factores agrega una capa adicional
+                        <div class="fs-6 text-gray-700 pe-7">{{ __('La autenticación de dos factores agrega una capa adicional
                             de seguridad a su cuenta. Para primary sesión, además deberás proporcionar un código de 6
-                            dígitos</div>
+                            dígitos') }</div>
                     @else
-                        <div class="fs-6 text-gray-700 pe-7">¿Quieres inhabilitar la autenticación de dos factores?
-                            Presiona el botón de <strong>CANCELAR</strong></div>
+                        <div class="fs-6 text-gray-700 pe-7">{{ __('¿Quieres inhabilitar la autenticación de dos factores?
+                            Presiona el botón de') }<strong>{{ __('CANCELAR') }}</strong></div>
                     @endif
                 </div>
                 <!--end::Content-->
@@ -165,14 +159,10 @@
                 <!--begin::Action-->
                 @if (!$usuario->google2fa_secret)
                     <a href="javascript:;" class="btn btn-primary px-6 align-self-center text-nowrap"
-                        data-bs-toggle="modal" data-bs-target="#kt_modal_two_factor_authentication">
-                        Permitir
-                    </a>
+                        data-bs-toggle="modal" data-bs-target="#kt_modal_two_factor_authentication">{{ __('Permitir') }}</a>
                 @else
                     <a href="javascript:;"
-                        class="btn btn-primary px-6 align-self-center text-nowrap btnCancelarDosFactores">
-                        Cancelar
-                    </a>
+                        class="btn btn-primary px-6 align-self-center text-nowrap btnCancelarDosFactores">{{ __('Cancelar') }}</a>
                 @endif
                 <!--end::Action-->
             </div>
@@ -191,8 +181,8 @@
                     <i class="bi bi-laptop fs-2 text-white"></i>
                 </div>
                 <div class="section-info">
-                    <h5 class="fs-2">Sesiones Activas</h5>
-                    <p class="fs-4">Administra los dispositivos donde has iniciado sesion</p>
+                    <h5 class="fs-2">{{ __('Sesiones Activas') }}</h5>
+                    <p class="fs-4">{{ __('Administra los dispositivos donde has iniciado sesion') }}</p>
                 </div>
             </div>
 
@@ -202,8 +192,8 @@
                         <i class="bi bi-laptop fs-4 text-white"></i>
                     </div>
                     <div class="session-info">
-                        <h6>Chrome en Windows <span class="badge bg-success-subtle text-success">Actual</span></h6>
-                        <p>Bogota, Colombia - Activo ahora</p>
+                        <h6>{{ __('Chrome en Windows') }}<span class="badge bg-success-subtle text-success">{{ __('Actual') }}</span></h6>
+                        <p>{{ __('Bogota, Colombia - Activo ahora') }}</p>
                     </div>
                 </div>
                 <div class="session-item">
@@ -211,16 +201,15 @@
                         <i class="bi bi-phone fs-4 text-white"></i>
                     </div>
                     <div class="session-info">
-                        <h6>Safari en iPhone</h6>
-                        <p>Medellin, Colombia - Hace 2 horas</p>
+                        <h6>{{ __('Safari en iPhone') }}</h6>
+                        <p>{{ __('Medellin, Colombia - Hace 2 horas') }}</p>
                     </div>
-                    <button class="btn btn-sm btn-outline btn-outline-danger">Cerrar</button>
+                    <button class="btn btn-sm btn-outline btn-outline-danger">{{ __('Cerrar') }}</button>
                 </div>
             </div>
 
             <button class="btn btn-outline btn-outline-danger mt-3" id="closeAllSessions">
-                <i class="bi bi-box-arrow-right me-2"></i>Cerrar todas las sesiones
-            </button>
+                <i class="bi bi-box-arrow-right me-2"></i>{{ __('Cerrar todas las sesiones') }}</button>
         </div>
     </div>
     <!--end::Card body-->

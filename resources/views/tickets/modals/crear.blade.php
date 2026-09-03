@@ -7,7 +7,7 @@
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal"
-                    aria-label="Close">
+                    aria-label="{{ __('Close') }}">
                     <span class="svg-icon svg-icon-2x">
                         <i class="las la-times fs-1 text-white"></i>
                     </span>
@@ -23,12 +23,11 @@
                     <!--begin::Heading-->
                     <div class="mb-13 text-center">
                         <!--begin::Title-->
-                        <h1 class="mb-3">Nuevo Ticket</h1>
+                        <h1 class="mb-3">{{ __('Nuevo Ticket') }}</h1>
                         <!--end::Title-->
 
                         <!--begin::Description-->
-                        <div class="text-gray-500 fw-semibold fs-5">
-                            Si necesita más información, consulte <a href="#" class="fw-bold link-primary">Directrices de soporte</a>.
+                        <div class="text-gray-500 fw-semibold fs-5">{{ __('Si necesita más información, consulte') }}<a href="#" class="fw-bold link-primary">{{ __('Directrices de soporte') }}</a>.
                         </div>
                         <!--end::Description-->
                     </div>
@@ -38,14 +37,14 @@
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
                         <!--begin::Label-->
                         <label class="d-flex align-items-center fs-6 fw-semibold mb-2">
-                            <span class="required">Titulo</span>
-                            <span class="ms-2" data-bs-toggle="tooltip" aria-label="Especifique un tema para su problema" data-bs-original-title="Especifique un tema para su problema">
+                            <span class="required">{{ __('Titulo') }}</span>
+                            <span class="ms-2" data-bs-toggle="tooltip" aria-label="{{ __('Especifique un tema para su problema') }}" data-bs-original-title="{{ __('Especifique un tema para su problema') }}">
                                 <i class="fas fa-info-circle fs-7"></i>
                             </span>
                         </label>
                         <!--end::Label-->
 
-                        <input type="text" class="form-control form-control-solid" placeholder="Ingrese un titulo de su ticket" name="titulo">
+                        <input type="text" class="form-control form-control-solid" placeholder="{{ __('Ingrese un titulo de su ticket') }}" name="titulo">
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
                     <!--end::Input group-->
@@ -55,9 +54,9 @@
                         @can('tickets.asignar.responsable')
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row fv-plugins-icon-container">
-                                <label class="required fs-6 fw-semibold mb-2">Responsable</label>
+                                <label class="required fs-6 fw-semibold mb-2">{{ __('Responsable') }}</label>
 
-                                <select class="form-select form-select-solid" name="cod_responsable" id="selectResponsable" required data-control="select2" data-placeholder="Seleccione el responsable">
+                                <select class="form-select form-select-solid" name="cod_responsable" id="selectResponsable" required data-control="select2" data-placeholder="{{ __('Seleccione el responsable') }}">
                                     <option value=""></option>
                                     @foreach ($responsables as $item)
                                         <option value="{{ $item->id }}">{{ $item->text }}</option>
@@ -69,9 +68,9 @@
 
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">Estado</label>
+                                <label class="required fs-6 fw-semibold mb-2">{{ __('Estado') }}</label>
 
-                                <select class="form-select form-select-solid" name="estado" id="selectEstados" required data-control="select2" data-placeholder="Seleccione el estado" data-hide-search="true">
+                                <select class="form-select form-select-solid" name="estado" id="selectEstados" required data-control="select2" data-placeholder="{{ __('Seleccione el estado') }}" data-hide-search="true">
                                     <option value=""></option>
                                     @foreach ($estados as $item)
                                         <option value="{{ $item->codigo }}">{{ $item->nombre }}</option>
@@ -82,9 +81,9 @@
 
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">Tipo</label>
+                                <label class="required fs-6 fw-semibold mb-2">{{ __('Tipo') }}</label>
 
-                                <select class="form-select form-select-solid" name="tipo" id="selectTipo" required data-control="select2" data-placeholder="Seleccione el tipo" data-hide-search="true">
+                                <select class="form-select form-select-solid" name="tipo" id="selectTipo" required data-control="select2" data-placeholder="{{ __('Seleccione el tipo') }}" data-hide-search="true">
                                     <option value=""></option>
                                     @foreach ($tipos as $item)
                                         <option value="{{ $item->codigo }}">{{ $item->nombre }}</option>
@@ -95,9 +94,9 @@
 
                             <!--begin::Col-->
                             <div class="col-md-6 fv-row">
-                                <label class="required fs-6 fw-semibold mb-2">Prioridad</label>
+                                <label class="required fs-6 fw-semibold mb-2">{{ __('Prioridad') }}</label>
 
-                                <select class="form-select form-select-solid" name="prioridad" id="selectPrioridad" required data-control="select2" data-placeholder="Seleccione la prioridad" data-hide-search="true">
+                                <select class="form-select form-select-solid" name="prioridad" id="selectPrioridad" required data-control="select2" data-placeholder="{{ __('Seleccione la prioridad') }}" data-hide-search="true">
                                     <option value=""></option>
                                     @foreach ($prioridades as $item)
                                         <option value="{{ $item->codigo }}">{{ $item->nombre }}</option>
@@ -109,7 +108,7 @@
 
                         <!--begin::Col-->
                         <div class="col-md-6 fv-row fv-plugins-icon-container">
-                            <label class="required fs-6 fw-semibold mb-2">Fecha hallazgo</label>
+                            <label class="required fs-6 fw-semibold mb-2">{{ __('Fecha hallazgo') }}</label>
 
                             <!--begin::Input-->
                             <div class="position-relative d-flex align-items-center">
@@ -122,7 +121,7 @@
                                 <!--end::Icon-->
 
                                 <!--begin::Datepicker-->
-                                <input id="fecha_hallazgo" class="form-control form-control-solid ps-12 flatpickr-input" placeholder="Fecha hallazgo" name="fecha_hallazgo" type="text">
+                                <input id="fecha_hallazgo" class="form-control form-control-solid ps-12 flatpickr-input" placeholder="{{ __('Fecha hallazgo') }}" name="fecha_hallazgo" type="text">
                                 <!--end::Datepicker-->
                             </div>
                             <!--end::Input-->
@@ -134,17 +133,17 @@
 
                     <!--begin::Input group-->
                     <div class="d-flex flex-column mb-8 fv-row fv-plugins-icon-container">
-                        <label class="fs-6 fw-semibold mb-2">Descripción</label>
+                        <label class="fs-6 fw-semibold mb-2">{{ __('Descripción') }}</label>
 
                         <div class="form-control form-control-solid" id="divDescripcion"></div>
-                        {{-- <textarea class="form-control form-control-solid" rows="4" name="descripcion" placeholder="Escribe la descripción de tu ticket"></textarea> --}}
+                        {{-- <textarea class="form-control form-control-solid" rows="4" name="descripcion" placeholder="{{ __('Escribe la descripción de tu ticket') }}"></textarea> --}}
                         <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
                     </div>
                     <!--end::Input group-->
 
                     <!--begin::Input group-->
                     <div class="fv-row mb-8">
-                        <label class="fs-6 fw-semibold mb-2">Archivo</label>
+                        <label class="fs-6 fw-semibold mb-2">{{ __('Archivo') }}</label>
 
                         <!--begin::Dropzone-->
                         <div class="dropzone dz-clickable" id="kt_modal_create_ticket_attachments">
@@ -155,8 +154,8 @@
 
                                 <!--begin::Info-->
                                 <div class="ms-4">
-                                    <h3 class="fs-5 fw-bold text-gray-900 mb-1">Suelte los archivos aquí o haga clic para cargar.</h3>
-                                    <span class="fw-semibold fs-7 text-gray-500">Subir hasta 1 archivo</span>
+                                    <h3 class="fs-5 fw-bold text-gray-900 mb-1">{{ __('Suelte los archivos aquí o haga clic para cargar.') }}</h3>
+                                    <span class="fw-semibold fs-7 text-gray-500">{{ __('Subir hasta 1 archivo') }}</span>
                                 </div>
                                 <!--end::Info-->
                             </div>
@@ -171,9 +170,9 @@
                         <div class="d-flex flex-stack">
                             <!--begin::Label-->
                             <div class="fw-semibold me-5">
-                                <label class="fs-6">Notificaciones</label>
+                                <label class="fs-6">{{ __('Notificaciones') }}</label>
 
-                                <div class="fs-7 text-gray-500">Permitir notificaciones por teléfono o correo electrónico</div>
+                                <div class="fs-7 text-gray-500">{{ __('Permitir notificaciones por teléfono o correo electrónico') }}</div>
                             </div>
                             <!--end::Label-->
 
@@ -183,9 +182,7 @@
                                 <label class="form-check form-check-custom form-check-solid me-10">
                                     <input class="form-check-input h-20px w-20px" readonly disabled type="checkbox" name="notifications[]" value="1" checked="checked">
 
-                                    <span class="form-check-label fw-semibold">
-                                        Email
-                                    </span>
+                                    <span class="form-check-label fw-semibold">{{ __('Email') }}</span>
                                 </label>
                                 <!--end::Checkbox-->
 
@@ -193,9 +190,7 @@
                                 <label class="form-check form-check-custom form-check-solid">
                                     <input class="form-check-input h-20px w-20px" type="checkbox" name="notifications[]" value="2">
 
-                                    <span class="form-check-label fw-semibold">
-                                        Telefono
-                                    </span>
+                                    <span class="form-check-label fw-semibold">{{ __('Telefono') }}</span>
                                 </label>
                                 <!--end::Checkbox--> --}}
                             </div>
@@ -207,16 +202,11 @@
 
                     <!--begin::Actions-->
                     <div class="text-center">
-                        <button type="reset" id="modalCrearTickets_cancel" class="btn btn-light me-3">
-                            Cancelar
-                        </button>
+                        <button type="reset" id="modalCrearTickets_cancel" class="btn btn-light me-3">{{ __('Cancelar') }}</button>
 
                         <button type="submit" class="btn btn-primary">
-                            <span class="indicator-label">
-                                Guardar
-                            </span>
-                            <span class="indicator-progress">
-                                Cargando... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            <span class="indicator-label">{{ __('Guardar') }}</span>
+                            <span class="indicator-progress">{{ __('Cargando...') }}<span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                             </span>
                         </button>
                     </div>

@@ -775,20 +775,15 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                 <div>
                     <h1 class="text-white">
-                        <i class="fas fa-robot"></i>
-                        Configuración del Chatbot
-                    </h1>
-                    <p class="subtitle mb-0">Administra y configura los diferentes tipos de automatización
-                        disponibles para tu negocio.</p>
+                        <i class="fas fa-robot"></i>{{ __('Configuración del Chatbot') }}</h1>
+                    <p class="subtitle mb-0">{{ __('Administra y configura los diferentes tipos de automatización
+                        disponibles para tu negocio.') }</p>
                 </div>
                 <div class="mt-3 mt-md-0">
                     <span class="badge-available" id="headState">
-                        <i class="bi bi-check2-circle me-1 text-white"></i>Activo
-                    </span>
+                        <i class="bi bi-check2-circle me-1 text-white"></i>{{ __('Activo') }}</span>
                     <button type="button" class="btn btn-light-wa" id="">
-                        <i class="bi bi-save text-primary fs-1"></i>
-                        Guardar cambios
-                    </button>
+                        <i class="bi bi-save text-primary fs-1"></i>{{ __('Guardar cambios') }}</button>
                 </div>
             </div>
         </div>
@@ -796,33 +791,19 @@
             <!-- TABS -->
             <nav class="tabs" id="tabs">
                 <a href="#sec-general" class="active">
-                    <i class="fa-solid fa-sliders"></i>
-                    General
-                </a>
+                    <i class="fa-solid fa-sliders"></i>{{ __('General') }}</a>
                 <a href="#sec-horario">
-                    <i class="fa-regular fa-clock"></i>
-                    Horario
-                </a>
+                    <i class="fa-regular fa-clock"></i>{{ __('Horario') }}</a>
                 <a href="#sec-palabras">
-                    <i class="fa-solid fa-tags"></i>
-                    Palabras clave
-                </a>
+                    <i class="fa-solid fa-tags"></i>{{ __('Palabras clave') }}</a>
                 <a href="#sec-mensajes">
-                    <i class="fa-regular fa-comment-dots"></i>
-                    Mensajes
-                </a>
+                    <i class="fa-regular fa-comment-dots"></i>{{ __('Mensajes') }}</a>
                 <a href="#sec-flujo">
-                    <i class="fa-solid fa-diagram-project"></i>
-                    Flujo de atención
-                </a>
+                    <i class="fa-solid fa-diagram-project"></i>{{ __('Flujo de atención') }}</a>
                 <a href="#sec-transfer">
-                    <i class="fa-solid fa-headset"></i>
-                    Transferencias
-                </a>
+                    <i class="fa-solid fa-headset"></i>{{ __('Transferencias') }}</a>
                 <a href="#sec-avanzado">
-                    <i class="fa-solid fa-gears"></i>
-                    Avanzado
-                </a>
+                    <i class="fa-solid fa-gears"></i>{{ __('Avanzado') }}</a>
             </nav>
 
             <div class="row g-4">
@@ -836,20 +817,14 @@
                                 <i class="fa-solid fa-sliders"></i>
                             </div>
                             <div>
-                                <div class="sec-title">General</div>
-                                <div class="sec-sub">
-                                    Activa o desactiva tu chatbot y define cómo se presenta ante tus clientes.
-                                </div>
+                                <div class="sec-title">{{ __('General') }}</div>
+                                <div class="sec-sub">{{ __('Activa o desactiva tu chatbot y define cómo se presenta ante tus clientes.') }}</div>
                             </div>
                         </div>
                         <div class="sub-card d-flex align-items-center justify-content-between gap-3 flex-wrap">
                             <div>
-                                <div style="font-weight:600">
-                                    Chatbot activo
-                                </div>
-                                <div class="hint">
-                                    Cuando está desactivado, todas las conversaciones llegan directamente a tus agentes.
-                                </div>
+                                <div style="font-weight:600">{{ __('Chatbot activo') }}</div>
+                                <div class="hint">{{ __('Cuando está desactivado, todas las conversaciones llegan directamente a tus agentes.') }}</div>
                             </div>
                             <label class="sw big">
                                 <input type="checkbox" class="cfg" id="botActive" checked value="1" name="activo">
@@ -865,19 +840,15 @@
                                 <i class="fa-regular fa-clock"></i>
                             </div>
                             <div>
-                                <div class="sec-title">Horario de atención</div>
-                                <div class="sec-sub">
-                                    Define los días y horarios en los que el chatbot estará disponible para atender conversaciones.
-                                </div>
+                                <div class="sec-title">{{ __('Horario de atención') }}</div>
+                                <div class="sec-sub">{{ __('Define los días y horarios en los que el chatbot estará disponible para atender conversaciones.') }}</div>
                             </div>
                         </div>
 
                         <div class="sub-card mb-3 d-flex align-items-center justify-content-between gap-3 flex-wrap">
                             <div>
-                                <div style="font-weight:600">Aplicar horario de atención</div>
-                                <div class="hint" id="scheduleHint">
-                                    El chatbot solo atenderá dentro de los días y horas configurados.
-                                </div>
+                                <div style="font-weight:600">{{ __('Aplicar horario de atención') }}</div>
+                                <div class="hint" id="scheduleHint">{{ __('El chatbot solo atenderá dentro de los días y horas configurados.') }}</div>
                             </div>
                             <label class="sw">
                                 <input type="checkbox" class="cfg" id="useSchedule" checked value="1" name="respetar_horario">
@@ -886,18 +857,18 @@
                         </div>
 
                         <div id="scheduleBody">
-                            <label class="label">Días de atención</label>
+                            <label class="label">{{ __('Días de atención') }}</label>
                             <div class="days mb-2" id="days"></div>
                             <div class="d-flex gap-2 flex-wrap mb-4">
-                                <button class="quick" data-preset="all">Todos los días</button>
-                                <button class="quick" data-preset="work">Solo días laborales</button>
+                                <button class="quick" data-preset="all">{{ __('Todos los días') }}</button>
+                                <button class="quick" data-preset="work">{{ __('Solo días laborales') }}</button>
                             </div>
 
-                            <label class="label">Franjas horarias <i class="fa-regular fa-circle-question tip"
-                                    title="Puedes definir varios intervalos, por ejemplo mañana y tarde."></i></label>
+                            <label class="label">{{ __('Franjas horarias') }}<i class="fa-regular fa-circle-question tip"
+                                    title="{{ __('Puedes definir varios intervalos, por ejemplo mañana y tarde.') }}"></i></label>
                             <div id="ranges"></div>
                             <button class="btn btn-ghost btn-sm mt-1" id="addRange"><i
-                                    class="fa-solid fa-plus me-2"></i>Agregar horario</button>
+                                    class="fa-solid fa-plus me-2"></i>{{ __('Agregar horario') }}</button>
                         </div>
                     </section>
 
@@ -906,42 +877,41 @@
                         <div class="sec-head">
                             <div class="sec-ico"><i class="fa-solid fa-tags"></i></div>
                             <div>
-                                <div class="sec-title">Palabras clave</div>
-                                <div class="sec-sub">Si el usuario utiliza alguna de estas palabras o expresiones, la
-                                    conversación puede ser transferida automáticamente a un agente humano.</div>
+                                <div class="sec-title">{{ __('Palabras clave') }}</div>
+                                <div class="sec-sub">{{ __('Si el usuario utiliza alguna de estas palabras o expresiones, la
+                                    conversación puede ser transferida automáticamente a un agente humano.') }</div>
                             </div>
                         </div>
 
                         <div class="d-flex gap-2 mb-3 flex-wrap">
-                            <input class="form-control" id="kwInput" placeholder="Escribe una palabra o frase..."
+                            <input class="form-control" id="kwInput" placeholder="{{ __('Escribe una palabra o frase...') }}"
                                 style="max-width:340px" />
                             <button class="btn btn-ghost" id="kwAdd"><i
-                                    class="fa-solid fa-plus me-2"></i>Agregar</button>
+                                    class="fa-solid fa-plus me-2"></i>{{ __('Agregar') }}</button>
                         </div>
                         <div class="d-flex gap-2 flex-wrap mb-3" id="kwList"></div>
-                        <div class="hint mb-4"><i class="fa-solid fa-circle-info me-1"></i>Las palabras clave se pueden
-                            detectar independientemente de mayúsculas y minúsculas.</div>
+                        <div class="hint mb-4"><i class="fa-solid fa-circle-info me-1"></i>{{ __('Las palabras clave se pueden
+                            detectar independientemente de mayúsculas y minúsculas.') }</div>
 
-                        <label class="label">Acción al detectar una palabra clave</label>
+                        <label class="label">{{ __('Acción al detectar una palabra clave') }}</label>
                         <div id="kwAction">
-                            <label class="opt sel"><input type="radio" name="kwact" value="now" class="cfg"
-                                    checked><span><span class="t">Transferir inmediatamente a un agente</span><span
-                                        class="d">La conversación pasa al primer asesor
-                                        disponible.</span></span></label>
-                            <label class="opt"><input type="radio" name="kwact" value="msg"
-                                    class="cfg"><span><span class="t">Enviar mensaje y transferir</span><span
-                                        class="d">Avisa al usuario antes de pasar con un asesor.</span></span></label>
-                            <label class="opt"><input type="radio" name="kwact" value="ask"
-                                    class="cfg"><span><span class="t">Preguntar si desea hablar con un
-                                        agente</span><span class="d">El usuario confirma antes de la
-                                        transferencia.</span></span></label>
+                            <label class="opt sel"><input type="radio" name="kwact" value="{{ __('now') }}" class="cfg"
+                                    checked><span><span class="t">{{ __('Transferir inmediatamente a un agente') }}</span><span
+                                        class="d">{{ __('La conversación pasa al primer asesor
+                                        disponible.') }</span></span></label>
+                            <label class="opt"><input type="radio" name="kwact" value="{{ __('msg') }}"
+                                    class="cfg"><span><span class="t">{{ __('Enviar mensaje y transferir') }}</span><span
+                                        class="d">{{ __('Avisa al usuario antes de pasar con un asesor.') }}</span></span></label>
+                            <label class="opt"><input type="radio" name="kwact" value="{{ __('ask') }}"
+                                    class="cfg"><span><span class="t">{{ __('Preguntar si desea hablar con un agente') }}</span><span class="d">{{ __('El usuario confirma antes de la
+                                        transferencia.') }</span></span></label>
                         </div>
 
                         <div class="sub-card d-flex align-items-center justify-content-between gap-3 flex-wrap mt-3">
                             <div>
-                                <div style="font-weight:600">Coincidencia aproximada</div>
-                                <div class="hint">Detectar palabras similares o variaciones (por ejemplo "cotizacion" o
-                                    "cotizar").</div>
+                                <div style="font-weight:600">{{ __('Coincidencia aproximada') }}</div>
+                                <div class="hint">{{ __('Detectar palabras similares o variaciones (por ejemplo "cotizacion" o
+                                    "cotizar").') }</div>
                             </div>
                             <label class="sw"><input type="checkbox" class="cfg" id="fuzzy" checked><span
                                     class="track"></span></label>
@@ -953,9 +923,9 @@
                         <div class="sec-head">
                             <div class="sec-ico"><i class="fa-regular fa-comment-dots"></i></div>
                             <div>
-                                <div class="sec-title">Mensajes especiales</div>
-                                <div class="sec-sub">Configura los mensajes que el chatbot utilizará en situaciones
-                                    especiales.</div>
+                                <div class="sec-title">{{ __('Mensajes especiales') }}</div>
+                                <div class="sec-sub">{{ __('Configura los mensajes que el chatbot utilizará en situaciones
+                                    especiales.') }</div>
                             </div>
                         </div>
                         <div id="msgCards"></div>
@@ -966,14 +936,14 @@
                         <div class="sec-head">
                             <div class="sec-ico"><i class="fa-solid fa-diagram-project"></i></div>
                             <div>
-                                <div class="sec-title">Flujo de atención</div>
-                                <div class="sec-sub">Define qué sistema tendrá prioridad para procesar las conversaciones.
-                                    Arrastra los elementos para definir el orden de prioridad.</div>
+                                <div class="sec-title">{{ __('Flujo de atención') }}</div>
+                                <div class="sec-sub">{{ __('Define qué sistema tendrá prioridad para procesar las conversaciones.
+                                    Arrastra los elementos para definir el orden de prioridad.') }</div>
                             </div>
                         </div>
                         <div id="engines"></div>
                         <div class="mt-4">
-                            <label class="label">Orden actual</label>
+                            <label class="label">{{ __('Orden actual') }}</label>
                             <div class="flowmap" id="flowmap"></div>
                         </div>
                     </section>
@@ -983,47 +953,46 @@
                         <div class="sec-head">
                             <div class="sec-ico"><i class="fa-solid fa-headset"></i></div>
                             <div>
-                                <div class="sec-title">Transferencia a agente</div>
-                                <div class="sec-sub">Controla cuándo y cómo una conversación pasa del chatbot a una persona
-                                    de tu equipo.</div>
+                                <div class="sec-title">{{ __('Transferencia a agente') }}</div>
+                                <div class="sec-sub">{{ __('Controla cuándo y cómo una conversación pasa del chatbot a una persona
+                                    de tu equipo.') }</div>
                             </div>
                         </div>
 
                         <div class="sub-card d-flex align-items-center justify-content-between gap-3 flex-wrap mb-4">
                             <div>
-                                <div style="font-weight:600">¿Permitir transferencia a un agente?</div>
-                                <div class="hint">Si se desactiva, el chatbot atenderá siempre sin intervención humana.
-                                </div>
+                                <div style="font-weight:600">{{ __('¿Permitir transferencia a un agente?') }}</div>
+                                <div class="hint">{{ __('Si se desactiva, el chatbot atenderá siempre sin intervención humana.') }}</div>
                             </div>
                             <label class="sw"><input type="checkbox" class="cfg" id="allowTransfer" checked><span
                                     class="track"></span></label>
                         </div>
 
-                        <label class="label">Motivos de transferencia</label>
+                        <label class="label">{{ __('Motivos de transferencia') }}</label>
                         <div class="row g-2 mb-4" id="reasons"></div>
 
                         <div class="row g-3 align-items-end mb-4">
                             <div class="col-sm-6">
-                                <label class="label">Tiempo máximo de espera para un agente</label>
+                                <label class="label">{{ __('Tiempo máximo de espera para un agente') }}</label>
                                 <div class="input-group" style="max-width:220px">
-                                    <input type="number" min="1" max="120" value="10"
+                                    <input type="number" min="1" max="120" value="{{ __('10') }}"
                                         class="form-control cfg" id="waitMin" />
                                     <span class="input-group-text"
-                                        style="border-radius:0 12px 12px 0;border-color:var(--border);background:#F4F7F8;font-size:13px">minutos</span>
+                                        style="border-radius:0 12px 12px 0;border-color:var(--border);background:#F4F7F8;font-size:13px">{{ __('minutos') }}</span>
                                 </div>
                             </div>
                         </div>
 
-                        <label class="label">Si ningún agente está disponible</label>
+                        <label class="label">{{ __('Si ningún agente está disponible') }}</label>
                         <label class="opt sel"><input type="radio" name="noagent" class="cfg" checked><span><span
-                                    class="t">Mantener conversación en espera</span><span class="d">El cliente
-                                    permanece en cola hasta que alguien responda.</span></span></label>
+                                    class="t">{{ __('Mantener conversación en espera') }}</span><span class="d">{{ __('El cliente
+                                    permanece en cola hasta que alguien responda.') }</span></span></label>
                         <label class="opt"><input type="radio" name="noagent" class="cfg"><span><span
-                                    class="t">Enviar mensaje alternativo</span><span class="d">Informa que
-                                    responderán más tarde.</span></span></label>
+                                    class="t">{{ __('Enviar mensaje alternativo') }}</span><span class="d">{{ __('Informa que
+                                    responderán más tarde.') }</span></span></label>
                         <label class="opt"><input type="radio" name="noagent" class="cfg"><span><span
-                                    class="t">Cerrar conversación</span><span class="d">Finaliza la atención y
-                                    registra el caso.</span></span></label>
+                                    class="t">{{ __('Cerrar conversación') }}</span><span class="d">{{ __('Finaliza la atención y
+                                    registra el caso.') }</span></span></label>
                     </section>
 
                     <!-- AVANZADO -->
@@ -1031,27 +1000,27 @@
                         <div class="sec-head">
                             <div class="sec-ico"><i class="fa-solid fa-circle-question"></i></div>
                             <div>
-                                <div class="sec-title">Respuestas no resueltas</div>
-                                <div class="sec-sub">Define qué debe hacer el chatbot cuando no encuentra información
-                                    suficiente para responder.</div>
+                                <div class="sec-title">{{ __('Respuestas no resueltas') }}</div>
+                                <div class="sec-sub">{{ __('Define qué debe hacer el chatbot cuando no encuentra información
+                                    suficiente para responder.') }</div>
                             </div>
                         </div>
                         <label class="opt"><input type="radio" name="unres" class="cfg"><span><span
-                                    class="t">Intentar nuevamente</span><span class="d">Reformula la pregunta al
-                                    usuario una vez más.</span></span></label>
+                                    class="t">{{ __('Intentar nuevamente') }}</span><span class="d">{{ __('Reformula la pregunta al
+                                    usuario una vez más.') }</span></span></label>
                         <label class="opt sel"><input type="radio" name="unres" class="cfg" checked><span><span
-                                    class="t">Transferir a un agente</span><span class="d">Pasa la conversación
-                                    a una persona del equipo.</span></span></label>
+                                    class="t">{{ __('Transferir a un agente') }}</span><span class="d">{{ __('Pasa la conversación
+                                    a una persona del equipo.') }</span></span></label>
                         <label class="opt"><input type="radio" name="unres" class="cfg"><span><span
-                                    class="t">Ejecutar el siguiente motor disponible</span><span class="d">Continúa
+                                    class="t">{{ __('Ejecutar el siguiente motor disponible') }}</span><span class="d">{{ __('Continúa
                                     con el siguiente sistema del flujo de
-                                    atención.</span></span></label>
+                                    atención.') }</span></span></label>
                         <label class="opt"><input type="radio" name="unres" class="cfg"><span><span
-                                    class="t">Enviar un mensaje personalizado</span><span class="d">Responde con
-                                    el texto que definas abajo.</span></span></label>
+                                    class="t">{{ __('Enviar un mensaje personalizado') }}</span><span class="d">{{ __('Responde con
+                                    el texto que definas abajo.') }</span></span></label>
                         <div class="mt-3">
-                            <label class="label">Mensaje cuando no se puede resolver la solicitud</label>
-                            <textarea class="form-control cfg" rows="3">No estoy seguro de poder ayudarte con esta solicitud. Permíteme comunicarte con uno de nuestros asesores.</textarea>
+                            <label class="label">{{ __('Mensaje cuando no se puede resolver la solicitud') }}</label>
+                            <textarea class="form-control cfg" rows="3">{{ __('No estoy seguro de poder ayudarte con esta solicitud. Permíteme comunicarte con uno de nuestros asesores.') }}</textarea>
                         </div>
                     </section>
 
@@ -1059,75 +1028,75 @@
                         <div class="sec-head">
                             <div class="sec-ico"><i class="fa-solid fa-clock-rotate-left"></i></div>
                             <div>
-                                <div class="sec-title">Conversación y contexto</div>
-                                <div class="sec-sub">Controla cuánto recuerda el chatbot y cuándo empieza una conversación
-                                    nueva.</div>
+                                <div class="sec-title">{{ __('Conversación y contexto') }}</div>
+                                <div class="sec-sub">{{ __('Controla cuánto recuerda el chatbot y cuándo empieza una conversación
+                                    nueva.') }</div>
                             </div>
                         </div>
                         <div class="sub-card d-flex align-items-center justify-content-between gap-3 flex-wrap mb-3">
                             <div>
-                                <div style="font-weight:600">Mantener contexto</div>
-                                <div class="hint">El chatbot recuerda lo que se habló antes dentro de la misma
-                                    conversación.</div>
+                                <div style="font-weight:600">{{ __('Mantener contexto') }}</div>
+                                <div class="hint">{{ __('El chatbot recuerda lo que se habló antes dentro de la misma
+                                    conversación.') }</div>
                             </div>
                             <label class="sw"><input type="checkbox" class="cfg" id="keepCtx" checked><span
                                     class="track"></span></label>
                         </div>
                         <div class="mb-3">
-                            <label class="label">Tiempo de sesión</label>
+                            <label class="label">{{ __('Tiempo de sesión') }}</label>
                             <div class="input-group" style="max-width:220px">
-                                <input type="number" min="1" value="30" class="form-control cfg"
+                                <input type="number" min="1" value="{{ __('30') }}" class="form-control cfg"
                                     id="sessionMin" />
                                 <span class="input-group-text"
-                                    style="border-radius:0 12px 12px 0;border-color:var(--border);background:#F4F7F8;font-size:13px">minutos</span>
+                                    style="border-radius:0 12px 12px 0;border-color:var(--border);background:#F4F7F8;font-size:13px">{{ __('minutos') }}</span>
                             </div>
-                            <div class="hint">Después de este tiempo sin actividad, una nueva interacción se considerará
-                                una nueva conversación.</div>
+                            <div class="hint">{{ __('Después de este tiempo sin actividad, una nueva interacción se considerará
+                                una nueva conversación.') }</div>
                         </div>
-                        <label class="label">Reiniciar conversación</label>
+                        <label class="label">{{ __('Reiniciar conversación') }}</label>
                         <label class="opt sel"><input type="radio" name="reset" class="cfg" checked><span><span
-                                    class="t">Cierto tiempo de inactividad</span></span></label>
+                                    class="t">{{ __('Cierto tiempo de inactividad') }}</span></span></label>
                         <label class="opt"><input type="radio" name="reset" class="cfg"><span><span
-                                    class="t">Transferencia a agente</span></span></label>
+                                    class="t">{{ __('Transferencia a agente') }}</span></span></label>
                         <label class="opt"><input type="radio" name="reset" class="cfg"><span><span
-                                    class="t">Finalización del flujo</span></span></label>
+                                    class="t">{{ __('Finalización del flujo') }}</span></span></label>
                     </section>
 
                     <section class="card-s">
                         <div class="sec-head">
                             <div class="sec-ico"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
                             <div>
-                                <div class="sec-title">Comportamiento de respuesta</div>
-                                <div class="sec-sub">Haz que las respuestas se sientan naturales y humanas.</div>
+                                <div class="sec-title">{{ __('Comportamiento de respuesta') }}</div>
+                                <div class="sec-sub">{{ __('Haz que las respuestas se sientan naturales y humanas.') }}</div>
                             </div>
                         </div>
                         <div class="mb-4">
-                            <label class="label d-flex justify-content-between">Tiempo de espera antes de responder <span
-                                    class="counter" id="delayVal">2 s</span></label>
+                            <label class="label d-flex justify-content-between">{{ __('Tiempo de espera antes de responder') }}<span
+                                    class="counter" id="delayVal">{{ __('2 s') }}</span></label>
                             <input type="range" min="0" max="10" step="1" value="2"
                                 class="cfg" id="delay" />
-                            <div class="d-flex justify-content-between hint"><span>0 s</span><span>10 s</span></div>
-                            <div class="hint">Simula un tiempo natural de respuesta.</div>
+                            <div class="d-flex justify-content-between hint"><span>{{ __('0 s') }}</span><span>{{ __('10 s') }}</span></div>
+                            <div class="hint">{{ __('Simula un tiempo natural de respuesta.') }}</div>
                         </div>
                         <div class="sub-card d-flex align-items-center justify-content-between gap-3 flex-wrap mb-3">
                             <div>
-                                <div style="font-weight:600">Mostrar indicador de escritura</div>
-                                <div class="hint">El cliente verá "escribiendo..." antes de recibir la respuesta.</div>
+                                <div style="font-weight:600">{{ __('Mostrar indicador de escritura') }}</div>
+                                <div class="hint">{{ __('El cliente verá "escribiendo..." antes de recibir la respuesta.') }}</div>
                             </div>
                             <label class="sw"><input type="checkbox" class="cfg" id="typing" checked><span
                                     class="track"></span></label>
                         </div>
                         <div>
-                            <label class="label">Mensajes consecutivos</label>
+                            <label class="label">{{ __('Mensajes consecutivos') }}</label>
                             <div class="d-flex align-items-center gap-2 flex-wrap">
-                                <span style="font-size:13.5px">Esperar hasta</span>
+                                <span style="font-size:13.5px">{{ __('Esperar hasta') }}</span>
                                 <input type="number" min="0" max="30" value="3" class="form-control cfg"
                                     style="max-width:90px" />
-                                <span style="font-size:13.5px">segundos para agrupar mensajes consecutivos del
-                                    usuario.</span>
+                                <span style="font-size:13.5px">{{ __('segundos para agrupar mensajes consecutivos del
+                                    usuario.') }</span>
                             </div>
-                            <div class="hint">Si el cliente escribe "Hola", "Quiero información" y "Sobre el precio", se
-                                tratan como una sola consulta.</div>
+                            <div class="hint">{{ __('Si el cliente escribe "Hola", "Quiero información" y "Sobre el precio", se
+                                tratan como una sola consulta.') }</div>
                         </div>
                     </section>
                 </div>
@@ -1138,45 +1107,41 @@
                         <div class="status-card">
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <div>
-                                    <div style="font-size:12px;opacity:.75;text-transform:uppercase;letter-spacing:.08em">
-                                        Estado del chatbot</div>
+                                    <div style="font-size:12px;opacity:.75;text-transform:uppercase;letter-spacing:.08em">{{ __('Estado del chatbot') }}</div>
                                     <div class="display-font d-flex align-items-center gap-2 mt-1" style="font-size:19px"
-                                        id="sideState"><span class="dot" style="color:#4ADE80"></span> Activo</div>
+                                        id="sideState"><span class="dot" style="color:#4ADE80"></span>{{ __('Activo') }}</div>
                                 </div>
                                 <label class="sw big"><input type="checkbox" id="botActiveSide" checked><span
                                         class="track"></span></label>
                             </div>
-                            <div class="row-i"><span class="k">Horario</span><span class="v" id="sHorario">Lun -
-                                    Vie<br>08:00 - 18:00</span></div>
-                            <div class="row-i"><span class="k">Transferencia</span><span class="v"
-                                    id="sTransfer">Activada</span></div>
-                            <div class="row-i"><span class="k">Palabras clave</span><span class="v"
-                                    id="sKw">5 configuradas</span></div>
-                            <div class="row-i"><span class="k">Motor principal</span><span class="v"
-                                    id="sEngine">Chatbot por Nodos</span></div>
-                            <div class="row-i"><span class="k">IA</span><span class="v"
-                                    id="sAI">Activada</span></div>
-                            <div class="row-i"><span class="k">Automatización</span><span class="v">n8n</span>
+                            <div class="row-i"><span class="k">{{ __('Horario') }}</span><span class="v" id="sHorario">{{ __('Lun - Vie') }}<br>{{ __('08:00 - 18:00') }}</span></div>
+                            <div class="row-i"><span class="k">{{ __('Transferencia') }}</span><span class="v"
+                                    id="sTransfer">{{ __('Activada') }}</span></div>
+                            <div class="row-i"><span class="k">{{ __('Palabras clave') }}</span><span class="v"
+                                    id="sKw">{{ __('5 configuradas') }}</span></div>
+                            <div class="row-i"><span class="k">{{ __('Motor principal') }}</span><span class="v"
+                                    id="sEngine">{{ __('Chatbot por Nodos') }}</span></div>
+                            <div class="row-i"><span class="k">{{ __('IA') }}</span><span class="v"
+                                    id="sAI">{{ __('Activada') }}</span></div>
+                            <div class="row-i"><span class="k">{{ __('Automatización') }}</span><span class="v">{{ __('n8n') }}</span>
                             </div>
                         </div>
 
                         <div class="card-s">
-                            <div class="sec-title mb-3" style="font-size:15px">Acciones rápidas</div>
-                            <button class="qa" id="qaTest"><i class="fa-solid fa-comment-dots"></i>Probar
-                                conversación</button>
-                            <button class="qa" data-goto="#sec-horario"><i class="fa-regular fa-clock"></i>Editar
-                                horario</button>
-                            <button class="qa" data-goto="#sec-palabras"><i class="fa-solid fa-tags"></i>Palabras
-                                clave</button>
+                            <div class="sec-title mb-3" style="font-size:15px">{{ __('Acciones rápidas') }}</div>
+                            <button class="qa" id="qaTest"><i class="fa-solid fa-comment-dots"></i>{{ __('Probar
+                                conversación') }</button>
+                            <button class="qa" data-goto="#sec-horario"><i class="fa-regular fa-clock"></i>{{ __('Editar horario') }}</button>
+                            <button class="qa" data-goto="#sec-palabras"><i class="fa-solid fa-tags"></i>{{ __('Palabras clave') }}</button>
                             <button class="qa" data-goto="#sec-flujo"><i
-                                    class="fa-solid fa-diagram-project"></i>Prioridad de atención</button>
-                            <button class="qa" id="qaCopy"><i class="fa-solid fa-clone"></i>Duplicar
-                                configuración</button>
+                                    class="fa-solid fa-diagram-project"></i>{{ __('Prioridad de atención') }}</button>
+                            <button class="qa" id="qaCopy"><i class="fa-solid fa-clone"></i>{{ __('Duplicar
+                                configuración') }</button>
                         </div>
 
                         <div class="card-s">
-                            <div class="sec-title mb-2" style="font-size:15px">Resumen de configuración</div>
-                            <div class="hint mb-3">Vista rápida de cómo quedará tu chatbot.</div>
+                            <div class="sec-title mb-2" style="font-size:15px">{{ __('Resumen de configuración') }}</div>
+                            <div class="hint mb-3">{{ __('Vista rápida de cómo quedará tu chatbot.') }}</div>
                             <div id="summary"></div>
                         </div>
                     </div>
@@ -1186,10 +1151,10 @@
 
         <!-- SAVE BAR -->
         <div class="savebar" id="savebar">
-            <div class="warn"><i class="fa-solid fa-triangle-exclamation"></i>Hay cambios sin guardar</div>
+            <div class="warn"><i class="fa-solid fa-triangle-exclamation"></i>{{ __('Hay cambios sin guardar') }}</div>
             <div class="d-flex gap-2">
-                <button class="btn btn-discard" id="btnDiscard">Descartar cambios</button>
-                <button class="btn btn-primary-g" id="btnSave">Guardar cambios</button>
+                <button class="btn btn-discard" id="btnDiscard">{{ __('Descartar cambios') }}</button>
+                <button class="btn btn-primary-g" id="btnSave">{{ __('Guardar cambios') }}</button>
             </div>
         </div>
 
@@ -1201,122 +1166,121 @@
 @endsection
 
 @section('scripts')
-    <script>
-        $(function() {
+    <script>{{ __('$(function() {
             /* ---------- MOCK DATA ---------- */
             var DAYS = [{
-                    k: 'lun',
-                    l: 'L',
-                    full: 'Lunes',
+                    k: \'lun\',
+                    l: \'L\',
+                    full: \'Lunes\',
                     on: true
                 }, {
-                    k: 'mar',
-                    l: 'M',
-                    full: 'Martes',
+                    k: \'mar\',
+                    l: \'M\',
+                    full: \'Martes\',
                     on: true
                 },
                 {
-                    k: 'mie',
-                    l: 'M',
-                    full: 'Miércoles',
+                    k: \'mie\',
+                    l: \'M\',
+                    full: \'Miércoles\',
                     on: true
                 }, {
-                    k: 'jue',
-                    l: 'J',
-                    full: 'Jueves',
+                    k: \'jue\',
+                    l: \'J\',
+                    full: \'Jueves\',
                     on: true
                 },
                 {
-                    k: 'vie',
-                    l: 'V',
-                    full: 'Viernes',
+                    k: \'vie\',
+                    l: \'V\',
+                    full: \'Viernes\',
                     on: true
                 }, {
-                    k: 'sab',
-                    l: 'S',
-                    full: 'Sábado',
+                    k: \'sab\',
+                    l: \'S\',
+                    full: \'Sábado\',
                     on: false
                 },
                 {
-                    k: 'dom',
-                    l: 'D',
-                    full: 'Domingo',
+                    k: \'dom\',
+                    l: \'D\',
+                    full: \'Domingo\',
                     on: false
                 }
             ];
             var RANGES = [{
-                a: '08:00',
-                b: '18:00'
+                a: \'08:00\',
+                b: \'18:00\'
             }];
-            var KEYWORDS = ['cotización', 'precio', 'asesor', 'factura', 'soporte', 'hablar con una persona',
-                'agente', 'humano'
+            var KEYWORDS = [\'cotización\', \'precio\', \'asesor\', \'factura\', \'soporte\', \'hablar con una persona\',
+                \'agente\', \'humano\'
             ];
             var MSGS = [{
-                    id: 'welcome',
-                    title: 'Mensaje de bienvenida',
-                    desc: 'Se envía cuando un usuario inicia una nueva conversación.',
+                    id: \'welcome\',
+                    title: \'Mensaje de bienvenida\',
+                    desc: \'Se envía cuando un usuario inicia una nueva conversación.\',
                     on: true,
-                    text: '¡Hola! 👋 Soy el asistente virtual de { empresa }. ¿En qué podemos ayudarte hoy?'
+                    text: \'¡Hola! 👋 Soy el asistente virtual de { empresa }. ¿En qué podemos ayudarte hoy?\'
                 },
                 {
-                    id: 'offhours',
-                    title: 'Mensaje fuera de horario',
-                    desc: 'Se envía cuando un usuario escribe fuera del horario de atención.',
+                    id: \'offhours\',
+                    title: \'Mensaje fuera de horario\',
+                    desc: \'Se envía cuando un usuario escribe fuera del horario de atención.\',
                     on: true,
-                    text: 'Hola 👋 En este momento estamos fuera de nuestro horario de atención. Nuestro horario es de lunes a viernes de 8:00 a.m. a 6:00 p.m. Te responderemos cuando volvamos a estar disponibles.'
+                    text: \'Hola 👋 En este momento estamos fuera de nuestro horario de atención. Nuestro horario es de lunes a viernes de 8:00 a.m. a 6:00 p.m. Te responderemos cuando volvamos a estar disponibles.\'
                 },
                 {
-                    id: 'transfer',
-                    title: 'Mensaje de transferencia',
-                    desc: 'Se envía cuando la conversación pasa de un chatbot a un agente humano.',
+                    id: \'transfer\',
+                    title: \'Mensaje de transferencia\',
+                    desc: \'Se envía cuando la conversación pasa de un chatbot a un agente humano.\',
                     on: true,
-                    text: 'Perfecto 👍 Voy a transferir tu conversación con uno de nuestros asesores. En un momento te atenderán.'
+                    text: \'Perfecto 👍 Voy a transferir tu conversación con uno de nuestros asesores. En un momento te atenderán.\'
                 }
             ];
             var ENGINES = [{
-                    id: 'nodes',
-                    name: 'Chatbot por Nodos',
-                    desc: 'Flujos visuales configurados mediante nodos y condiciones.',
-                    badge: 'Visual',
-                    icon: 'fa-diagram-project',
-                    c: '#2563EB',
-                    bg: 'rgba(37,99,235,.10)'
+                    id: \'nodes\',
+                    name: \'Chatbot por Nodos\',
+                    desc: \'Flujos visuales configurados mediante nodos y condiciones.\',
+                    badge: \'Visual\',
+                    icon: \'fa-diagram-project\',
+                    c: \'#2563EB\',
+                    bg: \'rgba(37,99,235,.10)\'
                 },
                 {
-                    id: 'ai',
-                    name: 'Asistente IA',
-                    desc: 'Permite responder utilizando inteligencia artificial y conocimiento configurado.',
-                    badge: 'IA',
-                    icon: 'fa-brain',
-                    c: '#7C3AED',
-                    bg: 'rgba(124,58,237,.10)'
+                    id: \'ai\',
+                    name: \'Asistente IA\',
+                    desc: \'Permite responder utilizando inteligencia artificial y conocimiento configurado.\',
+                    badge: \'IA\',
+                    icon: \'fa-brain\',
+                    c: \'#7C3AED\',
+                    bg: \'rgba(124,58,237,.10)\'
                 },
                 {
-                    id: 'auto',
-                    name: 'Automatización',
-                    desc: 'Envía la conversación o información a una automatización externa como n8n.',
-                    badge: 'Automatización',
-                    icon: 'fa-bolt',
-                    c: '#D97706',
-                    bg: 'rgba(217,119,6,.12)'
+                    id: \'auto\',
+                    name: \'Automatización\',
+                    desc: \'Envía la conversación o información a una automatización externa como n8n.\',
+                    badge: \'Automatización\',
+                    icon: \'fa-bolt\',
+                    c: \'#D97706\',
+                    bg: \'rgba(217,119,6,.12)\'
                 }
             ];
             var REASONS = [{
-                    t: 'Palabra clave detectada',
+                    t: \'Palabra clave detectada\',
                     on: true
                 }, {
-                    t: 'Usuario solicita un asesor',
+                    t: \'Usuario solicita un asesor\',
                     on: true
                 },
                 {
-                    t: 'El chatbot no puede resolver la consulta',
+                    t: \'El chatbot no puede resolver la consulta\',
                     on: true
                 }, {
-                    t: 'Error en el chatbot',
+                    t: \'Error en el chatbot\',
                     on: false
                 },
                 {
-                    t: 'Usuario solicita hablar con una persona',
+                    t: \'Usuario solicita hablar con una persona\',
                     on: true
                 }
             ];
@@ -1324,21 +1288,21 @@
 
             /* ---------- RENDER: DAYS ---------- */
             function renderDays() {
-                $('#days').html(DAYS.map(function(d, i) {
-                    return '<button class="day' + (d.on ? ' on' : '') + '" data-i="' + i + '" title="' +
-                        d.full + '">' + d.l + '</button>';
-                }).join(''));
+                $(\'#days\').html(DAYS.map(function(d, i) {
+                    return \'') }<button class="day' + (d.on ? ' on' : '') + '" data-i="' + i + '" title="' +
+                        d.full + '">{{ __('\\' + d.l + \\'') }}</button>{{ __('\';
+                }).join(\'\'));
             }
-            $('#days').on('click', '.day', function() {
-                var i = +$(this).data('i');
+            $(\'#days\').on(\'click\', \'.day\', function() {
+                var i = +$(this).data(\'i\');
                 DAYS[i].on = !DAYS[i].on;
                 renderDays();
                 touch();
             });
-            $('.quick').on('click', function() {
-                var p = $(this).data('preset');
+            $(\'.quick\').on(\'click\', function() {
+                var p = $(this).data(\'preset\');
                 DAYS.forEach(function(d, i) {
-                    d.on = p === 'all' ? true : i < 5;
+                    d.on = p === \'all\' ? true : i') }< 5;
                 });
                 renderDays();
                 touch();
@@ -1348,81 +1312,81 @@
             function renderRanges() {
                 $('#ranges').html(RANGES.map(function(r, i) {
                     return '<div class="range-row" data-i="' + i + '">' +
-                        '<input type="time" class="form-control r-a" value="' + r.a + '">' +
+                        '<input type="time" class="form-control r-a" value="{{ __('\' + r.a + \'') }}">' +
                         '<span class="muted">a</span>' +
-                        '<input type="time" class="form-control r-b" value="' + r.b + '">' +
+                        '<input type="time" class="form-control r-b" value="{{ __('\' + r.b + \'') }}">{{ __('\' +
                         (RANGES.length > 1 ?
-                            '<button class="icon-btn rm"><i class="fa-solid fa-trash-can"></i></button>' :
+                            \'') }<button class="icon-btn rm"><i class="fa-solid fa-trash-can"></i></button>' :
                             '') +
-                        '</div>';
-                }).join(''));
+                        '</div>{{ __('\';
+                }).join(\'\'));
             }
-            $('#addRange').on('click', function() {
+            $(\'#addRange\').on(\'click\', function() {
                 RANGES.push({
-                    a: '14:00',
-                    b: '18:00'
+                    a: \'14:00\',
+                    b: \'18:00\'
                 });
                 renderRanges();
                 touch();
             });
-            $('#ranges').on('click', '.rm', function() {
-                RANGES.splice($(this).closest('.range-row').data('i'), 1);
+            $(\'#ranges\').on(\'click\', \'.rm\', function() {
+                RANGES.splice($(this).closest(\'.range-row\').data(\'i\'), 1);
                 renderRanges();
                 touch();
             });
-            $('#ranges').on('change', 'input', function() {
-                var row = $(this).closest('.range-row'),
-                    i = row.data('i');
+            $(\'#ranges\').on(\'change\', \'input\', function() {
+                var row = $(this).closest(\'.range-row\'),
+                    i = row.data(\'i\');
                 RANGES[i] = {
-                    a: row.find('.r-a').val(),
-                    b: row.find('.r-b').val()
+                    a: row.find(\'.r-a\').val(),
+                    b: row.find(\'.r-b\').val()
                 };
                 touch();
             });
 
-            $('#useSchedule').on('change', function() {
+            $(\'#useSchedule\').on(\'change\', function() {
                 var on = this.checked;
-                $('#scheduleBody').slideToggle(on, 200);
-                $('#scheduleHint').text(on ?
-                    'El chatbot solo atenderá dentro de los días y horas configurados.' :
-                    'El chatbot estará disponible las 24 horas.');
+                $(\'#scheduleBody\').slideToggle(on, 200);
+                $(\'#scheduleHint\').text(on ?
+                    \'El chatbot solo atenderá dentro de los días y horas configurados.\' :
+                    \'El chatbot estará disponible las 24 horas.\');
                 touch();
             });
 
             /* ---------- RENDER: KEYWORDS ---------- */
             function renderKw(isNew) {
-                $('#kwList').html(KEYWORDS.map(function(k, i) {
-                    return '<span class="tag' + (isNew && i === KEYWORDS.length - 1 ? ' new' : '') +
-                        '">' + k + '<button data-i="' + i +
-                        '"><i class="fa-solid fa-xmark"></i></button></span>';
-                }).join(''));
-                $('#sKw').text(KEYWORDS.length + ' configuradas');
+                $(\'#kwList\').html(KEYWORDS.map(function(k, i) {
+                    return \'') }<span class="tag' + (isNew && i === KEYWORDS.length - 1 ? ' new' : '') +
+                        '">{{ __('\\' + k + \\'') }}<button data-i="' + i +
+                        '"><i class="fa-solid fa-xmark"></i></button></span>{{ __('\';
+                }).join(\'\'));
+                $(\'#sKw\').text(KEYWORDS.length + \' configuradas\');
             }
 
             function addKw() {
-                var v = $.trim($('#kwInput').val());
+                var v = $.trim($(\'#kwInput\').val());
                 if (!v) return;
                 if (KEYWORDS.some(function(k) {
                         return k.toLowerCase() === v.toLowerCase();
                     })) {
-                    toast('Esa palabra ya existe.', 'amber');
+                    toast(\'Esa palabra ya existe.\', \'amber\');
                     return;
                 }
                 KEYWORDS.push(v);
-                $('#kwInput').val('');
+                $(\'#kwInput\').val(\'\');
                 renderKw(true);
                 touch();
                 summary();
             }
-            $('#kwAdd').on('click', addKw);
-            $('#kwInput').on('keydown', function(e) {
-                if (e.key === 'Enter') {
+            $(\'#kwAdd\').on(\'click\', addKw);
+            $(\'#kwInput\').on(\'keydown\', function(e) {
+                if (e.key === \'Enter\') {
                     e.preventDefault();
                     addKw();
                 }
             });
-            $('#kwList').on('click', 'button', function() {
-                KEYWORDS.splice(+$(this).data('i'), 1);
+            $(\'#kwList\').on(\'click\', \'button\', function() {
+                KEYWORDS.splice(+$(this).data(\'i\'), 1);
                 renderKw();
                 touch();
                 summary();
@@ -1430,143 +1394,143 @@
 
             /* ---------- RENDER: MESSAGES ---------- */
             function renderMsgs() {
-                $('#msgCards').html(MSGS.map(function(m) {
-                    return '<div class="sub-card mb-3" data-id="' + m.id + '">' +
+                $(\'#msgCards\').html(MSGS.map(function(m) {
+                    return \'') }<div class="sub-card mb-3" data-id="' + m.id + '">' +
                         '<div class="d-flex justify-content-between align-items-start gap-3 flex-wrap mb-3">' +
-                        '<div><div style="font-weight:600;font-size:14.5px">' + m.title +
-                        '</div><div class="hint">' + m.desc + '</div></div>' +
+                        '<div><div style="font-weight:600;font-size:14.5px">{{ __('\' + m.title +
+                        \'') }</div><div class="hint">{{ __('\\' + m.desc + \\'') }}</div></div>' +
                         '<label class="sw"><input type="checkbox" class="msg-on"' + (m.on ? ' checked' :
                             '') +
-                        '><span class="track"></span><span class="txt muted">Activo</span></label>' +
+                        '><span class="track"></span><span class="txt muted">{{ __('Activo') }}</span></label>' +
                         '</div>' +
-                        '<textarea class="form-control msg-text" rows="3">' + m.text + '</textarea>' +
+                        '<textarea class="form-control msg-text" rows="3">{{ __('\\' + m.text + \\'') }}</textarea>' +
                         '<div class="d-flex justify-content-between align-items-center mt-2 flex-wrap gap-2">' +
                         '<div class="dropdown">' +
-                        '<button class="btn btn-ghost btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-code me-2"></i>Insertar variable</button>' +
-                        '<ul class="dropdown-menu" style="border-radius:12px;border-color:var(--border)">' +
-                        ['{ nombre }', '{ empresa }', '{ fecha }'].map(
+                        '<button class="btn btn-ghost btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-code me-2"></i>{{ __('Insertar variable') }}</button>' +
+                        '<ul class="dropdown-menu" style="border-radius:12px;border-color:var(--border)">{{ __('\' +
+                        [\'{ nombre }\', \'{ empresa }\', \'{ fecha }\'].map(
                             function(v) {
-                                return '<li><a class="dropdown-item var-i" href="#" data-v="' + v +
-                                    '">' + v + '</a></li>';
-                            }).join('') +
-                        '</ul>' +
+                                return \'') }<li><a class="dropdown-item var-i" href="#" data-v="' + v +
+                                    '">{{ __('\\' + v + \\'') }}</a></li>{{ __('\';
+                            }).join(\'\') +
+                        \'') }</ul>' +
                         '</div>' +
-                        '<span class="counter">' + m.text.length + ' / 1024 caracteres</span>' +
+                        '<span class="counter">{{ __('\\' + m.text.length + \\' / 1024 caracteres') }}</span>' +
                         '</div>' +
-                        '</div>';
-                }).join(''));
+                        '</div>{{ __('\';
+                }).join(\'\'));
             }
-            $('#msgCards').on('input', '.msg-text', function() {
-                var card = $(this).closest('.sub-card'),
+            $(\'#msgCards\').on(\'input\', \'.msg-text\', function() {
+                var card = $(this).closest(\'.sub-card\'),
                     len = this.value.length;
-                card.find('.counter').text(len + ' / 1024 caracteres').toggleClass('warn', len > 1024);
+                card.find(\'.counter\').text(len + \' / 1024 caracteres\').toggleClass(\'warn\', len > 1024);
                 MSGS.forEach(function(m) {
-                    if (m.id === card.data('id')) m.text = $(this).val ? '' : m.text;
+                    if (m.id === card.data(\'id\')) m.text = $(this).val ? \'\' : m.text;
                 }.bind(this));
                 touch();
             });
-            $('#msgCards').on('change', '.msg-on', function() {
+            $(\'#msgCards\').on(\'change\', \'.msg-on\', function() {
                 touch();
             });
-            $('#msgCards').on('click', '.var-i', function(e) {
+            $(\'#msgCards\').on(\'click\', \'.var-i\', function(e) {
                 e.preventDefault();
-                var ta = $(this).closest('.sub-card').find('.msg-text')[0];
-                var v = $(this).data('v'),
+                var ta = $(this).closest(\'.sub-card\').find(\'.msg-text\')[0];
+                var v = $(this).data(\'v\'),
                     s = ta.selectionStart || ta.value.length;
                 ta.value = ta.value.slice(0, s) + v + ta.value.slice(s);
-                $(ta).trigger('input').focus();
+                $(ta).trigger(\'input\').focus();
             });
 
             /* ---------- RENDER: ENGINES (drag & drop) ---------- */
             function renderEngines() {
-                $('#engines').html(ENGINES.map(function(e, i) {
-                    return '<div class="engine" draggable="true" data-i="' + i + '">' +
+                $(\'#engines\').html(ENGINES.map(function(e, i) {
+                    return \'') }<div class="engine" draggable="true" data-i="' + i + '">' +
                         '<i class="fa-solid fa-grip-vertical handle"></i>' +
-                        '<span class="eng-num">' + (i + 1) + '</span>' +
+                        '<span class="eng-num">{{ __('\\' + (i + 1) + \\'') }}</span>' +
                         '<span class="eng-ico" style="background:' + e.bg + ';color:' + e.c +
                         '"><i class="fa-solid ' + e.icon + '"></i></span>' +
-                        '<div class="flex-grow-1"><div style="font-weight:600;font-size:14px">' + e
-                        .name + '</div><div class="hint" style="margin-top:2px">' + e.desc +
-                        '</div></div>' +
-                        '<span class="badge-s" style="background:' + e.bg + ';color:' + e.c + '">' + e
-                        .badge + '</span>' +
-                        '</div>';
-                }).join(''));
+                        '<div class="flex-grow-1"><div style="font-weight:600;font-size:14px">{{ __('\' + e
+                        .name + \'') }</div><div class="hint" style="margin-top:2px">{{ __('\' + e.desc +
+                        \'') }</div></div>' +
+                        '<span class="badge-s" style="background:' + e.bg + ';color:' + e.c + '">{{ __('\' + e
+                        .badge + \'') }</span>' +
+                        '</div>{{ __('\';
+                }).join(\'\'));
                 var nodes = [
-                        '<span class="flow-node"><i class="fa-solid fa-user" style="color:var(--muted)"></i>Usuario</span>'
+                        \'') }<span class="flow-node"><i class="fa-solid fa-user" style="color:var(--muted)"></i>{{ __('Usuario') }}</span>{{ __('\'
                     ]
                     .concat(ENGINES.map(function(e) {
-                        return '<span class="flow-node"><i class="fa-solid ' + e.icon + '" style="color:' +
-                            e.c + '"></i>' + e.name + '</span>';
+                        return \'') }<span class="flow-node"><i class="fa-solid ' + e.icon + '" style="color:' +
+                            e.c + '"></i>{{ __('\\' + e.name + \\'') }}</span>{{ __('\';
                     }));
-                $('#flowmap').html(nodes.join(
-                    '<div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>'));
-                $('#sEngine').text(ENGINES[0].name);
+                $(\'#flowmap\').html(nodes.join(
+                    \'') }<div class="flow-arrow"><i class="fa-solid fa-arrow-down"></i></div>{{ __('\') }});
+                $(\'#sEngine\').text(ENGINES[0].name);
                 summary();
             }
             var dragIdx = null;
-            $('#engines').on('dragstart', '.engine', function(e) {
-                dragIdx = +$(this).data('i');
-                $(this).addClass('dragging');
-                e.originalEvent.dataTransfer.effectAllowed = 'move';
-                e.originalEvent.dataTransfer.setData('text/plain', dragIdx);
+            $(\'#engines\').on(\'dragstart\', \'.engine\', function(e) {
+                dragIdx = +$(this).data(\'i\');
+                $(this).addClass(\'dragging\');
+                e.originalEvent.dataTransfer.effectAllowed = \'move\';
+                e.originalEvent.dataTransfer.setData(\'text/plain\', dragIdx);
             });
-            $('#engines').on('dragend', '.engine', function() {
-                $('.engine').removeClass('dragging over');
+            $(\'#engines\').on(\'dragend\', \'.engine\', function() {
+                $(\'.engine\').removeClass(\'dragging over\');
             });
-            $('#engines').on('dragover', '.engine', function(e) {
+            $(\'#engines\').on(\'dragover\', \'.engine\', function(e) {
                 e.preventDefault();
-                $('.engine').removeClass('over');
-                $(this).addClass('over');
+                $(\'.engine\').removeClass(\'over\');
+                $(this).addClass(\'over\');
             });
-            $('#engines').on('drop', '.engine', function(e) {
+            $(\'#engines\').on(\'drop\', \'.engine\', function(e) {
                 e.preventDefault();
-                var to = +$(this).data('i');
+                var to = +$(this).data(\'i\');
                 if (dragIdx === null || dragIdx === to) return;
                 var moved = ENGINES.splice(dragIdx, 1)[0];
                 ENGINES.splice(to, 0, moved);
                 dragIdx = null;
                 renderEngines();
                 touch();
-                toast('Prioridad actualizada: ' + ENGINES[0].name);
+                toast(\'Prioridad actualizada: \' + ENGINES[0].name);
             });
 
             /* ---------- REASONS ---------- */
-            $('#reasons').html(REASONS.map(function(r, i) {
-                return '<div class="col-md-6"><label class="opt' + (r.on ? ' sel' : '') +
+            $(\'#reasons\').html(REASONS.map(function(r, i) {
+                return \'') }<div class="col-md-6"><label class="opt' + (r.on ? ' sel' : '') +
                     '" style="margin-bottom:0">' +
                     '<input type="checkbox" class="cfg chk" style="accent-color:var(--blue)"' + (r.on ?
                         ' checked' : '') + '>' +
-                    '<span class="t">' + r.t + '</span></label></div>';
-            }).join(''));
+                    '<span class="t">{{ __('\\' + r.t + \\'') }}</span></label></div>{{ __('\';
+            }).join(\'\'));
 
             /* ---------- OPT visual state ---------- */
-            $(document).on('change', '.opt input', function() {
+            $(document).on(\'change\', \'.opt input\', function() {
                 var $i = $(this);
-                if ($i.attr('type') === 'radio') {
-                    $('input[name="' + $i.attr('name') + '"]').closest('.opt').removeClass('sel');
+                if ($i.attr(\'type\') === \'radio\') {
+                    $(\'input[name="\' + $i.attr(\'name\') + \'"]\').closest(\'.opt\').removeClass(\'sel\');
                 }
-                $i.closest('.opt').toggleClass('sel', this.checked);
+                $i.closest(\'.opt\').toggleClass(\'sel\', this.checked);
             });
 
             /* ---------- Active switches ---------- */
             function setActive(on) {
-                $('#botActive,#botActiveSide').prop('checked', on);
-                $('#headState').html(
-                    '<i class="bi bi-check2-circle me-1 text-white"></i>' + (on ? 'Activo' : 'Inactivo'));
-                $('#sideState').html('<span class="dot" style="color:' + (on ? '#4ADE80' : '#94A3B8') +
-                    '"></span> ' + (on ? 'Activo' : 'Inactivo'));
+                $(\'#botActive,#botActiveSide\').prop(\'checked\', on);
+                $(\'#headState\').html(
+                    \'') }<i class="bi bi-check2-circle me-1 text-white"></i>{{ __('\\' + (on ? \\'Activo\\' : \\'Inactivo\') }});
+                $(\'#sideState\').html(\'') }<span class="dot" style="color:' + (on ? '#4ADE80' : '#94A3B8') +
+                    '"></span>{{ __('\\' + (on ? \\'Activo\\' : \\'Inactivo\') }});
             }
-            $('#botActive,#botActiveSide').on('change', function() {
+            $(\'#botActive,#botActiveSide\').on(\'change\', function() {
                 setActive(this.checked);
                 touch();
             });
-            $('#allowTransfer').on('change', function() {
-                $('#sTransfer').text(this.checked ? 'Activada' : 'Desactivada');
+            $(\'#allowTransfer\').on(\'change\', function() {
+                $(\'#sTransfer\').text(this.checked ? \'Activada\' : \'Desactivada\');
                 touch();
             });
-            $('#delay').on('input', function() {
-                $('#delayVal').text(this.value + ' s');
+            $(\'#delay\').on(\'input\', function() {
+                $(\'#delayVal\').text(this.value + \' s\');
                 touch();
             });
 
@@ -1575,67 +1539,67 @@
                 var on = DAYS.filter(function(d) {
                     return d.on;
                 });
-                var dstr = on.length === 7 ? 'Todos los días' : (on.length === 0 ? 'Sin días' : on.map(function(d) {
+                var dstr = on.length === 7 ? \'Todos los días\' : (on.length === 0 ? \'Sin días\' : on.map(function(d) {
                     return d.full.slice(0, 3);
-                }).join(', '));
-                var hstr = $('#useSchedule').prop('checked') ? RANGES.map(function(r) {
-                    return r.a + ' - ' + r.b;
-                }).join(' · ') : 'Disponible 24 h';
-                $('#sHorario').html(dstr + '<br>' + hstr);
+                }).join(\', \'));
+                var hstr = $(\'#useSchedule\').prop(\'checked\') ? RANGES.map(function(r) {
+                    return r.a + \' - \' + r.b;
+                }).join(\' · \') : \'Disponible 24 h\';
+                $(\'#sHorario\').html(dstr + \'') }<br>{{ __('\' + hstr);
                 var items = [
-                    ['fa-regular fa-clock', 'Horario', dstr + ' · ' + hstr],
-                    ['fa-solid fa-tags', 'Palabras clave', KEYWORDS.length + ' términos'],
-                    ['fa-regular fa-comment-dots', 'Mensajes activos', $('.msg-on:checked').length + ' de 3'],
-                    ['fa-solid fa-diagram-project', 'Prioridad', ENGINES.map(function(e) {
+                    [\'fa-regular fa-clock\', \'Horario\', dstr + \' · \' + hstr],
+                    [\'fa-solid fa-tags\', \'Palabras clave\', KEYWORDS.length + \' términos\'],
+                    [\'fa-regular fa-comment-dots\', \'Mensajes activos\', $(\'.msg-on:checked\').length + \' de 3\'],
+                    [\'fa-solid fa-diagram-project\', \'Prioridad\', ENGINES.map(function(e) {
                         return e.name;
-                    }).join(' → ')],
-                    ['fa-solid fa-headset', 'Transferencia', $('#allowTransfer').prop('checked') ? 'Activada' :
-                        'Desactivada'
+                    }).join(\' → \')],
+                    [\'fa-solid fa-headset\', \'Transferencia\', $(\'#allowTransfer\').prop(\'checked\') ? \'Activada\' :
+                        \'Desactivada\'
                     ]
                 ];
-                $('#summary').html(items.map(function(it) {
-                    return '<div class="d-flex gap-3 align-items-start py-2" style="border-bottom:1px solid var(--border)">' +
+                $(\'#summary\').html(items.map(function(it) {
+                    return \'') }<div class="d-flex gap-3 align-items-start py-2" style="border-bottom:1px solid var(--border)">' +
                         '<i class="' + it[0] +
                         '" style="color:var(--accent);width:18px;margin-top:3px"></i>' +
-                        '<div><div style="font-size:12.5px;font-weight:600">' + it[1] +
-                        '</div><div class="hint" style="margin-top:1px">' + it[2] +
-                        '</div></div></div>';
-                }).join(''));
+                        '<div><div style="font-size:12.5px;font-weight:600">{{ __('\' + it[1] +
+                        \'') }</div><div class="hint" style="margin-top:1px">{{ __('\' + it[2] +
+                        \'') }</div></div></div>{{ __('\';
+                }).join(\'\'));
             }
 
             /* ---------- DIRTY / SAVE ---------- */
             function touch() {
                 dirty = true;
-                $('#savebar').addClass('show');
+                $(\'#savebar\').addClass(\'show\');
                 summary();
             }
-            $(document).on('change input', '.cfg, #msgCards input, #msgCards textarea, #days .day', function() {
+            $(document).on(\'change input\', \'.cfg, #msgCards input, #msgCards textarea, #days .day\', function() {
                 touch();
             });
 
             function save() {
                 dirty = false;
-                $('#savebar').removeClass('show');
-                toast('Configuración guardada correctamente.');
+                $(\'#savebar\').removeClass(\'show\');
+                toast(\'Configuración guardada correctamente.\');
             }
-            $('#btnSave,#btnSaveTop').on('click', save);
-            $('#btnDiscard').on('click', function() {
+            $(\'#btnSave,#btnSaveTop\').on(\'click\', save);
+            $(\'#btnDiscard\').on(\'click\', function() {
                 location.reload();
             });
-            $('#btnTest,#qaTest').on('click', function() {
-                toast('Abriendo simulador de conversación…', 'blue');
+            $(\'#btnTest,#qaTest\').on(\'click\', function() {
+                toast(\'Abriendo simulador de conversación…\', \'blue\');
             });
-            $('#qaCopy').on('click', function() {
-                toast('Configuración duplicada como borrador.', 'blue');
+            $(\'#qaCopy\').on(\'click\', function() {
+                toast(\'Configuración duplicada como borrador.\', \'blue\');
             });
 
             function toast(msg, tone) {
-                var color = tone === 'amber' ? '#D97706' : (tone === 'blue' ? '#2563EB' : '#16A34A');
-                var icon = tone === 'amber' ? 'fa-triangle-exclamation' : (tone === 'blue' ? 'fa-circle-info' :
-                    'fa-circle-check');
-                var $t = $('<div class="toast-i" style="border-left-color:' + color + '"><i class="fa-solid ' +
-                    icon + '" style="color:' + color + '"></i><span>' + msg + '</span></div>');
-                $('#toasts').append($t);
+                var color = tone === \'amber\' ? \'#D97706\' : (tone === \'blue\' ? \'#2563EB\' : \'#16A34A\');
+                var icon = tone === \'amber\' ? \'fa-triangle-exclamation\' : (tone === \'blue\' ? \'fa-circle-info\' :
+                    \'fa-circle-check\');
+                var $t = $(\'') }<div class="toast-i" style="border-left-color:' + color + '"><i class="fa-solid ' +
+                    icon + '" style="color:' + color + '"></i><span>{{ __('\\' + msg + \\'') }}</span></div>{{ __('\') }};
+                $(\'#toasts\').append($t);
                 setTimeout(function() {
                     $t.fadeOut(220, function() {
                         $t.remove();
@@ -1644,24 +1608,24 @@
             }
 
             /* ---------- TABS / SCROLLSPY ---------- */
-            $('#tabs a, [data-goto]').on('click', function(e) {
+            $(\'#tabs a, [data-goto]\').on(\'click\', function(e) {
                 e.preventDefault();
-                var t = $(this).attr('href') || $(this).data('goto');
+                var t = $(this).attr(\'href\') || $(this).data(\'goto\');
                 var el = $(t);
                 if (!el.length) return;
-                $('html,body').animate({
+                $(\'html,body\').animate({
                     scrollTop: el.offset().top - 90
                 }, 420);
             });
-            var secs = $('#tabs a').map(function() {
-                return $(this).attr('href');
+            var secs = $(\'#tabs a\').map(function() {
+                return $(this).attr(\'href\');
             }).get();
-            $(window).on('scroll', function() {
+            $(window).on(\'scroll\', function() {
                 var y = $(window).scrollTop() + 120,
                     cur = secs[0];
                 secs.forEach(function(s) {
                     var el = $(s);
-                    if (el.length && el.offset().top <= y) cur = s;
+                    if (el.length && el.offset().top') }<= y) cur = s;
                 });
                 $('#tabs a').removeClass('active').filter('[href="' + cur + '"]').addClass('active');
             });

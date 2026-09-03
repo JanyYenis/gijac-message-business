@@ -6,20 +6,20 @@
         <div class="text-gray-900 order-2 order-md-1">
             <span class="text-muted fw-semibold me-1">{{date('Y')}}©</span>
             <a href="{{ route('home') }}" target="_blank"
-                class="text-gray-800 text-hover-primary">GIJAC MESSAGE BUSINESS</a>
+                class="text-gray-800 text-hover-primary">{{ __('GIJAC MESSAGE BUSINESS') }}</a>
         </div>
         <!--end::Copyright-->
 
         <!--begin::Menu-->
         <ul class="menu menu-gray-600 menu-hover-primary fw-semibold order-1">
             <li class="menu-item">
-                <a href="https://gijac.com" target="_blank" class="menu-link px-2">Quienes somos</a>
+                <a href="https://gijac.com" target="_blank" class="menu-link px-2">{{ __('Quienes somos') }}</a>
             </li>
             <li class="menu-item">
-                <a href="{{ route('contactarnos') }}" target="_blank" class="menu-link px-2">Contacto</a>
+                <a href="{{ route('contactarnos') }}" target="_blank" class="menu-link px-2">{{ __('Contacto') }}</a>
             </li>
             <li class="menu-item">
-                <a href="{{ route('politicas-privacidad') }}" target="_blank" class="menu-link px-2">Politicas de privacidad</a>
+                <a href="{{ route('politicas-privacidad') }}" target="_blank" class="menu-link px-2">{{ __('Politicas de privacidad') }}</a>
             </li>
         </ul>
         <!--end::Menu-->

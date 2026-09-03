@@ -154,15 +154,11 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
             <div>
                 <h1 class="text-white">
-                    <i class="fas fa-tags"></i>
-                    Planes
-                </h1>
-                <p class="subtitle mb-0">Crea y administra los planes para tus clientes.</p>
+                    <i class="fas fa-tags"></i>{{ __('Planes') }}</h1>
+                <p class="subtitle mb-0">{{ __('Crea y administra los planes para tus clientes.') }}</p>
             </div>
             <div class="mt-3 mt-md-0">
-                <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearPlanes">
-                    Crear Nuevo Plan
-                </button>
+                <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearPlanes">{{ __('Crear Nuevo Plan') }}</button>
             </div>
         </div>
     </div>
@@ -182,15 +178,15 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center all">#</th>
-                                                <th width="10%" class="text-center all">Nombre</th>
-                                                <th width="10%" class="text-center all">Precio</th>
-                                                <th width="10%" class="text-center all">Categoria</th>
-                                                <th width="10%" class="text-center all">Tipo</th>
-                                                <th width="10%" class="text-center all">Nº Contactos</th>
-                                                <th width="10%" class="text-center none">Servicios Incluidos</th>
-                                                <th width="10%" class="text-center none">Fecha Creación</th>
-                                                <th width="10%" class="text-center all">Estado</th>
-                                                <th width="10%" class="text-center all">Acciones</th>
+                                                <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Precio') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Categoria') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Tipo') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Nº Contactos') }}</th>
+                                                <th width="10%" class="text-center none">{{ __('Servicios Incluidos') }}</th>
+                                                <th width="10%" class="text-center none">{{ __('Fecha Creación') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>

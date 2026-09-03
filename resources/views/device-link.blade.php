@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GIJAC - Conexión de Dispositivo</title>
+    <title>{{ __('GIJAC - Conexión de Dispositivo') }}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -132,35 +132,27 @@
 <body>
     <div class="card">
         <div class="logo">📱</div>
-        <h1>Vincular Dispositivo</h1>
-        <p>Se ha detectado un intento de conexión desde otro dispositivo.</p>
+        <h1>{{ __('Vincular Dispositivo') }}</h1>
+        <p>{{ __('Se ha detectado un intento de conexión desde otro dispositivo.') }}</p>
 
         <div class="status" id="status-waiting">
-            <span class="dot"></span>
-            Esperando conexión de la app...
-        </div>
+            <span class="dot"></span>{{ __('Esperando conexión de la app...') }}</div>
 
-        <div class="status hidden" id="status-success" style="background: #E8F5E9;">
-            ✅ Dispositivo conectado exitosamente
-        </div>
+        <div class="status hidden" id="status-success" style="background: #E8F5E9;">{{ __('✅ Dispositivo conectado exitosamente') }}</div>
 
-        <a href="https://play.google.com/store/apps/details?id=com.example.gmb" class="btn btn-primary" id="btn-play">
-            📲 Abrir App (Android)
-        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.example.gmb" class="btn btn-primary" id="btn-play">{{ __('📲 Abrir App (Android)') }}</a>
 
-        <a href="https://apps.apple.com/app/gijac/id1234567890" class="btn btn-secondary hidden" id="btn-ios">
-            📲 Abrir App (iOS)
-        </a>
+        <a href="https://apps.apple.com/app/gijac/id1234567890" class="btn btn-secondary hidden" id="btn-ios">{{ __('📲 Abrir App (iOS)') }}</a>
 
         <div class="divider">o</div>
 
         <div class="instructions">
-            <h3>📋 Instrucciones:</h3>
+            <h3>{{ __('📋 Instrucciones:') }}</h3>
             <ol>
-                <li>Abre la app <strong>GIJAC</strong> en tu celular</li>
-                <li>Ve a <strong>Perfil → Escanear QR</strong></li>
-                <li>Apunta la cámara al código QR</li>
-                <li>¡Listo! Tu dispositivo quedará vinculado</li>
+                <li>{{ __('Abre la app') }}<strong>{{ __('GIJAC') }}</strong>{{ __('en tu celular') }}</li>
+                <li>{{ __('Ve a') }}<strong>{{ __('Perfil → Escanear QR') }}</strong></li>
+                <li>{{ __('Apunta la cámara al código QR') }}</li>
+                <li>{{ __('¡Listo! Tu dispositivo quedará vinculado') }}</li>
             </ol>
         </div>
     </div>
@@ -201,8 +193,8 @@
         window.addEventListener('load', tryOpenApp);
 
         // También intentar cuando el usuario haga click en los botones
-        document.querySelectorAll('.btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.btn').forEach(btn =>{{ __('{
+            btn.addEventListener(\'click\', (e) => {
                 e.preventDefault();
                 window.location.href = deepLink;
 
@@ -211,7 +203,6 @@
                     window.location.href = btn.href;
                 }, 2500);
             });
-        });
-    </script>
+        });') }</script>
 </body>
 </html>

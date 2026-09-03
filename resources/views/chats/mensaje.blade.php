@@ -1,5 +1,4 @@
-@foreach ($mensajesAgrupados as $index => $grupos)
-    <li class="common-message is-time">
+@foreach ($mensajesAgrupados as $index =>{{ __('$grupos)') }}<li class="common-message is-time">
         <p class="common-message-content">
             {{ $index }}
         </p>
@@ -10,7 +9,7 @@
             {{-- AUDIO --}}
             @if ($mensaje['type'] == \App\Models\Mensaje::AUDIO)
                 <div class="audio-player received mb-1" data-audio-id="{{ $mensaje['wa_message_id'] }}">
-                    <button class="play-button" aria-label="Reproducir audio">
+                    <button class="play-button" aria-label="{{ __('Reproducir audio') }}">
                         <i class="fas fa-play"></i>
                     </button>
                     <div class="progress-container">
@@ -39,8 +38,8 @@
                             </div>
                         </div>
                         <div class="time-display">
-                            <span class="time-current">0:00</span>
-                            <span class="time-total">0:00</span>
+                            <span class="time-current">{{ __('0:00') }}</span>
+                            <span class="time-total">{{ __('0:00') }}</span>
                         </div>
                     </div>
                     <div class="audio-icon">
@@ -61,7 +60,7 @@
                                 style="border-radius: 1rem;" class="mb-2">
                         @else
                             <img src="{{ $mensaje['body'] }}"
-                                alt="imagen"
+                                alt="{{ __('imagen') }}"
                                 style="border-radius: 1rem;" class="mb-2">
                         @endif
 
@@ -109,9 +108,7 @@
                                 <a href="javascript:;" style="background-color: #e3e3e3; padding: 1rem;
                                     margin-bottom: 2rem; border-radius: 0.2rem; margin-top: 2rem;"
                                     class="text-dark fs-3 btnVerFormulario" data-mensaje="{{ $mensaje['wa_message_id'] }}">
-                                    <i class="fs-1 las la-file-alt text-primary"></i>
-                                    Ver Respuesta Formulario
-                                </a>
+                                    <i class="fs-1 las la-file-alt text-primary"></i>{{ __('Ver Respuesta Formulario') }}</a>
                             </div>
                         @else
                             <p class="common-message-content">{{ $mensaje['body'] }}</p>
@@ -136,13 +133,11 @@
                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-auto min-w-200 mw-300px" data-kt-menu="true">
                             <div class="menu-item px-3">
                                 <a href="javascript:;" class="menu-link px-3 btnVerError" data-mensaje="{{ $mensaje['wa_message_id'] }}">
-                                    <i class="las la-exclamation text-danger me-1"></i>
-                                    Ver Error
-                                </a>
+                                    <i class="las la-exclamation text-danger me-1"></i>{{ __('Ver Error') }}</a>
                             </div>
                         </div>
                     @endif
-                    <button class="play-button" aria-label="Reproducir audio">
+                    <button class="play-button" aria-label="{{ __('Reproducir audio') }}">
                         <i class="fas fa-play"></i>
                     </button>
                     <div class="progress-container">
@@ -171,8 +166,8 @@
                             </div>
                         </div>
                         <div class="time-display">
-                            <span class="time-current">0:00</span>
-                            <span class="time-total">0:00</span>
+                            <span class="time-current">{{ __('0:00') }}</span>
+                            <span class="time-total">{{ __('0:00') }}</span>
                         </div>
                     </div>
                     <div class="audio-icon">
@@ -208,9 +203,7 @@
                         <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-auto min-w-200 mw-300px" data-kt-menu="true">
                             <div class="menu-item px-3">
                                 <a href="javascript:;" class="menu-link px-3 btnVerError" data-mensaje="{{ $mensaje['wa_message_id'] }}">
-                                    <i class="las la-exclamation text-danger me-1"></i>
-                                    Ver Error
-                                </a>
+                                    <i class="las la-exclamation text-danger me-1"></i>{{ __('Ver Error') }}</a>
                             </div>
                         </div>
                     @endif
@@ -223,10 +216,10 @@
                                 style="border-radius: 1rem;" class="mb-2">
                         @elseif (!empty($mensaje['metadata']['header']))
                             <img src="{{ $mensaje['metadata']['header'] }}"
-                                alt="imagen" style="border-radius: 1rem;" class="mb-2">
+                                alt="{{ __('imagen') }}" style="border-radius: 1rem;" class="mb-2">
                         @else
                             <img src="{{ $mensaje['body'] }}"
-                                alt="imagen"
+                                alt="{{ __('imagen') }}"
                                 style="border-radius: 1rem;" class="mb-2">
                         @endif
                     @elseif ($mensaje['type'] == \App\Models\Mensaje::VIDEO || ($mensaje['type'] == \App\Models\Mensaje::PLANTILLA && $mensaje['metadata']['tipo_header'] == \App\Models\Mensaje::VIDEO))

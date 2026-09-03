@@ -12,31 +12,23 @@
     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px" data-kt-menu="true">
         @if ($puede_eliminar || $puede_editar || $puede_crear || $puede_listado)
             <div class="menu-item px-3">
-                <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">
-                    Acciones
-                </div>
+                <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">{{ __('Acciones') }}</div>
             </div>
             <div class="separator mb-3 opacity-75"></div>
             <div class="menu-item px-3">
                 <a href="{{ route('campanas.show', ['campana' => $model->id]) }}" class="menu-link fs-5 px-3">
-                    <i class="far fa-eye text-info fs-3 m-2"></i>
-                    Ver Reporte
-                </a>
+                    <i class="far fa-eye text-info fs-3 m-2"></i>{{ __('Ver Reporte') }}</a>
             </div>
             <div class="menu-item px-3">
                 <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modalDetalleCampana" class="menu-link fs-5 px-3 btnDetalleEnvio" data-campana="{{$model->id}}">
-                    <i class="fab fa-whatsapp text-primary fs-3 m-2"></i>
-                    Enviados
-                </a>
+                    <i class="fab fa-whatsapp text-primary fs-3 m-2"></i>{{ __('Enviados') }}</a>
             </div>
 
             @if ($puede_editar)
                 @if (!$estado_eliminado && !$estado_enviado)
                     <div class="menu-item px-3">
                         <a href="javascript:;" class="menu-link fs-5 px-3 btnEditar" data-campana="{{$model->id}}">
-                            <i class="fas fa-pencil-alt text-warning fs-3 m-2"></i>
-                            Editar
-                        </a>
+                            <i class="fas fa-pencil-alt text-warning fs-3 m-2"></i>{{ __('Editar') }}</a>
                     </div>
                 @endif
             @endif
@@ -44,9 +36,7 @@
             @if ($puede_crear)
                 <div class="menu-item px-3">
                     <a href="javascript:;" class="menu-link fs-5 px-3 btnReenviar" data-campana="{{$model->id}}">
-                        <i class="fas fa-undo text-success fs-3 m-2"></i>
-                        Reenviar
-                    </a>
+                        <i class="fas fa-undo text-success fs-3 m-2"></i>{{ __('Reenviar') }}</a>
                 </div>
             @endif
 
@@ -54,9 +44,7 @@
                 @if (!$estado_eliminado && !$estado_enviado)
                     <div class="menu-item px-3">
                         <a href="javascript:;" class="menu-link fs-5 px-3 btnEliminar" data-campana="{{$model->id}}">
-                            <i class="fas fa-trash text-danger fs-3 m-2"></i>
-                            Eliminar
-                        </a>
+                            <i class="fas fa-trash text-danger fs-3 m-2"></i>{{ __('Eliminar') }}</a>
                     </div>
                 @endif
             @endif

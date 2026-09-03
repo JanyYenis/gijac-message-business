@@ -2,7 +2,7 @@
     <!--begin::More channels-->
     <div class="card-rounded bg-primary bg-opacity-5 p-10 mb-15">
         <!--begin::Title-->
-        <h2 class="text-gray-900 fw-bold mb-11">Otros canales</h2>
+        <h2 class="text-gray-900 fw-bold mb-11">{{ __('Otros canales') }}</h2>
         <!--end::Title-->
 
         @if (servicioPlan('soporte.vip.whatsapp'))
@@ -14,16 +14,16 @@
 
                 <!--begin::Info-->
                 <div class="d-flex flex-column">
-                    <h5 class="text-gray-800 fw-bold">Soporte por Whatsapp</h5>
+                    <h5 class="text-gray-800 fw-bold">{{ __('Soporte por Whatsapp') }}</h5>
 
                     <!--begin::Section-->
                     <div class="fw-semibold">
                         <!--begin::Desc-->
-                        <span class="text-muted">Atencion directa</span>
+                        <span class="text-muted">{{ __('Atencion directa') }}</span>
                         <!--end::Desc-->
 
                         <!--begin::Link-->
-                        <a href="https://wa.me/573171789584" class="link-primary">573171789584</a>
+                        <a href="https://wa.me/573171789584" class="link-primary">{{ __('573171789584') }}</a>
                         <!--end::Link-->
                     </div>
                     <!--end::Section-->
@@ -40,16 +40,16 @@
 
             <!--begin::Info-->
             <div class="d-flex flex-column">
-                <h5 class="text-gray-800 fw-bold">Resumen del proyecto</h5>
+                <h5 class="text-gray-800 fw-bold">{{ __('Resumen del proyecto') }}</h5>
 
                 <!--begin::Section-->
                 <div class="fw-semibold">
                     <!--begin::Desc-->
-                    <span class="text-muted">Consulta nuestra</span>
+                    <span class="text-muted">{{ __('Consulta nuestra') }}</span>
                     <!--end::Desc-->
 
                     <!--begin::Link-->
-                    <a href="#" class="link-primary">Política de Soporte</a>
+                    <a href="#" class="link-primary">{{ __('Política de Soporte') }}</a>
                     <!--end::Link-->
                 </div>
                 <!--end::Section-->
@@ -65,12 +65,12 @@
 
             <!--begin::Info-->
             <div class="d-flex flex-column">
-                <h5 class="text-gray-800 fw-bold">¿Más para discutir?</h5>
+                <h5 class="text-gray-800 fw-bold">{{ __('¿Más para discutir?') }}</h5>
 
                 <!--begin::Section-->
                 <div class="fw-semibold">
                     <!--begin::Desc-->
-                    <span class="text-muted">Envíenos un correo electrónico a</span>
+                    <span class="text-muted">{{ __('Envíenos un correo electrónico a') }}</span>
                     <!--end::Desc-->
 
                     <!--begin::Link-->
@@ -90,17 +90,16 @@
 
             <!--begin::Info-->
             <div class="d-flex flex-column">
-                <h5 class="text-gray-800 fw-bold">Últimas noticias</h5>
+                <h5 class="text-gray-800 fw-bold">{{ __('Últimas noticias') }}</h5>
 
                 <!--begin::Section-->
                 <div class="fw-semibold">
                     <!--begin::Desc-->
-                    <span class="text-muted">Síguenos en</span>
+                    <span class="text-muted">{{ __('Síguenos en') }}</span>
                     <!--end::Desc-->
 
                     <!--begin::Link-->
-                    <a href="https://www.facebook.com/share/1AgqGKJ5Dj/" target="_blank" class="link-primary">GIJAC WEB
-                        Facebook</a>
+                    <a href="https://www.facebook.com/share/1AgqGKJ5Dj/" target="_blank" class="link-primary">{{ __('GIJAC WEB Facebook') }}</a>
                     <!--end::Link-->
                 </div>
                 <!--end::Section-->

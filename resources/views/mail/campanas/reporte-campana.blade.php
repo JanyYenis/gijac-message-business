@@ -3,21 +3,21 @@
 @section('titulo', 'Reporte de predicción de campaña')
 
 @section('contenido')
-    <p>Hola,</p>
+    <p>{{ __('Hola,') }}</p>
 
-    <p>Tu campaña ya fue analizada. Estos son los datos principales:</p>
+    <p>{{ __('Tu campaña ya fue analizada. Estos son los datos principales:') }}</p>
 
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin: 16px 0;">
         <tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid #EEEEEE;"><strong>Total de contactos</strong></td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #EEEEEE;"><strong>{{ __('Total de contactos') }}</strong></td>
             <td style="padding: 8px 0; border-bottom: 1px solid #EEEEEE; text-align:right;">{{ $totalContactos }}</td>
         </tr>
         <tr>
-            <td style="padding: 8px 0; border-bottom: 1px solid #EEEEEE;"><strong>Tasa histórica promedio</strong></td>
+            <td style="padding: 8px 0; border-bottom: 1px solid #EEEEEE;"><strong>{{ __('Tasa histórica promedio') }}</strong></td>
             <td style="padding: 8px 0; border-bottom: 1px solid #EEEEEE; text-align:right;">{{ $promedioApertura }}%</td>
         </tr>
         <tr>
-            <td style="padding: 8px 0;"><strong>Nivel de apertura general</strong></td>
+            <td style="padding: 8px 0;"><strong>{{ __('Nivel de apertura general') }}</strong></td>
             <td style="padding: 8px 0; text-align:right;">
                 <span style="background-color:
                     @if($nivelGeneral === 'Alta') #D9F2E3
@@ -32,10 +32,10 @@
     </table>
 
     @if($explicacion)
-        <p><strong>Análisis IA:</strong> {{ $explicacion }}</p>
+        <p><strong>{{ __('Análisis IA:') }}</strong> {{ $explicacion }}</p>
     @endif
 
-    <p>Adjunto encontrarás el Excel con el detalle completo por contacto, incluyendo probabilidad de apertura, nivel de confianza y mejor hora de envío.</p>
+    <p>{{ __('Adjunto encontrarás el Excel con el detalle completo por contacto, incluyendo probabilidad de apertura, nivel de confianza y mejor hora de envío.') }}</p>
 @endsection
 
 {{-- Opcional: si tienes un link al panel para ver el reporte online --}}

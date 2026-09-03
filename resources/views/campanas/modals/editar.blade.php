@@ -3,7 +3,7 @@
     <div class="col-lg-7">
         <div class="form-floating row mb-7">
             <select name="etiquetas" id="selectEtiquetaEditar" class="form-control" data-control="select2"
-                data-placeholder="Etiquetas" data-allow-clear="true" required
+                data-placeholder="{{ __('Etiquetas') }}" data-allow-clear="true" required
                 data-dropdown-parent="body">
                 <option></option>
                 @foreach ($etiquetas as $etiqueta)
@@ -12,17 +12,17 @@
             </select>
         </div>
         <div class="row mb-7">
-            <select name="categoria" id="selectCategoriaEditar" class="form-control" data-control="select2" data-placeholder="Categoria" data-allow-clear="true" data-hide-search="true" required>
+            <select name="categoria" id="selectCategoriaEditar" class="form-control" data-control="select2" data-placeholder="{{ __('Categoria') }}" data-allow-clear="true" data-hide-search="true" required>
                 <option></option>
-                <option value="Info" {{"Info" == $campana->categoria ? 'selected' : ''}}>Información</option>
-                <option value="Invi" {{"Invi" == $campana->categoria ? 'selected' : ''}}>Invitación</option>
-                <option value="Podcast" {{"Podcast" == $campana->categoria ? 'selected' : ''}}>Podcast</option>
-                <option value="Formulario" {{"Formulario" == $campana->categoria ? 'selected' : ''}}>Formulario</option>
+                <option value="{{ __('Info') }}" {{"Info" == $campana->categoria ? 'selected' : ''}}>Información</option>
+                <option value="{{ __('Invi') }}" {{"Invi" == $campana->categoria ? 'selected' : ''}}>Invitación</option>
+                <option value="{{ __('Podcast') }}" {{"Podcast" == $campana->categoria ? 'selected' : ''}}>{{ __('Podcast') }}</option>
+                <option value="{{ __('Formulario') }}" {{"Formulario" == $campana->categoria ? 'selected' : ''}}>{{ __('Formulario') }}</option>
             </select>
         </div>
         <div class="row mb-7">
             <select name="id_plantilla" id="selectPlantillaEditar" class="form-control" data-control="select2"
-                data-placeholder="Plantilla" required data-dropdown-parent="body" data-allow-clear="true">
+                data-placeholder="{{ __('Plantilla') }}" required data-dropdown-parent="body" data-allow-clear="true">
                 <option></option>
                 @foreach ($plantillas as $plantilla)
                     <option value="{{$plantilla['id']}}" {{$plantilla['id'] == $campana->id_plantilla ? 'selected' : ''}}>{{$plantilla['name']." - ".$plantilla['BODY']['text']}}</option>
@@ -36,20 +36,18 @@
             <div class="col-lg-4 col-md-4">
                 <div class="form-check form-switch form-check-custom form-check-solid">
                     <input class="form-check-input" type="checkbox" value="" id="checkUsarRecursoEditar"/>
-                    <label class="form-check-label" for="checkUsarRecursoEditar">
-                        Usar recurso de META
-                    </label>
+                    <label class="form-check-label" for="checkUsarRecursoEditar">{{ __('Usar recurso de META') }}</label>
                 </div>
             </div>
         </div>
         <div class="separator separator-dashed separator-content border-primary my-15 d-none seccionEncabezadoEditar">
-            <span class="h4 text-primary">Variable encabezado</span>
+            <span class="h4 text-primary">{{ __('Variable encabezado') }}</span>
         </div>
         <div class="row mb-3 d-none seccionEncabezadoEditar">
-            <input type="text" name="header_text" placeholder="Ingrese valor de variable del encabezado" class="form-control">
+            <input type="text" name="header_text" placeholder="{{ __('Ingrese valor de variable del encabezado') }}" class="form-control">
         </div>
         <div class="separator separator-dashed separator-content border-primary my-15 d-none" id="divTituloVariableEditar">
-            <span class="h4 text-primary">Variables del contenido</span>
+            <span class="h4 text-primary">{{ __('Variables del contenido') }}</span>
         </div>
         <div class="row mb-7" id="divVariablesEditar">
         </div>
@@ -59,23 +57,19 @@
             <div class="col-lg-12 mb-7">
                 <div class="form-check form-check-inline col-lg-5">
                     <input class="form-check-input" type="radio" name="estado" value="1" id="accionInmediatamenteEditar">
-                    <label class="form-check-label" for="accionInmediatamenteEditar">
-                        Inmediatamente
-                    </label>
+                    <label class="form-check-label" for="accionInmediatamenteEditar">{{ __('Inmediatamente') }}</label>
                 </div>
                 <div class="form-check form-check-inline col-lg-5">
                     <input class="form-check-input" type="radio" name="estado" value="2" id="accionProgramarEditar" checked>
-                    <label class="form-check-label" for="accionProgramarEditar">
-                        Programar
-                    </label>
+                    <label class="form-check-label" for="accionProgramarEditar">{{ __('Programar') }}</label>
                 </div>
             </div>
             <div class="row" id="fechasEditar">
                 <div class="col-lg-3 offset-lg-5">
-                    <input type="text" placeholder="DD/MM/AAA" value="{{date("Y-m-d", strtotime($campana->fecha_envio))}}" name="fecha" id="fechaProgramacionEditar" class="form-control">
+                    <input type="text" placeholder="{{ __('DD/MM/AAA') }}" value="{{date("Y-m-d", strtotime($campana->fecha_envio))}}" name="fecha" id="fechaProgramacionEditar" class="form-control">
                 </div>
                 <div class="col-lg-2">
-                    <input type="text" placeholder="00:00" id="horaProgramacionEditar" value="{{date("H:i:s", strtotime($campana->fecha_envio))}}" name="hora" class="form-control">
+                    <input type="text" placeholder="{{ __('00:00') }}" id="horaProgramacionEditar" value="{{date("H:i:s", strtotime($campana->fecha_envio))}}" name="hora" class="form-control">
                 </div>
             </div>
         </div>
@@ -90,10 +84,10 @@
                                         <input class="form-check-input checkSeleccionarTodos" type="checkbox" value="" id="seleccionarTodosEditar" checked/>
                                     </div>
                                 </th>
-                                <th width="10%" class="text-center all">Nombre</th>
-                                <th width="10%" class="text-center all">Etiqueta</th>
-                                <th width="10%" class="text-center all">Telefono</th>
-                                <th width="10%" class="text-center all">Identificación</th>
+                                <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                <th width="10%" class="text-center all">{{ __('Etiqueta') }}</th>
+                                <th width="10%" class="text-center all">{{ __('Telefono') }}</th>
+                                <th width="10%" class="text-center all">{{ __('Identificación') }}</th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -103,7 +97,7 @@
         </div>
     </div>
     <div class="col-lg-5">
-        <!-- <h1>Hola</h1> -->
+        <!-- <h1>{{ __('Hola') }}</h1> -->
         <div class="mobile-preview-franco" style="height: 566px; width: 281px; margin: 0px auto; z-index: 5;
             position: relative;">
             <div id="smartphone_id" class="content" style="overflow: auto;
@@ -133,11 +127,11 @@
                                 <div class="chat-container">
                                     <div class="user-bar">
                                         <div class="avatar">
-                                            <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyAgUFVCTElDICctLy9XM0MvL0RURCBTVkcgMS4xLy9FTicgICdodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQnPgo8c3ZnIHdpZHRoPSI0MDFweCIgaGVpZ2h0PSI0MDFweCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAzMTIuODA5IDAgNDAxIDQwMSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIzMTIuODA5IDAgNDAxIDQwMSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yMjMgMCAwIDEuMjIzIC00NjcuNSAtODQzLjQ0KSI+Cgk8cmVjdCB4PSI2MDEuNDUiIHk9IjY1My4wNyIgd2lkdGg9IjQwMSIgaGVpZ2h0PSI0MDEiIGZpbGw9IiNFNEU2RTciLz4KCTxwYXRoIGQ9Im04MDIuMzggOTA4LjA4Yy04NC41MTUgMC0xNTMuNTIgNDguMTg1LTE1Ny4zOCAxMDguNjJoMzE0Ljc5Yy0zLjg3LTYwLjQ0LTcyLjktMTA4LjYyLTE1Ny40MS0xMDguNjJ6IiBmaWxsPSIjRkZGRkZGIi8+Cgk8cGF0aCBkPSJtODgxLjM3IDgxOC44NmMwIDQ2Ljc0Ni0zNS4xMDYgODQuNjQxLTc4LjQxIDg0LjY0MXMtNzguNDEtMzcuODk1LTc4LjQxLTg0LjY0MSAzNS4xMDYtODQuNjQxIDc4LjQxLTg0LjY0MWM0My4zMSAwIDc4LjQxIDM3LjkgNzguNDEgODQuNjR6IiBmaWxsPSIjRkZGRkZGIi8+CjwvZz4KPC9zdmc+Cg==" alt="Avatar">
+                                            <img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIHN2ZyAgUFVCTElDICctLy9XM0MvL0RURCBTVkcgMS4xLy9FTicgICdodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQnPgo8c3ZnIHdpZHRoPSI0MDFweCIgaGVpZ2h0PSI0MDFweCIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAzMTIuODA5IDAgNDAxIDQwMSIgdmVyc2lvbj0iMS4xIiB2aWV3Qm94PSIzMTIuODA5IDAgNDAxIDQwMSIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgdHJhbnNmb3JtPSJtYXRyaXgoMS4yMjMgMCAwIDEuMjIzIC00NjcuNSAtODQzLjQ0KSI+Cgk8cmVjdCB4PSI2MDEuNDUiIHk9IjY1My4wNyIgd2lkdGg9IjQwMSIgaGVpZ2h0PSI0MDEiIGZpbGw9IiNFNEU2RTciLz4KCTxwYXRoIGQ9Im04MDIuMzggOTA4LjA4Yy04NC41MTUgMC0xNTMuNTIgNDguMTg1LTE1Ny4zOCAxMDguNjJoMzE0Ljc5Yy0zLjg3LTYwLjQ0LTcyLjktMTA4LjYyLTE1Ny40MS0xMDguNjJ6IiBmaWxsPSIjRkZGRkZGIi8+Cgk8cGF0aCBkPSJtODgxLjM3IDgxOC44NmMwIDQ2Ljc0Ni0zNS4xMDYgODQuNjQxLTc4LjQxIDg0LjY0MXMtNzguNDEtMzcuODk1LTc4LjQxLTg0LjY0MSAzNS4xMDYtODQuNjQxIDc4LjQxLTg0LjY0MWM0My4zMSAwIDc4LjQxIDM3LjkgNzguNDEgODQuNjR6IiBmaWxsPSIjRkZGRkZGIi8+CjwvZz4KPC9zdmc+Cg==" alt="{{ __('Avatar') }}">
                                         </div>
                                         <div class="name">
                                             <span>+{{$numeroTel}}</span>
-                                            <span class="status">En linea</span>
+                                            <span class="status">{{ __('En linea') }}</span>
                                         </div>
                                         <div class="actions more">
                                             <i class="fas fa-ellipsis-v text-white fs-1"></i>
@@ -160,7 +154,7 @@
                                                 <div class="image-container videoCampanaEditar {{$campana?->tipo == 'Video' ? '' : 'd-none'}}">
                                                     <video src="{{ $campana?->contenido_multimedia }}" controls class="videoCampana1Editar" style="max-width: 100%; min-width: 100%;"></video>
                                                 </div>
-                                                <span class="contenidocampanaEditar">Mensaje</span>
+                                                <span class="contenidocampanaEditar">{{ __('Mensaje') }}</span>
                                                 <span class="metadata">
                                                     <span class="time"></span>
                                                     <span class="tick">
@@ -179,7 +173,7 @@
                                                         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.153 11.603c.795 0 1.44-.88 1.44-1.962s-.645-1.96-1.44-1.96c-.795 0-1.44.88-1.44 1.96s.645 1.965 1.44 1.965zM5.95 12.965c-.027-.307-.132 5.218 6.062 5.55 6.066-.25 6.066-5.55 6.066-5.55-6.078 1.416-12.13 0-12.13 0zm11.362 1.108s-.67 1.96-5.05 1.96c-3.506 0-5.39-1.165-5.608-1.96 0 0 5.912 1.055 10.658 0zM11.804 1.01C5.61 1.01.978 6.034.978 12.23s4.826 10.76 11.02 10.76S23.02 18.424 23.02 12.23c0-6.197-5.02-11.22-11.216-11.22zM12 21.355c-5.273 0-9.38-3.886-9.38-9.16 0-5.272 3.94-9.547 9.214-9.547a9.548 9.548 0 0 1 9.548 9.548c0 5.272-4.11 9.16-9.382 9.16zm3.108-9.75c.795 0 1.44-.88 1.44-1.963s-.645-1.96-1.44-1.96c-.795 0-1.44.878-1.44 1.96s.645 1.963 1.44 1.963z" fill="#7d8489"></path>
                                                     </svg>
                                                 </div>
-                                                <input name="input" placeholder="Mensaje" disabled="disabled" class="input-msg">
+                                                <input name="input" placeholder="{{ __('Mensaje') }}" disabled="disabled" class="input-msg">
                                                 <div class="photo">
                                                     <i class="fas fa-camera"></i>
                                                 </div>
@@ -211,19 +205,19 @@
     <div class="stepper">
         <div class="stepper-item active" data-step="1">
             <div class="stepper-number">1</div>
-            <div class="stepper-text">Configuración</div>
+            <div class="stepper-text">{{ __('Configuración') }}</div>
         </div>
         <div class="stepper-item" data-step="2">
             <div class="stepper-number">2</div>
-            <div class="stepper-text">Contenido</div>
+            <div class="stepper-text">{{ __('Contenido') }}</div>
         </div>
         <div class="stepper-item" data-step="3">
             <div class="stepper-number">3</div>
-            <div class="stepper-text">Destinatarios</div>
+            <div class="stepper-text">{{ __('Destinatarios') }}</div>
         </div>
         <div class="stepper-item" data-step="4">
             <div class="stepper-number">4</div>
-            <div class="stepper-text">Confirmar</div>
+            <div class="stepper-text">{{ __('Confirmar') }}</div>
         </div>
     </div>
 
@@ -235,22 +229,19 @@
                 <div class="card campaign-card">
                     <div class="card-header card-header-custom">
                         <h5 class="text-white">
-                            <i class="bi bi-gear-fill text-white fs-2"></i> Datos Generales
-                        </h5>
+                            <i class="bi bi-gear-fill text-white fs-2"></i>{{ __('Datos Generales') }}</h5>
                     </div>
                     <div class="card-body p-4">
                         <div class="row g-3">
                             <div class="col-md-8">
-                                <label for="campaignNameEdit" class="form-label required fw-semibold">
-                                    Nombre de la Campaña
-                                </label>
+                                <label for="campaignNameEdit" class="form-label required fw-semibold">{{ __('Nombre de la Campaña') }}</label>
                                 <input type="text" required name="nombre" value="{{ $campana?->nombre ?? '' }}" class="form-control" id="campaignNameEdit"
-                                    placeholder="Ej: Promoción Black Friday {{ date('Y') }}">
+                                    placeholder="{{ __('Ej: Promoción Black Friday {{ date(\'Y') }}') }}">
                             </div>
                             <div class="col-md-4">
-                                <label for="selectCategoriaEditar" class="form-label fw-semibold required">Categoría</label>
+                                <label for="selectCategoriaEditar" class="form-label fw-semibold required">{{ __('Categoría') }}</label>
                                 <select class="form-select" name="categoria" data-control="select2"
-                                    data-dropdown-parent="body" data-placeholder="Categoría" data-allow-clear="true"
+                                    data-dropdown-parent="body" data-placeholder="{{ __('Categoría') }}" data-allow-clear="true"
                                     required id="selectCategoriaEditar" data-hide-search="true">
                                     <option value=""></option>
                                     @foreach ($categorias as $item)
@@ -259,10 +250,10 @@
                                 </select>
                             </div>
                             <div class="col-12">
-                                <label for="campaignDescriptionEdit" class="form-label fw-semibold">Descripción
-                                    (Opcional)</label>
+                                <label for="campaignDescriptionEdit" class="form-label fw-semibold">{{ __('Descripción
+                                    (Opcional)') }</label>
                                 <textarea class="form-control" id="campaignDescriptionEdit" name="descripcion" rows="3"
-                                    placeholder="Describe brevemente el objetivo de esta campaña...">{{$campana?->descripcion ?? ''}}</textarea>
+                                    placeholder="{{ __('Describe brevemente el objetivo de esta campaña...') }}">{{$campana?->descripcion ?? ''}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -270,8 +261,7 @@
 
                 <div class="card campaign-card">
                     <div class="card-header card-header-custom">
-                        <h5 class="text-white"><i class="bi bi-clock-fill fs-2 text-white"></i> Configuración de Envío
-                        </h5>
+                        <h5 class="text-white"><i class="bi bi-clock-fill fs-2 text-white"></i>{{ __('Configuración de Envío') }}</h5>
                     </div>
                     <div class="card-body p-4">
                         <div class="row g-3">
@@ -280,27 +270,24 @@
                                     <input class="form-check-input" type="radio" name="estado" id="sendNowEdit"
                                         value="1">
                                     <label class="form-check-label fw-semibold" for="sendNowEdit">
-                                        <i class="las la-paper-plane me-2 fs-3 text-success"></i>Enviar
-                                        Ahora
-                                    </label>
+                                        <i class="las la-paper-plane me-2 fs-3 text-success"></i>{{ __('Enviar Ahora') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="estado" id="sendScheduledEdit"
                                         value="2" checked>
                                     <label class="form-check-label fw-semibold" for="sendScheduledEdit">
-                                        <i class="bi bi-calendar-event me-2 text-warning"></i>Programar
-                                        Envío
-                                    </label>
+                                        <i class="bi bi-calendar-event me-2 text-warning"></i>{{ __('Programar
+                                        Envío') }</label>
                                 </div>
                             </div>
                             <div class="col-md-6" id="scheduledFieldsEdit">
-                                <label for="scheduleDateEdit" class="form-label fw-semibold">Fecha</label>
-                                <input type="date" placeholder="DD/MM/AAA" value="{{date("Y-m-d", strtotime($campana->fecha_envio))}}" name="fecha" class="form-control"
+                                <label for="scheduleDateEdit" class="form-label fw-semibold">{{ __('Fecha') }}</label>
+                                <input type="date" placeholder="{{ __('DD/MM/AAA') }}" value="{{date("Y-m-d", strtotime($campana->fecha_envio))}}" name="fecha" class="form-control"
                                     id="scheduleDateEdit">
                             </div>
                             <div class="col-md-6" id="scheduledTimeFieldEdit">
-                                <label for="scheduleTimeEdit" class="form-label fw-semibold">Hora</label>
-                                <input type="time" placeholder="00:00" value="{{date("H:i:s", strtotime($campana->fecha_envio))}}" name="hora" class="form-control"
+                                <label for="scheduleTimeEdit" class="form-label fw-semibold">{{ __('Hora') }}</label>
+                                <input type="time" placeholder="{{ __('00:00') }}" value="{{date("H:i:s", strtotime($campana->fecha_envio))}}" name="hora" class="form-control"
                                     id="scheduleTimeEdit">
                             </div>
                         </div>
@@ -313,17 +300,14 @@
                 <div class="card campaign-card">
                     <div class="card-header card-header-custom">
                         <h5 class="text-white">
-                            <i class="bi bi-chat-text-fill fs-2 text-white"></i>
-                            Contenido del Mensaje
-                        </h5>
+                            <i class="bi bi-chat-text-fill fs-2 text-white"></i>{{ __('Contenido del Mensaje') }}</h5>
                     </div>
                     <div class="card-body p-4">
                         <div class="row g-3">
                             <div class="col-12">
-                                <label for="selectPlantillaEditar" class="form-label required fw-semibold">Texto
-                                    del Mensaje</label>
+                                <label for="selectPlantillaEditar" class="form-label required fw-semibold">{{ __('Texto del Mensaje') }}</label>
                                 <select name="id_plantilla" id="selectPlantillaEditar" class="form-control"
-                                    data-control="select2" data-placeholder="Plantilla" required
+                                    data-control="select2" data-placeholder="{{ __('Plantilla') }}" required
                                     data-dropdown-parent="body" data-allow-clear="true">
                                     <option></option>
                                     @foreach ($plantillas as $plantilla)
@@ -342,26 +326,24 @@
                                         <div class="form-check form-switch form-check-custom form-check-solid">
                                             <input class="form-check-input" type="checkbox" value=""
                                                 id="checkUsarRecursoEditar" />
-                                            <label class="form-check-label" for="checkUsarRecursoEditar">
-                                                Usar recurso de META
-                                            </label>
+                                            <label class="form-check-label" for="checkUsarRecursoEditar">{{ __('Usar recurso de META') }}</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div
                                 class="separator separator-dashed separator-content border-primary my-15 d-none seccionEncabezadoEditar">
-                                <span class="h4 text-primary">Variable dinámicas del encabezado</span>
+                                <span class="h4 text-primary">{{ __('Variable dinámicas del encabezado') }}</span>
                             </div>
                             <div class="col-lg-12 col-md-12">
                                 <div class="row mb-3 d-none seccionEncabezadoEditar">
                                     <input type="text" name="header_text"
-                                        placeholder="Ingrese valor de variable del encabezado" class="form-control">
+                                        placeholder="{{ __('Ingrese valor de variable del encabezado') }}" class="form-control">
                                 </div>
                             </div>
                             <div class="separator separator-dashed separator-content border-primary my-15 d-none"
                                 id="divTituloVariableEditar">
-                                <span class="h4 text-primary">Variables dinámicas del contenido</span>
+                                <span class="h4 text-primary">{{ __('Variables dinámicas del contenido') }}</span>
                             </div>
                             <div class="row mb-7" id="divVariablesEditar">
                             </div>
@@ -377,15 +359,13 @@
                 <div class="card campaign-card">
                     <div class="card-header card-header-custom">
                         <h5 class="text-white">
-                            <i class="bi bi-people-fill fs-2 text-white"></i>
-                            Selección de Destinatarios
-                        </h5>
+                            <i class="bi bi-people-fill fs-2 text-white"></i>{{ __('Selección de Destinatarios') }}</h5>
                     </div>
                     <div class="card-body p-4">
                         <div class="row g-3 mb-4">
                             <div class="col-md-12">
                                 <select name="etiquetas" id="selectEtiquetaEditar" class="form-control"
-                                    data-control="select2" data-placeholder="Etiquetas" data-allow-clear="true"
+                                    data-control="select2" data-placeholder="{{ __('Etiquetas') }}" data-allow-clear="true"
                                     required data-dropdown-parent="body">
                                     <option></option>
                                     @foreach ($etiquetas as $etiqueta)
@@ -395,8 +375,7 @@
                             </div>
                             {{-- <div class="col-md-3">
                                                     <button class="btn btn-secondary-custom w-100">
-                                                        <i class="bi bi-funnel-fill me-2"></i>Filtros Avanzados
-                                                    </button>
+                                                        <i class="bi bi-funnel-fill me-2"></i>{{ __('Filtros Avanzados') }}</button>
                                                 </div> --}}
                         </div>
 
@@ -417,10 +396,10 @@
                                                             checked/>
                                                     </div>
                                                 </th>
-                                                <th width="10%" class="text-center all">Contacto</th>
-                                                <th width="10%" class="text-center all">Telefono</th>
-                                                <th width="10%" class="text-center all">Etiqueta</th>
-                                                <th width="10%" class="text-center all">Última Interacción</th>
+                                                <th width="10%" class="text-center all">{{ __('Contacto') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Telefono') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Etiqueta') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Última Interacción') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -437,31 +416,29 @@
                 <div class="card campaign-card">
                     <div class="card-header card-header-custom">
                         <h5 class="text-white">
-                            <i class="bi bi-check-circle-fill fs-2 text-white"></i>
-                            Resumen de la Campaña
-                        </h5>
+                            <i class="bi bi-check-circle-fill fs-2 text-white"></i>{{ __('Resumen de la Campaña') }}</h5>
                     </div>
                     <div class="card-body p-4">
                         <div class="row g-4">
                             <div class="col-md-6">
-                                <h6 class="fw-bold text-muted mb-3">INFORMACIÓN GENERAL</h6>
-                                <div class="mb-2"><strong>Nombre:</strong> <span id="summaryNameEdit">-</span></div>
-                                <div class="mb-2"><strong>Categoría:</strong> <span id="summaryCategoryEdit">-</span>
+                                <h6 class="fw-bold text-muted mb-3">{{ __('INFORMACIÓN GENERAL') }}</h6>
+                                <div class="mb-2"><strong>{{ __('Nombre:') }}</strong> <span id="summaryNameEdit">-</span></div>
+                                <div class="mb-2"><strong>{{ __('Categoría:') }}</strong> <span id="summaryCategoryEdit">-</span>
                                 </div>
-                                <div class="mb-2"><strong>Tipo de Envío:</strong> <span
+                                <div class="mb-2"><strong>{{ __('Tipo de Envío:') }}</strong> <span
                                         id="summarySendTypeEdit">-</span></div>
                             </div>
                             <div class="col-md-6">
-                                <h6 class="fw-bold text-muted mb-3">DESTINATARIOS</h6>
-                                <div class="mb-2"><strong>Total Seleccionados:</strong> <span
+                                <h6 class="fw-bold text-muted mb-3">{{ __('DESTINATARIOS') }}</h6>
+                                <div class="mb-2"><strong>{{ __('Total Seleccionados:') }}</strong> <span
                                         id="summaryContactsEdit">0</span></div>
-                                <div class="mb-2"><strong>Costo Estimado:</strong> <span
+                                <div class="mb-2"><strong>{{ __('Costo Estimado:') }}</strong> <span
                                         class="text-success fw-bold">$0.00</span></div>
                             </div>
                             <div class="col-12">
-                                <h6 class="fw-bold text-muted mb-3">CONTENIDO</h6>
+                                <h6 class="fw-bold text-muted mb-3">{{ __('CONTENIDO') }}</h6>
                                 <div class="bg-light p-3 rounded" id="summaryMessageEdit">
-                                    <em class="text-muted">El mensaje aparecerá aquí...</em>
+                                    <em class="text-muted">{{ __('El mensaje aparecerá aquí...') }}</em>
                                 </div>
                             </div>
                         </div>
@@ -470,9 +447,8 @@
 
                 <div class="alert alert-info" role="alert">
                     <i class="bi bi-info-circle-fill me-2"></i>
-                    <strong>Importante:</strong> Una vez lanzada la campaña, no podrás modificar el
-                    contenido ni detener el envío.
-                </div>
+                    <strong>{{ __('Importante:') }}</strong>{{ __('Una vez lanzada la campaña, no podrás modificar el
+                    contenido ni detener el envío.') }</div>
             </div>
 
             <!-- Navigation Buttons -->
@@ -480,15 +456,12 @@
                 <button type="button"
                     class="btn btn-outline btn-outline-dashed btn-outline-secondary btn-active-light-secondary"
                     id="prevBtnEdit" style="display: none;">
-                    <i class="bi bi-arrow-left me-2"></i>Anterior
-                </button>
+                    <i class="bi bi-arrow-left me-2"></i>{{ __('Anterior') }}</button>
                 <div class="ms-auto">
-                    <button type="button" class="btn btn-primary-custom text-white" id="nextBtnEdit">
-                        Siguiente <i class="bi bi-arrow-right ms-2"></i>
+                    <button type="button" class="btn btn-primary-custom text-white" id="nextBtnEdit">{{ __('Siguiente') }}<i class="bi bi-arrow-right ms-2"></i>
                     </button>
                     <button type="submit" class="btn btn-secondary-custom" id="launchBtnEdit" style="display: none;">
-                        <i class="bi bi-rocket-takeoff-fill me-2"></i>Actualizar
-                    </button>
+                        <i class="bi bi-rocket-takeoff-fill me-2"></i>{{ __('Actualizar') }}</button>
                 </div>
             </div>
         </div>
@@ -497,16 +470,14 @@
         <div class="col-lg-4">
             <div class="phone-preview">
                 <h6 class="fw-bold mb-3 text-center">
-                    <i class="bi bi-phone-fill fs-2 me-2" style="color: var(--primary-color);"></i>
-                    Vista Previa
-                </h6>
+                    <i class="bi bi-phone-fill fs-2 me-2" style="color: var(--primary-color);"></i>{{ __('Vista Previa') }}</h6>
                 <div class="phone-mockup">
                     <div class="phone-screen">
                         <div class="phone-header">
-                            <div class="contact-avatar">JD</div>
+                            <div class="contact-avatar">{{ __('JD') }}</div>
                             <div class="contact-info">
-                                <h6 class="text-white">Juan Pérez</h6>
-                                <small>en línea</small>
+                                <h6 class="text-white">{{ __('Juan Pérez') }}</h6>
+                                <small>{{ __('en línea') }}</small>
                             </div>
                         </div>
                         <div class="chat-area conversation conversation-container">
@@ -520,9 +491,7 @@
                 </div>
                 <div class="text-center mt-3">
                     <small class="text-muted">
-                        <i class="bi bi-info-circle me-1"></i>
-                        Vista previa aproximada del mensaje
-                    </small>
+                        <i class="bi bi-info-circle me-1"></i>{{ __('Vista previa aproximada del mensaje') }}</small>
                 </div>
             </div>
         </div>

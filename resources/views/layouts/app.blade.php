@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light">
 
 <head>
-    <title>GIJAC MESSAGE BUSINESS</title>
+    <title>{{ __('GIJAC MESSAGE BUSINESS') }}</title>
     <meta charset="utf-8">
 
     <meta name="robots" content="noindex,nofollow">
@@ -1008,8 +1008,7 @@
 
 <body>
     <!--begin::Theme mode setup on page load-->
-    <script>
-        var defaultThemeMode = "light";
+    <script>{{ __('var defaultThemeMode = "light";
         var themeMode;
 
         if (document.documentElement) {
@@ -1028,8 +1027,7 @@
             }
 
             document.documentElement.setAttribute("data-bs-theme", themeMode);
-        }
-    </script>
+        }') }</script>
     <!--end::Theme mode setup on page load-->
     <div class="bg-stage">
         <div class="mesh">
@@ -1063,17 +1061,14 @@
                 <div class="brand-mark">
                     <i class="fa-brands fa-whatsapp"></i>
                 </div>
-                <div class="brand-name">
-                    GIJAC <span>MESSAGE BUSINESS</span>
+                <div class="brand-name">{{ __('GIJAC') }}<span>{{ __('MESSAGE BUSINESS') }}</span>
                 </div>
             </div>
 
             <div>
                 <div class="headline">
-                    <h1>Conecta con tus clientes de forma <em>inteligente</em></h1>
-                    <p>
-                        Gestiona campañas, conversaciones, automatizaciones y agentes de IA desde una sola plataforma.
-                    </p>
+                    <h1>{{ __('Conecta con tus clientes de forma') }}<em>{{ __('inteligente') }}</em></h1>
+                    <p>{{ __('Gestiona campañas, conversaciones, automatizaciones y agentes de IA desde una sola plataforma.') }}</p>
                 </div>
 
                 <div class="dash-wrap" id="dashWrap">
@@ -1086,40 +1081,34 @@
                         <div class="dash-grid">
                             <div class="card-mini">
                                 <h4>
-                                    <i class="fa-brands fa-whatsapp"></i>
-                                    Conversaciones
-                                </h4>
+                                    <i class="fa-brands fa-whatsapp"></i>{{ __('Conversaciones') }}</h4>
                                 <div class="chat-row">
-                                    <div class="avatar">MG</div>
+                                    <div class="avatar">{{ __('MG') }}</div>
                                     <div>
-                                        <div class="who">María G.</div>
-                                        <div class="msg">¿Tienen disponibilidad para hoy?</div>
+                                        <div class="who">{{ __('María G.') }}</div>
+                                        <div class="msg">{{ __('¿Tienen disponibilidad para hoy?') }}</div>
                                     </div>
                                 </div>
                                 <div class="chat-row">
-                                    <div class="avatar" style="background:linear-gradient(135deg,#c084fc,#7c3aed)">
-                                        AI
-                                    </div>
+                                    <div class="avatar" style="background:linear-gradient(135deg,#c084fc,#7c3aed)">{{ __('AI') }}</div>
                                     <div>
-                                        <div class="who">Agente IA</div>
-                                        <div class="msg">Respondiendo automáticamente…</div>
+                                        <div class="who">{{ __('Agente IA') }}</div>
+                                        <div class="msg">{{ __('Respondiendo automáticamente…') }}</div>
                                     </div>
                                 </div>
                                 <div class="chat-row">
-                                    <div class="avatar" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">
-                                        JR
-                                    </div>
+                                    <div class="avatar" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">{{ __('JR') }}</div>
                                     <div>
-                                        <div class="who">Juan R.</div>
-                                        <div class="msg">Perfecto, muchas gracias 🙌</div>
+                                        <div class="who">{{ __('Juan R.') }}</div>
+                                        <div class="msg">{{ __('Perfecto, muchas gracias 🙌') }}</div>
                                     </div>
                                 </div>
                             </div>
                             <div style="display:grid;gap:12px">
                                 <div class="card-mini">
-                                    <h4>Campaña activa</h4>
+                                    <h4>{{ __('Campaña activa') }}</h4>
                                     <div class="metric">
-                                        <b id="metric1">12,847</b>
+                                        <b id="metric1">{{ __('12,847') }}</b>
                                         <span>+18.2%</span>
                                     </div>
                                     <div class="bar">
@@ -1127,7 +1116,7 @@
                                     </div>
                                 </div>
                                 <div class="card-mini">
-                                    <h4>IA · Respuestas</h4>
+                                    <h4>{{ __('IA · Respuestas') }}</h4>
                                     <div class="spark">
                                         <i></i>
                                         <i></i>
@@ -1164,17 +1153,13 @@
 
             <div class="trust">
                 <span>
-                    <i class="fa-solid fa-circle-check"></i> API Oficial de WhatsApp
-                </span>
+                    <i class="fa-solid fa-circle-check"></i>{{ __('API Oficial de WhatsApp') }}</span>
                 <span>
-                    <i class="fa-solid fa-shield-halved"></i> Seguridad Empresarial
-                </span>
+                    <i class="fa-solid fa-shield-halved"></i>{{ __('Seguridad Empresarial') }}</span>
                 <span>
-                    <i class="fa-solid fa-headset"></i> Soporte 24/7
-                </span>
+                    <i class="fa-solid fa-headset"></i>{{ __('Soporte 24/7') }}</span>
                 <span>
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> IA Integrada
-                </span>
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>{{ __('IA Integrada') }}</span>
             </div>
         </section>
 
@@ -1190,43 +1175,42 @@
     <script src="{{ asset('assets/js/scripts.bundle.js') }}"></script>
     <script src="{{ asset('assets/pin-login/jquery.pinlogin.js') }}"></script>
 
-    <script>
-        $(function() {
+    <script>{{ __('$(function() {
             // particles
-            const $p = $('#particles');
-            for (let i = 0; i < 40; i++) {
+            const $p = $(\'#particles\');
+            for (let i = 0; i') }< 40; i++) {
                 const s = Math.random() * 4 + 2;
-                $('<span class="particle"></span>').css({
-                    left: (Math.random() * 100) + '%',
+                $('<span class="particle"></span>{{ __('\') }}.css({
+                    left: (Math.random() * 100) + \'%\',
                     width: s,
                     height: s,
-                    animationDuration: (Math.random() * 14 + 10) + 's',
-                    animationDelay: (Math.random() * 10) + 's',
+                    animationDuration: (Math.random() * 14 + 10) + \'s\',
+                    animationDelay: (Math.random() * 10) + \'s\',
                     opacity: Math.random() * .6 + .2
                 }).appendTo($p);
             }
 
             // Parallax dashboard
-            const $dash = $('#dash'),
-                $wrap = $('#dashWrap');
-            $wrap.on('mousemove', function(e) {
+            const $dash = $(\'#dash\'),
+                $wrap = $(\'#dashWrap\');
+            $wrap.on(\'mousemove\', function(e) {
                 const r = this.getBoundingClientRect();
                 const x = (e.clientX - r.left) / r.width - .5;
                 const y = (e.clientY - r.top) / r.height - .5;
-                $dash.css('transform', `rotateX(${6 - y*10}deg) rotateY(${-8 + x*14}deg) translateY(0)`);
-                $dash.css('animation', 'none');
-            }).on('mouseleave', function() {
-                $dash.css('animation', '');
+                $dash.css(\'transform\', `rotateX(${6 - y*10}deg) rotateY(${-8 + x*14}deg) translateY(0)`);
+                $dash.css(\'animation\', \'none\');
+            }).on(\'mouseleave\', function() {
+                $dash.css(\'animation\', \'\');
             });
 
             // Magnetic buttons
-            $('.magnetic').on('mousemove', function(e) {
+            $(\'.magnetic\').on(\'mousemove\', function(e) {
                 const r = this.getBoundingClientRect();
                 const x = e.clientX - r.left - r.width / 2;
                 const y = e.clientY - r.top - r.height / 2;
-                $(this).css('transform', `translate(${x*.15}px, ${y*.2}px)`);
-            }).on('mouseleave', function() {
-                $(this).css('transform', '');
+                $(this).css(\'transform\', `translate(${x*.15}px, ${y*.2}px)`);
+            }).on(\'mouseleave\', function() {
+                $(this).css(\'transform\', \'\');
             });
 
             // Animate metric counter
@@ -1234,14 +1218,13 @@
             const target = 12847;
             const iv = setInterval(() => {
                 n += Math.ceil((target - n) / 12);
-                $('#metric1').text(n.toLocaleString('es-ES'));
+                $(\'#metric1\').text(n.toLocaleString(\'es-ES\'));
                 if (n >= target) {
-                    $('#metric1').text(target.toLocaleString('es-ES'));
+                    $(\'#metric1\').text(target.toLocaleString(\'es-ES\'));
                     clearInterval(iv);
                 }
             }, 50);
-        });
-    </script>
+        });') }</script>
     @section('js')
     @show
 

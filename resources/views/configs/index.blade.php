@@ -5,17 +5,13 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
             <div>
                 <h1 class="text-white">
-                    <i class="fa-brands fa-facebook"></i>
-                    Configuraciones
-                </h1>
-                <p class="subtitle mb-0">Conectate con tu aplicación de META</p>
+                    <i class="fa-brands fa-facebook"></i>{{ __('Configuraciones') }}</h1>
+                <p class="subtitle mb-0">{{ __('Conectate con tu aplicación de META') }}</p>
             </div>
             <div class="mt-3 mt-md-0">
                 @if (($demo && !$existeConfig) || $plan)
                 <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearConfig">
-                    <i class="fas fa-plus me-2"></i>
-                    Crear Configuración
-                </button>
+                    <i class="fas fa-plus me-2"></i>{{ __('Crear Configuración') }}</button>
                 @endif
             </div>
         </div>
@@ -32,16 +28,16 @@
                                     <thead>
                                         <tr>
                                             <th width="5%" class="text-center all">#</th>
-                                            <th width="10%" class="text-center all">Version</th>
-                                            <th width="10%" class="text-center all">Waba Id</th>
-                                            <th width="10%" class="text-center all">App Id</th>
-                                            <th width="10%" class="text-center none">Phone Number Id</th>
-                                            <th width="10%" class="text-center none">Token</th>
-                                            <th width="10%" class="text-center all">Numero</th>
-                                            <th width="10%" class="text-center all">URL Webhook</th>
-                                            <th width="10%" class="text-center all">Estado</th>
-                                            <th width="10%" class="text-center none">Identificador de verificación</th>
-                                            <th width="10%" class="text-center all">Acciones</th>
+                                            <th width="10%" class="text-center all">{{ __('Version') }}</th>
+                                            <th width="10%" class="text-center all">{{ __('Waba Id') }}</th>
+                                            <th width="10%" class="text-center all">{{ __('App Id') }}</th>
+                                            <th width="10%" class="text-center none">{{ __('Phone Number Id') }}</th>
+                                            <th width="10%" class="text-center none">{{ __('Token') }}</th>
+                                            <th width="10%" class="text-center all">{{ __('Numero') }}</th>
+                                            <th width="10%" class="text-center all">{{ __('URL Webhook') }}</th>
+                                            <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                                            <th width="10%" class="text-center none">{{ __('Identificador de verificación') }}</th>
+                                            <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>

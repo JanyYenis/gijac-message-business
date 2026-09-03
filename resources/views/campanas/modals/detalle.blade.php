@@ -2,9 +2,9 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title text-white mulish">Envios de campañas</h1>
+                <h1 class="modal-title text-white mulish">{{ __('Envios de campañas') }}</h1>
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal"
-                    aria-label="Close">
+                    aria-label="{{ __('Close') }}">
                     <span class="svg-icon svg-icon-2x">
                         <i class="las la-times fs-1 text-white"></i>
                     </span>
@@ -22,11 +22,11 @@
                             <thead>
                                 <tr>
                                     <th width="5%" class="text-center all">#</th>
-                                    <th width="10%" class="text-center all">Contacto</th>
-                                    <th width="10%" class="text-center all">Etiqueta</th>
-                                    <th width="10%" class="text-center all">Abierto</th>
-                                    <th width="10%" class="text-center all">Click (Links)</th>
-                                    <th width="10%" class="text-center all">Acciones</th>
+                                    <th width="10%" class="text-center all">{{ __('Contacto') }}</th>
+                                    <th width="10%" class="text-center all">{{ __('Etiqueta') }}</th>
+                                    <th width="10%" class="text-center all">{{ __('Abierto') }}</th>
+                                    <th width="10%" class="text-center all">{{ __('Click (Links)') }}</th>
+                                    <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -36,7 +36,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
             </div>
         </div>
     </div>

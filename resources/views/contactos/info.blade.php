@@ -272,16 +272,12 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                 <div>
                     <h1 class="text-white">
-                        <i class="fas fa-user-chart"></i>
-                        Comportamiento del Contacto
-                    </h1>
-                    <p class="page-subtitle mb-0">Análisis detallado de interacciones y patrones de comportamiento</p>
+                        <i class="fas fa-user-chart"></i>{{ __('Comportamiento del Contacto') }}</h1>
+                    <p class="page-subtitle mb-0">{{ __('Análisis detallado de interacciones y patrones de comportamiento') }}</p>
                 </div>
                 <div class="mt-3 mt-md-0">
                     <a href="{{ route('contactos.index') }}" type="button" class="btn btn-light">
-                        <i class="fas fa-arrow-left me-2"></i>
-                        Volver
-                    </a>
+                        <i class="fas fa-arrow-left me-2"></i>{{ __('Volver') }}</a>
                 </div>
             </div>
         </div>
@@ -302,43 +298,33 @@
                             </div>
                             <div class="contact-detail">
                                 <i class="fas fa-calendar text-muted"></i>
-                                <span>Registrado el <span id="contactDate">{{ $contacto->created_at }}</span></span>
+                                <span>{{ __('Registrado el') }}<span id="contactDate">{{ $contacto->created_at }}</span></span>
                             </div>
                             <div class="contact-detail">
                                 <i class="fas fa-chart-line text-muted"></i>
-                                <span>Última actividad: <span id="lastActivity">2 días</span></span>
+                                <span>{{ __('Última actividad:') }}<span id="lastActivity">{{ __('2 días') }}</span></span>
                             </div>
                         </div>
                     </div>
                     <div class="mt-3">
                         @if ($contacto->estado == 1)
                             <span class="status-badge status-active" id="contactStatus">
-                                <i class="fas fa-check-circle"></i>
-                                Activo
-                            </span>
+                                <i class="fas fa-check-circle"></i>{{ __('Activo') }}</span>
                         @else
                             <span class="status-badge status-finished" id="contactStatus">
-                                <i class="fas fa-check-circle"></i>
-                                Inactivo
-                            </span>
+                                <i class="fas fa-check-circle"></i>{{ __('Inactivo') }}</span>
                         @endif
                         <div class="mt-2" id="contactTags">
                             <span class="tag-badge" style="background-color: #dc354520; color: #dc3545; border: 1px solid #dc354540;">
-                                <i class="fas fa-tag"></i>
-                                Cliente VIP
-                            </span>
+                                <i class="fas fa-tag"></i>{{ __('Cliente VIP') }}</span>
                             <span class="tag-badge" style="background-color: #28a74520; color: #28a745; border: 1px solid #28a74540;">
-                                <i class="fas fa-tag"></i>
-                                Marketing
-                            </span>
+                                <i class="fas fa-tag"></i>{{ __('Marketing') }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 text-md-end">
                     <button type="button" class="btn btn-edit" onclick="editContact()">
-                        <i class="fas fa-edit"></i>
-                        Editar Contacto
-                    </button>
+                        <i class="fas fa-edit"></i>{{ __('Editar Contacto') }}</button>
                 </div>
             </div>
         </div>
@@ -346,9 +332,7 @@
         <!-- Campaign History Chart -->
         <div class="chart-card">
             <h5 class="chart-title">
-                <i class="fas fa-chart-bar text-primary"></i>
-                Historial de Aperturas por Campaña
-            </h5>
+                <i class="fas fa-chart-bar text-primary"></i>{{ __('Historial de Aperturas por Campaña') }}</h5>
             <div class="chart-container">
                 <div id="campaignHistoryChart"></div>
             </div>
@@ -362,22 +346,20 @@
                         <span class="input-group-text bg-white border-end-0">
                             <i class="fas fa-search text-muted"></i>
                         </span>
-                        <input type="text" class="form-control search-input border-start-0" placeholder="Buscar campañas..." id="searchInput">
+                        <input type="text" class="form-control search-input border-start-0" placeholder="{{ __('Buscar campañas...') }}" id="searchInput">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <select class="form-select" id="statusFilter">
-                        <option value="">Todas las campañas</option>
-                        <option value="opened">Solo abiertas</option>
-                        <option value="clicked">Con clics</option>
-                        <option value="not-opened">No abiertas</option>
+                        <option value="">{{ __('Todas las campañas') }}</option>
+                        <option value="{{ __('opened') }}">{{ __('Solo abiertas') }}</option>
+                        <option value="{{ __('clicked') }}">{{ __('Con clics') }}</option>
+                        <option value="{{ __('not-opened') }}">{{ __('No abiertas') }}</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <button type="button" class="btn btn-export w-100" onclick="exportCampaignsToExcel()">
-                        <i class="fas fa-file-excel"></i>
-                        Exportar
-                    </button>
+                        <i class="fas fa-file-excel"></i>{{ __('Exportar') }}</button>
                 </div>
             </div>
         </div>
@@ -385,13 +367,10 @@
         <div class="chart-card">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="chart-title mb-0">
-                    <i class="fas fa-history text-secondary"></i>
-                    Historial de Campañas
-                </h5>
+                    <i class="fas fa-history text-secondary"></i>{{ __('Historial de Campañas') }}</h5>
                 <div class="text-muted">
                     <i class="fas fa-info-circle me-1"></i>
-                    <span id="totalCampaigns">0</span> campañas
-                </div>
+                    <span id="totalCampaigns">0</span>{{ __('campañas') }}</div>
             </div>
 
             <div class="table-responsive">
@@ -399,12 +378,12 @@
                     <thead>
                         <tr>
                             <th width="5%">#</th>
-                            <th width="35%">Nombre de Campaña</th>
-                            <th width="15%">Fecha de Envío</th>
-                            <th width="10%">Abierto</th>
-                            <th width="10%">Click</th>
-                            <th width="15%">Hora de Apertura</th>
-                            <th width="10%">Estado</th>
+                            <th width="35%">{{ __('Nombre de Campaña') }}</th>
+                            <th width="15%">{{ __('Fecha de Envío') }}</th>
+                            <th width="10%">{{ __('Abierto') }}</th>
+                            <th width="10%">{{ __('Click') }}</th>
+                            <th width="15%">{{ __('Hora de Apertura') }}</th>
+                            <th width="10%">{{ __('Estado') }}</th>
                         </tr>
                     </thead>
                     <tbody id="campaignsTableBody">
@@ -416,15 +395,13 @@
             <!-- Empty State -->
             <div class="empty-state d-none" id="emptyState">
                 <i class="fas fa-search"></i>
-                <h5>No se encontraron campañas</h5>
-                <p class="mb-0">Este contacto no tiene campañas registradas o no coinciden con los filtros</p>
+                <h5>{{ __('No se encontraron campañas') }}</h5>
+                <p class="mb-0">{{ __('Este contacto no tiene campañas registradas o no coinciden con los filtros') }}</p>
             </div>
 
             <!-- Pagination -->
             <div class="d-flex justify-content-between align-items-center mt-3">
-                <div class="text-muted">
-                    Mostrando <span id="showingFrom">0</span> a <span id="showingTo">0</span> de <span id="totalRecords">0</span> registros
-                </div>
+                <div class="text-muted">{{ __('Mostrando') }}<span id="showingFrom">0</span> a <span id="showingTo">0</span>{{ __('de') }}<span id="totalRecords">0</span>{{ __('registros') }}</div>
                 <nav>
                     <ul class="pagination" id="pagination">
                         <!-- Pagination will be generated here -->
@@ -438,21 +415,19 @@
             <div class="col-lg-6">
                 <div class="chart-card">
                     <h5 class="chart-title">
-                        <i class="fas fa-chart-pie text-warning"></i>
-                        Enlaces Más Clickeados
-                    </h5>
+                        <i class="fas fa-chart-pie text-warning"></i>{{ __('Enlaces Más Clickeados') }}</h5>
                     <div class="chart-container">
                         <div id="linksChart"></div>
                     </div>
                     <div class="text-center mt-3">
                         <div class="row">
                             <div class="col">
-                                <h4 class="text-primary mb-0" id="totalClicks">47</h4>
-                                <small class="text-muted">Total de Clics</small>
+                                <h4 class="text-primary mb-0" id="totalClicks">{{ __('47') }}</h4>
+                                <small class="text-muted">{{ __('Total de Clics') }}</small>
                             </div>
                             <div class="col">
                                 <h4 class="text-success mb-0" id="uniqueLinks">8</h4>
-                                <small class="text-muted">Enlaces Únicos</small>
+                                <small class="text-muted">{{ __('Enlaces Únicos') }}</small>
                             </div>
                         </div>
                     </div>
@@ -461,9 +436,7 @@
             <div class="col-lg-6">
                 <div class="chart-card">
                     <h5 class="chart-title">
-                        <i class="fas fa-clock text-info"></i>
-                        Patrones de Apertura por Hora
-                    </h5>
+                        <i class="fas fa-clock text-info"></i>{{ __('Patrones de Apertura por Hora') }}</h5>
                     <div class="chart-container">
                         <div id="hourlyPatternChart"></div>
                     </div>
@@ -477,16 +450,16 @@
                 <div class="comparison-card">
                     <div class="d-flex align-items-center justify-content-center mb-3">
                         <i class="fas fa-envelope-open text-success me-2" style="font-size: 2rem;"></i>
-                        <h5 class="mb-0">Tasa de Apertura</h5>
+                        <h5 class="mb-0">{{ __('Tasa de Apertura') }}</h5>
                     </div>
                     <div class="comparison-value text-success" id="contactOpenRate">89.2%</div>
-                    <div class="comparison-label">Este Contacto</div>
-                    <div class="comparison-vs">vs</div>
+                    <div class="comparison-label">{{ __('Este Contacto') }}</div>
+                    <div class="comparison-vs">{{ __('vs') }}</div>
                     <div class="comparison-average" id="averageOpenRate">76.4%</div>
-                    <div class="comparison-label">Promedio General</div>
+                    <div class="comparison-label">{{ __('Promedio General') }}</div>
                     <div class="comparison-difference positive" id="openRateDifference">
                         <i class="fas fa-arrow-up"></i>
-                        <span>+12.8% mejor que la media</span>
+                        <span>{{ __('+12.8% mejor que la media') }}</span>
                     </div>
                 </div>
             </div>
@@ -494,16 +467,16 @@
                 <div class="comparison-card">
                     <div class="d-flex align-items-center justify-content-center mb-3">
                         <i class="fas fa-mouse-pointer text-warning me-2" style="font-size: 2rem;"></i>
-                        <h5 class="mb-0">Tasa de Clics</h5>
+                        <h5 class="mb-0">{{ __('Tasa de Clics') }}</h5>
                     </div>
                     <div class="comparison-value text-warning" id="contactClickRate">34.7%</div>
-                    <div class="comparison-label">Este Contacto</div>
-                    <div class="comparison-vs">vs</div>
+                    <div class="comparison-label">{{ __('Este Contacto') }}</div>
+                    <div class="comparison-vs">{{ __('vs') }}</div>
                     <div class="comparison-average" id="averageClickRate">22.1%</div>
-                    <div class="comparison-label">Promedio General</div>
+                    <div class="comparison-label">{{ __('Promedio General') }}</div>
                     <div class="comparison-difference positive" id="clickRateDifference">
                         <i class="fas fa-arrow-up"></i>
-                        <span>+12.6% mejor que la media</span>
+                        <span>{{ __('+12.6% mejor que la media') }}</span>
                     </div>
                 </div>
             </div>
@@ -724,57 +697,48 @@
             pageItems.forEach((campaign, index) => {
                 const row = `
                     <tr>
-                        <td>${startIndex + index + 1}</td>
+                        <td>{{ __('${startIndex + index + 1}') }}</td>
                         <td>
-                            <div class="fw-semibold">${campaign.name}</div>
+                            <div class="fw-semibold">{{ __('${campaign.name}') }}</div>
                         </td>
                         <td>
-                            <span class="text-muted">${campaign.date}</span>
+                            <span class="text-muted">{{ __('${campaign.date}') }}</span>
                         </td>
                         <td>
-                            <div class="status-icon ${campaign.opened ? 'status-success' : 'status-error'}">
-                                ${campaign.opened ? '✓' : '✗'}
-                            </div>
+                            <div class="status-icon ${campaign.opened ? 'status-success' : 'status-error'}">{{ __('${campaign.opened ? \\'✓\\' : \\'✗\\'}') }}</div>
                         </td>
                         <td>
-                            <span class="badge ${campaign.clicked ? 'bg-primary text-white' : 'bg-secondary'}">
-                                ${campaign.clicked ? 'Sí' : 'No'}
-                            </span>
+                            <span class="badge ${campaign.clicked ? 'bg-primary text-white' : 'bg-secondary'}">{{ __('${campaign.clicked ? \\'Sí\\' : \\'No\\'}') }}</span>
                         </td>
                         <td>
-                            <span class="text-muted">
-                                ${campaign.openTime || '-'}
-                            </span>
+                            <span class="text-muted">{{ __('${campaign.openTime || \\'-\\'}') }}</span>
                         </td>
                         <td>
-                            <span class="badge bg-primary text-white">
-                                Entregado
-                            </span>
+                            <span class="badge bg-primary text-white">{{ __('Entregado') }}</span>
                         </td>
-                    </tr>
-                `;
+                    </tr>{{ __('`;
                 tbody.append(row);
             });
 
             // Update pagination info
             updatePaginationInfo(startIndex + 1, endIndex, totalItems);
             renderPagination(totalPages);
-            $('#totalCampaigns').text(totalItems);
+            $(\'#totalCampaigns\').text(totalItems);
         }
 
         // Update pagination info
         function updatePaginationInfo(from, to, total) {
-            $('#showingFrom').text(from);
-            $('#showingTo').text(to);
-            $('#totalRecords').text(total);
+            $(\'#showingFrom\').text(from);
+            $(\'#showingTo\').text(to);
+            $(\'#totalRecords\').text(total);
         }
 
         // Render pagination
         function renderPagination(totalPages) {
-            const pagination = $('#pagination');
+            const pagination = $(\'#pagination\');
             pagination.empty();
 
-            if (totalPages <= 1) return;
+            if (totalPages') }<= 1) return;
 
             // Previous button
             const prevDisabled = currentPage === 1 ? 'disabled' : '';
@@ -783,37 +747,33 @@
                     <a class="page-link" href="#" onclick="changePage(${currentPage - 1})">
                         <i class="fas fa-chevron-left"></i>
                     </a>
-                </li>
-            `);
+                </li>{{ __('`);
 
             // Page numbers
             const startPage = Math.max(1, currentPage - 2);
             const endPage = Math.min(totalPages, currentPage + 2);
 
-            for (let i = startPage; i <= endPage; i++) {
+            for (let i = startPage; i') }<= endPage; i++) {
                 const active = i === currentPage ? 'active' : '';
                 pagination.append(`
                     <li class="page-item ${active}">
-                        <a class="page-link" href="#" onclick="changePage(${i})">${i}</a>
-                    </li>
-                `);
+                        <a class="page-link" href="#" onclick="changePage(${i})">{{ __('${i}') }}</a>
+                    </li>{{ __('`);
             }
 
             // Next button
-            const nextDisabled = currentPage === totalPages ? 'disabled' : '';
-            pagination.append(`
-                <li class="page-item ${nextDisabled}">
+            const nextDisabled = currentPage === totalPages ? \'disabled\' : \'\';
+            pagination.append(`') }<li class="page-item ${nextDisabled}">
                     <a class="page-link" href="#" onclick="changePage(${currentPage + 1})">
                         <i class="fas fa-chevron-right"></i>
                     </a>
-                </li>
-            `);
+                </li>{{ __('`);
         }
 
         // Change page
         function changePage(page) {
             const totalPages = Math.ceil(filteredCampaigns.length / itemsPerPage);
-            if (page < 1 || page > totalPages) return;
+            if (page') }< 1 || page >{{ __('totalPages) return;
 
             currentPage = page;
             renderCampaignsTable();
@@ -824,24 +784,24 @@
             // Campaign History Chart (Bar)
             const campaignHistoryOptions = {
                 series: [{
-                    name: 'Abiertos',
+                    name: \'Abiertos\',
                     data: [1, 1, 1, 0, 1, 1, 1, 0, 1, 1]
                 }, {
-                    name: 'Con Clics',
+                    name: \'Con Clics\',
                     data: [1, 0, 1, 0, 1, 0, 1, 0, 0, 1]
                 }],
                 chart: {
-                    type: 'bar',
+                    type: \'bar\',
                     height: 350,
                     toolbar: {
                         show: false
                     }
                 },
-                colors: ['#10B981', '#F59E0B'],
+                colors: [\'#10B981\', \'#F59E0B\'],
                 plotOptions: {
                     bar: {
                         horizontal: false,
-                        columnWidth: '55%',
+                        columnWidth: \'55%\',
                         borderRadius: 4
                     }
                 },
@@ -849,30 +809,30 @@
                     enabled: false
                 },
                 xaxis: {
-                    categories: campaigns.slice(0, 10).map(c => c.name.substring(0, 15) + '...'),
+                    categories: campaigns.slice(0, 10).map(c => c.name.substring(0, 15) + \'...\'),
                     labels: {
                         rotate: -45
                     }
                 },
                 yaxis: {
                     title: {
-                        text: 'Interacciones'
+                        text: \'Interacciones\'
                     },
                     max: 1,
                     tickAmount: 1,
                     labels: {
                         formatter: function (val) {
-                            return val === 1 ? 'Sí' : 'No'
+                            return val === 1 ? \'Sí\' : \'No\'
                         }
                     }
                 },
                 legend: {
-                    position: 'top'
+                    position: \'top\'
                 },
                 tooltip: {
                     y: {
                         formatter: function (val) {
-                            return val === 1 ? 'Sí' : 'No'
+                            return val === 1 ? \'Sí\' : \'No\'
                         }
                     }
                 }
@@ -885,18 +845,18 @@
             const linksOptions = {
                 series: [15, 12, 8, 7, 5],
                 chart: {
-                    type: 'pie',
+                    type: \'pie\',
                     height: 350
                 },
-                labels: ['Página Principal', 'Productos', 'Ofertas', 'Blog', 'Contacto'],
-                colors: ['#25D366', '#128C7E', '#075E54', '#10B981', '#F59E0B'],
+                labels: [\'Página Principal\', \'Productos\', \'Ofertas\', \'Blog\', \'Contacto\'],
+                colors: [\'#25D366\', \'#128C7E\', \'#075E54\', \'#10B981\', \'#F59E0B\'],
                 legend: {
-                    position: 'bottom'
+                    position: \'bottom\'
                 },
                 dataLabels: {
                     enabled: true,
                     formatter: function (val, opts) {
-                        return opts.w.config.series[opts.seriesIndex] + ' clics'
+                        return opts.w.config.series[opts.seriesIndex] + \' clics\'
                     }
                 },
                 tooltip: {
@@ -913,10 +873,10 @@
 
             // Hourly Pattern Chart (Area)
             const hourlyData = [];
-            for (let i = 0; i < 24; i++) {
+            for (let i = 0; i') }< 24; i++) {
                 const hour = i.toString().padStart(2, '0') + ':00';
                 let value = 0;
-                if (i >= 8 && i <= 18) {
+                if (i >{{ __('= 8 && i') }}<= 18) {
                     value = Math.floor(Math.random() * 5) + 1;
                 }
                 hourlyData.push(value);
@@ -952,19 +912,19 @@
                     width: 3
                 },
                 xaxis: {
-                    categories: Array.from({length: 24}, (_, i) => i.toString().padStart(2, '0') + ':00'),
+                    categories: Array.from({length: 24}, (_, i) =>{{ __('i.toString().padStart(2, \\'0\') }}+ \':00\'),
                     title: {
-                        text: 'Hora del Día'
+                        text: \'Hora del Día\'
                     }
                 },
                 yaxis: {
                     title: {
-                        text: 'Número de Aperturas'
+                        text: \'Número de Aperturas\'
                     }
                 },
                 tooltip: {
                     x: {
-                        format: 'HH:mm'
+                        format: \'HH:mm\'
                     },
                     y: {
                         formatter: function (val) {
@@ -982,28 +942,28 @@
         function exportCampaignsToExcel() {
             if (filteredCampaigns.length === 0) {
                 Swal.fire({
-                    title: 'Sin datos',
-                    text: 'No hay campañas para exportar con los filtros actuales',
-                    icon: 'warning',
-                    confirmButtonColor: '#F59E0B'
+                    title: \'Sin datos\',
+                    text: \'No hay campañas para exportar con los filtros actuales\',
+                    icon: \'warning\',
+                    confirmButtonColor: \'#F59E0B\'
                 });
                 return;
             }
 
             Swal.fire({
-                title: 'Exportando campañas...',
-                html: `Preparando historial de <strong>${filteredCampaigns.length}</strong> campañas`,
-                icon: 'info',
+                title: \'Exportando campañas...\',
+                html: `Preparando historial de') }<strong>{{ __('${filteredCampaigns.length}') }}</strong>{{ __('campañas`,
+                icon: \'info\',
                 showConfirmButton: false,
                 timer: 1500,
                 timerProgressBar: true
             }).then(() => {
                 Swal.fire({
-                    title: '¡Exportación Completa!',
-                    text: 'El historial de campañas se ha exportado correctamente',
-                    icon: 'success',
-                    confirmButtonText: 'Descargar',
-                    confirmButtonColor: '#10B981'
+                    title: \'¡Exportación Completa!\',
+                    text: \'El historial de campañas se ha exportado correctamente\',
+                    icon: \'success\',
+                    confirmButtonText: \'Descargar\',
+                    confirmButtonColor: \'#10B981\'
                 });
             });
         }
@@ -1011,37 +971,35 @@
         // Edit contact
         function editContact() {
             Swal.fire({
-                title: 'Editar Contacto',
-                html: `
-                    <div class="text-start">
+                title: \'Editar Contacto\',
+                html: `') }<div class="text-start">
                         <div class="mb-3">
-                            <label class="form-label">Nombre</label>
-                            <input type="text" class="form-control" value="Ana García Martínez">
+                            <label class="form-label">{{ __('Nombre') }}</label>
+                            <input type="text" class="form-control" value="{{ __('Ana García Martínez') }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" value="+34 612 345 678">
+                            <label class="form-label">{{ __('Teléfono') }}</label>
+                            <input type="text" class="form-control" value="{{ __('+34 612 345 678') }}">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Estado</label>
+                            <label class="form-label">{{ __('Estado') }}</label>
                             <select class="form-select">
-                                <option value="active" selected>Activo</option>
-                                <option value="inactive">Inactivo</option>
+                                <option value="{{ __('active') }}" selected>{{ __('Activo') }}</option>
+                                <option value="{{ __('inactive') }}">{{ __('Inactivo') }}</option>
                             </select>
                         </div>
-                    </div>
-                `,
+                    </div>{{ __('`,
                 showCancelButton: true,
-                confirmButtonText: 'Guardar Cambios',
-                cancelButtonText: 'Cancelar',
-                confirmButtonColor: '#3B82F6',
-                cancelButtonColor: '#6c757d'
+                confirmButtonText: \'Guardar Cambios\',
+                cancelButtonText: \'Cancelar\',
+                confirmButtonColor: \'#3B82F6\',
+                cancelButtonColor: \'#6c757d\'
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                        title: '¡Actualizado!',
-                        text: 'Los datos del contacto han sido actualizados correctamente',
-                        icon: 'success',
+                        title: \'¡Actualizado!\',
+                        text: \'Los datos del contacto han sido actualizados correctamente\',
+                        icon: \'success\',
                         timer: 2000,
                         showConfirmButton: false
                     });
@@ -1056,14 +1014,9 @@
 
         // Show alert if no campaigns
         if (campaigns.length === 0) {
-            const alertHtml = `
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <i class="fas fa-exclamation-triangle me-2"></i>
-                    Este contacto no tiene campañas registradas. Los gráficos y análisis estarán disponibles cuando se envíen campañas.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                </div>
-            `;
-            $('.main-container').prepend(alertHtml);
-        }
-    </script>
+            const alertHtml = `') }<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>{{ __('Este contacto no tiene campañas registradas. Los gráficos y análisis estarán disponibles cuando se envíen campañas.') }}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>{{ __('`;
+            $(\'.main-container\').prepend(alertHtml);
+        }') }</script>
 @endsection

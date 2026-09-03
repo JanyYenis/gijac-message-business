@@ -1706,9 +1706,9 @@
             <div class="kpi">
                 <div class="kpi-inner">
                     <div>
-                        <div class="kpi-label">Campañas Programadas</div>
+                        <div class="kpi-label">{{ __('Campañas Programadas') }}</div>
                         <div class="kpi-value" data-count="42">0</div>
-                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>+12% vs semana pasada</div>
+                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>{{ __('+12% vs semana pasada') }}</div>
                     </div>
                     <div class="kpi-ico"><i class="fa-solid fa-calendar-plus"></i></div>
                 </div>
@@ -1720,9 +1720,9 @@
             <div class="kpi">
                 <div class="kpi-inner">
                     <div>
-                        <div class="kpi-label">Campañas Enviadas</div>
+                        <div class="kpi-label">{{ __('Campañas Enviadas') }}</div>
                         <div class="kpi-value" data-count="128">0</div>
-                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>+8% este mes</div>
+                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>{{ __('+8% este mes') }}</div>
                     </div>
                     <div class="kpi-ico ok"><i class="fa-solid fa-paper-plane"></i></div>
                 </div>
@@ -1734,9 +1734,9 @@
             <div class="kpi">
                 <div class="kpi-inner">
                     <div>
-                        <div class="kpi-label">Mensajes Pendientes</div>
+                        <div class="kpi-label">{{ __('Mensajes Pendientes') }}</div>
                         <div class="kpi-value" data-count="3450">0</div>
-                        <div class="kpi-delta down"><i class="fa-solid fa-arrow-trend-down"></i>-3% hoy</div>
+                        <div class="kpi-delta down"><i class="fa-solid fa-arrow-trend-down"></i>{{ __('-3% hoy') }}</div>
                     </div>
                     <div class="kpi-ico warn"><i class="fa-solid fa-hourglass-half"></i></div>
                 </div>
@@ -1748,9 +1748,9 @@
             <div class="kpi">
                 <div class="kpi-inner">
                     <div>
-                        <div class="kpi-label">Tasa de Entrega</div>
+                        <div class="kpi-label">{{ __('Tasa de Entrega') }}</div>
                         <div class="kpi-value"><span data-count="97">0</span>.4%</div>
-                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>+1.2% este mes</div>
+                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>{{ __('+1.2% este mes') }}</div>
                     </div>
                     <div class="kpi-ico dark"><i class="fa-solid fa-circle-check"></i></div>
                 </div>
@@ -1763,53 +1763,53 @@
 
         <!-- Filters -->
         <div class="filters">
-            <div class="filter"><label>Empresa</label>
+            <div class="filter"><label>{{ __('Empresa') }}</label>
                 <select>
-                    <option>Todas</option>
-                    <option>Coca-Cola LATAM</option>
-                    <option>Nestlé Perú</option>
-                    <option>Movistar</option>
-                    <option>Farmacias Cruz Verde</option>
+                    <option>{{ __('Todas') }}</option>
+                    <option>{{ __('Coca-Cola LATAM') }}</option>
+                    <option>{{ __('Nestlé Perú') }}</option>
+                    <option>{{ __('Movistar') }}</option>
+                    <option>{{ __('Farmacias Cruz Verde') }}</option>
                 </select>
             </div>
-            <div class="filter"><label>Etiqueta</label>
+            <div class="filter"><label>{{ __('Etiqueta') }}</label>
                 <select>
-                    <option>Todas</option>
-                    <option>Promocional</option>
-                    <option>Transaccional</option>
-                    <option>Recordatorio</option>
-                    <option>Encuesta</option>
+                    <option>{{ __('Todas') }}</option>
+                    <option>{{ __('Promocional') }}</option>
+                    <option>{{ __('Transaccional') }}</option>
+                    <option>{{ __('Recordatorio') }}</option>
+                    <option>{{ __('Encuesta') }}</option>
                 </select>
             </div>
-            <div class="filter"><label>Estado</label>
+            <div class="filter"><label>{{ __('Estado') }}</label>
                 <select>
-                    <option>Todos</option>
-                    <option>Programada</option>
-                    <option>Enviando</option>
-                    <option>Enviada</option>
-                    <option>Fallida</option>
-                    <option>Pausada</option>
+                    <option>{{ __('Todos') }}</option>
+                    <option>{{ __('Programada') }}</option>
+                    <option>{{ __('Enviando') }}</option>
+                    <option>{{ __('Enviada') }}</option>
+                    <option>{{ __('Fallida') }}</option>
+                    <option>{{ __('Pausada') }}</option>
                 </select>
             </div>
-            <div class="filter"><label>Canal</label>
+            <div class="filter"><label>{{ __('Canal') }}</label>
                 <select>
-                    <option>WhatsApp Business</option>
-                    <option>WhatsApp Cloud API</option>
-                    <option>SMS Backup</option>
+                    <option>{{ __('WhatsApp Business') }}</option>
+                    <option>{{ __('WhatsApp Cloud API') }}</option>
+                    <option>{{ __('SMS Backup') }}</option>
                 </select>
             </div>
-            <div class="filter"><label>Fecha</label>
+            <div class="filter"><label>{{ __('Fecha') }}</label>
                 <input type="date" />
             </div>
-            <div class="filter"><label>Responsable</label>
+            <div class="filter"><label>{{ __('Responsable') }}</label>
                 <select>
-                    <option>Todos</option>
-                    <option>Julio García</option>
-                    <option>Ana Ríos</option>
-                    <option>Marco Peña</option>
+                    <option>{{ __('Todos') }}</option>
+                    <option>{{ __('Julio García') }}</option>
+                    <option>{{ __('Ana Ríos') }}</option>
+                    <option>{{ __('Marco Peña') }}</option>
                 </select>
             </div>
-            <button class="btn-clear"><i class="fa-solid fa-filter"></i> Aplicar</button>
+            <button class="btn-clear"><i class="fa-solid fa-filter"></i>{{ __('Aplicar') }}</button>
         </div>
 
         <!-- Work -->
@@ -1819,15 +1819,15 @@
                     <div class="cal-title"><i class="fa-solid fa-calendar-days" style="color:var(--primary)"></i><span
                             id="calTitle">—</span></div>
                     <div class="cal-nav">
-                        <button id="prev" title="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
-                        <button id="today" class="today">Hoy</button>
-                        <button id="next" title="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button id="prev" title="{{ __('Anterior') }}"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button id="today" class="today">{{ __('Hoy') }}</button>
+                        <button id="next" title="{{ __('Siguiente') }}"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                     <div class="cal-views">
-                        <button data-view="dayGridMonth" class="active">Mes</button>
-                        <button data-view="timeGridWeek">Semana</button>
-                        <button data-view="timeGridDay">Día</button>
-                        <button data-view="listWeek">Lista</button>
+                        <button data-view="dayGridMonth" class="active">{{ __('Mes') }}</button>
+                        <button data-view="timeGridWeek">{{ __('Semana') }}</button>
+                        <button data-view="timeGridDay">{{ __('Día') }}</button>
+                        <button data-view="listWeek">{{ __('Lista') }}</button>
                     </div>
                 </div>
                 <div id="calendar"></div>
@@ -1836,55 +1836,55 @@
             <!-- Right sidebar -->
             <aside class="side stagger">
                 <div class="panel">
-                    <h4><span><i class="fa-solid fa-bolt" style="color:var(--warning)"></i> Hoy</span><span
+                    <h4><span><i class="fa-solid fa-bolt" style="color:var(--warning)"></i>{{ __('Hoy') }}</span><span
                             class="cnt" id="todayCount">0</span></h4>
                     <div id="todayAgenda"></div>
                 </div>
                 <div class="panel">
-                    <h4><span><i class="fa-solid fa-forward" style="color:var(--primary)"></i> Próximas</span><span
+                    <h4><span><i class="fa-solid fa-forward" style="color:var(--primary)"></i>{{ __('Próximas') }}</span><span
                             class="cnt" id="upcomingCount">0</span></h4>
                     <div id="upcomingAgenda"></div>
                 </div>
                 <div class="panel d-none">
-                    <h4><span><i class="fa-regular fa-bell" style="color:var(--danger)"></i> Notificaciones</span>
+                    <h4><span><i class="fa-regular fa-bell" style="color:var(--danger)"></i>{{ __('Notificaciones') }}</span>
                     </h4>
                     <div class="noti">
                         <div class="noti-ico" style="background:linear-gradient(135deg,#22C55E,#16A34A)"><i
                                 class="fa-solid fa-check"></i></div>
-                        <div class="noti-txt"><b>Coca-Cola LATAM</b> completó envío a 12,540 contactos.<div
-                                class="noti-time">hace 12 min</div>
+                        <div class="noti-txt"><b>{{ __('Coca-Cola LATAM') }}</b>{{ __('completó envío a 12,540 contactos.') }}<div
+                                class="noti-time">{{ __('hace 12 min') }}</div>
                         </div>
                     </div>
                     <div class="noti">
                         <div class="noti-ico" style="background:linear-gradient(135deg,#F59E0B,#D97706)"><i
                                 class="fa-solid fa-triangle-exclamation"></i></div>
-                        <div class="noti-txt"><b>Nestlé Perú</b> tiene 34 mensajes fallidos por reintento.<div
-                                class="noti-time">hace 34 min</div>
+                        <div class="noti-txt"><b>{{ __('Nestlé Perú') }}</b>{{ __('tiene 34 mensajes fallidos por reintento.') }}<div
+                                class="noti-time">{{ __('hace 34 min') }}</div>
                         </div>
                     </div>
                     <div class="noti">
                         <div class="noti-ico" style="background:linear-gradient(135deg,#3B82F6,#2563EB)"><i
                                 class="fa-solid fa-calendar-plus"></i></div>
-                        <div class="noti-txt">Nueva campaña <b>Black Friday 2026</b> programada para el 27/11.<div
-                                class="noti-time">hace 1 h</div>
+                        <div class="noti-txt">{{ __('Nueva campaña') }}<b>{{ __('Black Friday 2026') }}</b>{{ __('programada para el 27/11.') }}<div
+                                class="noti-time">{{ __('hace 1 h') }}</div>
                         </div>
                     </div>
                     <div class="noti">
                         <div class="noti-ico" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)"><i
                                 class="fa-solid fa-robot"></i></div>
-                        <div class="noti-txt">IA optimizó horario de envío: <b>+18% aperturas</b> estimadas.<div
-                                class="noti-time">hace 2 h</div>
+                        <div class="noti-txt">{{ __('IA optimizó horario de envío:') }}<b>{{ __('+18% aperturas') }}</b>{{ __('estimadas.') }}<div
+                                class="noti-time">{{ __('hace 2 h') }}</div>
                         </div>
                     </div>
                 </div>
                 <div class="panel">
-                    <h4><span><i class="fa-solid fa-palette" style="color:var(--accent)"></i> Estados</span></h4>
+                    <h4><span><i class="fa-solid fa-palette" style="color:var(--accent)"></i>{{ __('Estados') }}</span></h4>
                     <div class="legend">
-                        <div class="lg"><i style="background:#3B82F6"></i>Programada</div>
-                        <div class="lg"><i style="background:#F59E0B"></i>Enviando</div>
-                        <div class="lg"><i style="background:#22C55E"></i>Enviada</div>
-                        <div class="lg"><i style="background:#EF4444"></i>Fallida</div>
-                        <div class="lg"><i style="background:#94A3B8"></i>Pausada</div>
+                        <div class="lg"><i style="background:#3B82F6"></i>{{ __('Programada') }}</div>
+                        <div class="lg"><i style="background:#F59E0B"></i>{{ __('Enviando') }}</div>
+                        <div class="lg"><i style="background:#22C55E"></i>{{ __('Enviada') }}</div>
+                        <div class="lg"><i style="background:#EF4444"></i>{{ __('Fallida') }}</div>
+                        <div class="lg"><i style="background:#94A3B8"></i>{{ __('Pausada') }}</div>
                     </div>
                 </div>
             </aside>
@@ -1893,18 +1893,18 @@
 
     <!-- Tooltip -->
     <div class="cal-tt" id="tooltip">
-        <span class="tt-badge" id="ttBadge">Programada</span>
+        <span class="tt-badge" id="ttBadge">{{ __('Programada') }}</span>
         <div class="tt-name" id="ttName">—</div>
         <div class="tt-co" id="ttCo">—</div>
-        <div class="tt-row"><span>Fecha</span><span id="ttDate">—</span></div>
-        <div class="tt-row"><span>Mensajes</span><span id="ttMsgs">—</span></div>
-        <div class="tt-row"><span>Audiencia estimada</span><span id="ttAud">—</span></div>
-        <div class="tt-row"><span>Responsable</span><span id="ttOwner">—</span></div>
+        <div class="tt-row"><span>{{ __('Fecha') }}</span><span id="ttDate">—</span></div>
+        <div class="tt-row"><span>{{ __('Mensajes') }}</span><span id="ttMsgs">—</span></div>
+        <div class="tt-row"><span>{{ __('Audiencia estimada') }}</span><span id="ttAud">—</span></div>
+        <div class="tt-row"><span>{{ __('Responsable') }}</span><span id="ttOwner">—</span></div>
         <div class="tt-actions">
-            <button onclick="openDrawer(currentEvent)"><i class="fa-solid fa-eye"></i>Ver</button>
-            <button><i class="fa-solid fa-pen"></i>Editar</button>
-            <button><i class="fa-solid fa-clone"></i>Duplicar</button>
-            <button class="danger"><i class="fa-solid fa-ban"></i>Cancelar</button>
+            <button onclick="openDrawer(currentEvent)"><i class="fa-solid fa-eye"></i>{{ __('Ver') }}</button>
+            <button><i class="fa-solid fa-pen"></i>{{ __('Editar') }}</button>
+            <button><i class="fa-solid fa-clone"></i>{{ __('Duplicar') }}</button>
+            <button class="danger"><i class="fa-solid fa-ban"></i>{{ __('Cancelar') }}</button>
         </div>
     </div>
 
@@ -1913,70 +1913,68 @@
     <aside class="drawer" id="drawer" aria-hidden="true">
         <div class="drawer-head">
             <button class="drawer-close" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
-            <span class="tt-badge" id="dBadge" style="background:rgba(255,255,255,.25)">Programada</span>
-            <h3 id="dName">Campaña</h3>
-            <p id="dCo">Empresa</p>
+            <span class="tt-badge" id="dBadge" style="background:rgba(255,255,255,.25)">{{ __('Programada') }}</span>
+            <h3 id="dName">{{ __('Campaña') }}</h3>
+            <p id="dCo">{{ __('Empresa') }}</p>
         </div>
         <div class="drawer-body">
             <div class="sec">
-                <h5>Detalles de la Campaña</h5>
-                <div class="kv"><span>Fecha programada</span><span id="dDate">—</span></div>
-                <div class="kv"><span>Canal</span><span>WhatsApp Cloud API</span></div>
-                <div class="kv"><span>Plantilla</span><span id="dTpl">promo_black_friday_v3</span></div>
-                <div class="kv"><span>Responsable</span><span id="dOwner">—</span></div>
-                <div class="kv"><span>Segmento</span><span id="dSeg">Clientes VIP · LATAM</span></div>
+                <h5>{{ __('Detalles de la Campaña') }}</h5>
+                <div class="kv"><span>{{ __('Fecha programada') }}</span><span id="dDate">—</span></div>
+                <div class="kv"><span>{{ __('Canal') }}</span><span>{{ __('WhatsApp Cloud API') }}</span></div>
+                <div class="kv"><span>{{ __('Plantilla') }}</span><span id="dTpl">{{ __('promo_black_friday_v3') }}</span></div>
+                <div class="kv"><span>{{ __('Responsable') }}</span><span id="dOwner">—</span></div>
+                <div class="kv"><span>{{ __('Segmento') }}</span><span id="dSeg">{{ __('Clientes VIP · LATAM') }}</span></div>
             </div>
 
             <div class="sec">
-                <h5>Vista Previa del Mensaje</h5>
-                <div class="msg-box">
-                    Hola { nombre } 👋, tenemos una oferta exclusiva para ti: <b>50% de descuento</b> en toda
-                    la tienda durante 24 horas. Usa el código <b>VIP50</b> antes de que termine. Ver catálogo →
-                    gijac.co/promo
-                </div>
+                <h5>{{ __('Vista Previa del Mensaje') }}</h5>
+                <div class="msg-box">{{ __('Hola { nombre } 👋, tenemos una oferta exclusiva para ti:') }}<b>{{ __('50% de descuento') }}</b>{{ __('en toda
+                    la tienda durante 24 horas. Usa el código') }<b>{{ __('VIP50') }}</b>{{ __('antes de que termine. Ver catálogo →
+                    gijac.co/promo') }</div>
             </div>
 
             <div class="sec">
-                <h5>Estadísticas de Entrega</h5>
+                <h5>{{ __('Estadísticas de Entrega') }}</h5>
                 <div class="stat-grid">
                     <div class="stat-mini">
                         <div class="v" id="sMsgs">—</div>
-                        <div class="l">Mensajes</div>
+                        <div class="l">{{ __('Mensajes') }}</div>
                     </div>
                     <div class="stat-mini">
                         <div class="v" id="sDel">96%</div>
-                        <div class="l">Entregados</div>
+                        <div class="l">{{ __('Entregados') }}</div>
                     </div>
                     <div class="stat-mini">
                         <div class="v" id="sOpen">72%</div>
-                        <div class="l">Aperturas</div>
+                        <div class="l">{{ __('Aperturas') }}</div>
                     </div>
                 </div>
             </div>
 
             <div class="sec">
-                <h5>Archivos & Adjuntos</h5>
+                <h5>{{ __('Archivos & Adjuntos') }}</h5>
                 <div class="file-row"><i class="fa-solid fa-image"></i>
-                    <div>banner-black-friday.jpg<div style="font-size:11px;color:var(--muted)">1.2 MB · Imagen</div>
+                    <div>{{ __('banner-black-friday.jpg') }}<div style="font-size:11px;color:var(--muted)">{{ __('1.2 MB · Imagen') }}</div>
                     </div>
                 </div>
                 <div class="file-row"><i class="fa-solid fa-file-pdf"></i>
-                    <div>catalogo-vip.pdf<div style="font-size:11px;color:var(--muted)">3.8 MB · PDF</div>
+                    <div>{{ __('catalogo-vip.pdf') }}<div style="font-size:11px;color:var(--muted)">{{ __('3.8 MB · PDF') }}</div>
                     </div>
                 </div>
             </div>
 
             <div class="sec">
-                <h5>Destinatarios</h5>
-                <div class="kv"><span>Audiencia estimada</span><span id="dAud">—</span></div>
-                <div class="kv"><span>Excluidos</span><span>842 contactos (opt-out)</span></div>
-                <div class="kv"><span>Lista</span><span>vip_latam_q4_2026.csv</span></div>
+                <h5>{{ __('Destinatarios') }}</h5>
+                <div class="kv"><span>{{ __('Audiencia estimada') }}</span><span id="dAud">—</span></div>
+                <div class="kv"><span>{{ __('Excluidos') }}</span><span>{{ __('842 contactos (opt-out)') }}</span></div>
+                <div class="kv"><span>{{ __('Lista') }}</span><span>{{ __('vip_latam_q4_2026.csv') }}</span></div>
             </div>
         </div>
         <div class="drawer-foot">
-            <button class="btn-ghost"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-ghost"><i class="fa-solid fa-clone"></i> Duplicar</button>
-            <button class="btn-brand" style="flex:1.4"><i class="fa-solid fa-paper-plane"></i> Enviar ahora</button>
+            <button class="btn-ghost"><i class="fa-solid fa-pen"></i>{{ __('Editar') }}</button>
+            <button class="btn-ghost"><i class="fa-solid fa-clone"></i>{{ __('Duplicar') }}</button>
+            <button class="btn-brand" style="flex:1.4"><i class="fa-solid fa-paper-plane"></i>{{ __('Enviar ahora') }}</button>
         </div>
     </aside>
 @endsection
@@ -1993,54 +1991,54 @@
                 const dur = 12 + Math.random() * 18,
                     delay = -Math.random() * 20,
                     size = 3 + Math.random() * 4;
-                $('<span class="particle">').css({
-                    left: Math.random() * 100 + '%',
-                    bottom: -20 + 'px',
+                $('<span class="particle">{{ __('\') }}.css({
+                    left: Math.random() * 100 + \'%\',
+                    bottom: -20 + \'px\',
                     width: size,
                     height: size,
                     background: `rgba(30,111,120,${.15+Math.random()*.35})`,
-                    animationDuration: dur + 's',
-                    animationDelay: delay + 's'
+                    animationDuration: dur + \'s\',
+                    animationDelay: delay + \'s\'
                 }).appendTo($p);
             }
 
             /* Counter animations */
-            $('[data-count]').each(function() {
+            $(\'[data-count]\').each(function() {
                 const $el = $(this),
-                    target = parseInt($el.data('count'), 10);
+                    target = parseInt($el.data(\'count\'), 10);
                 $({
                     v: 0
                 }).animate({
                     v: target
                 }, {
                     duration: 1400,
-                    easing: 'swing',
+                    easing: \'swing\',
                     step: function(now) {
-                        $el.text(Math.floor(now).toLocaleString('es-PE'));
+                        $el.text(Math.floor(now).toLocaleString(\'es-PE\'));
                     },
                     complete: function() {
-                        $el.text(target.toLocaleString('es-PE'));
+                        $el.text(target.toLocaleString(\'es-PE\'));
                     }
                 });
             });
         });
 
         /* Sample data */
-        const owners = ['Julio García', 'Ana Ríos', 'Marco Peña', 'Lucía Torres'];
-        const companies = ['Coca-Cola LATAM', 'Nestlé Perú', 'Movistar', 'Farmacias Cruz Verde', 'BBVA Continental',
-            'Rappi Perú'
+        const owners = [\'Julio García\', \'Ana Ríos\', \'Marco Peña\', \'Lucía Torres\'];
+        const companies = [\'Coca-Cola LATAM\', \'Nestlé Perú\', \'Movistar\', \'Farmacias Cruz Verde\', \'BBVA Continental\',
+            \'Rappi Perú\'
         ];
-        const names = ['Black Friday 2026', 'Onboarding VIP', 'Recordatorio Cita', 'Encuesta NPS Q4',
-            'Reactivación Clientes', 'Lanzamiento Producto', 'Cyber Wow', 'Feliz Cumpleaños', 'Alerta de Envío',
-            'Promo Fin de Semana', 'Ronda de Fidelidad', 'Recuperación Carrito'
+        const names = [\'Black Friday 2026\', \'Onboarding VIP\', \'Recordatorio Cita\', \'Encuesta NPS Q4\',
+            \'Reactivación Clientes\', \'Lanzamiento Producto\', \'Cyber Wow\', \'Feliz Cumpleaños\', \'Alerta de Envío\',
+            \'Promo Fin de Semana\', \'Ronda de Fidelidad\', \'Recuperación Carrito\'
         ];
-        const statuses = ['scheduled', 'sending', 'sent', 'failed', 'paused'];
+        const statuses = [\'scheduled\', \'sending\', \'sent\', \'failed\', \'paused\'];
         const statusLabels = {
-            scheduled: 'Programada',
-            sending: 'Enviando',
-            sent: 'Enviada',
-            failed: 'Fallida',
-            paused: 'Pausada'
+            scheduled: \'Programada\',
+            sending: \'Enviando\',
+            sent: \'Enviada\',
+            failed: \'Fallida\',
+            paused: \'Pausada\'
         };
 
         function rand(a) {
@@ -2048,7 +2046,7 @@
         }
 
         function pad(n) {
-            return n < 10 ? '0' + n : n
+            return n') }< 10 ? '0' + n : n
         }
 
         const events = [];
@@ -2083,13 +2081,13 @@
 
         /* Calendar */
         let calendar, currentEvent = null;
-        document.addEventListener('DOMContentLoaded', () => {
-            const el = document.getElementById('calendar');
+        document.addEventListener('DOMContentLoaded', () =>{{ __('{
+            const el = document.getElementById(\'calendar\');
             calendar = new FullCalendar.Calendar(el, {
-                initialView: 'dayGridMonth',
-                locale: 'es',
-                width: '100%',
-                height: 'auto',
+                initialView: \'dayGridMonth\',
+                locale: \'es\',
+                width: \'100%\',
+                height: \'auto\',
                 firstDay: 1,
                 editable: true,
                 droppable: true,
@@ -2099,16 +2097,15 @@
                 events,
                 eventContent(arg) {
                     const p = arg.event.extendedProps;
-                    const time = arg.timeText || arg.event.start.toLocaleTimeString('es-PE', {
-                        hour: '2-digit',
-                        minute: '2-digit'
+                    const time = arg.timeText || arg.event.start.toLocaleTimeString(\'es-PE\', {
+                        hour: \'2-digit\',
+                        minute: \'2-digit\'
                     });
-                    const aud = p.audience.toLocaleString('es-PE');
-                    const el = document.createElement('div');
-                    el.className = 'evt ' + p.status;
-                    el.innerHTML = `
-                        <div class="t"><span class="n">${arg.event.title}</span><span class="h">${time}</span></div>
-                        <span class="m"><i class="fa-solid fa-users"></i> ${aud}</span>`;
+                    const aud = p.audience.toLocaleString(\'es-PE\');
+                    const el = document.createElement(\'div\');
+                    el.className = \'evt \' + p.status;
+                    el.innerHTML = `') }<div class="t"><span class="n">{{ __('${arg.event.title}') }}</span><span class="h">{{ __('${time}') }}</span></div>
+                        <span class="m"><i class="fa-solid fa-users"></i>{{ __('${aud}') }}</span>{{ __('`;
                     return {
                         domNodes: [el]
                     };
@@ -2124,20 +2121,20 @@
                     openDrawer(info.event);
                 },
                 datesSet(info) {
-                    document.getElementById('calTitle').textContent = info.view.title.replace(/^\w/, c => c
+                    document.getElementById(\'calTitle\').textContent = info.view.title.replace(/^\w/, c => c
                         .toUpperCase());
                 }
             });
             calendar.render();
 
-            document.getElementById('prev').onclick = () => calendar.prev();
-            document.getElementById('next').onclick = () => calendar.next();
-            document.getElementById('today').onclick = () => calendar.today();
-            document.querySelectorAll('.cal-views button').forEach(b => {
+            document.getElementById(\'prev\').onclick = () => calendar.prev();
+            document.getElementById(\'next\').onclick = () => calendar.next();
+            document.getElementById(\'today\').onclick = () => calendar.today();
+            document.querySelectorAll(\'.cal-views button\').forEach(b => {
                 b.onclick = () => {
-                    document.querySelectorAll('.cal-views button').forEach(x => x.classList.remove(
-                        'active'));
-                    b.classList.add('active');
+                    document.querySelectorAll(\'.cal-views button\').forEach(x => x.classList.remove(
+                        \'active\'));
+                    b.classList.add(\'active\');
                     calendar.changeView(b.dataset.view);
                 };
             });
@@ -2149,70 +2146,70 @@
         function showTooltip(info) {
             currentEvent = info.event;
             const p = info.event.extendedProps;
-            const badge = document.getElementById('ttBadge');
+            const badge = document.getElementById(\'ttBadge\');
             const colors = {
-                scheduled: '#3B82F6',
-                sending: '#F59E0B',
-                sent: '#22C55E',
-                failed: '#EF4444',
-                paused: '#94A3B8'
+                scheduled: \'#3B82F6\',
+                sending: \'#F59E0B\',
+                sent: \'#22C55E\',
+                failed: \'#EF4444\',
+                paused: \'#94A3B8\'
             };
             badge.style.background = colors[p.status];
             badge.textContent = statusLabels[p.status];
-            document.getElementById('ttName').textContent = info.event.title;
-            document.getElementById('ttCo').textContent = p.company;
-            document.getElementById('ttDate').textContent = info.event.start.toLocaleString('es-PE', {
-                dateStyle: 'medium',
-                timeStyle: 'short'
+            document.getElementById(\'ttName\').textContent = info.event.title;
+            document.getElementById(\'ttCo\').textContent = p.company;
+            document.getElementById(\'ttDate\').textContent = info.event.start.toLocaleString(\'es-PE\', {
+                dateStyle: \'medium\',
+                timeStyle: \'short\'
             });
-            document.getElementById('ttMsgs').textContent = p.messages.toLocaleString('es-PE');
-            document.getElementById('ttAud').textContent = p.audience.toLocaleString('es-PE');
-            document.getElementById('ttOwner').textContent = p.owner;
+            document.getElementById(\'ttMsgs\').textContent = p.messages.toLocaleString(\'es-PE\');
+            document.getElementById(\'ttAud\').textContent = p.audience.toLocaleString(\'es-PE\');
+            document.getElementById(\'ttOwner\').textContent = p.owner;
 
-            const tt = document.getElementById('tooltip');
+            const tt = document.getElementById(\'tooltip\');
             const r = info.el.getBoundingClientRect();
             let left = r.right + 12,
                 top = r.top - 8;
             if (left + 300 > window.innerWidth) left = r.left - 292;
             if (top + 320 > window.innerHeight) top = window.innerHeight - 340;
-            if (top < 8) top = 8;
+            if (top') }< 8) top = 8;
             tt.style.left = left + 'px';
             tt.style.top = top + 'px';
             tt.classList.add('show');
         }
 
         function hideTooltip() {
-            setTimeout(() => {
-                if (!document.getElementById('tooltip').matches(':hover')) document.getElementById('tooltip')
-                    .classList.remove('show');
+            setTimeout(() =>{{ __('{
+                if (!document.getElementById(\'tooltip\').matches(\':hover\')) document.getElementById(\'tooltip\')
+                    .classList.remove(\'show\');
             }, 120);
         }
-        document.getElementById('tooltip').addEventListener('mouseleave', () => document.getElementById('tooltip').classList
-            .remove('show'));
+        document.getElementById(\'tooltip\').addEventListener(\'mouseleave\', () => document.getElementById(\'tooltip\').classList
+            .remove(\'show\'));
 
         /* Drawer */
         function openDrawer(evt) {
             if (!evt) return;
             const p = evt.extendedProps;
-            document.getElementById('dName').textContent = evt.title;
-            document.getElementById('dCo').textContent = p.company + ' · ' + p.template;
-            document.getElementById('dBadge').textContent = statusLabels[p.status];
-            document.getElementById('dDate').textContent = evt.start.toLocaleString('es-PE', {
-                dateStyle: 'long',
-                timeStyle: 'short'
+            document.getElementById(\'dName\').textContent = evt.title;
+            document.getElementById(\'dCo\').textContent = p.company + \' · \' + p.template;
+            document.getElementById(\'dBadge\').textContent = statusLabels[p.status];
+            document.getElementById(\'dDate\').textContent = evt.start.toLocaleString(\'es-PE\', {
+                dateStyle: \'long\',
+                timeStyle: \'short\'
             });
-            document.getElementById('dTpl').textContent = p.template;
-            document.getElementById('dOwner').textContent = p.owner;
-            document.getElementById('dAud').textContent = p.audience.toLocaleString('es-PE');
-            document.getElementById('sMsgs').textContent = p.messages.toLocaleString('es-PE');
-            document.getElementById('drawer').classList.add('open');
-            document.getElementById('drawerOverlay').classList.add('open');
-            document.getElementById('tooltip').classList.remove('show');
+            document.getElementById(\'dTpl\').textContent = p.template;
+            document.getElementById(\'dOwner\').textContent = p.owner;
+            document.getElementById(\'dAud\').textContent = p.audience.toLocaleString(\'es-PE\');
+            document.getElementById(\'sMsgs\').textContent = p.messages.toLocaleString(\'es-PE\');
+            document.getElementById(\'drawer\').classList.add(\'open\');
+            document.getElementById(\'drawerOverlay\').classList.add(\'open\');
+            document.getElementById(\'tooltip\').classList.remove(\'show\');
         }
 
         function closeDrawer() {
-            document.getElementById('drawer').classList.remove('open');
-            document.getElementById('drawerOverlay').classList.remove('open');
+            document.getElementById(\'drawer\').classList.remove(\'open\');
+            document.getElementById(\'drawerOverlay\').classList.remove(\'open\');
         }
 
         /* Agenda */
@@ -2222,42 +2219,42 @@
             startToday.setHours(0, 0, 0, 0);
             const endToday = new Date(now);
             endToday.setHours(23, 59, 59, 999);
-            const t = events.filter(e => new Date(e.start) >= startToday && new Date(e.start) <= endToday)
-                .sort((a, b) => new Date(a.start) - new Date(b.start));
+            const t = events.filter(e => new Date(e.start) >= startToday && new Date(e.start)') }<= endToday)
+                .sort((a, b) =>{{ __('new Date(a.start) - new Date(b.start));
             const up = events.filter(e => new Date(e.start) > endToday)
                 .sort((a, b) => new Date(a.start) - new Date(b.start)).slice(0, 5);
 
             const fmt = (d) => {
                 const dt = new Date(d);
                 return {
-                    h: dt.toLocaleTimeString('es-PE', {
-                        hour: '2-digit',
-                        minute: '2-digit'
+                    h: dt.toLocaleTimeString(\'es-PE\', {
+                        hour: \'2-digit\',
+                        minute: \'2-digit\'
                     }),
-                    d: dt.toLocaleDateString('es-PE', {
-                        day: '2-digit',
-                        month: 'short'
+                    d: dt.toLocaleDateString(\'es-PE\', {
+                        day: \'2-digit\',
+                        month: \'short\'
                     })
                 };
             };
 
             const renderList = (list, empty) => list.length ? list.map(e => {
                     const f = fmt(e.start);
-                    return `<div class="agenda-item">
-                                <div class="agenda-time">${f.h}<small>${f.d}</small></div>
+                    return `') }<div class="agenda-item">
+                                <div class="agenda-time">{{ __('${f.h}') }}<small>{{ __('${f.d}') }}</small></div>
                                 <div>
-                                    <div class="agenda-title">${e.title}</div>
-                                    <div class="agenda-meta">${e.extendedProps.company} · ${e.extendedProps.audience.toLocaleString('es-PE')} contactos</div>
-                                    <span class="agenda-pill pill-${e.extendedProps.status}">${statusLabels[e.extendedProps.status]}</span>
+                                    <div class="agenda-title">{{ __('${e.title}') }}</div>
+                                    <div class="agenda-meta">{{ __('${e.extendedProps.company} · ${e.extendedProps.audience.toLocaleString(\\'es-PE\') }}contactos') }</div>
+                                    <span class="agenda-pill pill-${e.extendedProps.status}">{{ __('${statusLabels[e.extendedProps.status]}') }}</span>
                                 </div>
-                            </div>`;
-                }).join('') :
-                `<div style="text-align:center;padding:14px 0;color:var(--muted);font-size:12.5px"><i class="fa-regular fa-calendar" style="font-size:22px;display:block;margin-bottom:6px;color:var(--primary);opacity:.5"></i>${empty}</div>`;
+                            </div>{{ __('`;
+                }).join(\'\') :
+                `') }<div style="text-align:center;padding:14px 0;color:var(--muted);font-size:12.5px"><i class="fa-regular fa-calendar" style="font-size:22px;display:block;margin-bottom:6px;color:var(--primary);opacity:.5"></i>{{ __('${empty}') }}</div>{{ __('`;
 
-            document.getElementById('todayAgenda').innerHTML = renderList(t, 'Sin campañas hoy');
-            document.getElementById('upcomingAgenda').innerHTML = renderList(up, 'Sin campañas próximas');
-            document.getElementById('todayCount').textContent = t.length;
-            document.getElementById('upcomingCount').textContent = up.length;
+            document.getElementById(\'todayAgenda\').innerHTML = renderList(t, \'Sin campañas hoy\');
+            document.getElementById(\'upcomingAgenda\').innerHTML = renderList(up, \'Sin campañas próximas\');
+            document.getElementById(\'todayCount\').textContent = t.length;
+            document.getElementById(\'upcomingCount\').textContent = up.length;
         }
 
         /* Stepper */
@@ -2266,36 +2263,35 @@
 
         function setStep(n) {
             step = Math.max(1, Math.min(total, n));
-            document.querySelectorAll('#stepper .step').forEach(s => {
+            document.querySelectorAll(\'#stepper .step\').forEach(s => {
                 const i = parseInt(s.dataset.step, 10);
-                s.classList.toggle('active', i === step);
-                s.classList.toggle('done', i < step);
+                s.classList.toggle(\'active\', i === step);
+                s.classList.toggle(\'done\', i') }< step);
             });
-            document.querySelectorAll('.step-pane').forEach(p => {
-                p.classList.toggle('active', parseInt(p.dataset.pane, 10) === step);
+            document.querySelectorAll('.step-pane').forEach(p =>{{ __('{
+                p.classList.toggle(\'active\', parseInt(p.dataset.pane, 10) === step);
             });
-            document.getElementById('btnPrev').disabled = step === 1;
-            document.getElementById('btnNext').innerHTML = step === total ?
-                '<i class="fa-solid fa-check"></i> Programar campaña' : 'Siguiente <i class="fa-solid fa-arrow-right"></i>';
+            document.getElementById(\'btnPrev\').disabled = step === 1;
+            document.getElementById(\'btnNext\').innerHTML = step === total ?
+                \'') }<i class="fa-solid fa-check"></i>{{ __('Programar campaña\\' : \\'Siguiente') }}<i class="fa-solid fa-arrow-right"></i>{{ __('\';
         }
-        document.getElementById('btnNext').onclick = () => {
+        document.getElementById(\'btnNext\').onclick = () => {
             if (step === total) {
-                bootstrap.Modal.getInstance(document.getElementById('modalCampaign')).hide();
+                bootstrap.Modal.getInstance(document.getElementById(\'modalCampaign\')).hide();
                 setTimeout(() => setStep(1), 400);
                 return;
             }
             setStep(step + 1);
         };
-        document.getElementById('btnPrev').onclick = () => setStep(step - 1);
-        document.querySelectorAll('#stepper .step').forEach(s => s.onclick = () => setStep(parseInt(s.dataset.step, 10)));
-        document.querySelectorAll('.tpl-card').forEach(c => c.onclick = () => {
-            document.querySelectorAll('.tpl-card').forEach(x => x.classList.remove('selected'));
-            c.classList.add('selected');
+        document.getElementById(\'btnPrev\').onclick = () => setStep(step - 1);
+        document.querySelectorAll(\'#stepper .step\').forEach(s => s.onclick = () => setStep(parseInt(s.dataset.step, 10)));
+        document.querySelectorAll(\'.tpl-card\').forEach(c => c.onclick = () => {
+            document.querySelectorAll(\'.tpl-card\').forEach(x => x.classList.remove(\'selected\'));
+            c.classList.add(\'selected\');
         });
 
         /* ESC closes drawer */
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape') closeDrawer();
-        });
-    </script>
+        document.addEventListener(\'keydown\', e => {
+            if (e.key === \'Escape\') closeDrawer();
+        });') }</script>
 @endsection

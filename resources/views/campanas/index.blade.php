@@ -741,23 +741,17 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
             <div>
                 <h1 class="text-white">
-                    <i class="bi bi-megaphone-fill fs-2 text-white"></i>
-                    Mis Campañas
-                </h1>
-                <p class="subtitle mb-0">Configura y lanza tu campaña de WhatsApp Business</p>
+                    <i class="bi bi-megaphone-fill fs-2 text-white"></i>{{ __('Mis Campañas') }}</h1>
+                <p class="subtitle mb-0">{{ __('Configura y lanza tu campaña de WhatsApp Business') }}</p>
             </div>
             <div class="mt-3 mt-md-0">
                 @can('campana.crear')
                     @if (servicioPlan('analisis.ia'))
                         <button type="button" class="btn btn-new-template" id="abrirModalPredictivo">
-                            <i class="fas fa-rocket"></i>
-                            Análisis Predictivo
-                        </button>
+                            <i class="fas fa-rocket"></i>{{ __('Análisis Predictivo') }}</button>
                     @endif
                     <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearCampana">
-                        <i class="fas fa-plus fs-1"></i>
-                        Crear Campaña
-                    </button>
+                        <i class="fas fa-plus fs-1"></i>{{ __('Crear Campaña') }}</button>
                 @endcan
             </div>
         </div>
@@ -778,7 +772,7 @@
                                                     <i class="far fa-list-alt"></i>
                                                 </span>
                                                 <span class="d-flex flex-column align-items-start">
-                                                    <span class="fs-4 fw-bold">Listado</span>
+                                                    <span class="fs-4 fw-bold">{{ __('Listado') }}</span>
                                                 </span>
                                             </a>
                                         </li>
@@ -788,7 +782,7 @@
                                                     <i class="far fa-image"></i>
                                                 </span>
                                                 <span class="d-flex flex-column align-items-start">
-                                                    <span class="fs-4 fw-bold">Tarjetas</span>
+                                                    <span class="fs-4 fw-bold">{{ __('Tarjetas') }}</span>
                                                 </span>
                                             </a>
                                         </li>
@@ -803,15 +797,15 @@
                                                         <thead>
                                                             <tr>
                                                                 <th width="5%" class="text-center all">#</th>
-                                                                <th width="10%" class="text-center all">Nombre</th>
-                                                                <th width="10%" class="text-center all">Descripción</th>
-                                                                <th width="10%" class="text-center all">Enviado por</th>
-                                                                <th width="10%" class="text-center all">Estado</th>
-                                                                <th width="10%" class="text-center all">Fecha envio</th>
-                                                                <th width="10%" class="text-center none">Fecha creación</th>
-                                                                <th width="10%" class="text-center none">Plantilla</th>
-                                                                <th width="10%" class="text-center none">Tipo</th>
-                                                                <th width="10%" class="text-center all">Acciones</th>
+                                                                <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                                                <th width="10%" class="text-center all">{{ __('Descripción') }}</th>
+                                                                <th width="10%" class="text-center all">{{ __('Enviado por') }}</th>
+                                                                <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                                                                <th width="10%" class="text-center all">{{ __('Fecha envio') }}</th>
+                                                                <th width="10%" class="text-center none">{{ __('Fecha creación') }}</th>
+                                                                <th width="10%" class="text-center none">{{ __('Plantilla') }}</th>
+                                                                <th width="10%" class="text-center none">{{ __('Tipo') }}</th>
+                                                                <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody></tbody>

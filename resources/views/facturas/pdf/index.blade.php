@@ -248,67 +248,67 @@
             <td class="empresa-cell">
                 <p class="empresa-nombre">{{ $empresa['nombre'] }}</p>
                 <div class="empresa-info">
-                    <strong>NIT:</strong> {{ $empresa['nit'] }}<br>
-                    <strong>Régimen:</strong> {{ $empresa['regimen'] }}<br>
-                    <strong>Dirección:</strong> {{ $empresa['direccion'] }}<br>
-                    <strong>Email:</strong> {{ $empresa['email'] }}<br>
-                    <strong>Teléfono:</strong> {{ $empresa['telefono'] }}
+                    <strong>{{ __('NIT:') }}</strong> {{ $empresa['nit'] }}<br>
+                    <strong>{{ __('Régimen:') }}</strong> {{ $empresa['regimen'] }}<br>
+                    <strong>{{ __('Dirección:') }}</strong> {{ $empresa['direccion'] }}<br>
+                    <strong>{{ __('Email:') }}</strong> {{ $empresa['email'] }}<br>
+                    <strong>{{ __('Teléfono:') }}</strong> {{ $empresa['telefono'] }}
                 </div>
             </td>
             <td class="factura-cell">
-                <div class="factura-titulo">FACTURA ELECTRÓNICA<br>DE VENTA</div>
+                <div class="factura-titulo">{{ __('FACTURA ELECTRÓNICA') }}<br>{{ __('DE VENTA') }}</div>
                 <div class="factura-numero">No. {{ $factura->invoice }}</div>
                 <div class="factura-meta">
-                    <strong>Resolución DIAN:</strong> No. {{ $empresa['resolucion'] }} de {{ $empresa['fecha_res'] }}<br>
-                    <strong>Rango autorizado:</strong> {{ $empresa['rango_desde'] }} a {{ $empresa['rango_hasta'] }}<br>
-                    <strong>Vigencia:</strong> {{ $empresa['vigencia'] }}
+                    <strong>{{ __('Resolución DIAN:') }}</strong> No. {{ $empresa['resolucion'] }} de {{ $empresa['fecha_res'] }}<br>
+                    <strong>{{ __('Rango autorizado:') }}</strong> {{ $empresa['rango_desde'] }} a {{ $empresa['rango_hasta'] }}<br>
+                    <strong>{{ __('Vigencia:') }}</strong> {{ $empresa['vigencia'] }}
                 </div>
             </td>
         </tr>
     </table>
 
     {{-- DATOS DEL CLIENTE --}}
-    <div class="section-title" style="border-radius: 0.5rem 0.5rem 0 0;">DATOS DEL ADQUIRENTE / CLIENTE</div>
+    <div class="section-title" style="border-radius: 0.5rem 0.5rem 0 0;">{{ __('DATOS DEL ADQUIRENTE / CLIENTE') }}</div>
     <table class="info-table">
         <tr>
-            <td class="info-label">Cliente:</td>
+            <td class="info-label">{{ __('Cliente:') }}</td>
             <td class="info-value">{{ trim($factura->name . ' ' . $factura->last_name) }}</td>
-            <td class="info-label">Identificación:</td>
+            <td class="info-label">{{ __('Identificación:') }}</td>
             <td class="info-value">{{ $factura->doc_type }} - {{ $factura->doc_number }}</td>
         </tr>
         <tr>
-            <td class="info-label">Correo electrónico:</td>
+            <td class="info-label">{{ __('Correo electrónico:') }}</td>
             <td class="info-value">{{ $factura->email }}</td>
-            <td class="info-label">Teléfono / Celular:</td>
+            <td class="info-label">{{ __('Teléfono / Celular:') }}</td>
             <td class="info-value">{{ $factura->cell_phone }}</td>
         </tr>
         <tr>
-            <td class="info-label">Dirección:</td>
+            <td class="info-label">{{ __('Dirección:') }}</td>
             <td class="info-value">{{ $factura->x_customer_address }}</td>
-            <td class="info-label">País:</td>
+            <td class="info-label">{{ __('País:') }}</td>
             <td class="info-value">{{ $factura->country }}</td>
         </tr>
         <tr>
-            <td class="info-label">Tipo de Persona:</td>
+            <td class="info-label">{{ __('Tipo de Persona:') }}</td>
             <td class="info-value">{{ $factura->type_person }}</td>
-            <td class="info-label">IP del Cliente:</td>
+            <td class="info-label">{{ __('IP del Cliente:') }}</td>
             <td class="info-value">{{ $factura->x_customer_ip }}</td>
         </tr>
     </table>
 
     {{-- INFORMACION DE CUENTA Y SERVICIO --}}
-    <div class="section-title" style="border-radius: 0.5rem 0.5rem 0 0;">INFORMACIÓN DE CUENTA Y SERVICIO</div>
+    <div class="section-title" style="border-radius: 0.5rem 0.5rem 0 0;">{{ __('INFORMACIÓN DE CUENTA Y SERVICIO') }}</div>
     <table class="info-table">
         <tr>
-            <td class="info-label">Código de Usuario:</td>
+            <td class="info-label">{{ __('Código de Usuario:') }}</td>
             <td class="info-value">{{ $factura->cod_usuario }}</td>
-            <td class="info-label">Código de Plan:</td>
+            <td class="info-label">{{ __('Código de Plan:') }}</td>
             <td class="info-value">{{ $factura->cod_plan }}</td>
         </tr>
         <tr>
-            <td class="info-label">Tiempo Contratado:</td>
+            <td class="info-label">{{ __('Tiempo Contratado:') }}</td>
             <td class="info-value">{{ $factura->tiempo }} mes(es)</td>
-            <td class="info-label">Fecha Vencimiento:</td>
+            <td class="info-label">{{ __('Fecha Vencimiento:') }}</td>
             <td class="info-value">
                 {{ optional($factura->fecha_vencimiento)->format('Y-m-d') }}
             </td>
@@ -316,15 +316,15 @@
     </table>
 
     {{-- DETALLE DE FACTURACION --}}
-    <div class="section-title" style="border-radius: 0.5rem 0.5rem 0 0;">DETALLE DE FACTURACIÓN</div>
+    <div class="section-title" style="border-radius: 0.5rem 0.5rem 0 0;">{{ __('DETALLE DE FACTURACIÓN') }}</div>
     <table class="detalle-table">
         <thead>
             <tr>
-                <th style="width: 18%;">Código Plan</th>
-                <th style="width: 42%;">Descripción del Producto / Servicio</th>
-                <th class="text-right" style="width: 13%;">Base Gravable</th>
-                <th class="text-right" style="width: 13%;">IVA</th>
-                <th class="text-right" style="width: 14%;">Total</th>
+                <th style="width: 18%;">{{ __('Código Plan') }}</th>
+                <th style="width: 42%;">{{ __('Descripción del Producto / Servicio') }}</th>
+                <th class="text-right" style="width: 13%;">{{ __('Base Gravable') }}</th>
+                <th class="text-right" style="width: 13%;">{{ __('IVA') }}</th>
+                <th class="text-right" style="width: 14%;">{{ __('Total') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -343,27 +343,27 @@
         <tr>
             <td style="width: 55%; padding-right: 10px;">
                 <div class="transaccion-box" style="border-radius: 0.5rem;">
-                    <span class="titulo">DETALLE DE TRANSACCIÓN (PASARELA EPAYCO)</span>
-                    <strong>ID Cliente Pasarela (x_cust_id_cliente):</strong> {{ $factura->x_cust_id_cliente }}<br>
-                    <strong>Referencia ePayco (x_ref_payco):</strong> {{ $factura->x_ref_payco }}<br>
-                    <strong>Banco Operador (bank):</strong> {{ $factura->bank }}<br>
-                    <strong>Franquicia Autorizadora (x_franchise):</strong> {{ $factura->x_franchise }}<br>
-                    <strong>Estado de Transacción (x_response):</strong> {{ $factura->x_response }}<br>
-                    <strong>Firma Digital (x_signature):</strong> {{ $signatureCorta }}
+                    <span class="titulo">{{ __('DETALLE DE TRANSACCIÓN (PASARELA EPAYCO)') }}</span>
+                    <strong>{{ __('ID Cliente Pasarela (x_cust_id_cliente):') }}</strong> {{ $factura->x_cust_id_cliente }}<br>
+                    <strong>{{ __('Referencia ePayco (x_ref_payco):') }}</strong> {{ $factura->x_ref_payco }}<br>
+                    <strong>{{ __('Banco Operador (bank):') }}</strong> {{ $factura->bank }}<br>
+                    <strong>{{ __('Franquicia Autorizadora (x_franchise):') }}</strong> {{ $factura->x_franchise }}<br>
+                    <strong>{{ __('Estado de Transacción (x_response):') }}</strong> {{ $factura->x_response }}<br>
+                    <strong>{{ __('Firma Digital (x_signature):') }}</strong> {{ $signatureCorta }}
                 </div>
             </td>
             <td style="width: 45%;">
                 <table class="totales-table" style="border-radius: 0.5rem;">
                     <tr>
-                        <td>Subtotal:</td>
+                        <td>{{ __('Subtotal:') }}</td>
                         <td class="text-right">${{ number_format($factura->tax_base, 2, ',', '.') }}</td>
                     </tr>
                     <tr>
-                        <td>Impuesto (IVA):</td>
+                        <td>{{ __('Impuesto (IVA):') }}</td>
                         <td class="text-right">${{ number_format($factura->tax, 2, ',', '.') }}</td>
                     </tr>
                     <tr class="total-row">
-                        <td>Total Recaudado:</td>
+                        <td>{{ __('Total Recaudado:') }}</td>
                         <td class="text-right">${{ number_format($factura->value, 2, ',', '.') }} {{ $moneda }}</td>
                     </tr>
                 </table>
@@ -375,16 +375,14 @@
         {{-- CUFE --}}
         @if(!empty($factura->cufe))
             <div class="cufe-box">
-                <span class="label">CUFE (Código Único de Factura Electrónica):</span><br>
+                <span class="label">{{ __('CUFE (Código Único de Factura Electrónica):') }}</span><br>
                 <span class="codigo">{{ $factura->cufe }}</span>
             </div>
         @endif
 
-        <p class="footer-note" style="color: black;">
-            Esta factura representa una representación gráfica de un documento electrónico legal emitido bajo la
+        <p class="footer-note" style="color: black;">{{ __('Esta factura representa una representación gráfica de un documento electrónico legal emitido bajo la
             normativa de la DIAN. La firma digital de ePayco garantiza la validez e integridad del recaudo y la
-            transacción.
-        </p>
+            transacción.') }</p>
     </div>
 </body>
 </html>

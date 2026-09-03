@@ -43,7 +43,7 @@
     <link rel="stylesheet" href="{{ asset('assets/pin-login/jquery.pinlogin.css') }}">
     <!-- For Bootstrap 5 -->
     <link rel="stylesheet" href="{{ asset('assets/summernote/summernote-bs5.css') }}" />
-    <!-- For <a href="https://www.jqueryscript.net/tags.php?/bootstrap 4/">Bootstrap 4</a> -->
+    <!-- For <a href="https://www.jqueryscript.net/tags.php?/bootstrap 4/">{{ __('Bootstrap 4') }}</a> -->
     <link rel="stylesheet" href="{{ asset('assets/summernote/summernote-bs4.css') }}" />
     <!-- For Bootstrap 3 -->
     <link rel="stylesheet" href="{{ asset('assets/summernote/summernote.css') }}" />
@@ -59,15 +59,13 @@
     <script type="text/javascript" async=""
         src="https://www.googletagmanager.com/gtag/js?id=G-L98VPZFG7E&amp;l=dataLayer&amp;cx=c"></script>
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-37564768-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
+    <script>{{ __('window.dataLayer = window.dataLayer || [];
 
         function gtag() {
             dataLayer.push(arguments);
         }
-        gtag('js', new Date());
-        gtag('config', 'UA-37564768-1');
-    </script>
+        gtag(\'js\', new Date());
+        gtag(\'config\', \'UA-37564768-1\');') }</script>
     <!--end::Google tag-->
     <script>
         // Frame-busting to prevent site from being loaded within a frame without permission (click-jacking)
@@ -75,8 +73,7 @@
             window.top.location.replace(window.self.location.href);
         }
     </script>
-    <style type="text/css">
-        .vis-time-axis {
+    <style type="text/css">{{ __('.vis-time-axis {
             overflow: hidden;
             position: relative
         }
@@ -129,10 +126,8 @@
 
         .vis-time-axis .vis-grid.vis-major {
             border-color: #bfbfbf
-        }
-    </style>
-    <style type="text/css">
-        .vis .overlay {
+        }') }</style>
+    <style type="text/css">{{ __('.vis .overlay {
             height: 100%;
             left: 0;
             position: absolute;
@@ -143,10 +138,8 @@
 
         .vis-active {
             box-shadow: 0 0 10px #86d5f8
-        }
-    </style>
-    <style type="text/css">
-        .vis-custom-time {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-custom-time {
             background-color: #6e94ff;
             cursor: move;
             width: 2px;
@@ -162,10 +155,8 @@
             top: 0;
             white-space: nowrap;
             z-index: inherit
-        }
-    </style>
-    <style type="text/css">
-        .vis-current-time {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-current-time {
             background-color: #ff7f6e;
             pointer-events: none;
             width: 2px;
@@ -194,10 +185,8 @@
 
         .vis-rolling-mode-btn:hover {
             opacity: 1
-        }
-    </style>
-    <style type="text/css">
-        .vis-panel {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-panel {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -270,10 +259,8 @@
         .vis-panel .vis-shadow.vis-bottom {
             bottom: -1px;
             left: 0
-        }
-    </style>
-    <style type="text/css">
-        .vis-graph-group0 {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-graph-group0 {
             fill: #4f81bd;
             fill-opacity: 0;
             stroke-width: 2px;
@@ -375,10 +362,8 @@
         .vis-timeline .vis-icon-fill {
             fill-opacity: .3;
             stroke: none
-        }
-    </style>
-    <style type="text/css">
-        .vis-timeline {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-timeline {
             border: 1px solid #bfbfbf;
             box-sizing: border-box;
             margin: 0;
@@ -393,16 +378,12 @@
             position: absolute;
             top: 0;
             width: 100%
-        }
-    </style>
-    <style type="text/css">
-        .vis [class*=span] {
+        }') }</style>
+    <style type="text/css">{{ __('.vis [class*=span] {
             min-height: 0;
             width: auto
-        }
-    </style>
-    <style type="text/css">
-        .vis-item {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-item {
             background-color: #d5ddf6;
             border-color: #97b0f8;
             border-width: 1px;
@@ -613,10 +594,8 @@
             border-width: 4px;
             padding: 0;
             position: absolute
-        }
-    </style>
-    <style type="text/css">
-        div.vis-tooltip {
+        }') }</style>
+    <style type="text/css">{{ __('div.vis-tooltip {
             background-color: #f5f4ed;
             border: 1px solid #808074;
             -moz-border-radius: 3px;
@@ -632,10 +611,8 @@
             visibility: hidden;
             white-space: nowrap;
             z-index: 5
-        }
-    </style>
-    <style type="text/css">
-        .vis-itemset {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-itemset {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -844,10 +821,8 @@
             top: 0;
             width: 100%;
             z-index: 10
-        }
-    </style>
-    <style type="text/css">
-        .vis-labelset {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-labelset {
             overflow: hidden
         }
 
@@ -884,10 +859,8 @@
 
         .vis-labelset .vis-label .vis-inner.vis-hidden {
             padding: 0
-        }
-    </style>
-    <style type="text/css">
-        div.vis-configuration {
+        }') }</style>
+    <style type="text/css">{{ __('div.vis-configuration {
             display: block;
             float: left;
             font-size: 12px;
@@ -1166,10 +1139,8 @@
             border-color: rgba(194, 225, 245, 0) rgba(194, 225, 245, 0) rgba(194, 225, 245, 0) #f2faff;
             border-width: 12px;
             margin-top: -12px
-        }
-    </style>
-    <style type="text/css">
-        .vis-panel.vis-background.vis-horizontal .vis-grid.vis-horizontal {
+        }') }</style>
+    <style type="text/css">{{ __('.vis-panel.vis-background.vis-horizontal .vis-grid.vis-horizontal {
             border-bottom: 1px solid;
             height: 0;
             position: absolute;
@@ -1267,8 +1238,7 @@
         .vis-legend-text {
             display: inline-block;
             white-space: nowrap
-        }
-    </style>
+        }') }</style>
     <style id="apexcharts-css">
         @keyframes opaque {
             0% {
@@ -2004,8 +1974,7 @@
     data-kt-app-toolbar-enabled="true" data-kt-app-sidebar-secondary-collapse="on"
     class="app-default">
     <!--begin::Theme mode setup on page load-->
-    <script>
-        var defaultThemeMode = "light";
+    <script>{{ __('var defaultThemeMode = "light";
         var themeMode;
 
         if (document.documentElement) {
@@ -2024,8 +1993,7 @@
             }
 
             document.documentElement.setAttribute("data-bs-theme", themeMode);
-        }
-    </script>
+        }') }</script>
     <!--end::Theme mode setup on page load-->
     <!--Begin::Google Tag Manager (noscript) -->
     {{-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5FS8GGP" height="0" width="0"

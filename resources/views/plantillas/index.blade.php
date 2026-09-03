@@ -309,20 +309,14 @@
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                 <div>
                     <h1 class="text-white">
-                        <i class="fab fa-whatsapp text-white"></i>
-                        Plantillas de WhatsApp
-                    </h1>
-                    <p class="subtitle mb-0">Gestiona y previsualiza tus plantillas aprobadas</p>
+                        <i class="fab fa-whatsapp text-white"></i>{{ __('Plantillas de WhatsApp') }}</h1>
+                    <p class="subtitle mb-0">{{ __('Gestiona y previsualiza tus plantillas aprobadas') }}</p>
                 </div>
                 <div class="mt-3 mt-md-0">
                     <button type="button" class="btn btn-new-template" id="btnSincronizar">
-                        <i class="fa fa-sync-alt fs-4"></i>
-                        Sincronizar Plantillas
-                    </button>
+                        <i class="fa fa-sync-alt fs-4"></i>{{ __('Sincronizar Plantillas') }}</button>
                     <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearPlantilla">
-                        <i class="fas fa-plus fs-1"></i>
-                        Nueva Plantilla
-                    </button>
+                        <i class="fas fa-plus fs-1"></i>{{ __('Nueva Plantilla') }}</button>
                 </div>
             </div>
         </div>
@@ -336,9 +330,7 @@
                             <div class="card-header">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h5 class="mb-0 fw-bold text-muted">
-                                        <i class="fas fa-list me-2"></i>
-                                        Lista de Plantillas
-                                    </h5>
+                                        <i class="fas fa-list me-2"></i>{{ __('Lista de Plantillas') }}</h5>
                                 </div>
                             </div>
                             <div class="card-body pt-5" id="kt_chat_contacts_body">
@@ -347,11 +339,11 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center all">#</th>
-                                                <th width="10%" class="text-center all">Nombre</th>
-                                                <th width="10%" class="text-center all">Categoría</th>
-                                                <th width="10%" class="text-center all">Lenguaje</th>
-                                                <th width="10%" class="text-center all">Estado</th>
-                                                <th width="10%" class="text-center all">Acciones</th>
+                                                <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Categoría') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Lenguaje') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>

@@ -1,5 +1,4 @@
-@foreach ($respuesta as $index => $items)
-    <!--begin::Example-->
+@foreach ($respuesta as $index =>{{ __('$items)') }}<!--begin::Example-->
     <div class="separator separator-dashed separator-content border-primary my-15">
         <span class="h1 text-primary">{{$index}}</span>
     </div>

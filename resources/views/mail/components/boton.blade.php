@@ -1,6 +1,4 @@
-@props(['url', 'texto' => 'Ver detalles'])
-
-<table role="presentation" cellpadding="0" cellspacing="0">
+@props(['url', 'texto' =>{{ __('\\'Ver detalles\\'])') }}<table role="presentation" cellpadding="0" cellspacing="0">
     <tr>
         <td align="center" style="border-radius: 6px; background-color:#2E8B47;">
             <a href="{{ $url }}"

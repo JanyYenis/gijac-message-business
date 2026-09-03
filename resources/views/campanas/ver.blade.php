@@ -29,7 +29,7 @@
                 <div class="row g-3 align-items-center">
                     <div class="col-md-12">
                         <select class="form-select campaign-selector" data-control="select2"
-                            data-placeholder="Campañas" data-allow-clear="true" id="campaignSelector">
+                            data-placeholder="{{ __('Campañas') }}" data-allow-clear="true" id="campaignSelector">
                             <option value=""></option>
                             @foreach ($campanas as $item)
                                 <option value="{{ $item->id }}" {{ $campana?->id == $item?->id ? 'selected' : '' }}>{{ $item?->nombre }}</option>
@@ -38,9 +38,7 @@
                     </div>
                     {{-- <div class="col-md-4">
                         <a href="{{ route('campanas.exportar', ['campana' => $campana->id]) }}" type="button" class="btn btn-new-template">
-                            <i class="fas fa-file-excel"></i>
-                            Generar Excel
-                        </a>
+                            <i class="fas fa-file-excel"></i>{{ __('Generar Excel') }}</a>
                     </div> --}}
                 </div>
             </div>
@@ -52,16 +50,14 @@
             <div class="col-lg-4 col-md-4">
                 <div class="phone-preview">
                     <h6 class="fw-bold mb-3 text-center">
-                        <i class="bi bi-phone-fill fs-2 me-2" style="color: var(--primary-color);"></i>
-                        Vista Previa
-                    </h6>
+                        <i class="bi bi-phone-fill fs-2 me-2" style="color: var(--primary-color);"></i>{{ __('Vista Previa') }}</h6>
                     <div class="phone-mockup">
                         <div class="phone-screen">
                             <div class="phone-header">
-                                <div class="contact-avatar">JD</div>
+                                <div class="contact-avatar">{{ __('JD') }}</div>
                                 <div class="contact-info">
-                                    <h6 class="text-white">Juan Pérez</h6>
-                                    <small>en línea</small>
+                                    <h6 class="text-white">{{ __('Juan Pérez') }}</h6>
+                                    <small>{{ __('en línea') }}</small>
                                 </div>
                             </div>
                             <div class="chat-area conversation conversation-container">
@@ -75,9 +71,7 @@
                     </div>
                     <div class="text-center mt-3">
                         <small class="text-muted">
-                            <i class="bi bi-info-circle me-1"></i>
-                            Vista previa aproximada del mensaje
-                        </small>
+                            <i class="bi bi-info-circle me-1"></i>{{ __('Vista previa aproximada del mensaje') }}</small>
                     </div>
                 </div>
             </div>
@@ -90,10 +84,10 @@
                                 <i class="fas fa-users"></i>
                             </div>
                             <h3 class="metric-value" id="totalContacts">{{ formatoMiles(count($campana?->enviosActivos)) }}</h3>
-                            <p class="metric-label">Total Contactos</p>
+                            <p class="metric-label">{{ __('Total Contactos') }}</p>
                             <div class="metric-change positive">
                                 <i class="fas fa-arrow-up"></i>
-                                <span>100% enviados</span>
+                                <span>{{ __('100% enviados') }}</span>
                             </div>
                         </div>
                     </div>
@@ -103,7 +97,7 @@
                                 <i class="fas fa-envelope-open"></i>
                             </div>
                             <h3 class="metric-value" id="totalOpened">{{ formatoMiles(count($campana?->mensajesAbiertos)) }}</h3>
-                            <p class="metric-label">Mensajes Abiertos</p>
+                            <p class="metric-label">{{ __('Mensajes Abiertos') }}</p>
                             @php
                                 if (count($campana?->enviosActivos) && count($campana?->mensajesAbiertos)) {
                                     $class = round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) >= 50 ? 'positive' : 'negative';
@@ -125,7 +119,7 @@
                                 <i class="fas fa-mouse-pointer"></i>
                             </div>
                             <h3 class="metric-value" id="totalClicks">{{ formatoMiles(count($campana?->clicksAbiertos)) }}</h3>
-                            <p class="metric-label">Clics en Links</p>
+                            <p class="metric-label">{{ __('Clics en Links') }}</p>
                             @php
                                 if (count($campana?->enviosActivos) && count($campana?->clicksAbiertos)) {
                                     $class = round((count($campana?->clicksAbiertos) / count($campana?->enviosActivos)) * 100) >= 50 ? 'positive' : 'negative';
@@ -147,7 +141,7 @@
                                 <i class="fas fa-chart-pie"></i>
                             </div>
                             <h3 class="metric-value" id="effectiveness">{{ round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) }}<span style="font-size: 1.5rem;">%</span></h3>
-                            <p class="metric-label">Efectividad</p>
+                            <p class="metric-label">{{ __('Efectividad') }}</p>
                             @php
                                 if (count($campana?->enviosActivos) && count($campana?->mensajesAbiertos)) {
                                     $class = round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) >= 50 ? 'positive' : 'negative';
@@ -172,9 +166,7 @@
                     <div class="col-lg-6">
                         <div class="card chart-card">
                             <h5 class="chart-title">
-                                <i class="fas fa-chart-pie text-primary"></i>
-                                Distribución de Apertura
-                            </h5>
+                                <i class="fas fa-chart-pie text-primary"></i>{{ __('Distribución de Apertura') }}</h5>
                             <div class="chart-container">
                                 <div id="openingChart"></div>
                             </div>
@@ -183,9 +175,7 @@
                     <div class="col-lg-6">
                         <div class="card chart-card">
                             <h5 class="chart-title">
-                                <i class="fas fa-chart-bar text-success"></i>
-                                Clics vs Aperturas
-                            </h5>
+                                <i class="fas fa-chart-bar text-success"></i>{{ __('Clics vs Aperturas') }}</h5>
                             <div class="chart-container">
                                 <div id="clicksChart"></div>
                             </div>
@@ -198,9 +188,7 @@
                     <div class="col-12">
                         <div class="card chart-card">
                             <h5 class="chart-title">
-                                <i class="fas fa-clock text-warning"></i>
-                                Actividad por Horas del Día
-                            </h5>
+                                <i class="fas fa-clock text-warning"></i>{{ __('Actividad por Horas del Día') }}</h5>
                             <div class="chart-container">
                                 <div id="hourlyChart"></div>
                             </div>
@@ -211,9 +199,7 @@
                 <div class="card table-card">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h5 class="chart-title mb-0">
-                            <i class="fas fa-users text-info"></i>
-                            Detalle de Contactos
-                        </h5>
+                            <i class="fas fa-users text-info"></i>{{ __('Detalle de Contactos') }}</h5>
                     </div>
 
                     <div class="scroll-y me-n5 pe-5 h-200px h-lg-auto tablasScroll" data-kt-scroll="true"
@@ -226,11 +212,11 @@
                                 <thead>
                                     <tr>
                                         <th width="5%" class="text-center all">#</th>
-                                        <th width="10%" class="text-center all">Contacto</th>
-                                        <th width="10%" class="text-center all">Etiqueta</th>
-                                        <th width="10%" class="text-center all">Abierto</th>
-                                        <th width="10%" class="text-center all">Click (Links)</th>
-                                        <th width="10%" class="text-center all">Acciones</th>
+                                        <th width="10%" class="text-center all">{{ __('Contacto') }}</th>
+                                        <th width="10%" class="text-center all">{{ __('Etiqueta') }}</th>
+                                        <th width="10%" class="text-center all">{{ __('Abierto') }}</th>
+                                        <th width="10%" class="text-center all">{{ __('Click (Links)') }}</th>
+                                        <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>

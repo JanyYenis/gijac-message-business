@@ -45,16 +45,14 @@
 
                         <!--begin::Actions-->
                         {{-- <div class="m-0">
-                            <button type="button" class="btn btn-color-gray-500 btn-active-color-primary p-0 fw-bold">Responder</button>
+                            <button type="button" class="btn btn-color-gray-500 btn-active-color-primary p-0 fw-bold">{{ __('Responder') }}</button>
                         </div> --}}
                         <!--end::Actions-->
                     </div>
                     <!--end::Wrapper-->
 
                     <!--begin::Desc-->
-                    <p class="fw-normal fs-5 text-gray-700 m-0">
-                        {!! $comentario?->descripcion !!}
-                    </p>
+                    <p class="fw-normal fs-5 text-gray-700 m-0">{{ __('{!! $comentario?->descripcion !!}') }}</p>
                     <!--end::Desc-->
                 </div>
                 <!--end::Body-->
@@ -64,7 +62,7 @@
     @endforeach
 @else
     <div class="text-center">
-        <h1>Sin comentarios</h1>
+        <h1>{{ __('Sin comentarios') }}</h1>
     </div>
 @endif
 

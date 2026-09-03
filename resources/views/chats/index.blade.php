@@ -1041,16 +1041,16 @@
         <div class="contacts-column" id="contactsColumn">
             <div class="contacts-header btnPerfilWhatsapp">
                 <div class="app-logo">
-                    <img class="profile-image" src="{{ $datosPerfilWhatsapp && isset($datosPerfilWhatsapp['profile_picture_url']) ? $datosPerfilWhatsapp['profile_picture_url'] : asset('img/logo_mini.png') }}" alt="Elad Shechter">
+                    <img class="profile-image" src="{{ $datosPerfilWhatsapp && isset($datosPerfilWhatsapp['profile_picture_url']) ? $datosPerfilWhatsapp['profile_picture_url'] : asset('img/logo_mini.png') }}" alt="{{ __('Elad Shechter') }}">
                 </div>
                 <div class="user-info">
                     <h3 class="text-white">{{ $datosNumero && isset($datosNumero['data']) ? $datosNumero['data'][0]['verified_name'] : 'N/A'}}</h3>
-                    <p>En línea</p>
+                    <p>{{ __('En línea') }}</p>
                 </div>
             </div>
 
             <div class="search-box">
-                <input type="text" id="inputSearchContactos" placeholder="Buscar contactos">
+                <input type="text" id="inputSearchContactos" placeholder="{{ __('Buscar contactos') }}">
             </div>
 
             <div class="contacts-list" id="seccionListadoContactos">
@@ -1070,7 +1070,7 @@
         <!-- Right Column - Contact Info -->
         <div class="info-column d-none" id="infoColumn">
             <div class="info-header">
-                <h2 class="text-white">Información del contacto</h2>
+                <h2 class="text-white">{{ __('Información del contacto') }}</h2>
                 <button type="button" class="btn-close-info" id="btnCloseInfo">
                     <i class="fas fa-times"></i>
                 </button>
@@ -1078,40 +1078,36 @@
 
             <div class="info-content">
                 <div class="info-profile">
-                    <div class="info-profile-avatar" id="infoProfileAvatar">JD</div>
-                    <h3 class="info-profile-name" id="infoProfileName">Juan Pérez</h3>
-                    <p class="info-profile-subtitle">Cliente desde 2024</p>
+                    <div class="info-profile-avatar" id="infoProfileAvatar">{{ __('JD') }}</div>
+                    <h3 class="info-profile-name" id="infoProfileName">{{ __('Juan Pérez') }}</h3>
+                    <p class="info-profile-subtitle">{{ __('Cliente desde 2024') }}</p>
                 </div>
 
                 <div class="info-section">
                     <h4 class="info-section-title">
-                        <i class="fas fa-robot"></i>
-                        Configuración del Chatbot
-                    </h4>
+                        <i class="fas fa-robot"></i>{{ __('Configuración del Chatbot') }}</h4>
 
                     <div class="chatbot-toggle">
-                        <span class="chatbot-toggle-label">Chatbot Tradicional</span>
+                        <span class="chatbot-toggle-label">{{ __('Chatbot Tradicional') }}</span>
                         <input class="form-check-input" type="checkbox" id="toggleTraditional">
                     </div>
 
                     <div class="chatbot-toggle">
-                        <span class="chatbot-toggle-label">Chatbot con Inteligencia Artificial</span>
+                        <span class="chatbot-toggle-label">{{ __('Chatbot con Inteligencia Artificial') }}</span>
                         <input class="form-check-input" type="checkbox" id="toggleAI">
                     </div>
                 </div>
 
                 <div class="info-section">
                     <h4 class="info-section-title">
-                        <i class="fas fa-clipboard-list"></i>
-                        Información básica
-                    </h4>
+                        <i class="fas fa-clipboard-list"></i>{{ __('Información básica') }}</h4>
 
                     <div class="info-item">
                         <div class="info-item-icon">
                             <i class="fas fa-phone"></i>
                         </div>
                         <div class="info-item-content">
-                            <div class="info-item-label">Teléfono</div>
+                            <div class="info-item-label">{{ __('Teléfono') }}</div>
                             <div class="info-item-value" id="infoPhone">+57 300 123 4567</div>
                         </div>
                     </div>
@@ -1121,7 +1117,7 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                         <div class="info-item-content">
-                            <div class="info-item-label">Correo electrónico</div>
+                            <div class="info-item-label">{{ __('Correo electrónico') }}</div>
                             <div class="info-item-value" id="infoEmail">juan.perez@email.com</div>
                         </div>
                     </div>
@@ -1131,15 +1127,13 @@
                             <i class="fas fa-clock"></i>
                         </div>
                         <div class="info-item-content">
-                            <div class="info-item-label">Última conexión</div>
-                            <div class="info-item-value" id="infoLastSeen">Hoy a las 14:30</div>
+                            <div class="info-item-label">{{ __('Última conexión') }}</div>
+                            <div class="info-item-value" id="infoLastSeen">{{ __('Hoy a las 14:30') }}</div>
                         </div>
                     </div> --}}
                 </div>
 
-                <a href="#" type="button" class="btn-more-info btnMasInfomacion">
-                    Ver más información
-                </a>
+                <a href="#" type="button" class="btn-more-info btnMasInfomacion">{{ __('Ver más información') }}</a>
             </div>
         </div>
     </div>

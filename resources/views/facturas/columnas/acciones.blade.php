@@ -8,17 +8,13 @@
 
     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px" data-kt-menu="true">
         <div class="menu-item px-3">
-            <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">
-                Acciones
-            </div>
+            <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">{{ __('Acciones') }}</div>
         </div>
         <div class="separator mb-3 opacity-75"></div>
         @if ($puederVer)
             <div class="menu-item px-3">
                 <a href="{{ route('facturas.ver', ['factura' => $model->invoice]) }}" target="_blank" class="menu-link fs-5 px-3">
-                    <i class="fas fa-eye text-info fs-4 m-2"></i>
-                    Ver Factura
-                </a>
+                    <i class="fas fa-eye text-info fs-4 m-2"></i>{{ __('Ver Factura') }}</a>
             </div>
         @endif
     </div>

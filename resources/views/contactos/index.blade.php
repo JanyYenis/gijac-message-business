@@ -6,8 +6,7 @@
 @endsection --}}
 
 @section('css')
-    <style>
-        .alert-info-custom {
+    <style>{{ __('.alert-info-custom {
             background: linear-gradient(135deg, #e3f2fd, #f0f8ff);
             border: 1px solid #81c784;
             border-radius: 10px;
@@ -164,8 +163,7 @@
             border-radius: 4px !important;
             padding: 0.5rem !important;
             font-size: 0.875rem !important;
-        }
-    </style>
+        }') }</style>
 @endsection
 
 @section('content')
@@ -173,21 +171,14 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
             <div>
                 <h1 class="text-white">
-                    <i class="fas fa-users"></i>
-                    Mis Contactos
-                </h1>
-                <p class="subtitle mb-0">Crea y administra la infomación de tus contactos.</p>
+                    <i class="fas fa-users"></i>{{ __('Mis Contactos') }}</h1>
+                <p class="subtitle mb-0">{{ __('Crea y administra la infomación de tus contactos.') }}</p>
             </div>
             <div class="mt-3 mt-md-0">
                 @can('clientes.crear')
                     <button type="button" id="tutorialBtnCargar" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#cargarContactosModal">
-                        <i class="las la-cloud-upload-alt fs-2 text-primary"></i>
-                        Cargar Contactos
-                    </button>&nbsp;
-                    <button type="button" id="tutorialBtnCrear" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearContactos">
-                        <i class="fas fa-user-plus text-primary"></i>
-                        Crear Contacto
-                    </button>
+                        <i class="las la-cloud-upload-alt fs-2 text-primary"></i>{{ __('Cargar Contactos') }}</button>{{ __('&nbsp;') }}<button type="button" id="tutorialBtnCrear" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearContactos">
+                        <i class="fas fa-user-plus text-primary"></i>{{ __('Crear Contacto') }}</button>
                 @endcan
             </div>
         </div>
@@ -199,16 +190,11 @@
                 <div class="flex-column flex-lg-row-auto w-100 mb-10 mb-lg-0">
                     <div class="card card-flush">
                         {{-- <div class="card-header pt-7">
-                            <h1 class="text-gijac mulish">Contactos</h1>
+                            <h1 class="text-gijac mulish">{{ __('Contactos') }}</h1>
                             <div class="d-flex justify-content-end">
                                 <button type="button" id="tutorialBtnCargar" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCargarContactos">
-                                    <i class="las la-cloud-upload-alt fs-2 text-white"></i>
-                                    Cargar Contactos
-                                </button>&nbsp;
-                                <button type="button" id="tutorialBtnCrear" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearContactos">
-                                    <i class="fas fa-user-plus text-white"></i>
-                                    Crear Contacto
-                                </button>
+                                    <i class="las la-cloud-upload-alt fs-2 text-white"></i>{{ __('Cargar Contactos') }}</button>{{ __('&nbsp;') }}<button type="button" id="tutorialBtnCrear" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearContactos">
+                                    <i class="fas fa-user-plus text-white"></i>{{ __('Crear Contacto') }}</button>
                             </div>
                         </div> --}}
                         <div class="card-body pt-5" id="kt_chat_contacts_body">
@@ -218,12 +204,12 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center all">#</th>
-                                                <th width="10%" class="text-center all">Nombre</th>
-                                                <th width="10%" class="text-center all">Telefono</th>
-                                                <th width="10%" class="text-center all">Genero</th>
-                                                <th width="10%" class="text-center all">Tratamiento de datos</th>
-                                                <th width="10%" class="text-center all">Estado</th>
-                                                <th width="10%" class="text-center all">Acciones</th>
+                                                <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Telefono') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Genero') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Tratamiento de datos') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>

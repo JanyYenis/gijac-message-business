@@ -933,16 +933,12 @@
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
             <div>
                 <h1 class="text-white">
-                    <i class="bi bi-building text-white fs-2"></i>
-                    Negocio
-                </h1>
-                <p class="subtitle mb-0">Crea y administra la infomación de tu(s) negocio(s).</p>
+                    <i class="bi bi-building text-white fs-2"></i>{{ __('Negocio') }}</h1>
+                <p class="subtitle mb-0">{{ __('Crea y administra la infomación de tu(s) negocio(s).') }}</p>
             </div>
             <div class="mt-3 mt-md-0">
                 {{-- <button type="button" id="tutorialBtnCrear" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearContactos">
-                    <i class="fas fa-user-plus text-primary"></i>
-                    Crear Contacto
-                </button> --}}
+                    <i class="fas fa-user-plus text-primary"></i>{{ __('Crear Contacto') }}</button> --}}
             </div>
         </div>
     </div>
@@ -966,8 +962,8 @@
                                                 <i class="fa-regular fa-image fs-1"></i>
                                             </div>
                                             <div>
-                                                <h2 class="fs-1 text-gijac">Logo de la Empresa</h2>
-                                                <p class="fs-4">Sube una imagen representativa de tu empresa</p>
+                                                <h2 class="fs-1 text-gijac">{{ __('Logo de la Empresa') }}</h2>
+                                                <p class="fs-4">{{ __('Sube una imagen representativa de tu empresa') }}</p>
                                             </div>
                                         </div>
 
@@ -978,38 +974,26 @@
                                                 @else
                                                     <i class="fa-regular fa-image fs-5x logo-placeholder-icon" id="logoPlaceholder"></i>
                                                 @endif
-                                                <img class="logo-preview-img" id="logoPreview" alt="Logo preview">
+                                                <img class="logo-preview-img" id="logoPreview" alt="{{ __('Logo preview') }}">
                                                 <div class="logo-remove-btn" id="logoRemoveBtn">
                                                     <i class="fa-solid fa-xmark"></i>
                                                 </div>
                                             </div>
                                             <div class="logo-actions">
-                                                <div class="logo-upload-text fs-3">
-                                                    Arrastra tu imagen aquí o haz clic para seleccionar
-                                                </div>
-                                                <div class="logo-upload-hint fs-3">
-                                                    Recomendado: imagen cuadrada de 400 x 400px
-                                                </div>
+                                                <div class="logo-upload-text fs-3">{{ __('Arrastra tu imagen aquí o haz clic para seleccionar') }}</div>
+                                                <div class="logo-upload-hint fs-3">{{ __('Recomendado: imagen cuadrada de 400 x 400px') }}</div>
                                                 <div class="logo-format-badges">
                                                     <span class="format-badge">
-                                                        <i class="fa-regular fa-image"></i>
-                                                        PNG
-                                                    </span>
+                                                        <i class="fa-regular fa-image"></i>{{ __('PNG') }}</span>
                                                     <span class="format-badge">
-                                                        <i class="fa-regular fa-image"></i>
-                                                        JPG
-                                                    </span>
+                                                        <i class="fa-regular fa-image"></i>{{ __('JPG') }}</span>
                                                     <span class="format-badge">
-                                                        <i class="fa-solid fa-arrows-rotate"></i>
-                                                        Hasta 2 MB
-                                                    </span>
+                                                        <i class="fa-solid fa-arrows-rotate"></i>{{ __('Hasta 2 MB') }}</span>
                                                 </div>
                                                 <input type="file" id="logoInput" name="imagen" accept="image/png,image/jpeg"
                                                     style="display: none;">
                                                 <button type="button" {{ $disabled }} class="btn btn-outline btn-outline-primary btn-sm fs-4" id="btnUploadLogo">
-                                                    <i class="las la-cloud-upload-alt fs-1"></i>
-                                                    Subir Logo
-                                                </button>
+                                                    <i class="las la-cloud-upload-alt fs-1"></i>{{ __('Subir Logo') }}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1021,17 +1005,17 @@
                                                 <i class="fa-solid fa-shop"></i>
                                             </div>
                                             <div>
-                                                <h2 class="fs-4">Información General</h2>
-                                                <p class="fs-6">Datos básicos de identificación de la empresa</p>
+                                                <h2 class="fs-4">{{ __('Información General') }}</h2>
+                                                <p class="fs-6">{{ __('Datos básicos de identificación de la empresa') }}</p>
                                             </div>
                                         </div>
 
                                         <div class="row g-3">
                                             <div class="col-md-6">
-                                                <label class="form-label required">Nombre o Razón Social</label>
+                                                <label class="form-label required">{{ __('Nombre o Razón Social') }}</label>
                                                 <div class="input-icon-group">
                                                     <input type="text" class="form-control-gijac" id="companyName"
-                                                        placeholder="Nombre de la empresa" name="razon_social" required
+                                                        placeholder="{{ __('Nombre de la empresa') }}" name="razon_social" required
                                                         value="{{ $negocio?->razon_social ?? '' }}" {{ $disabled }}>
                                                     <div class="input-icon">
                                                         <i class="bi bi-building"></i>
@@ -1039,10 +1023,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label required">NIT</label>
+                                                <label class="form-label required">{{ __('NIT') }}</label>
                                                 <div class="input-icon-group">
                                                     <input type="text" class="form-control-gijac" id="companyNit"
-                                                        placeholder="NIT de la empresa" name="nit" required inputmode="numeric"
+                                                        placeholder="{{ __('NIT de la empresa') }}" name="nit" required inputmode="numeric"
                                                         value="{{ $negocio?->nit ?? '' }}" {{ $disabled }}>
                                                     <div class="input-icon">
                                                         <i class="bi bi-upc"></i>
@@ -1059,17 +1043,17 @@
                                                 <i class="bi bi-geo-alt-fill text-primary"></i>
                                             </div>
                                             <div>
-                                                <h2 class="fs-4">Dirección</h2>
-                                                <p class="fs-6">Ubicación física de la empresa</p>
+                                                <h2 class="fs-4">{{ __('Dirección') }}</h2>
+                                                <p class="fs-6">{{ __('Ubicación física de la empresa') }}</p>
                                             </div>
                                         </div>
 
                                         <div class="row g-3">
                                             <div class="col-12">
-                                                <label class="form-label required">Dirección</label>
+                                                <label class="form-label required">{{ __('Dirección') }}</label>
                                                 <div class="input-icon-group">
                                                     <input type="text" class="form-control-gijac" id="companyAddress"
-                                                        placeholder="Dirección completa" required name="direccion"
+                                                        placeholder="{{ __('Dirección completa') }}" required name="direccion"
                                                         value="{{ $negocio?->direccion ?? '' }}" {{ $disabled }}>
                                                     <div class="input-icon">
                                                         <i class="bi bi-geo-alt-fill"></i>
@@ -1086,17 +1070,17 @@
                                                 <i class="las la-headset fs-4 text-primary"></i>
                                             </div>
                                             <div>
-                                                <h2 class="fs-4">Información de Contacto</h2>
-                                                <p class="fs-6">Canales de comunicación de la empresa</p>
+                                                <h2 class="fs-4">{{ __('Información de Contacto') }}</h2>
+                                                <p class="fs-6">{{ __('Canales de comunicación de la empresa') }}</p>
                                             </div>
                                         </div>
 
                                         <div class="row g-3">
                                             <div class="col-md-6">
-                                                <label class="form-label required">Correo Corporativo</label>
+                                                <label class="form-label required">{{ __('Correo Corporativo') }}</label>
                                                 <div class="input-icon-group">
                                                     <input type="email" class="form-control-gijac" id="companyEmail"
-                                                        placeholder="contacto@empresa.com" required name="email"
+                                                        placeholder="{{ __('contacto@empresa.com') }}" required name="email"
                                                         value="{{ $negocio?->email ?? '' }}" {{ $disabled }}>
                                                     <div class="input-icon">
                                                         <i class="bi bi-envelope-fill"></i>
@@ -1104,10 +1088,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label required">Teléfono</label>
+                                                <label class="form-label required">{{ __('Teléfono') }}</label>
                                                 <div class="input-icon-group">
                                                     <input type="tel" class="form-control-gijac" id="companyPhone"
-                                                        placeholder="Teléfono de contacto" inputmode="numeric" name="telefono"
+                                                        placeholder="{{ __('Teléfono de contacto') }}" inputmode="numeric" name="telefono"
                                                         required value="{{ $negocio && $negocio?->telefono ? '+'.$negocio?->telefono : '' }}"
                                                         {{ $disabled }}>
                                                     <div class="input-icon">
@@ -1125,15 +1109,15 @@
                                                 <i class="fa-solid fa-share-nodes"></i>
                                             </div>
                                             <div>
-                                                <h2 class="fs-4">Redes Sociales</h2>
-                                                <p class="fs-6">Perfiles sociales de la empresa (opcional)</p>
+                                                <h2 class="fs-4">{{ __('Redes Sociales') }}</h2>
+                                                <p class="fs-6">{{ __('Perfiles sociales de la empresa (opcional)') }}</p>
                                             </div>
-                                            <span class="section-optional-tag">Opcional</span>
+                                            <span class="section-optional-tag">{{ __('Opcional') }}</span>
                                         </div>
 
                                         <div class="row g-3">
                                             <div class="col-md-6">
-                                                <label class="form-label">Instagram</label>
+                                                <label class="form-label">{{ __('Instagram') }}</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialInstagram"
                                                         placeholder="https://instagram.com/empresa" name="instagram"
@@ -1151,7 +1135,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label">Facebook</label>
+                                                <label class="form-label">{{ __('Facebook') }}</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialFacebook"
                                                         placeholder="https://facebook.com/empresa" name="facebook"
@@ -1166,7 +1150,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label">TikTok</label>
+                                                <label class="form-label">{{ __('TikTok') }}</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialTiktok"
                                                         placeholder="https://tiktok.com/@empresa" name="tiktok"
@@ -1181,7 +1165,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label">LinkedIn</label>
+                                                <label class="form-label">{{ __('LinkedIn') }}</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialLinkedin"
                                                         placeholder="https://linkedin.com/company/empresa" name="linkendin"
@@ -1196,7 +1180,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <label class="form-label">Sitio Web</label>
+                                                <label class="form-label">{{ __('Sitio Web') }}</label>
                                                 <div class="input-icon-group social-input-wrapper">
                                                     <input type="url" class="form-control-gijac" id="socialWebsite"
                                                         placeholder="https://empresa.com" name="web"
@@ -1223,20 +1207,20 @@
                                                 <i class="fa-regular fa-file-lines"></i>
                                             </div>
                                             <div>
-                                                <h2 class="fs-4">Información Adicional</h2>
-                                                <p class="fs-6">Descripción general de la empresa</p>
+                                                <h2 class="fs-4">{{ __('Información Adicional') }}</h2>
+                                                <p class="fs-6">{{ __('Descripción general de la empresa') }}</p>
                                             </div>
-                                            <span class="section-optional-tag">Opcional</span>
+                                            <span class="section-optional-tag">{{ __('Opcional') }}</span>
                                         </div>
 
                                         <div class="row g-3">
                                             <div class="col-12">
-                                                <label class="form-label">Descripción de la Empresa</label>
+                                                <label class="form-label">{{ __('Descripción de la Empresa') }}</label>
                                                 <textarea class="form-control-gijac no-icon" id="companyDescription" name="descripcion"
-                                                    placeholder="Describe brevemente tu empresa, su propósito y los servicios que ofrece." maxlength="500"
+                                                    placeholder="{{ __('Describe brevemente tu empresa, su propósito y los servicios que ofrece.') }}" maxlength="500"
                                                     rows="4" {{ $disabled }}
                                                     >{{ $negocio?->descripcion ?? '' }}</textarea>
-                                                <div class="char-counter" id="charCounter">0 / 500 caracteres</div>
+                                                <div class="char-counter" id="charCounter">{{ __('0 / 500 caracteres') }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1248,22 +1232,20 @@
                                                 <i class="fa-solid fa-gear"></i>
                                             </div>
                                             <div>
-                                                <h2 class="fs-4">Configuración</h2>
-                                                <p class="fs-6">Preferencias de visibilidad y notificaciones</p>
+                                                <h2 class="fs-4">{{ __('Configuración') }}</h2>
+                                                <p class="fs-6">{{ __('Preferencias de visibilidad y notificaciones') }}</p>
                                             </div>
                                         </div>
 
                                         <div class="config-row">
                                             <div class="config-info">
                                                 <div class="config-title fs-4">
-                                                    <i class="fa-solid fa-power-off"></i>
-                                                    Estado de la empresa
-                                                </div>
-                                                <div class="config-desc fs-6">Una empresa inactiva no puede enviar campañas ni
-                                                    recibir mensajes.</div>
+                                                    <i class="fa-solid fa-power-off"></i>{{ __('Estado de la empresa') }}</div>
+                                                <div class="config-desc fs-6">{{ __('Una empresa inactiva no puede enviar campañas ni
+                                                    recibir mensajes.') }</div>
                                             </div>
                                             <div class="d-flex align-items-center">
-                                                <span class="config-status-pill active" id="statusPill">Activa</span>
+                                                <span class="config-status-pill active" id="statusPill">{{ __('Activa') }}</span>
                                                 <label class="toggle-switch">
                                                     <input type="checkbox" {{ !$negocio || $negocio?->estado == 1 ? 'checked' : '' }}
                                                         id="toggleStatus" name="estado" {{ $disabled }}/>
@@ -1275,11 +1257,9 @@
                                         <div class="config-row">
                                             <div class="config-info">
                                                 <div class="config-title fs-4">
-                                                    <i class="fa-solid fa-globe"></i>
-                                                    Mostrar información pública
-                                                </div>
-                                                <div class="config-desc fs-6">Permite que los datos de contacto de tu empresa sean
-                                                    visibles en el directorio público.</div>
+                                                    <i class="fa-solid fa-globe"></i>{{ __('Mostrar información pública') }}</div>
+                                                <div class="config-desc fs-6">{{ __('Permite que los datos de contacto de tu empresa sean
+                                                    visibles en el directorio público.') }</div>
                                             </div>
                                             <label class="toggle-switch">
                                                 <input type="checkbox" id="togglePublic"
@@ -1292,11 +1272,9 @@
                                         <div class="config-row">
                                             <div class="config-info">
                                                 <div class="config-title fs-4">
-                                                    <i class="fa-regular fa-bell"></i>
-                                                    Recibir notificaciones por correo/WhatsApp
-                                                </div>
-                                                <div class="config-desc fs-6">Recibe alertas sobre campañas, contactos nuevos y
-                                                    actividad de la cuenta.</div>
+                                                    <i class="fa-regular fa-bell"></i>{{ __('Recibir notificaciones por correo/WhatsApp') }}</div>
+                                                <div class="config-desc fs-6">{{ __('Recibe alertas sobre campañas, contactos nuevos y
+                                                    actividad de la cuenta.') }</div>
                                             </div>
                                             <label class="toggle-switch">
                                                 <input type="checkbox" id="toggleNotifications" {{ !$negocio || $negocio?->notificacion == 1 ? 'checked' : '' }} name="notificacion">
@@ -1308,13 +1286,9 @@
                                     <!-- ===== Footer Buttons ===== -->
                                     @if ($tienePermiso)
                                         <div class="form-footer">
-                                            <button class="btn btn-outline btn-outline-secondary" type="reset">
-                                                Cancelar
-                                            </button>
+                                            <button class="btn btn-outline btn-outline-secondary" type="reset">{{ __('Cancelar') }}</button>
                                             <button type="submit" class="btn btn-primary" id="btnSave">
-                                                <i class="fa-regular fa-floppy-disk"></i>
-                                                Guardar
-                                            </button>
+                                                <i class="fa-regular fa-floppy-disk"></i>{{ __('Guardar') }}</button>
                                         </div>
                                     @endif
                                 </div>

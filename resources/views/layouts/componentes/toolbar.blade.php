@@ -16,12 +16,8 @@
             <!--begin::Page title-->
             <div class="page-title py-2 py-sm-0 d-flex flex-column justify-content-center me-3 ">
                 <!--begin::Title-->
-                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">
-                    GIJAC MESSAGE BUSINESS
-
-                    <!--begin::Description-->
-                    <span class="page-desc text-muted fs-7 fw-semibold pt-2">
-                        GIJAC MESSAGE BUSINESS </span>
+                <h1 class="page-heading d-flex text-gray-900 fw-bold fs-3 flex-column justify-content-center my-0">{{ __('GIJAC MESSAGE BUSINESS') }}<!--begin::Description-->
+                    <span class="page-desc text-muted fs-7 fw-semibold pt-2">{{ __('GIJAC MESSAGE BUSINESS') }}</span>
                     <!--end::Description-->
                 </h1>
                 <!--end::Title-->
@@ -43,7 +39,7 @@
                     <!--end::Number-->
 
                     <!--begin::Section-->
-                    <div class="text-gray-500 fw-semibold fs-7">Porcentaje de campañas</div>
+                    <div class="text-gray-500 fw-semibold fs-7">{{ __('Porcentaje de campañas') }}</div>
                     <!--end::Section-->
                 </div>
                 <!--end::Item-->
@@ -54,7 +50,7 @@
                     <!--end::Number-->
 
                     <!--begin::Section-->
-                    <div class="text-gray-500 fw-semibold fs-7">Today Spending</div>
+                    <div class="text-gray-500 fw-semibold fs-7">{{ __('Today Spending') }}</div>
                     <!--end::Section-->
                 </div>
                 <!--end::Item-->
@@ -65,7 +61,7 @@
                     <!--end::Number-->
 
                     <!--begin::Section-->
-                    <div class="text-gray-500 fw-semibold fs-7">Overall Share</div>
+                    <div class="text-gray-500 fw-semibold fs-7">{{ __('Overall Share') }}</div>
                     <!--end::Section-->
                 </div>
                 <!--end::Item-->
@@ -76,7 +72,7 @@
                     <!--end::Number-->
 
                     <!--begin::Section-->
-                    <div class="text-gray-500 fw-semibold fs-7">7 Days</div>
+                    <div class="text-gray-500 fw-semibold fs-7">{{ __('7 Days') }}</div>
                     <!--end::Section-->
                 </div>
                 <!--end::Item--> --}}

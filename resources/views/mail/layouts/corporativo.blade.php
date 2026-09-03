@@ -20,14 +20,12 @@
                                 <tr>
                                     <td align="left" valign="middle">
                                         <img src="{{ $logoUrl ?? asset('img/logo_gmb.png') }}"
-                                             alt="GMB"
+                                             alt="{{ __('GMB') }}"
                                              width="48"
                                              style="display:block; border-radius: 50%;">
                                     </td>
                                     <td align="left" valign="middle" style="padding-left: 12px;">
-                                        <span style="color:#FFFFFF; font-size: 18px; font-weight:bold; font-family: Arial, sans-serif;">
-                                            GIJAC MESSAGE BUSINESS
-                                        </span>
+                                        <span style="color:#FFFFFF; font-size: 18px; font-weight:bold; font-family: Arial, sans-serif;">{{ __('GIJAC MESSAGE BUSINESS') }}</span>
                                     </td>
                                 </tr>
                             </table>
@@ -36,7 +34,7 @@
 
                     {{-- BANDA VERDE SECUNDARIA (acento) --}}
                     <tr>
-                        <td style="background-color:#2E8B47; height: 4px; line-height:4px; font-size:0;">&nbsp;</td>
+                        <td style="background-color:#2E8B47; height: 4px; line-height:4px; font-size:0;">{{ __('&nbsp;') }}</td>
                     </tr>
 
                     {{-- TÍTULO DEL CORREO --}}
@@ -74,9 +72,7 @@
                     {{-- FOOTER --}}
                     <tr>
                         <td style="padding: 24px 32px; font-family: Arial, sans-serif;">
-                            <p style="margin:0 0 6px 0; font-size:12px; color:#888888;">
-                                Este correo fue generado automáticamente por la plataforma GMB WhatsApp Business.
-                            </p>
+                            <p style="margin:0 0 6px 0; font-size:12px; color:#888888;">{{ __('Este correo fue generado automáticamente por la plataforma GMB WhatsApp Business.') }}</p>
                             <p style="margin:0; font-size:12px; color:#888888;">
                                 © {{ date('Y') }} GIJAC. Todos los derechos reservados.
                             </p>
@@ -89,9 +85,7 @@
                 <table role="presentation" width="600" cellpadding="0" cellspacing="0">
                     <tr>
                         <td align="center" style="padding-top: 16px; font-family: Arial, sans-serif;">
-                            <p style="margin:0; font-size:11px; color:#AAAAAA;">
-                                Si no esperabas este correo, puedes ignorarlo con confianza.
-                            </p>
+                            <p style="margin:0; font-size:11px; color:#AAAAAA;">{{ __('Si no esperabas este correo, puedes ignorarlo con confianza.') }}</p>
                         </td>
                     </tr>
                 </table>

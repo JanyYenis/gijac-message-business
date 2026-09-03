@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $titulo ?? 'PDF GIJAC WEB' }}</title>
-    <meta name="description" content="Plataforma de procesos de GIJAC WEB">
+    <meta name="description" content="{{ __('Plataforma de procesos de GIJAC WEB') }}">
     <meta name="keywords"
         content="
         tailwind, tailwindcss, metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js,
@@ -15,9 +15,9 @@
     ">
     <meta property="og:locale" content="es_ES">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="GIJAC WEB - Te ayudamos a crecer">
+    <meta property="og:title" content="{{ __('GIJAC WEB - Te ayudamos a crecer') }}">
     <meta property="og:url" content="https://message-business.gijac.com">
-    <meta property="og:site_name" content="GIJAC WEB">
+    <meta property="og:site_name" content="{{ __('GIJAC WEB') }}">
 
     <link rel="shortcut icon" href="{{ asset('img/logo_mini.png') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">

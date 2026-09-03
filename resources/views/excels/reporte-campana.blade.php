@@ -1,7 +1,7 @@
 <table class="table table-bordered">
     <tr>
         <th>
-            <b>Nombre Campaña:</b>
+            <b>{{ __('Nombre Campaña:') }}</b>
         </th>
         <th>
             {{ $campana?->nombre ?? 'N/A' }}
@@ -9,7 +9,7 @@
     </tr>
     <tr>
         <th>
-            <b>Descripción:</b>
+            <b>{{ __('Descripción:') }}</b>
         </th>
         <th>
             {{ $campana?->descripcion ?? 'N/A' }}
@@ -17,7 +17,7 @@
     </tr>
     <tr>
         <th>
-            <b>Fecha de envio:</b>
+            <b>{{ __('Fecha de envio:') }}</b>
         </th>
         <th>
             {{ $campana?->fecha_envio?->translatedFormat('j \d\e F \d\e\l Y') ?? 'N/A' }}
@@ -25,8 +25,8 @@
     </tr>
     @if ($campana?->contenido_multimedia)
         <tr>
-            <th><b>Imagen:</b></th>
-            <th>Se insertó en el Excel (celda A5)</th>
+            <th><b>{{ __('Imagen:') }}</b></th>
+            <th>{{ __('Se insertó en el Excel (celda A5)') }}</th>
         </tr>
     @endif
 </table>
@@ -34,13 +34,13 @@
     <thead>
         <tr>
             <th>#</th>
-            <th>Representate</th>
-            <th>Nombre Cliente</th>
-            <th>Etiqueta</th>
-            <th>Panel</th>
-            <th>Abierto</th>
-            <th>Click (Respuesta)</th>
-            <th>Click (Links)</th>
+            <th>{{ __('Representate') }}</th>
+            <th>{{ __('Nombre Cliente') }}</th>
+            <th>{{ __('Etiqueta') }}</th>
+            <th>{{ __('Panel') }}</th>
+            <th>{{ __('Abierto') }}</th>
+            <th>{{ __('Click (Respuesta)') }}</th>
+            <th>{{ __('Click (Links)') }}</th>
         </tr>
     </thead>
     <tbody>

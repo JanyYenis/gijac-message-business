@@ -3,8 +3,8 @@
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content ">
                 <div class="modal-header">
-                    <h1 class="modal-title">Crear API Key</h1>
-                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal" aria-label="Close">
+                    <h1 class="modal-title">{{ __('Crear API Key') }}</h1>
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal" aria-label="{{ __('Close') }}">
                         <span class="svg-icon svg-icon-2x">
                         <i class="las la-times fs-1 text-white"></i>
                     </span>
@@ -18,15 +18,15 @@
                     </div>
                     <div class="row mb-7">
                         <div class="col-lg-12 col-md-12">
-                            <label class="required fs-5">Etiqueta</label>
-                            <input type="text" name="etiqueta" class="form-control" placeholder="Ingrese una etiqueta" required>
+                            <label class="required fs-5">{{ __('Etiqueta') }}</label>
+                            <input type="text" name="etiqueta" class="form-control" placeholder="{{ __('Ingrese una etiqueta') }}" required>
                         </div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success">Crear</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">{{ __('Cancelar') }}</button>
+                    <button type="submit" class="btn btn-success">{{ __('Crear') }}</button>
                 </div>
             </div>
         </div>

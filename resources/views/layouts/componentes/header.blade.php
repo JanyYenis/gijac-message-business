@@ -12,13 +12,13 @@
         <!--begin::Logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
             <a href="{{ route('home') }}">
-                <img alt="Logo" src="{{ asset('img/logo_mini.png') }}" class="h-30px">
+                <img alt="{{ __('Logo') }}" src="{{ asset('img/logo_mini.png') }}" class="h-30px">
             </a>
         </div>
         <!--end::Logo-->
 
         <!--begin::Header mobile toggle-->
-        <div class="d-flex align-items-center d-lg-none ms-2 me-n3" title="Show sidebar menu">
+        <div class="d-flex align-items-center d-lg-none ms-2 me-n3" title="{{ __('Show sidebar menu') }}">
             <div class="btn btn-icon btn-color-white bg-white bg-opacity-0 bg-hover-opacity-10 w-35px h-35px"
                 id="kt_app_sidebar_mobile_toggle">
                 <i class="ki-outline ki-abstract-14 fs-1"></i>

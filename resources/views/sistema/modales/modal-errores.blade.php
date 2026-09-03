@@ -2,8 +2,8 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title text-white mulish">Detalle Error</h1>
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal" aria-label="Close">
+                <h1 class="modal-title text-white mulish">{{ __('Detalle Error') }}</h1>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal" aria-label="{{ __('Close') }}">
                     <span class="svg-icon svg-icon-2x">
                         <i class="las la-times fs-1 text-white"></i>
                     </span>
@@ -24,16 +24,13 @@
                     <!--begin::Wrapper-->
                     <div class="d-flex flex-column pe-0 pe-sm-10">
                         <!--begin::Title-->
-                        <h5 class="mb-1 fs-1">Información</h5>
+                        <h5 class="mb-1 fs-1">{{ __('Información') }}</h5>
                         <!--end::Title-->
 
                         <!--begin::Content-->
-                        <span>Si deseas conocer más información acerca de los errores, te invitamos a consultar
-                            el código del error en la
-                            <a href="https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#error-codes"
-                                class="text-primary fw-bold" target="_blank" type="button">
-                                Documentación de WhatsApp Business
-                            </a>.
+                        <span>{{ __('Si deseas conocer más información acerca de los errores, te invitamos a consultar
+                            el código del error en la') }<a href="https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#error-codes"
+                                class="text-primary fw-bold" target="_blank" type="button">{{ __('Documentación de WhatsApp Business') }}</a>.
                         </span>
                         <!--end::Content-->
                     </div>
@@ -53,7 +50,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
             </div>
         </div>
     </div>

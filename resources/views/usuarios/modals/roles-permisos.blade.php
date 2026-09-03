@@ -2,10 +2,8 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-1 text-white">
-                    Roles y Permisos
-                </h1>
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal" aria-label="Close">
+                <h1 class="modal-title fs-1 text-white">{{ __('Roles y Permisos') }}</h1>
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal" aria-label="{{ __('Close') }}">
                     <span class="svg-icon svg-icon-2x">
                         <i class="las la-times fs-1 text-white"></i>
                     </span>
@@ -18,10 +16,10 @@
                     <div class="d-grid">
                         <ul class="nav nav-tabs flex-nowrap text-nowrap">
                             <li class="nav-item">
-                                <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0 active text-verdoso fs-2" id="seccionTabRoles" data-bs-toggle="tab" href="#tabRoles">Roles</a>
+                                <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0 active text-verdoso fs-2" id="seccionTabRoles" data-bs-toggle="tab" href="#tabRoles">{{ __('Roles') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0 text-verdoso fs-2" data-bs-toggle="tab" id="seccionTabPermisos" href="#tabPermisos">Permisos</a>
+                                <a class="nav-link btn btn-active-light btn-color-gray-600 btn-active-color-primary rounded-bottom-0 text-verdoso fs-2" data-bs-toggle="tab" id="seccionTabPermisos" href="#tabPermisos">{{ __('Permisos') }}</a>
                             </li>
                         </ul>
                     </div>
@@ -38,8 +36,8 @@
                                     <span class="path3"></span>
                                 </i>
                                 <div class="d-flex flex-column pe-0 pe-sm-10">
-                                    <h5 class="mb-1 text-start">Información Importante</h5>
-                                    <span class="text-start">Podra encontar el listado de los roles, al lado izquierdo los roles que se encuentran disponibles y en el lado derecho los roles que el usuario tiene asignados.</span>
+                                    <h5 class="mb-1 text-start">{{ __('Información Importante') }}</h5>
+                                    <span class="text-start">{{ __('Podra encontar el listado de los roles, al lado izquierdo los roles que se encuentran disponibles y en el lado derecho los roles que el usuario tiene asignados.') }}</span>
                                 </div>
                                 <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
                                     <i class="las la-times text-primary fs-1">
@@ -56,7 +54,7 @@
                                 </select>
                             </div>
                             <div class="mt-5 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Guardar') }}</button>
                             </div>
                         </form>
                     </div>
@@ -70,8 +68,8 @@
                                     <span class="path3"></span>
                                 </i>
                                 <div class="d-flex flex-column pe-0 pe-sm-10">
-                                    <h5 class="mb-1 text-start">Información Importante</h5>
-                                    <span class="text-start">Podra encontar el listado de los permisos, al lado izquierdo los permisos que se encuentran disponibles y en el lado derecho los permisos que el usuario tiene asignados.</span>
+                                    <h5 class="mb-1 text-start">{{ __('Información Importante') }}</h5>
+                                    <span class="text-start">{{ __('Podra encontar el listado de los permisos, al lado izquierdo los permisos que se encuentran disponibles y en el lado derecho los permisos que el usuario tiene asignados.') }}</span>
                                 </div>
                                 <button type="button" class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto" data-bs-dismiss="alert">
                                     <i class="las la-times text-primary fs-1">
@@ -88,7 +86,7 @@
                                 </select>
                             </div>
                             <div class="mt-5 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                <button type="submit" class="btn btn-primary">{{ __('Guardar') }}</button>
                             </div>
                         </form>
                     </div>
@@ -96,8 +94,8 @@
             </div>
 
             <div class="modal-footer justify-content-end">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                {{-- <button type="submit" class="btn btn-success">Guardar</button> --}}
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
+                {{-- <button type="submit" class="btn btn-success">{{ __('Guardar') }}</button> --}}
             </div>
         </div>
     </div>

@@ -11,7 +11,7 @@
 @endphp
 <div class="d-flex flex-stack flex-wrap pt-10">
     <div class="fs-6 fw-semibold text-gray-700">
-        Total {{count($catidadDatos)}} resultado(s).
+        {{ __('Total') }} {{count($catidadDatos)}} {{ __('resultado(s).') }}
     </div>
 
     <!--begin::Pages-->

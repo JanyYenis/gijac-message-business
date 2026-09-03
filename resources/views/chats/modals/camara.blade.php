@@ -3,11 +3,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title">
-                    <!-- <i class="fas fa-camera text-danger fs-2tx"></i> -->
-                    Camara
-                </h1>
+                    <!-- <i class="fas fa-camera text-danger fs-2tx"></i> -->{{ __('Camara') }}</h1>
                 <!--begin::Close-->
-                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="{{ __('Close') }}">
                     <i class="las la-times fs-1">
                         <span class="path1"></span>
                         <span class="path2"></span>
@@ -23,10 +21,10 @@
                             <div class="border-gray-300 border-dotted">
                                 <video id="video" width="600" height="440" autoplay></video>
                                 <canvas id="canvas" width="600" height="440" style="display:none;"></canvas>
-                                <img id="photo" alt="Tu foto aparecerá aquí" style="display:none;">
+                                <img id="photo" alt="{{ __('Tu foto aparecerá aquí') }}" style="display:none;">
                             </div>
                             <div class="mt-3 d-none" id="mensajeInput">
-                                <input type="text" class="form-control form-control-solid" name="mensaje" placeholder="Mensaje">
+                                <input type="text" class="form-control form-control-solid" name="mensaje" placeholder="{{ __('Mensaje') }}">
                                 <input type="file" class="form-control form-control-solid d-none" name="archivo">
                             </div>
                         </div>
@@ -35,7 +33,7 @@
                         <button type="button" class="btn btn-primary text-white" id="capture" >
                             <i class="fas fa-camera fs-1 text-white"></i>
                         </button>
-                        <button type="button" class="btn btn-primary me-2 d-none text-white" id="captureOtra">Cambiar Foto</button>
+                        <button type="button" class="btn btn-primary me-2 d-none text-white" id="captureOtra">{{ __('Cambiar Foto') }}</button>
                         <button type="submit" class="btn btn-primary d-none text-white" id="enviar" >
                             <i class="far fa-paper-plane fs-1 text-white"></i>
                         </button>
@@ -44,7 +42,7 @@
             </div>
 
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-danger btnClose" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger btnClose" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
             </div>
         </div>
     </div>

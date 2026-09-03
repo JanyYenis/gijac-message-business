@@ -22,8 +22,7 @@
                         <div class="d-flex align-items-center">
                             <!--begin::Username-->
                             <a href="/metronic8/demo1/pages/user-profile/overview.html"
-                                class="text-gray-800 fw-bold text-hover-primary fs-5 me-3">Sandra
-                                Piquet</a>
+                                class="text-gray-800 fw-bold text-hover-primary fs-5 me-3">{{ __('Sandra Piquet') }}</a>
                             <!--end::Username-->
 
                             <span class="m-0"></span>
@@ -31,7 +30,7 @@
                         <!--end::Text-->
 
                         <!--begin::Date-->
-                        <span class="text-muted fw-semibold fs-6">2 Days ago</span>
+                        <span class="text-muted fw-semibold fs-6">{{ __('2 Days ago') }}</span>
                         <!--end::Date-->
                     </div>
                     <!--end::Info-->
@@ -42,17 +41,15 @@
                 <div class="m-0">
 
                     <button
-                        class="btn btn-color-gray-500 btn-active-color-primary p-0 fw-bold">Reply</button>
+                        class="btn btn-color-gray-500 btn-active-color-primary p-0 fw-bold">{{ __('Reply') }}</button>
                 </div>
                 <!--end::Actions-->
             </div>
             <!--end::Wrapper-->
 
             <!--begin::Desc-->
-            <p class="fw-normal fs-5 text-gray-700 m-0">
-                I run a team of 20 product managers, developers, QA and UX Previously
-                we designed everything ourselves.
-            </p>
+            <p class="fw-normal fs-5 text-gray-700 m-0">{{ __('I run a team of 20 product managers, developers, QA and UX Previously
+                we designed everything ourselves.') }</p>
             <!--end::Desc-->
         </div>
         <!--end::Body-->

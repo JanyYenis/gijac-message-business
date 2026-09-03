@@ -9,13 +9,13 @@
         </div>
     </div>
     <div class="chat-header-actions">
-        <button type="button" class="d-none" title="Buscar en conversación">
+        <button type="button" class="d-none" title="{{ __('Buscar en conversación') }}">
             <i class="fas fa-search"></i>
         </button>
-        <button type="button" id="btnShowInfo" title="Información del contacto">
+        <button type="button" id="btnShowInfo" title="{{ __('Información del contacto') }}">
             <i class="fas fa-info-circle"></i>
         </button>
-        <button type="button" class="d-none" title="Más opciones">
+        <button type="button" class="d-none" title="{{ __('Más opciones') }}">
             <i class="fas fa-ellipsis-v"></i>
         </button>
     </div>
@@ -35,7 +35,7 @@
         <input type="hidden" id="idContacto" name="id" value="{{$contacto?->numero_completo}}">
         <div class="seccionEnviarMensaje">
             <div class="chat-input-container">
-                <button type="button" id="emoji-btn" class="seccion-texto textInput" title="Emoji">
+                <button type="button" id="emoji-btn" class="seccion-texto textInput" title="{{ __('Emoji') }}">
                     <i class="far fa-smile"></i>
                 </button>
                 <!-- El selector de emojis -->
@@ -47,44 +47,36 @@
                     <!--begin::Menu item-->
                     <div class="menu-item px-3">
                         <a href="javascript:;" class="menu-link px-3 btnFotosVideos">
-                            <i class="las la-photo-video fs-1 text-info me-1"></i>
-                            Fotos y videos
-                        </a>
+                            <i class="las la-photo-video fs-1 text-info me-1"></i>{{ __('Fotos y videos') }}</a>
                     </div>
                     <!--end::Menu item-->
 
                     <!--begin::Menu item-->
                     <div class="menu-item px-3">
                         <a type="button" href="javascript:;" class="menu-link px-3" data-bs-toggle="modal" data-bs-target="#modalCapturarFoto">
-                            <i class="las la-camera fs-1 text-warning me-1"></i>
-                            Camara
-                        </a>
+                            <i class="las la-camera fs-1 text-warning me-1"></i>{{ __('Camara') }}</a>
                     </div>
                     <!--end::Menu item-->
 
                     <!--begin::Menu item-->
                     <div class="menu-item px-3">
                         <a href="javascript:;" class="menu-link px-3 btnDocumentos">
-                            <i class="las la-file fs-1 text-primary me-1"></i>
-                            Documento
-                        </a>
+                            <i class="las la-file fs-1 text-primary me-1"></i>{{ __('Documento') }}</a>
                     </div>
                     <!--end::Menu item-->
 
                     <!--begin::Menu item-->
                     <div class="menu-item px-3">
                         <a href="javascript:;" class="menu-link px-3">
-                            <i class="las la-user fs-1 text-success me-1"></i>
-                            Contacto
-                        </a>
+                            <i class="las la-user fs-1 text-success me-1"></i>{{ __('Contacto') }}</a>
                     </div>
                     <!--end::Menu item-->
                 </div>
                 <!--end::Menu-->
-                <input type="text" id="message-box" class="seccion-texto" placeholder="Escribe un mensaje...">
+                <input type="text" id="message-box" class="seccion-texto" placeholder="{{ __('Escribe un mensaje...') }}">
                 <div class="recording-indicator text-center seccion-audio d-none">
                     <div class="recording-dot"></div>
-                    <span class="recording-time">0:00</span>
+                    <span class="recording-time">{{ __('0:00') }}</span>
                 </div>
                 <div class="recording-actions seccion-audio d-none">
                     <button type="button" class="btn btn-danger cancel-button text-center">🗑️</button>
@@ -96,7 +88,7 @@
                 <button type="button" id="voice-button" class="common-button btn-send">
                     <i class="fas fa-microphone"></i>
                 </button>
-                <button type="submit" class="btn-send seccion-texto d-none" id="submit-button" title="Enviar mensaje">
+                <button type="submit" class="btn-send seccion-texto d-none" id="submit-button" title="{{ __('Enviar mensaje') }}">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
@@ -104,6 +96,6 @@
     </form>
 @else
     <div class="text-center bg-white" style="height: 3rem;">
-        <h1 style="margin-top: 1rem;">Sin conversaciones activas</h1>
+        <h1 style="margin-top: 1rem;">{{ __('Sin conversaciones activas') }}</h1>
     </div>
 @endif

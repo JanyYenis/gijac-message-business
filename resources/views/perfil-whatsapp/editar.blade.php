@@ -2,35 +2,35 @@
     <div class="col-lg-8 col-8">
         <div class="">
             <div class="text-center mb-2">
-                <h3 class="text-gijac">Información de contacto</h3>
-                <span>Añade algunos detalles de contacto para tu empresa</span>
+                <h3 class="text-gijac">{{ __('Información de contacto') }}</h3>
+                <span>{{ __('Añade algunos detalles de contacto para tu empresa') }}</span>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="fv-row mb-3">
-                        <label class="form-label">Foto de perfil</label>
+                        <label class="form-label">{{ __('Foto de perfil') }}</label>
                         <input type="file" class="form-control inputFile" name="profile_picture_url" id="inputFile" accept="image/png, image/jpeg, image/jpg"/>
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="fv-row mb-3">
-                        <label class="form-label required">Info</label>
-                        <input type="text" class="form-control" name="about" placeholder="about"
+                        <label class="form-label required">{{ __('Info') }}</label>
+                        <input type="text" class="form-control" name="about" placeholder="{{ __('about') }}"
                             value="{{ $dato?->about ?? '' }}" required />
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="fv-row mb-3">
-                        <label class="required form-label">Email</label>
+                        <label class="required form-label">{{ __('Email') }}</label>
                         <input type="text" class="form-control" name="email" id="emailPerfil" placeholder="email"
                             value="{{ $dato?->email ?? '' }}" required />
                     </div>
                 </div>
                 <div class="col-lg-12">
                     <div class="fv-row mb-3">
-                        <label class="required form-label">Categoria</label>
+                        <label class="required form-label">{{ __('Categoria') }}</label>
                         <select name="vertical" id="selectCategoria" data-control="select2" required
-                            class="form-control selectCategoria" data-placeholder="Categoria" data-allow-clear="true"
+                            class="form-control selectCategoria" data-placeholder="{{ __('Categoria') }}" data-allow-clear="true"
                             data-hide-search="true" data-dropdown-parent="body">
                             @foreach ($categorias as $index => $categoria)
                                 <option value="{{ $index }}" {{ $index == $dato?->vertical ? 'selected' : '' }}>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-lg-12">
                     <div class="fv-row mb-3">
-                        <label class="required form-label">Sitio Web</label>
+                        <label class="required form-label">{{ __('Sitio Web') }}</label>
                         <!--begin::Repeater-->
                         @if (isset($dato?->websites) && count($dato?->websites))
                             @foreach ($dato?->websites as $web)
@@ -60,9 +60,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <a href="javascript:;" data-repeater-delete class="btn btn-sm btn-light-danger">
-                                                    <i class="fas fa-trash text-danger fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
-                                                    Eliminar
-                                                </a>
+                                                    <i class="fas fa-trash text-danger fs-5"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>{{ __('Eliminar') }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -73,9 +71,7 @@
                             <!--begin::Form group-->
                             <div class="form-group mt-5">
                                 <a href="javascript:;" data-repeater-create class="btn btn-light-primary">
-                                    <i class="fas fa-plus fs-3"></i>
-                                    Agregar
-                                </a>
+                                    <i class="fas fa-plus fs-3"></i>{{ __('Agregar') }}</a>
                             </div>
                             <!--end::Form group-->
                         </div>
@@ -86,14 +82,14 @@
         </div>
         <div class="">
             <div class="text-center mb-2">
-                <h3 class="text-gijac">Descripción</h3>
-                <span>Habla de tu empresa a los clientes</span>
+                <h3 class="text-gijac">{{ __('Descripción') }}</h3>
+                <span>{{ __('Habla de tu empresa a los clientes') }}</span>
             </div>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="fv-row mb-3">
                         <textarea name="description" id="" cols="100" rows="4" class="form-control descripcionPerfil" data-kt-autosize="true"
-                            maxlength="512" placeholder="Descripción">{{ $dato?->description ?? '' }}</textarea>
+                            maxlength="512" placeholder="{{ __('Descripción') }}">{{ $dato?->description ?? '' }}</textarea>
                     </div>
                 </div>
             </div>
@@ -150,9 +146,7 @@
                 <div class="i5tg98hk f9ovudaz przvwfww gx1rr48f or9x5nie">
                     <div class="p357zi0d gndfcl4n">
                         <div class="mx771qyo gfz4du6o r7fjleex g0rxnol2 lhj4utae le5p0ye3">
-                            <span class="bze30y65 a4ywakfo k06jqncy e1gr2w1z" aria-label="">
-                                Info. y número de teléfono
-                            </span>
+                            <span class="bze30y65 a4ywakfo k06jqncy e1gr2w1z" aria-label="">{{ __('Info. y número de teléfono') }}</span>
                         </div>
                     </div>
                 </div>
@@ -160,7 +154,7 @@
                     <div class="_2vQWV p357zi0d gndfcl4n bvcnfjzh f9ovudaz cc8mgx9x">
                         <div class="ggj6brxn m0h2a7mj lb5m6g5c kv6wexeh gfz4du6o r7fjleex lhj4utae hmy10g0s hc2u0oym myel2vfb">
                             <span class="fe5nidar fs7pz031 tl2vja3b e1gr2w1z" aria-label="">
-                                <span dir="auto" title="¡Hola! Estoy usando WhatsApp." aria-label=""
+                                <span dir="auto" title="{{ __('¡Hola! Estoy usando WhatsApp.') }}" aria-label=""
                                     class="cw3vfol9 _11JPr selectable-text copyable-text"
                                     style="min-height: 0px;">
                                     {{ $dato?->about ?? '' }}

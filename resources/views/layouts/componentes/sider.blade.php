@@ -8,7 +8,7 @@
     <div class="app-sidebar-primary ">
         <div class="app-sidebar-logo d-none d-md-flex flex-center pt-10 mb-5 mb-lg-5" id="kt_app_sidebar_logo">
             <a href="{{ route('home') }}">
-                <img alt="Logo" src="{{ asset('img/logo_gmb_blanco.png') }}" class="h-50px">
+                <img alt="{{ __('Logo') }}" src="{{ asset('img/logo_gmb_blanco.png') }}" class="h-50px">
             </a>
         </div>
         <div class="app-sidebar-menu flex-grow-1 hover-scroll-overlay-y scroll-ps mx-2 my-5" id="kt_aside_menu_wrapper"
@@ -28,7 +28,7 @@
                     <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto">
                         <div class="menu-item">
                             <div class="menu-content ">
-                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">Home</span>
+                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">{{ __('Home') }}</span>
                             </div>
                         </div>
                         <div class="menu-item">
@@ -36,7 +36,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Dashboard</span>
+                                <span class="menu-title">{{ __('Dashboard') }}</span>
                             </a>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                         <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto">
                             <div class="menu-item">
                                 <div class="menu-content ">
-                                    <span class="menu-section fs-5 fw-bolder ps-1 py-1">Chats</span>
+                                    <span class="menu-section fs-5 fw-bolder ps-1 py-1">{{ __('Chats') }}</span>
                                 </div>
                             </div>
                             @if (servicioPlan('chat.atencion') || esDemo())
@@ -71,7 +71,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Chat</span>
+                                        <span class="menu-title">{{ __('Chat') }}</span>
                                     </a>
                                 </div>
                             @endif
@@ -81,7 +81,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">Chatbot</span>
+                                        <span class="menu-title">{{ __('Chatbot') }}</span>
                                     </a>
                                 </div>
                             @endif
@@ -90,7 +90,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Conertar app movil</span>
+                                    <span class="menu-title">{{ __('Conertar app movil') }}</span>
                                 </a>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                     <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto">
                         <div class="menu-item">
                             <div class="menu-content ">
-                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">Campañas</span>
+                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">{{ __('Campañas') }}</span>
                             </div>
                         </div>
                         <div class="menu-item">
@@ -115,7 +115,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Mis Campañas</span>
+                                <span class="menu-title">{{ __('Mis Campañas') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -123,7 +123,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Calendario</span>
+                                <span class="menu-title">{{ __('Calendario') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -131,7 +131,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Mis Plantillas</span>
+                                <span class="menu-title">{{ __('Mis Plantillas') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -139,7 +139,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Catalogo</span>
+                                <span class="menu-title">{{ __('Catalogo') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -147,7 +147,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Configuracion</span>
+                                <span class="menu-title">{{ __('Configuracion') }}</span>
                             </a>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                     <div class="menu-sub menu-sub-dropdown px-2 py-4 w-250px mh-75 overflow-auto">
                         <div class="menu-item">
                             <div class="menu-content ">
-                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">Contactos</span>
+                                <span class="menu-section fs-5 fw-bolder ps-1 py-1">{{ __('Contactos') }}</span>
                             </div>
                         </div>
                         <div class="menu-item">
@@ -170,7 +170,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Contactos</span>
+                                <span class="menu-title">{{ __('Contactos') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -178,7 +178,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">Etiquetas</span>
+                                <span class="menu-title">{{ __('Etiquetas') }}</span>
                             </a>
                         </div>
                         @if (servicioPlan('clasificacion.ia'))
@@ -187,7 +187,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">Clasificación (Con IA)</span>
+                                    <span class="menu-title">{{ __('Clasificación (Con IA)') }}</span>
                                 </a>
                             </div>
                         @endif
@@ -238,7 +238,7 @@
             <div class="cursor-pointer symbol symbol-40px symbol-circle"
                 data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-attach="parent"
                 data-kt-menu-placement="right-end">
-                <img src="{{$usuario->foto ? asset($usuario->foto) : asset('assets/media/avatars/150-2.jpg') }}" alt="user">
+                <img src="{{$usuario->foto ? asset($usuario->foto) : asset('assets/media/avatars/150-2.jpg') }}" alt="{{ __('user') }}">
             </div>
 
             <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg menu-state-color fw-semibold py-4 fs-6 w-275px"
@@ -247,7 +247,7 @@
                     <div class="menu-content d-flex align-items-center px-3">
                         <!--begin::Avatar-->
                         <div class="symbol symbol-50px me-5">
-                            <img alt="Logo" src="{{$usuario->foto ? asset($usuario->foto) : asset('assets/media/avatars/150-2.jpg') }}">
+                            <img alt="{{ __('Logo') }}" src="{{$usuario->foto ? asset($usuario->foto) : asset('assets/media/avatars/150-2.jpg') }}">
                         </div>
                         <!--end::Avatar-->
 
@@ -272,9 +272,7 @@
 
                 <!--begin::Menu item-->
                 <div class="menu-item px-5">
-                    <a href="{{ route('perfil') }}" class="menu-link px-5">
-                        Mi Perfil
-                    </a>
+                    <a href="{{ route('perfil') }}" class="menu-link px-5">{{ __('Mi Perfil') }}</a>
                 </div>
                 <!--end::Menu item-->
                 @hasrole(['super_admin', 'admin', 'cliente'])
@@ -282,7 +280,7 @@
                     <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                         data-kt-menu-placement="left-end" data-kt-menu-offset="-15px, 0">
                         <a href="#" class="menu-link px-5">
-                            <span class="menu-title">Mi Suscripcion</span>
+                            <span class="menu-title">{{ __('Mi Suscripcion') }}</span>
                             <span class="menu-arrow"></span>
                         </a>
 
@@ -290,25 +288,19 @@
                         <div class="menu-sub menu-sub-dropdown w-175px py-4">
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="{{ route('precios') }}" class="menu-link px-5">
-                                    Planes
-                                </a>
+                                <a href="{{ route('precios') }}" class="menu-link px-5">{{ __('Planes') }}</a>
                             </div>
                             <!--end::Menu item-->
 
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="{{ route('perfil') }}" class="menu-link px-5">
-                                    Facturación
-                                </a>
+                                <a href="{{ route('perfil') }}" class="menu-link px-5">{{ __('Facturación') }}</a>
                             </div>
                             <!--end::Menu item-->
 
                             <!--begin::Menu item-->
                             <div class="menu-item px-3">
-                                <a href="{{ route('facturas.pago', ['plan' => 0]) }}" class="menu-link px-5">
-                                    Pagos
-                                </a>
+                                <a href="{{ route('facturas.pago', ['plan' => 0]) }}" class="menu-link px-5">{{ __('Pagos') }}</a>
                             </div>
                             <!--end::Menu item-->
                         </div>
@@ -324,9 +316,7 @@
                 <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                     data-kt-menu-placement="left-start" data-kt-menu-offset="-15px, 0">
                     <a href="#" class="menu-link px-5">
-                        <span class="menu-title position-relative">
-                            Apariencia
-                            <span class="ms-5 position-absolute translate-middle-y top-50 end-0">
+                        <span class="menu-title position-relative">{{ __('Apariencia') }}<span class="ms-5 position-absolute translate-middle-y top-50 end-0">
                                 <i class="las la-sun theme-light-show fs-2"></i>
                                 <i class="far fa-moon theme-dark-show fs-2"></i>
                             </span>
@@ -339,12 +329,10 @@
                          <!--begin::Menu item-->
                          <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2 active"
-                                data-kt-element="mode" data-kt-value="light">
+                                data-kt-element="mode" data-kt-value="{{ __('light') }}">
                                 <span class="menu-icon" data-kt-element="icon">
                                     <i class="las la-sun fs-2"></i> </span>
-                                <span class="menu-title">
-                                    Light
-                                </span>
+                                <span class="menu-title">{{ __('Light') }}</span>
                             </a>
                         </div>
                         <!--end::Menu item-->
@@ -352,12 +340,10 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
-                                data-kt-value="dark">
+                                data-kt-value="{{ __('dark') }}">
                                 <span class="menu-icon" data-kt-element="icon">
                                     <i class="far fa-moon fs-2"></i> </span>
-                                <span class="menu-title">
-                                    Dark
-                                </span>
+                                <span class="menu-title">{{ __('Dark') }}</span>
                             </a>
                         </div>
                         <!--end::Menu item-->
@@ -365,12 +351,10 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3 my-0">
                             <a href="#" class="menu-link px-3 py-2" data-kt-element="mode"
-                                data-kt-value="system">
+                                data-kt-value="{{ __('system') }}">
                                 <span class="menu-icon" data-kt-element="icon">
                                     <i class="far fa-window-maximize fs-2"></i> </span>
-                                <span class="menu-title">
-                                    System
-                                </span>
+                                <span class="menu-title">{{ __('System') }}</span>
                             </a>
                         </div>
                         <!--end::Menu item-->
@@ -384,12 +368,8 @@
                 <div class="menu-item px-5" data-kt-menu-trigger="{default: 'click', lg: 'hover'}"
                     data-kt-menu-placement="left-start" data-kt-menu-offset="0, 0">
                     <a href="#" class="menu-link px-5">
-                        <span class="menu-title position-relative">
-                            Idioma
-
-                            <span
-                                class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">
-                                Español <img class="w-15px h-15px rounded-1 ms-2"
+                        <span class="menu-title position-relative">{{ __('Idioma') }}<span
+                                class="fs-8 rounded bg-light px-3 py-2 position-absolute translate-middle-y top-50 end-0">{{ __('Español') }}<img class="w-15px h-15px rounded-1 ms-2"
                                     src="{{asset('assets/media/flags/spain.svg')}}"
                                     alt="">
                             </span>
@@ -406,9 +386,7 @@
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/spain.svg')}}"
                                         alt="">
-                                </span>
-                                Español
-                            </a>
+                                </span>{{ __('Español') }}</a>
                         </div>
                         <!--end::Menu item-->
 
@@ -420,9 +398,7 @@
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/united-states.svg')}}"
                                         alt="">
-                                </span>
-                                Ingles
-                            </a>
+                                </span>{{ __('Ingles') }}</a>
                         </div>
                         <!--end::Menu item-->
 
@@ -434,9 +410,7 @@
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/germany.svg')}}"
                                         alt="">
-                                </span>
-                                Alemania
-                            </a>
+                                </span>{{ __('Alemania') }}</a>
                         </div>
                         <!--end::Menu item-->
 
@@ -448,9 +422,7 @@
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/japan.svg')}}"
                                         alt="">
-                                </span>
-                                Japones
-                            </a>
+                                </span>{{ __('Japones') }}</a>
                         </div>
                         <!--end::Menu item-->
 
@@ -462,9 +434,7 @@
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/france.svg')}}"
                                         alt="">
-                                </span>
-                                Frances
-                            </a>
+                                </span>{{ __('Frances') }}</a>
                         </div>
                         <!--end::Menu item-->
                     </div>
@@ -474,9 +444,7 @@
                 <!--begin::Menu item-->
                 <div class="menu-item px-5">
                     <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                        class="btn btn-icon btn-active-color-primary">
-                        Salir
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        class="btn btn-icon btn-active-color-primary">{{ __('Salir') }}<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
                         </form>
                     </a>
@@ -493,8 +461,7 @@
             <div class="d-flex flex-column pt-10 ps-11" id="kt_app_sidebar_secondary_header">
                 <a href="{{ route('home') }}"
                     class="d-flex align-items-center custom-link fs-6 fw-semibold mb-5">
-                    <i class="fas fa-long-arrow-alt-left fs-2 me-3 text-white opacity-50"></i> Ocultar Menu
-                </a>
+                    <i class="fas fa-long-arrow-alt-left fs-2 me-3 text-white opacity-50"></i>{{ __('Ocultar Menu') }}</a>
             </div>
 
             <!--begin::Sidebar secondary menu-->
@@ -509,7 +476,7 @@
 
                     <div class="menu-item">
                         <div class="menu-content ">
-                            <span class="menu-section fs-5 fw-bolder ps-1 py-1">Menu</span>
+                            <span class="menu-section fs-5 fw-bolder ps-1 py-1">{{ __('Menu') }}</span>
                         </div>
                     </div>
                     @if (request()->is('home'))
@@ -518,9 +485,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Dashboard
-                                </span>
+                                <span class="menu-title">{{ __('Dashboard') }}</span>
                             </a>
                         </div>
                     @endif
@@ -530,9 +495,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Negocios
-                                </span>
+                                <span class="menu-title">{{ __('Negocios') }}</span>
                             </a>
                         </div>
                     @endif
@@ -543,9 +506,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Mis Campañas
-                                </span>
+                                <span class="menu-title">{{ __('Mis Campañas') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -553,9 +514,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Calendario
-                                </span>
+                                <span class="menu-title">{{ __('Calendario') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -563,9 +522,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Mis Plantillas
-                                </span>
+                                <span class="menu-title">{{ __('Mis Plantillas') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -573,9 +530,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Catálogo
-                                </span>
+                                <span class="menu-title">{{ __('Catálogo') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -583,9 +538,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Configuracion
-                                </span>
+                                <span class="menu-title">{{ __('Configuracion') }}</span>
                             </a>
                         </div>
                     @endif
@@ -595,9 +548,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Mis Contactos
-                                </span>
+                                <span class="menu-title">{{ __('Mis Contactos') }}</span>
                             </a>
                         </div>
                         <div class="menu-item">
@@ -605,9 +556,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Etiquetas
-                                </span>
+                                <span class="menu-title">{{ __('Etiquetas') }}</span>
                             </a>
                         </div>
                         @if (servicioPlan('clasificacion.ia'))
@@ -616,9 +565,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">
-                                        Clasificación (Con IA)
-                                    </span>
+                                    <span class="menu-title">{{ __('Clasificación (Con IA)') }}</span>
                                 </a>
                             </div>
                         @endif
@@ -631,9 +578,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">
-                                            Chat
-                                        </span>
+                                        <span class="menu-title">{{ __('Chat') }}</span>
                                     </a>
                                 </div>
                             @endif
@@ -643,9 +588,7 @@
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                        <span class="menu-title">
-                                            Chatbot
-                                        </span>
+                                        <span class="menu-title">{{ __('Chatbot') }}</span>
                                     </a>
                                 </div>
                             @endif
@@ -654,9 +597,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                    <span class="menu-title">
-                                        Conertar app movil
-                                    </span>
+                                    <span class="menu-title">{{ __('Conertar app movil') }}</span>
                                 </a>
                             </div>
                         @endif
@@ -667,9 +608,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Usuarios
-                                </span>
+                                <span class="menu-title">{{ __('Usuarios') }}</span>
                             </a>
                         </div>
                     @endif
@@ -679,9 +618,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Planes
-                                </span>
+                                <span class="menu-title">{{ __('Planes') }}</span>
                             </a>
                         </div>
                     @endif
@@ -691,9 +628,7 @@
                                 <span class="menu-bullet">
                                     <span class="bullet bullet-dot"></span>
                                 </span>
-                                <span class="menu-title">
-                                    Tickets
-                                </span>
+                                <span class="menu-title">{{ __('Tickets') }}</span>
                             </a>
                         </div>
                     @endif

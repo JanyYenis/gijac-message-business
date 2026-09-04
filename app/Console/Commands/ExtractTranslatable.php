@@ -116,7 +116,7 @@ class ExtractTranslatable extends Command
                 return;
             }
             $result = @preg_replace_callback($pattern, function ($m) use (&$placeholders) {
-                $key = '@@PROTECTED_' . count($placeholders) . '@@';
+                $key = '%%PROTECTED_' . count($placeholders) . '%%';
                 $placeholders[$key] = $m[0];
                 return $key;
             }, $content);
@@ -145,7 +145,7 @@ class ExtractTranslatable extends Command
             $raw = $m[1];
             $text = trim($raw);
 
-            if ($text === '' || str_contains($text, '@@PROTECTED_')) {
+            if ($text === '' || str_contains($text, '%%PROTECTED_')) {
                 return $m[0];
             }
             if (!preg_match('/\p{L}{2,}/u', $text)) {
@@ -167,12 +167,12 @@ class ExtractTranslatable extends Command
         }
         $content = $wrapped;
 
-        foreach ($placeholders as $key => $original) {
+        foreach (array_reverse($placeholders, true) as $key => $original) {
             $content = str_replace($key, $original, $content);
         }
 
-        if (str_contains($content, '@@PROTECTED_')) {
-            $this->lastFailReason = 'quedó un placeholder @@PROTECTED_ sin restaurar';
+        if (str_contains($content, '%%PROTECTED_')) {
+            $this->lastFailReason = 'quedó un placeholder %%PROTECTED_ sin restaurar';
             return null;
         }
 

@@ -18,6 +18,9 @@ class ExtractTranslatable extends Command
 
     public function handle(): int
     {
+        @ini_set('pcre.backtrack_limit', '10000000');
+        @ini_set('pcre.recursion_limit', '10000000');
+
         $path = base_path($this->argument('path'));
         $dryRun = (bool) $this->option('dry-run');
         $langCode = $this->option('lang');
@@ -28,7 +31,7 @@ class ExtractTranslatable extends Command
         }
 
         $files = collect(File::allFiles($path))
-            ->filter(fn ($f) => str_ends_with($f->getFilename(), '.blade.php'));
+            ->filter(fn($f) => str_ends_with($f->getFilename(), '.blade.php'));
 
         $this->info("Encontrados {$files->count()} archivos .blade.php");
 
@@ -45,7 +48,7 @@ class ExtractTranslatable extends Command
             // sin restaurar), NUNCA tocamos el archivo. Mejor no traducir
             // ese archivo que corromperlo.
             if ($modified === null) {
-                $skippedFiles[] = $file->getRelativePathname();
+                $skippedFiles[] = $file->getRelativePathname() . ' — ' . ($this->lastFailReason ?? 'razón desconocida');
                 continue;
             }
 
@@ -99,42 +102,40 @@ class ExtractTranslatable extends Command
      * cambio (algún paso de regex falló, o quedó algún placeholder sin
      * restaurar). null siempre significa "no tocar este archivo".
      */
+    private ?string $lastFailReason = null;
+
     private function processContent(string $content): ?string
     {
+        $content = $this->toUtf8($content);
+
         $placeholders = [];
         $failed = false;
 
-        $protect = function (string $pattern) use (&$content, &$placeholders, &$failed) {
+        $protect = function (string $pattern, string $label) use (&$content, &$placeholders, &$failed) {
             if ($failed) {
                 return;
             }
-
             $result = @preg_replace_callback($pattern, function ($m) use (&$placeholders) {
                 $key = '@@PROTECTED_' . count($placeholders) . '@@';
                 $placeholders[$key] = $m[0];
                 return $key;
             }, $content);
 
-            // preg_replace_callback devuelve null si el motor de regex falla
-            // (backtrack limit, UTF-8 inválido, etc.). Si pasa, abortamos
-            // este archivo entero en vez de seguir con contenido corrupto.
             if ($result === null) {
                 $failed = true;
+                $this->lastFailReason = "regex '{$label}' falló (" . $this->pcreErrorName() . ")";
                 return;
             }
-
             $content = $result;
         };
 
-        $protect('/<script\b[^>]*>.*?<\/script>/is');
-        $protect('/<style\b[^>]*>.*?<\/style>/is');
-        $protect('/\{\{--.*?--\}\}/s');
-        $protect('/<!--.*?-->/s');
-        $protect('/\{\{.*?\}\}/s');
-        $protect('/\{!!.*?!!\}/s');
-        // Regex simplificado (un solo nivel de paréntesis) para evitar
-        // backtracking catastrófico en archivos con muchas directivas anidadas.
-        $protect('/@[a-zA-Z]+(\([^()]*\))?/s');
+        $protect('/<script\b[^>]*>.*?<\/script>/is', 'script');
+        $protect('/<style\b[^>]*>.*?<\/style>/is', 'style');
+        $protect('/\{\{--.*?--\}\}/s', 'comentario-blade');
+        $protect('/<!--.*?-->/s', 'comentario-html');
+        $protect('/\{\{.*?\}\}/s', 'interpolacion-{{}}');
+        $protect('/\{!!.*?!!\}/s', 'interpolacion-{!!!!}');
+        $protect('/@[a-zA-Z]+(\([^()]*\))?/s', 'directivas-@');
 
         if ($failed) {
             return null;
@@ -161,6 +162,7 @@ class ExtractTranslatable extends Command
         }, $content);
 
         if ($wrapped === null) {
+            $this->lastFailReason = 'regex de envoltura de texto falló (' . $this->pcreErrorName() . ')';
             return null;
         }
         $content = $wrapped;
@@ -169,13 +171,42 @@ class ExtractTranslatable extends Command
             $content = str_replace($key, $original, $content);
         }
 
-        // CANDADO FINAL: si por cualquier razón quedó un placeholder sin
-        // restaurar, NO devolvemos este contenido. Es preferible dejar el
-        // archivo sin tocar que guardarlo corrupto.
         if (str_contains($content, '@@PROTECTED_')) {
+            $this->lastFailReason = 'quedó un placeholder @@PROTECTED_ sin restaurar';
             return null;
         }
 
         return $content;
+    }
+
+    private function toUtf8(string $content): string
+    {
+        // Usamos el validador de PCRE (el mismo que exige /u), no mbstring:
+        // mb_check_encoding puede decir "válido" para bytes que PCRE sigue
+        // rechazando, lo cual explica por qué el fix anterior no ayudó.
+        if (@preg_match('//u', $content) === 1) {
+            return $content;
+        }
+
+        $converted = @mb_convert_encoding($content, 'UTF-8', 'Windows-1252');
+
+        if ($converted !== false && @preg_match('//u', $converted) === 1) {
+            return $converted;
+        }
+
+        return $content; // no se pudo normalizar; el candado decidirá
+    }
+
+    private function pcreErrorName(): string
+    {
+        return match (preg_last_error()) {
+            PREG_INTERNAL_ERROR => 'PREG_INTERNAL_ERROR',
+            PREG_BACKTRACK_LIMIT_ERROR => 'PREG_BACKTRACK_LIMIT_ERROR (subir pcre.backtrack_limit)',
+            PREG_RECURSION_LIMIT_ERROR => 'PREG_RECURSION_LIMIT_ERROR (subir pcre.recursion_limit)',
+            PREG_BAD_UTF8_ERROR => 'PREG_BAD_UTF8_ERROR (bytes UTF-8 inválidos)',
+            PREG_BAD_UTF8_OFFSET_ERROR => 'PREG_BAD_UTF8_OFFSET_ERROR',
+            PREG_JIT_STACKLIMIT_ERROR => 'PREG_JIT_STACKLIMIT_ERROR',
+            default => 'error PCRE desconocido (' . preg_last_error() . ')',
+        };
     }
 }

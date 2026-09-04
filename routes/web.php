@@ -33,6 +33,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 use libphonenumber\PhoneNumberUtil;
 use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
@@ -145,6 +146,7 @@ Route::post('/verify2FA', [UsuarioController::class, 'verify2FA'])->name('verify
 Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['es', 'en'])) {
         session(['locale' => $locale]);
+        Session::set('locale', $locale);
     }
     return redirect()->back();
 })->name('lang.switch');

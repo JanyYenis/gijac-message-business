@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light"><!--begin::Head-->
 
 <head>
-    <title>GIJAC MESSAGE BUSINESS</title>
+    <title>{{ __('GIJAC MESSAGE BUSINESS') }}</title>
     <meta charset="utf-8">
     <meta name="description" content="Plataforma de procesos de GIJAC MESSAGE BUSINESS">
     <meta name="keywords"
@@ -56,42 +56,42 @@
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
                     <img src="{{ asset('img/logo_gmb.png') }}" alt="Logo GIJAC Message Business" class="brand-logo" />
-                    <span class="brand-name">GIJAC MESSAGE BUSINESS</span>
+                    <span class="brand-name">{{ __('GIJAC MESSAGE BUSINESS') }}</span>
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent"
-                    aria-controls="navContent" aria-expanded="false" aria-label="Abrir menú">
+                    aria-controls="navContent" aria-expanded="false" aria-label="{{ __('Abrir menú') }}">
                     <i class="bi bi-list"></i>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navContent">
                     <ul class="navbar-nav mx-auto gap-lg-2">
                         <li class="nav-item">
-                            <a class="nav-link {{request()->is('/') ? 'active' : ''}}" href="{{ url('/') }}">{{ __('menu-inicio.inicio') }}</a>
+                            <a class="nav-link {{request()->is('/') ? 'active' : ''}}" href="{{ url('/') }}">{{ __('Inicio') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}#modulos">Módulos</a>
+                            <a class="nav-link" href="{{ url('/') }}#modulos">{{ __('Módulos') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{request()->is('recursos') ? 'active' : ''}}" href="{{ route('recursos.index') }}">Recursos</a>
+                            <a class="nav-link {{request()->is('recursos') ? 'active' : ''}}" href="{{ route('recursos.index') }}">{{ __('Recursos') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url('/') }}#app">App</a>
+                            <a class="nav-link" href="{{ url('/') }}#app">{{ __('App') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{request()->is('precios') ? 'active' : ''}}" href="{{ route('precios') }}">{{ __('menu-inicio.precio') }}</a>
+                            <a class="nav-link {{request()->is('precios') ? 'active' : ''}}" href="{{ route('precios') }}">{{ __('Precios') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{request()->is('preguntas-frecuentes') ? 'active' : ''}}" href="{{ url('preguntas-frecuentes') }}">{{ __('menu-inicio.preguntas.frecuentes') }}</a>
+                            <a class="nav-link {{request()->is('preguntas-frecuentes') ? 'active' : ''}}" href="{{ url('preguntas-frecuentes') }}">{{ __('Preguntas Frecuentes') }}</a>
                         </li>
                     </ul>
                     <div class="d-flex gap-2 align-items-center header-cta">
                         @if (Route::has('login'))
                             @auth
-                                <a class="btn btn-ghost" href="{{ route('home') }}">{{ __('menu-inicio.dashboard') }}</a>
+                                <a class="btn btn-ghost" href="{{ route('home') }}">{{ __('Dashboard') }}</a>
                             @else
-                                <a href="{{ route('login') }}" class="btn btn-ghost">{{ __('menu-inicio.login') }}</a>
-                                <a href="{{ route('register') }}" class="btn btn-glow magnetic">{{ __('menu-inicio.probar.gratis') }}</a>
+                                <a href="{{ route('login') }}" class="btn btn-ghost">{{ __('Iniciar Sesión') }}</a>
+                                <a href="{{ route('register') }}" class="btn btn-glow magnetic">{{ __('Probar Gratis') }}</a>
                             @endauth
                         @endif
                     </div>
@@ -109,9 +109,9 @@
                 <div class="col-lg-4">
                     <a class="d-flex align-items-center gap-2 mb-3 footer-brand" href="#hero">
                         <img src="{{ asset('img/logo_gmb.png') }}" alt="Logo GIJAC" class="brand-logo" />
-                        <span class="brand-name">GIJAC MESSAGE BUSINESS</span>
+                        <span class="brand-name">{{ __('GIJAC MESSAGE BUSINESS') }}</span>
                     </a>
-                    <p class="footer-text">{{ __('pie-inicio.label.1') }}</p>
+                    <p class="footer-text">{{ __('La solución más completa para gestionar tu comunicación empresarial a través de WhatsApp Business API.') }}</p>
                     <div class="social-row">
                         <a href="https://www.facebook.com/share/1AgqGKJ5Dj/" aria-label="Facebook">
                             <i class="bi bi-facebook"></i>
@@ -128,50 +128,50 @@
                     </div>
                 </div>
                 <div class="col-6 col-lg-2">
-                    <h6>{{ __('pie-inicio.enlaces.rapidos') }}</h6>
+                    <h6>{{ __('Enlaces Rápidos') }}</h6>
                     <ul class="footer-links">
                         <li>
-                            <a href="{{ url('/') }}">{{ __('pie-inicio.inicio') }}</a>
+                            <a href="{{ url('/') }}">{{ __('Inicio') }}</a>
                         </li>
                         <li>
-                            <a href="{{ route('recursos.index') }}">Recursos</a>
+                            <a href="{{ route('recursos.index') }}">{{ __('Recursos') }}</a>
                         </li>
                         <li>
-                            <a href="{{ route('contactarnos') }}">{{ __('pie-inicio.contacto') }}</a>
+                            <a href="{{ route('contactarnos') }}">{{ __('Contacto') }}</a>
                         </li>
                         <li>
-                            <a href="{{ route('politicas-privacidad') }} ">{{ __('pie-inicio.politicas.privacidad') }}</a>
+                            <a href="{{ route('politicas-privacidad') }} ">{{ __('Politicas de privacidad') }}</a>
                         </li>
                         <li>
-                            <a href="{{ route('terminos-condiciones') }} ">{{ __('pie-inicio.terminos.condiciones') }}</a>
+                            <a href="{{ route('terminos-condiciones') }} ">{{ __('Terminos y condiciones') }}</a>
                         </li>
                         <li>
-                            <a href="{{ route('eliminacion-datos') }} ">{{ __('pie-inicio.eliminar.datos') }}</a>
+                            <a href="{{ route('eliminacion-datos') }} ">{{ __('Eliminación de datos') }}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="col-6 col-lg-3">
-                    <h6>{{ __('pie-inicio.funcionalidades') }}</h6>
+                    <h6>{{ __('Funcionalidades') }}</h6>
                     <ul class="footer-links">
                         <li>
-                            <a href="{{ url('/') }}#modulos">{{ __('pie-inicio.dashboard') }}</a>
+                            <a href="{{ url('/') }}#modulos">{{ __('Dashboard') }}</a>
                         </li>
                         <li>
-                            <a href="{{ url('/') }}#modulos">{{ __('pie-inicio.campanas') }}</a>
+                            <a href="{{ url('/') }}#modulos">{{ __('Campañas') }}</a>
                         </li>
                         <li>
-                            <a href="{{ url('/') }}#modulos">{{ __('pie-inicio.plantillas') }}</a>
+                            <a href="{{ url('/') }}#modulos">{{ __('Plantillas') }}</a>
                         </li>
                         <li>
-                            <a href="{{ url('/') }}#ia">Inteligencia Artificial</a>
+                            <a href="{{ url('/') }}#ia">{{ __('Inteligencia Artificial') }}</a>
                         </li>
                         <li>
-                            <a href="{{ url('/') }}#">API</a>
+                            <a href="{{ url('/') }}#">{{ __('API') }}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="col-lg-3">
-                    <h6>{{ __('pie-inicio.contacto') }}</h6>
+                    <h6>{{ __('Contacto') }}</h6>
                     <ul class="footer-contact">
                         <li>
                             <i class="bi bi-envelope"></i> soporte@gijac.co
@@ -180,19 +180,19 @@
                             <i class="bi bi-telephone"></i> +57 (317) 178-9584
                         </li>
                         <li>
-                            <i class="bi bi-geo-alt"></i> Cali, Colombia.
+                            <i class="bi bi-geo-alt"></i> {{ __('Cali, Colombia.') }}
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© {{ date('Y') }} GIJAC MESSAGE BUSINESS. {{ __('pie-inicio.derechos.reservados') }}</p>
+                <p>© {{ date('Y') }} GIJAC MESSAGE BUSINESS. {{ __('Todos los derechos reservados.') }}</p>
             </div>
         </div>
     </footer>
 
     <!-- Back to top -->
-    <button id="back-to-top" aria-label="Volver arriba">
+    <button id="back-to-top" aria-label="{{ __('Volver arriba') }}">
         <i class="bi bi-arrow-up"></i>
     </button>
 

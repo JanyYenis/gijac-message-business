@@ -15,6 +15,7 @@ class ExtractTranslatable extends Command
     protected $description = 'Escanea vistas Blade, envuelve texto plano en __() y genera lang/{lang}.json';
 
     private array $strings = [];
+    private array $allStrings = [];
 
     public function handle(): int
     {
@@ -52,6 +53,9 @@ class ExtractTranslatable extends Command
                 continue;
             }
 
+            // Acumula los strings de este archivo (ya sabemos que se procesó bien)
+            $this->allStrings = array_merge($this->allStrings, $this->strings);
+
             if ($modified !== $original) {
                 $modifiedCount++;
                 $this->line("Modificado: {$file->getRelativePathname()}");
@@ -62,13 +66,13 @@ class ExtractTranslatable extends Command
             }
         }
 
-        if (!empty($this->strings)) {
-            $langPath = base_path("lang/{$langCode}.json");
+        if (!empty($this->allStrings)) {
+            $langPath = app()->langPath("{$langCode}.json");
             $existing = File::exists($langPath)
                 ? json_decode(File::get($langPath), true)
                 : [];
 
-            $merged = array_merge($existing, $this->strings);
+            $merged = array_merge($existing, $this->allStrings);
             ksort($merged);
 
             if (!$dryRun) {
@@ -141,7 +145,7 @@ class ExtractTranslatable extends Command
             return null;
         }
 
-        $wrapped = @preg_replace_callback('/>([^<>{}\n]{2,})</u', function ($m) {
+        $wrapped = @preg_replace_callback('/>([^<>{}]{2,})</u', function ($m) {
             $raw = $m[1];
             $text = trim($raw);
 
@@ -155,8 +159,12 @@ class ExtractTranslatable extends Command
             preg_match('/^\s*/', $raw, $lead);
             preg_match('/\s*$/', $raw, $trail);
 
-            $escaped = str_replace("'", "\\'", $text);
-            $this->strings[$text] = $text;
+            // NUEVO: colapsa saltos de línea y espacios internos a uno solo,
+            // para que la clave sea estable sin importar la indentación del origen.
+            $normalized = preg_replace('/\s+/u', ' ', $text);
+
+            $escaped = str_replace("'", "\\'", $normalized);
+            $this->strings[$normalized] = $normalized;
 
             return '>' . $lead[0] . "{{ __('{$escaped}') }}" . $trail[0] . '<';
         }, $content);

@@ -54,7 +54,6 @@ class AppServiceProvider extends ServiceProvider
 
             $idioma_actual = $idiomas->firstWhere('nombre_corto', app()->getLocale());
             $view->with('idioma_actual', $idioma_actual);
-            $view->with('idiomas', $idiomas);
         });
     }
 }

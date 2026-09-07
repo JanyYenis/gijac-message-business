@@ -25,7 +25,7 @@ class TranslateLang extends Command
     public function handle(): int
     {
         $source = $this->option('source');
-        $sourcePath = base_path("lang/{$source}.json");
+        $sourcePath = app()->langPath("{$source}.json");
 
         if (!File::exists($sourcePath)) {
             $this->error("No existe lang/{$source}.json. Corre primero: php artisan lang:extract");
@@ -84,7 +84,7 @@ class TranslateLang extends Command
             }
 
             $result = array_combine($keys, $translatedAll);
-            $targetPath = base_path("lang/{$target}.json");
+            $targetPath = app()->langPath("{$target}.json");
 
             $existing = File::exists($targetPath)
                 ? json_decode(File::get($targetPath), true)

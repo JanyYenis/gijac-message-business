@@ -144,7 +144,7 @@ Route::post('/epayco/confirmation', [EpaycoController::class, 'confirmation'])
 Route::post('/verify2FA', [UsuarioController::class, 'verify2FA'])->name('verify2FA');
 
 Route::get('lang/{locale}', function ($locale) {
-    if (in_array($locale, ['es', 'en', 'de', 'jan', 'fan'])) {
+    if (in_array($locale, ['es', 'en', 'de', 'ja', 'fr'])) {
         session(['locale' => $locale]);
         Session::put('locale', $locale);
     }

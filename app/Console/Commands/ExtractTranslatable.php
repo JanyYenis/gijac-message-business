@@ -139,13 +139,13 @@ class ExtractTranslatable extends Command
         $protect('/<!--.*?-->/s', 'comentario-html');
         $protect('/\{\{.*?\}\}/s', 'interpolacion-{{}}');
         $protect('/\{!!.*?!!\}/s', 'interpolacion-{!!!!}');
-        $protect('/@[a-zA-Z]+(\([^()]*\))?/s', 'directivas-@');
+        $protect('/@[a-zA-Z]+(\((?:[^()]|\([^()]*\))*\))?/s', 'directivas-@');
 
         if ($failed) {
             return null;
         }
 
-        $wrapped = @preg_replace_callback('/>([^<>{}]{2,})</u', function ($m) {
+        $wrapped = @preg_replace_callback('/(?<!-)>([^<>{}]{2,})</u', function ($m) {
             $raw = $m[1];
             $text = trim($raw);
 

@@ -12,10 +12,10 @@
 
             <!--begin::Card title-->
             <h3 class="card-title fs-3 fw-bold text-white flex-column m-0">
-                Metronic Builder
+                {{ __('Metronic Builder') }}
 
                 <small class="text-white opacity-50 fs-7 fw-semibold pt-1">
-                    Get your product deeply customized
+                    {{ __('Get your product deeply customized') }}
                 </small>
             </h3>
             <!--end::Card title-->
@@ -49,13 +49,13 @@
                         <div class="form-group">
                             <!--begin::Heading-->
                             <div class="mb-6">
-                                <h4 class="fw-bold text-gray-900">Theme Mode</h4>
+                                <h4 class="fw-bold text-gray-900">{{ __('Theme Mode') }}</h4>
                                 <div class="fw-semibold text-muted fs-7 d-block lh-1">
-                                    Enjoy Dark &amp; Light modes.
+                                    {{ __('Enjoy Dark &amp; Light modes.') }}
 
                                     <a class="fw-semibold"
                                         href="https://preview.keenthemes.com/html/metronic/docs/getting-started/dark-mode"
-                                        target="_blank">See docs</a>
+                                        target="_blank">{{ __('See docs') }}</a>
                                 </div>
                             </div>
                             <!--end::Heading-->
@@ -82,7 +82,7 @@
 
                                             <!--begin::Label-->
                                             <div class="form-check-label text-gray-700">
-                                                Light </div>
+                                                {{ __('Light') }} </div>
                                             <!--end::Label-->
                                         </div>
                                         <!--end::Check-->
@@ -109,7 +109,7 @@
 
                                             <!--begin::Label-->
                                             <div class="form-check-label text-gray-700">
-                                                Dark </div>
+                                                {{ __('Dark') }} </div>
                                             <!--end::Label-->
                                         </div>
                                         <!--end::Check-->
@@ -128,13 +128,13 @@
                         <div class="form-group d-flex flex-stack">
                             <!--begin::Heading-->
                             <div class="d-flex flex-column">
-                                <h4 class="fw-bold text-gray-900">RTL Mode</h4>
+                                <h4 class="fw-bold text-gray-900">{{ __('RTL Mode') }}</h4>
                                 <div class="fs-7 fw-semibold text-muted">
-                                    Change Language Direction.
+                                    {{ __('Change Language Direction.') }}
 
                                     <a class="fw-semibold"
                                         href="https://preview.keenthemes.com/html/metronic/docs/getting-started/rtl"
-                                        target="_blank">See docs</a>
+                                        target="_blank">{{ __('See docs') }}</a>
                                 </div>
                             </div>
                             <!--end::Heading-->
@@ -162,8 +162,8 @@
                         <div class="form-group ">
                             <!--begin::Heading-->
                             <div class="d-flex flex-column mb-4">
-                                <h4 class="fw-bold text-gray-900">Width Mode</h4>
-                                <div class="fs-7 fw-semibold text-muted">Page width options</div>
+                                <h4 class="fw-bold text-gray-900">{{ __('Width Mode') }}</h4>
+                                <div class="fs-7 fw-semibold text-muted">{{ __('Page width options') }}</div>
                             </div>
                             <!--end::Heading-->
 
@@ -179,7 +179,7 @@
                                     <!--begin::Label-->
                                     <label class="form-check-label text-gray-700 fw-bold text-nowrap"
                                         for="kt_layout_builder_page_width_default">
-                                        Default </label>
+                                        {{ __('Default') }} </label>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Check-->
@@ -193,7 +193,7 @@
                                     <!--begin::Label-->
                                     <label class="form-check-label text-gray-700 fw-bold text-nowrap"
                                         for="kt_layout_builder_page_width_fluid">
-                                        Fluid </label>
+                                        {{ __('Fluid') }} </label>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Check-->
@@ -207,7 +207,7 @@
                                     <!--begin::Label-->
                                     <label class="form-check-label text-gray-700 fw-bold text-nowrap"
                                         for="kt_layout_builder_page_width_fixed">
-                                        Fixed </label>
+                                        {{ __('Fixed') }} </label>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Check-->
@@ -221,9 +221,9 @@
                         <div class="form-group d-flex flex-stack">
                             <!--begin::Heading-->
                             <div class="d-flex flex-column">
-                                <h4 class="fw-bold text-gray-900">Secondary Penel</h4>
+                                <h4 class="fw-bold text-gray-900">{{ __('Secondary Penel') }}</h4>
                                 <div class="fs-7 fw-semibold text-muted">
-                                    Display secondary penel
+                                    {{ __('Display secondary penel') }}
                                 </div>
                             </div>
                             <!--end::Heading-->
@@ -255,12 +255,12 @@
                         <div class="form-group d-flex flex-stack">
                             <!--begin::Heading-->
                             <div class="d-flex flex-column">
-                                <h4 class="fw-bold text-gray-900">Sticky Toolbar</h4>
+                                <h4 class="fw-bold text-gray-900">{{ __('Sticky Toolbar') }}</h4>
                                 <div class="fs-7 fw-semibold text-muted">
-                                    Enable sticky toolbar
+                                    {{ __('Enable sticky toolbar') }}
 
                                     <a href="/metronic8/demo29/layout-builder.html" class="fw-semibold text-primary">
-                                        More layout options
+                                        {{ __('More layout options') }}
                                     </a>
                                 </div>
                             </div>
@@ -303,12 +303,12 @@
 
                 <!--begin::Indicator label-->
                 <span class="indicator-label">
-                    Preview</span>
+                    {{ __('Preview') }}</span>
                 <!--end::Indicator label-->
 
                 <!--begin::Indicator progress-->
                 <span class="indicator-progress">
-                    Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    {{ __('Please wait...') }} <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
                 <!--end::Indicator progress--> </button>
 
@@ -316,12 +316,12 @@
 
                 <!--begin::Indicator label-->
                 <span class="indicator-label">
-                    Reset</span>
+                    {{ __('Reset') }}</span>
                 <!--end::Indicator label-->
 
                 <!--begin::Indicator progress-->
                 <span class="indicator-progress">
-                    Please wait... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                    {{ __('Please wait...') }} <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                 </span>
                 <!--end::Indicator progress--> </button>
         </div>
@@ -334,6 +334,6 @@
 <button id="kt_app_layout_builder_toggle" class="btn btn-primary-gijac app-layout-builder-toggle lh-1 py-4 "
     data-bs-custom-class="tooltip-inverse" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-dismiss="click"
     data-bs-trigger="hover" data-bs-original-title="Configuración" data-kt-initialized="1">
-    <i class="fas fa-cog icono-color fs-3 text-white me-1"></i> Configuración
+    <i class="fas fa-cog icono-color fs-3 text-white me-1"></i> {{ __('Configuración') }}
 </button>
 <!--end::App settings toggle-->

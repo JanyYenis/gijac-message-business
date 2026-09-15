@@ -30,16 +30,16 @@ const iniciarComponentes = () => {
         },
         locale: {
             format: 'YYYY-MM-DD', // Formato de fecha
-            applyLabel: 'Aplicar',
-            cancelLabel: 'Cancelar',
-            fromLabel: 'Desde',
-            toLabel: 'Hasta',
-            customRangeLabel: 'Rango personalizado',
-            weekLabel: 'S',
-            daysOfWeek: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+            applyLabel: __('Aplicar'),
+            cancelLabel: __('Cancelar'),
+            fromLabel: __('Desde'),
+            toLabel: __('Hasta'),
+            customRangeLabel: __('Rango personalizado'),
+            weekLabel: __('S'),
+            daysOfWeek: [__('Dom'), __('Lun'), __('Mar'), __('Mié'), __('Jue'), __('Vie'), __('Sáb')],
             monthNames: [
-                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre',
+                __('Enero'), __('Febrero'), __('Marzo'), __('Abril'), __('Mayo'), __('Junio'),
+                __('Julio'), __('Agosto'), __('Septiembre'), __('Octubre'), __('Noviembre'), __('Diciembre'),
             ],
         },
     }, cb);
@@ -52,7 +52,7 @@ const iniciarComponentes = () => {
         // Intenta encontrar el elemento cada 100ms (hasta 2 segundos)
         $("#fromFiltros #selectEtiquetas").select2({
             allowClear: true,
-            placeholder: 'Seleccione la o las etiquetas',
+            placeholder: __('Seleccione la o las etiquetas'),
             ajax: {
                 url: route('etiquetas.buscar'),   // ruta de tu backend Laravel
                 dataType: 'json',
@@ -78,7 +78,7 @@ const iniciarComponentes = () => {
         });
         $("#fromFiltros #selectContactos").select2({
             allowClear: true,
-            placeholder: 'Seleccione el o los contactos',
+            placeholder: __('Seleccione el o los contactos'),
             ajax: {
                 url: route('contactos.buscar'),   // ruta de tu backend Laravel
                 dataType: 'json',
@@ -199,7 +199,7 @@ const graficasDias = (nombreChartGlobal, datos, labels, div) => {
                 },
             },
             title: {
-                text: 'Cantidad Aperturas'
+                text: __('Cantidad Aperturas')
             },
         },
         xaxis: {
@@ -237,7 +237,7 @@ const graficaTop = (alcance, aperturas, fallos) => {
     var options = {
         series: [
             {
-                name: "Total",
+                name: __("Total"),
                 data: [alcance, aperturas, fallos],
             },
         ],
@@ -269,10 +269,10 @@ const graficaTop = (alcance, aperturas, fallos) => {
         // },
         xaxis: {
             categories: [
-                'Alcance',
-                'Aperturas',
+                __('Alcance'),
+                __('Aperturas'),
                 // 'Clicks',
-                'Fallos',
+                __('Fallos'),
             ],
         },
         legend: {
@@ -354,7 +354,7 @@ const graficaCampanas = (campanasPorMes) => {
     // ApexCharts - Campaigns by Month
     const campaignsOptions = {
         series: [{
-            name: 'Campañas',
+            name: __('Campañas'),
             data: campanasPorMes
         }],
         chart: {
@@ -375,7 +375,7 @@ const graficaCampanas = (campanasPorMes) => {
             enabled: false
         },
         xaxis: {
-            categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            categories: [__('Ene'), __('Feb'), __('Mar'), __('Abr'), __('May'), __('Jun'), __('Jul'), __('Ago'), __('Sep'), __('Oct'), __('Nov'), __('Dic')],
             axisBorder: {
                 show: false
             },
@@ -385,7 +385,7 @@ const graficaCampanas = (campanasPorMes) => {
         },
         yaxis: {
             title: {
-                text: 'Número de Campañas'
+                text: __('Número de Campañas')
             }
         },
         grid: {

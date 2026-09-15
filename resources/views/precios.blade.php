@@ -24,8 +24,8 @@
         <div class="container">
             <div class="row align-items-center g-4">
                 <div class="col-lg-7">
-                    <h1 class="display-6 fw-bold mb-3">Planes simples y transparentes</h1>
-                    <p class="lead mb-0">Escala cuando lo necesites, sin sorpresas.</p>
+                    <h1 class="display-6 fw-bold mb-3">{{ __('Planes simples y transparentes') }}</h1>
+                    <p class="lead mb-0">{{ __('Escala cuando lo necesites, sin sorpresas.') }}</p>
                 </div>
                 <div class="col-lg-5 text-lg-end">
                     <img src="{{ asset('img/precios.png') }}"
@@ -42,16 +42,16 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 card-hover {{ $index == 1 ? 'pricing-popular pricing-card featured' : '' }}">
                             <div class="card-body d-flex flex-column">
-                                <h5 class="card-title fw-bold">{{$plan?->nombre}}</h5>
-                                <p class="text-muted">Para equipos que recién comienzan.</p>
-                                <h2 class="fw-bold mb-3">${{formatoMiles($plan?->valor ?? 0)}}<span class="fs-6 text-muted">/{{ $plan?->infoTipo?->nombre }}</span></h2>
+                                <h5 class="card-title fw-bold">{{ __($plan?->nombre) }}</h5>
+                                <p class="text-muted">{{ __('Para equipos que recién comienzan.') }}</p>
+                                <h2 class="fw-bold mb-3">${{formatoMiles($plan?->valor ?? 0)}}<span class="fs-6 text-muted">/{{ __($plan?->infoTipo?->nombre) }}</span></h2>
                                 <ul class="list-unstyled mb-4">
-                                    <li>• {{ $plan?->max_contactos ? formatoMiles($plan?->max_contactos) : 'Ilimitado' }} Contactos Activos</li>
+                                    <li>• {{ $plan?->max_contactos ? formatoMiles($plan?->max_contactos) : __('Ilimitado') }} {{ __('Contactos Activos') }}</li>
                                     @foreach ($plan->serviciosHabilitados as $item)
-                                        <li>• {{$item?->nombre}}</li>
+                                        <li>• {{ __($item?->nombre) }}</li>
                                     @endforeach
                                 </ul>
-                                <a href="{{ route('facturas.pago', ['plan' => $plan->id]) }}" class="btn {{ $index == 1 ? 'btn-primary' : 'btn-outline-primary' }} mt-auto">Obtener</a>
+                                <a href="{{ route('facturas.pago', ['plan' => $plan->id]) }}" class="btn {{ $index == 1 ? 'btn-primary' : 'btn-outline-primary' }} mt-auto">{{ __('Obtener') }}</a>
                             </div>
                         </div>
                     </div>
@@ -62,19 +62,18 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
                         <i class="fas fa-info-circle fa-2x me-3" style="color: var(--primary-color);"></i>
-                        <h4 class="mb-0">Información Importante</h4>
+                        <h4 class="mb-0">{{ __('Información Importante') }}</h4>
                     </div>
                     <p class="mb-3">
-                        <strong>El precio de los envíos de WhatsApp corre por cuenta del cliente.</strong>
+                        <strong>{{ __('El precio de los envíos de WhatsApp corre por cuenta del cliente.') }}</strong>
                     </p>
                     <p class="mb-3">
-                        Los costos mostrados corresponden únicamente al uso de la plataforma. Los envíos de mensajes se
-                        facturan directamente por WhatsApp Business API según sus tarifas oficiales.
+                        {{ __('Los costos mostrados corresponden únicamente al uso de la plataforma. Los envíos de mensajes se facturan directamente por WhatsApp Business API según sus tarifas oficiales.') }}
                     </p>
                     <p class="mb-3">
-                        Para mas informacion lo invitamos a consultar los precios que utiliza
+                        {{ __('Para mas informacion lo invitamos a consultar los precios que utiliza') }}
                         <a href="https://developers.facebook.com/docs/whatsapp/pricing/?translation"
-                            target="_blank" class="link-primary">WhatsApp Business API</a>.
+                            target="_blank" class="link-primary">{{ __('WhatsApp Business API') }}</a>.
                     </p>
                 </div>
             </div>

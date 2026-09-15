@@ -170,13 +170,13 @@ $(function () {
     function paintDoc(key) {
         var d = DOCS[key]; if (!d) return;
         var html = '<span class="eyebrow"><i class="fa-solid fa-book"></i> Documentación</span>' +
-            '<h3 class="fw-bold mb-2">' + d.title + '</h3>' +
-            '<p class="text-secondary">' + d.desc + '</p>' +
+            '<h3 class="fw-bold mb-2">' + __(d.title) + '</h3>' +
+            '<p class="text-secondary">' + __(d.desc) + '</p>' +
             '<div class="d-flex align-items-center gap-2 mb-4"><span class="chip">' + d.count + ' artículos</span>' +
             '<span class="chip dark">Actualizado hoy</span></div>';
         d.items.forEach(function (a) {
             html += '<a href="#documentacion" class="doc-article"><span><i class="fa-regular fa-file-lines me-2 lead-ico"></i>' +
-                a + '</span><i class="fa-solid fa-arrow-right-long text-secondary"></i></a>';
+                __(a) + '</span><i class="fa-solid fa-arrow-right-long text-secondary"></i></a>';
         });
         $('#docPanel').html(html);
     }

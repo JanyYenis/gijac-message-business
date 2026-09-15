@@ -6,7 +6,7 @@
             <div class="col-md-5">
                 <label for="nombreEdit" class="form-label">
                     <i class="fas fa-tag me-1"></i>
-                    Nombre del Plan
+                    {{ __('Nombre del Plan') }}
                 </label>
                 <input type="text" class="form-control" placeholder="Nombre" id="nombreEdit"
                     name="nombre" required value="{{ $plan?->nombre }}">
@@ -14,7 +14,7 @@
             </div>
             <div class="col-md-2">
                 <label for="categoriaEdit" class="form-label">
-                    Categoria
+                    {{ __('Categoria') }}
                 </label>
                 <select class="form-select" id="categoriaEdit" name="categoria" data-control="select2"
                     required data-placeholder="Categoria" data-allow-clear="true"
@@ -29,7 +29,7 @@
             <div class="col-md-2">
                 <label for="tipoEdit" class="form-label">
                     <i class="fas fa-calendar me-1"></i>
-                    Tipo
+                    {{ __('Tipo') }}
                 </label>
                 <select class="form-select" id="tipoEdit" name="tipo" data-control="select2"
                     required data-placeholder="Tipo" data-allow-clear="true" data-hide-search="true"
@@ -44,7 +44,7 @@
             <div class="col-md-3">
                 <label for="valorEdit" class="form-label">
                     <i class="fas fa-dollar-sign me-1"></i>
-                    Valor ($)
+                    {{ __('Valor ($)') }}
                 </label>
                 <input type="number" class="form-control" placeholder="$0" id="valorEdit"
                     name="valor" step="0.01" min="0" required value="{{ $plan?->valor ?? 0 }}">
@@ -55,14 +55,14 @@
                     <input class="form-check-input" type="checkbox" {{ $plan?->max_contactos ? 'checked' : '' }} id="limitarContactosEdit">
                     <label class="form-check-label fw-bold" for="limitarContactosEdit">
                         <i class="fas fa-users me-1"></i>
-                        Limitar número de contactos activos
+                        {{ __('Limitar número de contactos activos') }}
                     </label>
                 </div>
             </div>
             <div class="col-md-6" id="maxContactosContainerEdit" style="display: {{ $plan?->max_contactos ? 'block' : 'none' }};">
                 <label for="max_contactosEdit" class="form-label">
                     <i class="fas fa-hashtag me-1"></i>
-                    Máximo de contactos activos
+                    {{ __('Máximo de contactos activos') }}
                 </label>
                 <input type="number" class="form-control" placeholder="0" id="max_contactosEdit"
                     name="max_contactos" min="1" value="{{ $plan?->max_contactos }}">
@@ -74,7 +74,7 @@
         <div class="mt-4">
             <h6 class="fw-bold mb-3">
                 <i class="fas fa-cogs me-2"></i>
-                Servicios Incluidos
+                {{ __('Servicios Incluidos') }}
             </h6>
             <div id="serviciosListEdit">
                 @foreach ($servicios as $servicio)
@@ -102,18 +102,18 @@
         <div class="price-preview">
             <h6 class="mb-3">
                 <i class="fas fa-eye me-2"></i>
-                Vista Previa
+                {{ __('Vista Previa') }}
             </h6>
             <div class="price-amount" id="previewPriceEdit">$0.00</div>
-            <div class="price-period" id="previewPeriodEdit">por mes</div>
+            <div class="price-period" id="previewPeriodEdit">{{ __('por mes') }}</div>
             <div class="price-contacts" id="previewContactsEdit">
                 <i class="fas fa-users me-2"></i>
-                Contactos ilimitados
+                {{ __('Contactos ilimitados') }}
             </div>
             <div class="mt-3">
                 <small class="opacity-75">
                     <i class="fas fa-info-circle me-1"></i>
-                    Los precios se actualizan en tiempo real
+                    {{ __('Los precios se actualizan en tiempo real') }}
                 </small>
             </div>
         </div>

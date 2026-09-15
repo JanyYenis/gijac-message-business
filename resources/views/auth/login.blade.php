@@ -3,8 +3,8 @@
 @section('content')
     <div class="auth-card">
         <div class="auth-head">
-            <h2>Bienvenido de nuevo</h2>
-            <p>Inicia sesión en tu cuenta empresarial GIJAC</p>
+            <h2>{{ __('Bienvenido de nuevo') }}</h2>
+            <p>{{ __('Inicia sesión en tu cuenta empresarial GIJAC') }}</p>
         </div>
 
         <div class="social">
@@ -19,7 +19,7 @@
                     <path fill="#1976D2"
                         d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.7-3.7 5l6.2 5.2C41.6 34.6 44 29.7 44 24c0-1.2-.1-2.3-.4-3.5z" />
                 </svg>
-                Continuar con Google
+                {{ __('Continuar con Google') }}
             </a>
             <a class="btn-social btn-ms magnetic" type="button" href="{{ route('login-outlook') }}">
                 <svg width="18" height="18" viewBox="0 0 48 48">
@@ -28,17 +28,17 @@
                     <rect x="4" y="25" width="19" height="19" fill="#00A4EF" />
                     <rect x="25" y="25" width="19" height="19" fill="#FFB900" />
                 </svg>
-                Continuar con Microsoft
+                {{ __('Continuar con Microsoft') }}
             </a>
         </div>
 
-        <div class="divider">o con email</div>
+        <div class="divider">{{ __('o con email') }}</div>
 
         <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" id="kt_sign_in_form"
             data-kt-redirect-url="{{ route('login') }}" action="{{ route('login') }}" method="POST">
             <div class="field">
                 <input id="email" type="email" name="email" placeholder=" " required />
-                <label for="email">Correo electrónico</label>
+                <label for="email">{{ __('Correo electrónico') }}</label>
             </div>
             @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
             @enderror
             <div class="field">
                 <input id="password" type="password" name="password" placeholder=" " required />
-                <label for="password">Contraseña</label>
+                <label for="password">{{ __('Contraseña') }}</label>
                 <span class="eye" id="togglePw">
                     <i class="fa-regular fa-eye"></i>
                 </span>
@@ -63,16 +63,16 @@
 
             <div class="row-opts">
                 <label class="check">
-                    <input type="checkbox" checked name="remember"> Recordarme
+                    <input type="checkbox" checked name="remember"> {{ __('Recordarme') }}
                 </label>
-                <a href="{{ route('password.request') }}" class="link">¿Olvidaste tu contraseña?</a>
+                <a href="{{ route('password.request') }}" class="link">{{ __('¿Olvidaste tu contraseña?') }}</a>
             </div>
 
             <button class="btn-primary-x magnetic" id="kt_sign_in_submit" type="submit">
-                <i class="fa-solid fa-right-to-bracket me-1"></i> Iniciar sesión
+                <i class="fa-solid fa-right-to-bracket me-1"></i> {{ __('Iniciar sesión') }}
             </button>
             <a class="btn-outline-x magnetic text-center" type="button" href="{{ route('register') }}">
-                <i class="fa-solid fa-rocket me-1"></i> Comenzar prueba gratuita
+                <i class="fa-solid fa-rocket me-1"></i> {{ __('Comenzar prueba gratuita') }}
             </a>
         </form>
     </div>

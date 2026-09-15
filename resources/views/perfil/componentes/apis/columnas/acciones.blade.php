@@ -6,7 +6,7 @@
     <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-semibold w-200px btnAccionesApis" data-kt-menu="true">
         <div class="menu-item px-3">
             <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">
-                Acciones
+                {{ __('Acciones') }}
             </div>
         </div>
         <div class="separator mb-3 opacity-75"></div>
@@ -15,12 +15,12 @@
                 @if ($model->estado == 1)
                     <a href='javascript:;' class='menu-link fs-5 px-3 btnInactivar' data-key='{{$model->id}}'>
                         <i class='far fa-times-fas fa-clock text-gray fs-4 m-2'></i>
-                        Inactivar
+                        {{ __('Inactivar') }}
                     </a>
                 @else
                     <a href='javascript:;' class='menu-link fs-5 px-3 btnActivar' data-key='{{$model->id}}'>
                         <i class='fas fa-check-circle text-gray fs-4 m-2'></i>
-                        Activar
+                        {{ __('Activar') }}
                     </a>
                 @endif
             </div>
@@ -29,7 +29,7 @@
             <div class="menu-item px-3">
                 <a href="javascript:;" class="menu-link fs-5 px-3 btnEliminar" data-key="{{$model->id}}">
                     <i class="fas fa-trash text-gray fs-4 m-2"></i>
-                    Eliminar
+                    {{ __('Eliminar') }}
                 </a>
             </div>
         @endif

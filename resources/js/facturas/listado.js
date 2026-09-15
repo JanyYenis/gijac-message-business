@@ -46,7 +46,7 @@ window.listadoFacturas = () => {
         buttons: [
             {
                 extend: "excel",
-                text: '<i class="fa fa-download"></i> Excel',
+                text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-primary",
                 title: "Listado Facturas.",
                 exportOptions: {
@@ -61,7 +61,7 @@ window.listadoFacturas = () => {
                 }
             },
             {
-                text: '<i class="fa fa-sync-alt"></i> Actualizar',
+                text: `<i class="fa fa-sync-alt"></i> ${__('Actualizar')}`,
                 className: "btn btn-bg-secondary",
                 action: function (e, dt, node, config) {
                     dt.ajax.reload(null, false);

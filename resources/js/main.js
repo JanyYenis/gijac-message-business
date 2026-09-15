@@ -53,8 +53,8 @@ $(function () {
             '<div class="col-md-6 col-lg-4 reveal" data-reveal="up">' +
             '<div class="module-card tilt-3d" data-tilt>' +
             '<div class="module-icon"><i class="bi ' + m.icon + '"></i></div>' +
-            '<h4>' + m.title + '</h4>' +
-            '<p>' + m.desc + '</p>' +
+            '<h4>' + __(m.title) + '</h4>' +
+            '<p>' + __(m.desc) + '</p>' +
             '</div>' +
             '</div>'
         );
@@ -162,7 +162,7 @@ $(function () {
         setTimeout(function () {
             $typing.hide();
             const msg = chatScript[i];
-            $chatBody.append('<div class="chat-bubble ' + msg.side + '">' + msg.text + '</div>');
+            $chatBody.append('<div class="chat-bubble ' + msg.side + '">' + __(msg.text) + '</div>');
             $chatBody.scrollTop($chatBody[0].scrollHeight);
             setTimeout(function () { playChat(i + 1); }, 1400);
         }, 1100);

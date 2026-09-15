@@ -7,11 +7,11 @@
                 <div class="flex-column flex-lg-row-auto w-100 mb-10 mb-lg-0 h-100">
                     <div class="card card-flush h-100">
                         <div class="card-header pt-7">
-                            <h1 class="text-gijac mulish">Mis Tickets</h1>
+                            <h1 class="text-gijac mulish">{{ __('Mis Tickets') }}</h1>
                             <div class="d-flex justify-content-end">
                                 @canany(['tickets.crear'])
                                     <button type="button" class="btn btn-primary-gijac" data-bs-toggle="modal" data-bs-target="#modalCrearTickets">
-                                        Crear Ticket
+                                        {{ __('Crear Ticket') }}
                                     </button>
                                 @endcanany
                             </div>

@@ -13,7 +13,7 @@
         @if ($puedeEliminar || $puedeEditar)
             <div class="menu-item px-3">
                 <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">
-                    Acciones
+                    {{ __('Acciones') }}
                 </div>
             </div>
             <div class="separator mb-3 opacity-75"></div>
@@ -21,7 +21,7 @@
                 <div class="menu-item px-3">
                     <a href="javascript:;" class="menu-link fs-5 px-3 btnEditar" data-config="{{$model->id}}">
                         <i class="fas fa-pencil-alt text-warning fs-4 m-2"></i>
-                        Editar
+                        {{ __('Editar') }}
                     </a>
                 </div>
 
@@ -29,12 +29,12 @@
                     @if ($model->estado == 1)
                         <a href='javascript:;' class='menu-link fs-5 px-3 btnInactivar' data-config='{{$model->id}}'>
                             <i class='far fa-times-fas fa-clock text-danger fs-4 m-2'></i>
-                            Inactivar
+                            {{ __('Inactivar') }}
                         </a>
                     @else
                         <a href='javascript:;' class='menu-link fs-5 px-3 btnActivar' data-config='{{$model->id}}'>
                             <i class='fas fa-check-circle text-success fs-4 m-2'></i>
-                            Activar
+                            {{ __('Activar') }}
                         </a>
                     @endif
                 </div>
@@ -43,13 +43,13 @@
                 <div class="menu-item px-3">
                     <a href="javascript:;" class="menu-link fs-5 px-3 btnEliminar" data-config="{{$model->id}}">
                         <i class="fas fa-trash text-danger fs-4 m-2"></i>
-                        Eliminar
+                        {{ __('Eliminar') }}
                     </a>
                 </div>
             @endif
         @else
             <div class="text-center mt-1">
-                <h2>Sin acciones</h2>
+                <h2>{{ __('Sin acciones') }}</h2>
             </div>
         @endif
     </div>

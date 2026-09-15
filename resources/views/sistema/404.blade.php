@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Página No Encontrada | GIJAC MESSAGE</title>
+    <title>{{ __('404 - Página No Encontrada | GIJAC MESSAGE') }}</title>
 
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -499,44 +499,43 @@
             <div class="error-code">404</div>
 
             <!-- Error Title -->
-            <h1 class="error-title">Página No Encontrada</h1>
+            <h1 class="error-title">{{ __('Página No Encontrada') }}</h1>
 
             <!-- Status Message -->
             <div class="error-status">
-                <i class="fas fa-info-circle"></i> Parece que esta página no existe o fue movida
+                <i class="fas fa-info-circle"></i> {{ __('Parece que esta página no existe o fue movida') }}
             </div>
 
             <!-- Error Description -->
             <p class="error-description">
-                Lo sentimos, no pudimos encontrar la página que estás buscando.
-                Verifica la URL e intenta de nuevo o regresa al inicio.
+                {{ __('Lo sentimos, no pudimos encontrar la página que estás buscando. Verifica la URL e intenta de nuevo o regresa al inicio.') }}
             </p>
 
             <!-- Action Buttons -->
             <div class="error-actions">
                 <a href="{{ route('home') }}" class="btn-primary-action">
                     <i class="fas fa-home"></i>
-                    Volver al Inicio
+                    {{ __('Volver al Inicio') }}
                 </a>
                 <a href="javascript:history.back()" class="btn-secondary-action">
                     <i class="fas fa-arrow-left"></i>
-                    Página Anterior
+                    {{ __('Página Anterior') }}
                 </a>
             </div>
 
             <!-- Additional Info -->
             <div class="error-info">
                 <div class="error-info-title">
-                    <i class="fas fa-lightbulb"></i> ¿Qué puedes hacer?
+                    <i class="fas fa-lightbulb"></i> {{ __('¿Qué puedes hacer?') }}
                 </div>
                 <div class="error-info-text">
-                    • Verifica que la URL sea correcta
+                    {{ __('• Verifica que la URL sea correcta') }}
                 </div>
                 <div class="error-info-text">
-                    • Intenta nuevamente con la página principal
+                    {{ __('• Intenta nuevamente con la página principal') }}
                 </div>
                 <div class="error-info-text">
-                    • Contacta al soporte si el problema persiste
+                    {{ __('• Contacta al soporte si el problema persiste') }}
                 </div>
             </div>
 
@@ -544,19 +543,19 @@
             <div class="quick-links">
                 <a href="{{ route('home') }}" class="quick-link" title="Ir a inicio">
                     <i class="fas fa-home"></i>
-                    <span>Inicio</span>
+                    <span>{{ __('Inicio') }}</span>
                 </a>
                 <a href="{{ route('chats.index') }}" class="quick-link" title="Ir a mensajería">
                     <i class="fas fa-comments"></i>
-                    <span>Mensajería</span>
+                    <span>{{ __('Mensajería') }}</span>
                 </a>
                 <a href="{{ route('clasificacion-ia.index') }}" class="quick-link" title="Ir a configuración">
                     <i class="fas fa-cog"></i>
-                    <span>Configuración IA</span>
+                    <span>{{ __('Configuración IA') }}</span>
                 </a>
                 <a href="{{ route('tickets.index') }}" class="quick-link" title="Contactar soporte">
                     <i class="fas fa-headset"></i>
-                    <span>Soporte</span>
+                    <span>{{ __('Soporte') }}</span>
                 </a>
             </div>
         </div>

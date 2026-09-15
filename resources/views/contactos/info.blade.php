@@ -273,14 +273,14 @@
                 <div>
                     <h1 class="text-white">
                         <i class="fas fa-user-chart"></i>
-                        Comportamiento del Contacto
+                        {{ __('Comportamiento del Contacto') }}
                     </h1>
-                    <p class="page-subtitle mb-0">Análisis detallado de interacciones y patrones de comportamiento</p>
+                    <p class="page-subtitle mb-0">{{ __('Análisis detallado de interacciones y patrones de comportamiento') }}</p>
                 </div>
                 <div class="mt-3 mt-md-0">
                     <a href="{{ route('contactos.index') }}" type="button" class="btn btn-light">
                         <i class="fas fa-arrow-left me-2"></i>
-                        Volver
+                        {{ __('Volver') }}
                     </a>
                 </div>
             </div>
@@ -302,11 +302,11 @@
                             </div>
                             <div class="contact-detail">
                                 <i class="fas fa-calendar text-muted"></i>
-                                <span>Registrado el <span id="contactDate">{{ $contacto->created_at }}</span></span>
+                                <span>{{ __('Registrado el') }} <span id="contactDate">{{ $contacto->created_at }}</span></span>
                             </div>
                             <div class="contact-detail">
                                 <i class="fas fa-chart-line text-muted"></i>
-                                <span>Última actividad: <span id="lastActivity">2 días</span></span>
+                                <span>{{ __('Última actividad:') }} <span id="lastActivity">{{ __('2 días') }}</span></span>
                             </div>
                         </div>
                     </div>
@@ -314,22 +314,22 @@
                         @if ($contacto->estado == 1)
                             <span class="status-badge status-active" id="contactStatus">
                                 <i class="fas fa-check-circle"></i>
-                                Activo
+                                {{ __('Activo') }}
                             </span>
                         @else
                             <span class="status-badge status-finished" id="contactStatus">
                                 <i class="fas fa-check-circle"></i>
-                                Inactivo
+                                {{ __('Inactivo') }}
                             </span>
                         @endif
                         <div class="mt-2" id="contactTags">
                             <span class="tag-badge" style="background-color: #dc354520; color: #dc3545; border: 1px solid #dc354540;">
                                 <i class="fas fa-tag"></i>
-                                Cliente VIP
+                                {{ __('Cliente VIP') }}
                             </span>
                             <span class="tag-badge" style="background-color: #28a74520; color: #28a745; border: 1px solid #28a74540;">
                                 <i class="fas fa-tag"></i>
-                                Marketing
+                                {{ __('Marketing') }}
                             </span>
                         </div>
                     </div>
@@ -337,7 +337,7 @@
                 <div class="col-md-4 text-md-end">
                     <button type="button" class="btn btn-edit" onclick="editContact()">
                         <i class="fas fa-edit"></i>
-                        Editar Contacto
+                        {{ __('Editar Contacto') }}
                     </button>
                 </div>
             </div>
@@ -347,7 +347,7 @@
         <div class="chart-card">
             <h5 class="chart-title">
                 <i class="fas fa-chart-bar text-primary"></i>
-                Historial de Aperturas por Campaña
+                {{ __('Historial de Aperturas por Campaña') }}
             </h5>
             <div class="chart-container">
                 <div id="campaignHistoryChart"></div>
@@ -367,16 +367,16 @@
                 </div>
                 <div class="col-md-3">
                     <select class="form-select" id="statusFilter">
-                        <option value="">Todas las campañas</option>
-                        <option value="opened">Solo abiertas</option>
-                        <option value="clicked">Con clics</option>
-                        <option value="not-opened">No abiertas</option>
+                        <option value="">{{ __('Todas las campañas') }}</option>
+                        <option value="opened">{{ __('Solo abiertas') }}</option>
+                        <option value="clicked">{{ __('Con clics') }}</option>
+                        <option value="not-opened">{{ __('No abiertas') }}</option>
                     </select>
                 </div>
                 <div class="col-md-3">
                     <button type="button" class="btn btn-export w-100" onclick="exportCampaignsToExcel()">
                         <i class="fas fa-file-excel"></i>
-                        Exportar
+                        {{ __('Exportar') }}
                     </button>
                 </div>
             </div>
@@ -386,11 +386,11 @@
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="chart-title mb-0">
                     <i class="fas fa-history text-secondary"></i>
-                    Historial de Campañas
+                    {{ __('Historial de Campañas') }}
                 </h5>
                 <div class="text-muted">
                     <i class="fas fa-info-circle me-1"></i>
-                    <span id="totalCampaigns">0</span> campañas
+                    <span id="totalCampaigns">0</span> {{ __('campañas') }}
                 </div>
             </div>
 
@@ -399,12 +399,12 @@
                     <thead>
                         <tr>
                             <th width="5%">#</th>
-                            <th width="35%">Nombre de Campaña</th>
-                            <th width="15%">Fecha de Envío</th>
-                            <th width="10%">Abierto</th>
-                            <th width="10%">Click</th>
-                            <th width="15%">Hora de Apertura</th>
-                            <th width="10%">Estado</th>
+                            <th width="35%">{{ __('Nombre de Campaña') }}</th>
+                            <th width="15%">{{ __('Fecha de Envío') }}</th>
+                            <th width="10%">{{ __('Abierto') }}</th>
+                            <th width="10%">{{ __('Click') }}</th>
+                            <th width="15%">{{ __('Hora de Apertura') }}</th>
+                            <th width="10%">{{ __('Estado') }}</th>
                         </tr>
                     </thead>
                     <tbody id="campaignsTableBody">
@@ -416,14 +416,14 @@
             <!-- Empty State -->
             <div class="empty-state d-none" id="emptyState">
                 <i class="fas fa-search"></i>
-                <h5>No se encontraron campañas</h5>
-                <p class="mb-0">Este contacto no tiene campañas registradas o no coinciden con los filtros</p>
+                <h5>{{ __('No se encontraron campañas') }}</h5>
+                <p class="mb-0">{{ __('Este contacto no tiene campañas registradas o no coinciden con los filtros') }}</p>
             </div>
 
             <!-- Pagination -->
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <div class="text-muted">
-                    Mostrando <span id="showingFrom">0</span> a <span id="showingTo">0</span> de <span id="totalRecords">0</span> registros
+                    {{ __('Mostrando') }} <span id="showingFrom">0</span> a <span id="showingTo">0</span> {{ __('de') }} <span id="totalRecords">0</span> {{ __('registros') }}
                 </div>
                 <nav>
                     <ul class="pagination" id="pagination">
@@ -439,7 +439,7 @@
                 <div class="chart-card">
                     <h5 class="chart-title">
                         <i class="fas fa-chart-pie text-warning"></i>
-                        Enlaces Más Clickeados
+                        {{ __('Enlaces Más Clickeados') }}
                     </h5>
                     <div class="chart-container">
                         <div id="linksChart"></div>
@@ -448,11 +448,11 @@
                         <div class="row">
                             <div class="col">
                                 <h4 class="text-primary mb-0" id="totalClicks">47</h4>
-                                <small class="text-muted">Total de Clics</small>
+                                <small class="text-muted">{{ __('Total de Clics') }}</small>
                             </div>
                             <div class="col">
                                 <h4 class="text-success mb-0" id="uniqueLinks">8</h4>
-                                <small class="text-muted">Enlaces Únicos</small>
+                                <small class="text-muted">{{ __('Enlaces Únicos') }}</small>
                             </div>
                         </div>
                     </div>
@@ -462,7 +462,7 @@
                 <div class="chart-card">
                     <h5 class="chart-title">
                         <i class="fas fa-clock text-info"></i>
-                        Patrones de Apertura por Hora
+                        {{ __('Patrones de Apertura por Hora') }}
                     </h5>
                     <div class="chart-container">
                         <div id="hourlyPatternChart"></div>
@@ -477,16 +477,16 @@
                 <div class="comparison-card">
                     <div class="d-flex align-items-center justify-content-center mb-3">
                         <i class="fas fa-envelope-open text-success me-2" style="font-size: 2rem;"></i>
-                        <h5 class="mb-0">Tasa de Apertura</h5>
+                        <h5 class="mb-0">{{ __('Tasa de Apertura') }}</h5>
                     </div>
                     <div class="comparison-value text-success" id="contactOpenRate">89.2%</div>
-                    <div class="comparison-label">Este Contacto</div>
-                    <div class="comparison-vs">vs</div>
+                    <div class="comparison-label">{{ __('Este Contacto') }}</div>
+                    <div class="comparison-vs">{{ __('vs') }}</div>
                     <div class="comparison-average" id="averageOpenRate">76.4%</div>
-                    <div class="comparison-label">Promedio General</div>
+                    <div class="comparison-label">{{ __('Promedio General') }}</div>
                     <div class="comparison-difference positive" id="openRateDifference">
                         <i class="fas fa-arrow-up"></i>
-                        <span>+12.8% mejor que la media</span>
+                        <span>{{ __('+12.8% mejor que la media') }}</span>
                     </div>
                 </div>
             </div>
@@ -494,16 +494,16 @@
                 <div class="comparison-card">
                     <div class="d-flex align-items-center justify-content-center mb-3">
                         <i class="fas fa-mouse-pointer text-warning me-2" style="font-size: 2rem;"></i>
-                        <h5 class="mb-0">Tasa de Clics</h5>
+                        <h5 class="mb-0">{{ __('Tasa de Clics') }}</h5>
                     </div>
                     <div class="comparison-value text-warning" id="contactClickRate">34.7%</div>
-                    <div class="comparison-label">Este Contacto</div>
-                    <div class="comparison-vs">vs</div>
+                    <div class="comparison-label">{{ __('Este Contacto') }}</div>
+                    <div class="comparison-vs">{{ __('vs') }}</div>
                     <div class="comparison-average" id="averageClickRate">22.1%</div>
-                    <div class="comparison-label">Promedio General</div>
+                    <div class="comparison-label">{{ __('Promedio General') }}</div>
                     <div class="comparison-difference positive" id="clickRateDifference">
                         <i class="fas fa-arrow-up"></i>
-                        <span>+12.6% mejor que la media</span>
+                        <span>{{ __('+12.6% mejor que la media') }}</span>
                     </div>
                 </div>
             </div>

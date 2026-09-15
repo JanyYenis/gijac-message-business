@@ -21,7 +21,7 @@
 
                     <!--begin::Description-->
                     <span class="page-desc text-muted fs-7 fw-semibold pt-2">
-                        GIJAC MESSAGE BUSINESS </span>
+                        {{ __('GIJAC MESSAGE BUSINESS') }} </span>
                     <!--end::Description-->
                 </h1>
                 <!--end::Title-->

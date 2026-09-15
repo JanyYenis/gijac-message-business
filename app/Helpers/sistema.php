@@ -1138,3 +1138,10 @@ if (!function_exists('generarInvoice')) {
         });
     }
 }
+
+if (!function_exists('langVariable')) {
+    function langVariable(string $key)
+    {
+        return '{{' . __($key) . '}}';
+    }
+}

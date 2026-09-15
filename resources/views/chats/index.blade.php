@@ -1045,12 +1045,12 @@
                 </div>
                 <div class="user-info">
                     <h3 class="text-white">{{ $datosNumero && isset($datosNumero['data']) ? $datosNumero['data'][0]['verified_name'] : 'N/A'}}</h3>
-                    <p>En línea</p>
+                    <p>{{ __('En línea') }}</p>
                 </div>
             </div>
 
             <div class="search-box">
-                <input type="text" id="inputSearchContactos" placeholder="Buscar contactos">
+                <input type="text" id="inputSearchContactos" placeholder="{{ __('Buscar contactos') }}">
             </div>
 
             <div class="contacts-list" id="seccionListadoContactos">
@@ -1070,7 +1070,7 @@
         <!-- Right Column - Contact Info -->
         <div class="info-column d-none" id="infoColumn">
             <div class="info-header">
-                <h2 class="text-white">Información del contacto</h2>
+                <h2 class="text-white">{{ __('Información del contacto') }}</h2>
                 <button type="button" class="btn-close-info" id="btnCloseInfo">
                     <i class="fas fa-times"></i>
                 </button>
@@ -1078,24 +1078,24 @@
 
             <div class="info-content">
                 <div class="info-profile">
-                    <div class="info-profile-avatar" id="infoProfileAvatar">JD</div>
-                    <h3 class="info-profile-name" id="infoProfileName">Juan Pérez</h3>
-                    <p class="info-profile-subtitle">Cliente desde 2024</p>
+                    <div class="info-profile-avatar" id="infoProfileAvatar">{{ __('JD') }}</div>
+                    <h3 class="info-profile-name" id="infoProfileName">{{ __('Juan Pérez') }}</h3>
+                    <p class="info-profile-subtitle">{{ __('Cliente desde 2024') }}</p>
                 </div>
 
                 <div class="info-section">
                     <h4 class="info-section-title">
                         <i class="fas fa-robot"></i>
-                        Configuración del Chatbot
+                        {{ __('Configuración del Chatbot') }}
                     </h4>
 
                     <div class="chatbot-toggle">
-                        <span class="chatbot-toggle-label">Chatbot Tradicional</span>
+                        <span class="chatbot-toggle-label">{{ __('Chatbot Tradicional') }}</span>
                         <input class="form-check-input" type="checkbox" id="toggleTraditional">
                     </div>
 
                     <div class="chatbot-toggle">
-                        <span class="chatbot-toggle-label">Chatbot con Inteligencia Artificial</span>
+                        <span class="chatbot-toggle-label">{{ __('Chatbot con Inteligencia Artificial') }}</span>
                         <input class="form-check-input" type="checkbox" id="toggleAI">
                     </div>
                 </div>
@@ -1103,7 +1103,7 @@
                 <div class="info-section">
                     <h4 class="info-section-title">
                         <i class="fas fa-clipboard-list"></i>
-                        Información básica
+                        {{ __('Información básica') }}
                     </h4>
 
                     <div class="info-item">
@@ -1111,7 +1111,7 @@
                             <i class="fas fa-phone"></i>
                         </div>
                         <div class="info-item-content">
-                            <div class="info-item-label">Teléfono</div>
+                            <div class="info-item-label">{{ __('Teléfono') }}</div>
                             <div class="info-item-value" id="infoPhone">+57 300 123 4567</div>
                         </div>
                     </div>
@@ -1138,7 +1138,7 @@
                 </div>
 
                 <a href="#" type="button" class="btn-more-info btnMasInfomacion">
-                    Ver más información
+                    {{ __('Ver más información') }}
                 </a>
             </div>
         </div>

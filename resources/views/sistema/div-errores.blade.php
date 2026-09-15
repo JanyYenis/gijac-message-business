@@ -18,7 +18,7 @@
 
             <!--begin::Wrapper-->
             <div class="d-flex flex-column pe-0 pe-sm-10">
-                <h5 class="mb-1 text-danger">Confirma la información en los siguientes campos:</h5>
+                <h5 class="mb-1 text-danger">{{ __('Confirma la información en los siguientes campos:') }}</h5>
 
                 <!--begin::Content-->
                 <ul class="mensaje-validacion text-danger {{ $clases ?? '' }}">

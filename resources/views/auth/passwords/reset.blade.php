@@ -3,10 +3,10 @@
 @section('content')
     <div class="auth-card">
         <div class="auth-head">
-            <h2 >Recuperar contraseña</h2>
+            <h2 >{{ __('Recuperar contraseña') }}</h2>
         </div>
         <div class="divider">
-            Email
+            {{ __('Email') }}
         </div>
 
         <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework" id="kt_new_password_form"
@@ -15,7 +15,7 @@
             <div class="field">
                 <input id="email" type="email" name="email" placeholder=" " required value="{{ $email ?? old('email') }}"
                     autocomplete="off" class="@error('email') is-invalid @enderror"/>
-                <label for="email">Email</label>
+                <label for="email">{{ __('Email') }}</label>
             </div>
             @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -26,7 +26,7 @@
             <div class="field">
                 <input id="password" type="password" name="password" placeholder=" " required
                     autocomplete="off" class="@error('password') is-invalid @enderror"/>
-                <label for="password">Contraseña</label>
+                <label for="password">{{ __('Contraseña') }}</label>
                 <span class="eye" id="togglePw">
                     <i class="fa-regular fa-eye"></i>
                 </span>
@@ -40,13 +40,13 @@
                 </span>
             @enderror
             <div class="text-muted">
-                Utilice 8 o más caracteres con una combinación de letras, números y símbolos.
+                {{ __('Utilice 8 o más caracteres con una combinación de letras, números y símbolos.') }}
             </div>
 
             <div class="field">
                 <input id="password_confirmation" type="password" name="password_confirmation" placeholder=" " required
                     autocomplete="off" class="@error('password_confirmation') is-invalid @enderror"/>
-                <label for="password_confirmation">Confirmar Contraseña</label>
+                <label for="password_confirmation">{{ __('Confirmar Contraseña') }}</label>
                 <span class="eye" id="togglePw1">
                     <i class="fa-regular fa-eye"></i>
                 </span>
@@ -55,13 +55,13 @@
             <button type="submit" id="kt_new_password_submit" class="btn-primary-x magnetic">
                 <!--begin::Indicator label-->
                 <span class="indicator-label">
-                    Restablecer contraseña</span>
+                    {{ __('Restablecer contraseña') }}</span>
                 <!--end::Indicator label-->
             </button>
 
             <a class="btn-outline-x magnetic text-center" type="button" href="{{ route('login') }}">
                 <i class="fa-solid fa-right-to-bracket me-1"></i>
-                Iniciar sesión
+                {{ __('Iniciar sesión') }}
             </a>
         </form>
     </div>

@@ -34,7 +34,7 @@
     @endforeach
 @else
     <div class="text-center m-5">
-        <h1>No cuenta con tickets disponibles.</h1>
+        <h1>{{ __('No cuenta con tickets disponibles.') }}</h1>
     </div>
 @endif
 

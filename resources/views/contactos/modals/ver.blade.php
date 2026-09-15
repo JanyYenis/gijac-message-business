@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title text-white">Ver Contacto</h1>
+                <h1 class="modal-title text-white">{{ __('Ver Contacto') }}</h1>
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                     <span class="svg-icon svg-icon-2x">
@@ -20,10 +20,10 @@
                             <thead>
                                 <tr>
                                     <th width="5%" class="text-center all">#</th>
-                                    <th width="10%" class="text-center all">Nombre</th>
-                                    <th width="10%" class="text-center all">Telefono</th>
-                                    <th width="10%" class="text-center all">Etiqueta</th>
-                                    <th width="10%" class="text-center all">Estado</th>
+                                    <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                    <th width="10%" class="text-center all">{{ __('Telefono') }}</th>
+                                    <th width="10%" class="text-center all">{{ __('Etiqueta') }}</th>
+                                    <th width="10%" class="text-center all">{{ __('Estado') }}</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -33,7 +33,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
             </div>
         </div>
     </div>

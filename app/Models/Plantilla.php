@@ -115,4 +115,9 @@ class Plantilla extends Model
     {
         return $this->componente()->where('type', PlantillaComponente::BUTTONS);
     }
+
+    public function idioma()
+    {
+        return $this->hasOne(IdiomaPlantilla::class, 'codigo', 'language');
+    }
 }

@@ -5,6 +5,6 @@
 @endphp
 <div class="text-lg-center">
     <span class="badge badge-light-{{$color}} py-5 px-5">
-        <i class="{{$icono}} text-{{$color}}"></i>&nbsp;{{ initcap($nombreConcepto) }}
+        <i class="{{$icono}} text-{{$color}}"></i>&nbsp; {{ __(initcap($nombreConcepto)) }}
     </span>
 </div>

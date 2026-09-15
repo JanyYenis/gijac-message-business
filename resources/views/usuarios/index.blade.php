@@ -6,13 +6,13 @@
             <div>
                 <h1 class="text-white">
                     <i class="fas fa-users"></i>
-                    Usuarios
+                    {{ __('Usuarios') }}
                 </h1>
-                <p class="subtitle mb-0">Crea y administra los usuarios de la plataforma.</p>
+                <p class="subtitle mb-0">{{ __('Crea y administra los usuarios de la plataforma.') }}</p>
             </div>
             <div class="mt-3 mt-md-0">
                 <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearUsuario">
-                    Crear Usuario
+                    {{ __('Crear Usuario') }}
                 </button>
             </div>
         </div>
@@ -37,15 +37,15 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center all">#</th>
-                                                <th width="10%" class="text-center all">Nombre</th>
-                                                <th width="10%" class="text-center all">Identificación</th>
-                                                <th width="10%" class="text-center none">Tipo Identificación</th>
-                                                <th width="10%" class="text-center none">Genero</th>
-                                                <th width="10%" class="text-center all">Telefono</th>
-                                                <th width="10%" class="text-center all">Email</th>
-                                                <th width="10%" class="text-center all">Ciudad</th>
-                                                <th width="10%" class="text-center all space-b">Estado</th>
-                                                <th width="10%" class="text-center all">Acciones</th>
+                                                <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Identificación') }}</th>
+                                                <th width="10%" class="text-center none">{{ __('Tipo Identificación') }}</th>
+                                                <th width="10%" class="text-center none">{{ __('Genero') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Telefono') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Email') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Ciudad') }}</th>
+                                                <th width="10%" class="text-center all space-b">{{ __('Estado') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>

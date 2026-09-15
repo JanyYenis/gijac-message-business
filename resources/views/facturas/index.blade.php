@@ -459,12 +459,12 @@
                     @foreach ($planes as $index => $itemPlan)
                         <div class="plan-card {{ $plan->id == $itemPlan->id ? 'selected' : '' }} selectPlan" data-plan="{{ $itemPlan->id }}" data-price="{{$itemPlan->valor}}">
                             @if ($plan->id == $itemPlan->id)
-                                <div class="popular-badge">Más Popular</div>
+                                <div class="popular-badge">{{ __('Más Popular') }}</div>
                             @endif
                             <div class="plan-header">
                                 <h3 class="plan-name">{{$itemPlan->nombre}}</h3>
                                 <div class="plan-price">${{number_format($itemPlan->valor, 0, ',', '.')}}</div>
-                                <div class="plan-period">/ Mes</div>
+                                <div class="plan-period">{{ __('/ Mes') }}</div>
                             </div>
                             <ul class="plan-features">
                                 <li>
@@ -489,7 +489,7 @@
                         <div class="plan-header">
                             <h3 class="plan-name">{{$plan->nombre}}</h3>
                             <div class="plan-price">${{number_format($plan->valor, 0, ',', '.')}}</div>
-                            <div class="plan-period">/ Mes</div>
+                            <div class="plan-period">{{ __('/ Mes') }}</div>
                         </div>
                         <ul class="plan-features">
                             <li>
@@ -515,42 +515,42 @@
             <div class="payment-details">
                 <h2 class="payment-title">
                     <i class="fas fa-credit-card"></i>
-                    Detalles de Pago
+                    {{ __('Detalles de Pago') }}
                 </h2>
 
                 <form id="paymentForm">
                     <div class="form-group">
-                        <label class="form-label" for="currency">Divisa</label>
+                        <label class="form-label" for="currency">{{ __('Divisa') }}</label>
                         <select class="form-control form-select updateAmount" id="currency">
-                            <option value="COP" data-symbol="$" data-rate="1">Peso Colombiano (COP)</option>
-                            <option value="USD" data-symbol="$" data-rate="0.00025">Dólar Americano (USD)</option>
-                            <option value="EUR" data-symbol="€" data-rate="0.00023">Euro (EUR)</option>
-                            <option value="MXN" data-symbol="$" data-rate="0.0043">Peso Mexicano (MXN)</option>
+                            <option value="COP" data-symbol="$" data-rate="1">{{ __('Peso Colombiano (COP)') }}</option>
+                            <option value="USD" data-symbol="$" data-rate="0.00025">{{ __('Dólar Americano (USD)') }}</option>
+                            <option value="EUR" data-symbol="€" data-rate="0.00023">{{ __('Euro (EUR)') }}</option>
+                            <option value="MXN" data-symbol="$" data-rate="0.0043">{{ __('Peso Mexicano (MXN)') }}</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="period">Período de Pago</label>
+                        <label class="form-label" for="period">{{ __('Período de Pago') }}</label>
                         <select class="form-control form-select updateAmount" id="period">
-                            <option value="monthly" data-multiplier="1" data-discount="0">Mensual</option>
-                            <option value="quarterly" data-multiplier="3" data-discount="0.05">Trimestral (5% desc.)</option>
-                            <option value="yearly" data-multiplier="12" data-discount="0.15">Anual (15% desc.)</option>
+                            <option value="monthly" data-multiplier="1" data-discount="0">{{ __('Mensual') }}</option>
+                            <option value="quarterly" data-multiplier="3" data-discount="0.05">{{ __('Trimestral (5% desc.)') }}</option>
+                            <option value="yearly" data-multiplier="12" data-discount="0.15">{{ __('Anual (15% desc.)') }}</option>
                         </select>
                     </div>
 
                     <div class="amount-display">
-                        <div class="amount-label">Monto a Pagar</div>
+                        <div class="amount-label">{{ __('Monto a Pagar') }}</div>
                         <div class="amount-value" id="amountDisplay">${{number_format($plan->valor, 0, ',', '.')}} COP</div>
                     </div>
 
                     <button type="button" class="pay-button processPayment">
                         <i class="fas fa-lock"></i>
-                        Pagar Ahora
+                        {{ __('Pagar Ahora') }}
                     </button>
 
                     <div class="security-badge">
                         <i class="fas fa-shield-alt"></i>
-                        Pago 100% seguro y encriptado
+                        {{ __('Pago 100% seguro y encriptado') }}
                     </div>
                 </form>
             </div>

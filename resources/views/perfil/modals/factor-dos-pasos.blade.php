@@ -6,7 +6,7 @@
             <!--begin::Modal header-->
             <div class="modal-header flex-stack">
                 <!--begin::Title-->
-                <h1 class="text-white fw-bold m-0 fs-1">Elija un método de autenticación</h1>
+                <h1 class="text-white fw-bold m-0 fs-1">{{ __('Elija un método de autenticación') }}</h1>
                 <!--end::Title-->
 
                 <!--begin::Close-->
@@ -23,7 +23,7 @@
                 <div data-kt-element="options" class="">
                     <!--begin::Notice-->
                     <p class="text-muted fs-5 fw-semibold mb-10">
-                        Además de su nombre de usuario y contraseña, deberá ingresar un código (entregado a través de la aplicación) para iniciar sesión en su cuenta.
+                        {{ __('Además de su nombre de usuario y contraseña, deberá ingresar un código (entregado a través de la aplicación) para iniciar sesión en su cuenta.') }}
                     </p>
                     <!--end::Notice-->
 
@@ -38,9 +38,9 @@
                                 <span class="path2"></span>
                             </i>
                             <span class="d-block fw-semibold text-start">
-                                <span class="fw-bold d-block fs-3 text-blue">Aplicación Authenticator</span>
+                                <span class="fw-bold d-block fs-3 text-blue">{{ __('Aplicación Authenticator') }}</span>
                                 <span class="text-muted fw-semibold fs-6">
-                                    Obtenga códigos de una aplicación como Google Authenticator, Microsoft Authenticator, Authy o 1Password.
+                                    {{ __('Obtenga códigos de una aplicación como Google Authenticator, Microsoft Authenticator, Authy o 1Password.') }}
                                 </span>
                             </span>
                         </label>
@@ -84,7 +84,7 @@
                     <!--end::Options-->
 
                     <!--begin::Action-->
-                    <button class="btn btn-primary w-100" data-kt-element="options-select">Continuar</button>
+                    <button class="btn btn-primary w-100" data-kt-element="options-select">{{ __('Continuar') }}</button>
                     <!--end::Action-->
                 </div>
                 <!--end::Options-->
@@ -92,15 +92,14 @@
                 <!--begin::Apps-->
                 <div class="d-none" data-kt-element="apps">
                     <h1 class="text-verdoso fw-bold mb-7 fs-2">
-                        Authenticator Apps
+                        {{ __('Authenticator Apps') }}
                     </h1>
                     <div class="text-gray-500 fw-semibold fs-6 mb-10">
-                        Usando una aplicación de autenticación como
-                        <a href="https://support.google.com/accounts/answer/1066447?hl=en" target="_blank">Google Authenticator</a>,
-                        <a href="https://www.microsoft.com/en-us/account/authenticator" target="_blank">Microsoft Authenticator</a>,
-                        <a href="https://authy.com/download/" target="_blank">Authy</a>, o
-                        <a href="https://support.1password.com/one-time-passwords/" target="_blank">1Password</a>,
-                        escanea el código QR. Generará un código de 6 dígitos para que lo ingrese a continuación.
+                        {{ __('Usando una aplicación de autenticación como') }}
+                        <a href="https://support.google.com/accounts/answer/1066447?hl=en" target="_blank">{{ __('Google Authenticator') }}</a>,
+                        <a href="https://www.microsoft.com/en-us/account/authenticator" target="_blank">{{ __('Microsoft Authenticator') }}</a>,
+                        <a href="https://authy.com/download/" target="_blank">{{ __('Authy') }}</a>, o
+                        <a href="https://support.1password.com/one-time-passwords/" target="_blank">{{ __('1Password') }}</a>{{ __(', escanea el código QR. Generará un código de 6 dígitos para que lo ingrese a continuación.') }}
 
                         <div class="pt-5 text-center">
                             @if ($qr)
@@ -118,7 +117,7 @@
                         <div class="d-flex flex-stack flex-grow-1 ">
                             <div class=" fw-semibold">
                                 <div class="fs-6 text-gray-700">
-                                    Si tiene problemas para usar el código QR, seleccione la entrada manual en su aplicación e ingrese su nombre de usuario y el código:
+                                    {{ __('Si tiene problemas para usar el código QR, seleccione la entrada manual en su aplicación e ingrese su nombre de usuario y el código:') }}
                                     <div class="fw-bold text-gray-900 pt-2">{{ $secret ?? 'N/A' }}</div>
                                 </div>
                             </div>
@@ -136,15 +135,15 @@
 
                         <div class="d-flex flex-center">
                             <button type="reset" data-kt-element="apps-cancel" class="btn btn-cancelar me-3">
-                                Cancelar
+                                {{ __('Cancelar') }}
                             </button>
 
                             <button type="submit" data-kt-element="apps-submit" class="btn btn-primary">
                                 <span class="indicator-label">
-                                    Confirmar
+                                    {{ __('Confirmar') }}
                                 </span>
                                 <span class="indicator-progress">
-                                    Cargando... <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                    {{ __('Cargando...') }} <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
                         </div>
@@ -156,14 +155,13 @@
                 <div class="d-none" data-kt-element="whatsapp">
                     <!--begin::Heading-->
                     <h3 class="text-gray-900 fw-bold mb-7">
-                        WhatsApp
+                        {{ __('WhatsApp') }}
                     </h3>
                     <!--end::Heading-->
 
                     <!--begin::Notice-->
                     <div class="text-muted fw-semibold mb-10">
-                        Ingrese su número de teléfono móvil con el código de país y le enviaremos un código de verificación al
-                        pedido.
+                        {{ __('Ingrese su número de teléfono móvil con el código de país y le enviaremos un código de verificación al pedido.') }}
                     </div>
                     <!--end::Notice-->
 
@@ -181,15 +179,15 @@
                         <!--begin::Actions-->
                         <div class="d-flex flex-center">
                             <button type="reset" data-kt-element="apps-cancel" class="btn btn-light me-3">
-                                Cancelar
+                                {{ __('Cancelar') }}
                             </button>
 
                             <button type="submit" data-kt-element="apps-submit" class="btn btn-primary">
                                 <span class="indicator-label">
-                                    Guardar
+                                    {{ __('Guardar') }}
                                 </span>
                                 <span class="indicator-progress">
-                                    Cargando... <span
+                                    {{ __('Cargando...') }} <span
                                         class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>
@@ -204,14 +202,13 @@
                 <div class="d-none" data-kt-element="sms">
                     <!--begin::Heading-->
                     <h3 class="text-gray-900 fw-bold fs-3 mb-5">
-                        SMS: Verifique su número de móvil
+                        {{ __('SMS: Verifique su número de móvil') }}
                     </h3>
                     <!--end::Heading-->
 
                     <!--begin::Notice-->
                     <div class="text-muted fw-semibold mb-10">
-                        Ingrese su número de teléfono móvil con el código de país y le enviaremos un código de verificación al
-                        pedido.
+                        {{ __('Ingrese su número de teléfono móvil con el código de país y le enviaremos un código de verificación al pedido.') }}
                     </div>
                     <!--end::Notice-->
 
@@ -229,15 +226,15 @@
                         <!--begin::Actions-->
                         <div class="d-flex flex-center">
                             <button type="reset" data-kt-element="sms-cancel" class="btn btn-light me-3">
-                                Cancelar
+                                {{ __('Cancelar') }}
                             </button>
 
                             <button type="submit" data-kt-element="sms-submit" class="btn btn-primary">
                                 <span class="indicator-label">
-                                    Guardar
+                                    {{ __('Guardar') }}
                                 </span>
                                 <span class="indicator-progress">
-                                    Cargando...
+                                    {{ __('Cargando...') }}
                                     <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                 </span>
                             </button>

@@ -5,6 +5,7 @@ namespace Database\Seeders\Datos;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\IdiomaPlantilla;
+use App\Models\Pais;
 use Illuminate\Database\Seeder;
 
 class PlantillaSeeder extends Seeder
@@ -134,9 +135,26 @@ class PlantillaSeeder extends Seeder
         ];
 
         foreach ($idiomas as $idioma) {
+            $paisId = null;
+
+            if (str_contains($idioma['codigo'], '_')) {
+
+                $partes = explode('_', $idioma['codigo']);
+
+                $codigoPais = strtoupper($partes[1]);
+
+                $paisId = Pais::whereRaw(
+                    'UPPER(nombre_corto) = ?',
+                    [$codigoPais]
+                )->value('id');
+            }
+
             IdiomaPlantilla::updateOrCreate([
                 'codigo' => $idioma['codigo']
-            ], $idioma);
+            ], [
+                'nombre' => $idioma['nombre'],
+                'pais_id' => $paisId
+            ]);
         }
     }
 }

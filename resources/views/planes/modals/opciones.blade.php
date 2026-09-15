@@ -58,7 +58,7 @@
         </tr>
         <tr>
             <th class="card-rounded-start">
-                <div class="fw-bold d-flex align-items-center ps-9 fs-3">Respuestas automáticas</div>
+                <div class="fw-bold d-flex align-items-center ps-9 fs-3">{{ __('Respuestas automáticas') }}</div>
             </th>
 
             <td colspan="2">
@@ -81,7 +81,7 @@
         </tr>
         <tr>
             <th class="card-rounded-start">
-                <div class="fw-bold d-flex align-items-center ps-9 fs-3">Soporte vía ticket
+                <div class="fw-bold d-flex align-items-center ps-9 fs-3">{{ __('Soporte vía ticket') }}
                 </div>
             </th>
 
@@ -104,7 +104,7 @@
         </tr>
         <tr>
             <th class="card-rounded-start">
-                <div class="fw-bold d-flex align-items-center ps-9 fs-3">Soporte VIP vía WhatsApp
+                <div class="fw-bold d-flex align-items-center ps-9 fs-3">{{ __('Soporte VIP vía WhatsApp') }}
                 </div>
             </th>
 
@@ -127,7 +127,7 @@
         </tr>
         <tr>
             <th class="card-rounded-start">
-                <div class="fw-bold d-flex align-items-center ps-9 fs-3">Acceso a API
+                <div class="fw-bold d-flex align-items-center ps-9 fs-3">{{ __('Acceso a API') }}
                 </div>
             </th>
 
@@ -151,7 +151,7 @@
         </tr>
         <tr>
             <th class="card-rounded-start">
-                <div class="fw-bold d-flex align-items-center ps-9 fs-3">Chatbots Conversacionales con Inteligencia Artificial
+                <div class="fw-bold d-flex align-items-center ps-9 fs-3">{{ __('Chatbots Conversacionales con Inteligencia Artificial') }}
                 </div>
             </th>
 
@@ -174,7 +174,7 @@
         </tr>
         <tr>
             <th class="card-rounded-start">
-                <div class="fw-bold d-flex align-items-center ps-9 fs-3">Chatbots Avanzados
+                <div class="fw-bold d-flex align-items-center ps-9 fs-3">{{ __('Chatbots Avanzados') }}
                 </div>
             </th>
 
@@ -197,7 +197,7 @@
         </tr>
         <tr>
             <th class="card-rounded-start">
-                <div class="fw-bold d-flex align-items-center ps-9 fs-3">Integración con Flows de WhatsApp 
+                <div class="fw-bold d-flex align-items-center ps-9 fs-3">{{ __('Integración con Flows de WhatsApp') }} 
                 </div>
             </th>
 

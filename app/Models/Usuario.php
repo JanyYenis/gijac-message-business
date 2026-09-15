@@ -142,6 +142,7 @@ class Usuario extends User implements MustVerifyEmail
         'cod_plan',
         'cod_empresa',
         'external_id',
+        'locale',
     ];
 
     protected $with = [

@@ -8,6 +8,6 @@
         @if ($icono)
             <i class="{{$icono}} text-{{$color}}"></i>&nbsp;
         @endif
-        {{ initcap($nombreConcepto) }}
+        {{ __(initcap($nombreConcepto)) }}
     </span>
 </div>

@@ -174,19 +174,19 @@
             <div>
                 <h1 class="text-white">
                     <i class="fas fa-users"></i>
-                    Mis Contactos
+                    {{ __('Mis Contactos') }}
                 </h1>
-                <p class="subtitle mb-0">Crea y administra la infomación de tus contactos.</p>
+                <p class="subtitle mb-0">{{ __('Crea y administra la infomación de tus contactos.') }}</p>
             </div>
             <div class="mt-3 mt-md-0">
                 @can('clientes.crear')
                     <button type="button" id="tutorialBtnCargar" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#cargarContactosModal">
                         <i class="las la-cloud-upload-alt fs-2 text-primary"></i>
-                        Cargar Contactos
+                        {{ __('Cargar Contactos') }}
                     </button>&nbsp;
                     <button type="button" id="tutorialBtnCrear" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearContactos">
                         <i class="fas fa-user-plus text-primary"></i>
-                        Crear Contacto
+                        {{ __('Crear Contacto') }}
                     </button>
                 @endcan
             </div>
@@ -218,12 +218,12 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center all">#</th>
-                                                <th width="10%" class="text-center all">Nombre</th>
-                                                <th width="10%" class="text-center all">Telefono</th>
-                                                <th width="10%" class="text-center all">Genero</th>
-                                                <th width="10%" class="text-center all">Tratamiento de datos</th>
-                                                <th width="10%" class="text-center all">Estado</th>
-                                                <th width="10%" class="text-center all">Acciones</th>
+                                                <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Telefono') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Genero') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Tratamiento de datos') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>

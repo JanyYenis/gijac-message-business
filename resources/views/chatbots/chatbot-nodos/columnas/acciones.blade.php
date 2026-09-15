@@ -8,20 +8,20 @@
         data-kt-menu="true">
         <div class="menu-item px-3">
             <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">
-                Acciones
+                {{ __('Acciones') }}
             </div>
         </div>
         <div class="separator mb-3 opacity-75"></div>
         <div class="menu-item px-3">
             <a href="javascript:;" class="menu-link fs-5 px-3 btnVer" data-registro="{{ $model->id }}">
                 <i class="bi bi-eye text-info fs-4 m-2"></i>
-                Ver
+                {{ __('Ver') }}
             </a>
         </div>
         <div class="menu-item px-3">
             <a href="javascript:;" class="menu-link fs-5 px-3 btnDesacer" data-registro="{{ $model->id }}">
                 <i class="bi bi-arrow-counterclockwise text-warning fs-4 m-2"></i>
-                Desacer
+                {{ __('Desacer') }}
             </a>
         </div>
     </div>

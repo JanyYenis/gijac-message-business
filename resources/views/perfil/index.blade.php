@@ -10,8 +10,8 @@
     <!-- Page Header -->
     <div class="page-header">
         <div>
-            <h1 class="page-title text-white">Mi Perfil</h1>
-            <p class="page-subtitle">Gestiona tu informacion personal y configuracion de seguridad</p>
+            <h1 class="page-title text-white">{{ __('Mi Perfil') }}</h1>
+            <p class="page-subtitle">{{ __('Gestiona tu informacion personal y configuracion de seguridad') }}</p>
         </div>
     </div>
 
@@ -36,7 +36,7 @@
                         <input type="file" id="photoInput" accept="image/*" class="d-none">
                         <button class="btn btn-sm btn-outline btn-outline-primary mt-3" id="changePhotoBtn">
                             <i class="bi bi-camera me-2"></i>
-                            Cambiar Foto
+                            {{ __('Cambiar Foto') }}
                         </button>
                     </div>
 
@@ -44,7 +44,7 @@
                     <div class="profile-info mt-4">
                         <h4 class="profile-name" id="displayName">{{ $usuario?->nombre_completo ?? 'N/A' }}</h4>
                         <p class="profile-role">
-                            <span class="badge bg-primary-subtle text-primary">Administrador</span>
+                            <span class="badge bg-primary-subtle text-primary">{{ __('Administrador') }}</span>
                         </p>
                         <p class="profile-email" id="displayEmail">{{ $usuario?->email ?? 'N/A' }}</p>
                     </div>
@@ -72,7 +72,7 @@
                 <div class="card-header">
                     <h5 class="card-title mb-0">
                         <i class="bi bi-shield-check me-2"></i>
-                        Estado de la Cuenta
+                        {{ __('Estado de la Cuenta') }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -81,8 +81,8 @@
                             <i class="bi {{ $usuario?->email_verified_at ? 'bi-check-lg' : 'bi-x-lg' }} text-white"></i>
                         </div>
                         <div class="status-info">
-                            <span class="status-label">Email Verificado</span>
-                            <span class="status-detail">{{ $usuario?->email_verified_at ? 'Verificado el '.$usuario?->email_verified_at : 'Sin verificación' }}</span>
+                            <span class="status-label">{{ __('Email Verificado') }}</span>
+                            <span class="status-detail">{{ $usuario?->email_verified_at ? __('Verificado el ').$usuario?->email_verified_at : __('Sin verificación') }}</span>
                         </div>
                     </div>
                     <div class="status-item">
@@ -90,8 +90,8 @@
                             <i class="bi {{ $usuario?->google2fa_secret ? 'bi-check-lg' : 'bi-x-lg' }} text-white"></i>
                         </div>
                         <div class="status-info">
-                            <span class="status-label">Doble Verificacion (2FA)</span>
-                            <span class="status-detail" id="twoFactorStatusText">{{ $usuario?->google2fa_secret ? 'Activo' : 'No activado' }}</span>
+                            <span class="status-label">{{ __('Doble Verificacion (2FA)') }}</span>
+                            <span class="status-detail" id="twoFactorStatusText">{{ $usuario?->google2fa_secret ? __('Activo') : __('No activado') }}</span>
                         </div>
                     </div>
                     <div class="status-item">
@@ -99,8 +99,8 @@
                             <i class="bi {{ $usuario?->estado == 1 ? 'bi-check-lg' : 'bi-x-lg' }} text-white"></i>
                         </div>
                         <div class="status-info">
-                            <span class="status-label">Cuenta {{ $usuario?->estado == 1 ? 'Activa' : 'Inactiva' }}</span>
-                            <span class="status-detail">{{ $usuario?->estado == 1 ? 'Desde '.$usuario?->created_at : 'N/A' }}</span>
+                            <span class="status-label">{{ __('Cuenta') }} {{ $usuario?->estado == 1 ? __('Activa') : __('Inactiva') }}</span>
+                            <span class="status-detail">{{ $usuario?->estado == 1 ? __('Desde ').$usuario?->created_at : 'N/A' }}</span>
                         </div>
                     </div>
                 </div>
@@ -116,20 +116,20 @@
                         <li class="nav-item text-primary" role="presentation">
                             <button class="nav-link active" id="personal-tab" data-bs-toggle="tab"
                                     data-bs-target="#personal" type="button" role="tab">
-                                <i class="bi bi-person me-2 text-primary"></i>Datos Personales
+                                <i class="bi bi-person me-2 text-primary"></i>{{ __('Datos Personales') }}
                             </button>
                         </li>
                         <li class="nav-item text-primary" role="presentation">
                             <button class="nav-link" id="security-tab" data-bs-toggle="tab"
                                     data-bs-target="#security" type="button" role="tab">
-                                <i class="bi bi-shield-lock me-2 text-primary"></i>Seguridad
+                                <i class="bi bi-shield-lock me-2 text-primary"></i>{{ __('Seguridad') }}
                             </button>
                         </li>
                         @can('factura.listado')
                             <li class="nav-item text-primary" role="presentation">
                                 <button class="nav-link btnTabFacturas" id="faturas-tab" data-bs-toggle="tab"
                                         data-bs-target="#tabFacturas" type="button" role="tab">
-                                    <i class="bi bi-phone me-2 text-primary"></i>Facturas
+                                    <i class="bi bi-phone me-2 text-primary"></i>{{ __('Facturas') }}
                                 </button>
                             </li>
                         @endcan
@@ -137,7 +137,7 @@
                             <li class="nav-item text-primary" role="presentation">
                                 <button class="nav-link" id="btnTabApiKey" data-bs-toggle="tab"
                                         data-bs-target="#tabAPI" type="button" role="tab">
-                                    <i class="bi bi-phone me-2 text-primary"></i>API Keys
+                                    <i class="bi bi-phone me-2 text-primary"></i>{{ __('API Keys') }}
                                 </button>
                             </li>
                         @endif

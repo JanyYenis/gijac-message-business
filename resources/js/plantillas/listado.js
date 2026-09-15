@@ -40,7 +40,7 @@ window.listadoPlantillas = () => {
         buttons: [
             {
                 extend: "excel",
-                text: '<i class="fa fa-download"></i> Excel',
+                text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-success",
                 title: "Listado Plantillas.",
                 exportOptions: {
@@ -55,7 +55,7 @@ window.listadoPlantillas = () => {
                 }
             },
             {
-                text: '<i class="fa fa-sync-alt"></i> Actualizar',
+                text: `<i class="fa fa-sync-alt"></i> ${__('Actualizar')}`,
                 className: "btn btn-bg-secondary",
                 action: function (e, dt, node, config) {
                     dt.ajax.reload(null, false);

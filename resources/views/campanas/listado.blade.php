@@ -8,7 +8,7 @@
                     <!--begin::Card header-->
                     <div class="card-header border-0 pt-9">
                         <div class="card-title m-0">
-                            <span class="fs-5 badge badge-light-{{$campana?->infoEstado?->color}} fw-bold px-4 py-3">{{$campana->infoEstado?->nombre}}</span>
+                            <span class="fs-5 badge badge-light-{{$campana?->infoEstado?->color}} fw-bold px-4 py-3">{{( __($campana->infoEstado?->nombre) )}}</span>
                         </div>
                         <!--begin::Card toolbar-->
                         <div class="card-toolbar d-flex flex-column align-items-end">
@@ -45,13 +45,13 @@
                         <div class="d-flex flex-column mb-5">
                             <!--begin::Due-->
                             <div class="border border-gray-300 border-1 rounded  mb-3 p-3">
-                                <div class="fs-4 text-gris">Fecha creación</div>
+                                <div class="fs-4 text-gris">{{ __('Fecha creación') }}</div>
                                 <div class="fs-3 fw-semibold text-gray-800 fw-bold">{{$campana->created_at}}</div>
                             </div>
                             <!--end::Due-->
                             <!--begin::Due-->
                             <div class="border border-gray-300 border-1 rounded  mb-3 p-3">
-                                <div class="fs-4 text-gris">Fecha envio</div>
+                                <div class="fs-4 text-gris">{{ __('Fecha envio') }}</div>
                                 <div class="fs-3 fw-semibold text-gray-800 fw-bold">{{$campana->fecha_envio}}</div>
                             </div>
                             <!--end::Due-->
@@ -66,7 +66,7 @@
         @endforeach
     @else
         <div class="text-center">
-            <h1 class="text-gijac">Sin resultados.</h1>
+            <h1 class="text-gijac">{{ __('Sin resultados.') }}</h1>
         </div>
     @endif
 </div>

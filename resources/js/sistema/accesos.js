@@ -24,8 +24,8 @@ const listadoAccesos = () => {
         },
         ajax: {
             "url": rutaCargarListadoAccesos,
-            "type": "GET",                  
-            
+            "type": "GET",
+
             "headers": {
                 "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr('content')
             },
@@ -40,7 +40,7 @@ const listadoAccesos = () => {
         },
         buttons: [
             {
-                text: '<i class="fa fa-sync-alt"></i> Actualizar',
+                text: `<i class="fa fa-sync-alt"></i> ${__('Actualizar')}`,
                 className: "btn btn-secondary",
                 action: function (e, dt, node, config) {
                     dt.ajax.reload(null, false);
@@ -113,7 +113,7 @@ const listadoAccesos = () => {
         ],
         order: [
             [0, "asc"]
-        ], 
+        ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
             [15, 20, 50, 100, "Todos"]

@@ -41,18 +41,18 @@ var currentFlowId = null;
    ========================================================= */
 window.nodeHTML = function(type, title, flags) {
     var def   = NODE_DEFS[type];
-    var name  = title || def.label;
+    var name  = __(title || def.label);
     flags     = flags || {};
     var badges = "";
-    if (flags.principal) badges += `<span class="df-badge df-badge-principal" title="Nodo principal"><i class="bi bi-star-fill"></i></span>`;
-    if (flags.auto_send) badges += `<span class="df-badge df-badge-auto" title="Envío inmediato"><i class="bi bi-lightning-fill"></i></span>`;
+    if (flags.principal) badges += `<span class="df-badge df-badge-principal" title="${__('Nodo principal')}"><i class="bi bi-star-fill"></i></span>`;
+    if (flags.auto_send) badges += `<span class="df-badge df-badge-auto" title="${__('Envío inmediato')}"><i class="bi bi-lightning-fill"></i></span>`;
     return `<div class="df-node ${def.cls}${flags.principal ? " df-node-principal" : ""}">
                 <div class="df-header">
                     <i class="bi ${def.icon}"></i>
                     <span class="df-title">${name}</span>
                     <span class="df-badges ms-auto">${badges}</span>
                 </div>
-                <div class="df-body">${def.body}</div>
+                <div class="df-body">${__(def.body)}</div>
             </div>`;
 }
 
@@ -124,17 +124,17 @@ $(function () {
     /* ── Guardar ──────────────────────────────────────── */
     $("#btnGuardar").on("click", function () {
         var payload = buildPayload("draft");
-        submitFlow(payload, this, "Guardado");
+        submitFlow(payload, this, __("Guardado"));
     });
 
     /* ── Publicar ─────────────────────────────────────── */
     $("#btnPublicar").on("click", function () {
         var payload = buildPayload("published");
-        submitFlow(payload, this, "Publicado");
+        submitFlow(payload, this, __("Publicado"));
     });
 
     /* ── Duplicar ─────────────────────────────────────── */
-    $("#btnDuplicar").on("click", function () { flash(this, "Duplicado"); });
+    $("#btnDuplicar").on("click", function () { flash(this, __("Duplicado")); });
 
     /* ── Historial ────────────────────────────────────── */
     $("#btnHistorial").on("click", function () {
@@ -180,7 +180,7 @@ $(function () {
    ========================================================= */
 async function loadFlowFromDB() {
     try {
-        $("#propBadge").text("Cargando...");
+        $("#propBadge").text(__("Cargando..."));
 
         const response = await fetch(route('chatbots.nodos.consultar-nodes'));
         const data = await response.json();
@@ -190,7 +190,7 @@ async function loadFlowFromDB() {
 
         if (!data.nodes || data.nodes.length === 0) {
             currentFlowId = null;
-            $("#propBadge").text("Nuevo Flujo");
+            $("#propBadge").text(__("Nuevo Flujo"));
             return;
         }
 
@@ -273,11 +273,11 @@ async function loadFlowFromDB() {
 
         // Actualizar contadores
         updateNodeCount();
-        $("#propBadge").text("Flujo Cargado");
+        $("#propBadge").text(__("Flujo Cargado"));
 
     } catch (error) {
         console.error("Error cargando flujo:", error);
-        Swal.fire('Error', 'No se pudo cargar el flujo', 'error');
+        Swal.fire(__('Error'), __('No se pudo cargar el flujo'), 'error');
     }
 }
 
@@ -320,7 +320,7 @@ function getNodeOptions(excludeId) {
     Object.keys(nodes).forEach(function (nid) {
         if (String(nid) === String(excludeId)) return;
         var n = nodes[nid];
-        opts.push({ id: nid, label: n.data.title || n.name });
+        opts.push({ id: nid, label: __(n.data.title || n.name) });
     });
     return opts;
 }
@@ -330,7 +330,7 @@ function nodeSelectHTML(name, selectedId, excludeId) {
     var html = `<select class="form-select form-select-sm" name="${name}">`;
     opts.forEach(function (o) {
         var sel = (o.id == selectedId) ? "selected" : "";
-        html += `<option value="${o.id}" ${sel}>${o.label}</option>`;
+        html += `<option value="${o.id}" ${sel}>${__(o.label)}</option>`;
     });
     html += `</select>`;
     return html;
@@ -427,7 +427,7 @@ function submitFlow(payload, btn, label) {
 
     const success = (response) => {
         Swal.fire({
-            title: '¡Guardado!',
+            title: __('¡Guardado!'),
             text: response?.mensaje,
             icon: response?.estado,
             timer: 2000,
@@ -507,8 +507,8 @@ function refreshNodeBadges(id) {
     // Badges
     var $badges = $("#node-" + id + " .df-badges");
     var html    = "";
-    if (d.principal) html += `<span class="df-badge df-badge-principal" title="Nodo principal"><i class="bi bi-star-fill"></i></span>`;
-    if (d.auto_send) html += `<span class="df-badge df-badge-auto"      title="Envío inmediato"><i class="bi bi-lightning-fill"></i></span>`;
+    if (d.principal) html += `<span class="df-badge df-badge-principal" title="${__('Nodo principal')}"><i class="bi bi-star-fill"></i></span>`;
+    if (d.auto_send) html += `<span class="df-badge df-badge-auto"      title="${__('Envío inmediato')}"><i class="bi bi-lightning-fill"></i></span>`;
     $badges.html(html);
 
     // Borde de nodo principal
@@ -543,7 +543,7 @@ function renderEmptyProps() {
     $("#propsPanel").html(
         `<div class="props-empty">
             <i class="bi bi-hand-index-thumb"></i>
-            Selecciona un nodo para editar su configuración
+            ${__('Selecciona un nodo para editar su configuración')}
         </div>`
     );
 }
@@ -555,13 +555,13 @@ function renderProps(type, id, data) {
     var def = NODE_DEFS[type];
     var cfg = data.config || {};
 
-    $("#propBadge").text(def.label);
+    $("#propBadge").text(__(def.label));
 
     var html = `<div class="prop-form">`;
 
     // Campos comunes
-    html += propGroup("Tipo",           `<input class="form-control" value="${def.label}" disabled>`);
-    html += propGroup("Nombre del nodo",`<input class="form-control" id="pf-name" value="${escHtml(data.title || def.label)}">`);
+    html += propGroup(__("Tipo"),           `<input class="form-control" value="${__(def.label)}" disabled>`);
+    html += propGroup(__("Nombre del nodo"),`<input class="form-control" id="pf-name" value="${escHtml(__(data.title || def.label))}">`);
 
     // ── Flags de comportamiento (todos los nodos) ────────
     html += `<div class="prop-group">
@@ -570,20 +570,20 @@ function renderProps(type, id, data) {
                         <input class="form-check-input" type="checkbox" id="pf-principal"
                                ${data.principal ? "checked" : ""}>
                         <label class="form-check-label" for="pf-principal">
-                            <i class="bi bi-star-fill text-warning me-1"></i>Nodo principal
+                            <i class="bi bi-star-fill text-warning me-1"></i>${__('Nodo principal')}
                         </label>
                     </div>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="pf-auto-send"
                                ${data.auto_send ? "checked" : ""}>
                         <label class="form-check-label" for="pf-auto-send">
-                            <i class="bi bi-lightning-fill text-primary me-1"></i>Envío inmediato
+                            <i class="bi bi-lightning-fill text-primary me-1"></i>${__('Envío inmediato')}
                         </label>
                     </div>
                 </div>
                 <small class="text-muted d-block mt-1">
                     <b>Principal:</b> primer nodo que dispara el bot.
-                    <b>Envío inmediato:</b> el bot envía este nodo sin esperar respuesta del usuario.
+                    <b>${_('Envío inmediato')}:</b> ${__('el bot envía este nodo sin esperar respuesta del usuario.')}
                 </small>
             </div>`;
 
@@ -592,9 +592,9 @@ function renderProps(type, id, data) {
 
         case "text":
         case "question":
-            html += propGroup("Mensaje",
-                `<textarea class="form-control" id="pf-cfg-message" rows="3">${escHtml(cfg.message || "")}</textarea>`);
-            html += waPreviewBlock(cfg.message || "");
+            html += propGroup(__("Mensaje"),
+                `<textarea class="form-control" id="pf-cfg-message" rows="3">${escHtml(__(cfg.message) || "")}</textarea>`);
+            html += waPreviewBlock(__(cfg.message) || "");
             html += varsBlock();
             break;
 
@@ -602,8 +602,8 @@ function renderProps(type, id, data) {
         case "video":
         case "doc":
             html += mediaUploadBlock(type, id, cfg);
-            html += propGroup("Texto (caption)",
-                `<textarea class="form-control" id="pf-cfg-caption" rows="2">${escHtml(cfg.caption || "")}</textarea>`);
+            html += propGroup(__("Texto (caption)"),
+                `<textarea class="form-control" id="pf-cfg-caption" rows="2">${escHtml(__(cfg.caption) || "")}</textarea>`);
             break;
 
         case "audio":
@@ -611,17 +611,17 @@ function renderProps(type, id, data) {
             break;
 
         case "buttons":
-            html += propGroup("Mensaje",
-                `<textarea class="form-control" id="pf-cfg-message" rows="2">${escHtml(cfg.message || "")}</textarea>`);
+            html += propGroup(__("Mensaje"),
+                `<textarea class="form-control" id="pf-cfg-message" rows="2">${escHtml(__(cfg.message) || "")}</textarea>`);
             // 3 botones dinámicos
             [1, 2, 3].forEach(function (n) {
                 var btn    = (cfg.buttons && cfg.buttons[n - 1]) || {};
                 var isOpt  = n === 3;
                 html += propGroup(
-                    "Botón " + n + (isOpt ? " (opcional)" : ""),
+                    __("Botón ") + n + (isOpt ? __(" (opcional)") : ""),
                     `<div class="input-group input-group-sm">
                         <input class="form-control" id="pf-cfg-btn${n}-label"
-                               placeholder="${isOpt ? "Vacío" : "Etiqueta"}"
+                               placeholder="${isOpt ? __("Vacío") : __("Etiqueta")}"
                                value="${escHtml(btn.label || "")}">
                         <span class="input-group-text">→</span>
                         ${nodeSelectHTML("pf-cfg-btn" + n + "-target", btn.target_node_id, id)}
@@ -631,30 +631,30 @@ function renderProps(type, id, data) {
             break;
 
         case "list":
-            html += propGroup("Mensaje",
-                `<textarea class="form-control" id="pf-cfg-message" rows="2">${escHtml(cfg.message || "")}</textarea>`);
-            html += propGroup("Título de la lista",
-                `<input class="form-control" id="pf-cfg-list_title" value="${escHtml(cfg.list_title || "")}">`);
-            html += propGroup("Sección",
-                `<input class="form-control" id="pf-cfg-section" value="${escHtml(cfg.section || "")}">`);
+            html += propGroup(__("Mensaje"),
+                `<textarea class="form-control" id="pf-cfg-message" rows="2">${escHtml(__(cfg.message) || "")}</textarea>`);
+            html += propGroup(__("Título de la lista"),
+                `<input class="form-control" id="pf-cfg-list_title" value="${escHtml(__(cfg.list_title) || "")}">`);
+            html += propGroup(__("Sección"),
+                `<input class="form-control" id="pf-cfg-section" value="${escHtml(__(cfg.section) || "")}">`);
             // Opciones dinámicas — cada una con su nodo destino (igual que botones)
             var listRows = cfg.rows || [{ label: "", target_node_id: "" }, { label: "", target_node_id: "" }];
             html += `<div class="prop-group">
-                        <label>Opciones <small class="text-muted">(máx 10, cada una va a un nodo)</small></label>
+                        <label>${__('Opciones')} <small class="text-muted">${__('(máx 10, cada una va a un nodo)')}</small></label>
                         <div id="pf-list-rows">`;
             listRows.forEach(function (r, i) {
                 html += listRowHTML(i, r, id);
             });
             html += `</div>
                      <button type="button" class="btn btn-sm btn-toolbar mt-1 w-100" id="pf-add-row">
-                        <i class="bi bi-plus"></i> Agregar opción
+                        <i class="bi bi-plus"></i> ${__('Agregar opción')}
                      </button>
                     </div>`;
             break;
 
         case "ai":
         case "generate":
-            html += propGroup("Prompt del sistema",
+            html += propGroup(__("Prompt del sistema"),
                 `<textarea class="form-control" id="pf-cfg-system_prompt" rows="3">${escHtml(cfg.system_prompt || "")}</textarea>`);
             html += propGroup("Modelo",
                 `<select class="form-select" id="pf-cfg-model">
@@ -1031,13 +1031,13 @@ function mediaUploadBlock(type, nodeId, cfg) {
     }
 
     return `<div class="prop-group">
-                <label>${label}</label>
+                <label>${__(label)}</label>
                 <div class="media-upload-area" id="mua-${nodeId}">
                     <input type="file" accept="${accept}"
                            class="media-file-input d-none" id="pf-file-${nodeId}">
                     <button type="button" class="btn btn-sm btn-toolbar w-100"
                             onclick="document.getElementById('pf-file-${nodeId}').click()">
-                        <i class="bi ${icon} me-1"></i> Seleccionar ${label}
+                        <i class="bi ${icon} me-1"></i> ${__('Seleccionar')} ${__(label)}
                     </button>
                     <div id="pf-preview-${nodeId}">${previewHTML}</div>
                 </div>
@@ -1094,8 +1094,8 @@ function listRowHTML(idx, row, excludeId) {
                 <div class="input-group input-group-sm mb-1">
                     <span class="input-group-text">${idx + 1}</span>
                     <input type="text" class="form-control pf-list-row-input"
-                           placeholder="Etiqueta opción ${idx + 1}" value="${escHtml(label)}">
-                    <button class="btn btn-toolbar pf-remove-row" type="button" title="Eliminar">
+                           placeholder="${__('Etiqueta opción ')}${idx + 1}" value="${escHtml(label)}">
+                    <button class="btn btn-toolbar pf-remove-row" type="button" title="${__('Eliminar')}">
                         <i class="bi bi-x"></i>
                     </button>
                 </div>
@@ -1113,14 +1113,14 @@ function bindRemoveRow() {
         // Reindexar números y placeholders
         $("#pf-list-rows .pf-list-row").each(function (i) {
             $(this).find(".input-group-text").text(i + 1);
-            $(this).find(".pf-list-row-input").attr("placeholder", "Etiqueta opción " + (i + 1));
+            $(this).find(".pf-list-row-input").attr("placeholder", __("Etiqueta opción ") + (i + 1));
         });
     });
 }
 
 function waPreviewBlock(msg) {
     return `<div class="prop-group">
-                <label>Vista previa WhatsApp</label>
+                <label>${__('Vista previa WhatsApp')}</label>
                 <div class="wa-preview">
                     <div class="wa-bubble">
                         <span class="wa-bubble-text">${interpolateVars(msg)}</span>
@@ -1132,13 +1132,13 @@ function waPreviewBlock(msg) {
 
 function varsBlock() {
     return `<div class="prop-group">
-                <label>Variables disponibles <small class="text-muted">(click para insertar)</small></label>
+                <label>${__('Variables disponibles')} <small class="text-muted">${__('(click para insertar)')}</small></label>
                 <div>
-                    <span class="var-chip">{{nombre}}</span>
-                    <span class="var-chip">{{telefono}}</span>
-                    <span class="var-chip">{{respuesta}}</span>
-                    <span class="var-chip">{{fecha}}</span>
-                    <span class="var-chip">{{input}}</span>
+                    <span class="var-chip">{{${__('nombre')}}}</span>
+                    <span class="var-chip">{{${__('telefono')}}}</span>
+                    <span class="var-chip">{{${__('respuesta')}}}</span>
+                    <span class="var-chip">{{${__('fecha')}}}</span>
+                    <span class="var-chip">{{${__('input')}}}</span>
                 </div>
             </div>`;
 }

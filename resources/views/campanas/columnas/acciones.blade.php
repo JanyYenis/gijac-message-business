@@ -13,20 +13,20 @@
         @if ($puede_eliminar || $puede_editar || $puede_crear || $puede_listado)
             <div class="menu-item px-3">
                 <div class="menu-content fs-6 text-dark fw-bold px-3 py-4">
-                    Acciones
+                    {{ __('Acciones') }}
                 </div>
             </div>
             <div class="separator mb-3 opacity-75"></div>
             <div class="menu-item px-3">
                 <a href="{{ route('campanas.show', ['campana' => $model->id]) }}" class="menu-link fs-5 px-3">
                     <i class="far fa-eye text-info fs-3 m-2"></i>
-                    Ver Reporte
+                    {{ __('Ver Reporte') }}
                 </a>
             </div>
             <div class="menu-item px-3">
                 <a href="javascript:;" data-bs-toggle="modal" data-bs-target="#modalDetalleCampana" class="menu-link fs-5 px-3 btnDetalleEnvio" data-campana="{{$model->id}}">
                     <i class="fab fa-whatsapp text-primary fs-3 m-2"></i>
-                    Enviados
+                    {{ __('Enviados') }}
                 </a>
             </div>
 
@@ -35,7 +35,7 @@
                     <div class="menu-item px-3">
                         <a href="javascript:;" class="menu-link fs-5 px-3 btnEditar" data-campana="{{$model->id}}">
                             <i class="fas fa-pencil-alt text-warning fs-3 m-2"></i>
-                            Editar
+                            {{ __('Editar') }}
                         </a>
                     </div>
                 @endif
@@ -45,7 +45,7 @@
                 <div class="menu-item px-3">
                     <a href="javascript:;" class="menu-link fs-5 px-3 btnReenviar" data-campana="{{$model->id}}">
                         <i class="fas fa-undo text-success fs-3 m-2"></i>
-                        Reenviar
+                        {{ __('Reenviar') }}
                     </a>
                 </div>
             @endif
@@ -55,7 +55,7 @@
                     <div class="menu-item px-3">
                         <a href="javascript:;" class="menu-link fs-5 px-3 btnEliminar" data-campana="{{$model->id}}">
                             <i class="fas fa-trash text-danger fs-3 m-2"></i>
-                            Eliminar
+                            {{ __('Eliminar') }}
                         </a>
                     </div>
                 @endif

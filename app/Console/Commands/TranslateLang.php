@@ -17,9 +17,15 @@ class TranslateLang extends Command
     protected $description = 'Traduce lang/{source}.json a otros idiomas usando un modelo local de Ollama';
 
     private array $languageNames = [
-        'es' => 'Spanish', 'en' => 'English', 'de' => 'German',
-        'fr' => 'French', 'ja' => 'Japanese', 'pt' => 'Portuguese',
-        'it' => 'Italian', 'zh' => 'Chinese', 'ko' => 'Korean',
+        'es' => 'Spanish',
+        'en' => 'English',
+        'de' => 'German',
+        'fr' => 'French',
+        'ja' => 'Japanese',
+        'pt' => 'Portuguese',
+        'it' => 'Italian',
+        'zh' => 'Chinese',
+        'ko' => 'Korean',
     ];
 
     public function handle(): int
@@ -63,7 +69,12 @@ class TranslateLang extends Command
 
             foreach ($chunks as $chunkIndex => $chunk) {
                 $translated = $this->translateChunkWithRetry(
-                    array_values($chunk), $source, $target, $ollamaUrl, $model, $maxRetries
+                    array_values($chunk),
+                    $source,
+                    $target,
+                    $ollamaUrl,
+                    $model,
+                    $maxRetries
                 );
 
                 if ($translated === null) {
@@ -112,9 +123,21 @@ class TranslateLang extends Command
     }
 
     private function translateChunkWithRetry(
-        array $texts, string $source, string $target, string $url, string $model, int $maxRetries
+        array $texts,
+        string $source,
+        string $target,
+        string $url,
+        string $model,
+        int $maxRetries
     ): ?array {
         for ($attempt = 0; $attempt <= $maxRetries; $attempt++) {
+            // NUEVO: espera antes de reintentar (no en el primer intento).
+            // Backoff creciente: 2s, 4s, 8s... para darle tiempo al servidor
+            // saturado a recuperarse en vez de seguir golpeándolo.
+            if ($attempt > 0) {
+                sleep(2 ** $attempt);
+            }
+
             $result = $this->translateChunk($texts, $source, $target, $url, $model);
 
             if ($result !== null && count($result) === count($texts)) {
@@ -131,7 +154,7 @@ class TranslateLang extends Command
         $targetLangName = $this->languageNames[$target] ?? $target;
 
         $numbered = collect($texts)
-            ->map(fn ($t, $i) => ($i + 1) . '. ' . $t)
+            ->map(fn($t, $i) => ($i + 1) . '. ' . $t)
             ->implode("\n");
 
         $prompt = <<<PROMPT
@@ -149,7 +172,7 @@ class TranslateLang extends Command
         PROMPT;
 
         try {
-            $response = Http::timeout(120)->post("{$url}/api/generate", [
+            $response = Http::connectTimeout(10)->timeout(300)->post("{$url}/api/generate", [
                 'model' => $model,
                 'prompt' => $prompt,
                 'stream' => false,
@@ -157,7 +180,10 @@ class TranslateLang extends Command
                 'options' => ['temperature' => 0.2],
             ]);
 
+            // NUEVO: si el HTTP falló, dinos el código y el cuerpo real.
             if (!$response->successful()) {
+                $this->newLine();
+                $this->error("HTTP {$response->status()}: " . substr($response->body(), 0, 500));
                 return null;
             }
 
@@ -165,13 +191,22 @@ class TranslateLang extends Command
             $clean = preg_replace('/^```json\s*|\s*```$/m', '', $raw);
             $decoded = json_decode($clean, true);
 
-            // Algunos modelos devuelven {"translations": [...]} en vez de [...]
             if (is_array($decoded) && isset($decoded['translations'])) {
                 $decoded = $decoded['translations'];
             }
 
-            return is_array($decoded) ? array_values($decoded) : null;
+            // NUEVO: si no quedó como array, muéstranos qué devolvió el modelo.
+            if (!is_array($decoded)) {
+                $this->newLine();
+                $this->error('Respuesta no es un array JSON válido. Raw (primeros 500 chars): ' . substr($raw, 0, 500));
+                return null;
+            }
+
+            return array_values($decoded);
         } catch (\Throwable $e) {
+            // NUEVO: muestra la excepción real en pantalla, no solo en el log.
+            $this->newLine();
+            $this->error('Excepción: ' . $e->getMessage());
             report($e);
             return null;
         }

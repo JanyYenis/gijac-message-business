@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title text-white" style="font-size: 30px;">Ver Repuesta Formulario</h5>
+                <h5 class="modal-title text-white" style="font-size: 30px;">{{ __('Ver Repuesta Formulario') }}</h5>
                 <!--begin::Close-->
                 <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
                     <span class="svg-icon svg-icon-2x">
@@ -17,7 +17,7 @@
             </div>
 
             <div class="modal-footer">
-                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
             </div>
         </div>
     </div>

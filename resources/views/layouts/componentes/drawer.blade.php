@@ -39,7 +39,7 @@
         <!--begin::Card footer-->
         <div class="card-footer">
             <!--begin::Dismiss button-->
-            <button class="btn btn-light-danger" data-kt-drawer-dismiss="true">Cerrar</button>
+            <button class="btn btn-light-danger" data-kt-drawer-dismiss="true">{{ __('Cerrar') }}</button>
             <!--end::Dismiss button-->
         </div>
         <!--end::Card footer-->

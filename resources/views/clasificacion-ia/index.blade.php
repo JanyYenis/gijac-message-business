@@ -461,10 +461,10 @@
             <div class="card-header-custom">
                 <h1 class="card-title-custom text-white">
                     <i class="fas fa-brain"></i>
-                    Configura tu Prompt de Clasificación
+                    {{ __('Configura tu Prompt de Clasificación') }}
                 </h1>
                 <p class="card-subtitle-custom">
-                    Define cómo la inteligencia artificial interpretará y clasificará los mensajes
+                    {{ __('Define cómo la inteligencia artificial interpretará y clasificará los mensajes') }}
                 </p>
             </div>
 
@@ -476,9 +476,7 @@
                 <!-- Description Box -->
                 <div class="description-box">
                     <p>
-                        <strong>Instrucciones:</strong> Escribe un prompt detallado que explique a la IA cómo debe clasificar los mensajes.
-                        Sé específico sobre las categorías, criterios y el formato de respuesta esperado.
-                        Un buen prompt mejorará significativamente la precisión de la clasificación.
+                        <strong>{{ __('Instrucciones:') }}</strong> {{ __('Escribe un prompt detallado que explique a la IA cómo debe clasificar los mensajes. Sé específico sobre las categorías, criterios y el formato de respuesta esperado. Un buen prompt mejorará significativamente la precisión de la clasificación.') }}
                     </p>
                 </div>
 
@@ -487,7 +485,7 @@
                     <div class="mb-4">
                         <label for="promptTextarea" class="form-label-custom">
                             <i class="fas fa-edit"></i>
-                            Prompt de Clasificación
+                            {{ __('Prompt de Clasificación') }}
                         </label>
                         <div class="textarea-wrapper">
                             <textarea
@@ -498,15 +496,15 @@
                                 required
                                 maxlength="5000"
                                 {{ $disabled }}
-                            >Clasificación de Sentimientos: Analiza el sentimiento del mensaje y clasifícalo como 'positivo', 'negativo' o 'neutral'. Considera el tono, las palabras utilizadas y el contexto general.</textarea>
-                            <small class="char-counter" id="charCounter">0 / 5000 caracteres</small>
+                            >{{ __('Clasificación de Sentimientos: Analiza el sentimiento del mensaje y clasifícalo como \'positivo\', \'negativo\' o \'neutral\'. Considera el tono, las palabras utilizadas y el contexto general.') }}</textarea>
+                            <small class="char-counter" id="charCounter">{{ __('0 / 5000 caracteres') }}</small>
                         </div>
                     </div>
 
                     @if (!$permisos)
                         <button type="submit" class="btn-save-custom" id="saveBtn">
                             <i class="fas fa-save"></i>
-                            Guardar Prompt
+                            {{ __('Guardar Prompt') }}
                         </button>
                     @endif
                 </form>
@@ -515,16 +513,16 @@
                 <div class="example-prompts">
                     <h6>
                         <i class="fas fa-lightbulb"></i>
-                        Ejemplos de Prompts
+                        {{ __('Ejemplos de Prompts') }}
                     </h6>
                     <div class="example-item" {{ $disabled }} data-example="1">
-                        <strong>Clasificación de Sentimientos:</strong> Analiza el sentimiento del mensaje y clasifícalo como 'positivo', 'negativo' o 'neutral'. Considera el tono, las palabras utilizadas y el contexto general.
+                        <strong>{{ __('Clasificación de Sentimientos:') }}</strong> {{ __('Analiza el sentimiento del mensaje y clasifícalo como \'positivo\', \'negativo\' o \'neutral\'. Considera el tono, las palabras utilizadas y el contexto general.') }}
                     </div>
                     <div class="example-item" {{ $disabled }} data-example="2">
-                        <strong>Clasificación por Urgencia:</strong> Evalúa la urgencia del mensaje y clasifícalo como 'urgente', 'normal' o 'baja prioridad'. Los mensajes urgentes contienen palabras como 'inmediato', 'urgente', 'ahora', etc.
+                        <strong>{{ __('Clasificación por Urgencia:') }}</strong> {{ __('Evalúa la urgencia del mensaje y clasifícalo como \'urgente\', \'normal\' o \'baja prioridad\'. Los mensajes urgentes contienen palabras como \'inmediato\', \'urgente\', \'ahora\', etc.') }}
                     </div>
                     <div class="example-item" {{ $disabled }} data-example="3">
-                        <strong>Clasificación por Departamento:</strong> Determina a qué departamento debe dirigirse el mensaje: 'ventas', 'soporte técnico', 'facturación' o 'recursos humanos'. Basa tu decisión en el contenido y las palabras clave del mensaje.
+                        <strong>{{ __('Clasificación por Departamento:') }}</strong> {{ __('Determina a qué departamento debe dirigirse el mensaje: \'ventas\', \'soporte técnico\', \'facturación\' o \'recursos humanos\'. Basa tu decisión en el contenido y las palabras clave del mensaje.') }}
                     </div>
                 </div>
             </div>

@@ -46,13 +46,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Compartir variable con todas las vistas
         view()->composer('layouts.componentes.sider', function ($view) {
-            $idiomas = Concepto::whereHas('tipoConcepto', function ($query) {
-                    $query->where('nombre', 'TC_IDIOMAS_SISTEMA');
-                })
-                ->where('estado', Concepto::ACTIVO)
-                ->get();
-
-            $idioma_actual = $idiomas->firstWhere('nombre_corto', app()->getLocale());
+            $idioma_actual = Concepto::where('nombre_corto', (auth()->user()->locale ?? app()->getLocale()))
+                ->where('estado', Concepto::ACTIVO)->first();
             $view->with('idioma_actual', $idioma_actual);
         });
     }

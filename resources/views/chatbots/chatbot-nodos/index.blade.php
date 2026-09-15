@@ -16,16 +16,16 @@
                     <div class="ms-3">
                         <h1 class="text-white">
                             <i class="bi bi-diagram-3 text-white fs-1"></i>
-                            Constructor de Chatbots
+                            {{ __('Constructor de Chatbots') }}
                         </h1>
-                        <p class="subtitle mb-0">Diseña flujos conversacionales para WhatsApp conectando nodos visualmente.</p>
+                        <p class="subtitle mb-0">{{ __('Diseña flujos conversacionales para WhatsApp conectando nodos visualmente.') }}</p>
                     </div>
                 </div>
             </div>
             <div class="mt-3 mt-md-0">
                 <button class="btn btn-light-soft d-none" id="btnImportTop">
                     <i class="bi bi-upload text-white"></i>
-                    Importar Flujo
+                    {{ __('Importar Flujo') }}
                 </button>
                 {{-- <button class="btn btn-white" data-bs-toggle="modal" data-bs-target="#modalNuevoFlujo">
                     <i class="bi bi-plus-lg text-primary"></i>
@@ -43,7 +43,7 @@
                     <i class="bi bi-diagram-2 fs-1"></i>
                 </div>
                 <div>
-                    <p class="stat-title fs-4">Flujos Activos</p>
+                    <p class="stat-title fs-4">{{ __('Flujos Activos') }}</p>
                     <p class="stat-value fs-5">{{ $total_flujos ?? 0 }}</p>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                     <i class="bi bi-bounding-box-circles fs-1"></i>
                 </div>
                 <div>
-                    <p class="stat-title fs-4">Total de Nodos</p>
+                    <p class="stat-title fs-4">{{ __('Total de Nodos') }}</p>
                     <p class="stat-value fs-5" id="statNodos">0</p>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     <i class="bi bi-chat-dots fs-1"></i>
                 </div>
                 <div>
-                    <p class="stat-title fs-4">Conversaciones Atendidas</p>
+                    <p class="stat-title fs-4">{{ __('Conversaciones Atendidas') }}</p>
                     <p class="stat-value fs-5">0</p>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <i class="las la-rocket fs-2x"></i>
                 </div>
                 <div>
-                    <p class="stat-title fs-4">Última Publicación</p>
+                    <p class="stat-title fs-4">{{ __('Última Publicación') }}</p>
                     <p class="stat-value fs-5">{{ $ultimo_flujo?->fecha_publicado->formatLocalized('%d de %B del %Y a las %H:%M') ?? 'N/A' }}</p>
                 </div>
             </div>
@@ -91,7 +91,7 @@
                 <div class="panel-head">
                     <h6 class="fs-4">
                         <i class="bi bi-grid-1x2 text-dark me-1"></i>
-                        Biblioteca de Nodos
+                        {{ __('Biblioteca de Nodos') }}
                     </h6>
                 </div>
                 <div class="panel-body">
@@ -99,14 +99,14 @@
                         <span class="input-group-text bg-white">
                             <i class="bi bi-search"></i>
                         </span>
-                        <input type="text" id="nodeSearch" class="form-control" placeholder="Buscar nodo..." />
+                        <input type="text" id="nodeSearch" class="form-control" placeholder="{{ __('Buscar nodo...') }}" />
                     </div>
 
                     <!-- MENSAJES -->
                     <button class="cat-toggle" data-target="cat-mensajes">
                         <span>
                             <i class="bi bi-chat-square-text text-dark me-1"></i>
-                            Mensajes
+                            {{ __('Mensajes') }}
                         </span>
                         <i class="bi bi-chevron-down chev"></i>
                     </button>
@@ -115,25 +115,25 @@
                             <span class="dn-icon dn-text">
                                 <i class="bi bi-chat-left-text"></i>
                             </span>
-                            Nodo Texto
+                            {{ __('Nodo Texto') }}
                         </div>
                         <div class="drag-node" draggable="true" data-node="image">
                             <span class="dn-icon dn-image">
                                 <i class="bi bi-image"></i>
                             </span>
-                            Nodo Imagen
+                            {{ __('Nodo Imagen') }}
                         </div>
                         <div class="drag-node" draggable="true" data-node="video">
                             <span class="dn-icon dn-video">
                                 <i class="bi bi-camera-video"></i>
                             </span>
-                            Nodo Video
+                            {{ __('Nodo Video') }}
                         </div>
                         <div class="drag-node" draggable="true" data-node="doc">
                             <span class="dn-icon dn-doc">
                                 <i class="bi bi-file-earmark-text"></i>
                             </span>
-                            Nodo Documento
+                            {{ __('Nodo Documento') }}
                         </div>
                         {{-- <div class="drag-node" draggable="true" data-node="audio">
                             <span class="dn-icon dn-audio">
@@ -147,7 +147,7 @@
                     <button class="cat-toggle" data-target="cat-interaccion">
                         <span>
                             <i class="bi bi-ui-radios text-dark me-1"></i>
-                            Interacción
+                            {{ __('Interacción') }}
                         </span>
                         <i class="bi bi-chevron-down chev"></i>
                     </button>
@@ -156,13 +156,13 @@
                                 class="dn-icon dn-buttons">
                                 <i class="bi bi-ui-checks-grid"></i>
                             </span>
-                            Nodo Botones
+                            {{ __('Nodo Botones') }}
                         </div>
                         <div class="drag-node" draggable="true" data-node="list">
                             <span class="dn-icon dn-list">
                                 <i class="bi bi-list-ul"></i>
                             </span>
-                            Nodo Lista
+                            {{ __('Nodo Lista') }}
                         </div>
                         {{-- <div class="drag-node" draggable="true" data-node="question">
                             <span class="dn-icon dn-question">
@@ -217,7 +217,7 @@
                     <button class="cat-toggle" data-target="cat-acciones">
                         <span>
                             <i class="bi bi-lightning-charge text-dark me-1"></i>
-                            Acciones
+                            {{ __('Acciones') }}
                         </span>
                         <i class="bi bi-chevron-down chev"></i>
                     </button>
@@ -244,7 +244,7 @@
                             <span class="dn-icon dn-end">
                                 <i class="bi bi-flag"></i>
                             </span>
-                            Finalizar Conversación
+                            {{ __('Finalizar Conversación') }}
                         </div>
                     </div>
 
@@ -285,7 +285,7 @@
                     <button class="btn btn-sm btn-wa-save btn-toolbar" id="btnPublicar"
                         style="background:var(--wa-green); color:#fff; border-color:var(--wa-green);">
                         <i class="bi bi-save text-white me-1"></i>
-                        Guardar / Publicar
+                        {{ __('Guardar / Publicar') }}
                     </button>
                     {{-- <button class="btn btn-sm btn-wa-save btn-toolbar" id="btnGuardar"
                         style="background:var(--wa-green); color:#fff; border-color:var(--wa-green);">
@@ -302,19 +302,19 @@
                     </button> --}}
                     <button class="btn btn-sm btn-toolbar d-none" data-bs-toggle="modal" data-bs-target="#modalProbar">
                         <i class="bi bi-play-circle text-dark me-1"></i>
-                        Probar Flujo
+                        {{ __('Probar Flujo') }}
                     </button>
                     <button class="btn btn-sm btn-toolbar d-none" id="btnDuplicar">
                         <i class="bi bi-files text-dark me-1"></i>
-                        Duplicar
+                        {{ __('Duplicar') }}
                     </button>
                     <button class="btn btn-sm btn-toolbar" id="btnExportar">
                         <i class="fas fa-file me-1"></i>
-                        Exportar JSON
+                        {{ __('Exportar JSON') }}
                     </button>
                     <button class="btn btn-sm btn-toolbar" id="btnHistorial">
                         <i class="bi bi-clock-history text-dark me-1"></i>
-                        Historial
+                        {{ __('Historial') }}
                     </button>
                     <div class="toolbar-spacer"></div>
                     <div class="btn-group btn-group-sm zoom-group" role="group">
@@ -335,14 +335,14 @@
                 <div class="panel-head">
                     <h6 class="fs-4">
                         <i class="bi bi-sliders text-dark me-1"></i>
-                        Propiedades
+                        {{ __('Propiedades') }}
                     </h6>
                     <span class="badge bg-light text-dark" id="propBadge">—</span>
                 </div>
                 <div class="panel-body" id="propsPanel">
                     <div class="props-empty">
                         <i class="bi bi-hand-index-thumb"></i>
-                        Selecciona un nodo para editar su configuración
+                        {{ __('Selecciona un nodo para editar su configuración') }}
                     </div>
                 </div>
             </div>
@@ -354,10 +354,10 @@
         <div class="d-flex align-items-center justify-content-between mb-3">
             <div>
                 <h2 class="section-title fs-1" style="font-weight:700; margin:0;">
-                    Versiones del Flujo
+                    {{ __('Versiones del Flujo') }}
                 </h2>
                 <p class="fs-4" style="color:var(--text-muted); margin:2px 0 0;">
-                    Historial de cambios y publicaciones del flujo actual.
+                    {{ __('Historial de cambios y publicaciones del flujo actual.') }}
                 </p>
             </div>
         </div>
@@ -365,11 +365,11 @@
             <table class="table" id="tablaVersiones">
                 <thead>
                     <tr>
-                        <th width="5%" class="text-center all">Versión</th>
-                        <th width="10%" class="text-center all">Fecha</th>
-                        <th width="10%" class="text-center all">Usuario</th>
-                        <th width="10%" class="text-center all">Estado</th>
-                        <th width="10%" class="text-center all">Acciones</th>
+                        <th width="5%" class="text-center all">{{ __('Versión') }}</th>
+                        <th width="10%" class="text-center all">{{ __('Fecha') }}</th>
+                        <th width="10%" class="text-center all">{{ __('Usuario') }}</th>
+                        <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                        <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                     </tr>
                 </thead>
                 <tbody></tbody>

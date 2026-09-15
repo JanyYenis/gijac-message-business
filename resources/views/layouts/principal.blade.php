@@ -197,6 +197,17 @@
     </button>
 
     @routes
+    <script>
+        window.translations = @json(
+            file_exists(app()->langPath(app()->getLocale() . '.json'))
+                ? json_decode(file_get_contents(app()->langPath(app()->getLocale() . '.json')), true)
+                : []
+        );
+
+        function __(text) {
+            return window.translations[text] || text;
+        }
+    </script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <!-- Bootstrap Bundle -->

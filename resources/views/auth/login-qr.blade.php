@@ -401,17 +401,17 @@
                 <div class="divider"></div>
 
                 <div class="info-section">
-                    <div class="info-label">Último intento</div>
+                    <div class="info-label">{{ __('Último intento') }}</div>
                     <div class="info-value" id="lastAttempt">N/A</div>
                 </div>
 
                 <div class="info-section">
-                    <div class="info-label">Navegador</div>
+                    <div class="info-label">{{ __('Navegador') }}</div>
                     <div class="info-value">{{ $dispositivo?->vinculado_en ? $dispositivo?->sistema_operativo : 'N/A' }}</div>
                 </div>
 
                 <div class="info-section">
-                    <div class="info-label">Versión</div>
+                    <div class="info-label">{{ __('Versión') }}</div>
                     <div class="info-value">{{ $dispositivo?->vinculado_en ? $dispositivo?->version_so : 'N/A' }}</div>
                 </div>
             </div>
@@ -421,10 +421,9 @@
         <div class="main-panel">
             <!-- QR CARD -->
             <div class="qr-card {{ $dispositivo?->vinculado_en ? 'd-none' : '' }}" id="qrCard">
-                <div class="qr-title">Escanea tu código QR</div>
+                <div class="qr-title">{{ __('Escanea tu código QR') }}</div>
                 <div class="qr-description">
-                    Abre la app móvil de GIJAC MESSAGE y escanea este código desde el menú de seguridad para iniciar sesión
-                    en esta computadora.
+                    {{ __('Abre la app móvil de GIJAC MESSAGE y escanea este código desde el menú de seguridad para iniciar sesión en esta computadora.') }}
                 </div>
 
                 <div class="qr-container">
@@ -435,7 +434,7 @@
 
                 <div class="waiting-text" id="waitingText">
                     <span class="spinner-animation"></span>
-                    Esperando escaneo...
+                    {{ __('Esperando escaneo...') }}
                 </div>
 
                 {{-- <button class="btn-qr" onclick="simularEscaneoQR()">
@@ -451,35 +450,35 @@
             <div class="session-card {{ $dispositivo?->vinculado_en ? '' : 'd-none' }}" id="sessionCard">
                 <div class="qr-title">
                     <i class="fas fa-check-circle" style="color: var(--whatsapp-green); margin-right: 10px;"></i>
-                    Sesión iniciada
+                    {{ __('Sesión iniciada') }}
                 </div>
 
                 <div class="badge-session">
                     <i class="fas fa-circle" style="font-size: 6px; margin-right: 6px;"></i>
-                    Sesión Activa
+                    {{ __('Sesión Activa') }}
                 </div>
 
                 <div class="session-info">
                     <div class="device-item">
-                        <span class="device-label"><i class="fas fa-mobile-alt"></i> Dispositivo</span>
+                        <span class="device-label"><i class="fas fa-mobile-alt"></i> {{ __('Dispositivo') }}</span>
                         <span class="device-value" id="deviceName">{{ $dispositivo?->vinculado_en ? $dispositivo?->nombre_dispositivo : 'N/A' }}</span>
                     </div>
                     <div class="device-item">
-                        <span class="device-label"><i class="fas fa-microchip"></i> Sistema</span>
+                        <span class="device-label"><i class="fas fa-microchip"></i> {{ __('Sistema') }}</span>
                         <span class="device-value" id="deviceOS">{{ $dispositivo?->vinculado_en ? $dispositivo?->sistema_operativo : 'N/A' }}</span>
                     </div>
                     <div class="device-item">
-                        <span class="device-label"><i class="fas fa-link"></i> IP Remota</span>
+                        <span class="device-label"><i class="fas fa-link"></i> {{ __('IP Remota') }}</span>
                         <span class="device-value" id="deviceIP">{{ $dispositivo?->vinculado_en ? $dispositivo?->ip : 'N/A' }}</span>
                     </div>
                     <div class="device-item">
-                        <span class="device-label"><i class="fas fa-clock"></i> Conectado</span>
+                        <span class="device-label"><i class="fas fa-clock"></i> {{ __('Conectado') }}</span>
                         <span class="device-value" id="connectionTime">{{ $dispositivo?->vinculado_en ? $dispositivo?->vinculado_en->diffForHumans() : 'N/A' }}</span>
                     </div>
                 </div>
 
                 <button class="btn-logout" onclick="cerrarSesion()">
-                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    <i class="fas fa-sign-out-alt"></i> {{ __('Cerrar Sesión') }}
                 </button>
             </div>
         </div>

@@ -20,7 +20,7 @@
             style="background-image:url('{{ asset('img/customizer-header-bg.jpg')}} ')">
             <!--begin::Title-->
             <h3 class="text-white px-9 mt-10 mb-6">
-                Notificaciones <span class="fs-8 opacity-75 ps-3">{{$cantidad ?? 0}}</span>
+                {{ __('Notificaciones') }} <span class="fs-8 opacity-75 ps-3">{{$cantidad ?? 0}}</span>
             </h3>
             <!--end::Title-->
 
@@ -29,13 +29,13 @@
                 <li class="nav-item">
                     <a class="nav-link text-white opacity-75 opacity-state-100 pb-4 active" data-bs-toggle="tab" href="#kt_topbar_notifications_1">
                         <i class="far fa-eye-slash text-white m-2"></i>
-                        Sin leer
+                        {{ __('Sin leer') }}
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white opacity-75 opacity-state-100 pb-4" data-bs-toggle="tab" href="#kt_topbar_notifications_2">
                         <i class="far fa-eye text-white m-2"></i>
-                        Leidos
+                        {{ __('Leidos') }}
                     </a>
                 </li>
             </ul>
@@ -71,7 +71,7 @@
                     <div>
                         <a href="javascript:;" class="btn btn-color-gray-600 btn-active-color-primary" id="btnMarcarNotificaciones">
                             <i class="far fa-eye"></i>
-                            Marcar como leidos
+                            {{ __('Marcar como leidos') }}
                     </div>
                     <div><span class="svg-icon svg-icon-5">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

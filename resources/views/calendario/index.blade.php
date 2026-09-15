@@ -1706,9 +1706,9 @@
             <div class="kpi">
                 <div class="kpi-inner">
                     <div>
-                        <div class="kpi-label">Campañas Programadas</div>
+                        <div class="kpi-label">{{ __('Campañas Programadas') }}</div>
                         <div class="kpi-value" data-count="42">0</div>
-                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>+12% vs semana pasada</div>
+                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>{{ __('+12% vs semana pasada') }}</div>
                     </div>
                     <div class="kpi-ico"><i class="fa-solid fa-calendar-plus"></i></div>
                 </div>
@@ -1720,9 +1720,9 @@
             <div class="kpi">
                 <div class="kpi-inner">
                     <div>
-                        <div class="kpi-label">Campañas Enviadas</div>
+                        <div class="kpi-label">{{ __('Campañas Enviadas') }}</div>
                         <div class="kpi-value" data-count="128">0</div>
-                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>+8% este mes</div>
+                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>{{ __('+8% este mes') }}</div>
                     </div>
                     <div class="kpi-ico ok"><i class="fa-solid fa-paper-plane"></i></div>
                 </div>
@@ -1734,9 +1734,9 @@
             <div class="kpi">
                 <div class="kpi-inner">
                     <div>
-                        <div class="kpi-label">Mensajes Pendientes</div>
+                        <div class="kpi-label">{{ __('Mensajes Pendientes') }}</div>
                         <div class="kpi-value" data-count="3450">0</div>
-                        <div class="kpi-delta down"><i class="fa-solid fa-arrow-trend-down"></i>-3% hoy</div>
+                        <div class="kpi-delta down"><i class="fa-solid fa-arrow-trend-down"></i>{{ __('-3% hoy') }}</div>
                     </div>
                     <div class="kpi-ico warn"><i class="fa-solid fa-hourglass-half"></i></div>
                 </div>
@@ -1748,9 +1748,9 @@
             <div class="kpi">
                 <div class="kpi-inner">
                     <div>
-                        <div class="kpi-label">Tasa de Entrega</div>
+                        <div class="kpi-label">{{ __('Tasa de Entrega') }}</div>
                         <div class="kpi-value"><span data-count="97">0</span>.4%</div>
-                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>+1.2% este mes</div>
+                        <div class="kpi-delta"><i class="fa-solid fa-arrow-trend-up"></i>{{ __('+1.2% este mes') }}</div>
                     </div>
                     <div class="kpi-ico dark"><i class="fa-solid fa-circle-check"></i></div>
                 </div>
@@ -1763,53 +1763,53 @@
 
         <!-- Filters -->
         <div class="filters">
-            <div class="filter"><label>Empresa</label>
+            <div class="filter"><label>{{ __('Empresa') }}</label>
                 <select>
-                    <option>Todas</option>
-                    <option>Coca-Cola LATAM</option>
-                    <option>Nestlé Perú</option>
-                    <option>Movistar</option>
-                    <option>Farmacias Cruz Verde</option>
+                    <option>{{ __('Todas') }}</option>
+                    <option>{{ __('Coca-Cola LATAM') }}</option>
+                    <option>{{ __('Nestlé Perú') }}</option>
+                    <option>{{ __('Movistar') }}</option>
+                    <option>{{ __('Farmacias Cruz Verde') }}</option>
                 </select>
             </div>
-            <div class="filter"><label>Etiqueta</label>
+            <div class="filter"><label>{{ __('Etiqueta') }}</label>
                 <select>
-                    <option>Todas</option>
-                    <option>Promocional</option>
-                    <option>Transaccional</option>
-                    <option>Recordatorio</option>
-                    <option>Encuesta</option>
+                    <option>{{ __('Todas') }}</option>
+                    <option>{{ __('Promocional') }}</option>
+                    <option>{{ __('Transaccional') }}</option>
+                    <option>{{ __('Recordatorio') }}</option>
+                    <option>{{ __('Encuesta') }}</option>
                 </select>
             </div>
-            <div class="filter"><label>Estado</label>
+            <div class="filter"><label>{{ __('Estado') }}</label>
                 <select>
-                    <option>Todos</option>
-                    <option>Programada</option>
-                    <option>Enviando</option>
-                    <option>Enviada</option>
-                    <option>Fallida</option>
-                    <option>Pausada</option>
+                    <option>{{ __('Todos') }}</option>
+                    <option>{{ __('Programada') }}</option>
+                    <option>{{ __('Enviando') }}</option>
+                    <option>{{ __('Enviada') }}</option>
+                    <option>{{ __('Fallida') }}</option>
+                    <option>{{ __('Pausada') }}</option>
                 </select>
             </div>
-            <div class="filter"><label>Canal</label>
+            <div class="filter"><label>{{ __('Canal') }}</label>
                 <select>
-                    <option>WhatsApp Business</option>
-                    <option>WhatsApp Cloud API</option>
-                    <option>SMS Backup</option>
+                    <option>{{ __('WhatsApp Business') }}</option>
+                    <option>{{ __('WhatsApp Cloud API') }}</option>
+                    <option>{{ __('SMS Backup') }}</option>
                 </select>
             </div>
-            <div class="filter"><label>Fecha</label>
+            <div class="filter"><label>{{ __('Fecha') }}</label>
                 <input type="date" />
             </div>
-            <div class="filter"><label>Responsable</label>
+            <div class="filter"><label>{{ __('Responsable') }}</label>
                 <select>
-                    <option>Todos</option>
-                    <option>Julio García</option>
-                    <option>Ana Ríos</option>
-                    <option>Marco Peña</option>
+                    <option>{{ __('Todos') }}</option>
+                    <option>{{ __('Julio García') }}</option>
+                    <option>{{ __('Ana Ríos') }}</option>
+                    <option>{{ __('Marco Peña') }}</option>
                 </select>
             </div>
-            <button class="btn-clear"><i class="fa-solid fa-filter"></i> Aplicar</button>
+            <button class="btn-clear"><i class="fa-solid fa-filter"></i> {{ __('Aplicar') }}</button>
         </div>
 
         <!-- Work -->
@@ -1820,14 +1820,14 @@
                             id="calTitle">—</span></div>
                     <div class="cal-nav">
                         <button id="prev" title="Anterior"><i class="fa-solid fa-chevron-left"></i></button>
-                        <button id="today" class="today">Hoy</button>
+                        <button id="today" class="today">{{ __('Hoy') }}</button>
                         <button id="next" title="Siguiente"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                     <div class="cal-views">
-                        <button data-view="dayGridMonth" class="active">Mes</button>
-                        <button data-view="timeGridWeek">Semana</button>
-                        <button data-view="timeGridDay">Día</button>
-                        <button data-view="listWeek">Lista</button>
+                        <button data-view="dayGridMonth" class="active">{{ __('Mes') }}</button>
+                        <button data-view="timeGridWeek">{{ __('Semana') }}</button>
+                        <button data-view="timeGridDay">{{ __('Día') }}</button>
+                        <button data-view="listWeek">{{ __('Lista') }}</button>
                     </div>
                 </div>
                 <div id="calendar"></div>
@@ -1836,55 +1836,55 @@
             <!-- Right sidebar -->
             <aside class="side stagger">
                 <div class="panel">
-                    <h4><span><i class="fa-solid fa-bolt" style="color:var(--warning)"></i> Hoy</span><span
+                    <h4><span><i class="fa-solid fa-bolt" style="color:var(--warning)"></i> {{ __('Hoy') }}</span><span
                             class="cnt" id="todayCount">0</span></h4>
                     <div id="todayAgenda"></div>
                 </div>
                 <div class="panel">
-                    <h4><span><i class="fa-solid fa-forward" style="color:var(--primary)"></i> Próximas</span><span
+                    <h4><span><i class="fa-solid fa-forward" style="color:var(--primary)"></i> {{ __('Próximas') }}</span><span
                             class="cnt" id="upcomingCount">0</span></h4>
                     <div id="upcomingAgenda"></div>
                 </div>
                 <div class="panel d-none">
-                    <h4><span><i class="fa-regular fa-bell" style="color:var(--danger)"></i> Notificaciones</span>
+                    <h4><span><i class="fa-regular fa-bell" style="color:var(--danger)"></i> {{ __('Notificaciones') }}</span>
                     </h4>
                     <div class="noti">
                         <div class="noti-ico" style="background:linear-gradient(135deg,#22C55E,#16A34A)"><i
                                 class="fa-solid fa-check"></i></div>
-                        <div class="noti-txt"><b>Coca-Cola LATAM</b> completó envío a 12,540 contactos.<div
-                                class="noti-time">hace 12 min</div>
+                        <div class="noti-txt"><b>{{ __('Coca-Cola LATAM') }}</b> {{ __('completó envío a 12,540 contactos.') }}<div
+                                class="noti-time">{{ __('hace 12 min') }}</div>
                         </div>
                     </div>
                     <div class="noti">
                         <div class="noti-ico" style="background:linear-gradient(135deg,#F59E0B,#D97706)"><i
                                 class="fa-solid fa-triangle-exclamation"></i></div>
-                        <div class="noti-txt"><b>Nestlé Perú</b> tiene 34 mensajes fallidos por reintento.<div
-                                class="noti-time">hace 34 min</div>
+                        <div class="noti-txt"><b>{{ __('Nestlé Perú') }}</b> {{ __('tiene 34 mensajes fallidos por reintento.') }}<div
+                                class="noti-time">{{ __('hace 34 min') }}</div>
                         </div>
                     </div>
                     <div class="noti">
                         <div class="noti-ico" style="background:linear-gradient(135deg,#3B82F6,#2563EB)"><i
                                 class="fa-solid fa-calendar-plus"></i></div>
-                        <div class="noti-txt">Nueva campaña <b>Black Friday 2026</b> programada para el 27/11.<div
-                                class="noti-time">hace 1 h</div>
+                        <div class="noti-txt">{{ __('Nueva campaña') }} <b>{{ __('Black Friday 2026') }}</b> {{ __('programada para el 27/11.') }}<div
+                                class="noti-time">{{ __('hace 1 h') }}</div>
                         </div>
                     </div>
                     <div class="noti">
                         <div class="noti-ico" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED)"><i
                                 class="fa-solid fa-robot"></i></div>
-                        <div class="noti-txt">IA optimizó horario de envío: <b>+18% aperturas</b> estimadas.<div
-                                class="noti-time">hace 2 h</div>
+                        <div class="noti-txt">{{ __('IA optimizó horario de envío:') }} <b>{{ __('+18% aperturas') }}</b> {{ __('estimadas.') }}<div
+                                class="noti-time">{{ __('hace 2 h') }}</div>
                         </div>
                     </div>
                 </div>
                 <div class="panel">
-                    <h4><span><i class="fa-solid fa-palette" style="color:var(--accent)"></i> Estados</span></h4>
+                    <h4><span><i class="fa-solid fa-palette" style="color:var(--accent)"></i> {{ __('Estados') }}</span></h4>
                     <div class="legend">
-                        <div class="lg"><i style="background:#3B82F6"></i>Programada</div>
-                        <div class="lg"><i style="background:#F59E0B"></i>Enviando</div>
-                        <div class="lg"><i style="background:#22C55E"></i>Enviada</div>
-                        <div class="lg"><i style="background:#EF4444"></i>Fallida</div>
-                        <div class="lg"><i style="background:#94A3B8"></i>Pausada</div>
+                        <div class="lg"><i style="background:#3B82F6"></i>{{ __('Programada') }}</div>
+                        <div class="lg"><i style="background:#F59E0B"></i>{{ __('Enviando') }}</div>
+                        <div class="lg"><i style="background:#22C55E"></i>{{ __('Enviada') }}</div>
+                        <div class="lg"><i style="background:#EF4444"></i>{{ __('Fallida') }}</div>
+                        <div class="lg"><i style="background:#94A3B8"></i>{{ __('Pausada') }}</div>
                     </div>
                 </div>
             </aside>
@@ -1893,18 +1893,18 @@
 
     <!-- Tooltip -->
     <div class="cal-tt" id="tooltip">
-        <span class="tt-badge" id="ttBadge">Programada</span>
+        <span class="tt-badge" id="ttBadge">{{ __('Programada') }}</span>
         <div class="tt-name" id="ttName">—</div>
         <div class="tt-co" id="ttCo">—</div>
-        <div class="tt-row"><span>Fecha</span><span id="ttDate">—</span></div>
-        <div class="tt-row"><span>Mensajes</span><span id="ttMsgs">—</span></div>
-        <div class="tt-row"><span>Audiencia estimada</span><span id="ttAud">—</span></div>
-        <div class="tt-row"><span>Responsable</span><span id="ttOwner">—</span></div>
+        <div class="tt-row"><span>{{ __('Fecha') }}</span><span id="ttDate">—</span></div>
+        <div class="tt-row"><span>{{ __('Mensajes') }}</span><span id="ttMsgs">—</span></div>
+        <div class="tt-row"><span>{{ __('Audiencia estimada') }}</span><span id="ttAud">—</span></div>
+        <div class="tt-row"><span>{{ __('Responsable') }}</span><span id="ttOwner">—</span></div>
         <div class="tt-actions">
-            <button onclick="openDrawer(currentEvent)"><i class="fa-solid fa-eye"></i>Ver</button>
-            <button><i class="fa-solid fa-pen"></i>Editar</button>
-            <button><i class="fa-solid fa-clone"></i>Duplicar</button>
-            <button class="danger"><i class="fa-solid fa-ban"></i>Cancelar</button>
+            <button onclick="openDrawer(currentEvent)"><i class="fa-solid fa-eye"></i>{{ __('Ver') }}</button>
+            <button><i class="fa-solid fa-pen"></i>{{ __('Editar') }}</button>
+            <button><i class="fa-solid fa-clone"></i>{{ __('Duplicar') }}</button>
+            <button class="danger"><i class="fa-solid fa-ban"></i>{{ __('Cancelar') }}</button>
         </div>
     </div>
 
@@ -1913,70 +1913,68 @@
     <aside class="drawer" id="drawer" aria-hidden="true">
         <div class="drawer-head">
             <button class="drawer-close" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
-            <span class="tt-badge" id="dBadge" style="background:rgba(255,255,255,.25)">Programada</span>
-            <h3 id="dName">Campaña</h3>
-            <p id="dCo">Empresa</p>
+            <span class="tt-badge" id="dBadge" style="background:rgba(255,255,255,.25)">{{ __('Programada') }}</span>
+            <h3 id="dName">{{ __('Campaña') }}</h3>
+            <p id="dCo">{{ __('Empresa') }}</p>
         </div>
         <div class="drawer-body">
             <div class="sec">
-                <h5>Detalles de la Campaña</h5>
-                <div class="kv"><span>Fecha programada</span><span id="dDate">—</span></div>
-                <div class="kv"><span>Canal</span><span>WhatsApp Cloud API</span></div>
-                <div class="kv"><span>Plantilla</span><span id="dTpl">promo_black_friday_v3</span></div>
-                <div class="kv"><span>Responsable</span><span id="dOwner">—</span></div>
-                <div class="kv"><span>Segmento</span><span id="dSeg">Clientes VIP · LATAM</span></div>
+                <h5>{{ __('Detalles de la Campaña') }}</h5>
+                <div class="kv"><span>{{ __('Fecha programada') }}</span><span id="dDate">—</span></div>
+                <div class="kv"><span>{{ __('Canal') }}</span><span>{{ __('WhatsApp Cloud API') }}</span></div>
+                <div class="kv"><span>{{ __('Plantilla') }}</span><span id="dTpl">{{ __('promo_black_friday_v3') }}</span></div>
+                <div class="kv"><span>{{ __('Responsable') }}</span><span id="dOwner">—</span></div>
+                <div class="kv"><span>{{ __('Segmento') }}</span><span id="dSeg">{{ __('Clientes VIP · LATAM') }}</span></div>
             </div>
 
             <div class="sec">
-                <h5>Vista Previa del Mensaje</h5>
+                <h5>{{ __('Vista Previa del Mensaje') }}</h5>
                 <div class="msg-box">
-                    Hola { nombre } 👋, tenemos una oferta exclusiva para ti: <b>50% de descuento</b> en toda
-                    la tienda durante 24 horas. Usa el código <b>VIP50</b> antes de que termine. Ver catálogo →
-                    gijac.co/promo
+                    Hola { nombre } 👋, tenemos una oferta exclusiva para ti: <b>{{ __('50% de descuento') }}</b> {{ __('en toda la tienda durante 24 horas. Usa el código') }} <b>{{ __('VIP50') }}</b> {{ __('antes de que termine. Ver catálogo → gijac.co/promo') }}
                 </div>
             </div>
 
             <div class="sec">
-                <h5>Estadísticas de Entrega</h5>
+                <h5>{{ __('Estadísticas de Entrega') }}</h5>
                 <div class="stat-grid">
                     <div class="stat-mini">
                         <div class="v" id="sMsgs">—</div>
-                        <div class="l">Mensajes</div>
+                        <div class="l">{{ __('Mensajes') }}</div>
                     </div>
                     <div class="stat-mini">
                         <div class="v" id="sDel">96%</div>
-                        <div class="l">Entregados</div>
+                        <div class="l">{{ __('Entregados') }}</div>
                     </div>
                     <div class="stat-mini">
                         <div class="v" id="sOpen">72%</div>
-                        <div class="l">Aperturas</div>
+                        <div class="l">{{ __('Aperturas') }}</div>
                     </div>
                 </div>
             </div>
 
             <div class="sec">
-                <h5>Archivos & Adjuntos</h5>
+                <h5>{{ __('Archivos & Adjuntos') }}</h5>
                 <div class="file-row"><i class="fa-solid fa-image"></i>
-                    <div>banner-black-friday.jpg<div style="font-size:11px;color:var(--muted)">1.2 MB · Imagen</div>
+                    <div>{{ __('banner-black-friday.jpg') }}<div style="font-size:11px;color:var(--muted)">{{ __('1.2 MB · Imagen') }}</div>
                     </div>
                 </div>
                 <div class="file-row"><i class="fa-solid fa-file-pdf"></i>
-                    <div>catalogo-vip.pdf<div style="font-size:11px;color:var(--muted)">3.8 MB · PDF</div>
+                    <div>{{ __('catalogo-vip.pdf') }}<div style="font-size:11px;color:var(--muted)">{{ __('3.8 MB · PDF') }}</div>
                     </div>
                 </div>
             </div>
 
             <div class="sec">
-                <h5>Destinatarios</h5>
-                <div class="kv"><span>Audiencia estimada</span><span id="dAud">—</span></div>
-                <div class="kv"><span>Excluidos</span><span>842 contactos (opt-out)</span></div>
-                <div class="kv"><span>Lista</span><span>vip_latam_q4_2026.csv</span></div>
+                <h5>{{ __('Destinatarios') }}</h5>
+                <div class="kv"><span>{{ __('Audiencia estimada') }}</span><span id="dAud">—</span></div>
+                <div class="kv"><span>{{ __('Excluidos') }}</span><span>{{ __('842 contactos (opt-out)') }}</span></div>
+                <div class="kv"><span>{{ __('Lista') }}</span><span>{{ __('vip_latam_q4_2026.csv') }}</span></div>
             </div>
         </div>
         <div class="drawer-foot">
-            <button class="btn-ghost"><i class="fa-solid fa-pen"></i> Editar</button>
-            <button class="btn-ghost"><i class="fa-solid fa-clone"></i> Duplicar</button>
-            <button class="btn-brand" style="flex:1.4"><i class="fa-solid fa-paper-plane"></i> Enviar ahora</button>
+            <button class="btn-ghost"><i class="fa-solid fa-pen"></i> {{ __('Editar') }}</button>
+            <button class="btn-ghost"><i class="fa-solid fa-clone"></i> {{ __('Duplicar') }}</button>
+            <button class="btn-brand" style="flex:1.4"><i class="fa-solid fa-paper-plane"></i> {{ __('Enviar ahora') }}</button>
         </div>
     </aside>
 @endsection

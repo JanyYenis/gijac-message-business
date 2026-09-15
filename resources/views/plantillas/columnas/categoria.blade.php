@@ -1,1 +1,1 @@
-<span class="category-badge">{{ $model?->infoCategoria?->nombre }}</span>
+<span class="category-badge">{{ __($model?->infoCategoria?->nombre) }}</span>

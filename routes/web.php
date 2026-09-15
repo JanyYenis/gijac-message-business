@@ -147,6 +147,12 @@ Route::get('lang/{locale}', function ($locale) {
     if (in_array($locale, ['es', 'en', 'de', 'ja', 'fr'])) {
         session(['locale' => $locale]);
         Session::put('locale', $locale);
+
+        if (auth()->check()) {
+            auth()->user()->update([
+                'locale' => $locale
+            ]);
+        }
     }
     return redirect()->back();
 })->name('lang.switch');

@@ -44,9 +44,9 @@
     var CATEGORY_UTILITY = 3;
 
     // Traducción del código interno al valor que espera la API de Meta.
-    var CATEGORY_META_MAP = { 1: 'AUTHENTICATION', 2: 'MARKETING', 3: 'UTILITY' };
+    var CATEGORY_META_MAP = { 1: __('AUTHENTICATION'), 2: __('MARKETING'), 3: __('UTILITY') };
 
-    var CATEGORY_LABELS = { 1: 'Autenticación', 2: 'Marketing', 3: 'Servicios' };
+    var CATEGORY_LABELS = { 1: __('Autenticación'), 2: __('Marketing'), 3: __('Servicios') };
 
     var CATEGORIES = {
         2: 'Promociones, ofertas y comunicaciones comerciales.',
@@ -138,20 +138,20 @@
             var existing = {};
             $container.find('input[data-var]').each(function () { existing[$(this).data('var')] = this.value; });
             if (!vars.length) {
-                $container.html('<div class="var-empty">Aún no hay variables. Usa <b>{{1}}</b> (numerada) o <b>{{nombre}}</b> (con nombre), o los botones de arriba.</div>');
+                $container.html(`<div class="var-empty">${__('Aún no hay variables. Usa')} <b>{{1}}</b> ${__('(numerada) o')} <b>{{${__('nombre')}}}</b> ${__('(con nombre), o los botones de arriba.')}</div>`);
                 return;
             }
             var html = '';
             if (VariableManager.kind(vars) === 'mixed') {
-                html += '<div class="field-error show mb-2">Meta no permite mezclar variables numeradas ({{1}}) y con nombre ({{nombre}}) en el mismo texto. Usa un solo estilo.</div>';
+                html += `<div class="field-error show mb-2">${__('Meta no permite mezclar variables numeradas ({{1}}) y con nombre ({{nombre}}) en el mismo texto. Usa un solo estilo.')}</div>`;
             }
-            html += '<table class="var-table"><thead><tr><th style="width:120px">Variable</th><th>Ejemplo</th></tr></thead><tbody>';
+            html += `<table class="var-table"><thead><tr><th style="width:120px">${__('Variable')}</th><th>${__('Ejemplo')}</th></tr></thead><tbody>`;
             vars.forEach(function (v) {
                 html += '<tr><td><span class="var-token">{{' + esc(v) + '}}</span></td><td>' +
                     '<input type="text" class="form-control form-control-sm var-example" data-var="' + esc(v) +
                     '" data-prefix="' + prefix + '" placeholder="Ej: Carlos" value="' + esc(existing[v] || '') + '"></td></tr>';
             });
-            html += '</tbody></table><div class="field-error" data-error="' + prefix + '-examples">Completa un ejemplo para cada variable.</div>';
+            html += `</tbody></table><div class="field-error" data-error="${prefix}-examples">${__('Completa un ejemplo para cada variable.')}</div>`;
             $container.html(html);
         },
         values: function ($container, vars) {
@@ -167,7 +167,7 @@
             var html = '';
             HEADER_TYPES.forEach(function (t) {
                 html += '<div class="type-opt' + (t.key === 'TEXT' ? ' active' : '') + '" data-htype="' + t.key +
-                    '" data-bs-toggle="tooltip" title="Encabezado de ' + t.label.toLowerCase() + '"><i class="fa-solid ' + t.icon + '"></i>' + t.label + '</div>';
+                    '" data-bs-toggle="tooltip" title="' + __('Encabezado de ') + __(t.label.toLowerCase()) + '"><i class="fa-solid ' + t.icon + '"></i>' + __(t.label) + '</div>';
             });
             $('#headerTypeGrid').html(html);
 
@@ -224,8 +224,8 @@
         },
         setFile: function (kind, file) {
             var ok = HeaderBuilder.accept(kind).split(',');
-            if (ok.indexOf(file.type) === -1) { toast('Formato no permitido para ' + kind.toLowerCase() + '.', true); return; }
-            if (file.size > 16 * 1024 * 1024) { toast('El archivo supera 16 MB.', true); return; }
+            if (ok.indexOf(file.type) === -1) { toast(__('Formato no permitido para ') + kind.toLowerCase() + '.', true); return; }
+            if (file.size > 16 * 1024 * 1024) { toast(__('El archivo supera 16 MB.'), true); return; }
             var url = URL.createObjectURL(file);
             state.media[kind] = { name: file.name, size: file.size, type: file.type, url: url, file: file };
             var media = kind === 'IMAGE' ? '<img src="' + url + '" alt="">'
@@ -234,7 +234,7 @@
             $('#chip-' + kind).removeClass('d-none').html(
                 '<div class="file-chip">' + media +
                 '<div class="flex-grow-1"><div class="fname">' + esc(file.name) + '</div><div class="fsize">' + human(file.size) + '</div></div>' +
-                '<button type="button" class="icon-btn" title="Quitar archivo"><i class="fa-solid fa-trash-can"></i></button></div>'
+                `<button type="button" class="icon-btn" title="${__("Quitar archivo")}"><i class="fa-solid fa-trash-can"></i></button></div>`
             );
             markDirty(); Preview.render();
         },
@@ -305,7 +305,7 @@
                 el.selectionStart = el.selectionEnd = start + token.length;
             });
             $('#addVarNamedBtn').on('click', function () {
-                var name = window.prompt('Nombre de la variable (solo letras, números y guion bajo):', 'nombre');
+                var name = window.prompt(__('Nombre de la variable (solo letras, números y guion bajo):'), __('nombre'));
                 if (!name) return;
                 name = name.trim().replace(/[^A-Za-z0-9_]/g, '');
                 if (!name) return;
@@ -400,7 +400,7 @@
                 })
                 .on('click', '.btn-remove', function () {
                     var $item = $(this).closest('.btn-item'), idx = $item.index();
-                    if (!window.confirm('¿Eliminar este botón? Esta acción no se puede deshacer.')) return;
+                    if (!window.confirm(__('¿Eliminar este botón? Esta acción no se puede deshacer.'))) return;
                     state.buttons.splice(idx, 1);
                     ButtonBuilder.render(); markDirty(); Preview.render();
                 })
@@ -426,7 +426,7 @@
                 menu += `<div class="menu-item px-3">
                     <a href="javascript:;" class="menu-link fs-5 px-3 text-dark" data-btype="OTP">
                         <i class="fa-solid ${OTP_TYPE_META.icon} me-2 text-info"></i>
-                        ${OTP_TYPE_META.label}
+                        ${__(OTP_TYPE_META.label)}
                     </a>
                 </div>`;
             } else {
@@ -434,7 +434,7 @@
                     menu += `<div class="menu-item px-3">
                         <a href="javascript:;" class="menu-link fs-5 px-3 text-dark" data-btype="${k}">
                             <i class="fa-solid ${BUTTON_TYPES[k].icon} me-2 text-info"></i>
-                            ${BUTTON_TYPES[k].label}
+                            ${__(BUTTON_TYPES[k].label)}
                         </a>
                     </div>`;
                 });
@@ -442,11 +442,11 @@
             $('#btnTypeMenu').html(menu);
         },
         add: function (type) {
-            if (state.buttons.length >= LIMITS.maxButtons) { ButtonBuilder.warn('Meta permite un máximo de ' + LIMITS.maxButtons + ' botones por plantilla.'); return; }
+            if (state.buttons.length >= LIMITS.maxButtons) { ButtonBuilder.warn(__('Meta permite un máximo de ') + LIMITS.maxButtons + __(' botones por plantilla.')); return; }
 
             if (type === 'OTP') {
                 if (!isAuth()) return; // el menú ya lo filtra, esto es solo un resguardo
-                if (state.buttons.length >= LIMITS.maxOtp) { ButtonBuilder.warn('Autenticación solo admite 1 botón OTP.'); return; }
+                if (state.buttons.length >= LIMITS.maxOtp) { ButtonBuilder.warn(__('Autenticación solo admite 1 botón OTP.')); return; }
                 state.buttons.push({ id: ++state.seq, type: 'OTP', otp_type: 'COPY_CODE', text: '', package: '', signature: '', zeroTermsAccepted: false });
                 ButtonBuilder.render(); markDirty(); Preview.render();
                 return;
@@ -455,21 +455,21 @@
             if (isAuth()) return; // AUTHENTICATION solo admite el botón OTP
 
             var count = state.buttons.filter(function (b) { return b.type === type; }).length;
-            if (type === 'URL' && count >= LIMITS.maxUrl) { ButtonBuilder.warn('Solo se permiten ' + LIMITS.maxUrl + ' botones de tipo URL.'); return; }
-            if (type === 'PHONE_NUMBER' && count >= LIMITS.maxPhone) { ButtonBuilder.warn('Solo se permite 1 botón de llamada.'); return; }
-            if (type === 'COPY_CODE' && count >= LIMITS.maxCopyCode) { ButtonBuilder.warn('Solo se permite 1 botón de copiar código.'); return; }
+            if (type === 'URL' && count >= LIMITS.maxUrl) { ButtonBuilder.warn(__('Solo se permiten ') + LIMITS.maxUrl + __(' botones de tipo URL.')); return; }
+            if (type === 'PHONE_NUMBER' && count >= LIMITS.maxPhone) { ButtonBuilder.warn(__('Solo se permite 1 botón de llamada.')); return; }
+            if (type === 'COPY_CODE' && count >= LIMITS.maxCopyCode) { ButtonBuilder.warn(__('Solo se permite 1 botón de copiar código.')); return; }
             state.buttons.push({ id: ++state.seq, type: type, text: '', url: '', phone: '', example: '' });
             ButtonBuilder.render(); markDirty(); Preview.render();
         },
         warn: function (msg) { $('#btnLimitWarn').text(msg).addClass('show'); setTimeout(function () { $('#btnLimitWarn').removeClass('show'); }, 5000); },
         field: function (b, field) {
             var map = {
-                text: ['Texto del botón', 'Ej: Confirmar', LIMITS.btnText],
-                url: ['URL', 'https://ejemplo.com/promocion', 2000],
-                phone: ['Número telefónico', '+573001234567', 20],
-                example: ['Código de ejemplo', 'Ej: SUMMER20', LIMITS.copyCodeExample],
-                package: ['Package name', 'com.empresa.app', 200],
-                signature: ['Signature hash', 'K8a/AINcGX7', 200]
+                text: [__('Texto del botón'), __('Ej: Confirmar'), LIMITS.btnText],
+                url: [__('URL'), 'https://ejemplo.com/promocion', 2000],
+                phone: [__('Número telefónico'), '+573001234567', 20],
+                example: [__('Código de ejemplo'), 'Ej: SUMMER20', LIMITS.copyCodeExample],
+                package: [__('Package name'), 'com.empresa.app', 200],
+                signature: [__('Signature hash'), 'K8a/AINcGX7', 200]
             }[field];
             return '<div class="col-md-6 mb-2"><label class="form-label">' + map[0] + '</label>' +
                 '<input type="text" class="form-control form-control-sm" data-field="' + field + '" maxlength="' + map[2] +
@@ -480,17 +480,17 @@
             var opts = ['COPY_CODE', 'ONE_TAP', 'ZERO_TAP'].map(function (v) {
                 return '<option value="' + v + '"' + (b.otp_type === v ? ' selected' : '') + '>' + v + '</option>';
             }).join('');
-            return '<div class="col-12 mb-2"><label class="form-label">Tipo de OTP</label>' +
+            return `<div class="col-12 mb-2"><label class="form-label">${__('Tipo de OTP')}</label>` +
                 '<select class="form-select form-select-sm" data-field="otp_type">' + opts + '</select></div>' +
-                '<div class="col-12 mb-2"><label class="form-label">Texto del botón (opcional, Meta lo traduce)</label>' +
+                `<div class="col-12 mb-2"><label class="form-label">${__('Texto del botón (opcional, Meta lo traduce)')}</label>` +
                 '<input type="text" class="form-control form-control-sm" data-field="text" maxlength="' + LIMITS.btnText +
-                '" placeholder="Copy Code" value="' + esc(b.text || '') + '"></div>';
+                `" placeholder="${__('Copy Code')}" value="` + __(esc(b.text || '')) + `"></div>`;
         },
         oneTapFields: function (b) {
-            return '<div class="col-md-6 mb-2"><label class="form-label">Package name</label>' +
+            return `<div class="col-md-6 mb-2"><label class="form-label">(${__('Package name')})</label>` +
                 '<input type="text" class="form-control form-control-sm" data-field="package" placeholder="com.empresa.app" value="' + esc(b.package || '') + '">' +
                 '<div class="field-error"></div></div>' +
-                '<div class="col-md-6 mb-2"><label class="form-label">Signature hash</label>' +
+                `<div class="col-md-6 mb-2"><label class="form-label">(${__('Signature hash')})</label>` +
                 '<input type="text" class="form-control form-control-sm" data-field="signature" placeholder="K8a/AINcGX7" value="' + esc(b.signature || '') + '">' +
                 '<div class="field-error"></div></div>';
         },
@@ -498,7 +498,7 @@
             return ButtonBuilder.oneTapFields(b) +
                 '<div class="col-12 mb-2"><div class="form-check">' +
                 '<input type="checkbox" class="form-check-input" id="zeroTapTerms" data-field="zeroTermsAccepted"' + (b.zeroTermsAccepted ? ' checked' : '') + '>' +
-                '<label class="form-check-label" for="zeroTapTerms">Acepto los términos de Zero Tap</label></div>' +
+                `<label class="form-check-label" for="zeroTapTerms">${__('Acepto los términos de Zero Tap')}</label></div>` +
                 '<div class="field-error"></div></div>';
         },
         render: function () {
@@ -512,17 +512,17 @@
                     if (b.otp_type === 'ZERO_TAP') fields += ButtonBuilder.zeroTapFields(b);
                     html += '<div class="btn-item" data-id="' + b.id + '">' +
                         '<div class="btn-item-head"><i class="fa-solid ' + OTP_TYPE_META.icon + ' text-info"></i>' +
-                        '<span class="bi-type-1">' + OTP_TYPE_META.label + '</span>' +
-                        '<button type="button" class="icon-btn ms-auto btn-remove" title="Eliminar botón"><i class="fa-solid fa-trash-can"></i></button></div>' +
+                        '<span class="bi-type-1">' + __(OTP_TYPE_META.label) + '</span>' +
+                        `<button type="button" class="icon-btn ms-auto btn-remove" title="${__('Eliminar botón')}"><i class="fa-solid fa-trash-can"></i></button></div>` +
                         '<div class="row g-2">' + fields + '</div></div>';
                     return;
                 }
                 var meta = BUTTON_TYPES[b.type];
                 html += '<div class="btn-item" draggable="true" data-id="' + b.id + '">' +
-                    '<div class="btn-item-head"><i class="fa-solid fa-grip-vertical drag-h" title="Arrastra para reordenar"></i>' +
+                    `<div class="btn-item-head"><i class="fa-solid fa-grip-vertical drag-h" title="${__('Arrastra para reordenar')}"></i>` +
                     '<i class="fa-solid ' + meta.icon + ' text-info"></i>' +
-                    '<span class="bi-type-1">' + meta.label + '</span>' +
-                    '<button type="button" class="icon-btn ms-auto btn-remove" title="Eliminar botón"><i class="fa-solid fa-trash-can"></i></button></div>' +
+                    '<span class="bi-type-1">' + __(meta.label) + '</span>' +
+                    `<button type="button" class="icon-btn ms-auto btn-remove" title="${__('Eliminar botón')}"><i class="fa-solid fa-trash-can"></i></button></div>` +
                     '<div class="row g-2">' + meta.fields.map(function (f) { return ButtonBuilder.field(b, f); }).join('') + '</div>' +
                     '<div class="btn-url-vars mt-1"></div></div>';
             });
@@ -537,21 +537,21 @@
             var $box = $item.find('.btn-url-vars');
             if (!vars.length) { $box.empty(); return; }
             if (!$box.find('input').length) {
-                $box.html('<label class="form-label">Ejemplo de la URL dinámica</label>' +
+                $box.html(`<label class="form-label">${__('Ejemplo de la URL dinámica')}</label>` +
                     '<input type="text" class="form-control form-control-sm" data-field="urlExample" placeholder="https://ejemplo.com/promo-123" value="' + esc(b.urlExample || '') + '">');
             }
         },
         // Solo para vista previa / formulario (no es el payload final de Meta).
         data: function () {
             return state.buttons.map(function (b) {
-                if (b.type === 'OTP') return { type: 'OTP', text: (b.text || 'Copiar código').trim() };
+                if (b.type === 'OTP') return { type: 'OTP', text: (b.text || __('Copiar código')).trim() };
                 var out = { type: b.type, text: (b.text || '').trim() };
                 if (b.type === 'URL') {
                     out.url = (b.url || '').trim();
                     if (VariableManager.detect(out.url).length) out.example = [(b.urlExample || '').trim()];
                 }
                 if (b.type === 'PHONE_NUMBER') out.phone_number = (b.phone || '').trim();
-                if (b.type === 'COPY_CODE') { out.text = 'Copiar código'; out.example = [(b.example || '').trim()]; }
+                if (b.type === 'COPY_CODE') { out.text = __('Copiar código'); out.example = [(b.example || '').trim()]; }
                 return out;
             });
         },
@@ -591,7 +591,7 @@
                 if (d.header.format === 'TEXT' && d.header.text) {
                     html += '<div class="wa-header-text">' + Preview.fill(d.header.text, d.header.examples || []) + '</div>';
                 } else if (d.header.format === 'IMAGE') {
-                    html += '<div class="wa-media">' + (d.header.url ? '<img src="' + d.header.url + '" alt="Encabezado">' : '<i class="fa-solid fa-image fa-2x"></i>') + '</div>';
+                    html += '<div class="wa-media">' + (d.header.url ? `<img src="` + d.header.url + `" alt="${__('Encabezado')}">` : '<i class="fa-solid fa-image fa-2x"></i>') + '</div>';
                 } else if (d.header.format === 'VIDEO') {
                     html += '<div class="wa-media">' + (d.header.url ? '<video src="' + d.header.url + '" muted controls></video>' : '<i class="fa-solid fa-video fa-2x"></i>') + '</div>';
                 } else if (d.header.format === 'DOCUMENT') {
@@ -604,7 +604,7 @@
             }
 
             html += '<div class="wa-body">' + (d.body.text ? Preview.fill(d.body.text, d.body.examples) :
-                '<span class="text-muted-3">El contenido del mensaje aparecerá aquí…</span>') + '</div>';
+                `<span class="text-muted-3">${__('El contenido del mensaje aparecerá aquí…')}</span>`) + '</div>';
 
             if (d.footer && d.footer.text) html += '<div class="wa-footer">' + esc(d.footer.text) + '</div>';
             html += '<div class="wa-time">' + new Date().toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' }) + ' ✓✓</div>';
@@ -614,7 +614,7 @@
                 var ic = b.type === 'URL' ? 'fa-arrow-up-right-from-square'
                     : b.type === 'PHONE_NUMBER' ? 'fa-phone'
                         : (b.type === 'COPY_CODE' || b.type === 'OTP') ? 'fa-copy' : 'fa-reply';
-                btns += '<div class="wa-btn"><i class="fa-solid ' + ic + '"></i>' + esc(b.text || 'Botón') + '</div>';
+                btns += '<div class="wa-btn"><i class="fa-solid ' + ic + '"></i>' + esc(b.text || __('Botón')) + '</div>';
             });
 
             $('#waPreview').html('<div class="wa-bubble">'
@@ -652,40 +652,40 @@
         var ok = true, d = getTemplateData(), category = $('#tplCategory').val();
 
         var $name = $('#tplName');
-        if (!d.name) { fail($name, 'El nombre es obligatorio.'); ok = false; }
-        else if (!/^[a-z0-9_]+$/.test(d.name)) { fail($name, 'Solo letras minúsculas, números y guiones bajos.'); ok = false; }
-        else if (d.name.length > LIMITS.name) { fail($name, 'Máximo ' + LIMITS.name + ' caracteres.'); ok = false; }
+        if (!d.name) { fail($name, __('El nombre es obligatorio.')); ok = false; }
+        else if (!/^[a-z0-9_]+$/.test(d.name)) { fail($name, __('Solo letras minúsculas, números y guiones bajos.')); ok = false; }
+        else if (d.name.length > LIMITS.name) { fail($name, __('Máximo ') + LIMITS.name + __(' caracteres.')); ok = false; }
 
-        if (!category) { fail($('#tplCategory'), 'Selecciona una categoría.'); ok = false; }
-        if (!d.language) { fail($('#tplLanguage'), 'Selecciona un idioma.'); ok = false; }
+        if (!category) { fail($('#tplCategory'), __('Selecciona una categoría.')); ok = false; }
+        if (!d.language) { fail($('#tplLanguage'), __('Selecciona un idioma.')); ok = false; }
 
         if (Number(category) === CATEGORY_AUTH) {
             // Header: nunca debe existir (la UI ya lo oculta y lo desactiva).
             var otp = state.buttons[0];
             if (state.buttons.length !== 1 || !otp || otp.type !== 'OTP') {
-                ButtonBuilder.warn('Autenticación requiere exactamente 1 botón OTP.'); ok = false;
+                ButtonBuilder.warn(__('Autenticación requiere exactamente 1 botón OTP.')); ok = false;
             } else if (otp.otp_type === 'ONE_TAP' || otp.otp_type === 'ZERO_TAP') {
                 var $item = $('#buttonsList .btn-item').eq(0);
-                if (!otp.package) { fail($item.find('[data-field="package"]'), 'Package name obligatorio.'); ok = false; }
-                if (!otp.signature) { fail($item.find('[data-field="signature"]'), 'Signature hash obligatorio.'); ok = false; }
+                if (!otp.package) { fail($item.find('[data-field="package"]'), __('Package name obligatorio.')); ok = false; }
+                if (!otp.signature) { fail($item.find('[data-field="signature"]'), __('Signature hash obligatorio.')); ok = false; }
                 if (otp.otp_type === 'ZERO_TAP' && !otp.zeroTermsAccepted) {
-                    fail($item.find('[data-field="zeroTermsAccepted"]'), 'Debes aceptar los términos de Zero Tap.'); ok = false;
+                    fail($item.find('[data-field="zeroTermsAccepted"]'), __('Debes aceptar los términos de Zero Tap.')); ok = false;
                 }
             }
             var min = $('#authExpiration').val();
-            if (min && (min < 1 || min > 90)) { fail($('#authExpiration'), 'Debe estar entre 1 y 90 minutos.'); ok = false; }
+            if (min && (min < 1 || min > 90)) { fail($('#authExpiration'), __('Debe estar entre 1 y 90 minutos.')); ok = false; }
 
-            if (!ok) toast('Revisa los campos marcados en rojo.', true);
+            if (!ok) toast(__('Revisa los campos marcados en rojo.'), true);
             return ok;
         }
 
         var $body = $('#bodyText');
-        if (!d.body.text) { fail($body, 'El contenido del mensaje es obligatorio.'); ok = false; }
-        else if (d.body.text.length > LIMITS.body) { fail($body, 'Máximo ' + LIMITS.body + ' caracteres.'); ok = false; }
+        if (!d.body.text) { fail($body, __('El contenido del mensaje es obligatorio.')); ok = false; }
+        else if (d.body.text.length > LIMITS.body) { fail($body, __('Máximo ') + LIMITS.body + __(' caracteres.')); ok = false; }
         else {
             var bvars = VariableManager.detect(d.body.text);
-            if (VariableManager.kind(bvars) === 'mixed') { fail($body, 'No mezcles variables numeradas ({{1}}) y con nombre ({{nombre}}).'); ok = false; }
-            else if (!VariableManager.isSequential(bvars)) { fail($body, 'Las variables numeradas deben ir consecutivas desde {{1}}.'); ok = false; }
+            if (VariableManager.kind(bvars) === 'mixed') { fail($body, __('No mezcles variables numeradas ({{1}}) y con nombre ({{nombre}}).')); ok = false; }
+            else if (!VariableManager.isSequential(bvars)) { fail($body, __('Las variables numeradas deben ir consecutivas desde {{1}}.')); ok = false; }
             if (d.body.examples.some(function (v) { return !v; })) {
                 $('#bodyVars [data-error="body-examples"]').addClass('show'); ok = false;
             }
@@ -695,59 +695,59 @@
             if (d.header.format === 'TEXT') {
                 var $h = $('#headerText');
                 var hvars = VariableManager.detect(d.header.text);
-                if (!d.header.text) { fail($h, 'Escribe el texto del encabezado.'); ok = false; }
-                else if (d.header.text.length > LIMITS.headerText) { fail($h, 'Máximo ' + LIMITS.headerText + ' caracteres.'); ok = false; }
-                else if (hvars.length > 1) { fail($h, 'El encabezado admite máximo 1 variable.'); ok = false; }
-                else if (VariableManager.kind(hvars) === 'mixed') { fail($h, 'No mezcles estilos de variable.'); ok = false; }
-                else if (!VariableManager.isSequential(hvars)) { fail($h, 'Numera la variable como {{1}}.'); ok = false; }
+                if (!d.header.text) { fail($h, __('Escribe el texto del encabezado.')); ok = false; }
+                else if (d.header.text.length > LIMITS.headerText) { fail($h, __('Máximo ') + LIMITS.headerText + __(' caracteres.')); ok = false; }
+                else if (hvars.length > 1) { fail($h, __('El encabezado admite máximo 1 variable.')); ok = false; }
+                else if (VariableManager.kind(hvars) === 'mixed') { fail($h, __('No mezcles estilos de variable.')); ok = false; }
+                else if (!VariableManager.isSequential(hvars)) { fail($h, __('Numera la variable como {{1}}.')); ok = false; }
                 else if ((d.header.examples || []).some(function (v) { return !v; })) {
                     $('#headerVars [data-error="header-examples"]').addClass('show'); ok = false;
                 }
             } else if (d.header.format === 'LOCATION') {
-                if (!/^-?\d+(\.\d+)?$/.test(d.header.latitude)) { fail($('#locLat'), 'Latitud inválida.'); ok = false; }
-                if (!/^-?\d+(\.\d+)?$/.test(d.header.longitude)) { fail($('#locLng'), 'Longitud inválida.'); ok = false; }
-                if (!d.header.name) { fail($('#locName'), 'Indica el nombre del lugar.'); ok = false; }
+                if (!/^-?\d+(\.\d+)?$/.test(d.header.latitude)) { fail($('#locLat'), __('Latitud inválida.')); ok = false; }
+                if (!/^-?\d+(\.\d+)?$/.test(d.header.longitude)) { fail($('#locLng'), __('Longitud inválida.')); ok = false; }
+                if (!d.header.name) { fail($('#locName'), __('Indica el nombre del lugar.')); ok = false; }
             } else if (!d.header.file) {
-                $('#dzErr-' + d.header.format).text('Selecciona un archivo válido.').addClass('show'); ok = false;
+                $('#dzErr-' + d.header.format).text(__('Selecciona un archivo válido.')).addClass('show'); ok = false;
             }
         }
 
-        if (d.footer && !d.footer.text) { fail($('#footerText'), 'Escribe el texto del pie de página.'); ok = false; }
+        if (d.footer && !d.footer.text) { fail($('#footerText'), __('Escribe el texto del pie de página.')); ok = false; }
 
         if (!quickRepliesAreGrouped(state.buttons)) {
-            ButtonBuilder.warn('Los botones de Respuesta rápida deben ir agrupados entre sí (ej: [URL, QR, QR], no [QR, URL, QR]).');
+            ButtonBuilder.warn(__('Los botones de Respuesta rápida deben ir agrupados entre sí (ej: [URL, QR, QR], no [QR, URL, QR]).'));
             ok = false;
         }
 
         d.buttons.forEach(function (b, i) {
             var $item = $('#buttonsList .btn-item').eq(i);
-            if (b.type !== 'COPY_CODE' && !b.text) { fail($item.find('[data-field="text"]'), 'El texto es obligatorio.'); ok = false; }
-            else if (b.text && b.text.length > LIMITS.btnText) { fail($item.find('[data-field="text"]'), 'Máximo ' + LIMITS.btnText + ' caracteres.'); ok = false; }
+            if (b.type !== 'COPY_CODE' && !b.text) { fail($item.find('[data-field="text"]'), __('El texto es obligatorio.')); ok = false; }
+            else if (b.text && b.text.length > LIMITS.btnText) { fail($item.find('[data-field="text"]'), __('Máximo ') + LIMITS.btnText + __(' caracteres.')); ok = false; }
             if (b.type === 'URL') {
                 var raw = (state.buttons[i].url || '');
                 var u = raw.replace(/\{\{\d+\}\}/g, 'x');
-                if (!/^https?:\/\/[^\s]+\.[^\s]+/.test(u)) { fail($item.find('[data-field="url"]'), 'Ingresa una URL válida (https://…).'); ok = false; }
+                if (!/^https?:\/\/[^\s]+\.[^\s]+/.test(u)) { fail($item.find('[data-field="url"]'), __('Ingresa una URL válida (https://…).')); ok = false; }
                 var urlVars = VariableManager.detect(raw);
-                if (urlVars.length > 1) { fail($item.find('[data-field="url"]'), 'Un botón URL solo admite 1 variable.'); ok = false; }
+                if (urlVars.length > 1) { fail($item.find('[data-field="url"]'), __('Un botón URL solo admite 1 variable.')); ok = false; }
                 else if (urlVars.length === 1 && !/\{\{\d+\}\}$/.test(raw.trim())) {
-                    fail($item.find('[data-field="url"]'), 'La variable debe ir al final de la URL.'); ok = false;
+                    fail($item.find('[data-field="url"]'), __('La variable debe ir al final de la URL.')); ok = false;
                 }
-                if (urlVars.length && !state.buttons[i].urlExample) { fail($item.find('[data-field="urlExample"]'), 'Agrega un ejemplo de la URL.'); ok = false; }
+                if (urlVars.length && !state.buttons[i].urlExample) { fail($item.find('[data-field="urlExample"]'), __('Agrega un ejemplo de la URL.')); ok = false; }
             }
             if (b.type === 'PHONE_NUMBER' && !/^\+?\d{7,15}$/.test(b.phone_number || '')) {
-                fail($item.find('[data-field="phone"]'), 'Número inválido. Ej: +573001234567'); ok = false;
+                fail($item.find('[data-field="phone"]'), __('Número inválido. Ej: +573001234567')); ok = false;
             }
             if (b.type === 'COPY_CODE') {
                 var code = state.buttons[i].example || '';
-                if (!code) { fail($item.find('[data-field="example"]'), 'Agrega el código de ejemplo.'); ok = false; }
-                else if (code.length > LIMITS.copyCodeExample) { fail($item.find('[data-field="example"]'), 'Máximo ' + LIMITS.copyCodeExample + ' caracteres.'); ok = false; }
+                if (!code) { fail($item.find('[data-field="example"]'), __('Agrega el código de ejemplo.')); ok = false; }
+                else if (code.length > LIMITS.copyCodeExample) { fail($item.find('[data-field="example"]'), __('Máximo ') + LIMITS.copyCodeExample + __(' caracteres.')); ok = false; }
             }
         });
 
         if (!ok) {
             var $first = $('#tplForm .is-invalid, #tplForm .field-error.show').first();
             if ($first.length) $first[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
-            toast('Revisa los campos marcados en rojo.', true);
+            toast(__('Revisa los campos marcados en rojo.'), true);
         }
         return ok;
     }
@@ -867,8 +867,8 @@
 
         $('#footerFreePane').toggleClass('d-none', auth);
         $('#footerAuthPane').toggleClass('d-none', !auth);
-        $('#footerOptionalLabel').text(auth ? 'Opcional' : 'Opcional');
-        $('#footerHint').text(auth ? 'Solo se define el tiempo de expiración del código; Meta arma el texto.' : 'Una línea breve visible debajo del mensaje.');
+        $('#footerOptionalLabel').text(auth ? __('Opcional') : __('Opcional'));
+        $('#footerHint').text(auth ? __('Solo se define el tiempo de expiración del código; Meta arma el texto.') : __('Una línea breve visible debajo del mensaje.'));
 
         $('#authButtonNotice').toggleClass('d-none', !auth);
         $('#buttonsHint').toggleClass('d-none', auth);
@@ -915,8 +915,8 @@
             applyCategoryUI();
         }
 
-        $('#tplModalTitle').text(template ? 'Editar plantilla' : 'Crear plantilla');
-        $('#tplSubmitLabel').text(template ? 'Guardar cambios' : 'Crear plantilla');
+        $('#tplModalTitle').text(template ? __('Editar plantilla') : __('Crear plantilla'));
+        $('#tplSubmitLabel').text(template ? __('Guardar cambios') : __('Crear plantilla'));
 
         state.dirty = false;
         Preview.render();
@@ -940,7 +940,7 @@
             state.dirty = false;
             bootstrap.Modal.getInstance(document.getElementById('tplModal')).hide();
             TemplatesList.upsert($.extend({ id: state.id || Date.now(), status: 'PENDING' }, getTemplateData()));
-            toast(state.mode === 'edit' ? 'Plantilla actualizada correctamente.' : 'Plantilla enviada a revisión de Meta.');
+            toast(state.mode === 'edit' ? __('Plantilla actualizada correctamente.') : __('Plantilla enviada a revisión de Meta.'));
         }, 900);
     }
 
@@ -986,7 +986,7 @@
                     '<span class="badge-soft ' + st[0] + '">' + st[1] + '</span>' +
                     '<span class="badge-soft">' + esc(CATEGORY_LABELS[Number(t.category)] || t.category) + '</span>' +
                     '<span class="badge-soft ms-auto">' + esc(t.language) + '</span></div>' +
-                    '<div class="fw-bold">' + esc(t.name) + '</div>' +
+                    '<div class="fw-bold">' + __(esc(t.name)) + '</div>' +
                     '<div class="text-muted-2 small mt-1" style="min-height:44px">' + esc((t.body && t.body.text || '').slice(0, 110)) + '</div>' +
                     '<div class="d-flex gap-2 mt-3">' +
                     '<button class="btn btn-soft btn-sm flex-grow-1" data-edit="' + t.id + '"><i class="fa-solid fa-pen me-1"></i>Editar</button>' +
@@ -1011,7 +1011,7 @@
             markDirty();
         });
         $('#tplCategory').on('change', function () {
-            $('#catDesc').text(CATEGORIES[this.value] || '');
+            $('#catDesc').text(__(CATEGORIES[this.value] || ''));
             applyCategoryUI();
             markDirty(); Preview.render();
         }).trigger('change');
@@ -1020,7 +1020,7 @@
         $('#tplSubmit').on('click', submitTemplate);
 
         $('#tplModal').on('hide.bs.modal', function (e) {
-            if (state.dirty && !window.confirm('Tienes cambios sin guardar. ¿Deseas cerrar el modal?')) {
+            if (state.dirty && !window.confirm(__('Tienes cambios sin guardar. ¿Deseas cerrar el modal?'))) {
                 e.preventDefault();
             }
         });

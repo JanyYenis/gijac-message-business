@@ -35,7 +35,7 @@
                         <button type="button" class="btn btn-primary text-white" id="capture" >
                             <i class="fas fa-camera fs-1 text-white"></i>
                         </button>
-                        <button type="button" class="btn btn-primary me-2 d-none text-white" id="captureOtra">Cambiar Foto</button>
+                        <button type="button" class="btn btn-primary me-2 d-none text-white" id="captureOtra">{{ __('Cambiar Foto') }}</button>
                         <button type="submit" class="btn btn-primary d-none text-white" id="enviar" >
                             <i class="far fa-paper-plane fs-1 text-white"></i>
                         </button>
@@ -44,7 +44,7 @@
             </div>
 
             <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-danger btnClose" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger btnClose" data-bs-dismiss="modal">{{ __('Cerrar') }}</button>
             </div>
         </div>
     </div>

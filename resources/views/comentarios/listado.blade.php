@@ -64,7 +64,7 @@
     @endforeach
 @else
     <div class="text-center">
-        <h1>Sin comentarios</h1>
+        <h1>{{ __('Sin comentarios') }}</h1>
     </div>
 @endif
 

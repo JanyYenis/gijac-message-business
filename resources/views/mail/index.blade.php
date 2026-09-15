@@ -90,11 +90,11 @@
                                 style="font-size: 13px; text-align:center; padding: 0 10px 10px 10px; font-weight: 500; color: #A1A5B7; font-family:Arial,Helvetica,sans-serif">
                                 <p
                                     style="color:#181C32; font-size: 16px; font-weight: 600; margin-bottom:9px                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ">
-                                    Soporte</p>
-                                <p style="margin-bottom:2px">Llama a nuestro número de atención al cliente: +57 (317) 178 - 9584</p>
-                                <p style="margin-bottom:4px">Puedes contactar con nosotros en <a href="{{ route('contactarnos') }}"
-                                        rel="noopener" target="_blank" style="font-weight: 600">message-business.gijac.com</a>.</p>
-                                <p>Atendemos de lunes a viernes de 9:00 AM a 5:30 PM.</p>
+                                    {{ __('Soporte') }}</p>
+                                <p style="margin-bottom:2px">{{ __('Llama a nuestro número de atención al cliente: +57 (317) 178 - 9584') }}</p>
+                                <p style="margin-bottom:4px">{{ __('Puedes contactar con nosotros en') }} <a href="{{ route('contactarnos') }}"
+                                        rel="noopener" target="_blank" style="font-weight: 600">{{ __('message-business.gijac.com') }}</a>.</p>
+                                <p>{{ __('Atendemos de lunes a viernes de 9:00 AM a 5:30 PM.') }}</p>
                             </td>
                         </tr>
 
@@ -112,9 +112,9 @@
                         <tr>
                             <td align="center" valign="center"
                                 style="font-size: 13px; padding:0 15px; text-align:center; font-weight: 500; color: #A1A5B7;font-family:Arial,Helvetica,sans-serif">
-                                <p> © Copyright GIJAC WEB.
+                                <p> {{ __('© Copyright GIJAC WEB.') }}
                                     <a href="https://gijac.com" rel="noopener" target="_blank"
-                                        style="font-weight: 600;font-family:Arial,Helvetica,sans-serif">Cancelar suscripción</a>&nbsp;.
+                                        style="font-weight: 600;font-family:Arial,Helvetica,sans-serif">{{ __('Cancelar suscripción') }}</a>&nbsp;.
                                 </p>
                             </td>
                         </tr>

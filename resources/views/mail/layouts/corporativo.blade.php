@@ -26,7 +26,7 @@
                                     </td>
                                     <td align="left" valign="middle" style="padding-left: 12px;">
                                         <span style="color:#FFFFFF; font-size: 18px; font-weight:bold; font-family: Arial, sans-serif;">
-                                            GIJAC MESSAGE BUSINESS
+                                            {{ __('GIJAC MESSAGE BUSINESS') }}
                                         </span>
                                     </td>
                                 </tr>
@@ -75,7 +75,7 @@
                     <tr>
                         <td style="padding: 24px 32px; font-family: Arial, sans-serif;">
                             <p style="margin:0 0 6px 0; font-size:12px; color:#888888;">
-                                Este correo fue generado automáticamente por la plataforma GMB WhatsApp Business.
+                                {{ __('Este correo fue generado automáticamente por la plataforma GMB WhatsApp Business.') }}
                             </p>
                             <p style="margin:0; font-size:12px; color:#888888;">
                                 © {{ date('Y') }} GIJAC. Todos los derechos reservados.
@@ -90,7 +90,7 @@
                     <tr>
                         <td align="center" style="padding-top: 16px; font-family: Arial, sans-serif;">
                             <p style="margin:0; font-size:11px; color:#AAAAAA;">
-                                Si no esperabas este correo, puedes ignorarlo con confianza.
+                                {{ __('Si no esperabas este correo, puedes ignorarlo con confianza.') }}
                             </p>
                         </td>
                     </tr>

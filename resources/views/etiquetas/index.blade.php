@@ -6,13 +6,13 @@
             <div>
                 <h1 class="text-white">
                     <i class="fas fa-tags"></i>
-                    Mis Etiquetas
+                    {{ __('Mis Etiquetas') }}
                 </h1>
-                <p class="subtitle mb-0">Crea y administra etiquetas para tus contactos.</p>
+                <p class="subtitle mb-0">{{ __('Crea y administra etiquetas para tus contactos.') }}</p>
             </div>
             <div class="mt-3 mt-md-0">
                 <button type="button" class="btn btn-new-template" data-bs-toggle="modal" data-bs-target="#modalCrearEtiqueta">
-                    Crear Etiqueta
+                    {{ __('Crear Etiqueta') }}
                 </button>
             </div>
         </div>
@@ -30,13 +30,13 @@
                                         <thead>
                                             <tr>
                                                 <th width="5%" class="text-center all">#</th>
-                                                <th width="10%" class="text-center all">Nombre</th>
-                                                <th width="10%" class="text-center all">Color</th>
-                                                <th width="10%" class="text-center all">Descripción</th>
-                                                <th width="10%" class="text-center all">Estado</th>
-                                                <th width="10%" class="text-center none">Fecha Creación</th>
-                                                <th width="10%" class="text-center none">Fecha Modificación</th>
-                                                <th width="10%" class="text-center all">Acciones</th>
+                                                <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Color') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Descripción') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                                                <th width="10%" class="text-center none">{{ __('Fecha Creación') }}</th>
+                                                <th width="10%" class="text-center none">{{ __('Fecha Modificación') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                             </tr>
                                         </thead>
                                         <tbody></tbody>

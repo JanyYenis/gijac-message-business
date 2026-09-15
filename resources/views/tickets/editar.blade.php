@@ -36,12 +36,12 @@
                                 <!--begin::Info-->
                                 <div class="">
                                     <!--begin::Label-->
-                                    <span class="fw-semibold text-muted me-6">Usuario:
+                                    <span class="fw-semibold text-muted me-6">{{ __('Usuario:') }}
                                         <a href="#" class="text-muted text-hover-primary">{{ $ticket?->cliente?->nombre_completo ?? 'N/A' }}</a></span>
                                     <!--end::Label-->
 
                                     <!--begin::Label-->
-                                    <span class="fw-semibold text-muted">Fecha hallazgo:
+                                    <span class="fw-semibold text-muted">{{ __('Fecha hallazgo:') }}
                                         <span class="fw-bold text-gray-600 me-1">
                                             {{ $ticket->fecha_hallazgo->format('d/m/Y') }}
                                         </span>
@@ -59,14 +59,14 @@
                             <form id="formEditarTicket">
                                 <input type="hidden" name="id" value="{{ $ticket->id }}">
                                 @if ($ticket?->url_archivo)
-                                    <b>Archivo de complemento:</b>
-                                    <a href="{{ asset('storage/'.$ticket->url_archivo) }}" target="_blank">Archivo</a>
+                                    <b>{{ __('Archivo de complemento:') }}</b>
+                                    <a href="{{ asset('storage/'.$ticket->url_archivo) }}" target="_blank">{{ __('Archivo') }}</a>
                                 @endif
                                 <!--begin::Description-->
                                 <div class="mb-15 fs-5 fw-normal text-gray-800">
                                     <!--begin::Text-->
                                     <div class="mb-5 fs-5">
-                                        <label class="required form-label">Descripcion:</label>
+                                        <label class="required form-label">{{ __('Descripcion:') }}</label>
                                         {{-- <textarea required name="descripcion" class="form-control" cols="30" rows="3">{{ $ticket?->descripcion ?? 'N/A' }}</textarea> --}}
                                         <div id="divDescripcion1" class="form-control form-control-solid fs-4">{!! $ticket?->descripcion ?? '' !!}</div>
                                     </div>
@@ -78,7 +78,7 @@
                                 <div class="row mb-7">
                                     <!--begin::Col-->
                                     <div class="col-md-3 fv-row mb-3">
-                                        <label class="fs-6 fw-semibold mb-2">Responsable</label>
+                                        <label class="fs-6 fw-semibold mb-2">{{ __('Responsable') }}</label>
 
                                         <select class="form-select form-select-solid" {{ $disabled }} {{ $readonly }} name="cod_responsable" id="selectResponsable" required data-control="select2" data-placeholder="Seleccione el responsable">
                                             <option value=""></option>
@@ -90,7 +90,7 @@
                                     <!--end::Col-->
                                     <!--begin::Col-->
                                     <div class="col-md-3 fv-row mb-3">
-                                        <label class="fs-6 fw-semibold mb-2">Tipo</label>
+                                        <label class="fs-6 fw-semibold mb-2">{{ __('Tipo') }}</label>
 
                                         <select class="form-select form-select-solid" {{ $disabled }} {{ $readonly }} name="tipo" id="selectTipo" required data-control="select2" data-placeholder="Seleccione el tipo" data-hide-search="true">
                                             <option value=""></option>
@@ -103,7 +103,7 @@
 
                                     <!--begin::Col-->
                                     <div class="col-sm-3 fv-row mb-3">
-                                        <label class="fs-6 fw-semibold mb-2">Estado</label>
+                                        <label class="fs-6 fw-semibold mb-2">{{ __('Estado') }}</label>
 
                                         <select class="form-select form-select-solid" {{ $disabled }} {{ $readonly }} name="estado" id="selectEstados" required data-control="select2" data-placeholder="Seleccione el estado" data-hide-search="true">
                                             <option value=""></option>
@@ -116,7 +116,7 @@
 
                                     <!--begin::Col-->
                                     <div class="col-sm-3 fv-row mb-3">
-                                        <label class="fs-6 fw-semibold mb-2">Priodad</label>
+                                        <label class="fs-6 fw-semibold mb-2">{{ __('Priodad') }}</label>
 
                                         <select class="form-select form-select-solid" {{ $disabled }} {{ $readonly }} name="prioridad" id="selectPrioridad" required data-control="select2" data-placeholder="Seleccione la prioridad" data-hide-search="true">
                                             <option value=""></option>
@@ -135,7 +135,7 @@
 
                                     <div class="text-end mt-3">
                                         <!--begin::Submit-->
-                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <button type="submit" class="btn btn-primary">{{ __('Actualizar') }}</button>
                                         <!--end::Submit-->
                                     </div>
                                 </div>

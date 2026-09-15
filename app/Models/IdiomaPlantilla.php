@@ -20,6 +20,7 @@ class IdiomaPlantilla extends Model
     protected $fillable = [
         'codigo',
         'nombre',
+        'pais_id',
         'estado',
     ];
 
@@ -39,5 +40,10 @@ class IdiomaPlantilla extends Model
         static::creating(function ($model) {
             $model->id = Str::uuid();
         });
+    }
+
+    public function pais()
+    {
+        return $this->hasOne(Pais::class, 'id', 'pais_id');
     }
 }

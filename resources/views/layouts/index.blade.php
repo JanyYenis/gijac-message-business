@@ -2120,6 +2120,16 @@
     @routes
     <!--begin::Javascript-->
     <script>
+        window.translations = @json(
+            file_exists(app()->langPath(app()->getLocale() . '.json'))
+                ? json_decode(file_get_contents(app()->langPath(app()->getLocale() . '.json')), true)
+                : []
+        );
+
+        function __(text) {
+            return window.translations[text] || text;
+        }
+
         window.user = {{ auth()->user()->id }}
         window.numeroTelefono = '{{$numeroTelefono}}';
     </script>

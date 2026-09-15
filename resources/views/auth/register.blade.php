@@ -3,8 +3,8 @@
 @section('content')
     <div class="auth-card">
         <div class="auth-head">
-            <h2>Registro</h2>
-            <p>Accede a tu cuenta de GIJAC MESSAGE BUSINESS</p>
+            <h2>{{ __('Registro') }}</h2>
+            <p>{{ __('Accede a tu cuenta de GIJAC MESSAGE BUSINESS') }}</p>
         </div>
 
         <div class="social">
@@ -19,7 +19,7 @@
                     <path fill="#1976D2"
                         d="M43.6 20.5H42V20H24v8h11.3c-.7 2-2 3.7-3.7 5l6.2 5.2C41.6 34.6 44 29.7 44 24c0-1.2-.1-2.3-.4-3.5z" />
                 </svg>
-                Continuar con Google
+                {{ __('Continuar con Google') }}
             </a>
             <a class="btn-social btn-ms magnetic" type="button" href="{{ route('login-outlook') }}">
                 <svg width="18" height="18" viewBox="0 0 48 48">
@@ -28,11 +28,11 @@
                     <rect x="4" y="25" width="19" height="19" fill="#00A4EF" />
                     <rect x="25" y="25" width="19" height="19" fill="#FFB900" />
                 </svg>
-                Continuar con Microsoft
+                {{ __('Continuar con Microsoft') }}
             </a>
         </div>
 
-        <div class="divider">o con email</div>
+        <div class="divider">{{ __('o con email') }}</div>
 
         <form class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
             id="kt_sign_up_form" data-kt-redirect-url="{{ route('register') }}"
@@ -43,7 +43,7 @@
                     <div class="field">
                         <input id="nombre" type="text" name="nombre" placeholder="" required
                             autocomplete="off" class="@error('nombre') is-invalid @enderror"/>
-                        <label for="nombre">Nombre</label>
+                        <label for="nombre">{{ __('Nombre') }}</label>
                     </div>
                     @error('nombre')
                         <span class="invalid-feedback" role="alert">
@@ -55,7 +55,7 @@
                     <div class="field">
                         <input id="apellido" type="text" name="apellido" placeholder="" required
                             autocomplete="off" class="@error('apellido') is-invalid @enderror"/>
-                        <label for="apellido">Apellido</label>
+                        <label for="apellido">{{ __('Apellido') }}</label>
                     </div>
                     @error('apellido')
                         <span class="invalid-feedback" role="alert">
@@ -69,7 +69,7 @@
             <div class="field">
                 <input id="email" type="email" name="email" placeholder="" required
                     autocomplete="off" class="@error('email') is-invalid @enderror"/>
-                <label for="email">Email</label>
+                <label for="email">{{ __('Email') }}</label>
             </div>
             @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -80,7 +80,7 @@
             <div class="field">
                 <input id="password" type="password" name="password" placeholder="" required
                     autocomplete="off" class="@error('password') is-invalid @enderror"/>
-                <label for="password">Contraseña</label>
+                <label for="password">{{ __('Contraseña') }}</label>
                 <span class="eye" id="togglePw">
                     <i class="fa-regular fa-eye"></i>
                 </span>
@@ -94,13 +94,13 @@
                 </span>
             @enderror
             <div class="text-muted">
-                Utilice 8 o más caracteres con una combinación de letras, números y símbolos.
+                {{ __('Utilice 8 o más caracteres con una combinación de letras, números y símbolos.') }}
             </div>
 
             <div class="field">
                 <input id="password_confirmation" type="password" name="password_confirmation" placeholder="" required
                     autocomplete="off" class="@error('password_confirmation') is-invalid @enderror"/>
-                <label for="password_confirmation">Confirmar Contraseña</label>
+                <label for="password_confirmation">{{ __('Confirmar Contraseña') }}</label>
                 <span class="eye" id="togglePw1">
                     <i class="fa-regular fa-eye"></i>
                 </span>
@@ -110,8 +110,8 @@
             <div class="fv-row mb-8 fv-plugins-icon-container">
                 <label class="form-check form-check-inline">
                     <span class="form-check-label fw-semibold text-muted fs-base ms-1">
-                        Al continuar, Acepto los <a href="{{ route('terminos-condiciones') }}" target="_blank" class="ms-1 link">Terminos y condiciones</a> y las
-                        <a href="{{ route('politicas-privacidad') }}" target="_blank" class="ms-1 link">politicas de privacidad</a>
+                        {{ __('Al continuar, Acepto los') }} <a href="{{ route('terminos-condiciones') }}" target="_blank" class="ms-1 link">{{ __('Terminos y condiciones') }}</a> {{ __('y las') }}
+                        <a href="{{ route('politicas-privacidad') }}" target="_blank" class="ms-1 link">{{ __('politicas de privacidad') }}</a>
                     </span>
                 </label>
                 <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback">
@@ -122,13 +122,13 @@
                 <i class="fa-solid fa-rocket me-1"></i>
                 <!--begin::Indicator label-->
                 <span class="indicator-label">
-                    Iniciar prueba de 15 días.
+                    {{ __('Iniciar prueba de 15 días.') }}
                 </span>
                 <!--end::Indicator label-->
             </button>
             <a class="btn-outline-x magnetic text-center" type="button" href="{{ route('login') }}">
                 <i class="fa-solid fa-right-to-bracket me-1"></i>
-                Iniciar sesión
+                {{ __('Iniciar sesión') }}
             </a>
         </form>
     </div>

@@ -177,3 +177,4 @@ window.sincronizarPlantillas = () => {
 
 require('./listado');
 require('./crear');
+require('./editar');

@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light">
 
 <head>
-    <title>GIJAC MESSAGE BUSINESS</title>
+    <title>{{ __('GIJAC MESSAGE BUSINESS') }}</title>
     <meta charset="utf-8">
 
     <meta name="robots" content="noindex,nofollow">
@@ -1064,15 +1064,15 @@
                     <i class="fa-brands fa-whatsapp"></i>
                 </div>
                 <div class="brand-name">
-                    GIJAC <span>MESSAGE BUSINESS</span>
+                    {{ __('GIJAC') }} <span>{{ __('MESSAGE BUSINESS') }}</span>
                 </div>
             </div>
 
             <div>
                 <div class="headline">
-                    <h1>Conecta con tus clientes de forma <em>inteligente</em></h1>
+                    <h1>{{ __('Conecta con tus clientes de forma') }} <em>{{ __('inteligente') }}</em></h1>
                     <p>
-                        Gestiona campañas, conversaciones, automatizaciones y agentes de IA desde una sola plataforma.
+                        {{ __('Gestiona campañas, conversaciones, automatizaciones y agentes de IA desde una sola plataforma.') }}
                     </p>
                 </div>
 
@@ -1087,37 +1087,37 @@
                             <div class="card-mini">
                                 <h4>
                                     <i class="fa-brands fa-whatsapp"></i>
-                                    Conversaciones
+                                    {{ __('Conversaciones') }}
                                 </h4>
                                 <div class="chat-row">
-                                    <div class="avatar">MG</div>
+                                    <div class="avatar">{{ __('MG') }}</div>
                                     <div>
-                                        <div class="who">María G.</div>
-                                        <div class="msg">¿Tienen disponibilidad para hoy?</div>
+                                        <div class="who">{{ __('María G.') }}</div>
+                                        <div class="msg">{{ __('¿Tienen disponibilidad para hoy?') }}</div>
                                     </div>
                                 </div>
                                 <div class="chat-row">
                                     <div class="avatar" style="background:linear-gradient(135deg,#c084fc,#7c3aed)">
-                                        AI
+                                        {{ __('AI') }}
                                     </div>
                                     <div>
-                                        <div class="who">Agente IA</div>
-                                        <div class="msg">Respondiendo automáticamente…</div>
+                                        <div class="who">{{ __('Agente IA') }}</div>
+                                        <div class="msg">{{ __('Respondiendo automáticamente…') }}</div>
                                     </div>
                                 </div>
                                 <div class="chat-row">
                                     <div class="avatar" style="background:linear-gradient(135deg,#fbbf24,#f59e0b)">
-                                        JR
+                                        {{ __('JR') }}
                                     </div>
                                     <div>
-                                        <div class="who">Juan R.</div>
-                                        <div class="msg">Perfecto, muchas gracias 🙌</div>
+                                        <div class="who">{{ __('Juan R.') }}</div>
+                                        <div class="msg">{{ __('Perfecto, muchas gracias 🙌') }}</div>
                                     </div>
                                 </div>
                             </div>
                             <div style="display:grid;gap:12px">
                                 <div class="card-mini">
-                                    <h4>Campaña activa</h4>
+                                    <h4>{{ __('Campaña activa') }}</h4>
                                     <div class="metric">
                                         <b id="metric1">12,847</b>
                                         <span>+18.2%</span>
@@ -1127,7 +1127,7 @@
                                     </div>
                                 </div>
                                 <div class="card-mini">
-                                    <h4>IA · Respuestas</h4>
+                                    <h4>{{ __('IA · Respuestas') }}</h4>
                                     <div class="spark">
                                         <i></i>
                                         <i></i>
@@ -1164,16 +1164,16 @@
 
             <div class="trust">
                 <span>
-                    <i class="fa-solid fa-circle-check"></i> API Oficial de WhatsApp
+                    <i class="fa-solid fa-circle-check"></i> {{ __('API Oficial de WhatsApp') }}
                 </span>
                 <span>
-                    <i class="fa-solid fa-shield-halved"></i> Seguridad Empresarial
+                    <i class="fa-solid fa-shield-halved"></i> {{ __('Seguridad Empresarial') }}
                 </span>
                 <span>
-                    <i class="fa-solid fa-headset"></i> Soporte 24/7
+                    <i class="fa-solid fa-headset"></i> {{ __('Soporte 24/7') }}
                 </span>
                 <span>
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> IA Integrada
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> {{ __('IA Integrada') }}
                 </span>
             </div>
         </section>
@@ -1184,6 +1184,17 @@
         </section>
     </div>
 
+    <script>
+        window.translations = @json(
+            file_exists(app()->langPath(app()->getLocale() . '.json'))
+                ? json_decode(file_get_contents(app()->langPath(app()->getLocale() . '.json')), true)
+                : []
+        );
+
+        function __(text) {
+            return window.translations[text] || text;
+        }
+    </script>
     {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> --}}
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>

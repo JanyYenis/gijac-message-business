@@ -12,10 +12,10 @@ class ExtractTranslatable extends Command
                             {--dry-run : Solo muestra qué cambiaría, no escribe nada}
                             {--lang=es : Idioma base para lang/{lang}.json}';
 
-    protected $description = 'Escanea vistas Blade, envuelve texto plano en __() y genera lang/{lang}.json';
+    protected $description = 'Escanea vistas Blade, envuelve texto plano en __() y genera lang/{lang}.json con TODOS los __() existentes (nuevos y previos)';
 
-    private array $strings = [];
     private array $allStrings = [];
+    private ?string $lastFailReason = null;
 
     public function handle(): int
     {
@@ -32,7 +32,7 @@ class ExtractTranslatable extends Command
         }
 
         $files = collect(File::allFiles($path))
-            ->filter(fn($f) => str_ends_with($f->getFilename(), '.blade.php'));
+            ->filter(fn ($f) => str_ends_with($f->getFilename(), '.blade.php'));
 
         $this->info("Encontrados {$files->count()} archivos .blade.php");
 
@@ -41,20 +41,24 @@ class ExtractTranslatable extends Command
 
         foreach ($files as $file) {
             $original = File::get($file->getPathname());
-            $this->strings = []; // strings de este archivo únicamente
-
             $modified = $this->processContent($original);
 
             // CANDADO DE SEGURIDAD: si algo falló (regex null o placeholders
             // sin restaurar), NUNCA tocamos el archivo. Mejor no traducir
             // ese archivo que corromperlo.
             if ($modified === null) {
+                // No se pudo procesar con seguridad: NO se toca el archivo,
+                // pero igual cosechamos los __() que YA tenía, para que no
+                // se pierdan del JSON solo por haberse saltado esta vez.
                 $skippedFiles[] = $file->getRelativePathname() . ' — ' . ($this->lastFailReason ?? 'razón desconocida');
+                $this->allStrings = array_merge($this->allStrings, $this->extractExistingCalls($original));
                 continue;
             }
 
-            // Acumula los strings de este archivo (ya sabemos que se procesó bien)
-            $this->allStrings = array_merge($this->allStrings, $this->strings);
+            // CLAVE: cosechamos del contenido FINAL (ya modificado o no),
+            // así capturamos tanto los __() nuevos como los que ya existían
+            // de corridas anteriores o escritos a mano.
+            $this->allStrings = array_merge($this->allStrings, $this->extractExistingCalls($modified));
 
             if ($modified !== $original) {
                 $modifiedCount++;
@@ -69,7 +73,7 @@ class ExtractTranslatable extends Command
         if (!empty($this->allStrings)) {
             $langPath = app()->langPath("{$langCode}.json");
             $existing = File::exists($langPath)
-                ? json_decode(File::get($langPath), true)
+                ? (json_decode(File::get($langPath), true) ?? [])
                 : [];
 
             $merged = array_merge($existing, $this->allStrings);
@@ -79,13 +83,21 @@ class ExtractTranslatable extends Command
                 File::ensureDirectoryExists(dirname($langPath));
                 File::put($langPath, json_encode($merged, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             }
+
+            $this->info(sprintf(
+                '%s %d strings en total en lang/%s.json (%d nuevos/existentes detectados esta corrida).',
+                $dryRun ? 'Se guardarían' : 'Guardados',
+                count($merged),
+                $langCode,
+                count($this->allStrings)
+            ));
         }
 
         $this->info(($dryRun ? 'Se modificarían ' : 'Se modificaron ') . $modifiedCount . ' archivos.');
 
         if (!empty($skippedFiles)) {
             $this->newLine();
-            $this->error(count($skippedFiles) . ' archivo(s) se SALTARON por seguridad (no se tocaron, quedaron 100% intactos):');
+            $this->error(count($skippedFiles) . ' archivo(s) se SALTARON por seguridad (no se tocaron, pero sí se cosecharon sus __() existentes):');
             foreach ($skippedFiles as $f) {
                 $this->line("  - {$f}");
             }
@@ -102,12 +114,34 @@ class ExtractTranslatable extends Command
     }
 
     /**
+     * Extrae TODOS los __('texto') / __("texto") presentes en el contenido,
+     * sin importar si son nuevos o ya existían. Respeta comillas escapadas.
+     */
+    private function extractExistingCalls(string $content): array
+    {
+        preg_match_all(
+            "/__\(\s*(['\"])((?:\\\\.|(?!\\1).)*)\\1\s*\)/su",
+            $content,
+            $matches
+        );
+
+        $result = [];
+        foreach ($matches[2] as $i => $raw) {
+            $quote = $matches[1][$i];
+            $text = str_replace("\\{$quote}", $quote, $raw);
+            if (trim($text) !== '') {
+                $result[$text] = $text;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Devuelve el contenido procesado, o null si NO es seguro aplicar el
      * cambio (algún paso de regex falló, o quedó algún placeholder sin
      * restaurar). null siempre significa "no tocar este archivo".
      */
-    private ?string $lastFailReason = null;
-
     private function processContent(string $content): ?string
     {
         $content = $this->toUtf8($content);
@@ -127,7 +161,7 @@ class ExtractTranslatable extends Command
 
             if ($result === null) {
                 $failed = true;
-                $this->lastFailReason = "regex '{$label}' falló (" . $this->pcreErrorName() . ")";
+                $this->lastFailReason = "regex '{$label}' falló (" . $this->pcreErrorName() . ')';
                 return;
             }
             $content = $result;
@@ -168,7 +202,6 @@ class ExtractTranslatable extends Command
             preg_match('/\s*$/', $raw, $trail);
 
             $escaped = str_replace("'", "\\'", $normalized);
-            $this->strings[$normalized] = $normalized;
 
             return '>' . $lead[0] . "{{ __('{$escaped}') }}" . $trail[0] . '<';
         }, $content);

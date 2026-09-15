@@ -110,7 +110,7 @@
                                     margin-bottom: 2rem; border-radius: 0.2rem; margin-top: 2rem;"
                                     class="text-dark fs-3 btnVerFormulario" data-mensaje="{{ $mensaje['wa_message_id'] }}">
                                     <i class="fs-1 las la-file-alt text-primary"></i>
-                                    Ver Respuesta Formulario
+                                    {{ __('Ver Respuesta Formulario') }}
                                 </a>
                             </div>
                         @else
@@ -137,7 +137,7 @@
                             <div class="menu-item px-3">
                                 <a href="javascript:;" class="menu-link px-3 btnVerError" data-mensaje="{{ $mensaje['wa_message_id'] }}">
                                     <i class="las la-exclamation text-danger me-1"></i>
-                                    Ver Error
+                                    {{ __('Ver Error') }}
                                 </a>
                             </div>
                         </div>
@@ -209,7 +209,7 @@
                             <div class="menu-item px-3">
                                 <a href="javascript:;" class="menu-link px-3 btnVerError" data-mensaje="{{ $mensaje['wa_message_id'] }}">
                                     <i class="las la-exclamation text-danger me-1"></i>
-                                    Ver Error
+                                    {{ __('Ver Error') }}
                                 </a>
                             </div>
                         </div>

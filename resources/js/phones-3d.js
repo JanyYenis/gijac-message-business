@@ -195,10 +195,10 @@
         // header
         ctx.fillStyle = "#ffffff";
         ctx.font = "700 44px 'Plus Jakarta Sans', sans-serif";
-        ctx.fillText("¡Hola, Empresa!", pad, 96);
+        ctx.fillText(__("¡Hola, Empresa!"), pad, 96);
         ctx.fillStyle = "#8fc4bf";
         ctx.font = "400 26px Inter, sans-serif";
-        ctx.fillText("Resumen de tu actividad", pad, 138);
+        ctx.fillText(__("Resumen de tu actividad"), pad, 138);
 
         // avatar
         ctx.beginPath(); ctx.arc(w - pad - 34, 88, 34, 0, Math.PI * 2);
@@ -208,9 +208,9 @@
 
         // metric cards
         var cards = [
-            { label: "Mensajes", value: Math.floor(dashState.msgs).toLocaleString("es-ES"), delta: "+18.2%" },
-            { label: "Conversac.", value: Math.floor(dashState.convs).toLocaleString("es-ES"), delta: "+12.4%" },
-            { label: "CTR", value: dashState.ctr.toFixed(1) + "%", delta: "+6.7%" }
+            { label: __("Mensajes"), value: Math.floor(dashState.msgs).toLocaleString("es-ES"), delta: "+18.2%" },
+            { label: __("Conversac."), value: Math.floor(dashState.convs).toLocaleString("es-ES"), delta: "+12.4%" },
+            { label: __("CTR"), value: dashState.ctr.toFixed(1) + "%", delta: "+6.7%" }
         ];
         var cy = 186, ch = 150, gap = 16, cw = (w - pad * 2 - gap * 2) / 3;
         cards.forEach(function (c, i) {
@@ -232,7 +232,7 @@
         rr(ctx, pad, chy, w - pad * 2, chh, 22); ctx.fill();
         ctx.strokeStyle = "rgba(255,255,255,0.1)"; ctx.lineWidth = 1.5; ctx.stroke();
         ctx.fillStyle = "#cdeeeb"; ctx.font = "700 24px 'Plus Jakarta Sans'";
-        ctx.fillText("Rendimiento de campañas", pad + 22, chy + 44);
+        ctx.fillText((__("Rendimiento de campañas")), pad + 22, chy + 44);
 
         // animated line
         var innerX = pad + 30, innerW = w - pad * 2 - 60;
@@ -269,7 +269,7 @@
         ctx.fillStyle = "rgba(255,255,255,0.06)";
         rr(ctx, pad, by, bcw, bh, 22); ctx.fill();
         ctx.fillStyle = "#cdeeeb"; ctx.font = "700 22px 'Plus Jakarta Sans'";
-        ctx.fillText("Mensajes / día", pad + 20, by + 40);
+        ctx.fillText((__("Mensajes / día")), pad + 20, by + 40);
         var bx = pad + 22, bw = 30, bgap = ((bcw - 44) - dashState.bars.length * bw) / (dashState.bars.length - 1);
         dashState.bars.forEach(function (v, i) {
             var val = v * (0.7 + 0.3 * Math.abs(Math.sin(dashState.phase * 0.8 + i)));
@@ -285,7 +285,7 @@
         ctx.fillStyle = "rgba(255,255,255,0.06)";
         rr(ctx, dcx, by, dcw, bh, 22); ctx.fill();
         ctx.fillStyle = "#cdeeeb"; ctx.font = "700 22px 'Plus Jakarta Sans'";
-        ctx.fillText("Canales", dcx + 20, by + 40);
+        ctx.fillText(__("Canales"), dcx + 20, by + 40);
         var ccx = dcx + dcw / 2, ccy = by + bh / 2 + 20, cr = 62;
         var segs = [
             { v: 0.5, c: "#25D366" }, { v: 0.3, c: "#2C8F99" }, { v: 0.2, c: "#5fd6c9" }
@@ -367,7 +367,7 @@
         ctx.fillStyle = "#128C7E"; ctx.font = "700 30px 'Plus Jakarta Sans'";
         ctx.textAlign = "center"; ctx.fillText("C", 74, 103); ctx.textAlign = "left";
         ctx.fillStyle = "#fff"; ctx.font = "700 30px 'Plus Jakarta Sans'";
-        ctx.fillText("Cliente GIJAC", 126, 88);
+        ctx.fillText(__("Cliente GIJAC"), 126, 88);
         ctx.fillStyle = "#b9f5cf"; ctx.font = "400 22px Inter";
         ctx.fillText("en línea", 152, 122);
         ctx.beginPath(); ctx.arc(134, 115, 7, 0, Math.PI * 2); ctx.fillStyle = "#4ade80"; ctx.fill();
@@ -379,7 +379,7 @@
         ctx.font = "400 25px Inter";
         for (var m = 0; m < chatMsgs.length; m++) {
             var msg = chatMsgs[m];
-            var lines = wrapText(ctx, msg.text, maxBubble - 40);
+            var lines = wrapText(ctx, __(msg.text), maxBubble - 40);
             var bw = 0;
             lines.forEach(function (l) { bw = Math.max(bw, ctx.measureText(l).width); });
             bw += 40;
@@ -414,7 +414,7 @@
         ctx.fillStyle = "#0e3138"; ctx.fillRect(0, h - 96, w, 96);
         ctx.fillStyle = "#173a40"; rr(ctx, 24, h - 78, w - 120, 58, 29); ctx.fill();
         ctx.fillStyle = "#6c9a97"; ctx.font = "400 24px Inter";
-        ctx.fillText("Escribe un mensaje…", 48, h - 42);
+        ctx.fillText(__("Escribe un mensaje…"), 48, h - 42);
         ctx.beginPath(); ctx.arc(w - 54, h - 49, 30, 0, Math.PI * 2);
         ctx.fillStyle = "#25D366"; ctx.fill();
         // send triangle

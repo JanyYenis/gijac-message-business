@@ -6,9 +6,9 @@
                     <div class="">
                         <h1 class="modal-title text-white mulish">
                             <i class="bi bi-megaphone-fill fs-2 me-2 text-white"></i>
-                            Crear Nueva Campaña
+                            {{ __('Crear Nueva Campaña') }}
                         </h1>
-                        <p class="text-white mb-0">Configura y lanza tu campaña de WhatsApp Business</p>
+                        <p class="text-white mb-0">{{ __('Configura y lanza tu campaña de WhatsApp Business') }}</p>
                     </div>
                     <div class="btn btn-icon btn-sm btn-active-light-primary ms-2 btnCerrarModal" data-bs-dismiss="modal"
                         aria-label="Close">
@@ -29,19 +29,19 @@
                         <div class="stepper">
                             <div class="stepper-item active" data-step="1">
                                 <div class="stepper-number">1</div>
-                                <div class="stepper-text">Configuración</div>
+                                <div class="stepper-text">{{ __('Configuración') }}</div>
                             </div>
                             <div class="stepper-item" data-step="2">
                                 <div class="stepper-number">2</div>
-                                <div class="stepper-text">Contenido</div>
+                                <div class="stepper-text">{{ __('Contenido') }}</div>
                             </div>
                             <div class="stepper-item" data-step="3">
                                 <div class="stepper-number">3</div>
-                                <div class="stepper-text">Destinatarios</div>
+                                <div class="stepper-text">{{ __('Destinatarios') }}</div>
                             </div>
                             <div class="stepper-item" data-step="4">
                                 <div class="stepper-number">4</div>
-                                <div class="stepper-text">Confirmar</div>
+                                <div class="stepper-text">{{ __('Confirmar') }}</div>
                             </div>
                         </div>
 
@@ -53,35 +53,35 @@
                                     <div class="card campaign-card">
                                         <div class="card-header card-header-custom">
                                             <h5 class="text-white">
-                                                <i class="bi bi-gear-fill text-white fs-2"></i> Datos Generales
+                                                <i class="bi bi-gear-fill text-white fs-2"></i> {{ __('Datos Generales') }}
                                             </h5>
                                         </div>
                                         <div class="card-body p-4">
                                             <div class="row g-3">
                                                 <div class="col-md-8">
                                                     <label for="campaignName" class="form-label required fw-semibold">
-                                                        Nombre de la Campaña
+                                                        {{ __('Nombre de la Campaña') }}
                                                     </label>
                                                     <input type="text" required name="nombre" class="form-control" id="campaignName"
-                                                        placeholder="Ej: Promoción Black Friday {{ date('Y') }}">
+                                                        placeholder="{{ __('Ej: Promoción Black Friday') }} {{ date('Y') }}">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="campaignCategory"
-                                                        class="form-label fw-semibold required">Categoría</label>
+                                                        class="form-label fw-semibold required">{{ __('Categoría') }}</label>
                                                     <select class="form-select" name="categoria" data-control="select2" data-dropdown-parent="body"
-                                                        data-placeholder="Categoría" data-allow-clear="true" required
+                                                        data-placeholder="{{ __('Categoría') }}" data-allow-clear="true" required
                                                         id="campaignCategory" data-hide-search="true">
                                                         <option value=""></option>
                                                         @foreach ($categorias as $item)
-                                                            <option value="{{ $item?->codigo }}">{{ $item?->nombre }}</option>
+                                                            <option value="{{ $item?->codigo }}">{{ __($item?->nombre) }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 <div class="col-12">
                                                     <label for="campaignDescription"
-                                                        class="form-label fw-semibold">Descripción (Opcional)</label>
+                                                        class="form-label fw-semibold">{{ __('Descripción (Opcional)') }}</label>
                                                     <textarea class="form-control" id="campaignDescription" name="descripcion" rows="3"
-                                                        placeholder="Describe brevemente el objetivo de esta campaña..."></textarea>
+                                                        placeholder="{{ __('Describe brevemente el objetivo de esta campaña...') }}"></textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -89,7 +89,10 @@
 
                                     <div class="card campaign-card">
                                         <div class="card-header card-header-custom">
-                                            <h5 class="text-white"><i class="bi bi-clock-fill fs-2 text-white"></i> Configuración de Envío</h5>
+                                            <h5 class="text-white">
+                                                <i class="bi bi-clock-fill fs-2 text-white"></i>
+                                                {{ __('Configuración de Envío') }}
+                                            </h5>
                                         </div>
                                         <div class="card-body p-4">
                                             <div class="row g-3">
@@ -98,8 +101,8 @@
                                                         <input class="form-check-input" type="radio" name="estado"
                                                             id="sendNow" value="1" checked>
                                                         <label class="form-check-label fw-semibold" for="sendNow">
-                                                            <i class="las la-paper-plane me-2 fs-3 text-success"></i>Enviar
-                                                            Ahora
+                                                            <i class="las la-paper-plane me-2 fs-3 text-success"></i>
+                                                            {{ __('Enviar Ahora') }}
                                                         </label>
                                                     </div>
                                                     <div class="form-check form-check-inline">
@@ -107,19 +110,19 @@
                                                             id="sendScheduled" value="2">
                                                         <label class="form-check-label fw-semibold"
                                                             for="sendScheduled">
-                                                            <i class="bi bi-calendar-event me-2 text-warning"></i>Programar
-                                                            Envío
+                                                            <i class="bi bi-calendar-event me-2 text-warning"></i>
+                                                            {{ __('Programar Envío') }}
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 d-none" id="scheduledFields">
                                                     <label for="scheduleDate"
-                                                        class="form-label fw-semibold">Fecha</label>
+                                                        class="form-label fw-semibold">{{ __('Fecha') }}</label>
                                                     <input type="date" placeholder="DD/MM/AAA" name="fecha" class="form-control" id="scheduleDate">
                                                 </div>
                                                 <div class="col-md-6 d-none" id="scheduledTimeField">
                                                     <label for="scheduleTime"
-                                                        class="form-label fw-semibold">Hora</label>
+                                                        class="form-label fw-semibold">{{ __('Hora') }}</label>
                                                     <input type="time" placeholder="00:00" name="hora" class="form-control" id="scheduleTime">
                                                 </div>
                                             </div>
@@ -133,16 +136,15 @@
                                         <div class="card-header card-header-custom">
                                             <h5 class="text-white">
                                                 <i class="bi bi-chat-text-fill fs-2 text-white"></i>
-                                                Contenido del Mensaje
+                                                {{ __('Contenido del Mensaje') }}
                                             </h5>
                                         </div>
                                         <div class="card-body p-4">
                                             <div class="row g-3">
                                                 <div class="col-12">
-                                                    <label for="messageContent" class="form-label required fw-semibold">Texto
-                                                        del Mensaje</label>
+                                                    <label for="messageContent" class="form-label required fw-semibold">{{ __('Texto del Mensaje') }}</label>
                                                     <select name="id_plantilla" id="selectPlantilla" class="form-control" data-control="select2"
-                                                        data-placeholder="Plantilla" required data-dropdown-parent="body" data-allow-clear="true">
+                                                        data-placeholder="{{ __('Plantilla') }}" required data-dropdown-parent="body" data-allow-clear="true">
                                                         <option></option>
                                                         @foreach ($plantillas as $plantilla)
                                                             <option value="{{$plantilla->id}}">{{($plantilla?->name ?? 'N/A')." - ".($plantilla?->body?->text ?? 'N/A')}}</option>
@@ -158,57 +160,27 @@
                                                             <div class="form-check form-switch form-check-custom form-check-solid">
                                                                 <input class="form-check-input" type="checkbox" value="" id="checkUsarRecurso"/>
                                                                 <label class="form-check-label" for="checkUsarRecurso">
-                                                                    Usar recurso de META
+                                                                    {{ __('Usar recurso de META') }}
                                                                 </label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="separator separator-dashed separator-content border-primary my-15 d-none seccionEncabezado">
-                                                    <span class="h4 text-primary">Variable dinámicas del encabezado</span>
+                                                    <span class="h4 text-primary">{{ __('Variable dinámicas del encabezado') }}</span>
                                                 </div>
                                                 <div class="col-lg-12 col-md-12">
                                                     <div class="row mb-3 d-none seccionEncabezado">
-                                                        <input type="text" name="header_text" placeholder="Ingrese valor de variable del encabezado" class="form-control">
+                                                        <input type="text" name="header_text" placeholder="{{ __('Ingrese valor de variable del encabezado') }}" class="form-control">
                                                     </div>
                                                 </div>
                                                 <div class="separator separator-dashed separator-content border-primary my-15 d-none" id="divTituloVariable">
-                                                    <span class="h4 text-primary">Variables dinámicas del contenido</span>
+                                                    <span class="h4 text-primary">{{ __('Variables dinámicas del contenido') }}</span>
                                                 </div>
                                                 <div class="row mb-7" id="divVariables">
                                                 </div>
                                                 <div class="row mb-7" id="divUrl">
                                                 </div>
-                                                {{-- <div class="col-12">
-                                                    <label class="form-label fw-semibold">Variables Dinámicas</label>
-                                                    <div class="d-flex flex-wrap gap-2 mb-3">
-                                                        <span class="variable-tag"
-                                                            onclick="">{nombre}</span>
-                                                        <span class="variable-tag"
-                                                            onclick="">{apellido}</span>
-                                                        <span class="variable-tag"
-                                                            onclick="">{empresa}</span>
-                                                        <span class="variable-tag"
-                                                            onclick="">{teléfono}</span>
-                                                        <span class="variable-tag"
-                                                            onclick="">{email}</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox"
-                                                            id="attachFile">
-                                                        <label class="form-check-label fw-semibold" for="attachFile">
-                                                            <i class="bi bi-paperclip me-2"></i>Adjuntar Archivo
-                                                        </label>
-                                                    </div>
-                                                    <div id="fileUpload" style="display: none;" class="mt-3">
-                                                        <input type="file" class="form-control"
-                                                            accept="image/*,.pdf,.doc,.docx">
-                                                        <div class="form-text">Formatos permitidos: JPG, PNG, PDF, DOC,
-                                                            DOCX (máx. 16MB)</div>
-                                                    </div>
-                                                </div> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -220,14 +192,14 @@
                                         <div class="card-header card-header-custom">
                                             <h5 class="text-white">
                                                 <i class="bi bi-people-fill fs-2 text-white"></i>
-                                                Selección de Destinatarios
+                                                {{ __('Selección de Destinatarios') }}
                                             </h5>
                                         </div>
                                         <div class="card-body p-4">
                                             <div class="row g-3 mb-4">
                                                 <div class="col-md-12">
                                                     <select name="etiquetas" id="selectEtiqueta" class="form-control" data-control="select2"
-                                                        data-placeholder="Etiquetas" data-allow-clear="true" required
+                                                        data-placeholder="{{ __('Etiquetas') }}" data-allow-clear="true" required
                                                         data-dropdown-parent="body">
                                                         <option></option>
                                                         @foreach ($etiquetas as $etiqueta)
@@ -235,11 +207,6 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                {{-- <div class="col-md-3">
-                                                    <button class="btn btn-secondary-custom w-100">
-                                                        <i class="bi bi-funnel-fill me-2"></i>Filtros Avanzados
-                                                    </button>
-                                                </div> --}}
                                             </div>
 
                                             <div class="contacts-table">
@@ -253,10 +220,10 @@
                                                                             <input class="form-check-input checkSeleccionarTodos" type="checkbox" value="" id="seleccionarTodos" checked/>
                                                                         </div>
                                                                     </th>
-                                                                    <th width="10%" class="text-center all">Contacto</th>
-                                                                    <th width="10%" class="text-center all">Telefono</th>
-                                                                    <th width="10%" class="text-center all">Etiqueta</th>
-                                                                    <th width="10%" class="text-center all">Última Interacción</th>
+                                                                    <th width="10%" class="text-center all">{{ __('Contacto') }}</th>
+                                                                    <th width="10%" class="text-center all">{{ __('Telefono') }}</th>
+                                                                    <th width="10%" class="text-center all">{{ __('Etiqueta') }}</th>
+                                                                    <th width="10%" class="text-center all">{{ __('Última Interacción') }}</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody></tbody>
@@ -274,31 +241,31 @@
                                         <div class="card-header card-header-custom">
                                             <h5 class="text-white">
                                                 <i class="bi bi-check-circle-fill fs-2 text-white"></i>
-                                                Resumen de la Campaña
+                                                {{ __('Resumen de la Campaña') }}
                                             </h5>
                                         </div>
                                         <div class="card-body p-4">
                                             <div class="row g-4">
                                                 <div class="col-md-6">
-                                                    <h6 class="fw-bold text-muted mb-3">INFORMACIÓN GENERAL</h6>
-                                                    <div class="mb-2"><strong>Nombre:</strong> <span
+                                                    <h6 class="fw-bold text-muted mb-3">{{ __('INFORMACIÓN GENERAL') }}</h6>
+                                                    <div class="mb-2"><strong>{{ __('Nombre:') }}</strong> <span
                                                             id="summaryName">-</span></div>
-                                                    <div class="mb-2"><strong>Categoría:</strong> <span
+                                                    <div class="mb-2"><strong>{{ __('Categoría:') }}</strong> <span
                                                             id="summaryCategory">-</span></div>
-                                                    <div class="mb-2"><strong>Tipo de Envío:</strong> <span
+                                                    <div class="mb-2"><strong>{{ __('Tipo de Envío:') }}</strong> <span
                                                             id="summarySendType">-</span></div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <h6 class="fw-bold text-muted mb-3">DESTINATARIOS</h6>
-                                                    <div class="mb-2"><strong>Total Seleccionados:</strong> <span
+                                                    <h6 class="fw-bold text-muted mb-3">{{ __('DESTINATARIOS') }}</h6>
+                                                    <div class="mb-2"><strong>{{ __('Total Seleccionados:') }}</strong> <span
                                                             id="summaryContacts">0</span></div>
-                                                    <div class="mb-2"><strong>Costo Estimado:</strong> <span
+                                                    <div class="mb-2"><strong>{{ __('Costo Estimado:') }}</strong> <span
                                                             class="text-success fw-bold">$0.00</span></div>
                                                 </div>
                                                 <div class="col-12">
-                                                    <h6 class="fw-bold text-muted mb-3">CONTENIDO</h6>
+                                                    <h6 class="fw-bold text-muted mb-3">{{ __('CONTENIDO') }}</h6>
                                                     <div class="bg-light p-3 rounded" id="summaryMessage">
-                                                        <em class="text-muted">El mensaje aparecerá aquí...</em>
+                                                        <em class="text-muted">{{ __('El mensaje aparecerá aquí...') }}</em>
                                                     </div>
                                                 </div>
                                             </div>
@@ -307,23 +274,22 @@
 
                                     <div class="alert alert-info" role="alert">
                                         <i class="bi bi-info-circle-fill me-2"></i>
-                                        <strong>Importante:</strong> Una vez lanzada la campaña, no podrás modificar el
-                                        contenido ni detener el envío.
+                                        <strong>{{ __('Importante:') }}</strong> {{ __('Una vez lanzada la campaña, no podrás modificar el contenido ni detener el envío.') }}
                                     </div>
                                 </div>
 
                                 <!-- Navigation Buttons -->
                                 <div class="d-flex justify-content-between mt-4">
                                     <button type="button" class="btn btn-outline btn-outline-dashed btn-outline-secondary btn-active-light-secondary" id="prevBtn" style="display: none;">
-                                        <i class="bi bi-arrow-left me-2"></i>Anterior
+                                        <i class="bi bi-arrow-left me-2"></i>{{ __('Anterior') }}
                                     </button>
                                     <div class="ms-auto">
                                         <button type="button" class="btn btn-primary-custom text-white" id="nextBtn">
-                                            Siguiente <i class="bi bi-arrow-right ms-2"></i>
+                                            {{ __('Siguiente') }} <i class="bi bi-arrow-right ms-2 text-white"></i>
                                         </button>
                                         <button type="submit" class="btn btn-secondary-custom" id="launchBtn"
                                              style="display: none;">
-                                            <i class="bi bi-rocket-takeoff-fill me-2"></i>Lanzar Campaña
+                                            <i class="bi bi-rocket-takeoff-fill me-2"></i>{{ __('Lanzar Campaña') }}
                                         </button>
                                     </div>
                                 </div>
@@ -334,15 +300,15 @@
                                 <div class="phone-preview">
                                     <h6 class="fw-bold mb-3 text-center">
                                         <i class="bi bi-phone-fill fs-2 me-2" style="color: var(--primary-color);"></i>
-                                        Vista Previa
+                                        {{ __('Vista Previa') }}
                                     </h6>
                                     <div class="phone-mockup">
                                         <div class="phone-screen">
                                             <div class="phone-header">
-                                                <div class="contact-avatar">JD</div>
+                                                <div class="contact-avatar">{{ __('JD') }}</div>
                                                 <div class="contact-info">
-                                                    <h6 class="text-white">Juan Pérez</h6>
-                                                    <small>en línea</small>
+                                                    <h6 class="text-white">{{ __('Juan Pérez') }}</h6>
+                                                    <small>{{ __('en línea') }}</small>
                                                 </div>
                                             </div>
                                             <div class="chat-area conversation conversation-container">
@@ -357,7 +323,7 @@
                                     <div class="text-center mt-3">
                                         <small class="text-muted">
                                             <i class="bi bi-info-circle me-1"></i>
-                                            Vista previa aproximada del mensaje
+                                            {{ __('Vista previa aproximada del mensaje') }}
                                         </small>
                                     </div>
                                 </div>

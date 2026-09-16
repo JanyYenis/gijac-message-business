@@ -43,6 +43,7 @@ class SincronizarPlantillasCommand extends Command
             ->where('app_id', $appId)
             ->get();
 
+        $plantillas_activas = [];
         foreach ($configuraciones as $config) {
             $url = "https://graph.facebook.com/{$config->version}/{$config->waba_id}/message_templates";
             $metodo = 'GET';
@@ -51,6 +52,7 @@ class SincronizarPlantillasCommand extends Command
 
             $templates = $obj?->data ?? [];
             foreach ($templates as $tpl) {
+                $plantillas_activas[] = $tpl->id;
                 // Guardar la plantilla principal
                 $template = Plantilla::updateOrCreate([
                     'id' => $tpl->id,
@@ -76,6 +78,11 @@ class SincronizarPlantillasCommand extends Command
                         'example' => isset($comp->example) ? json_encode($comp->example) : null,
                     ]);
                 }
+            }
+
+            $plantillas_eliminar = Plantilla::whereNotIn('id', $plantillas_activas)->get();
+            foreach ($plantillas_eliminar as $plantilla) {
+                $plantilla->update(['status' => Plantilla::ELIMINADO]);
             }
         }
 

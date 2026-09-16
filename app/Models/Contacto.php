@@ -137,21 +137,36 @@ class Contacto extends Model
 
     public function getPermisoEnvioAttribute()
     {
-        $uuid = $this->cod_empresa ?? null;
         $configuracion_meta = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-            ->where('cod_empresa', $uuid)
+            ->where('cod_empresa', $this->cod_empresa)
             ->first();
 
         if (!$configuracion_meta) {
             return false;
         }
 
-        return Mensaje::where('wa_to', $this->numero_completo)
-            ->where('wa_from', $configuracion_meta->phone_number_id)
+        // Último mensaje que el contacto te envió (abre ventana de 24h)
+        $ultimoMensajeUsuario = Mensaje::where('wa_from', $this->numero_completo)
+            ->where('wa_to', $configuracion_meta->phone_number_id)
+            ->max('created_at');
+
+        // Última plantilla tuya entregada o leída (también abre/reinicia ventana)
+        $ultimaPlantillaEntregada = Mensaje::where('wa_from', $configuracion_meta->phone_number_id)
+            ->where('wa_to', $this->numero_completo)
             ->where('type', Mensaje::PLANTILLA)
-            ->whereNot('estado', Mensaje::FALLIDO)
-            ->whereDate('created_at', Carbon::now())
-            ->exists() ? false : true;
+            ->whereIn('estado', [Mensaje::ENTREGADO, Mensaje::LEIDO])
+            ->max('updated_at');
+
+        $inicioVentana = collect([$ultimoMensajeUsuario, $ultimaPlantillaEntregada])
+            ->filter()
+            ->map(fn ($fecha) => Carbon::parse($fecha))
+            ->max();
+
+        if (!$inicioVentana) {
+            return false;
+        }
+
+        return $inicioVentana->diffInHours(Carbon::now()) < 24;
     }
 
     public function conversacion()

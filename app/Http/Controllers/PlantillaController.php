@@ -123,7 +123,6 @@ class PlantillaController extends Controller
 
     public function store(Request $request, TemplatesService $templatesService, MediaService $uploadService)
     {
-        // dd($request->all());
         // El frontend ya envía el payload completo y correcto en el formato
         // de Meta (buildMetaPayload() -> name, language, category, components).
         $payload = json_decode($request->input('payload'), true);
@@ -364,7 +363,7 @@ class PlantillaController extends Controller
         $respuestaMeta = $templatesService->updateTemplateFromComponents(
             $this->version,
             $this->token,
-            $plantilla->meta_id,
+            $plantilla->id,
             $payload['name'],
             $payload['language'],
             $payload['category'],
@@ -427,7 +426,7 @@ class PlantillaController extends Controller
             throw new ErrorException("No se pudo eliminar la plantilla.");
         }
 
-        app(TemplatesService::class)->deleteMessageTemplate($plantilla->name);
+        app(TemplatesService::class)->deleteMessageTemplate($this->version, $this->token, $this->waba_id, $plantilla->name);
 
         return [
             'estado'  => 'success',

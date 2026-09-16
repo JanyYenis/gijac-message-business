@@ -12,6 +12,7 @@ class Plantilla extends Model
     const APROBADO  = 1;
     const PENDIENTE = 2;
     const RECHAZADO = 3;
+    const ELIMINADO = 4;
 
     const VALIDAR_VALOR_ESTADO = [
         'APPROVED' => self::APROBADO,

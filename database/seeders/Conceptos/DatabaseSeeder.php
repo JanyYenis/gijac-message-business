@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             ChatbotIaSeeder::class,
             MensajeSeeder::class,
             IdiomasSeeder::class,
+            PlantillaSeeder::class,
         ]);
     }
 }

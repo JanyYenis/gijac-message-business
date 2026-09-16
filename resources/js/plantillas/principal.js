@@ -133,7 +133,7 @@ const eliminar = (id) => {
 
     const success = (response) => {
         if (response.estado == 'success') {
-            window.listadoPlantillas();
+            window.sincronizarPlantillas();
         }
         generalidades.ocultarCargando('body');
         generalidades.toastrGenerico(response?.estado, response?.mensaje);

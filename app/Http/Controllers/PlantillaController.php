@@ -192,8 +192,9 @@ class PlantillaController extends Controller
 
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => $error['error']['error']['message']
-                    ?? $error['message']
+                'mensaje' => $error['error']['error']['error_user_msg']
+                    ?? $error['error']['error']['error_user_title']
+                    ?? $error['error']['error']['error_user_msgmessage']
                     ?? 'Meta rechazó la plantilla.',
                 'validaciones' => [],
             ], $respuestaMeta->getStatusCode());

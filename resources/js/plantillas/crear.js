@@ -1082,8 +1082,8 @@
 
     $(document).on('hidden.bs.modal', modalCrearPlantilla, function (e) {
         generalidades.resetValidate(formCrearPlantilla);
-        $('#tplCategory').empty().trigger('change');
-        $('#tplLanguage').empty().trigger('change');
+        $('#tplCategory').val(null).trigger('change');
+        $('#tplLanguage').val(null).trigger('change');
     });
 
 

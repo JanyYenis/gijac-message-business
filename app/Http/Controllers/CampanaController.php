@@ -86,6 +86,13 @@ class CampanaController extends Controller
             if ((int) $request->input('tipo')) {
                 $query->where('campanas.tipo', (int) $request->input('tipo'));
             }
+            if ($request->input('busqueda')) {
+                $busqueda = $request->get("busqueda");
+                $filtro = "%$busqueda%";
+                $query->whereRaw("LOWER(campanas.nombre) LIKE LOWER(?)", $filtro)
+                    ->orWhereRaw("LOWER(campanas.descripcion) LIKE LOWER(?)", $filtro)
+                    ->orWhereRaw("LOWER(campanas.contenido) LIKE LOWER(?)", $filtro);
+            }
         });
 
         return DataTables::eloquent($campanas)

@@ -9,11 +9,21 @@ $(function () {
     iniciarComponentes();
 });
 
-$(document).on('click', '#btnTabListadoTarjetas', function(){
+$(document).on('click', '#btnTabListadoTarjetas', function() {
+
     cargarListado();
+
+    // Botones
+    $('#btnTabListadoTarjetas').addClass('active');
+    $('#toTable').removeClass('active');
+
+    // Contenido
+    $('#tabListadoCampanasTarjeta').addClass('show active');
+    $('#tabListadoCampanasTabla').removeClass('show active');
 });
 
 const iniciarComponentes = (form = '') => {
+    window.cargarListado();
 }
 
 $(document).on("click", btnPagina, function () {
@@ -28,6 +38,9 @@ window.cargarListado = (pagina = 1) => {
     let datos = new FormData();
     datos = generalidades.formToJson(datos);
     datos.pagina = pagina;
+    datos.estado = $('#quickChips .chip.active').attr('data-quick') ?? 10;
+    datos.tipo = $('#fType').val() ?? null;
+    datos.busqueda = $('#q').val().trim() ?? null;
     const ruta = route(rutaCargarListadoCamapanas, datos);
     generalidades.refrescarSeccion(null, ruta, seccionListadoCampanas, function (response) {
         generalidades.ocultarCargando(seccionListadoCampanas);

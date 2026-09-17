@@ -53,12 +53,11 @@ class CampanaController extends Controller
         $info['plantillas'] = Plantilla::with('body')
             ->where('status', Plantilla::APROBADO)
             ->where('cod_config', $this->cod_config)
-            ->whereHas('componentes', function($query) {
-                $query->whereNot('format', PlantillaComponente::LOCALIZACION);
-            })
             ->get();
         $info['numeroTel'] = $this->numeroG;
         $info['categorias'] = Campana::darCategoria();
+        $info['estados'] = Campana::darEstados();
+        $info['tipos'] = Campana::darTipo();
 
         return view('campanas.index', $info);
     }
@@ -77,9 +76,16 @@ class CampanaController extends Controller
             ->with('infoEstado')
             ->orderByDesc('fecha_envio');
 
-        $campanas = $campanas->where(function($query) {
+        $campanas = $campanas->where(function($query) use($request) {
             $query->where('campanas.uuid', $this->uuid)
                 ->orWhere('campanas.cod_empresa', auth()->user()->empresa->id);
+
+            if (in_array((int) $request->input('estado'), Campana::ESTADOS)) {
+                $query->where('campanas.estado', (int) $request->input('estado'));
+            }
+            if ((int) $request->input('tipo')) {
+                $query->where('campanas.tipo', (int) $request->input('tipo'));
+            }
         });
 
         return DataTables::eloquent($campanas)
@@ -117,11 +123,27 @@ class CampanaController extends Controller
         $campanasQuery = Campana::with(
             'enviosActivos',
             'usuario',
-            'infoEstado'
+            'infoEstado',
+            'plantilla',
+            'mensajesAbiertos',
         )
-        ->where(function($query) {
+        ->where(function($query) use($request) {
             $query->where('uuid', $this->uuid)
                 ->orWhere('cod_empresa', auth()->user()->empresa->id);
+
+            if (in_array((int) $request->input('estado'), Campana::ESTADOS)) {
+                $query->where('campanas.estado', (int) $request->input('estado'));
+            }
+            if ((int) $request->input('tipo')) {
+                $query->where('campanas.tipo', (int) $request->input('tipo'));
+            }
+            if ($request->input('busqueda')) {
+                $busqueda = $request->get("busqueda");
+                $filtro = "%$busqueda%";
+                $query->whereRaw("LOWER(campanas.nombre) LIKE LOWER(?)", $filtro)
+                    ->orWhereRaw("LOWER(campanas.descripcion) LIKE LOWER(?)", $filtro)
+                    ->orWhereRaw("LOWER(campanas.contenido) LIKE LOWER(?)", $filtro);
+            }
         })
         ->orderByDesc('fecha_envio');
 

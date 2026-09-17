@@ -1,5 +1,7 @@
 "use strict";
 
+let buscadorTimeout;
+
 $(function () {
     iniciarComponentes();
 });
@@ -89,6 +91,67 @@ $(document).on('click', '.btnReenviar', function(){
 
     generalidades.get(route('campanas.reenviar', {campana: id}), config, success, error);
     generalidades.mostrarCargando('body');
+});
+
+$(document).on('click', '#toTable', function() {
+
+    window.listadoCampana();
+
+    // Botones
+    $('#toTable').addClass('active');
+    $('#btnTabListadoTarjetas').removeClass('active');
+
+    // Contenido
+    $('#tabListadoCampanasTabla').addClass('show active');
+    $('#tabListadoCampanasTarjeta').removeClass('show active');
+});
+
+$(document).on('click', '#quickChips .chip', function () {
+
+    // Cambiar chip activo
+    $('#quickChips .chip').removeClass('active');
+    $(this).addClass('active');
+
+    // Si está visible la vista de tarjetas
+    if ($('#tabListadoCampanasTarjeta').hasClass('show active')) {
+        window.cargarListado();
+    }
+
+    // Si está visible la vista de tabla
+    if ($('#tabListadoCampanasTabla').hasClass('show active')) {
+        window.listadoCampana();
+    }
+});
+
+$(document).on('change', '#fType', function() {
+    // Si está visible la vista de tarjetas
+    if ($('#tabListadoCampanasTarjeta').hasClass('show active')) {
+        window.cargarListado();
+    }
+
+    // Si está visible la vista de tabla
+    if ($('#tabListadoCampanasTabla').hasClass('show active')) {
+        window.listadoCampana();
+    }
+});
+
+$(document).on('input', '#q', function () {
+
+    clearTimeout(buscadorTimeout);
+
+    buscadorTimeout = setTimeout(function () {
+
+        // Vista de tarjetas
+        if ($('#tabListadoCampanasTarjeta').hasClass('show active')) {
+            cargarListado();
+        }
+
+        // Vista de tabla
+        else if ($('#tabListadoCampanasTabla').hasClass('show active')) {
+            window.listadoCampana();
+        }
+
+    }, 500); // Espera 500 ms después de dejar de escribir
 });
 
 require('./listado');

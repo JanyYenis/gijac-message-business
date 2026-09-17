@@ -71,8 +71,8 @@ class SincronizarPlantillasCommand extends Command
                     PlantillaComponente::updateOrCreate([
                         'plantilla_id' => $template->id,
                         'type' => $comp?->type ? PlantillaComponente::VALIDAR_TIPO[$comp?->type] : PlantillaComponente::BODY,
-                        'format' => property_exists($comp, 'format') && $comp?->format && isset($comp?->format) ? PlantillaComponente::VALIDAR_FORMATO[$comp?->format] : null,
-                    ], [
+                        ], [
+                        'format' => property_exists($comp, 'format') && $comp?->format && isset($comp?->format) ? PlantillaComponente::VALIDAR_FORMATO[$comp?->format] : PlantillaComponente::N_A,
                         'text' => $comp->text ?? null,
                         'buttons' => isset($comp->buttons) ? json_encode($comp->buttons) : null,
                         'example' => isset($comp->example) ? json_encode($comp->example) : null,

@@ -27,6 +27,7 @@ class PlantillaComponente extends Model
     const VIDEO        = 3;
     const DOCUMENTO    = 4;
     const LOCALIZACION = 5;
+    const N_A          = 6;
 
     const VALIDAR_FORMATO = [
         'TEXT'    => self::TEXTO,

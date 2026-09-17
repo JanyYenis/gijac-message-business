@@ -106,8 +106,8 @@
                             <p class="metric-label">{{ __('Mensajes Abiertos') }}</p>
                             @php
                                 if (count($campana?->enviosActivos) && count($campana?->mensajesAbiertos)) {
-                                    $class = round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) >= 50 ? 'positive' : 'negative';
-                                    $icono = round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) >= 50 ? 'fa-arrow-up' : 'fa-arrow-down';
+                                    $class = (count($campana?->mensajesAbiertos) && count($campana?->enviosActivos)) && round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) >= 50 ? 'positive' : 'negative';
+                                    $icono = (count($campana?->mensajesAbiertos) && count($campana?->enviosActivos)) && round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) >= 50 ? 'fa-arrow-up' : 'fa-arrow-down';
                                 } else {
                                     $class = 'negative';
                                     $icono = 'fa-arrow-down';
@@ -146,7 +146,7 @@
                             <div class="metric-icon effectiveness">
                                 <i class="fas fa-chart-pie"></i>
                             </div>
-                            <h3 class="metric-value" id="effectiveness">{{ round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) }}<span style="font-size: 1.5rem;">%</span></h3>
+                            <h3 class="metric-value" id="effectiveness">{{ (count($campana?->mensajesAbiertos) && count($campana?->enviosActivos)) && round((count($campana?->mensajesAbiertos) / count($campana?->enviosActivos)) * 100) }}<span style="font-size: 1.5rem;">%</span></h3>
                             <p class="metric-label">{{ __('Efectividad') }}</p>
                             @php
                                 if (count($campana?->enviosActivos) && count($campana?->mensajesAbiertos)) {

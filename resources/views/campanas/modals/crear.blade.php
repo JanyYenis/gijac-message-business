@@ -144,7 +144,7 @@
                                                 <div class="col-12">
                                                     <label for="messageContent" class="form-label required fw-semibold">{{ __('Texto del Mensaje') }}</label>
                                                     <select name="id_plantilla" id="selectPlantilla" class="form-control" data-control="select2"
-                                                        data-placeholder="{{ __('Plantilla') }}" required data-dropdown-parent="body" data-allow-clear="true">
+                                                        data-placeholder="{{ __('Plantilla') }}" required data-dropdown-parent="#modalCrearCampana" data-allow-clear="true">
                                                         <option></option>
                                                         @foreach ($plantillas as $plantilla)
                                                             <option value="{{$plantilla->id}}">{{($plantilla?->name ?? 'N/A')." - ".($plantilla?->body?->text ?? 'N/A')}}</option>

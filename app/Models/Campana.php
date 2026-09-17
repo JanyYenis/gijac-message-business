@@ -17,6 +17,13 @@ class Campana extends Model
     const CANCELADO  = 3;
     const ELIMINADO  = 0;
 
+    const ESTADOS = [
+        self::ENVIADO,
+        self::PENDIENTE,
+        self::CANCELADO,
+        self::ELIMINADO,
+    ];
+
     const TC_CATEGORIA = 'TC_CATEGORIA';
     const PROMOCIONAL  = 1;
     const INFORMATIVO  = 2;

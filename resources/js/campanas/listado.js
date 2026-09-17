@@ -4,7 +4,7 @@ const tablaCampanas = "#tablaCampanas";
 const rutaCargarListadoCampana = route("campanas.listado");
 
 $(function () {
-    listadoCampana();
+    // listadoCampana();
 });
 
 /**
@@ -27,6 +27,9 @@ window.listadoCampana = () => {
             },
             data: function (data) {
                 generalidades.mostrarCargando(tablaCampanas);
+                data.estado = $('#quickChips .chip.active').attr('data-quick') ?? 10;
+                data.tipo = $('#fType').val() ?? null;
+                data.busqueda = $('#q').val().trim() ?? null;
                 data = Object.assign(data);
             },
             dataSrc: function (json) {
@@ -128,8 +131,8 @@ window.listadoCampana = () => {
             [15, 20, 50, 100, "Todos"]
         ],
         pageLength: 15,
-        dom: `<'row d-flex align-items-center justify-content-end'
-                <'d-flex align-items-center justify-content-end'B>><'row d-flex align-items-center justify-content-between'<'col-sm-6 col-lg-6 col-md-6'l><'col-sm-6 col-lg-6 col-md-6'f>>
+        dom: `<'row d-flex align-items-center justify-content-end'>
+            <'row d-flex align-items-center justify-content-between'<'col-sm-6 col-lg-6 col-md-6'l><'col-sm-6 col-lg-6 col-md-6 text-end'B>>
             <'table-responsive'tr>
             <'row'<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i><'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>>`,
         drawCallback: function(settings) {

@@ -322,10 +322,10 @@ class PlantillaController extends Controller
             ], 422);
         }
 
-        if (empty($plantilla->meta_id)) {
+        if (empty($plantilla->id)) {
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => 'Esta plantilla no tiene un ID de Meta asociado (meta_id); no se puede actualizar en la API.',
+                'mensaje' => 'Esta plantilla no tiene un ID de Meta asociado (id); no se puede actualizar en la API.',
             ], 422);
         }
 

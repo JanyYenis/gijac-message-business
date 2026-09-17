@@ -1,68 +1,133 @@
-<div class="row g-6 g-xl-9">
-    @if (count($campanas))
+<div class="grid">
+     @if (count($campanas))
         @foreach ($campanas as $campana)
-            <!--begin::Col-->
-            <div class="col-md-6 col-xl-4">
-                <!--begin::Card-->
-                <div class="card border-hover-success h-100">
-                    <!--begin::Card header-->
-                    <div class="card-header border-0 pt-9">
-                        <div class="card-title m-0">
-                            <span class="fs-5 badge badge-light-{{$campana?->infoEstado?->color}} fw-bold px-4 py-3">{{( __($campana->infoEstado?->nombre) )}}</span>
-                        </div>
-                        <!--begin::Card toolbar-->
-                        <div class="card-toolbar d-flex flex-column align-items-end">
-                            @component('campanas.columnas.acciones')
-                                @slot('model', $campana)
-                                @slot('estado_eliminado', $campana?->estado == 0)
-                                @slot('estado_enviado', $campana?->estado == 1)
-                                @slot('puede_listado', $puede_listado)
-                                @slot('puede_crear', $puede_crear)
-                                @slot('puede_editar', $puede_editar)
-                                @slot('puede_eliminar', $puede_eliminar)
-                            @endcomponent
-                        </div>
-                        <!--end::Card toolbar-->
+            <article class="c-card in" data-card="c4">
+                <div class="c-head">
+                    <span class="badge-status badge-light-{{$campana?->infoEstado?->color}}">
+                        <span class="dot"></span>
+                        {{( __($campana->infoEstado?->nombre) )}}
+                    </span>
+                    <span class="type-pill">
+                        <i class="{{ $campana?->infoTipo?->icono ?? 'fa-solid fa-align-left' }}"></i>
+                        {{ __($campana->infoTipo->nombre) }}
+                    </span>
+                    <div class="ms-auto">
+                        @component('campanas.columnas.acciones')
+                            @slot('model', $campana)
+                            @slot('estado_eliminado', $campana?->estado == 0)
+                            @slot('estado_enviado', $campana?->estado == 1)
+                            @slot('puede_listado', $puede_listado)
+                            @slot('puede_crear', $puede_crear)
+                            @slot('puede_editar', $puede_editar)
+                            @slot('puede_eliminar', $puede_eliminar)
+                        @endcomponent
                     </div>
-                    <!--end:: Card header-->
-
-                    <!--begin:: Card body-->
-                    <div class="card-body p-9">
-                        @if ($campana->contenido_multimedia)
-                            <!--begin::Avatar-->
-                            <div class="symbol symbol-150px ms-10 bg-light text-center">
-                                <img src="{{ $campana->contenido_multimedia }}" alt="image"
-                                    class="p-3">
-                            </div>
-                            <!--end::Avatar-->
-                        @endif
-                        <!--begin::Description-->
-                        <p class="text-negro fw-normal text-gris fs-4 mt-1 mb-7">
-                            {{ $campana?->contenido ?? '' }}
-                        <!--end::Description-->
-
-                        <!--begin::Info-->
-                        <div class="d-flex flex-column mb-5">
-                            <!--begin::Due-->
-                            <div class="border border-gray-300 border-1 rounded  mb-3 p-3">
-                                <div class="fs-4 text-gris">{{ __('Fecha creación') }}</div>
-                                <div class="fs-3 fw-semibold text-gray-800 fw-bold">{{$campana->created_at}}</div>
-                            </div>
-                            <!--end::Due-->
-                            <!--begin::Due-->
-                            <div class="border border-gray-300 border-1 rounded  mb-3 p-3">
-                                <div class="fs-4 text-gris">{{ __('Fecha envio') }}</div>
-                                <div class="fs-3 fw-semibold text-gray-800 fw-bold">{{$campana->fecha_envio}}</div>
-                            </div>
-                            <!--end::Due-->
-                        </div>
-                        <!--end::Info-->
-                    </div>
-                    <!--end:: Card body-->
                 </div>
-                <!--end::Card-->
-            </div>
-            <!--end::Col-->
+                <h3 class="c-title">{{ $campana->nombre }}</h3>
+                <div class="c-sub">
+                    <span>
+                        <i class="fa-regular fa-user me-1"></i>
+                        {{ $campana?->descripcion ?? 'N/A' }}
+                    </span>
+                </div>
+                <div class="wa-preview">
+                    <div class="bubble">
+                        @if ($campana?->plantilla?->header)
+                            @if ($campana?->plantilla?->header->format == \App\Models\Mensaje::IMAGEN)
+                                <div class="media">
+                                    <img loading="lazy" src="{{ $campana->contenido_multimedia }}" alt="Vista previa de Campaña imagen · C6">
+                                    <span class="media-tag">
+                                        <i class="fa-solid fa-image"></i>
+                                        Imagen
+                                    </span>
+                                </div>
+                            @elseif ($campana?->plantilla?->header->format == \App\Models\Mensaje::VIDEO)
+                                <div class="media">
+                                    <video src="{{ $campana->contenido_multimedia }}" controls style="border-radius: 1rem; width: 100%;"
+                                        class="mb-2"></video>
+                                    <span class="media-tag">
+                                        <i class="fa-solid fa-video"></i>
+                                        Video
+                                    </span>
+                                </div>
+                            @elseif ($campana?->plantilla?->header->format == \App\Models\Mensaje::DOCUMENTO)
+                                <div class="doc-row">
+                                    <div class="ic">
+                                        <i class="fa-regular fa-file-pdf"></i>
+                                    </div>
+                                    <div class="flex-grow-1 min-w-0">
+                                        <div class="fw-semibold text-truncate" style="font-size:12.5px">
+                                            terminos-2026.pdf
+                                        </div>
+                                        <div class="muted" style="font-size:11px">
+                                            PDF · 1.2 MB
+                                        </div>
+                                    </div>
+                                    <i class="fa-solid fa-download" style="color:#8696A0"></i>
+                                </div>
+                            @endif
+                        @endif
+                        <div class="txt">
+                            <span class="clamp" data-clamp="">{{ $campana?->contenido ?? '' }}</span>
+                        </div>
+                        <div class="meta">
+                            {{ $campana?->fecha_envio->translatedFormat('h:i a') }}
+                            <i class="fa-regular fa-clock"></i>
+                        </div>
+                        @if ($campana?->plantilla?->buttons)
+                            <div class="wa-btns">
+                                @foreach (json_decode($campana?->plantilla?->buttons->buttons) as $boton)
+                                    <div class="wa-btn">
+                                        @php
+                                            $icono = 'fa-solid fa-reply';
+                                            if ($boton?->type == 'PHONE_NUMBER') {
+                                                $icono = 'fas fa-phone';
+                                            } elseif ($boton?->type == 'URL') {
+                                                $icono = 'fa-solid fa-arrow-up-right-from-square';
+                                            }
+                                        @endphp
+                                        <i class="{{ $icono }}"></i>
+                                        {{ $boton?->text ?? 'N/A' }}
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="bar">
+                    <span class="b1" style="width:{{ (count($campana?->mensajesAbiertos) && count($campana?->enviosActivos)) && (count($campana?->mensajesAbiertos) / count($campana?->enviosActivos) * 100) }}%"></span>
+                </div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="v">{{ count($campana?->enviosActivos) ?? 0 }}</div>
+                        <div class="l">Enviados</div>
+                    </div>
+                    <div class="metric">
+                        <div class="v">{{ count($campana?->mensajesAbiertos) ?? 0 }}</div>
+                        <div class="l">Entreg.</div>
+                    </div>
+                    <div class="metric">
+                        <div class="v">{{ count($campana?->mensajesAbiertos) ?? 0 }}</div>
+                        <div class="l">Leídos</div>
+                    </div>
+                    <div class="metric fail">
+                        <div class="v">0</div>
+                        <div class="l">Fallidos</div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <div class="dates">
+                    <div class="date-item">
+                        <div class="l">Creada</div>
+                        <div class="v">{{ $campana?->created_at->translatedFormat('d M Y, h:i') }}</div>
+                    </div>
+                    <div class="date-item">
+                        <div class="l">Envío</div>
+                        <div class="v">{{ $campana?->fecha_envio->translatedFormat('d M Y, h:i') }}</div>
+                    </div>
+                </div>
+            </article>
         @endforeach
     @else
         <div class="text-center">
@@ -71,8 +136,8 @@
     @endif
 </div>
 
-@component("campanas.paginado")
-    @slot("catidadDatos", $campanas)
-    @slot("ultimaPagina", $ultimaPagina)
-    @slot("paginaActual", $paginaActual)
+@component('campanas.paginado')
+    @slot('catidadDatos', $campanas)
+    @slot('ultimaPagina', $ultimaPagina)
+    @slot('paginaActual', $paginaActual)
 @endcomponent

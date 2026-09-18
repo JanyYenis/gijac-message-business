@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             MensajeSeeder::class,
             IdiomasSeeder::class,
             PlantillaSeeder::class,
+            CampanaSeeder::class,
         ]);
     }
 }

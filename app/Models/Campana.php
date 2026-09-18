@@ -25,11 +25,14 @@ class Campana extends Model
     ];
 
     const TC_CATEGORIA = 'TC_CATEGORIA';
-    const PROMOCIONAL  = 1;
-    const INFORMATIVO  = 2;
-    const TRANSACIONAL = 3;
-    const RECORDATORIO = 4;
-    const FORMULARIO   = 5;
+    const PROMOCIONAL     = 1;
+    const INFORMATIVO     = 2;
+    const TRANSACIONAL    = 3;
+    const RECORDATORIO    = 4;
+    const FORMULARIO      = 5;
+    const SERVICIO        = 6;
+    const AUTENTICACION   = 7;
+    const OTRO            = 0;
 
     const TC_TIPO_ENVIO = 'TC_TIPO_ENVIO';
     const TEXTO     = 1;

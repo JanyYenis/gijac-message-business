@@ -401,7 +401,7 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3">
                             <a href="{{ route('lang.switch', ['locale' => 'es']) }}"
-                                class="menu-link d-flex px-5 active">
+                                class="menu-link d-flex px-5 {{ $idioma_actual?->nombre_corto == 'es' ? 'active' : '' }}">
                                 <span class="symbol symbol-20px me-4">
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/spain.svg')}}"
@@ -415,7 +415,7 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3">
                             <a href="{{ route('lang.switch', ['locale' => 'en']) }}"
-                                class="menu-link d-flex px-5">
+                                class="menu-link d-flex px-5 {{ $idioma_actual?->nombre_corto == 'en' ? 'active' : '' }}">
                                 <span class="symbol symbol-20px me-4">
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/united-states.svg')}}"
@@ -429,7 +429,7 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3">
                             <a href="{{ route('lang.switch', ['locale' => 'de']) }}"
-                                class="menu-link d-flex px-5">
+                                class="menu-link d-flex px-5 {{ $idioma_actual?->nombre_corto == 'de' ? 'active' : '' }}">
                                 <span class="symbol symbol-20px me-4">
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/germany.svg')}}"
@@ -443,7 +443,7 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3">
                             <a href="{{ route('lang.switch', ['locale' => 'ja']) }}"
-                                class="menu-link d-flex px-5">
+                                class="menu-link d-flex px-5 {{ $idioma_actual?->nombre_corto == 'ja' ? 'active' : '' }}">
                                 <span class="symbol symbol-20px me-4">
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/japan.svg')}}"
@@ -457,7 +457,7 @@
                         <!--begin::Menu item-->
                         <div class="menu-item px-3">
                             <a href="{{ route('lang.switch', ['locale' => 'fr']) }}"
-                                class="menu-link d-flex px-5">
+                                class="menu-link d-flex px-5 {{ $idioma_actual?->nombre_corto == 'fr' ? 'active' : '' }}">
                                 <span class="symbol symbol-20px me-4">
                                     <img class="rounded-1"
                                         src="{{asset('assets/media/flags/france.svg')}}"

@@ -1539,6 +1539,17 @@
         .offcanvas {
             border-left: 1px solid var(--border);
         }
+
+        .ubic {
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: .4rem;
+            background: #D7DBDB;
+            display: grid;
+            place-items: center;
+            min-height: 118px;
+            color: #667085;
+        }
     </style>
 @endsection
 
@@ -1581,7 +1592,7 @@
                     data-placeholder="{{ __('Tipo de plantilla') }}" data-allow-clear="true" data-hide-search="true">
                     <option value=""></option>
                     @foreach ($tipos as $tipo)
-                        <option value="{{ $tipo->codigo }}">{{ $tipo->nombre }}</option>
+                        <option value="{{ $tipo->codigo }}">{{ __($tipo->nombre) }}</option>
                     @endforeach
                 </select>
             </div>
@@ -1597,9 +1608,9 @@
             </div>
         </div>
         <div class="chips" id="quickChips">
-            <span class="chip active" data-quick="10">Todas</span>
+            <span class="chip active" data-quick="10">{{ __('Todas') }}</span>
             @foreach ($estados as $estado)
-                <span class="chip" data-quick="{{ $estado->codigo }}">{{ $estado->nombre }}</span>
+                <span class="chip" data-quick="{{ $estado->codigo }}">{{ __($estado->nombre) }}</span>
             @endforeach
         </div>
     </div>

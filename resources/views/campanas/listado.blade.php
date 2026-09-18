@@ -33,7 +33,7 @@
                 <div class="wa-preview">
                     <div class="bubble">
                         @if ($campana?->plantilla?->header)
-                            @if ($campana?->plantilla?->header->format == \App\Models\Mensaje::IMAGEN)
+                            @if ($campana?->plantilla?->header->format == \App\Models\PlantillaComponente::IMAGEN)
                                 <div class="media">
                                     <img loading="lazy" src="{{ $campana->contenido_multimedia }}" alt="Vista previa de Campaña imagen · C6">
                                     <span class="media-tag">
@@ -41,7 +41,7 @@
                                         Imagen
                                     </span>
                                 </div>
-                            @elseif ($campana?->plantilla?->header->format == \App\Models\Mensaje::VIDEO)
+                            @elseif ($campana?->plantilla?->header->format == \App\Models\PlantillaComponente::VIDEO)
                                 <div class="media">
                                     <video src="{{ $campana->contenido_multimedia }}" controls style="border-radius: 1rem; width: 100%;"
                                         class="mb-2"></video>
@@ -50,7 +50,7 @@
                                         Video
                                     </span>
                                 </div>
-                            @elseif ($campana?->plantilla?->header->format == \App\Models\Mensaje::DOCUMENTO)
+                            @elseif ($campana?->plantilla?->header->format == \App\Models\PlantillaComponente::DOCUMENTO)
                                 @php
                                     $nombre = basename($campana->contenido_multimedia);
                                     $extension = pathinfo($campana->contenido_multimedia, PATHINFO_EXTENSION);
@@ -75,6 +75,10 @@
                                         <i class="fa-solid fa-download" style="color:#8696A0"></i>
                                     </a>
                                 </div>
+                                @elseif ($campana?->plantilla?->header->format == \App\Models\PlantillaComponente::LOCALIZACION)
+                                    <div class="ubic">
+                                        <i class="fa-solid fa-location-dot fa-2x"></i>
+                                    </div>
                             @endif
                         @endif
                         <div class="txt">

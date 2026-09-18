@@ -51,19 +51,29 @@
                                     </span>
                                 </div>
                             @elseif ($campana?->plantilla?->header->format == \App\Models\Mensaje::DOCUMENTO)
+                                @php
+                                    $nombre = basename($campana->contenido_multimedia);
+                                    $extension = pathinfo($campana->contenido_multimedia, PATHINFO_EXTENSION);
+                                    $nombreSinExtension = pathinfo($campana->contenido_multimedia, PATHINFO_FILENAME);
+                                    $headers = get_headers($campana->contenido_multimedia, true);
+                                    $tamano = $headers['Content-Length'] ?? 0;
+                                    $tamanoMB = round($tamano / 1024 / 1024, 2);
+                                @endphp
                                 <div class="doc-row">
                                     <div class="ic">
                                         <i class="fa-regular fa-file-pdf"></i>
                                     </div>
                                     <div class="flex-grow-1 min-w-0">
                                         <div class="fw-semibold text-truncate" style="font-size:12.5px">
-                                            terminos-2026.pdf
+                                            {{ $nombre }}
                                         </div>
                                         <div class="muted" style="font-size:11px">
-                                            PDF · 1.2 MB
+                                            {{ $extension }} · {{ $tamanoMB }} MB
                                         </div>
                                     </div>
-                                    <i class="fa-solid fa-download" style="color:#8696A0"></i>
+                                    <a href="{{ $campana->contenido_multimedia }}">
+                                        <i class="fa-solid fa-download" style="color:#8696A0"></i>
+                                    </a>
                                 </div>
                             @endif
                         @endif

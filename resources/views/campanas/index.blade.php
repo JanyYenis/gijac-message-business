@@ -1588,11 +1588,11 @@
             <div class="ms-auto viewtoggle">
                 <button type="button" class="active" id="btnTabListadoTarjetas">
                     <i class="fa-solid fa-grip"></i>
-                    Tarjetas
+                    {{ __('Tarjetas') }}
                 </button>
                 <button type="button" id="toTable">
                     <i class="fa-solid fa-list"></i>
-                    Tabla
+                    {{ __('Tabla') }}
                 </button>
             </div>
         </div>

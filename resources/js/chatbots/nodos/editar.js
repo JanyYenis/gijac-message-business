@@ -46,7 +46,6 @@ const consultarNodes = () => {
                 currentNodeId++;
                 // Validar que node.type exista en tipo_datos
                 if (!tipo_datos[node.type]) {
-                    console.warn(`Tipo ${node.type} no encontrado para node ${index}`);
                     return; // Saltar este node
                 }
 
@@ -127,82 +126,82 @@ function loadNodeConfigForm(type, node_config = '#nodeConfigForm', btn_save = '#
     const forms = {
         'text': `
             <div class="mb-3">
-                <label class="form-label required"># Nodo</label>
-                <input type="number" class="form-control" id="idNodo" placeholder="# Nodo" required/>
+                <label class="form-label required">${__('# Nodo')}</label>
+                <input type="number" class="form-control" id="idNodo" placeholder="${__('# Nodo')}" required/>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Mensaje de texto</label>
-                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="Escribe el mensaje que enviará el chatbot..." required></textarea>
+                <label class="form-label required">${__('Mensaje de texto')}</label>
+                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="${__('Escribe el mensaje que enviará el chatbot...')}" required></textarea>
             </div>
         `,
         'image': `
             <div class="mb-3">
-                <label class="form-label required"># Nodo</label>
-                <input type="number" class="form-control" id="idNodo" placeholder="# Nodo" required/>
+                <label class="form-label required">${__('# Nodo')}</label>
+                <input type="number" class="form-control" id="idNodo" placeholder="${__('# Nodo')}" required/>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Mensaje de texto</label>
-                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="Escribe el mensaje que acompañará la imagen..." required></textarea>
+                <label class="form-label required">${__('Mensaje de texto')}</label>
+                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="${__('Escribe el mensaje que acompañará la imagen...')}" required></textarea>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Imagen</label>
+                <label class="form-label required">${__('Imagen')}</label>
                 <input type="file" class="form-control" id="nodeImage" accept="image/*" required>
-                <small class="text-muted">Formatos soportados: JPG, PNG, GIF (máx. 5MB)</small>
+                <small class="text-muted">${__('Formatos soportados: JPG, PNG, GIF (máx. 5MB)')}</small>
             </div>
         `,
         'video': `
             <div class="mb-3">
-                <label class="form-label required"># Nodo</label>
-                <input type="number" class="form-control" id="idNodo" placeholder="# Nodo" required/>
+                <label class="form-label required">${__('# Nodo')}</label>
+                <input type="number" class="form-control" id="idNodo" placeholder="${__('# Nodo')}" required/>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Mensaje de texto</label>
-                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="Escribe el mensaje que acompañará el video..." required></textarea>
+                <label class="form-label required">${__('Mensaje de texto')}</label>
+                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="${__('Escribe el mensaje que acompañará el video...')}" required></textarea>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Video</label>
+                <label class="form-label required">${__('Video')}</label>
                 <input type="file" class="form-control" id="nodeVideo" accept="video/*" required>
-                <small class="text-muted">Formatos soportados: MP4 (máx. 16MB)</small>
+                <small class="text-muted">${__('Formatos soportados: MP4 (máx. 16MB)')}</small>
             </div>
         `,
         'document': `
             <div class="mb-3">
-                <label class="form-label required"># Nodo</label>
-                <input type="number" class="form-control" id="idNodo" placeholder="# Nodo" required/>
+                <label class="form-label required">${__('# Nodo')}</label>
+                <input type="number" class="form-control" id="idNodo" placeholder="${__('# Nodo')}" required/>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Mensaje de texto</label>
-                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="Escribe el mensaje que acompañará el documento..." required></textarea>
+                <label class="form-label required">${__('Mensaje de texto')}</label>
+                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="${__('Escribe el mensaje que acompañará el documento..')}." required></textarea>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Documento</label>
+                <label class="form-label required">${__('Documento')}</label>
                 <input type="file" class="form-control" id="nodeDocument" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" required>
-                <small class="text-muted">Formatos soportados: PDF, DOC, XLS, PPT (máx. 100MB)</small>
+                <small class="text-muted">${__('Formatos soportados: PDF, DOC, XLS, PPT (máx. 100MB)')}</small>
             </div>
         `,
         'buttons': `
             <div class="mb-3">
-                <label class="form-label required"># Nodo</label>
-                <input type="number" class="form-control" id="idNodo" placeholder="# Nodo" required/>
+                <label class="form-label required">${__('# Nodo')}</label>
+                <input type="number" class="form-control" id="idNodo" placeholder="${__('# Nodo')}" required/>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Mensaje de texto</label>
-                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="Escribe el mensaje que acompañará los botones..." required></textarea>
+                <label class="form-label required">${__('Mensaje de texto')}</label>
+                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="4{__('Escribe el mensaje que acompañará los botones...')}" required></textarea>
             </div>
             <div class="mb-3">
-                <label class="form-label">Botones (máximo 3)</label>
+                <label class="form-label">${__('Botones (máximo 3)')}</label>
                 <div id="buttonsContainer">
                     <div class="row seccionOpcion">
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label class="form-label required">Texto botón</label>
-                                <input type="text" class="form-control button-text" placeholder="Texto del botón 1" maxlength="20">
+                                <label class="form-label required">${__('Texto botón')}</label>
+                                <input type="text" class="form-control button-text" placeholder="${__('Texto del botón 1')}" maxlength="20">
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="mb-3">
-                                <label class="form-label">Node (opcional)</label>
-                                <input type="number" class="form-control button-node" placeholder="Ingrese el node al que dependera"/>
+                                <label class="form-label">${__('Node (opcional)')}</label>
+                                <input type="number" class="form-control button-node" placeholder="${__('Ingrese el node al que dependera')}"/>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2">
@@ -222,27 +221,27 @@ function loadNodeConfigForm(type, node_config = '#nodeConfigForm', btn_save = '#
         `,
         'list': `
             <div class="mb-3">
-                <label class="form-label required"># Nodo</label>
-                <input type="number" class="form-control" id="idNodo" placeholder="# Nodo" required/>
+                <label class="form-label required">${__('# Nodo')}</label>
+                <input type="number" class="form-control" id="idNodo" placeholder="${__('# Nodo')}" required/>
             </div>
             <div class="mb-3">
-                <label class="form-label required">Mensaje de texto</label>
-                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="Escribe el mensaje que acompañará la lista..." required></textarea>
+                <label class="form-label required">${__('Mensaje de texto')}</label>
+                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="${__('Escribe el mensaje que acompañará la lista...')}" required></textarea>
             </div>
             <div class="mb-3">
-                <label class="form-label">Opciones de la lista</label>
+                <label class="form-label">${__('Opciones de la lista')}</label>
                 <div id="listContainer">
                     <div class="row seccionOpcion">
                         <div class="col-lg-6 col-md-6">
                             <div class="mb-3">
-                                <label class="form-label required">Texto opción</label>
-                                <input type="text" class="form-control list-text" placeholder="Opción 1">
+                                <label class="form-label required">${__('Texto opción')}</label>
+                                <input type="text" class="form-control list-text" placeholder="${__('Opción 1')}">
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="mb-3">
-                                <label class="form-label">Node (opcional)</label>
-                                <input type="number" class="form-control list-node" placeholder="Ingrese el node al que dependera"/>
+                                <label class="form-label">${__('Node (opcional)')}</label>
+                                <input type="number" class="form-control list-node" placeholder="${__('Ingrese el node al que dependera')}"/>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-2">
@@ -262,17 +261,17 @@ function loadNodeConfigForm(type, node_config = '#nodeConfigForm', btn_save = '#
         `,
         'input': `
             <div class="mb-3">
-                <label class="form-label required"># Nodo</label>
-                <input type="number" class="form-control" id="idNodo" placeholder="# Nodo" required/>
+                <label class="form-label required">${__('# Nodo')}</label>
+                <input type="number" class="form-control" id="idNodo" placeholder="${__('# Nodo')}" required/>
             </div>
             <div class="mb-3">
                 <label class="form-label required">Pregunta</label>
-                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="Escribe la pregunta que hará el chatbot..." required></textarea>
+                <textarea class="form-control" id="nodeMessage" rows="3" placeholder="${__('Escribe la pregunta que hará el chatbot...')}" required></textarea>
             </div>
             <div class="mb-3">
-                <label class="form-label">Variable para guardar respuesta</label>
-                <input type="text" class="form-control" id="nodeVariable" placeholder="nombre_usuario">
-                <small class="text-muted">La respuesta del usuario se guardará en esta variable</small>
+                <label class="form-label">${__('Variable para guardar respuesta')}</label>
+                <input type="text" class="form-control" id="nodeVariable" placeholder="${__('nombre_usuario')}">
+                <small class="text-muted">${__('La respuesta del usuario se guardará en esta variable')}</small>
             </div>
         `
     };
@@ -292,13 +291,13 @@ $(document).on('click', '#saveNodeBtnEdit', function() {
 // Save node edit
 function saveNodeEdit() {
     if (!selectedNodeType) {
-        Swal.fire('Error', 'Selecciona un tipo de nodo', 'error');
+        Swal.fire(__('Error'), __('Selecciona un tipo de nodo'), 'error');
         return;
     }
 
     const message = $('#editNodeModal #nodeMessage').val().trim();
     if (!message) {
-        Swal.fire('Error', 'El mensaje es obligatorio', 'error');
+        Swal.fire(__('Error'), __('El mensaje es obligatorio'), 'error');
         return;
     }
 
@@ -380,8 +379,8 @@ function saveNodeEdit() {
     updatePreview();
 
     Swal.fire({
-        title: '¡Nodo agregado!',
-        text: 'El nodo se ha agregado correctamente al flujo',
+        title: __('¡Nodo agregado!'),
+        text: __('El nodo se ha agregado correctamente al flujo'),
         icon: 'success',
         timer: 2000,
         showConfirmButton: false
@@ -391,13 +390,13 @@ function saveNodeEdit() {
 // Save node
 function saveNode() {
     if (!selectedNodeType) {
-        Swal.fire('Error', 'Selecciona un tipo de nodo', 'error');
+        Swal.fire(__('Error'), __('Selecciona un tipo de nodo'), 'error');
         return;
     }
 
     const message = $('#nodeMessage').val().trim();
     if (!message) {
-        Swal.fire('Error', 'El mensaje es obligatorio', 'error');
+        Swal.fire(__('Error'), __('El mensaje es obligatorio'), 'error');
         return;
     }
 
@@ -474,8 +473,8 @@ function saveNode() {
     updatePreview();
 
     Swal.fire({
-        title: '¡Nodo agregado!',
-        text: 'El nodo se ha agregado correctamente al flujo',
+        title: __('¡Nodo agregado!'),
+        text: __('El nodo se ha agregado correctamente al flujo'),
         icon: 'success',
         timer: 2000,
         showConfirmButton: false
@@ -518,7 +517,7 @@ function createNodeHtml(node) {
     if (node.type === 'buttons' && node.buttons) {
         contentHtml = `
             <div class="mb-2">
-                <strong>Botones:</strong>
+                <strong>${__('Botones:')}</strong>
                 ${node.buttons.map(btn => `<span class="badge bg-secondary me-1">${btn}</span>`).join('')}
             </div>
         `;
@@ -528,10 +527,10 @@ function createNodeHtml(node) {
     if (node.connections && node.connections.length > 0) {
         connectionsHtml = `
             <div class="node-connections">
-                <small class="text-muted mb-2 d-block">Conexiones:</small>
+                <small class="text-muted mb-2 d-block">${__('Conexiones:')}</small>
                 ${node.connections.map(conn => `
                     <div class="connection-item">
-                        <span>${conn.response === '*' ? 'Cualquier respuesta' : conn.response}</span>&nbsp;
+                        <span>${conn.response === '*' ? __('Cualquier respuesta') : conn.response}</span>&nbsp;
                         <i class="fas fa-arrow-right text-muted"></i>&nbsp;
                         <span>Nodo ${conn.nextNode}</span>
                     </div>
@@ -544,8 +543,8 @@ function createNodeHtml(node) {
         <div class="flow-node" data-node-id="${node.id}">
             <div class="node-header">
                 <div class="d-flex align-items-center">
-                    <span class="node-type">${typeLabels[node.type] || node.type}</span>
-                    <span class="ms-2 text-muted">Nodo ${node.id}</span>
+                    <span class="node-type">${__(typeLabels[node.type]) || __(node.type)}</span>
+                    <span class="ms-2 text-muted">${__('Nodo')} ${node.id}</span>
                 </div>
                 <div class="node-actions ms-3">
                     <button type="button" class="btn btn-sm btn-light-warning editNode" data-node="${node.id}">
@@ -558,7 +557,7 @@ function createNodeHtml(node) {
             </div>
             <div class="node-content">
                 <div class="mb-2">
-                    <strong>Mensaje:</strong>
+                    <strong>${__('Mensaje:')}</strong>
                     <p class="mb-0 text-muted">${node.message}</p>
                 </div>
                 ${contentHtml}
@@ -584,7 +583,7 @@ function updatePreview() {
         previewContainer.html(`
             <div class="text-center text-muted py-4">
                 <i class="fas fa-comment-dots fa-2x mb-2"></i>
-                <p>La vista previa aparecerá aquí</p>
+                <p>${__('La vista previa aparecerá aquí')}</p>
             </div>
         `);
         return;
@@ -636,7 +635,7 @@ $(document).on('click', '.addButton', function() {
 function addButton(form = '#addNodeModal') {
     const container = $(`${form} #buttonsContainer`);
     if (container.children().length >= 3) {
-        Swal.fire('Límite alcanzado', 'Solo puedes agregar máximo 3 botones', 'warning');
+        Swal.fire(__('Límite alcanzado'), __('Solo puedes agregar máximo 3 botones'), 'warning');
         return;
     }
 
@@ -645,14 +644,14 @@ function addButton(form = '#addNodeModal') {
         <div class="row seccionOpcion">
             <div class="col-lg-6 col-md-6">
                 <div class="mb-3">
-                    <label class="form-label required">Texto botón</label>
-                    <input type="text" class="form-control button-text" placeholder="Texto del botón ${buttonIndex}" maxlength="20">
+                    <label class="form-label required">${__('Texto botón')}</label>
+                    <input type="text" class="form-control button-text" placeholder="${__('Texto del botón')} ${buttonIndex}" maxlength="20">
                 </div>
             </div>
             <div class="col-lg-4 col-md-4">
                 <div class="mb-3">
-                    <label class="form-label">Node (opcional)</label>
-                    <input type="number" class="form-control button-node" placeholder="Ingrese el node al que dependera"/>
+                    <label class="form-label">${__('Node (opcional)')}</label>
+                    <input type="number" class="form-control button-node" placeholder="${__('Ingrese el node al que dependera')}"/>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -685,14 +684,14 @@ function addListOption(form = '#addNodeModal') {
         <div class="row seccionOpcion">
             <div class="col-lg-6 col-md-6">
                 <div class="mb-3">
-                    <label class="form-label required">Texto opción</label>
-                    <input type="text" class="form-control list-text" placeholder="Opción ${optionIndex}">
+                    <label class="form-label required">${__('Texto opción')}</label>
+                    <input type="text" class="form-control list-text" placeholder="${__('Opción')} ${optionIndex}">
                 </div>
             </div>
             <div class="col-lg-4 col-md-4">
                 <div class="mb-3">
-                    <label class="form-label">Node (opcional)</label>
-                    <input type="number" class="form-control list-node" placeholder="Ingrese el node al que dependera"/>
+                    <label class="form-label">${__('Node (opcional)')}</label>
+                    <input type="number" class="form-control list-node" placeholder="${__('Ingrese el node al que dependera')}"/>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2">
@@ -801,14 +800,14 @@ $(document).on('click', '.deleteNode', function() {
 // Delete node
 function deleteNode(nodeId) {
     Swal.fire({
-        title: '¿Eliminar nodo?',
-        text: 'Esta acción no se puede deshacer',
+        title: __('¿Eliminar nodo?'),
+        text: __('Esta acción no se puede deshacer'),
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#dc3545',
         cancelButtonColor: '#6c757d',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: __('Sí, eliminar'),
+        cancelButtonText: __('Cancelar')
     }).then((result) => {
         if (result.isConfirmed) {
             currentChatbot.nodes = currentChatbot.nodes.filter(n => n.id !== nodeId);
@@ -828,8 +827,8 @@ function deleteNode(nodeId) {
             updatePreview();
 
             Swal.fire({
-                title: '¡Eliminado!',
-                text: 'El nodo ha sido eliminado correctamente',
+                title: __('¡Eliminado!'),
+                text: __('El nodo ha sido eliminado correctamente'),
                 icon: 'success',
                 timer: 2000,
                 showConfirmButton: false
@@ -845,21 +844,21 @@ $(document).on('click', '.saveChatbot', function() {
 // Save chatbot
 function saveChatbot() {
     if (!currentChatbot.nodes || currentChatbot.nodes.length === 0) {
-        Swal.fire('Error', 'Agrega al menos un nodo al chatbot', 'error');
+        Swal.fire(__('Error'), __('Agrega al menos un nodo al chatbot'), 'error');
         return;
     }
 
     Swal.fire({
-        title: 'Guardar Chatbot',
+        title: __('Guardar Chatbot'),
         input: 'text',
-        inputLabel: 'Nombre del chatbot',
+        inputLabel: __('Nombre del chatbot'),
         inputValue: window.name_chatbot,
         showCancelButton: true,
-        confirmButtonText: 'Guardar',
-        cancelButtonText: 'Cancelar',
+        confirmButtonText: __('Guardar'),
+        cancelButtonText: __('Cancelar'),
         inputValidator: (value) => {
             if (!value) {
-                return 'El nombre es obligatorio';
+                return __('El nombre es obligatorio');
             }
         }
     }).then((result) => {
@@ -893,7 +892,7 @@ function saveChatbot() {
 
             const success = (response) => {
                 Swal.fire({
-                    title: '¡Guardado!',
+                    title: __('¡Guardado!'),
                     text: response?.mensaje,
                     icon: response?.estado,
                     timer: 2000,
@@ -937,14 +936,14 @@ function deleteChatbot(chatbotId) {
     if (!chatbot) return;
 
     Swal.fire({
-        title: '¿Estás seguro?',
-        html: `¿Deseas eliminar el chatbot <strong>"${chatbot.name}"</strong>?<br><small class="text-muted">Esta acción no se puede deshacer</small>`,
+        title: __('¿Estás seguro?'),
+        html: `${__('¿Deseas eliminar el chatbot')} <strong>"${chatbot.name}"</strong>?<br><small class="text-muted">${__('Esta acción no se puede deshacer')}</small>`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#dc3545',
         cancelButtonColor: '#6c757d',
-        confirmButtonText: '<i class="fas fa-trash me-2"></i>Sí, eliminar',
-        cancelButtonText: '<i class="fas fa-times me-2"></i>Cancelar',
+        confirmButtonText: `<i class="fas fa-trash me-2"></i>${__('Sí, eliminar')}`,
+        cancelButtonText: `<i class="fas fa-times me-2"></i>${__('Cancelar')}`,
         reverseButtons: true
     }).then((result) => {
         if (result.isConfirmed) {
@@ -952,8 +951,8 @@ function deleteChatbot(chatbotId) {
             renderChatbotList();
 
             Swal.fire({
-                title: '¡Eliminado!',
-                text: 'El chatbot ha sido eliminado correctamente',
+                title: __('¡Eliminado!'),
+                text: __('El chatbot ha sido eliminado correctamente'),
                 icon: 'success',
                 timer: 2000,
                 showConfirmButton: false

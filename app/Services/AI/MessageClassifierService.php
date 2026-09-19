@@ -45,7 +45,7 @@ class MessageClassifierService
             ])->refresh();
 
             if (empty($etiqueta->id)) {
-                throw new ErrorException('La etiqueta no tiene un ID asignado.');
+                throw new ErrorException(__('La etiqueta no tiene un ID asignado.'));
             }
 
             EtiquetaContacto::updateOrCreate([

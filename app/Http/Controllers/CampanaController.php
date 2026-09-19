@@ -41,7 +41,7 @@ class CampanaController extends Controller
     {
         if (!can(Usuario::PERMISO_CAMPANA_EDITAR) && !can(Usuario::PERMISO_CAMPANA_CREAR) &&
             !can(Usuario::PERMISO_CAMPANA_ELIMINAR) && !can(Usuario::PERMISO_CAMPANA_LISTADO)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)
@@ -66,7 +66,7 @@ class CampanaController extends Controller
     {
         if (!can(Usuario::PERMISO_CAMPANA_EDITAR) && !can(Usuario::PERMISO_CAMPANA_CREAR) &&
             !can(Usuario::PERMISO_CAMPANA_ELIMINAR) && !can(Usuario::PERMISO_CAMPANA_LISTADO)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $campanas = Campana::select("campanas.id", "campanas.nombre", "campanas.descripcion", "campanas.tipo",
@@ -121,7 +121,7 @@ class CampanaController extends Controller
     {
         if (!can(Usuario::PERMISO_CAMPANA_EDITAR) && !can(Usuario::PERMISO_CAMPANA_CREAR) &&
             !can(Usuario::PERMISO_CAMPANA_ELIMINAR) && !can(Usuario::PERMISO_CAMPANA_LISTADO)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $pagina = $request->input('pagina') ?? 1;
@@ -223,7 +223,7 @@ class CampanaController extends Controller
                 }
             }
             if ($extension == '') {
-                throw new ErrorException('Error al intentar crear la imagen de la campaña.');
+                throw new ErrorException(__('Error al intentar crear la imagen de la campaña.'));
             }
             $nombreArchivo = 'meta_' . time() . $extension;
             $rutaDestino = "descargas/{$nombreArchivo}";
@@ -263,25 +263,25 @@ class CampanaController extends Controller
                 $variablesMensaje['file'] = url(Storage::url($path));
                 $datos['contenido_multimedia'] = url(Storage::url($path));
             } else {
-                throw new ErrorException('Error al intentar cargar la imagen.');
+                throw new ErrorException(__('Error al intentar cargar la imagen.'));
             }
 
             // if (!file_exists($datos['contenido_multimedia'])) {
-            //     throw new ErrorException('Error al intentar guardar el archivo.');
+            //     throw new ErrorException(__('Error al intentar guardar el archivo.'));
             // }
 
             if (!array_key_exists('file', $variablesMensaje)) {
-                throw new ErrorException("Error al intenatr guardar el archivo.");
+                throw new ErrorException(__("Error al intenatar guardar el archivo."));
             }
         } else {
             if ($request->file('archivo')) {
-                throw new ErrorException('Por favor, revise si el archivo cuenta con las condiciones establecidas para el envío.');
+                throw new ErrorException(__('Por favor, revise si el archivo cuenta con las condiciones establecidas para el envío.'));
             }
         }
 
         $contactosKey = array_values(array_unique(explode(',', $request->input('contactos'))));
         if (!count($contactosKey)) {
-            throw new ErrorException('Por favor, seleccione el o los contactos.');
+            throw new ErrorException(__('Por favor, seleccione el o los contactos.'));
         }
 
         $contactos = Contacto::whereIn('id', $contactosKey)
@@ -291,14 +291,14 @@ class CampanaController extends Controller
         if (count($contactos)) {
             $campana = Campana::create($datos);
             if (!$campana) {
-                throw new ErrorException('Error al intentar crear la campaña.');
+                throw new ErrorException(__('Error al intentar crear la campaña.'));
             }
 
             $campana->refresh();
 
             // Verifica el ID
             if (empty($campana->id)) {
-                throw new ErrorException("La campaña no tiene un ID asignado.");
+                throw new ErrorExceptio__(n("aLa campaña no tiene un ID asignado."));
             }
 
             Notification::send(auth()->user(), new NuevaCampana($campana->id));
@@ -359,7 +359,7 @@ class CampanaController extends Controller
 
         return [
             'estado' =>  $erroresEnvio ? 'info' : 'success',
-            'mensaje' => $erroresEnvio ? $erroresEnvio.' mensajes no enviados' :  'Se creo correctamente la campaña.',
+            'mensaje' => $erroresEnvio ? $erroresEnvio.__(' mensajes no enviados') :  __('Se creo correctamente la campaña.'),
         ];
     }
 
@@ -382,13 +382,13 @@ class CampanaController extends Controller
             ], $info);
 
             if (!$envio_campana) {
-                throw new ErrorException("Error al intentar registar el detalle de la campaña.");
+                throw new ErrorExceptio__(n("aError al intentar registar el detalle de la campaña."));
             }
 
             $envio_campana->refresh();
             // Verifica el ID
             if (empty($envio_campana->id)) {
-                throw new ErrorException("El envio de campaña no tiene un ID asignado.");
+                throw new ErrorExceptio__(n("aEl envio de campaña no tiene un ID asignado."));
             }
 
             $variablesDetalleUrls = VariableCampana::where('cod_campana', $idCampana)
@@ -535,12 +535,12 @@ class CampanaController extends Controller
         $eliminar = $campana->eliminar();
 
         if (!$eliminar) {
-            throw new ErrorException('A ocurrido un error al intentar eliminar la campaña.');
+            throw new ErrorException(__('A ocurrido un error al intentar eliminar la campaña.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se eliminado correctamente la campaña.',
+            'mensaje' => __('Se eliminado correctamente la campaña.'),
         ];
     }
 
@@ -624,7 +624,7 @@ class CampanaController extends Controller
                 }
             }
             if ($extension == '') {
-                throw new ErrorException('Error al intentar crear la imagen de la campaña.');
+                throw new ErrorException(__('Error al intentar crear la imagen de la campaña.'));
             }
             $nombreArchivo = 'meta_' . time() . $extension;
             $rutaDestino = "descargas/{$nombreArchivo}";
@@ -664,25 +664,25 @@ class CampanaController extends Controller
                 $variablesMensaje['file'] = url(Storage::url($path));
                 $datos['contenido_multimedia'] = url(Storage::url($path));
             } else {
-                throw new ErrorException('Error al intentar cargar la imagen.');
+                throw new ErrorException(__('Error al intentar cargar la imagen.'));
             }
 
             if (!file_exists($datos['contenido_multimedia'])) {
-                throw new ErrorException('Error al intentar guardar el archivo.');
+                throw new ErrorException(__('Error al intentar guardar el archivo.'));
             }
 
             if (!array_key_exists('file', $variablesMensaje)) {
-                throw new ErrorException("Error al intenatr guardar el archivo.");
+                throw new ErrorExceptio__(n("aError al intenatr guardar el archivo."));
             }
         } else {
             if ($request->file('archivo')) {
-                throw new ErrorException('Por favor, revise si el archivo cuenta con las condiciones establecidas para el envío.');
+                throw new ErrorException(__('Por favor, revise si el archivo cuenta con las condiciones establecidas para el envío.'));
             }
         }
 
         $contactosKey = array_values(array_unique(explode(',', $request->input('contactos'))));
         if (!count($contactosKey)) {
-            throw new ErrorException('Por favor, seleccione el o los contactos.');
+            throw new ErrorException(__('Por favor, seleccione el o los contactos.'));
         }
 
         $contactos = Contacto::whereIn('id', $contactosKey)
@@ -692,7 +692,7 @@ class CampanaController extends Controller
 
         $actualizar = $campana->update($datos);
         if (!$actualizar) {
-            throw new ErrorException('Error al intentar actualizar la campaña.');
+            throw new ErrorException(__('Error al intentar actualizar la campaña.'));
         }
 
         if (count($contactos)) {
@@ -764,7 +764,7 @@ class CampanaController extends Controller
 
         return [
             'estado' =>  $erroresEnvio ? 'info' : 'success',
-            'mensaje' => $erroresEnvio ? 'No se pudieron enviar '.$erroresEnvio.' mensajes' :  'Se creo correctamente la campaña.',
+            'mensaje' => $erroresEnvio ? __('No se pudieron enviar ').$erroresEnvio.__(' mensajes') :  __('Se creo correctamente la campaña.'),
         ];
     }
 
@@ -855,7 +855,7 @@ class CampanaController extends Controller
         $campana_nueva = Campana::create($datos);
 
         if (!$campana_nueva) {
-            throw new ErrorException('A ocurrido un error al intentar reenviar la campaña.');
+            throw new ErrorException(__('A ocurrido un error al intentar reenviar la campaña.'));
         }
 
         $contactosEnvio = EnvioCampana::where('estado', EnvioCampana::ACTIVO)
@@ -899,7 +899,7 @@ class CampanaController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se duplico correctamente la campaña.',
+            'mensaje' => __('Se duplico correctamente la campaña.'),
             'cod_campana' => $campana_nueva->id,
         ];
     }
@@ -914,7 +914,7 @@ class CampanaController extends Controller
         );
 
         $info['campana'] = $campana;
-        $info['campanas'] = Campana::where('uuid', $this->uuid)
+        $info['campanas'] = Campana::where('cod_empresa', $this->uuid)
             ->get();
 
         return view('campanas.ver', $info);
@@ -957,7 +957,7 @@ class CampanaController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se cargo correctamente la información.',
+            'mensaje' => __('Se cargo correctamente la información.'),
             'datos' => [
                 'labelHorarios' => array_column($horario, 'rango_horas'),
                 'serieHorarios' => array_column($horario, 'cantidad'),
@@ -992,7 +992,7 @@ class CampanaController extends Controller
 
         return response()->json([
             'status' => 'procesando',
-            'mensaje' => 'Te enviaremos el reporte por correo en breve.',
+            'mensaje' => __('Te enviaremos el reporte por correo en breve.'),
         ]);
     }
 }

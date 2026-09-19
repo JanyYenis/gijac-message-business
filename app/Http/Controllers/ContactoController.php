@@ -25,7 +25,7 @@ class ContactoController extends Controller
     {
         if (!can(Usuario::PERMISO_CLIENTES_EDITAR) && !can(Usuario::PERMISO_CLIENTES_CREAR) &&
             !can(Usuario::PERMISO_CLIENTES_ELIMINAR) && !can(Usuario::PERMISO_CLIENTES_LISTADO)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['etiquetas'] = Etiqueta::where('estado', Etiqueta::ACTIVO)
@@ -43,7 +43,7 @@ class ContactoController extends Controller
     {
         if (!can(Usuario::PERMISO_CLIENTES_EDITAR) &&
             !can(Usuario::PERMISO_CLIENTES_ELIMINAR) && !can(Usuario::PERMISO_CLIENTES_LISTADO)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $contactos = Contacto::selectRaw(
@@ -82,14 +82,14 @@ class ContactoController extends Controller
         $contacto = Contacto::create($datos);
 
         if (!$contacto) {
-            throw new ErrorException("Error al intentar crear un contacto.");
+            throw new ErrorException(__("Error al intentar crear un contacto."));
         }
 
         $contacto->refresh();
 
         // Verifica el ID
         if (empty($contacto->id)) {
-            throw new ErrorException("El contacto no tiene un ID asignado.");
+            throw new ErrorException(__("El contacto no tiene un ID asignado."));
         }
 
         if (count($request->input('etiquetas'))) {
@@ -103,7 +103,7 @@ class ContactoController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se creo correctamente el contacto.',
+            'mensaje' => __('Se creo correctamente el contacto.'),
         ];
     }
 
@@ -126,15 +126,15 @@ class ContactoController extends Controller
             $plan = Plan::find($tienePlan);
             if ($plan?->max_contactos) {
                 if ($plan?->max_contactos <= ($cantidadContactosActivos + $cantidadRegistros)) {
-                    throw new ErrorException('Has superado el limite de contactos activos para tu plan.');
+                    throw new ErrorException(__('Has superado el limite de contactos activos para tu plan.'));
                 }
             }
         } else if ($esDemo) {
             if (30 <= ($cantidadContactosActivos + $cantidadRegistros)) {
-                throw new ErrorException('Has superado el limite de 30 contactos activos para tu plan demo.');
+                throw new ErrorException(__('Has superado el limite de 30 contactos activos para tu plan demo.'));
             }
         } else {
-            throw new ErrorException('Por favor selecciona uno de nuestros planes para crear un contacto.');
+            throw new ErrorException(__('Por favor selecciona uno de nuestros planes para crear un contacto.'));
         }
 
         // Recorrer los datos y guardar en la base de datos
@@ -164,7 +164,7 @@ class ContactoController extends Controller
 
                         // Verifica el ID
                         if (empty($contacto->id)) {
-                            throw new ErrorException("El contacto no tiene un ID asignado.");
+                            throw new ErrorException(__("El contacto no tiene un ID asignado."));
                         }
                         if ($etiqueta) {
                             $slug = Str::slug($row[2], '.');
@@ -184,7 +184,7 @@ class ContactoController extends Controller
                                 $etiqueta->refresh();
                                 // Verifica el ID
                                 if (empty($etiqueta->id)) {
-                                    throw new ErrorException("La etiqueta no tiene un ID asignado.");
+                                    throw new ErrorException(__("La etiqueta no tiene un ID asignado."));
                                 }
                             }
 
@@ -206,8 +206,8 @@ class ContactoController extends Controller
 
         return [
             'estado' => !count($datosError) ? 'success' : 'info',
-            'titulo' => !count($datosError) ? '¡Error!' : 'Importante',
-            'mensaje' => !count($datosError) ? 'Se cargo el archivo correctamente' : "Por favor revise el archivo, recuerde que el numero de telefono, el codigo del pais y el nombre o abreviacion del pais son indispensables",
+            'titulo' => !count($datosError) ? __('¡Error!') : __('Importante'),
+            'mensaje' => !count($datosError) ? __('Se cargo el archivo correctamente') : __("Por favor revise el archivo, recuerde que el numero de telefono, el codigo del pais y el nombre o abreviacion del pais son indispensables"),
         ];
     }
 
@@ -270,7 +270,7 @@ class ContactoController extends Controller
         });
 
         if (!$actualizar) {
-            throw new ErrorException('A ocurrido un error al intentar actualizar el contacto.');
+            throw new ErrorException(__('A ocurrido un error al intentar actualizar el contacto.'));
         }
 
         if (count($etiquetas)) {
@@ -290,7 +290,7 @@ class ContactoController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente el contacto.',
+            'mensaje' => __('Se actualizo correctamente el contacto.'),
         ];
     }
 
@@ -299,12 +299,12 @@ class ContactoController extends Controller
         $eliminar = $contacto->eliminar();
 
         if (!$eliminar) {
-            throw new ErrorException('A ocurrido un error al intentar eliminar el contacto.');
+            throw new ErrorException(__('A ocurrido un error al intentar eliminar el contacto.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se eliminado correctamente el contacto.',
+            'mensaje' => __('Se eliminado correctamente el contacto.'),
         ];
     }
 

@@ -198,7 +198,7 @@ trait Modelable
             if ($eliminado == -1) {
                 return [
                     'estado'  => 'error',
-                    'mensaje' => 'No se ha podido cambiar a estado eliminado en la base de datos.'
+                    'mensaje' => __('No se ha podido cambiar a estado eliminado en la base de datos.')
                 ];
                 // throw new ErrorException("No se ha podido cambiar a estado eliminado en la base de datos.");
 
@@ -210,7 +210,7 @@ trait Modelable
         if (!$guardo) {
             return [
                 'estado'  => 'error',
-                'mensaje' => 'Ha ocurrido un problema al intentar eliminar el registro.'
+                'mensaje' => __('Ha ocurrido un problema al intentar eliminar el registro.')
             ];
             // throw new ErrorException("Ha ocurrido un problema al intentar eliminar el registro.");
         }

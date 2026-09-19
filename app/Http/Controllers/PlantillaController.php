@@ -130,7 +130,7 @@ class PlantillaController extends Controller
         if (! is_array($payload) || empty($payload['name']) || empty($payload['category']) || empty($payload['components'])) {
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => 'El payload de la plantilla es inválido o está incompleto.',
+                'mensaje' => __('El payload de la plantilla es inválido o está incompleto.'),
             ], 422);
         }
 
@@ -150,7 +150,7 @@ class PlantillaController extends Controller
             if (! $archivo || ! $archivo->isValid()) {
                 return response()->json([
                     'estado' => 'error',
-                    'mensaje' => 'Falta el archivo del encabezado (imagen, video o documento).',
+                    'mensaje' => __('Falta el archivo del encabezado (imagen, video o documento).'),
                 ], 422);
             }
 
@@ -165,7 +165,7 @@ class PlantillaController extends Controller
             } catch (\Throwable $e) {
                 return response()->json([
                     'estado' => 'error',
-                    'mensaje' => 'No se pudo subir el archivo del encabezado a Meta.',
+                    'mensaje' => __('No se pudo subir el archivo del encabezado a Meta.'),
                     'error' => $e->getMessage(),
                 ], 502);
             }
@@ -194,7 +194,7 @@ class PlantillaController extends Controller
                 'mensaje' => $error['error']['error']['error_user_msg']
                     ?? $error['error']['error']['error_user_title']
                     ?? $error['error']['error']['error_user_msgmessage']
-                    ?? 'Meta rechazó la plantilla.',
+                    ?? __('Meta rechazó la plantilla.'),
                 'validaciones' => [],
             ], $respuestaMeta->getStatusCode());
         }
@@ -205,7 +205,7 @@ class PlantillaController extends Controller
 
         return response()->json([
             'estado' => 'success',
-            'mensaje' => 'Plantilla enviada a revisión de Meta.',
+            'mensaje' => __('Plantilla enviada a revisión de Meta.'),
             'plantilla' => $respuestaMeta,
         ]);
     }
@@ -318,14 +318,14 @@ class PlantillaController extends Controller
         if (! is_array($payload) || empty($payload['name']) || empty($payload['category']) || empty($payload['components'])) {
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => 'El payload de la plantilla es inválido o está incompleto.',
+                'mensaje' => __('El payload de la plantilla es inválido o está incompleto.'),
             ], 422);
         }
 
         if (empty($plantilla->id)) {
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => 'Esta plantilla no tiene un ID de Meta asociado (id); no se puede actualizar en la API.',
+                'mensaje' => __('Esta plantilla no tiene un ID de Meta asociado (id); no se puede actualizar en la API.'),
             ], 422);
         }
 
@@ -351,7 +351,7 @@ class PlantillaController extends Controller
                 } catch (\Throwable $e) {
                     return response()->json([
                         'estado' => 'error',
-                        'mensaje' => 'No se pudo subir el archivo del encabezado a Meta.',
+                        'mensaje' => __('No se pudo subir el archivo del encabezado a Meta.'),
                         'error' => $e->getMessage(),
                     ], 502);
                 }
@@ -377,7 +377,7 @@ class PlantillaController extends Controller
                 'estado' => 'error',
                 'mensaje' => $error['error']['error']['message']
                     ?? $error['message']
-                    ?? 'Meta rechazó la actualización de la plantilla.',
+                    ?? __('Meta rechazó la actualización de la plantilla.'),
                 'validaciones' => [],
             ], $respuestaMeta->getStatusCode());
         }
@@ -389,7 +389,7 @@ class PlantillaController extends Controller
 
         return response()->json([
             'estado' => 'success',
-            'mensaje' => 'Plantilla actualizada y enviada a revisión de Meta.',
+            'mensaje' => __('Plantilla actualizada y enviada a revisión de Meta.'),
             'plantilla' => $respuestaMeta,
         ]);
     }
@@ -417,20 +417,20 @@ class PlantillaController extends Controller
         if (!$plantilla) {
             return [
                 'estado'  => 'error',
-                'mensaje' => 'No se encontró la plantilla.',
+                'mensaje' => __('No se encontró la plantilla.'),
             ];
         }
 
         $eliminar = $plantilla->eliminar();
         if (!$eliminar) {
-            throw new ErrorException("No se pudo eliminar la plantilla.");
+            throw new ErrorException(__("No se pudo eliminar la plantilla."));
         }
 
         app(TemplatesService::class)->deleteMessageTemplate($this->version, $this->token, $this->waba_id, $plantilla->name);
 
         return [
             'estado'  => 'success',
-            'mensaje' => 'Plantilla eliminada correctamente.',
+            'mensaje' => __('Plantilla eliminada correctamente.'),
         ];
     }
 
@@ -442,7 +442,7 @@ class PlantillaController extends Controller
 
         return [
             'estado'  => 'success',
-            'mensaje' => 'Se ha sincronizado correctamente.',
+            'mensaje' => __('Se ha sincronizado correctamente.'),
         ];
     }
 }

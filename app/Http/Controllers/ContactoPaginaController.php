@@ -25,7 +25,7 @@ class ContactoPaginaController extends Controller
         $contacto = ContactoPagina::create($datos);
 
         if (!$contacto) {
-            throw new ErrorException("Error al intentar enviar el contacto.");
+            throw new ErrorException(__("Error al intentar enviar el contacto."));
         }
 
         $contacto->refresh();
@@ -41,7 +41,7 @@ class ContactoPaginaController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se envio tu solicitud correctamente.',
+            'mensaje' => __('Se envio tu solicitud correctamente.'),
         ];
     }
 }

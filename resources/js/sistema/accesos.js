@@ -116,7 +116,7 @@ const listadoAccesos = () => {
         ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
-            [15, 20, 50, 100, "Todos"]
+            [15, 20, 50, 100, __("Todos")]
         ],
         pageLength: 15,
         dom: `<'row'<'col-sm-6 col-lg-6 col-md-6 d-flex align-items-center justify-content-start'f><'col-sm-6 col-lg-6 col-md-6'<'row'<'col-sm-6 col-lg-6 col-md-6 d-flex justify-content-end'l><'col-sm-6 col-lg-6 col-md-6 d-flex justify-content-end'B>>>>

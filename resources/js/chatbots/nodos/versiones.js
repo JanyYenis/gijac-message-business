@@ -36,7 +36,7 @@ window.listadoVersiones = () => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-success",
-                title: "Listado Versiones.",
+                title: __("Listado Versiones."),
                 exportOptions: {
                     columns: [0,1,2,3],
                     format: {
@@ -104,7 +104,7 @@ window.listadoVersiones = () => {
         ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
-            [15, 20, 50, 100, "Todos"]
+            [15, 20, 50, 100, __("Todos")]
         ],
         pageLength: 15,
         dom: `<'row d-flex align-items-center justify-content-end'
@@ -204,7 +204,7 @@ $(document).on('click', '.btnVer', function () {
 
             modal.show();
         })
-        .catch(() => generalidades.toastrGenerico('error', 'No se pudo cargar la versión'));
+        .catch(() => generalidades.toastrGenerico('error', __('No se pudo cargar la versión')));
 });
 
 $(document).on('click', '.btnDesacer', function () {
@@ -217,12 +217,12 @@ $('#btnRestaurarDesdeModal').on('click', function () {
 
 function confirmarDeshacer(id) {
     Swal.fire({
-        title: '¿Restaurar esta versión?',
-        text: 'El flujo actual se reemplazará por el contenido de esta versión.',
+        title: __('¿Restaurar esta versión?'),
+        text: __('El flujo actual se reemplazará por el contenido de esta versión.'),
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: 'Sí, restaurar',
-        cancelButtonText: 'Cancelar'
+        confirmButtonText: __('Sí, restaurar'),
+        cancelButtonText: __('Cancelar')
     }).then((result) => {
         if (!result.isConfirmed) return;
 
@@ -232,7 +232,7 @@ function confirmarDeshacer(id) {
         };
 
         const success = (response) => {
-            Swal.fire('¡Restaurado!', response?.mensaje, 'success').then(() => {
+            Swal.fire(__('¡Restaurado!'), response?.mensaje, 'success').then(() => {
                 bootstrap.Modal.getInstance(document.getElementById('modalVerVersion'))?.hide();
                 if (typeof loadFlowFromDB === 'function') loadFlowFromDB();
                 $(tablaVersiones).DataTable().ajax.reload(null, false);

@@ -98,7 +98,7 @@ const iniciarCarga  = () => {
     });
 
     myDropzone.on("error", function(file, errorMessage) {
-        toastr.error("A ocurrido un error al intentar cargar el archivos", "¡Error!");
+        toastr.error(__("A ocurrido un error al intentar cargar el archivos"), __("¡Error!"));
         myDropzone.removeAllFiles();
     });
 }

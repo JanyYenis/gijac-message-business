@@ -15,14 +15,14 @@ class StoreContactoRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nombre.required' => 'El campo de nombre es requerido.',
-            'nombre.string' => 'El campo de nombre debe ser texto.',
-            'apellido.string' => 'El campo de apellido debe ser texto.',
-            'genero.numeric' => 'El campo de tipo de genero debe ser numerico.',
-            'telefono.required' => 'El campo de telefono es requerido.',
-            'codigo_telefono.required' => 'El campo del codigo del telefono es requerido.',
-            'tratamiento_datos.numeric' => 'El campo de tratamiento de datos debe ser numerico.',
-            'preferencia.string' => 'El campo de preferencias debe ser texto.',
+            'nombre.required' => __('El campo de nombre es requerido.'),
+            'nombre.string' => __('El campo de nombre debe ser texto.'),
+            'apellido.string' => __('El campo de apellido debe ser texto.'),
+            'genero.numeric' => __('El campo de tipo de genero debe ser numerico.'),
+            'telefono.required' => __('El campo de telefono es requerido.'),
+            'codigo_telefono.required' => __('El campo del codigo del telefono es requerido.'),
+            'tratamiento_datos.numeric' => __('El campo de tratamiento de datos debe ser numerico.'),
+            'preferencia.string' => __('El campo de preferencias debe ser texto.'),
         ];
     }
 

@@ -30,7 +30,7 @@ class UsuarioController extends Controller
     public function index()
     {
         if (!can(Usuario::PERMISO_LISTADO) && !can(Usuario::PERMISO_CREAR) && !can(Usuario::PERMISO_EDITAR) && !can(Usuario::PERMISO_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['tiposDocumentos'] = Usuario::darTipoDocumento();
@@ -43,7 +43,7 @@ class UsuarioController extends Controller
     public function listado(Request $request)
     {
         if (!can(Usuario::PERMISO_LISTADO) && !can(Usuario::PERMISO_CREAR) && !can(Usuario::PERMISO_EDITAR) && !can(Usuario::PERMISO_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $usuarios = Usuario::with(
@@ -77,7 +77,7 @@ class UsuarioController extends Controller
     public function store(StoreUsuarioRequest $request)
     {
         if (!can(Usuario::PERMISO_LISTADO) && !can(Usuario::PERMISO_CREAR) && !can(Usuario::PERMISO_EDITAR) && !can(Usuario::PERMISO_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $datos = $request->all();
@@ -85,7 +85,7 @@ class UsuarioController extends Controller
         $usuario = Usuario::create($datos);
 
         if (!$usuario) {
-            throw new ErrorException('Error al intentar crear el nuevo usuario.');
+            throw new ErrorException(__('Error al intentar crear el nuevo usuario.'));
         }
 
         if (auth()->user()->hasRole(Usuario::ROL_CLIENTE)) {
@@ -98,7 +98,7 @@ class UsuarioController extends Controller
 
         // Verifica el ID
         if (empty($usuario->id)) {
-            throw new ErrorException("El usuario no tiene un ID asignado.");
+            throw new ErrorException(__("El usuario no tiene un ID asignado."));
         }
 
         UsuarioEmpresa::create([
@@ -108,14 +108,14 @@ class UsuarioController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se creo correctamente el usuario.',
+            'mensaje' => __('Se creo correctamente el usuario.'),
         ];
     }
 
     public function edit(Request $request, $usuario)
     {
         if (!can(Usuario::PERMISO_LISTADO) && !can(Usuario::PERMISO_CREAR) && !can(Usuario::PERMISO_EDITAR) && !can(Usuario::PERMISO_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $usuario = Usuario::with('ciudad.pais')
@@ -140,7 +140,7 @@ class UsuarioController extends Controller
         $usuario = Usuario::where('uuid', $usuario)
             ->first();
         if ($usuario?->id != auth()->user()->id && !can(Usuario::PERMISO_EDITAR) && !can(Usuario::PERMISO_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $datos = $request->all();
@@ -149,7 +149,7 @@ class UsuarioController extends Controller
         }
         $actualizar = $usuario->update($datos);
         if (!$actualizar) {
-            throw new ErrorException('Error al intentar actualizar el usuario.');
+            throw new ErrorException(__('Error al intentar actualizar el usuario.'));
         }
 
         // $image = $request->file('avatar') ?? null;
@@ -161,14 +161,14 @@ class UsuarioController extends Controller
         //     if (count($datos)) {
         //         $actualizar = $usuario->update($datos);
         //         if (!$actualizar) {
-        //             throw new ErrorException("No se ha actualizado la imagen.");
+        //             throw new ErrorException(__("No se ha actualizado la imagen."));
         //         }
         //     }
         // }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente el usuario.',
+            'mensaje' => __('Se actualizo correctamente el usuario.'),
         ];
     }
 
@@ -187,7 +187,7 @@ class UsuarioController extends Controller
 
         return response()->json([
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente la foto',
+            'mensaje' => __('Se actualizo correctamente la foto'),
             'foto' => asset('storage/' . $ruta)
         ]);
     }
@@ -255,15 +255,15 @@ class UsuarioController extends Controller
             ]);
 
             if (!$actualizar) {
-                throw new ErrorException("Error al intentar actualizar el correo.");
+                throw new ErrorException(__("Error al intentar actualizar el correo."));
             }
         } else {
-            throw new ErrorException("Su contraseña es incorrecta.");
+            throw new ErrorException(__("Su contraseña es incorrecta."));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente su contraseña',
+            'mensaje' => __('Se actualizo correctamente su contraseña'),
         ];
     }
 
@@ -280,15 +280,15 @@ class UsuarioController extends Controller
             ]);
 
             if (!$actualizar) {
-                throw new ErrorException("Error al intentar actualizar la contraseña.");
+                throw new ErrorException(__("Error al intentar actualizar la contraseña."));
             }
         } else {
-            throw new ErrorException("Su contraseña es incorrecta.");
+            throw new ErrorException(__("Su contraseña es incorrecta."));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente su contraseña',
+            'mensaje' => __('Se actualizo correctamente su contraseña'),
         ];
     }
 
@@ -300,7 +300,7 @@ class UsuarioController extends Controller
         $valid = Google2FA::verifyKey($secret, $code);
 
         if (!$valid) {
-            throw new ErrorException("El código es incorrecto.");
+            throw new ErrorException(__("El código es incorrecto."));
         }
 
         $user = Usuario::find(auth()->id());
@@ -309,7 +309,7 @@ class UsuarioController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se activo correctamente la autenticaón de dos factores.',
+            'mensaje' => __('Se activo correctamente la autenticaón de dos factores.'),
         ];
     }
 
@@ -323,12 +323,12 @@ class UsuarioController extends Controller
         $eliminar = $usuario->eliminar();
 
         if (!$eliminar) {
-            throw new ErrorException('A ocurrido un error al intentar eliminar el usuario.');
+            throw new ErrorException(__('A ocurrido un error al intentar eliminar el usuario.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se eliminado correctamente el usuario.',
+            'mensaje' => __('Se eliminado correctamente el usuario.'),
         ];
     }
 
@@ -338,7 +338,7 @@ class UsuarioController extends Controller
         $filtro = "%$nombre%";
         $proyecto = $request->input('proyecto') ?? '';
         if (!$proyecto) {
-            throw new ErrorException("Por favor, seleccione un proyecto.");
+            throw new ErrorException(__("Por favor, seleccione un proyecto."));
         }
 
         $usuarios = Usuario::selectRaw('id, nombre, apellido')

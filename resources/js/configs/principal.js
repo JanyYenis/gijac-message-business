@@ -71,11 +71,11 @@ $(document).on('click', '.btnEliminar', function(){
     let id = $(this).attr('data-config');
     Swal.fire({
         icon: "info",
-        text: '¿Está seguro de que deseas eliminar el plan?',
+        text: __('¿Está seguro de que deseas eliminar la configuracion?'),
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
+        confirmButtonText: __("Si"),
+        cancelButtonText: __("No"),
         customClass: {
             confirmButton: "btn btn-primary",
             cancelButton: "btn btn-active-light"
@@ -99,7 +99,7 @@ const eliminar = (id) => {
             'config': id
         }
     }
-    
+
     const success = (response) => {
         if (response.estado == 'success') {
             window.listadoConfigs();

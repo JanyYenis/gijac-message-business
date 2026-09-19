@@ -99,13 +99,13 @@ class SendWhatsAppMessage implements ShouldQueue
         ], $info);
 
         if (!$envio_campana) {
-            throw new ErrorException("Error al intentar registar el detalle de la campaña.");
+            throw new ErrorException(__("Error al intentar registar el detalle de la campaña."));
         }
 
         $envio_campana->refresh();
 
         if (empty($envio_campana->id)) {
-            throw new ErrorException("El envio de la campaña no tiene un ID asignado.");
+            throw new ErrorException(__("El envio de la campaña no tiene un ID asignado."));
         }
 
         $variablesDetalleUrls = VariableCampana::where('cod_campana', $info['cod_campana'])
@@ -173,7 +173,7 @@ class SendWhatsAppMessage implements ShouldQueue
         ]);
 
         if (!$mensajeEnviado) {
-            throw new ErrorException('Error al registrar el mensaje.');
+            throw new ErrorException(__('Error al registrar el mensaje.'));
         }
     }
 

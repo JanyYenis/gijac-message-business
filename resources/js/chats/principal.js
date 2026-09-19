@@ -208,7 +208,7 @@ async function startRecording() {
         const mimeType = 'audio/webm; codecs=opus';
 
         if (!MediaRecorder.isTypeSupported(mimeType)) {
-            alert('Tu navegador no soporta grabación de audio.');
+            alert(__('Tu navegador no soporta grabación de audio.'));
             return;
         }
 
@@ -227,7 +227,7 @@ async function startRecording() {
             }
 
             if (audioChunks.length === 0) {
-                alert('No se grabó ningún audio.');
+                alert(__('No se grabó ningún audio.'));
                 return;
             }
 
@@ -251,7 +251,7 @@ async function startRecording() {
         recordingInterval = setInterval(updateRecordingTime, 1000);
     } catch (err) {
         console.error('Error al iniciar la grabación:', err);
-        alert('Error al acceder al micrófono. Revisa los permisos.');
+        alert(__('Error al acceder al micrófono. Revisa los permisos.'));
     }
 }
 
@@ -272,7 +272,7 @@ const stopRecording = () => {
 
 const sendRecordingToServer = (audioBlob) => {
     if (!audioBlob || audioBlob.size === 0) {
-        alert('No hay audio para enviar.');
+        alert(__('No hay audio para enviar.'));
         return;
     }
 

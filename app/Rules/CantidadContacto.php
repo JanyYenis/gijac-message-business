@@ -28,15 +28,15 @@ class CantidadContacto implements ValidationRule
             $plan = Plan::find($tienePlan);
             if ($plan?->max_contactos) {
                 if ($plan?->max_contactos <= $cantidadContactosActivos) {
-                    $fail('Has superado el limite de contactos activos para tu plan.');
+                    $fail(__('Has superado el limite de contactos activos para tu plan.'));
                 }
             }
         } else if ($esDemo) {
             if (30 <= $cantidadContactosActivos) {
-                $fail('Has superado el limite de 30 contactos activos para tu plan demo.');
+                $fail(__('Has superado el limite de 30 contactos activos para tu plan demo.'));
             }
         } else {
-            $fail('Por favor selecciona uno de nuestros planes para crear un contacto.');
+            $fail(__('Por favor selecciona uno de nuestros planes para crear un contacto.'));
         }
     }
 }

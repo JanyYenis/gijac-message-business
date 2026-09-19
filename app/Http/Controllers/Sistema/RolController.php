@@ -57,14 +57,14 @@ class RolController extends Controller
         $rol = Role::create($datos);
 
         if (!$rol) {
-            throw new ErrorException("Error al intentar crear un rol.");
+            throw new ErrorException(__("Error al intentar crear un rol."));
         }
 
         $rol->syncPermissions($permisos);
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se a creado exitosamente el registro.',
+            'mensaje' => __('Se a creado exitosamente el registro.'),
         ];
     }
 
@@ -108,12 +108,12 @@ class RolController extends Controller
         $asignar = $usuario->syncRoles($datos['roles']);
 
         if (!$asignar) {
-            throw new ErrorException('Error al intentar registrar los roles al usuario.');
+            throw new ErrorException(__('Error al intentar registrar los roles al usuario.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se asignaron correctamente los roles.'
+            'mensaje' => __('Se asignaron correctamente los roles.')
         ];
     }
 
@@ -124,13 +124,13 @@ class RolController extends Controller
         $asignar = $usuario->syncPermissions($datos['permisos']);
 
         if (!$asignar) {
-            throw new ErrorException('Error al intentar registrar los permisos al usuario.');
+            throw new ErrorException(__('Error al intentar registrar los permisos al usuario.'));
         }
 
         // dd($request->all());
         return [
             'estado' => 'success',
-            'mensaje' => 'Se asignaron correctamente los permisos.'
+            'mensaje' => __('Se asignaron correctamente los permisos.')
         ];
     }
 
@@ -140,7 +140,7 @@ class RolController extends Controller
         $filtro = "%$nombre%";
         $usuario = $request->input('usuario') ?? '';
         if (!$usuario) {
-            throw new ErrorException("Por favor, seleccione un usuario.");
+            throw new ErrorException(__("Por favor, seleccione un usuario."));
         }
         $usuario = Usuario::where('uuid', $usuario)->first();
         $rolesUsuario = $usuario->getRoleNames()->toArray();
@@ -168,7 +168,7 @@ class RolController extends Controller
         $filtro = "%$nombre%";
         $usuario = $request->input('usuario') ?? '';
         if (!$usuario) {
-            throw new ErrorException("Por favor, seleccione un usuario.");
+            throw new ErrorException(__("Por favor, seleccione un usuario."));
         }
         $usuario = Usuario::where('uuid', $usuario)->first();
         $permisosUsuario = $usuario->getPermissionNames()->toArray();

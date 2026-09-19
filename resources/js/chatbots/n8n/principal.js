@@ -33,7 +33,7 @@ const getNodeInfo = (node) => {
         return {
             icon: '🔗',
             color: '#198754',
-            label: 'Webhook'
+            label: __('Webhook')
         };
     }
 
@@ -41,7 +41,7 @@ const getNodeInfo = (node) => {
         return {
             icon: '🤖',
             color: '#6f42c1',
-            label: 'Agente IA'
+            label: __('Agente IA')
         };
     }
 
@@ -49,7 +49,7 @@ const getNodeInfo = (node) => {
         return {
             icon: '🧠',
             color: '#0d6efd',
-            label: 'Modelo IA'
+            label: __('Modelo IA')
         };
     }
 
@@ -57,7 +57,7 @@ const getNodeInfo = (node) => {
         return {
             icon: '💾',
             color: '#fd7e14',
-            label: 'Memoria'
+            label: __('Memoria')
         };
     }
 
@@ -65,7 +65,7 @@ const getNodeInfo = (node) => {
         return {
             icon: '↩️',
             color: '#dc3545',
-            label: 'Respuesta'
+            label: __('Respuesta')
         };
     }
 
@@ -309,7 +309,7 @@ const cargarPreview = async (url) => {
         const response = await fetch(url);
 
         if (!response.ok) {
-            throw new Error('No se pudo cargar el JSON');
+            throw new Error(__('No se pudo cargar el JSON'));
         }
 
         const workflow = await response.json();
@@ -344,7 +344,7 @@ const cargarPreview = async (url) => {
                     <i class="bi bi-exclamation-triangle fs-1"></i>
 
                     <div class="mt-2">
-                        No se pudo cargar la vista previa
+                        ${__('No se pudo cargar la vista previa')}
                     </div>
 
                 </div>
@@ -447,12 +447,12 @@ $(document).on('click', '#toggleToken', function () {
 
 // Copiar JSON
 $(document).on('click', '#btnCopyJson', function () {
-    var txt = $('#jsonExample').text().replace('Copiar Ejemplo', '').trim();
+    var txt = $('#jsonExample').text().replace(__('Copiar Ejemplo'), '').trim();
     navigator.clipboard.writeText(txt);
     var $b = $(this);
-    $b.html('<i class="bi bi-check2 me-1"></i>Copiado');
+    $b.html(`<i class="bi bi-check2 me-1"></i>${__('Copiado')}`);
     setTimeout(function () {
-        $b.html('<i class="bi bi-clipboard me-1"></i>Copiar Ejemplo');
+        $b.html(`<i class="bi bi-clipboard me-1"></i>${__('Copiar Ejemplo')}`);
     }, 1500);
 });
 
@@ -461,7 +461,7 @@ $(document).on('click', '#btnProbar', function () {
     let $b = $(this);
 
     $b.prop('disabled', true).html(
-        '<span class="spinner-border spinner-border-sm me-1"></span>Probando...'
+        `<span class="spinner-border spinner-border-sm me-1"></span>${__('Probando...')}`
     );
 
     $('#resOk,#resErr').hide();
@@ -480,7 +480,7 @@ $(document).on('click', '#btnProbar', function () {
         .then(data => {
 
             $b.prop('disabled', false).html(
-                '<i class="bi bi-play-circle me-1"></i>Probar Webhook'
+                `<i class="bi bi-play-circle me-1"></i>${__('Probar Webhook')}`
             );
 
             if (data.estado === 'success') {
@@ -488,9 +488,9 @@ $(document).on('click', '#btnProbar', function () {
                 $('#resOk')
                     .html(`
                     <i class="bi bi-check-circle-fill me-1"></i>
-                    Conexión Exitosa
+                    ${__('Conexión Exitosa')}
                     <span class="d-block fw-normal small mt-1">
-                        Respuesta ${data.codigo} · ${data.tiempo} ms
+                        ${__('Respuesta')} ${data.codigo} · ${data.tiempo} ms
                     </span>
                 `)
                     .fadeIn();
@@ -500,7 +500,7 @@ $(document).on('click', '#btnProbar', function () {
                 $('#resErr')
                     .html(`
                     <i class="bi bi-x-circle-fill me-1"></i>
-                    Error
+                    ${__('Error')}
                     <span class="d-block fw-normal small mt-1">
                         ${data.mensaje}
                     </span>
@@ -512,7 +512,7 @@ $(document).on('click', '#btnProbar', function () {
         .catch(() => {
 
             $b.prop('disabled', false).html(
-                '<i class="bi bi-play-circle me-1"></i>Probar Webhook'
+                `<i class="bi bi-play-circle me-1"></i>${__('Probar Webhook')}`
             );
 
             $('#resErr').fadeIn();
@@ -536,7 +536,7 @@ $(document).on('click', '.tpl-item', function () {
 
     $('#tplTitle').text(name);
     $('#tplDesc').text(desc);
-    $('#tplNodes').text(nodes + ' nodos');
+    $('#tplNodes').text(nodes + __(' nodos'));
     $('#tplEmoji').text(emoji);
 
     const modal = bootstrap.Modal.getOrCreateInstance(
@@ -558,7 +558,7 @@ $(document).on('click', '#btnDownloadJson', async function () {
 
         if (!response.ok) {
             throw new Error(
-                'No se pudo descargar la plantilla'
+                __('No se pudo descargar la plantilla')
             );
         }
 
@@ -587,7 +587,7 @@ $(document).on('click', '#btnDownloadJson', async function () {
         console.error(error);
         generalidades.toastrGenerico(
             'error',
-            'No se pudo descargar la plantilla.'
+            __('No se pudo descargar la plantilla.')
         );
     }
 });
@@ -603,7 +603,7 @@ $(document).on('click', '#btnEnviarPrueba', function () {
     };
 
     $b.prop('disabled', true).html(
-        '<span class="spinner-border spinner-border-sm me-1"></span>Enviando...'
+        `<span class="spinner-border spinner-border-sm me-1"></span>${__('Enviando...')}`
     );
 
     $('#testOut').hide();
@@ -629,7 +629,7 @@ $(document).on('click', '#btnEnviarPrueba', function () {
             );
 
             $('#timeBadge').text(
-                'Tiempo de respuesta: ' + data.tiempo + ' ms'
+                __('Tiempo de respuesta: ') + data.tiempo + ' ms'
             );
 
             $('#testOut').fadeIn();
@@ -653,7 +653,7 @@ $(document).on('click', '#btnEnviarPrueba', function () {
         .finally(() => {
 
             $b.prop('disabled', false).html(
-                '<i class="bi bi-send me-1"></i>Enviar Prueba'
+                `<i class="bi bi-send me-1"></i>Enviar Prueba`
             );
 
         });

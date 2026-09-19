@@ -34,7 +34,7 @@ class UsuarioIdentificacion implements Rule
         if ($this->userId) {
             $registro = $registro->where('id', '!=', $this->userId);
         }
-        
+
         $registro = $registro->exists();
 
         return $registro ? false : true;
@@ -47,6 +47,6 @@ class UsuarioIdentificacion implements Rule
      */
     public function message()
     {
-        return 'La identificación del usuario ya existe.';
+        return __('La identificación del usuario ya existe.');
     }
 }

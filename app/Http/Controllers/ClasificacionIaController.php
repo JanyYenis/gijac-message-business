@@ -13,7 +13,7 @@ class ClasificacionIaController extends Controller
     {
         if (!can(Usuario::PERMISO_CLASIFICACION_IA_LISTADO) && !can(Usuario::PERMISO_CLASIFICACION_IA_CREAR) &&
             !can(Usuario::PERMISO_CLASIFICACION_IA_EDITAR) && !can(Usuario::PERMISO_CLASIFICACION_IA_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['permisos'] = (!can(Usuario::PERMISO_CLASIFICACION_IA_CREAR) &&
@@ -35,12 +35,12 @@ class ClasificacionIaController extends Controller
         ]);
 
         if (!$clasificacion) {
-            throw new ErrorException('Error al intentar crear el prompt de clasificación.');
+            throw new ErrorException(__('Error al intentar crear el prompt de clasificación.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se creo correctamente el prompt de la clasificación.',
+            'mensaje' => __('Se creo correctamente el prompt de la clasificación.'),
         ];
     }
 }

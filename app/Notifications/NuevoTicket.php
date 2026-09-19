@@ -53,7 +53,7 @@ class NuevoTicket extends Notification
         return [
             'id' => $this->ticket->id,
             'titulo' => 'Nuevo ticket.',
-            'mensaje' => 'Se creo un nuevo ticket',
+            'mensaje' => __('Se creo un nuevo ticket'),
             'icono' => 'fas fa-bullhorn',
             'color' => 'info',
             'ruta' => route('tickets.edit', ['ticket' => $this->ticket->id]),

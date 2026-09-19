@@ -18,11 +18,11 @@ $(document).on('click', '.btnEliminar', function(){
     let id = $(this).attr('data-campana');
     Swal.fire({
         icon: "info",
-        text: '¿Está seguro de que deseas eliminar el campana?',
+        text: __('¿Está seguro de que deseas eliminar el campana?'),
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
+        confirmButtonText: __("Si"),
+        cancelButtonText: __("No"),
         customClass: {
             confirmButton: "btn btn-success",
             cancelButton: "btn btn-danger"

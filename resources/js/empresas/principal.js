@@ -84,11 +84,11 @@ const iniciarComponentes = () => {
 
 const handleLogoFile = (file) => {
     if (!file.type.startsWith('image/')) {
-        generalidades.toastrGenerico('error', 'Formato no válido: Solo se permiten archivos de imagen (PNG, JPG).');
+        generalidades.toastrGenerico('error', __('Formato no válido: Solo se permiten archivos de imagen (PNG, JPG).'));
         return;
     }
     if (file.size > 2 * 1024 * 1024) {
-        generalidades.toastrGenerico('error', 'Archivo demasiado grande: El tamaño máximo permitido es 2 MB.');
+        generalidades.toastrGenerico('error', __('Archivo demasiado grande: El tamaño máximo permitido es 2 MB.'));
         return;
     }
 
@@ -99,7 +99,7 @@ const handleLogoFile = (file) => {
         $logoContainer.addClass('has-image');
         $logoRemove.addClass('show');
         logoFile = file;
-        generalidades.toastrGenerico('success', 'Logo cargado: La imagen se ha cargado correctamente.');
+        generalidades.toastrGenerico('success', __('Logo cargado: La imagen se ha cargado correctamente.'));
     };
     reader.readAsDataURL(file);
 }

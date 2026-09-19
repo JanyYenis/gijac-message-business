@@ -13,16 +13,16 @@ $(document).on('click', '.btnTutorialAcciones', function(){
 
 const iniciarTutorial = () => {
     let driverObj = driver({
-        nextBtnText: 'Siguiente',
-        prevBtnText: 'Atras',
-        doneBtnText: 'Salir',
+        nextBtnText: __('Siguiente'),
+        prevBtnText: __('Atras'),
+        doneBtnText: __('Salir'),
         showProgress: true,
         steps: [
             {
                 element: '#tutorialTabla',
                 popover: {
-                    title: 'Listado de Contactos',
-                    description: 'Aqui encontraras el listado de los contactos registrados en GIJAC MESSAGE BUSINESS.',
+                    title: __('Listado de Contactos'),
+                    description: __('Aqui encontraras el listado de los contactos registrados en GIJAC MESSAGE BUSINESS.'),
                     side: "left",
                     align: 'start'
                 }
@@ -30,8 +30,8 @@ const iniciarTutorial = () => {
             {
                 element: '#tutorialBtnCrear',
                 popover: {
-                    title: 'Crear Contacto',
-                    description: 'Para crear un contacto, precione el boton Crear Contacto, se abrira un modal que le permitira ingresar la informacion del contacto.',
+                    title: __('Crear Contacto'),
+                    description: __('Para crear un contacto, precione el boton Crear Contacto, se abrira un modal que le permitira ingresar la informacion del contacto.'),
                     side: "left",
                     align: 'start'
                 }
@@ -39,8 +39,8 @@ const iniciarTutorial = () => {
             {
                 element: '#tutorialBtnCargar',
                 popover: {
-                    title: 'Cargar Contactos',
-                    description: 'Para registrar contactos de su base de datos personal, puede precionar el boton Cargar Contactos, se abrira un modal para cargar un archivo Excel o CSV.',
+                    title: __('Cargar Contactos'),
+                    description: __('Para registrar contactos de su base de datos personal, puede precionar el boton Cargar Contactos, se abrira un modal para cargar un archivo Excel o CSV.'),
                     side: "left",
                     align: 'start'
                 }
@@ -48,7 +48,7 @@ const iniciarTutorial = () => {
             {
                 popover: {
                     title: 'GIJAC MESSAGE BUSINESS',
-                    description: 'Con GIJAC MESSAGE BUSINESS crecimiento y campañas al máximo nivel.'
+                    description: __('Con GIJAC MESSAGE BUSINESS crecimiento y campañas al máximo nivel.')
                 }
             }
         ]

@@ -94,15 +94,15 @@ class StoreNodoRequest extends FormRequest
             /* 1. Debe existir exactamente un nodo de inicio */
             $starts = $nodes->where('principal', 1);
             if ($starts->count() === 0) {
-                $v->errors()->add('nodes', 'El flujo debe tener al menos un nodo de Inicio.');
+                $v->errors()->add('nodes', __('El flujo debe tener al menos un nodo de Inicio.'));
             }
             if ($starts->count() > 1) {
-                $v->errors()->add('nodes', 'El flujo solo puede tener un nodo de Inicio.');
+                $v->errors()->add('nodes', __('El flujo solo puede tener un nodo de Inicio.'));
             }
 
             /* 2. Debe existir al menos un nodo de fin */
             if ($nodes->where('type', 'end')->count() === 0) {
-                $v->errors()->add('nodes', 'El flujo debe tener al menos un nodo de Finalizar.');
+                $v->errors()->add('nodes', __('El flujo debe tener al menos un nodo de Finalizar.'));
             }
 
             /* 3. Los drawflow_id en conexiones deben existir en el listado de nodos */
@@ -110,13 +110,13 @@ class StoreNodoRequest extends FormRequest
                 if (!$nodeIds->contains($conn['source_node_drawflow_id'])) {
                     $v->errors()->add(
                         "connections.{$i}.source_node_drawflow_id",
-                        'El nodo origen de la conexión no existe en el flujo.'
+                        __('El nodo origen de la conexión no existe en el flujo.')
                     );
                 }
                 if (!$nodeIds->contains($conn['target_node_drawflow_id'])) {
                     $v->errors()->add(
                         "connections.{$i}.target_node_drawflow_id",
-                        'El nodo destino de la conexión no existe en el flujo.'
+                        __('El nodo destino de la conexión no existe en el flujo.')
                     );
                 }
             }
@@ -145,7 +145,7 @@ class StoreNodoRequest extends FormRequest
             /* 6. Solo se permite un nodo principal (is_start) */
             $principales = $nodes->where('principal', 1);
             if ($principales->count() > 1) {
-                $v->errors()->add('nodes', 'Solo puede existir un nodo marcado como principal.');
+                $v->errors()->add('nodes', __('Solo puede existir un nodo marcado como principal.'));
             }
         });
     }
@@ -170,91 +170,91 @@ class StoreNodoRequest extends FormRequest
             case 'text':
             case 'question':
                 if (empty(trim($cfg['message'] ?? ''))) {
-                    $err('message', 'El mensaje es obligatorio.');
+                    $err('message', __('El mensaje es obligatorio.'));
                 } elseif (mb_strlen($cfg['message']) > 4096) {
-                    $err('message', 'El mensaje no puede superar 4096 caracteres (límite WhatsApp).');
+                    $err('message', __('El mensaje no puede superar 4096 caracteres (límite WhatsApp).'));
                 }
                 break;
 
             case 'buttons':
                 if (empty(trim($cfg['message'] ?? ''))) {
-                    $err('message', 'El mensaje es obligatorio.');
+                    $err('message', __('El mensaje es obligatorio.'));
                 }
                 $buttons = $cfg['buttons'] ?? [];
                 if (count($buttons) < 1) {
-                    $err('buttons', 'Debe configurar al menos 1 botón.');
+                    $err('buttons', __('Debe configurar al menos 1 botón.'));
                 }
                 if (count($buttons) > 3) {
-                    $err('buttons', 'WhatsApp permite máximo 3 botones.');
+                    $err('buttons', __('WhatsApp permite máximo 3 botones.'));
                 }
                 foreach ($buttons as $bi => $btn) {
                     if (empty(trim($btn['label'] ?? ''))) {
-                        $err("buttons.{$bi}.label", 'La etiqueta del botón es obligatoria.');
+                        $err("buttons.{$bi}.label", __('La etiqueta del botón es obligatoria.'));
                     } elseif (mb_strlen($btn['label']) > 20) {
-                        $err("buttons.{$bi}.label", 'La etiqueta del botón no puede superar 20 caracteres (límite WhatsApp).');
+                        $err("buttons.{$bi}.label", __('La etiqueta del botón no puede superar 20 caracteres (límite WhatsApp).'));
                     }
                     if (!empty($btn['target_node_id']) && !in_array($btn['target_node_id'], $nodeIds)) {
-                        $err("buttons.{$bi}.target_node_id", 'El nodo destino del botón no existe en el flujo.');
+                        $err("buttons.{$bi}.target_node_id", __('El nodo destino del botón no existe en el flujo.'));
                     }
                 }
                 break;
 
             case 'list':
                 if (empty(trim($cfg['message'] ?? ''))) {
-                    $err('message', 'El mensaje es obligatorio.');
+                    $err('message', __('El mensaje es obligatorio.'));
                 }
                 if (empty(trim($cfg['list_title'] ?? ''))) {
-                    $err('list_title', 'El título de la lista es obligatorio.');
+                    $err('list_title', __('El título de la lista es obligatorio.'));
                 }
 
                 // Filtrar las filas que tengan un label válido (no vacío)
                 $validRows = array_filter($cfg['rows'] ?? [], fn($r) => !empty(trim($r['label'] ?? '')));
 
                 if (count($validRows) < 1) {
-                    $err('rows', 'Debe agregar al menos 1 opción a la lista.');
+                    $err('rows', __('Debe agregar al menos 1 opción a la lista.'));
                 }
                 if (count($validRows) > 10) {
-                    $err('rows', 'WhatsApp permite máximo 10 opciones por lista.');
+                    $err('rows', __('WhatsApp permite máximo 10 opciones por lista.'));
                 }
 
                 // Iterar las rows para validar cada propiedad internamente
                 foreach ($cfg['rows'] ?? [] as $ri => $row) {
                     if (empty(trim($row['label'] ?? ''))) {
-                        $err("rows.{$ri}.label", 'La etiqueta de la opción es obligatoria.');
+                        $err("rows.{$ri}.label", __('La etiqueta de la opción es obligatoria.'));
                     } elseif (mb_strlen($row['label']) > 24) {
-                        $err("rows.{$ri}.label", 'La opción no puede superar 24 caracteres (límite WhatsApp).');
+                        $err("rows.{$ri}.label", __('La opción no puede superar 24 caracteres (límite WhatsApp).'));
                     }
 
                     // Validar que el nodo destino exista en el flujo (igual que haces con los botones)
                     if (!empty($row['target_node_id']) && !in_array($row['target_node_id'], $nodeIds)) {
-                        $err("rows.{$ri}.target_node_id", 'El nodo destino de la opción no existe en el flujo.');
+                        $err("rows.{$ri}.target_node_id", __('El nodo destino de la opción no existe en el flujo.'));
                     }
                 }
 
                 if (!empty($cfg['list_target']) && !in_array($cfg['list_target'], $nodeIds)) {
-                    $err('list_target', 'El nodo destino de la lista no existe en el flujo.');
+                    $err('list_target', __('El nodo destino de la lista no existe en el flujo.'));
                 }
                 break;
 
             case 'condition':
                 if (empty(trim($cfg['variable'] ?? ''))) {
-                    $err('variable', 'La variable a evaluar es obligatoria.');
+                    $err('variable', __('La variable a evaluar es obligatoria.'));
                 }
                 if (empty($cfg['operator'])) {
-                    $err('operator', 'El operador es obligatorio.');
+                    $err('operator', __('El operador es obligatorio.'));
                 }
                 $operadores = ['equals', 'contains', 'greater_than', 'less_than', 'regex'];
                 if (!in_array($cfg['operator'] ?? '', $operadores)) {
-                    $err('operator', 'Operador no válido.');
+                    $err('operator', __('Operador no válido.'));
                 }
                 if (empty(trim($cfg['compare'] ?? ''))) {
-                    $err('compare', 'El valor de comparación es obligatorio.');
+                    $err('compare', __('El valor de comparación es obligatorio.'));
                 }
                 if (!empty($cfg['true_target']) && !in_array($cfg['true_target'], $nodeIds)) {
-                    $err('true_target', 'El nodo de la rama Verdadero no existe en el flujo.');
+                    $err('true_target', __('El nodo de la rama Verdadero no existe en el flujo.'));
                 }
                 if (!empty($cfg['false_target']) && !in_array($cfg['false_target'], $nodeIds)) {
-                    $err('false_target', 'El nodo de la rama Falso no existe en el flujo.');
+                    $err('false_target', __('El nodo de la rama Falso no existe en el flujo.'));
                 }
                 break;
 
@@ -262,18 +262,18 @@ class StoreNodoRequest extends FormRequest
             case 'api':
                 $metodos = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'];
                 if (!in_array(strtoupper($cfg['method'] ?? ''), $metodos)) {
-                    $err('method', 'El método HTTP no es válido.');
+                    $err('method', __('El método HTTP no es válido.'));
                 }
                 if (empty(trim($cfg['url'] ?? ''))) {
-                    $err('url', 'La URL del webhook/API es obligatoria.');
+                    $err('url', __('La URL del webhook/API es obligatoria.'));
                 } elseif (!filter_var($cfg['url'], FILTER_VALIDATE_URL)) {
-                    $err('url', 'La URL no tiene un formato válido.');
+                    $err('url', __('La URL no tiene un formato válido.'));
                 }
                 // Validar que headers sea JSON válido si viene como string
                 if (!empty($cfg['headers']) && is_string($cfg['headers'])) {
                     json_decode($cfg['headers']);
                     if (json_last_error() !== JSON_ERROR_NONE) {
-                        $err('headers', 'Las cabeceras deben ser un JSON válido.');
+                        $err('headers', __('Las cabeceras deben ser un JSON válido.'));
                     }
                 }
                 break;
@@ -281,50 +281,50 @@ class StoreNodoRequest extends FormRequest
             case 'ai':
             case 'generate':
                 if (empty(trim($cfg['system_prompt'] ?? ''))) {
-                    $err('system_prompt', 'El prompt del sistema es obligatorio.');
+                    $err('system_prompt', __('El prompt del sistema es obligatorio.'));
                 }
                 if (isset($cfg['temperature']) && ($cfg['temperature'] < 0 || $cfg['temperature'] > 1)) {
-                    $err('temperature', 'La temperatura debe estar entre 0 y 1.');
+                    $err('temperature', __('La temperatura debe estar entre 0 y 1.'));
                 }
                 if (isset($cfg['max_tokens']) && $cfg['max_tokens'] < 1) {
-                    $err('max_tokens', 'Los tokens máximos deben ser mayor a 0.');
+                    $err('max_tokens', __('Los tokens máximos deben ser mayor a 0.'));
                 }
                 break;
 
             case 'capture':
                 if (empty(trim($cfg['variable'] ?? ''))) {
-                    $err('variable', 'El nombre de la variable es obligatorio.');
+                    $err('variable', __('El nombre de la variable es obligatorio.'));
                 } elseif (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $cfg['variable'])) {
-                    $err('variable', 'El nombre de variable solo puede contener letras, números y guion bajo.');
+                    $err('variable', __('El nombre de variable solo puede contener letras, números y guion bajo.'));
                 }
                 $tiposDato = ['text', 'number', 'email', 'phone', 'date'];
                 if (!in_array($cfg['data_type'] ?? '', $tiposDato)) {
-                    $err('data_type', 'El tipo de dato no es válido.');
+                    $err('data_type', __('El tipo de dato no es válido.'));
                 }
                 break;
 
             case 'variable':
                 if (empty(trim($cfg['var_name'] ?? ''))) {
-                    $err('var_name', 'El nombre de la variable es obligatorio.');
+                    $err('var_name', __('El nombre de la variable es obligatorio.'));
                 } elseif (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $cfg['var_name'])) {
-                    $err('var_name', 'El nombre de variable solo puede contener letras, números y guion bajo.');
+                    $err('var_name', __('El nombre de variable solo puede contener letras, números y guion bajo.'));
                 }
                 if (!isset($cfg['var_value'])) {
-                    $err('var_value', 'El valor de la variable es obligatorio.');
+                    $err('var_value', __('El valor de la variable es obligatorio.'));
                 }
                 break;
 
             case 'goto':
                 if (empty($cfg['target_node_id'])) {
-                    $err('target_node_id', 'Debe seleccionar el nodo destino.');
+                    $err('target_node_id', __('Debe seleccionar el nodo destino.'));
                 } elseif (!in_array($cfg['target_node_id'], $nodeIds)) {
-                    $err('target_node_id', 'El nodo destino no existe en el flujo.');
+                    $err('target_node_id', __('El nodo destino no existe en el flujo.'));
                 }
                 break;
 
             case 'agent':
                 if (empty(trim($cfg['department'] ?? ''))) {
-                    $err('department', 'El departamento es obligatorio.');
+                    $err('department', __('El departamento es obligatorio.'));
                 }
                 break;
 
@@ -332,14 +332,14 @@ class StoreNodoRequest extends FormRequest
                 if (($cfg['trigger'] ?? 'any') === 'keyword') {
                     $keywords = array_filter($cfg['keywords'] ?? [], fn($k) => trim($k) !== '');
                     if (count($keywords) === 0) {
-                        $err('keywords', 'Debe agregar al menos una palabra clave cuando el disparador es "Palabra clave".');
+                        $err('keywords', __("Debe agregar al menos una palabra clave cuando el disparador es 'Palabra clave'."));
                     }
                 }
                 break;
 
             case 'end':
                 // if (empty(trim($cfg['close_message'] ?? ''))) {
-                //     $err('close_message', 'El mensaje de cierre es obligatorio.');
+                //     $err('close_message', __('El mensaje de cierre es obligatorio.'));
                 // }
                 break;
 
@@ -353,20 +353,20 @@ class StoreNodoRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'action.required'             => 'La acción (guardar/publicar) es obligatoria.',
-            'action.in'                   => 'La acción no es válida.',
-            'drawflow.required'           => 'El estado del canvas es obligatorio.',
-            'nodes.required'              => 'El flujo no tiene nodos.',
-            'nodes.min'                   => 'El flujo debe tener al menos un nodo.',
-            'nodes.*.drawflow_id.required'=> 'Cada nodo debe tener un ID de Drawflow.',
-            'nodes.*.type.required'       => 'Cada nodo debe tener un tipo.',
-            'nodes.*.type.in'             => 'El tipo de nodo ":input" no es válido.',
-            'nodes.*.label.required'      => 'Cada nodo debe tener una etiqueta.',
-            'nodes.*.label.max'           => 'La etiqueta del nodo no puede superar 120 caracteres.',
-            'nodes.*.pos_x.required'      => 'La posición X del nodo es obligatoria.',
-            'nodes.*.pos_y.required'      => 'La posición Y del nodo es obligatoria.',
-            'connections.*.source_output.regex' => 'El puerto de salida debe tener el formato output_N.',
-            'connections.*.target_input.regex'  => 'El puerto de entrada debe tener el formato input_N.',
+            'action.required'             => __('La acción (guardar/publicar) es obligatoria.'),
+            'action.in'                   => __('La acción no es válida.'),
+            'drawflow.required'           => __('El estado del canvas es obligatorio.'),
+            'nodes.required'              => __('El flujo no tiene nodos.'),
+            'nodes.min'                   => __('El flujo debe tener al menos un nodo.'),
+            'nodes.*.drawflow_id.required'=> __('Cada nodo debe tener un ID de Drawflow.'),
+            'nodes.*.type.required'       => __('Cada nodo debe tener un tipo.'),
+            'nodes.*.type.in'             => __("El tipo de nodo ':input' no es válido."),
+            'nodes.*.label.required'      => __('Cada nodo debe tener una etiqueta.'),
+            'nodes.*.label.max'           => __('La etiqueta del nodo no puede superar 120 caracteres.'),
+            'nodes.*.pos_x.required'      => __('La posición X del nodo es obligatoria.'),
+            'nodes.*.pos_y.required'      => __('La posición Y del nodo es obligatoria.'),
+            'connections.*.source_output.regex' => __('El puerto de salida debe tener el formato output_N.'),
+            'connections.*.target_input.regex'  => __('El puerto de entrada debe tener el formato input_N.'),
         ];
     }
 
@@ -378,7 +378,7 @@ class StoreNodoRequest extends FormRequest
         throw new HttpResponseException(
             response()->json([
                 'success' => false,
-                'message' => 'El flujo tiene errores de validación.',
+                'message' => __('El flujo tiene errores de validación.'),
                 'errors'  => $validator->errors(),
             ], 422)
         );

@@ -16,7 +16,7 @@ class AutomatizacionN8nController extends Controller
     {
         if (!can(Usuario::PERMISO_CHATBOT_CREAR) && !can(Usuario::PERMISO_CHATBOT_EDITAR) &&
             !can(Usuario::PERMISO_CHATBOT_ELIMINAR) && !can(Usuario::PERMISO_CHATBOT_LISTADO)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['metodos'] = AutomatizacionN8n::darMetodo();
@@ -48,14 +48,14 @@ class AutomatizacionN8nController extends Controller
         ], $datos);
 
         if (!$automatizacion) {
-            throw new ErrorException('Ha ocurrido un error al intentar registrar el webhook de n8n.');
+            throw new ErrorException(__('Ha ocurrido un error al intentar registrar el webhook de n8n.'));
         }
 
         $automatizacion->refresh();
 
         // Verifica el ID
         if (empty($automatizacion->id)) {
-            throw new ErrorException("La automatizacion no tiene un ID asignado.");
+            throw new ErrorException(__("La automatizacion no tiene un ID asignado."));
         }
 
         AutomatizacionN8nEvento::where('estado', AutomatizacionN8nEvento::ACTIVO)
@@ -72,7 +72,7 @@ class AutomatizacionN8nController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se registro correctamente el webhook.'
+            'mensaje' => __('Se registro correctamente el webhook.')
         ];
     }
 
@@ -88,7 +88,7 @@ class AutomatizacionN8nController extends Controller
                     'evento' => 'prueba',
                     'numero' => auth()->user()->numero_completo,
                     'nombre' => auth()->user()->nombre_completo,
-                    'mensaje' => 'Hola mundo',
+                    'mensaje' => __('Hola mundo'),
                     'mensaje_id' => 'TEST-' . now()->timestamp,
                     'empresa_id' => auth()->user()->empresa->id,
                     'canal' => 'whatsapp',
@@ -103,8 +103,8 @@ class AutomatizacionN8nController extends Controller
                 'tiempo' => $tiempo,
                 'respuesta' => $response->body(),
                 'mensaje' => $response->successful()
-                    ? 'Webhook respondió correctamente'
-                    : 'El webhook respondió con error'
+                    ? __('Webhook respondió correctamente')
+                    : __('El webhook respondió con error')
             ]);
 
         } catch (\Throwable $e) {
@@ -128,7 +128,7 @@ class AutomatizacionN8nController extends Controller
         if (!$automatizacion) {
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => 'No existe una automatización configurada.'
+                'mensaje' => __('No existe una automatización configurada.')
             ], 422);
         }
 

@@ -13,7 +13,7 @@ class ComentarioController extends Controller
     public function listado(Request $request)
     {
         // if (!can(Usuario::PERMISO_ACTAS_LISTADO) && !can(Usuario::PERMISO_ACTAS_CREAR) && !can(Usuario::PERMISO_ACTAS_EDITAR) && !can(Usuario::PERMISO_ACTAS_ELIMINAR)) {
-        //     throw new ErrorException("No tienes permisos para acceder a esta sección.");
+        //     throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         // }
         $datos = $request->input('datos');
 
@@ -54,12 +54,12 @@ class ComentarioController extends Controller
 
         $nuevo = $ticket->crearComentario($datos);
         if (!$nuevo) {
-            throw new ErrorException("Error al intentar guardar el comentario.");
+            throw new ErrorException(__("Error al intentar guardar el comentario."));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se creo correctamente el comentario.',
+            'mensaje' => __('Se creo correctamente el comentario.'),
         ];
     }
 }

@@ -66,9 +66,9 @@ $(function () {
     updateCount();
 
     /* ===== IDENTITY -> SIMULATOR SYNC ===== */
-    $('#asstName').on('input', function () { $('#simName').text($(this).val() || 'Asistente'); });
-    $('#asstRole').on('input', function () { $('#simRole').text($(this).val() || 'Asistente IA'); });
-    $('#mensajeBienvenida').on('input', function () { $('#simBody .bubble.in').html($(this).val() ? $(this).val() + '<span class="time">' + time() + '</span>' : '¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?'); });
+    $('#asstName').on('input', function () { $('#simName').text($(this).val() || __('Asistente')); });
+    $('#asstRole').on('input', function () { $('#simRole').text($(this).val() || __('Asistente IA')); });
+    $('#mensajeBienvenida').on('input', function () { $('#simBody .bubble.in').html($(this).val() ? $(this).val() + '<span class="time">' + time() + '</span>' : __('¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?')); });
 
     iniciarComponentes();
 });
@@ -115,7 +115,7 @@ const iniciarCarga = () => {
     });
 
     myDropzone.on("error", function (file, errorMessage) {
-        toastr.error("A ocurrido un error al intentar cargar el archivos", "¡Error!");
+        toastr.error(__("A ocurrido un error al intentar cargar el archivos"), __("¡Error!"));
         myDropzone.removeAllFiles();
     });
 }
@@ -128,7 +128,7 @@ const renderDocumento = (doc) => {
                 <div class="fw-semibold small">${doc.nombre}</div>
                 <div class="doc-meta">${(doc.size / 1024).toFixed(0)} KB · ${doc.fecha}</div>
             </div>
-            <span class="res-badge res-ok">Procesado</span>
+            <span class="res-badge res-ok">${__('Procesado')}</span>
             <button type="button" class="btn btn-sm btn-link text-danger" id="btnEliminarDoc">
                 <i class="bi bi-trash text-danger"></i>
             </button>
@@ -145,7 +145,7 @@ const cargarModelos = () => {
             var $sel = $('#modelSelect').empty();
 
             if (modelosCache.length === 0) {
-                $sel.append('<option value="">No hay modelos instalados en Ollama</option>');
+                $sel.append(`<option value="">${__('No hay modelos instalados en Ollama')}</option>`);
                 return;
             }
 
@@ -156,9 +156,8 @@ const cargarModelos = () => {
             renderMeta();
         })
         .catch((e) => {
-            console.error('Error al cargar modelos desde Ollama:', e);
-            $('#modelSelect').empty().append('<option value="">No se pudo conectar con Ollama</option>');
-            generalidades.toastrGenerico('error', 'No se pudo conectar con Ollama en el servidor');
+            $('#modelSelect').empty().append(`<option value="">${__('No se pudo conectar con Ollama')}</option>`);
+            generalidades.toastrGenerico(`error`, __(`No se pudo conectar con Ollama en el servidor`));
         });
 }
 
@@ -168,9 +167,24 @@ const renderMeta = () => {
     if (!modelo) return;
 
     var sizeGB = modelo.size ? (modelo.size / 1024 / 1024 / 1024).toFixed(1) + ' GB' : 'N/A';
-    $meta.append(`<div class="col-4"><div class="meta-pill"><div class="lbl">Tamaño</div><div class="val">${sizeGB}</div></div></div>`);
-    $meta.append(`<div class="col-4"><div class="meta-pill"><div class="lbl">Costo</div><div class="val">Gratis</div></div></div>`);
-    $meta.append(`<div class="col-4"><div class="meta-pill"><div class="lbl">Origen</div><div class="val">Ollama local</div></div></div>`);
+    $meta.append(`<div class="col-4">
+            <div class="meta-pill">
+                <div class="lbl">${__('Tamaño')}</div>
+                <div class="val">${sizeGB}</div>
+            </div>
+        </div>`);
+    $meta.append(`<div class="col-4">
+            <div class="meta-pill">
+                <div class="lbl">${__('Costo')}</div>
+                <div class="val">${__('Gratis')}</div>
+            </div>
+        </div>`);
+    $meta.append(`<div class="col-4">
+            <div class="meta-pill">
+                <div class="lbl">${__('Origen')}</div>
+                <div class="val">${__('Ollama local')}</div>
+            </div>
+        </div>`);
 }
 
 const setSliderValue = (id, val, spanId) => {
@@ -195,7 +209,7 @@ const send = () => {
     addBubble(text, 'out');
     $input.val('');
 
-    var $typing = $('<div class="bubble in typing">escribiendo...</div>');
+    var $typing = $(`<div class="bubble in typing">${__('escribiendo...')}</div>`);
     $body.append($typing);
     $body.scrollTop($body[0].scrollHeight);
 
@@ -212,7 +226,7 @@ const send = () => {
         .then(data => {
             $typing.remove();
             if (data.estado !== 'success') {
-                addBubble(data.mensaje || 'Ocurrió un error.', 'in');
+                addBubble(data.mensaje || __('Ocurrió un error.'), 'in');
                 return;
             }
             historialSimulador.push({ role: 'user', content: text });
@@ -221,7 +235,7 @@ const send = () => {
         })
         .catch(() => {
             $typing.remove();
-            addBubble('No se pudo contactar al asistente.', 'in');
+            addBubble(__('No se pudo contactar al asistente.'), 'in');
         });
 }
 

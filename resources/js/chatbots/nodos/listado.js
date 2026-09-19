@@ -42,7 +42,7 @@ window.listadoEtiquetas = () => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-success",
-                title: "Listado Chatbot.",
+                title: __("Listado Chatbot."),
                 exportOptions: {
                     columns: [0,1,2,3,4],
                     format: {
@@ -94,7 +94,7 @@ window.listadoEtiquetas = () => {
                 data: 'nodes',
                 name: 'nodes',
                 render: function (data, type, full, meta) {
-                    return `<span class="badge text-white bg-success">${full?.nodes?.length ?? 0} nodos</span>`;
+                    return `<span class="badge text-white bg-success">${full?.nodes?.length ?? 0}${__(' nodos')}</span>`;
                 }
             },
             {
@@ -109,7 +109,7 @@ window.listadoEtiquetas = () => {
         ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
-            [15, 20, 50, 100, "Todos"]
+            [15, 20, 50, 100, __("Todos")]
         ],
         pageLength: 15,
         dom: `<'table-responsive'tr>

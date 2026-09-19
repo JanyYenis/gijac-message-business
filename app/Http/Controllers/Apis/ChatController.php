@@ -80,7 +80,7 @@ class ChatController extends Controller
         if (!$contacto) {
             return [
                 'estado' => 'error',
-                'mensaje' => 'Contacto no encontrado'
+                'mensaje' => __('Contacto no encontrado')
             ];
         }
 
@@ -191,7 +191,7 @@ class ChatController extends Controller
         if (!$contacto) {
             return [
                 'estado' => 'error',
-                'mensaje' => 'Contacto no encontrado'
+                'mensaje' => __('Contacto no encontrado')
             ];
         }
 
@@ -259,7 +259,7 @@ class ChatController extends Controller
                 $maxSize = 100 * 1024 * 1024; // 100 MB en bytes
 
                 if ($archivo->getSize() > $maxSize) {
-                    throw new ErrorException('El archivo excede el tamaño máximo permitido de 100MB.');
+                    throw new ErrorException(__('El archivo excede el tamaño máximo permitido de 100MB.'));
                 }
                 $nombreOriginal = $nombreOriginal.'.'.$extension;
                 $path = $archivo->storeAs('campanas/documentos', $nombreOriginal, 'public');
@@ -281,7 +281,7 @@ class ChatController extends Controller
                 $maxSize = 5 * 1024 * 1024; // 5 MB en bytes
 
                 if ($archivo->getSize() > $maxSize) {
-                    throw new ErrorException('El archivo excede el tamaño máximo permitido de 5MB.');
+                    throw new ErrorException(__('El archivo excede el tamaño máximo permitido de 5MB.'));
                 }
                 $nombreOriginal = $nombreOriginal. '.jpg';
                 $path = $archivo->storeAs('campanas/img', $nombreOriginal, 'public');
@@ -302,7 +302,7 @@ class ChatController extends Controller
                 $maxSize = 16 * 1024 * 1024; // 16 MB en bytes
 
                 if ($archivo->getSize() > $maxSize) {
-                    throw new ErrorException('El archivo excede el tamaño máximo permitido de 16MB.');
+                    throw new ErrorException(__('El archivo excede el tamaño máximo permitido de 16MB.'));
                 }
                 $path = $archivo->storeAs('campanas/videos', $nombreOriginal, 'public');
                 $datos['metadata'] = (object) [
@@ -319,15 +319,15 @@ class ChatController extends Controller
                 ];
                 $datos['type'] = Mensaje::VIDEO;
             } else {
-                throw new ErrorException('Error al intentar cargar la imagen.');
+                throw new ErrorException(__('Error al intentar cargar la imagen.'));
             }
 
             // if (!file_exists($datos['metadata'])) {
-            //     throw new ErrorException('Error al intentar guardar el archivo.');
+            //     throw new ErrorException(__('Error al intentar guardar el archivo.'));
             // }
         } else {
             if ($request->file('archivo')) {
-                throw new ErrorException('Por favor, revise si el archivo cuenta con las condiciones establecidas para el envío.');
+                throw new ErrorException(__('Por favor, revise si el archivo cuenta con las condiciones establecidas para el envío.'));
             }
         }
 
@@ -361,7 +361,7 @@ class ChatController extends Controller
             @unlink($webmPath);
 
             if ($returnCode !== 0) {
-                throw new ErrorException('Error al convertir el archivo de audio.');
+                throw new ErrorException(__('Error al convertir el archivo de audio.'));
             }
 
             // Guardar en storage/app/public/audios/chat
@@ -407,7 +407,7 @@ class ChatController extends Controller
 
         $mensaje = Mensaje::create($datos);
         if (!$mensaje) {
-            throw new ErrorException("Error al intentar enviar el mensaje.");
+            throw new ErrorException(__("Error al intentar enviar el mensaje."));
         }
 
         // === Recargar mensajes del chat ===
@@ -534,7 +534,7 @@ class ChatController extends Controller
         if (!$contacto) {
             return [
                 'estado' => 'error',
-                'mensaje' => 'Contacto no encontrado'
+                'mensaje' => __('Contacto no encontrado')
             ];
         }
 

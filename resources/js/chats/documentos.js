@@ -90,7 +90,7 @@ const iniciarCarga  = (formatos = ".xls, .xlsx, .pdf, .doc, .docx", maxFiles = 1
     myDropzone.on("error", function(file, errorMessage) {
         console.log(errorMessage);
 
-        toastr.error("A ocurrido un error al intentar enviar el mensaje.", "¡Error!");
+        toastr.error(__("A ocurrido un error al intentar enviar el mensaje."), __("¡Error!"));
         myDropzone.removeAllFiles();
     });
 }

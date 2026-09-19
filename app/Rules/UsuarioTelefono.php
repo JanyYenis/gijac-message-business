@@ -34,7 +34,7 @@ class UsuarioTelefono implements Rule
         if ($this->userId) {
             $registro = $registro->where('id', '!=', $this->userId);
         }
-        
+
         $registro = $registro->exists();
 
         return $registro ? false : true;
@@ -47,6 +47,6 @@ class UsuarioTelefono implements Rule
      */
     public function message()
     {
-        return 'Este número de teléfono ya está en uso.';
+        return __('Este número de teléfono ya está en uso.');
     }
 }

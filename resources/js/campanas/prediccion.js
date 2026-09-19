@@ -55,7 +55,7 @@ function renderPlantillas() {
                 <div class="col-md-6 mb-3">
                     <div class="template-card selectPlantillaPrediccion" data-id="${plantilla.id}">
                         <div class="template-name">${plantilla.name}</div>
-                        <div class="template-type">${plantilla.info_categoria.nombre}</div>
+                        <div class="template-type">${__(plantilla.info_categoria.nombre)}</div>
                         <div class="template-preview">${plantilla.body.text}</div>
                     </div>
                 </div>
@@ -91,8 +91,6 @@ function selectPlantilla(elemento, id) {
 
     // Habilitar botón siguiente
     document.getElementById('btnSiguiente').disabled = false;
-
-    console.log('[v0] Plantilla seleccionada:', wizard.selectedTemplate);
 }
 
 // ============================================
@@ -159,8 +157,6 @@ function toggleUsuario(elemento, id) {
 
     // Habilitar botón siguiente
     document.getElementById('btnSiguiente').disabled = wizard.selectedUsers.length === 0;
-
-    console.log('[v0] Usuarios seleccionados:', wizard.selectedUsers);
 }
 
 document.getElementById('selectAllCheckbox').addEventListener('change', function () {
@@ -270,8 +266,6 @@ function updateWizardUI() {
     } else if (wizard.step === 2) {
         document.getElementById('btnSiguiente').disabled = wizard.selectedUsers.length === 0;
     }
-
-    console.log('[v0] Paso actual:', wizard.step);
 }
 
 // ============================================

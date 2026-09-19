@@ -38,7 +38,7 @@
                                     <img loading="lazy" src="{{ $campana->contenido_multimedia }}" alt="Vista previa de Campaña imagen · C6">
                                     <span class="media-tag">
                                         <i class="fa-solid fa-image"></i>
-                                        Imagen
+                                        {{ __('Imagen') }}
                                     </span>
                                 </div>
                             @elseif ($campana?->plantilla?->header->format == \App\Models\PlantillaComponente::VIDEO)
@@ -47,7 +47,7 @@
                                         class="mb-2"></video>
                                     <span class="media-tag">
                                         <i class="fa-solid fa-video"></i>
-                                        Video
+                                        {{ __('Video') }}
                                     </span>
                                 </div>
                             @elseif ($campana?->plantilla?->header->format == \App\Models\PlantillaComponente::DOCUMENTO)
@@ -115,29 +115,29 @@
                 <div class="metrics">
                     <div class="metric">
                         <div class="v">{{ count($campana?->enviosActivos) ?? 0 }}</div>
-                        <div class="l">Enviados</div>
+                        <div class="l">{{ __('Enviados') }}</div>
                     </div>
                     <div class="metric">
                         <div class="v">{{ count($campana?->mensajesAbiertos) ?? 0 }}</div>
-                        <div class="l">Entreg.</div>
+                        <div class="l">{{ __('Entreg.') }}</div>
                     </div>
                     <div class="metric">
                         <div class="v">{{ count($campana?->mensajesAbiertos) ?? 0 }}</div>
-                        <div class="l">Leídos</div>
+                        <div class="l">{{ __('Leídos') }}</div>
                     </div>
                     <div class="metric fail">
                         <div class="v">0</div>
-                        <div class="l">Fallidos</div>
+                        <div class="l">{{ __('Fallidos') }}</div>
                     </div>
                 </div>
                 <div class="divider"></div>
                 <div class="dates">
                     <div class="date-item">
-                        <div class="l">Creada</div>
+                        <div class="l">{{ __('Creada') }}</div>
                         <div class="v">{{ $campana?->created_at->translatedFormat('d M Y, h:i') }}</div>
                     </div>
                     <div class="date-item">
-                        <div class="l">Envío</div>
+                        <div class="l">{{ __('Envío') }}</div>
                         <div class="v">{{ $campana?->fecha_envio->translatedFormat('d M Y, h:i') }}</div>
                     </div>
                 </div>

@@ -26,7 +26,7 @@ class GeneralController extends Controller
         if (!$fecha_fin || !$fecha_inicio) {
             return response()->json([
                 'estado' => 400,
-                'mensaje' => 'La fecha de inicio y la fecha de finalizacion son requeridas.'
+                'mensaje' => __('La fecha de inicio y la fecha de finalizacion son requeridas.')
             ]);
         }
 
@@ -49,7 +49,7 @@ class GeneralController extends Controller
         if (!$id) {
             return response()->json([
                 'estado' => 400,
-                'mensaje' => 'El campo id es requerido.'
+                'mensaje' => __('El campo id es requerido.')
             ]);
         }
 
@@ -74,10 +74,10 @@ class GeneralController extends Controller
 
         $errores = [];
         if (!$plantilla) {
-            $errores['plantilla'] = "El campo de plantilla es requerido.";
+            $errores['plantilla'] = __("El campo de plantilla es requerido.");
         }
         if (!$telefono) {
-            $errores['telefono'] = "El campo de telefono es requerido.";
+            $errores['telefono'] = __("El campo de telefono es requerido.");
         }
 
         if (count($errores)) {
@@ -107,10 +107,10 @@ class GeneralController extends Controller
 
         $errores = [];
         if (!$plantilla) {
-            $errores['plantilla'] = "El campo de plantilla es requerido.";
+            $errores['plantilla'] = __("El campo de plantilla es requerido.");
         }
         if (!$telefono) {
-            $errores['telefono'] = "El campo de telefono es requerido.";
+            $errores['telefono'] = __("El campo de telefono es requerido.");
         }
 
         if (count($errores)) {
@@ -148,7 +148,7 @@ class GeneralController extends Controller
             ->first();
 
         if (!$config || !$config->token || !$config->version) {
-            return response()->json(['estado' => 'error', 'mensaje' => 'No hay configuración de Meta activa para este usuario.'], 422);
+            return response()->json(['estado' => 'error', 'mensaje' => __('No hay configuración de Meta activa para este usuario.')], 422);
         }
 
         // Traemos la plantilla directo de Meta (igual que en store()/update())
@@ -159,7 +159,7 @@ class GeneralController extends Controller
         if (!$plantilla || isset($plantilla->error)) {
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => 'No se pudo obtener la plantilla desde Meta.',
+                'mensaje' => __('No se pudo obtener la plantilla desde Meta.'),
                 'detalle' => $plantilla->error ?? null,
             ], 404);
         }
@@ -182,15 +182,15 @@ class GeneralController extends Controller
                 $plan = Plan::find($tienePlan);
                 if ($plan?->max_contactos) {
                     if ($plan?->max_contactos <= $cantidadContactosActivos) {
-                        return response()->json(['estado' => 'error', 'mensaje' => 'Has superado el limite de contactos activos para tu plan.'], 500);
+                        return response()->json(['estado' => 'error', 'mensaje' => __('Has superado el limite de contactos activos para tu plan.')], 500);
                     }
                 }
             } else if ($esDemo) {
                 if (30 <= $cantidadContactosActivos) {
-                    return response()->json(['estado' => 'error', 'mensaje' => 'Has superado el limite de 30 contactos activos para tu plan demo.'], 500);
+                    return response()->json(['estado' => 'error', 'mensaje' => __('Has superado el limite de 30 contactos activos para tu plan demo.')], 500);
                 }
             } else {
-                return response()->json(['estado' => 'error', 'mensaje' => 'Por favor selecciona uno de nuestros planes para crear un contacto.'], 500);
+                return response()->json(['estado' => 'error', 'mensaje' => __('Por favor selecciona uno de nuestros planes para crear un contacto.')], 500);
             }
 
             $phoneUtil = PhoneNumberUtil::getInstance();
@@ -329,7 +329,7 @@ class GeneralController extends Controller
         }
 
         if (empty($plantilla->name) || empty($plantilla->language)) {
-            return response()->json(['estado' => 'error', 'mensaje' => 'La plantilla no tiene nombre o idioma.'], 422);
+            return response()->json(['estado' => 'error', 'mensaje' => __('La plantilla no tiene nombre o idioma.')], 422);
         }
 
         $components = new Component($component_header, $component_body, $component_buttons);
@@ -337,13 +337,13 @@ class GeneralController extends Controller
         try {
             $resultado = $whatsapp_cloud_api->sendTemplate($telefono, $plantilla->name, $plantilla->language, $components);
         } catch (\Throwable $e) {
-            return response()->json(['estado' => 'error', 'mensaje' => 'Error al enviar: '.$e->getMessage()], 500);
+            return response()->json(['estado' => 'error', 'mensaje' => __('Error al enviar: ').$e->getMessage()], 500);
         }
 
         if (!$resultado || $resultado->isError()) {
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => 'WhatsApp rechazó el envío.',
+                'mensaje' => __('WhatsApp rechazó el envío.'),
                 'detalle' => $resultado?->decodedBody(),
             ], 422);
         }
@@ -397,13 +397,13 @@ class GeneralController extends Controller
         if (!$mensajeEnviado) {
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => 'Error al registrar el mensaje.'
+                'mensaje' => __('Error al registrar el mensaje.')
                 ], 422);
         }
 
         return response()->json([
             'estado' => 'success',
-            'mensaje' => 'Plantilla enviada correctamente.',
+            'mensaje' => __('Plantilla enviada correctamente.'),
             'wamid' => $wamid,
         ]);
     }

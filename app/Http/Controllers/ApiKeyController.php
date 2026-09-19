@@ -13,7 +13,7 @@ class ApiKeyController extends Controller
     public function listado(Request $request)
     {
         // if (!can(Usuario::PERMISO_LISTADO)) {
-        //     throw new ErrorException("No tienes permisos para acceder a esta sección.");
+        //     throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         // }
 
         $apis = ApiKey::whereNot('estado', ApiKey::ELIMINADO)
@@ -37,7 +37,7 @@ class ApiKeyController extends Controller
     public function listadoLog(Request $request)
     {
         // if (!can(Usuario::PERMISO_LISTADO)) {
-        //     throw new ErrorException("No tienes permisos para acceder a esta sección.");
+        //     throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         // }
 
         $apis = ApiKeyLog::whereHas('apiKey', function($query) {
@@ -65,7 +65,7 @@ class ApiKeyController extends Controller
 
         return response()->json([
             'estado' => 'success',
-            'mensaje' => 'Se creo correctamente la API Key',
+            'mensaje' => __('Se creo correctamente la API Key'),
             'api_key' => $apiKey->key
         ]);
     }
@@ -76,12 +76,12 @@ class ApiKeyController extends Controller
         $actualizar = $key->update($datos);
 
         if (!$actualizar) {
-            throw new ErrorException('Error al intentar actualizar la API Key.');
+            throw new ErrorException(__('Error al intentar actualizar la API Key.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente la API Key.'
+            'mensaje' => __('Se actualizo correctamente la API Key.')
         ];
     }
 
@@ -90,7 +90,7 @@ class ApiKeyController extends Controller
         $eliminar = $key->delete();
 
         if (!$eliminar) {
-            throw new ErrorException('Error al intentar eliminar la API Key.');
+            throw new ErrorException(__('Error al intentar eliminar la API Key.'));
         }
 
         return [

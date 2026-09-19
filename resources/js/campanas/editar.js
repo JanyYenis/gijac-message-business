@@ -7,7 +7,7 @@ const modalEditarCampana = '#modalEditarCampana';
 const tablaContactos = '#tablaContactosEditar';
 var contenidoCampanaOriginal = '';
 window.contactosSeleccionados_editar = [];
-var datos = {1: 'Nombre'};
+var datos = {1: __('Nombre')};
 var urlArchivoOriginal = '';
 var tipo_header = 1;
 window.campana_selecionada_editar = 0;
@@ -68,7 +68,7 @@ const cargarDatos = (id) => {
         $('#selectEtiquetaEditar').trigger('change');
         contenidoCampanaOriginal = '';
         window.contactosSeleccionados_editar = [];
-        datos = {1: 'Nombre'};
+        datos = {1: __('Nombre')};
         urlArchivoOriginal = '';
         tipo_header = 1;
     });
@@ -176,16 +176,16 @@ $(document).on('change', '#selectPlantillaEditar', function () {
                                 nombres_variables.push(index + 1);
                                 variables = variables + `<div class="row mb-3 inputVariableEditar">
                                     <div class="col-lg-7 col-md-7">
-                                        <input type="text" name="variables" required data-numero="${index+1}" placeholder="Ingrese valor de variable {{${index+1}}}" class="form-control variablesCampana" value='${datoVariable}'>
+                                        <input type="text" name="variables" required data-numero="${index+1}" placeholder="${__('Ingrese valor de variable')} {{${index+1}}}" class="form-control variablesCampana" value='${datoVariable}'>
                                     </div>
                                     <div class="col-lg-5 col-md-5">
                                         <select name="" data-numero="${index+1}" class="form-control selectsCampos"
-                                            data-placeholder="Campos del contacto">
+                                            data-placeholder="${__('Campos del contacto')}">
                                             <option value=""></option>
-                                            <option ${datoVariable == 'nombre_completo' ? 'selected' : ''} value="nombre_completo">Nombre Completo</option>
-                                            <option ${datoVariable == 'nombre' ? 'selected' : ''} value="nombre">Nombre</option>
-                                            <option ${datoVariable == 'apellido' ? 'selected' : ''} value="apellido">Apellido</option>
-                                            <option ${datoVariable == 'numero_completo' ? 'selected' : ''} value="numero_completo">Telefono</option>
+                                            <option ${datoVariable == 'nombre_completo' ? 'selected' : ''} value="nombre_completo">${__('Nombre Completo')}</option>
+                                            <option ${datoVariable == 'nombre' ? 'selected' : ''} value="nombre">${__('Nombre')}</option>
+                                            <option ${datoVariable == 'apellido' ? 'selected' : ''} value="apellido">${__('Apellido')}</option>
+                                            <option ${datoVariable == 'numero_completo' ? 'selected' : ''} value="numero_completo">${__('Telefono')}</option>
                                         </select>
                                     </div>
                                 </div>`;
@@ -200,16 +200,16 @@ $(document).on('change', '#selectPlantillaEditar', function () {
                                 }
                                 variables = variables + `<div class="row mb-3 inputVariableEditar">
                                     <div class="col-lg-7 col-md-7">
-                                        <input type="text" name="variables" required data-numero="${index+1}" placeholder="Ingrese valor de variable {{${response?.nombres_variables[index]}}}" class="form-control variablesCampana" value='${datoVariable}'>
+                                        <input type="text" name="variables" required data-numero="${index+1}" placeholder="${__('Ingrese valor de variable')} {{${response?.nombres_variables[index]}}}" class="form-control variablesCampana" value='${datoVariable}'>
                                     </div>
                                     <div class="col-lg-5 col-md-5">
                                         <select name="" data-numero="${index+1}" class="form-control selectsCampos"
-                                            data-placeholder="Campos del contacto">
+                                            data-placeholder="${__('Campos del contacto')}">
                                             <option value=""></option>
-                                            <option ${datoVariable == 'nombre_completo' ? 'selected' : ''} value="nombre_completo">Nombre Completo</option>
-                                            <option ${datoVariable == 'nombre' ? 'selected' : ''} value="nombre">Nombre</option>
-                                            <option ${datoVariable == 'apellido' ? 'selected' : ''} value="apellido">Apellido</option>
-                                            <option ${datoVariable == 'numero_completo' ? 'selected' : ''} value="numero_completo">Telefono</option>
+                                            <option ${datoVariable == 'nombre_completo' ? 'selected' : ''} value="nombre_completo">${__('Nombre Completo')}</option>
+                                            <option ${datoVariable == 'nombre' ? 'selected' : ''} value="nombre">${__('Nombre')}</option>
+                                            <option ${datoVariable == 'apellido' ? 'selected' : ''} value="apellido">${__('Apellido')}</option>
+                                            <option ${datoVariable == 'numero_completo' ? 'selected' : ''} value="numero_completo">${__('Telefono')}</option>
                                         </select>
                                     </div>
                                 </div>`;
@@ -252,7 +252,7 @@ $(document).on('change', '#selectPlantillaEditar', function () {
                                     valorUrl = response?.urls_de_campana[index];
                                 }
                                 variables = variables + `<div class="mb-3 inputUrls">
-                                    <input type="url" class="form-control" value="${valorUrl}" placeholder="URL ${index+1}" data-nombreurls="${response.url_nombres[index]}" name="urls">
+                                    <input type="url" class="form-control" value="${valorUrl}" placeholder="${__('URL')} ${index+1}" data-nombreurls="${response.url_nombres[index]}" name="urls">
                                 </div>`;
                             }
                         });
@@ -467,11 +467,11 @@ const enviarDatos = (form) => {
     let textoMensaje = '';
     let textoBtn = '';
     if (formData.get('estado') == 1) {
-        textoMensaje = '¿Está seguro de que desea actualizar y enviar la campaña?';
-        textoBtn = 'Actualizar y enviar';
+        textoMensaje = __('¿Está seguro de que desea actualizar y enviar la campaña?');
+        textoBtn = __('Actualizar y enviar');
     } else {
-        textoMensaje = '¿Está seguro de que desea actualizar la campaña?';
-        textoBtn = 'Actualizar';
+        textoMensaje = __('¿Está seguro de que desea actualizar la campaña?');
+        textoBtn = __('Actualizar');
     }
     Swal.fire({
         icon: "info",
@@ -479,7 +479,7 @@ const enviarDatos = (form) => {
         showCancelButton: true,
         buttonsStyling: false,
         confirmButtonText: textoBtn,
-        cancelButtonText: "Cancelar",
+        cancelButtonText: __("Cancelar"),
         customClass: {
             confirmButton: "btn btn-primary",
             cancelButton: "btn btn-active-light"
@@ -558,7 +558,7 @@ const listadoContactosEnviar = () => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-success",
-                title: "Listado Contactos.",
+                title: __("Listado Contactos."),
                 exportOptions: {
                     columns: [0,1,2,3,4],
                     format: {
@@ -757,7 +757,7 @@ function updatePreview() {
 
         previewText.textContent = preview;
     } else {
-        previewText.textContent = 'Tu mensaje aparecerá aquí...';
+        previewText.textContent = __('Tu mensaje aparecerá aquí...');
     }
 
     // updateCharCount();
@@ -813,14 +813,14 @@ function updateSummary() {
     const messageContent = document.getElementById('contenidocampanaEditar').value;
     document.getElementById('summaryMessageEdit').innerHTML =
         messageContent ? `<div style="white-space: pre-wrap;">${messageContent}</div>` :
-            '<em class="text-muted">No hay mensaje configurado</em>';
+            `<em class="text-muted">${__('No hay mensaje configurado')}</em>`;
 }
 
 function launchCampaign() {
     // Show confirmation modal or process launch
-    if (confirm('¿Estás seguro de que deseas lanzar esta campaña? Esta acción no se puede deshacer.')) {
+    if (confirm(__('¿Estás seguro de que deseas lanzar esta campaña? Esta acción no se puede deshacer.'))) {
         // Here you would typically send the data to your backend
-        alert('¡Campaña lanzada exitosamente! Serás redirigido al dashboard.');
+        alert(__('¡Campaña lanzada exitosamente! Serás redirigido al dashboard.'));
         // Redirect to campaigns list or dashboard
         // window.location.href = '/campaigns';
     }

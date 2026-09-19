@@ -18,7 +18,7 @@ const enviarDatos = (form) => {
 
     // Validation
     if (!prompt) {
-        window.showAlert('warning', 'Campo vacío', 'Por favor, escribe un prompt antes de guardar.');
+        window.showAlert('warning', __('Campo vacío'), __('Por favor, escribe un prompt antes de guardar.'));
         $('#promptTextarea').addClass('shake');
         setTimeout(() => {
             $('#promptTextarea').removeClass('shake');
@@ -28,7 +28,7 @@ const enviarDatos = (form) => {
     }
 
     if (prompt.length < 20) {
-        window.showAlert('warning', 'Prompt muy corto', 'El prompt debe tener al menos 20 caracteres para ser efectivo.');
+        window.showAlert('warning', __('Prompt muy corto'), __('El prompt debe tener al menos 20 caracteres para ser efectivo.'));
         $('#promptTextarea').focus();
         return;
     }
@@ -49,12 +49,12 @@ const enviarDatos = (form) => {
             localStorage.removeItem('draft_prompt');
 
             // Show success message
-            showAlert('success', '¡Prompt guardado exitosamente!', 'La configuración de clasificación ha sido actualizada correctamente.');
+            showAlert('success', __('¡Prompt guardado exitosamente!'), __('La configuración de clasificación ha sido actualizada correctamente.'));
 
             // Success animation
-            $('#saveBtn').html('<i class="fas fa-check"></i> ¡Guardado!');
+            $('#saveBtn').html(`<i class="fas fa-check"></i> ${__('¡Guardado!')}`);
             setTimeout(() => {
-                $('#saveBtn').html('<i class="fas fa-save"></i> Guardar Prompt');
+                $(`#saveBtn`).html(`<i class="fas fa-save"></i> ${__('Guardar Prompt')}`);
             }, 3000);
         }
         generalidades.ocultarCargando(promptForm);

@@ -151,7 +151,7 @@ class CampanaSeeder extends Seeder
             'id_tipo' => $tc_categoria?->id,
             'codigo' => Campana::INFORMATIVO,
         ], [
-            'nombre' => 'Informativo',
+            'nombre' => 'Informativa',
             'estado' => Concepto::ACTIVO,
         ]);
 

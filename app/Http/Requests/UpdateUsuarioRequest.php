@@ -17,17 +17,17 @@ class UpdateUsuarioRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nombre.required' => 'El campo nombre es requerido.',
-            'apellido.required' => 'El campo apellido es requerido.',
-            'tipo_identificacion.required' => 'El campo tipo identificacion es requerido.',
-            'tipo_identificacion.numeric' => 'El campo tipo identificacion debe ser numerico.',
-            'identificacion.required' => 'El campo identificacion es requerido.',
-            'identificacion.numeric' => 'El campo identificacion debe ser numerico.',
-            'email.required' => 'El campo email es requerida.',
-            'telefono.required' => 'El campo telefono es requerido.',
-            'genero.required' => 'El campo genero es requerido.',
-            'pais_id.required' => 'El campo pais es requerido.',
-            'cod_ciudad.required' => 'El campo ciudad es requerido.',
+            'nombre.required' => __('El campo nombre es requerido.'),
+            'apellido.required' => __('El campo apellido es requerido.'),
+            'tipo_identificacion.required' => __('El campo tipo identificacion es requerido.'),
+            'tipo_identificacion.numeric' => __('El campo tipo identificacion debe ser numerico.'),
+            'identificacion.required' => __('El campo identificacion es requerido.'),
+            'identificacion.numeric' => __('El campo identificacion debe ser numerico.'),
+            'email.required' => __('El campo email es requerida.'),
+            'telefono.required' => __('El campo telefono es requerido.'),
+            'genero.required' => __('El campo genero es requerido.'),
+            'pais_id.required' => __('El campo pais es requerido.'),
+            'cod_ciudad.required' => __('El campo ciudad es requerido.'),
         ];
     }
 

@@ -14,13 +14,13 @@ class StorePlanRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nombre.required' => 'El campo nombre es requerido.',
-            'tipo.required' => 'El campo tipo es requerido.',
-            'tipo.numeric' => 'El campo tipo debe ser numerico.',
-            'valor.required' => 'El campo valor es requerido.',
-            'valor.numeric' => 'El campo valor debe ser numerico.',
-            'max_contactos.numeric' => 'El campo valor de maximo envio debe ser numerico.',
-            'servicios.array' => 'El campo servicios debe de tipo array.',
+            'nombre.required' => __('El campo nombre es requerido.'),
+            'tipo.required' => __('El campo tipo es requerido.'),
+            'tipo.numeric' => __('El campo tipo debe ser numerico.'),
+            'valor.required' => __('El campo valor es requerido.'),
+            'valor.numeric' => __('El campo valor debe ser numerico.'),
+            'max_contactos.numeric' => __('El campo valor de maximo envio debe ser numerico.'),
+            'servicios.array' => __('El campo servicios debe de tipo array.'),
         ];
     }
 

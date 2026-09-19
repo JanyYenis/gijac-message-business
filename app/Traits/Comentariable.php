@@ -37,7 +37,7 @@ trait Comentariable
         if (!$comentario) {
             return [
                 'estados' => 'error',
-                'mensaje' => 'Ha ocurrido un error al intentar agregar el comentario'
+                'mensaje' => __('Ha ocurrido un error al intentar agregar el comentario')
             ];
         }
         return $comentario;

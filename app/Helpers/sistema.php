@@ -870,7 +870,7 @@ if (!function_exists('darRegistroModelo')) {
         if (!$modelo || !$id) {
             return [
                 'estado'  => 'error',
-                'mensaje' => 'Hacen falta campos para obtener el registro.'
+                'mensaje' => __('Hacen falta campos para obtener el registro.')
             ];
             // throw new ErrorException("Hacen falta campos para obtener el registro.");
         }
@@ -881,7 +881,7 @@ if (!function_exists('darRegistroModelo')) {
             if (!$registroValido) {
                 return [
                     'estado'  => 'error',
-                    'mensaje' => 'Registro no válido.'
+                    'mensaje' => __('Registro no válido.')
                 ];
                 // throw new ErrorException("Registro no válido.");
             }
@@ -892,7 +892,7 @@ if (!function_exists('darRegistroModelo')) {
         if (!$model) {
             return [
                 'estado'  => 'error',
-                'mensaje' => 'Registro no encontrado.'
+                'mensaje' => __('Registro no encontrado.')
             ];
             // throw new ErrorException("Registro no válido.");
         }
@@ -901,7 +901,7 @@ if (!function_exists('darRegistroModelo')) {
         if (!$registro) {
             return [
                 'estado'  => 'error',
-                'mensaje' => 'Registro no encontrado.'
+                'mensaje' => __('Registro no encontrado.')
             ];
             // throw new ErrorException("Registro no encontrado.");
         }

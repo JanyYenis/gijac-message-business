@@ -23,7 +23,7 @@ class ConfigController extends Controller
             !can(Usuario::PERMISO_CONFIGURACION_META_CREAR) &&
             !can(Usuario::PERMISO_CONFIGURACION_META_EDITAR) &&
             !can(Usuario::PERMISO_CONFIGURACION_META_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['demo'] = $this->demo;
@@ -40,7 +40,7 @@ class ConfigController extends Controller
         if (!can(Usuario::PERMISO_CONFIGURACION_META_LISTADO) &&
             !can(Usuario::PERMISO_CONFIGURACION_META_EDITAR) &&
             !can(Usuario::PERMISO_CONFIGURACION_META_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $configs = ConfiguracionMeta::where('estado', '!=', ConfiguracionMeta::ELIMINADO)
@@ -77,19 +77,19 @@ class ConfigController extends Controller
         $config = ConfiguracionMeta::create($datos);
 
         if (!$config) {
-            throw new ErrorException('Error al intentar crear la nueva configuracion.');
+            throw new ErrorException(__('Error al intentar crear la nueva configuracion.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se creo correctamente la configuracion.',
+            'mensaje' => __('Se creo correctamente la configuracion.'),
         ];
     }
 
     public function edit(Request $request, ConfiguracionMeta $config)
     {
         if (!can(Usuario::PERMISO_CONFIGURACION_META_EDITAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info["config"] = $config;
@@ -106,12 +106,12 @@ class ConfigController extends Controller
         $datos = $request->all();
         $actualizar = $config->update($datos);
         if (!$actualizar) {
-            throw new ErrorException('Error al intentar actualizar la configuracion.');
+            throw new ErrorException(__('Error al intentar actualizar la configuracion.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente la configuracion.',
+            'mensaje' => __('Se actualizo correctamente la configuracion.'),
         ];
     }
 
@@ -123,12 +123,12 @@ class ConfigController extends Controller
         $eliminar = $config->eliminar();
 
         if (!$eliminar) {
-            throw new ErrorException('A ocurrido un error al intentar eliminar el configuracion.');
+            throw new ErrorException(__('A ocurrido un error al intentar eliminar el configuracion.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se eliminado correctamente el configuracion.',
+            'mensaje' => __('Se eliminado correctamente el configuracion.'),
         ];
     }
 }

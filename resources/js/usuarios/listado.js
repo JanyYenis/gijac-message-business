@@ -164,7 +164,7 @@ window.listadoUsuarios = (id = 0) => {
         ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
-            [15, 20, 50, 100, "Todos"]
+            [15, 20, 50, 100, __("Todos")]
         ],
         pageLength: 15,
         dom: `<'row d-flex align-items-center justify-content-between'

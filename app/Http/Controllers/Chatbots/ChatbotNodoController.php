@@ -61,7 +61,7 @@ class ChatbotNodoController extends Controller
             !can(Usuario::PERMISO_CHATBOT_CREAR) && !can(Usuario::PERMISO_CHATBOT_EDITAR) &&
             !can(Usuario::PERMISO_CHATBOT_ELIMINAR) && !can(Usuario::PERMISO_CHATBOT_LISTADO)
         ) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['total_flujos'] = ChatbotFlow::where(function ($query) {
@@ -221,13 +221,13 @@ class ChatbotNodoController extends Controller
             report($e);
             return response()->json([
                 'estado'  => 'error',
-                'mensaje' => 'Ocurrió un error al guardar el flujo.',
+                'mensaje' => __('Ocurrió un error al guardar el flujo.'),
             ], 500);
         }
 
         return response()->json([
             'estado'  => 'success',
-            'mensaje' => $action === 'published' ? 'Flujo publicado.' : 'Flujo guardado.',
+            'mensaje' => $action === 'published' ? __('Flujo publicado.') : __('Flujo guardado.'),
             'flow_id' => $flow->id,
         ]);
     }
@@ -470,7 +470,7 @@ class ChatbotNodoController extends Controller
     public function verVersion(ChatbotFlowVersion $version)
     {
         if ($version->creado_por !== auth()->user()->uuid && $version->cod_empresa !== auth()->user()->empresa?->id) {
-            throw new ErrorException("No tienes permisos para ver esta versión.");
+            throw new ErrorException(__("No tienes permisos para ver esta versión."));
         }
 
         $snapshot = $version->darSnapshot();
@@ -499,7 +499,7 @@ class ChatbotNodoController extends Controller
             DB::transaction(function () use ($version) {
                 $flow = $version->flow;
                 if (!$flow) {
-                    throw new ErrorException('El flujo asociado ya no existe.');
+                    throw new ErrorException(__('El flujo asociado ya no existe.'));
                 }
 
                 $snapshot   = $version->darSnapshot();
@@ -584,13 +584,13 @@ class ChatbotNodoController extends Controller
             report($e);
             return response()->json([
                 'estado'  => 'error',
-                'mensaje' => 'Ocurrió un error al restaurar la versión.',
+                'mensaje' => __('Ocurrió un error al restaurar la versión.'),
             ], 500);
         }
 
         return response()->json([
             'estado'  => 'success',
-            'mensaje' => 'Versión restaurada correctamente.',
+            'mensaje' => __('Versión restaurada correctamente.'),
         ]);
     }
 }

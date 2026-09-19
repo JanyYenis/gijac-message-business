@@ -10,7 +10,7 @@ $(function () {
 
 const iniciarComponentes = (form = "") => {
     new Quill(`${form} #textareaQuill`, {
-        placeholder: 'Ingrese su comentario...',
+        placeholder: __('Ingrese su comentario...'),
         theme: 'snow' // or 'bubble'
     });
 }

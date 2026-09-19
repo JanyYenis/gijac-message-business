@@ -46,11 +46,11 @@ class InvoiceTemporalController extends Controller
 
         return response()->json([
             'estado' => 'success',
-            'mensaje' => 'Validación correcta.',
+            'mensaje' => __('Validación correcta.'),
             'data' => [
                 'invoice' => $invoice,
                 'name' => $plan->nombre,
-                'description' => $plan->descripcion ?? 'Suscripción ' . $plan->nombre,
+                'description' => $plan->descripcion ?? __('Suscripción ') . $plan->nombre,
                 'amount' => $amount,
                 'formatted_amount' => $formattedAmount,
                 'currency' => $currency,

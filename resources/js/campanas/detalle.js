@@ -41,7 +41,7 @@ window.listadoDetalleCampana = (id) => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-success",
-                title: "Listado Detalle Campaña.",
+                title: __("Listado Detalle Campaña."),
                 exportOptions: {
                     columns: [0,1,2,3,4],
                     format: {
@@ -185,7 +185,7 @@ window.listadoDetalleLinksCampana = (id) => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-success",
-                title: "Listado Detalle Links Campaña.",
+                title: __("Listado Detalle Links Campaña."),
                 exportOptions: {
                     columns: [0,1,2,3],
                     format: {

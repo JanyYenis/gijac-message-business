@@ -69,11 +69,11 @@ $(document).on('click', '.eliminarContacto', function(){
     let id = $(this).attr('data-contacto');
     Swal.fire({
         icon: "info",
-        text: '¿Está seguro de que deseas eliminar el contacto?',
+        text: __('¿Está seguro de que deseas eliminar el contacto?'),
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
+        confirmButtonText: __("Si"),
+        cancelButtonText: __("No"),
         customClass: {
             confirmButton: "btn btn-primary",
             cancelButton: "btn btn-active-light"

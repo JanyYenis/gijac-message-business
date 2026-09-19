@@ -42,7 +42,7 @@ function setupEventListeners() {
         }, 300);
 
         // Show info alert
-        showAlert('info', 'Ejemplo cargado', 'Puedes modificar este prompt según tus necesidades.');
+        showAlert('info', __('Ejemplo cargado'), __('Puedes modificar este prompt según tus necesidades.'));
     });
 
     // Auto-save on blur (optional)
@@ -77,7 +77,7 @@ function updateCharCounter() {
     const length = text.length;
     const counter = $('#charCounter');
 
-    counter.text(`${length} / ${MAX_CHARS} caracteres`);
+    counter.text(`${length} / ${MAX_CHARS} ${__('caracteres')}`);
 
     // Update counter color based on length
     counter.removeClass('warning danger');
@@ -96,7 +96,7 @@ function handleSubmit() {
 
     // Validation
     if (!prompt) {
-        showAlert('warning', 'Campo vacío', 'Por favor, escribe un prompt antes de guardar.');
+        showAlert('warning', __('Campo vacío'), __('Por favor, escribe un prompt antes de guardar.'));
         $('#promptTextarea').addClass('shake');
         setTimeout(() => {
             $('#promptTextarea').removeClass('shake');
@@ -106,7 +106,7 @@ function handleSubmit() {
     }
 
     if (prompt.length < 20) {
-        showAlert('warning', 'Prompt muy corto', 'El prompt debe tener al menos 20 caracteres para ser efectivo.');
+        showAlert('warning', __('Prompt muy corto'), __('El prompt debe tener al menos 20 caracteres para ser efectivo.'));
         $('#promptTextarea').focus();
         return;
     }
@@ -145,12 +145,12 @@ function handleSuccess(response) {
     localStorage.removeItem('draft_prompt');
 
     // Show success message
-    showAlert('success', '¡Prompt guardado exitosamente!', 'La configuración de clasificación ha sido actualizada correctamente.');
+    showAlert('success', __('¡Prompt guardado exitosamente!'), __('La configuración de clasificación ha sido actualizada correctamente.'));
 
     // Success animation
-    $('#saveBtn').html('<i class="fas fa-check"></i> ¡Guardado!');
+    $('#saveBtn').html(`<i class="fas fa-check"></i> ${__('¡Guardado!')}`);
     setTimeout(() => {
-        $('#saveBtn').html('<i class="fas fa-save"></i> Guardar Prompt');
+        $(`#saveBtn`).html(`<i class="fas fa-save"></i> ${__('Guardar Prompt')}`);
     }, 3000);
 
     // Log response
@@ -159,17 +159,17 @@ function handleSuccess(response) {
 
 // Handle error response
 function handleError(xhr, status, error) {
-    let errorMessage = 'No se pudo conectar con el servidor. Verifica que el endpoint esté disponible.';
+    let errorMessage = __('No se pudo conectar con el servidor. Verifica que el endpoint esté disponible.');
 
     if (xhr.status === 400) {
-        errorMessage = 'Datos inválidos. Por favor, revisa el formato del prompt.';
+        errorMessage = __('Datos inválidos. Por favor, revisa el formato del prompt.');
     } else if (xhr.status === 500) {
-        errorMessage = 'Error interno del servidor. Intenta nuevamente más tarde.';
+        errorMessage = __('Error interno del servidor. Intenta nuevamente más tarde.');
     } else if (status === 'timeout') {
-        errorMessage = 'La solicitud ha excedido el tiempo de espera. Verifica tu conexión.';
+        errorMessage = __('La solicitud ha excedido el tiempo de espera. Verifica tu conexión.');
     }
 
-    showAlert('danger', 'Error al guardar', errorMessage);
+    showAlert('danger', __('Error al guardar'), errorMessage);
 
     // Shake animation
     $('.config-card').addClass('shake');
@@ -194,11 +194,11 @@ function setLoadingState(loading) {
 
     if (loading) {
         $saveBtn.prop('disabled', true);
-        $saveBtn.html('<span class="loading-spinner"></span> Guardando...');
-        $textarea.prop('disabled', true);
+        $saveBtn.html(`<span class="loading-spinner"></span> ${__('Guardando...')}`);
+        $textarea.prop(`disabled`, true);
     } else {
-        $saveBtn.prop('disabled', false);
-        $saveBtn.html('<i class="fas fa-save"></i> Guardar Prompt');
+        $saveBtn.prop(`disabled`, false);
+        $saveBtn.html(`<i class="fas fa-save"></i> ${__('Guardar Prompt')}`);
         $textarea.prop('disabled', false);
     }
 }
@@ -253,7 +253,7 @@ function loadSavedPrompt() {
 
     if (draftPrompt && !savedPrompt) {
         $('#promptTextarea').val(draftPrompt);
-        showAlert('info', 'Borrador recuperado', 'Se ha cargado tu último borrador no guardado.');
+        showAlert('info', __('Borrador recuperado'), __('Se ha cargado tu último borrador no guardado.'));
     } else if (savedPrompt) {
         $('#promptTextarea').val(savedPrompt);
     }
@@ -263,21 +263,21 @@ function loadSavedPrompt() {
 
 // Clear form
 function clearForm() {
-    if (confirm('¿Estás seguro de que deseas limpiar el formulario?')) {
+    if (confirm(__('¿Estás seguro de que deseas limpiar el formulario?'))) {
         $('#promptTextarea').val('');
         updateCharCounter();
         localStorage.removeItem('draft_prompt');
-        showAlert('info', 'Formulario limpiado', 'El contenido ha sido eliminado.');
+        showAlert('info', __('Formulario limpiado'), __('El contenido ha sido eliminado.'));
     }
 }
 
 // Handle online/offline status
 window.addEventListener('online', function() {
-    showAlert('success', 'Conexión restaurada', 'Ya puedes guardar tu configuración.');
+    showAlert('success', __('Conexión restaurada'), __('Ya puedes guardar tu configuración.'));
 });
 
 window.addEventListener('offline', function() {
-    showAlert('warning', 'Sin conexión', 'No podrás guardar cambios hasta que se restaure la conexión.');
+    showAlert('warning', __('Sin conexión'), __('No podrás guardar cambios hasta que se restaure la conexión.'));
 });
 
 // Focus textarea on page load

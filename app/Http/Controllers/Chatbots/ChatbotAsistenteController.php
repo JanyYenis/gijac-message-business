@@ -23,7 +23,7 @@ class ChatbotAsistenteController extends Controller
     {
         if (!can(Usuario::PERMISO_CHATBOT_CREAR) && !can(Usuario::PERMISO_CHATBOT_EDITAR) &&
             !can(Usuario::PERMISO_CHATBOT_ELIMINAR) && !can(Usuario::PERMISO_CHATBOT_LISTADO)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['asistente'] = $this->asistenteDelUsuario();
@@ -73,7 +73,7 @@ class ChatbotAsistenteController extends Controller
 
         return response()->json([
             'estado'  => 'success',
-            'mensaje' => 'Configuración guardada correctamente.',
+            'mensaje' => __('Configuración guardada correctamente.'),
         ]);
     }
 
@@ -87,7 +87,7 @@ class ChatbotAsistenteController extends Controller
         $asistente = $this->asistenteDelUsuario();
 
         if (!$asistente) {
-            throw new ErrorException("No se encontró un asistente configurado para este usuario.");
+            throw new ErrorException(__("No se encontró un asistente configurado para este usuario."));
         }
 
         $historial = collect($request->input('historial', []))
@@ -105,7 +105,7 @@ class ChatbotAsistenteController extends Controller
             );
         } catch (Throwable $e) {
             report($e);
-            throw new ErrorException("No se pudo contactar al modelo. Verifica que Ollama esté corriendo: ".$e->getMessage());
+            throw new ErrorException(__("No se pudo contactar al modelo. Verifica que Ollama esté corriendo: ").$e->getMessage());
         }
 
         return response()->json([
@@ -132,7 +132,7 @@ class ChatbotAsistenteController extends Controller
 
         $asistente = $this->asistenteDelUsuario();
         if (!$asistente) {
-            throw new ErrorException("Primero guarda la configuración básica del asistente.");
+            throw new ErrorException(__("Primero guarda la configuración básica del asistente."));
         }
 
         $file = $request->file('documento');
@@ -141,11 +141,11 @@ class ChatbotAsistenteController extends Controller
             $contenido = $extractor->extraer($file);
         } catch (Throwable $e) {
             report($e);
-            throw new ErrorException("No se pudo leer el archivo: " . $e->getMessage());
+            throw new ErrorException(__("No se pudo leer el archivo: "). $e->getMessage());
         }
 
         if (trim($contenido) === '') {
-            throw new ErrorException("No se pudo extraer texto de este documento.");
+            throw new ErrorException(__("No se pudo extraer texto de este documento."));
         }
 
         // Solo se permite 1 documento por asistente: si ya había uno, se reemplaza
@@ -178,7 +178,7 @@ class ChatbotAsistenteController extends Controller
     {
         $asistente = $this->asistenteDelUsuario();
         if (!$asistente || !$asistente->documento_path) {
-            throw new ErrorException("No hay ningún documento para eliminar.");
+            throw new ErrorException(__("No hay ningún documento para eliminar."));
         }
 
         Storage::disk('local')->delete($asistente->documento_path);
@@ -193,7 +193,7 @@ class ChatbotAsistenteController extends Controller
 
         return response()->json([
             'estado'  => 'success',
-            'mensaje' => 'Documento eliminado.',
+            'mensaje' => __('Documento eliminado.'),
         ]);
     }
 }

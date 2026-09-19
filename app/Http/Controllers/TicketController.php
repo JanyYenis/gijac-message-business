@@ -16,7 +16,7 @@ class TicketController extends Controller
     {
         if (!can(Usuario::PERMISO_TICKETS_CREAR) && !can(Usuario::PERMISO_TICKETS_EDITAR) &&
             !can(Usuario::PERMISO_TICKETS_LISTADO) && !can(Usuario::PERMISO_TICKETS_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $responsables = Usuario::selectRaw('id, CONCAT(nombre, " ", apellido) as text')
@@ -40,7 +40,7 @@ class TicketController extends Controller
     public function listado(Request $request)
     {
         if (!can(Usuario::PERMISO_TICKETS_LISTADO)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $pagina = $request->input('pagina') ?? 1;
@@ -87,7 +87,7 @@ class TicketController extends Controller
         $ticket = Ticket::create($datos);
 
         if (!$ticket) {
-            throw new ErrorException("Error al intentar crear el ticket.");
+            throw new ErrorException(__("Error al intentar crear el ticket."));
         }
 
         // 🔥 Asegúrate de que el ticket tenga un ID antes de notificar
@@ -95,7 +95,7 @@ class TicketController extends Controller
 
         // Verifica el ID
         if (empty($ticket->id)) {
-            throw new ErrorException("El ticket no tiene un ID asignado.");
+            throw new ErrorException(__("El ticket no tiene un ID asignado."));
         }
 
         $usuariosAdmin = Usuario::with('roles')->whereHas('roles', function($query){
@@ -109,7 +109,7 @@ class TicketController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se agrego el ticket correctamente.',
+            'mensaje' => __('Se agrego el ticket correctamente.'),
         ];
     }
 
@@ -156,7 +156,7 @@ class TicketController extends Controller
         $actualizar = $ticket->update($datos);
 
         if (!$actualizar) {
-            throw new ErrorException("Error al intentar actualizar el ticket.");
+            throw new ErrorException(__("Error al intentar actualizar el ticket."));
         }
 
         if ($datos['descripcion_comentario']) {
@@ -168,13 +168,13 @@ class TicketController extends Controller
             $comentario = $ticket->crearComentario($info);
 
             if (!$comentario) {
-                throw new ErrorException("Error al intentar guardar el comentario.");
+                throw new ErrorException(__("Error al intentar guardar el comentario."));
             }
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo el ticket correctamente.',
+            'mensaje' => __('Se actualizo el ticket correctamente.'),
         ];
     }
 }

@@ -34,7 +34,7 @@ class UsuarioEmail implements Rule
         if ($this->userId) {
             $registro = $registro->where('id', '!=', $this->userId);
         }
-        
+
         $registro = $registro->exists();
 
         return $registro ? false : true;
@@ -47,6 +47,6 @@ class UsuarioEmail implements Rule
      */
     public function message()
     {
-        return 'Este email ya está en uso.';
+        return __('Este email ya está en uso.');
     }
 }

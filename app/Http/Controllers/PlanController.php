@@ -23,7 +23,7 @@ class PlanController extends Controller
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
         !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $info['servicios'] = Servicio::where('estado', Servicio::ACTIVO)
@@ -38,7 +38,7 @@ class PlanController extends Controller
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
         !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $planes = Plan::with(
@@ -63,14 +63,14 @@ class PlanController extends Controller
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
         !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $datos = $request->all();
         $plan = Plan::create($datos);
 
         if (!$plan) {
-            throw new ErrorException('Error al intentar crear el nuevo plan.');
+            throw new ErrorException(__('Error al intentar crear el nuevo plan.'));
         }
 
         $plan->refresh();
@@ -86,7 +86,7 @@ class PlanController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se creo correctamente el plan.',
+            'mensaje' => __('Se creo correctamente el plan.'),
         ];
     }
 
@@ -97,12 +97,12 @@ class PlanController extends Controller
             ->first() ?? null;
 
         if (!$plan) {
-            throw new ErrorException('Error al intentar encontrar el plan.');
+            throw new ErrorException(__('Error al intentar encontrar el plan.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se cargo la información correctamente.',
+            'mensaje' => __('Se cargo la información correctamente.'),
             'plan' => $plan
         ];
     }
@@ -111,7 +111,7 @@ class PlanController extends Controller
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
         !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $plan->load('serviciosHabilitados');
@@ -133,14 +133,14 @@ class PlanController extends Controller
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
         !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $datos = $request->all();
         $actualizar = $plan->update($datos);
 
         if (!$actualizar) {
-            throw new ErrorException('Error al intentar actualizar el plan.');
+            throw new ErrorException(__('Error al intentar actualizar el plan.'));
         }
 
         if ($request->has('servicios')) {
@@ -168,7 +168,7 @@ class PlanController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente el plan.',
+            'mensaje' => __('Se actualizo correctamente el plan.'),
         ];
     }
 
@@ -179,18 +179,18 @@ class PlanController extends Controller
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
         !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
-            throw new ErrorException("No tienes permisos para acceder a esta sección.");
+            throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
         $eliminar = $plan->eliminar();
 
         if (!$eliminar) {
-            throw new ErrorException('A ocurrido un error al intentar eliminar el plan.');
+            throw new ErrorException(__('A ocurrido un error al intentar eliminar el plan.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se eliminado correctamente el plan.',
+            'mensaje' => __('Se eliminado correctamente el plan.'),
         ];
     }
 }

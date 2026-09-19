@@ -70,7 +70,7 @@ class PerfilWhatsappController extends Controller
 
         return response()->json([
             'estado' => 'success',
-            'mensaje' => 'Se actualizo la informacion de WhatsApp correctamente.',
+            'mensaje' => __('Se actualizo la informacion de WhatsApp correctamente.'),
         ]);
     }
 }

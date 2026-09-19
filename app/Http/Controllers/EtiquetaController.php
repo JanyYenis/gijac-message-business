@@ -22,7 +22,7 @@ class EtiquetaController extends Controller
     public function listado(Request $request)
     {
         // if (!can(Usuario::PERMISO_LISTADO)) {
-        //     throw new ErrorException("No tienes permisos para acceder a esta sección.");
+        //     throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         // }
 
         $etiquetas = Etiqueta::with(
@@ -54,12 +54,12 @@ class EtiquetaController extends Controller
         $etiqueta = Etiqueta::create($datos);
 
         if (!$etiqueta) {
-            throw new ErrorException('Error al intentar crear la nueva etiqueta.');
+            throw new ErrorException(__('Error al intentar crear la nueva etiqueta.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se creo correctamente la etiqueta.',
+            'mensaje' => __('Se creo correctamente la etiqueta.'),
         ];
     }
 
@@ -80,12 +80,12 @@ class EtiquetaController extends Controller
         $actualizar = $etiqueta->update($datos);
 
         if (!$actualizar) {
-            throw new ErrorException('Error al intentar actualizar la etiqueta.');
+            throw new ErrorException(__('Error al intentar actualizar la etiqueta.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizo correctamente la etiqueta.',
+            'mensaje' => __('Se actualizo correctamente la etiqueta.'),
         ];
     }
 
@@ -97,12 +97,12 @@ class EtiquetaController extends Controller
         $eliminar = $etiqueta->eliminar();
 
         if (!$eliminar) {
-            throw new ErrorException('A ocurrido un error al intentar eliminar la etiqueta.');
+            throw new ErrorException(__('A ocurrido un error al intentar eliminar la etiqueta.'));
         }
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se eliminado correctamente la etiqueta.',
+            'mensaje' => __('Se eliminado correctamente la etiqueta.'),
         ];
     }
 

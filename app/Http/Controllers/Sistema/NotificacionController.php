@@ -18,7 +18,7 @@ class NotificacionController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se actualizaron las notificaciones correctamente.',
+            'mensaje' => __('Se actualizaron las notificaciones correctamente.'),
             'html' => view('layouts.componentes.notificaciones', $info)->render(),
         ];
     }
@@ -33,7 +33,7 @@ class NotificacionController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se marcaron todas las notificaciones como leido.',
+            'mensaje' => __('Se marcaron todas las notificaciones como leido.'),
             'html' => view('layouts.componentes.notificaciones', $info)->render(),
         ];
     }

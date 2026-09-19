@@ -53,7 +53,7 @@ class UsuarioRolNotification extends Notification
         return [
             'id' => $this->usuario->id,
             'titulo' => 'Actualizacion de roles.',
-            'mensaje' => 'Se hizo una actualización de los roles al usuario '.$this->usuario->nombre_completo,
+            'mensaje' => __('Se hizo una actualización de los roles al usuario ').$this->usuario->nombre_completo,
             'icono' => 'fas fa-user-cog',
             'color' => 'success',
             'ruta' => route('usuarios.index'),

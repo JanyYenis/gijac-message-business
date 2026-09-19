@@ -5,7 +5,7 @@ const modalCrearCampana = '#modalCrearCampana';
 const tablaContactos = '#tablaContactos';
 var contenidoCampanaOriginal = '';
 window.contactosSeleccionados = [];
-var datos = { 1: 'Nombre' };
+var datos = { 1: __('Nombre') };
 var urlArchivoOriginal = '';
 var tipo_header = 1;
 var tipo_variables = null;
@@ -130,16 +130,16 @@ $(document).on('change', '#selectPlantilla', function () {
                                 nombres_variables.push(index + 1);
                                 variables = variables + `<div class="row mb-3 inputVariable">
                                             <div class="col-lg-7 col-md-7">
-                                                <input type="text" name="variables[]" required data-numero="${index + 1}" placeholder="Ingrese valor de variable {{${index + 1}}}" class="form-control variablesCampana" value=''>
+                                                <input type="text" name="variables[]" required data-numero="${index + 1}" placeholder="${__('Ingrese valor de variable')} {{${index + 1}}}" class="form-control variablesCampana" value=''>
                                             </div>
                                             <div class="col-lg-5 col-md-5">
                                                 <select name="" data-numero="${index + 1}" class="form-control selectsCampos"
-                                                    data-placeholder="Campos del contacto">
+                                                    data-placeholder="${__('Campos del contacto')}">
                                                     <option value=""></option>
-                                                    <option value="nombre_completo">Nombre Completo</option>
-                                                    <option value="nombre">Nombre</option>
-                                                    <option value="apellido">Apellido</option>
-                                                    <option value="numero_completo">Telefono</option>
+                                                    <option value="nombre_completo">${__('Nombre Completo')}</option>
+                                                    <option value="nombre">${__('Nombre')}</option>
+                                                    <option value="apellido">${__('Apellido')}</option>
+                                                    <option value="numero_completo">${__('Telefono')}</option>
                                                 </select>
                                             </div>
                                         </div>`;
@@ -151,16 +151,16 @@ $(document).on('change', '#selectPlantilla', function () {
                             for (let index = 0; index < JSON.parse(template?.body?.example).body_text_named_params.length; index++) {
                                 variables = variables + `<div class="row mb-3 inputVariable">
                                             <div class="col-lg-7 col-md-7">
-                                                <input type="text" name="variables[]" required data-numero="${index + 1}" placeholder="Ingrese valor de variable {{${nombres_variables[index]}}}" class="form-control variablesCampana" value=''>
+                                                <input type="text" name="variables[]" required data-numero="${index + 1}" placeholder="${__('Ingrese valor de variable')} {{${nombres_variables[index]}}}" class="form-control variablesCampana" value=''>
                                             </div>
                                             <div class="col-lg-5 col-md-5">
                                                 <select name="" data-numero="${index + 1}" class="form-control selectsCampos"
-                                                    data-placeholder="Campos del contacto">
+                                                    data-placeholder="${__('Campos del contacto')}">
                                                     <option value=""></option>
-                                                    <option value="nombre_completo">Nombre Completo</option>
-                                                    <option value="nombre">Nombre</option>
-                                                    <option value="apellido">Apellido</option>
-                                                    <option value="numero_completo">Telefono</option>
+                                                    <option value="nombre_completo">${__('Nombre Completo')}</option>
+                                                    <option value="nombre">${__('Nombre')}</option>
+                                                    <option value="apellido">${__('Apellido')}</option>
+                                                    <option value="numero_completo">${__('Telefono')}</option>
                                                 </select>
                                             </div>
                                         </div>`;
@@ -199,7 +199,7 @@ $(document).on('change', '#selectPlantilla', function () {
                             previewHTML += `<button type="button" class="template-button ${buttonClass}">${icon}${button.text}</button>`;
                             if (button.type === 'URL' && button?.example) {
                                 variables = variables + `<div class="mb-3 inputUrls">
-                                    <input type="url" class="form-control" placeholder="URL ${index + 1}" name="urls[${button?.text}]">
+                                    <input type="url" class="form-control" placeholder="${__('URL')} ${index + 1}" name="urls[${button?.text}]">
                                 </div>`;
                             }
                         });
@@ -358,11 +358,11 @@ const enviarDatos = (form) => {
     let textoMensaje = '';
     let textoBtn = '';
     if (formData.get('estado') == 1) {
-        textoMensaje = '¿Está seguro de que desea crear y enviar la campaña?';
-        textoBtn = 'Crear y enviar';
+        textoMensaje = __('¿Está seguro de que desea crear y enviar la campaña?');
+        textoBtn = __('Crear y enviar');
     } else {
-        textoMensaje = '¿Está seguro de que desea crear la campaña?';
-        textoBtn = 'Crear';
+        textoMensaje = __('¿Está seguro de que desea crear la campaña?');
+        textoBtn = __('Crear');
     }
     Swal.fire({
         icon: "info",
@@ -370,7 +370,7 @@ const enviarDatos = (form) => {
         showCancelButton: true,
         buttonsStyling: false,
         confirmButtonText: textoBtn,
-        cancelButtonText: "Cancelar",
+        cancelButtonText: __("Cancelar"),
         customClass: {
             confirmButton: "btn btn-primary",
             cancelButton: "btn btn-active-light"
@@ -646,7 +646,7 @@ function updatePreview() {
 
         previewText.textContent = preview;
     } else {
-        previewText.textContent = 'Tu mensaje aparecerá aquí...';
+        previewText.textContent = __('Tu mensaje aparecerá aquí...');
     }
 }
 
@@ -700,7 +700,7 @@ function updateSummary() {
     const messageContent = document.getElementById('contenidocampana').value;
     document.getElementById('summaryMessage').innerHTML =
         messageContent ? `<div style="white-space: pre-wrap;">${messageContent}</div>` :
-            '<em class="text-muted">No hay mensaje configurado</em>';
+            `<em class="text-muted">${__('No hay mensaje configurado')}</em>`;
 }
 
 $(document).on('click', '#nextBtn', function() {

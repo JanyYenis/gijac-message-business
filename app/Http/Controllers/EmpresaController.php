@@ -53,7 +53,7 @@ class EmpresaController extends Controller
         );
 
         if (!$empresa) {
-            throw new ErrorException('Ha ocurrido un error al intentar crear el negocio.');
+            throw new ErrorException(__('Ha ocurrido un error al intentar crear el negocio.'));
         }
 
         auth()->user()->update([
@@ -72,7 +72,7 @@ class EmpresaController extends Controller
 
         return [
             'estado' => 'success',
-            'mensaje' => 'Se registró correctamente la empresa.',
+            'mensaje' => __('Se registró correctamente la empresa.'),
         ];
     }
 }

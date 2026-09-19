@@ -4,7 +4,7 @@ const tablaCampanas = "#tablaCampanas";
 const rutaCargarListadoCampana = route("campanas.listado");
 
 $(function () {
-    // listadoCampana();
+    //
 });
 
 /**
@@ -42,7 +42,7 @@ window.listadoCampana = () => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-success",
-                title: "Listado Campañas.",
+                title: __("Listado Campañas."),
                 exportOptions: {
                     columns: [0,1,2,3,4,5,6,7,8],
                     format: {
@@ -128,7 +128,7 @@ window.listadoCampana = () => {
         ],
         lengthMenu: [
             [15, 20, 50, 100, -1],
-            [15, 20, 50, 100, "Todos"]
+            [15, 20, 50, 100, __("Todos")]
         ],
         pageLength: 15,
         dom: `<'row d-flex align-items-center justify-content-end'>

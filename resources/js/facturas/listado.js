@@ -48,7 +48,7 @@ window.listadoFacturas = () => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-primary",
-                title: "Listado Facturas.",
+                title: __("Listado Facturas."),
                 exportOptions: {
                     columns: [0,1,2,3,4,5,6,7,8],
                     format: {

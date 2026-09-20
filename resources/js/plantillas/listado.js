@@ -42,7 +42,7 @@ window.listadoPlantillas = () => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-success",
-                title: "Listado Plantillas.",
+                title: __("Listado Plantillas."),
                 exportOptions: {
                     columns: [0,1,2,3,4],
                     format: {

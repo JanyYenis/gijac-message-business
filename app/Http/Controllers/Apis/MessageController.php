@@ -103,7 +103,7 @@ class MessageController extends Controller
         // Por ahora solo lo guardamos en la BD
 
         return (new MessageResource($mensaje))->additional([
-            'message' => 'Mensaje enviado exitosamente'
+            'message' => __('Mensaje enviado exitosamente')
         ]);
     }
 
@@ -126,7 +126,7 @@ class MessageController extends Controller
         $this->markMessagesAsRead($phoneNumberId, $numeroCompleto);
 
         return response()->json([
-            'message' => 'Mensajes marcados como leídos'
+            'message' => __('Mensajes marcados como leídos')
         ]);
     }
 

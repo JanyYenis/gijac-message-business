@@ -111,21 +111,20 @@ Generalidades.prototype.Select2 = function (
             minimumInputLength: minimumInputLength,
             language: {
                 errorLoading: function () {
-                    return "No se pudieron cargar los resultados";
+                    return __("No se pudieron cargar los resultados");
                 },
                 inputTooLong: function (args) {
                     var remainingChars =
                         args.input.length - args.maximum;
 
                     var message =
-                        "Por favor, elimine " +
-                        remainingChars +
-                        " car";
+                        __("Por favor, elimine ") +
+                        remainingChars;
 
                     if (remainingChars == 1) {
-                        message += "ácter";
+                        message += __(" carácter");
                     } else {
-                        message += "acteres";
+                        message += __(" caracteres");
                     }
 
                     return message;
@@ -135,26 +134,25 @@ Generalidades.prototype.Select2 = function (
                         args.minimum - args.input.length;
 
                     var message =
-                        "Por favor, introduzca " +
-                        remainingChars +
-                        " car";
+                        __("Por favor, introduzca ") +
+                        remainingChars;
 
                     if (remainingChars == 1) {
-                        message += "ácter";
+                        message += __(" carácter");
                     } else {
-                        message += "acteres";
+                        message += __(" caracteres");
                     }
 
                     return message;
                 },
                 loadingMore: function () {
-                    return "Cargando más resultados…";
+                    return __("Cargando más resultados…");
                 },
                 maximumSelected: function (args) {
                     var message =
-                        "Sólo puede seleccionar " +
+                        __("Sólo puede seleccionar ") +
                         args.maximum +
-                        " elemento";
+                        __(" elemento");
 
                     if (args.maximum != 1) {
                         message += "s";
@@ -163,10 +161,10 @@ Generalidades.prototype.Select2 = function (
                     return message;
                 },
                 noResults: function () {
-                    return "No se encontraron resultados";
+                    return __("No se encontraron resultados");
                 },
                 searching: function () {
-                    return "Buscando…";
+                    return __("Buscando…");
                 }
             },
             escapeMarkup: function(markup) {
@@ -275,21 +273,20 @@ Generalidades.prototype.select2Modal = function (
             minimumInputLength: minimumInputLength,
             language: {
                 errorLoading: function () {
-                    return "No se pudieron cargar los resultados";
+                    return __("No se pudieron cargar los resultados");
                 },
                 inputTooLong: function (args) {
                     var remainingChars =
                         args.input.length - args.maximum;
 
                     var message =
-                        "Por favor, elimine " +
-                        remainingChars +
-                        " car";
+                        __("Por favor, elimine ") +
+                        remainingChars;
 
                     if (remainingChars == 1) {
-                        message += "ácter";
+                        message += __(" carácter");
                     } else {
-                        message += "acteres";
+                        message += __(" caracteres");
                     }
 
                     return message;
@@ -299,26 +296,25 @@ Generalidades.prototype.select2Modal = function (
                         args.minimum - args.input.length;
 
                     var message =
-                        "Por favor, introduzca " +
-                        remainingChars +
-                        " car";
+                        __("Por favor, introduzca ") +
+                        remainingChars;
 
                     if (remainingChars == 1) {
-                        message += "ácter";
+                        message += __(" carácter");
                     } else {
-                        message += "acteres";
+                        message += __(" caracteres");
                     }
 
                     return message;
                 },
                 loadingMore: function () {
-                    return "Cargando más resultados…";
+                    return __("Cargando más resultados…");
                 },
                 maximumSelected: function (args) {
                     var message =
-                        "Sólo puede seleccionar " +
+                        __("Sólo puede seleccionar ") +
                         args.maximum +
-                        " elemento";
+                        __(" elemento");
 
                     if (args.maximum != 1) {
                         message += "s";
@@ -327,10 +323,10 @@ Generalidades.prototype.select2Modal = function (
                     return message;
                 },
                 noResults: function () {
-                    return "No se encontraron resultados";
+                    return __("No se encontraron resultados");
                 },
                 searching: function () {
-                    return "Buscando…";
+                    return __("Buscando…");
                 }
             },
         })
@@ -588,7 +584,7 @@ Generalidades.prototype.buscarEnListado = function (dataTable, filtro) {
 }
 
 // genericos
-Generalidades.prototype.mensajeSwal = function (validaciones, type = 'error', title = 'Error', footer = null, accionConfirmar = null, mostrarCancelar = false, accionCancelar = null) {
+Generalidades.prototype.mensajeSwal = function (validaciones, type = 'error', title = __('Error'), footer = null, accionConfirmar = null, mostrarCancelar = false, accionCancelar = null) {
 
     if (!validaciones) {
         return;
@@ -613,8 +609,8 @@ Generalidades.prototype.mensajeSwal = function (validaciones, type = 'error', ti
     if (accionConfirmar != null) {
         Object.assign(configSwal, {
             "focusConfirm": false,
-            "confirmButtonText": '<i class="fa fa-check"></i> Confirmar',
-            "confirmButtonAriaLabel": 'Confirmar',
+            "confirmButtonText": `<i class="fa fa-check"></i> ${__('Confirmar')}`,
+            "confirmButtonAriaLabel": __('Confirmar'),
         });
     }
 
@@ -622,8 +618,8 @@ Generalidades.prototype.mensajeSwal = function (validaciones, type = 'error', ti
         Object.assign(configSwal, {
             "showCloseButton": true,
             "showCancelButton": true,
-            "cancelButtonText": '<i class="fa fa-times"></i> Cancelar',
-            "cancelButtonAriaLabel": 'Cancelar'
+            "cancelButtonText": `<i class="fa fa-times"></i> ${__('Cancelar')}`,
+            "cancelButtonAriaLabel": __('Cancelar')
         });
     }
 
@@ -643,16 +639,16 @@ Generalidades.prototype.mensajeGeneral = function (titulo, mensaje, color, boton
         text: mensaje,
         icon: color,
         showCancelButton: true,
-        confirmButtonText: boton1 ?? "Yes, delete it!",
-        cancelButtonText: boton2 ?? "No, cancel!",
+        confirmButtonText: boton1 ?? __("¡Si, eliminar!"),
+        cancelButtonText: boton2 ?? __("¡No, cancelar!"),
         reverseButtons: true
     }).then(function(resultado) {
         if (resultado.value) {
             if (accionConfirmar != null) {
                 accionConfirmar();
                 swal.fire(
-                    "Eliminado",
-                    "Se elimino correctamente.",
+                    __("Eliminado"),
+                    __("Se elimino correctamente."),
                     "success"
                 )
             }
@@ -661,8 +657,8 @@ Generalidades.prototype.mensajeGeneral = function (titulo, mensaje, color, boton
                 accionCancelar();
             }
             swal.fire(
-                "Cancelado",
-                "Cancelaste la accion de eliminar",
+                __("Cancelado"),
+                __("Cancelaste la accion de eliminar"),
                 "error"
             )
         }
@@ -677,15 +673,15 @@ Generalidades.prototype.formatoDinero = function (cantidad) {
 // genericos
 Generalidades.prototype.multiSelect = function (config = {}) {
     let elemento = config.elemento ?? '';
-    let allSelectedText = config.allSelectedText ?? 'Todos';
+    let allSelectedText = config.allSelectedText ?? __('Todos');
     let selectAllValue = config.selectAllValue ?? 'select-all-value';
     let numberDisplayed = config.numberDisplayed ?? 1;
     let buttonWidth = config.buttonWidth ?? '100%';
     let includeSelectAllOption = config.includeSelectAllOption ?? true;
-    let selectableHeaderText = config.selectableHeaderText ?? 'Datos disponibles';
-    let selectionHeaderText = config.selectionHeaderText ?? 'Datos asignados';
-    let selectableHeaderPlaceholder = config.selectableHeaderPlaceholder ?? 'Escribe el nombre del dato disponible';
-    let selectionHeaderPlaceholder = config.selectionHeaderPlaceholder ?? 'Escribe el nombre del dato asignado';
+    let selectableHeaderText = config.selectableHeaderText ?? __('Datos disponibles');
+    let selectionHeaderText = config.selectionHeaderText ?? __('Datos asignados');
+    let selectableHeaderPlaceholder = config.selectableHeaderPlaceholder ?? __('Escribe el nombre del dato disponible');
+    let selectionHeaderPlaceholder = config.selectionHeaderPlaceholder ?? __('Escribe el nombre del dato asignado');
 
     const afterInit = function (ms) {
         $(ms).css("width", "100%");
@@ -748,7 +744,7 @@ Generalidades.prototype.validarDatos = function (
         invalidHandler = evt => {
             this.toastrGenerico(
                 "error",
-                "Ha ocurrido un error de validación, por favor, verifica todos los campos."
+                __("Ha ocurrido un error de validación, por favor, verifica todos los campos.")
             );
             evt.preventDefault();
             return false;
@@ -779,7 +775,7 @@ Generalidades.prototype.validarDatos = function (
             if ($(element).closest(".kt-checkbox").length == 1) {
                 let contenedorCheckbox = $(element).closest(".kt-checkbox");
                 if (contenedorCheckbox.parent().find(".errorCheckbox").length == 0) {
-                    $("<span class='errorCheckbox text-danger'><br/>Este campo es requerido.</span>").insertAfter(contenedorCheckbox);
+                    $(`<span class='errorCheckbox text-danger'><br/>${__('Este campo es requerido.')}</span>`).insertAfter(contenedorCheckbox);
                 }
                 return true;
             }
@@ -916,7 +912,7 @@ Generalidades.prototype.crearDropzone = function (elemento = '#dropzoneArchivos'
     // si se pasa de la cantidad de soportes permitidos.
     dropzone.on("maxfilesexceeded", function (file) {
         this.removeFile(file);
-        generalidades.mensajeSwal("No puedes cargar más soportes.", "error", "Error");
+        generalidades.mensajeSwal(__("No puedes cargar más soportes."), "error", __("Error"));
     });
 
     // no hacer nada si tira error al enviar los archivos.
@@ -931,7 +927,7 @@ Generalidades.prototype.crearDropzone = function (elemento = '#dropzoneArchivos'
 
             // redondeamos
             megabytes = megabytes.toFixed(2);
-            generalidades.mensajeSwal(`El tamaño máximo para subir archivos es de ${config.maxFilesize ?? 1} MB (subiste de ${megabytes} MB)`, 'info', null);
+            generalidades.mensajeSwal(`${__('El tamaño máximo para subir archivos es de')} ${config.maxFilesize ?? 1} ${__('MB (subiste de')} ${megabytes} ${__('MB)')}`, 'info', null);
             return false;
         }
 

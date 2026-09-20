@@ -73,13 +73,13 @@ class LoginQrController extends Controller
 
         if (!$dispositivo) {
             return response()->json([
-                'error' => 'Token inválido.'
+                'error' => __('Token inválido.')
             ], 404);
         }
 
         if (Carbon::parse($dispositivo->expira_en)->isPast()) {
             return response()->json([
-                'error' => 'Token expirado.'
+                'error' => __('Token expirado.')
             ], 400);
         }
 

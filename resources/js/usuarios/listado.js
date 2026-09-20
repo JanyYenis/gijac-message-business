@@ -13,18 +13,18 @@ $(function () {
 const iniciarComponentes = (form = '') => {
     let configMultiSelect = {
         elemento: '#selectRoles',
-        selectableHeaderText: "Roles Disponibles",
-        selectionHeaderText: "Roles Asignados",
-        selectableHeaderPlaceholder: "Escribe el nombre del rol",
-        selectionHeaderPlaceholder: "Escribe el nombre del rol"
+        selectableHeaderText: __("Roles Disponibles"),
+        selectionHeaderText: __("Roles Asignados"),
+        selectableHeaderPlaceholder: __("Escribe el nombre del rol"),
+        selectionHeaderPlaceholder: __("Escribe el nombre del rol")
     }
     generalidades.multiSelect(configMultiSelect);
     let configMultiSelect1 = {
         elemento: '#selectPermisos',
-        selectableHeaderText: "Permisos Disponibles",
-        selectionHeaderText: "Permisos Asignados",
-        selectableHeaderPlaceholder: "Escribe el nombre del permiso",
-        selectionHeaderPlaceholder: "Escribe el nombre del permiso"
+        selectableHeaderText: __("Permisos Disponibles"),
+        selectionHeaderText: __("Permisos Asignados"),
+        selectableHeaderPlaceholder: __("Escribe el nombre del permiso"),
+        selectionHeaderPlaceholder: __("Escribe el nombre del permiso")
     }
     generalidades.multiSelect(configMultiSelect1);
 }
@@ -63,7 +63,7 @@ window.listadoUsuarios = (id = 0) => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-light-primary",
-                title: "Listado Usuarios.",
+                title: __("Listado Usuarios."),
                 exportOptions: {
                     columns: [0,1,2,3,4,5,6,7,8],
                     format: {

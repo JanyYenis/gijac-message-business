@@ -95,7 +95,7 @@ class ApiKeyController extends Controller
 
         return [
             'estado' => 'success',
-            'message' => 'Se elimino correctamente la API Keys.'
+            'message' => __('Se elimino correctamente la API Keys.')
         ];
     }
 }

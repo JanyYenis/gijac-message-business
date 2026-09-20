@@ -173,12 +173,12 @@ $(document).on('click', '#btnEditar', function(){
 
 $(document).on('click', '.btnCancelarDosFactores', function(){
     Swal.fire({
-        text: '¿Está seguro que desea inhabilitar la autenticación de dos factores?',
+        text: __('¿Está seguro que desea inhabilitar la autenticación de dos factores?'),
         icon: "info",
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
+        confirmButtonText: __("Si"),
+        cancelButtonText: __("No"),
         customClass: {
             confirmButton: "btn btn-success",
             cancelButton: "btn btn-active-light"

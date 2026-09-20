@@ -41,7 +41,7 @@ const defaults = {
     ],
     lengthMenu: [
         [5, 10, 15, 20, -1],
-        [5, 10, 15, 20, "Todos"] // change per page values here
+        [5, 10, 15, 20, __("Todos")] // change per page values here
     ],
     pageLength: 5,
     initComplete: function () {

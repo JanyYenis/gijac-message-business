@@ -48,7 +48,7 @@ function updateAmount() {
     const discount = parseFloat(selectedPeriod.dataset.discount);
 
     const selectedPlanEl = document.querySelector('.selectPlan.selected');
-    if (!selectedPlanEl) throw new Error("Debes seleccionar un plan.");
+    if (!selectedPlanEl) throw new Error(__("Debes seleccionar un plan."));
 
     const config = {
         'method': 'GET',
@@ -111,12 +111,12 @@ async function processPayment() {
     const payButton = document.querySelector('.pay-button');
     const originalContent = payButton.innerHTML;
     payButton.disabled = true;
-    payButton.innerHTML = '<div class="loading"></div> Procesando...';
+    payButton.innerHTML = `<div class="loading"></div> ${__('Procesando...')}`;
 
     try {
         // 1️⃣ Obtener los datos del formulario
-        const selectedPlanEl = document.querySelector('.selectPlan.selected');
-        if (!selectedPlanEl) throw new Error("Debes seleccionar un plan.");
+        const selectedPlanEl = document.querySelector(`.selectPlan.selected`);
+        if (!selectedPlanEl) throw new Error(__("Debes seleccionar un plan."));
 
         const planId = selectedPlanEl.dataset.plan;
         const currency = document.getElementById('currency').value;
@@ -149,7 +149,7 @@ async function processPayment() {
         const result = await response.json();
 
         if (!response.ok || result.estado !== 'success') {
-            throw new Error(result.mensaje || 'No se pudo validar el plan o la factura.');
+            throw new Error(result.mensaje || __('No se pudo validar el plan o la factura.'));
         }
 
         // ✅ 3️⃣ Usar SOLO la información que viene del servidor
@@ -234,7 +234,7 @@ function showPaymentSuccess() {
                     </div>
                     <h3 style="color: var(--gray-900); margin-bottom: 1rem; font-size: 1.5rem;">¡Pago Exitoso!</h3>
                     <p style="color: var(--gray-600); margin-bottom: 2rem;">
-                        Tu suscripción al ${plans[selectedPlan.name].name} ha sido activada correctamente.
+                        ${__('Tu suscripción al')} ${__(plans[selectedPlan.name].name)} ${__('ha sido activada correctamente.')}
                     </p>
                     <button onclick="this.parentElement.parentElement.remove()" style="
                         background: var(--whatsapp-green);
@@ -246,7 +246,7 @@ function showPaymentSuccess() {
                         cursor: pointer;
                         transition: all 0.2s ease;
                     " onmouseover="this.style.background='var(--dark-green)'" onmouseout="this.style.background='var(--whatsapp-green)'">
-                        Continuar
+                        ${__('Continuar')}
                     </button>
                 </div>
             `;

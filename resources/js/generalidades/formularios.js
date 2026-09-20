@@ -15,22 +15,18 @@ Generalidades.inHabilitarBoton = function (form, estado = true, nombreClase = nu
     const clase = nombreClase ?? "class";
     $(form).find(clase).prop("disabled", estado);
 }
-// Generalidades.prototype.inHabilitarBoton = function (form, estado = true, nombreClase = null) {
-//     const clase = nombreClase ?? "class";
-//     $(form).find(clase).prop("disabled", estado);
-// }
 
 /**
  * Función que permite resetear el validate genérico.
  * @param {string|HTMLFormElement} idForm String con el ID del formulario a resetearle el validate, o el elemento del formulario como tal.
  */
 Generalidades.prototype.resetValidate = function (idForm) {
-    let validator = $(idForm).validate(); 
+    let validator = $(idForm).validate();
     //Se reinicia los select2
     $(idForm).find(".form-control")
         .val([])
         .trigger("change");
-    
+
     $(idForm)
         .find(".form-control")
         .val("");
@@ -38,11 +34,11 @@ Generalidades.prototype.resetValidate = function (idForm) {
     $(idForm)
         .find(".touchspin")
         .trigger("touchspin.updatesettings", { "initval": 1 })
-    
+
     $(idForm)
         .find(".div-validacion")
         .addClass("d-none");
-    
+
     validator.resetForm();
 }
 
@@ -50,7 +46,7 @@ Generalidades.prototype.resetValidate = function (idForm) {
  * Método genérico para mostrar los mensajes en el div-validacion que retorna el validate del FormRequest
  * @param {HTMLFormElement} form Formulario que contienen el div para las validaciones
  * @param {Object} validaciones Validaciones con los mensajes que retorna el FormRequest
- * @param {bool} scroll define si se le hace enfoque del scroll al body de la página. 
+ * @param {bool} scroll define si se le hace enfoque del scroll al body de la página.
  */
 Generalidades.prototype.mostrarValidaciones = function (form, validaciones, scroll = false) {
     if (!validaciones || (validaciones && !Array.isArray(validaciones))) {
@@ -107,20 +103,20 @@ Generalidades.prototype.validarClave = function (campoClave = "#clave", divConte
         Generalidades.prototype.erroresClave = [];
         let clave = this.value;
 		if (clave.length < window.usuario.LONGITUD_MIN_CLAVE) {
-			Generalidades.prototype.erroresClave.push("Debe de ser mayor a " + window.usuario.LONGITUD_MIN_CLAVE + " caracteres.");
+			Generalidades.prototype.erroresClave.push(__("Debe de ser mayor a ") + window.usuario.LONGITUD_MIN_CLAVE + __(" caracteres."));
 		}
 
 		// regex final ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$
 		if (!clave.match(/(?=.*[a-z])[a-zA-Z\d]{1,}/)) {
-			Generalidades.prototype.erroresClave.push("Debe contener al menos una letra minúscula.");
+			Generalidades.prototype.erroresClave.push(__("Debe contener al menos una letra minúscula."));
 		}
 
 		if (!clave.match(/(?=.*[A-Z])[a-zA-Z\d]{1,}/)) {
-			Generalidades.prototype.erroresClave.push("Debe contener al menos una letra mayúscula.");
+			Generalidades.prototype.erroresClave.push(__("Debe contener al menos una letra mayúscula."));
 		}
 
 		if (!clave.match(/(?=.*\d)[a-zA-Z\d]{1,}/)) {
-			Generalidades.prototype.erroresClave.push("Debe de contener al menos un número.");
+			Generalidades.prototype.erroresClave.push(__("Debe de contener al menos un número."));
 		}
 
 		if (Generalidades.prototype.erroresClave.length >= 1) {
@@ -138,7 +134,7 @@ Generalidades.prototype.validarClave = function (campoClave = "#clave", divConte
 			$(divContenedorErrores).addClass("d-none");
 		}
     };
-    
+
     $(campoClave).on("keyup change", validacion);
 };
 
@@ -155,10 +151,10 @@ Generalidades.prototype.randomString = function (extension, caracteres) {
     if (caracteres.indexOf('#') > -1) disponibles += '0123456789';
     if (caracteres.indexOf('!') > -1) disponibles += '~`!@#$%^&*()_+-={}[]:";\'<>?,./|\\';
     let result = '';
-    
+
     for (let i = extension; i > 0; --i)
         result += disponibles[Math.floor(Math.random() * disponibles.length)];
-    
+
     return result;
 };
 
@@ -176,17 +172,17 @@ Generalidades.prototype.revelarClave = function (campoId, btnRevelarClave, revel
     this.clavesReveladas[campoId] = revelar;
     let elementoI = $(btnRevelarClave).find("i");
     let claveUsuario = $(campoId);
-    
+
     if (this.clavesReveladas[campoId]) {
         claveUsuario.prop("type", "text");
         elementoI.removeClass("fa-eye");
         elementoI.addClass("fa-eye-slash");
-        $(btnRevelarClave).prop("title", "Haz click aquí para ocultar la contraseña");
+        $(btnRevelarClave).prop("title", __("Haz click aquí para ocultar la contraseña"));
     } else {
         claveUsuario.prop("type", "password");
         elementoI.addClass("fa-eye");
         elementoI.removeClass("fa-eye-slash");
-        $(btnRevelarClave).prop("title", "Haz click aquí para mostrar la contraseña");
+        $(btnRevelarClave).prop("title", __("Haz click aquí para mostrar la contraseña"));
     }
 }
 
@@ -233,7 +229,7 @@ Generalidades.prototype.copiarTexto = async function (texto, mostrarToast = fals
     navigator.clipboard.writeText(texto).then(() => {
         // en caso de que haya podido copiarse correctamente.
         if (mostrarToast) {
-            this.toastrGenerico("info", "Se ha copiado el texto al portapapeles.");
+            this.toastrGenerico("info", __("Se ha copiado el texto al portapapeles."));
         }
 
         if (enConcedido) {
@@ -263,7 +259,7 @@ Generalidades.prototype.copiarTexto = async function (texto, mostrarToast = fals
                     break;
             }
         }).catch((error) => {
-            let mensajeError = "El navegador actual no tiene este permiso disponible.";
+            let mensajeError = __("El navegador actual no tiene este permiso disponible.");
             console.error(mensajeError + " " + error);
             if (mostrarToast) {
                 this.toastrGenerico("error", mensajeError);
@@ -271,7 +267,7 @@ Generalidades.prototype.copiarTexto = async function (texto, mostrarToast = fals
             return false;
         });
     }).catch((error) => {
-        let mensajeError = "El navegador no ha concedido los permisos, o no tiene soporte para ello.";
+        let mensajeError = __("El navegador no ha concedido los permisos, o no tiene soporte para ello.");
         console.error(mensajeError + " " + error);
         if (mostrarToast) {
             this.toastrGenerico("error", mensajeError);

@@ -399,6 +399,7 @@ class MensajeController extends Controller
             throw new ErrorException(__("Error al intentar enviar el mensaje."));
         }
 
+        $mensaje->load('contacto');
         broadcast(new MensajeSent($mensaje, $this->phone_number_id))->toOthers();
 
         // === Recargar mensajes del chat ===

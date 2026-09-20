@@ -72,11 +72,11 @@ $(document).on('click', '.btnEliminar', function(){
     let id = $(this).attr('data-plan');
     Swal.fire({
         icon: "info",
-        text: '¿Está seguro de que deseas eliminar el plan?',
+        text: __('¿Está seguro de que deseas eliminar el plan?'),
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
+        confirmButtonText: __("Si"),
+        cancelButtonText: __("No"),
         customClass: {
             confirmButton: "btn btn-primary",
             cancelButton: "btn btn-active-light"
@@ -100,7 +100,7 @@ const eliminar = (id) => {
             'plan': id
         }
     }
-    
+
     const success = (response) => {
         if (response.estado == 'success') {
             window.listadoPlanes();

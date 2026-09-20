@@ -11,11 +11,11 @@ $(function () {
 
 const iniciarComponentes = (form = "") => {
     divDescripcion1 = new Quill('#divDescripcion1', {
-        placeholder: 'Ingresar la descripción...',
+        placeholder: __('Ingresar la descripción...'),
         theme: 'snow' // or 'bubble'
     });
     divDescripcion = new Quill('#divDescripcion', {
-        placeholder: 'Ingresar el comentario...',
+        placeholder: __('Ingresar el comentario...'),
         theme: 'snow' // or 'bubble'
     });
 }

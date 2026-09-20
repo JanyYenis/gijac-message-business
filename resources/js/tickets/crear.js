@@ -13,7 +13,7 @@ $(function () {
 const iniciarComponentes = (form = "") => {
     $("#fecha_hallazgo").flatpickr();
     new Quill('#divDescripcion', {
-        placeholder: 'Ingrese la descripción...',
+        placeholder: __('Ingrese la descripción...'),
         theme: 'snow' // or 'bubble'
     });
 }

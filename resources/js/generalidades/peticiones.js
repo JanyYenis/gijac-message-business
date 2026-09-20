@@ -46,15 +46,15 @@ Generalidades.prototype.peticionHttp = async function (url, config, success, err
     let accept = headers.has("Accept") ? headers.get("Accept") : this.CONTENT_TYPE_JSON;
 
     config.headers = headers;
-    
+
     //si envia un cuerpo de la petición.
     const request = new Request(url, config);
     try {
         const response = await fetch(request);
-        
+
         // 401 - unauthorized (sesión expirada)
         if (response.status == 401) {
-            return this.mensajeSwal("Tu sesión ha expirado. Inicia sesión para continuar.", "info", "Sesión expirada", null, () => {window.location.reload()}, false, () => {window.location.reload()});
+            return this.mensajeSwal(__("Tu sesión ha expirado. Inicia sesión para continuar."), "info", __("Sesión expirada"), null, () => {window.location.reload()}, false, () => {window.location.reload()});
         }
 
         let respuesta;
@@ -139,14 +139,14 @@ Generalidades.prototype.refrescarSeccion = function (btnAccion, ruta, div, compl
             this.ocultarCargando(div);
         }
     };
-    
+
     const config = {
         "headers": {
             "Content-Type": generalidades.CONTENT_TYPE_JSON,
             "Accept": generalidades.CONTENT_TYPE_JSON
         }
     };
-    
+
     this.get(ruta, config, success, error);
 }
 
@@ -252,14 +252,14 @@ Generalidades.prototype.delete = function (url, config, success, error = null, t
  * @param {Function} error Función callback en caso de error.
  */
 Generalidades.prototype.edit = function (url, config, success, error = null, tipo = this.CONTENT_TYPE_JSON) {
-    
+
     const headers = new Headers(config.headers); // Crea un objeto de tipo Headers dado el parámetro.
     if (!headers.has("Content-Type")) {
         headers.append("Content-Type", this.CONTENT_TYPE_JSON);
     }
     config.headers = headers;
 
-    
+
     if (config.body && (config.method === "PUT" || config.method === "PATCH")) {
         this.peticionHttp(url, config, success, error, tipo);
         return true;
@@ -286,7 +286,7 @@ Generalidades.prototype.escucharEvento = function (canal, evento, esPrivado = fa
         };
     }
 
-    
+
     if (esPrivado) {
         // se trata de un canal privado.
         // console.log(`Escuchando evento ${evento} en el canal ${canal} (privado)`);
@@ -410,7 +410,7 @@ Generalidades.prototype.refrescarDT = function (Dt) {
  * @param {string} filtro selector para realizar filtro.
  */
 Generalidades.prototype.formularioEditar  = function (ruta, div, completado = false, error= false) {
- 
+
     // if (btnAccion) {
     //     btnAccion.prop("disabled", true);
     // }

@@ -22,7 +22,7 @@ class ChatController extends Controller
             ->first();
 
         if (!$config) {
-            throw new \Exception('No hay configuración de WhatsApp para esta empresa.');
+            throw new \Exception(__('No hay configuración de WhatsApp para esta empresa.'));
         }
 
         return $config->phone_number_id;
@@ -33,7 +33,7 @@ class ChatController extends Controller
     {
         $config = ConfiguracionMeta::where('phone_number_id', $phoneNumberId)->first();
         if (!$config || !$config->token) {
-            throw new \Exception('Token de WhatsApp no configurado.');
+            throw new \Exception(__('Token de WhatsApp no configurado.'));
         }
 
         // Ajusta esto según cómo instancies tu API en tu proyecto
@@ -104,7 +104,7 @@ class ChatController extends Controller
         $contacto = Contacto::where('numero_completo', $numeroCompleto)->first();
 
         if (!$contacto) {
-            return response()->json(['success' => false, 'message' => 'Contacto no encontrado'], 404);
+            return response()->json(['success' => false, 'message' => __('Contacto no encontrado')], 404);
         }
 
         $query = Mensaje::where(function ($q) use ($phoneNumberId, $numeroCompleto) {
@@ -155,7 +155,7 @@ class ChatController extends Controller
 
         $contacto = Contacto::where('numero_completo', $numeroCompleto)->first();
         if (!$contacto) {
-            return response()->json(['success' => false, 'message' => 'Contacto no encontrado'], 404);
+            return response()->json(['success' => false, 'message' => __('Contacto no encontrado')], 404);
         }
 
         $mensajeTexto = $request->input('mensaje');
@@ -170,7 +170,7 @@ class ChatController extends Controller
                 $waMessageId = $data->messages[0]->id ?? null;
             }
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Error al enviar por WhatsApp: ' . $e->getMessage()], 500);
+            return response()->json(['success' => false, 'message' => __('Error al enviar por WhatsApp: ') . $e->getMessage()], 500);
         }
 
         // 2. Guardar en BD

@@ -40,6 +40,7 @@ class MessageStore
             $mensaje->nombre_completo = $contacto->nombre_completo;
         }
 
+        $mensaje->load('contacto');
         broadcast(new MensajeSent($mensaje));
     }
 }

@@ -165,7 +165,7 @@ class ChatbotAsistenteController extends Controller
 
         return response()->json([
             'estado'    => 'success',
-            'mensaje'   => 'Documento procesado correctamente.',
+            'mensaje'   => __('Documento procesado correctamente.'),
             'documento' => [
                 'nombre' => $asistente->documento_nombre,
                 'size'   => $asistente->documento_size,

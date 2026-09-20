@@ -30,16 +30,16 @@ Echo.join(`chat.${window.numeroTelefono}`).listen('.mensaje.enviado', (e) => {
         let contenido_mensaje = e?.mensaje?.body ?? 'Tienes un mensaje';
         let tipo = e?.mensaje?.type ?? 1;
         if (tipo == 6) {
-            contenido_mensaje = 'Audio';
+            contenido_mensaje = __('Audio');
         } else if (tipo == 4) {
-            contenido_mensaje = 'Documento';
+            contenido_mensaje = __('Documento');
         } else if (tipo == 3) {
-            contenido_mensaje = 'Video';
+            contenido_mensaje = __('Video');
         } else if (tipo == 2) {
-            contenido_mensaje = 'Imagen';
+            contenido_mensaje = __('Imagen');
         }
         new Notification('GIJAC MESSAGE BUSINESS', {
-            body: (e?.mensaje?.nombre_completo ?? e?.mensaje?.wa_from) + ': ' + (contenido_mensaje),
+            body: (e?.mensaje?.contacto?.nombre_completo ?? e?.mensaje?.wa_from) + ': ' + (contenido_mensaje),
             icon: '../../img/logo_gmb.png' // opcional
         });
     }

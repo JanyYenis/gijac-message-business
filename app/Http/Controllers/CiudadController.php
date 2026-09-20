@@ -77,7 +77,7 @@ class CiudadController extends Controller
         return [
             "estado" => "success",
             "ciudades" => $ciudades,
-            "mensaje" => "Se han cargado las ciudades correctamente"
+            "mensaje" => __("Se han cargado las ciudades correctamente")
         ];
     }
 

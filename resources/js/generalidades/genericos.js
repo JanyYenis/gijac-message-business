@@ -165,7 +165,7 @@ Generalidades.prototype.darCodigoInput = function (elemento) {
  * @param {HTMLElement} elemento selector html.
  */
 Generalidades.prototype.initTelefonoInput = function (elemento, config = null) {
-    
+
     config = config ?? {
         initialCountry: 'CO',
         preferredCountries: ["CO", "US"],
@@ -222,63 +222,6 @@ Generalidades.prototype.refrescarTooltip = function (elemento) {
     //Si se encuentra visible se elimina el elemento.
     if ($('.bs-tooltip-top').find('show')) $('.bs-tooltip-top').remove();
     $(elemento).tooltip('update') /** Reiniciamos el tooltip */
-}
-
-/**
- * Sweet alert genérico recibe 4 parámetros
- * @param {[object,string,Function]} validaciones Contiene los mensajes para mostrar.
- * @param {string} type - Tipo de swal.
- * @param {string} title - Título que se mostrará, por defecto, null.
- * @param {string} footer - Texto que se mostrará en la parte final del swal, por defecto, null.
- * @param {Function} accionConfirmar - Acción a ejecutarse cuando le dé click OK. Por defecto, null.
- * @param {boolean} mostrarCancelar - Decide entre mostrar u ocultar el botón de cancelar. Por defecto, false (oculto).
- */
-Generalidades.prototype.mensajeSwal = function (validaciones, type = 'error', title = 'Error', footer = null, accionConfirmar = null, mostrarCancelar = false, accionCancelar = null) {
-
-    if (!validaciones) {
-        return;
-    }
-    let html = '';
-
-    if (typeof validaciones === "object") {
-        $.each(validaciones, function (i, value) {
-            html += `<li> ${value} </li>`;
-        });
-    } else {
-        html += validaciones;
-    }
-
-    let configSwal = {
-        type,
-        title,
-        html,
-        footer
-    };
-
-    if (accionConfirmar != null) {
-        Object.assign(configSwal, {
-            "focusConfirm": false,
-            "confirmButtonText": '<i class="fa fa-check"></i> Confirmar',
-            "confirmButtonAriaLabel": 'Confirmar',
-        });
-    }
-
-    if (mostrarCancelar) {
-        Object.assign(configSwal, {
-            "showCloseButton": true,
-            "showCancelButton": true,
-            "cancelButtonText": '<i class="fa fa-times"></i> Cancelar',
-            "cancelButtonAriaLabel": 'Cancelar'
-        });
-    }
-
-    swal.fire(configSwal).then((resultado) => {
-        if (resultado.value && accionConfirmar != null) {
-            accionConfirmar();
-        } else if (!resultado.value && accionCancelar != null) {
-            accionCancelar();
-        }
-    });
 }
 
 /**
@@ -381,7 +324,7 @@ Generalidades.prototype.summernoteGenerico = function (idSummernote, altura = 15
 
     // instanciar el summernote de nuevo.
     $(idSummernote).summernote({
-        // protección XSS 
+        // protección XSS
         "codeviewFilter": true,
         "codeviewIframeFilter": true,
         // ---
@@ -393,19 +336,19 @@ Generalidades.prototype.summernoteGenerico = function (idSummernote, altura = 15
             "onChangeCodeView": onChange,
             "onKeydown": function (e) {
                 if (limCaracteres != null && claseCaracteres != null) {
-                    var textoSummernote = e.currentTarget.innerText; 
+                    var textoSummernote = e.currentTarget.innerText;
                     if (textoSummernote.trim().length >= limCaracteres) {
                         //delete keys, arrow keys, copy, cut, select all
                         if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey) && !(e.keyCode == 65 && e.ctrlKey)) {
-                            e.preventDefault(); 
+                            e.preventDefault();
                         }
-                    } 
+                    }
                 }
             },
             "onKeyup": function (e) {
                 var textoActual = e.currentTarget.innerText;
                 if (limCaracteres != null && claseCaracteres != null) {
-                    $(claseCaracteres).text(`Límite de caracteres: ${textoActual.trim().length}/${limCaracteres}`);
+                    $(claseCaracteres).text(`${__('Límite de caracteres:')} ${textoActual.trim().length}/${limCaracteres}`);
                 }
                 let formularioCercano = $(this).closest("form");
                 if (textoActual.trim().length == 0) {
@@ -431,7 +374,7 @@ Generalidades.prototype.summernoteGenerico = function (idSummernote, altura = 15
                     if(maxPaste > 0){
                         document.execCommand('insertText', false, textPegar.substring(0, maxPaste));
                     }
-                    $(claseCaracteres).text(`Límite de caracteres: ${texto.trim().length}/${limCaracteres}`);
+                    $(claseCaracteres).text(`${__('Límite de caracteres:')} ${texto.trim().length}/${limCaracteres}`);
                 }
             }
         }

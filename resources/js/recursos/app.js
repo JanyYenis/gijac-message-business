@@ -120,7 +120,7 @@ $(function () {
     function renderSearch(q) {
         if (!q || q.length < 2) { $res.hide().empty(); return; }
         var nq = norm(q);
-        var hits = INDEX.filter(function (it) { return norm(it.t + ' ' + it.k).indexOf(nq) > -1; });
+        var hits = INDEX.filter(function (it) { return norm(__(it.t) + ' ' + __(it.k)).indexOf(nq) > -1; });
         if (!hits.length) {
             $res.html('<div class="sr-empty"><i class="fa-regular fa-face-frown mb-2 d-block fs-4"></i>Sin resultados para <b>' + $('<i>').text(q).html() + '</b></div>').show();
             return;

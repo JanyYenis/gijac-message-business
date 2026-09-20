@@ -100,15 +100,15 @@ function updatePreview() {
     $('#previewPrice').text('$' + valor.toFixed(2));
 
     // Update period
-    let period = 'por mes';
-    if (tipo === 2) period = 'por año';
-    else if (tipo === 3) period = 'personalizado';
+    let period = __('por mes');
+    if (tipo === 2) period = __('por año');
+    else if (tipo === 3) period = __('personalizado');
     $('#previewPeriod').text(period);
 
     // Update contacts
-    let contactsText = 'Contactos ilimitados';
+    let contactsText = __('Contactos ilimitados');
     if (maxContactos && maxContactos > 0) {
-        contactsText = parseInt(maxContactos).toLocaleString() + ' contactos máximo';
+        contactsText = parseInt(maxContactos).toLocaleString() + __(' contactos máximo');
     }
     $('#previewContacts').html('<i class="fas fa-users me-2"></i>' + contactsText);
 }

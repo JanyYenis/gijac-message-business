@@ -17,7 +17,7 @@ var KTGoogle2FA = function () {
                     'one_time_password': {
                         validators: {
                             notEmpty: {
-                                message: 'El código es requerido'
+                                message: __('El código es requerido')
                             }
                         }
                     },
@@ -60,10 +60,10 @@ var KTGoogle2FA = function () {
 
                         // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                         Swal.fire({
-                            text: "Excelente!",
+                            text: __("Excelente!"),
                             icon: "success",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok",
+                            confirmButtonText: __("Ok"),
                             customClass: {
                                 confirmButton: "btn btn-success"
                             }
@@ -83,10 +83,10 @@ var KTGoogle2FA = function () {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.",
+                        text: __("Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo."),
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok",
+                        confirmButtonText: __("Ok"),
                         customClass: {
                             confirmButton: "btn btn-success"
                         }
@@ -118,10 +118,10 @@ var KTGoogle2FA = function () {
 
                             // Show message popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({
-                                text: "Excelente!",
+                                text: __("Excelente!"),
                                 icon: "success",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok",
+                                confirmButtonText: __("Ok"),
                                 customClass: {
                                     confirmButton: "btn btn-success"
                                 }
@@ -135,10 +135,10 @@ var KTGoogle2FA = function () {
                         } else {
                             // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                             Swal.fire({
-                                text: "Lo sentimos, el email o password es incorrecto.",
+                                text: __("Lo sentimos, el email o password es incorrecto."),
                                 icon: "error",
                                 buttonsStyling: false,
-                                confirmButtonText: "Ok",
+                                confirmButtonText: __("Ok"),
                                 customClass: {
                                     confirmButton: "btn btn-success"
                                 }
@@ -146,10 +146,10 @@ var KTGoogle2FA = function () {
                         }
                     }).catch(function (error) {
                         Swal.fire({
-                            text: "Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.",
+                            text: __("Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo."),
                             icon: "error",
                             buttonsStyling: false,
-                            confirmButtonText: "Ok",
+                            confirmButtonText: __("Ok"),
                             customClass: {
                                 confirmButton: "btn btn-success"
                             }
@@ -164,10 +164,10 @@ var KTGoogle2FA = function () {
                 } else {
                     // Show error popup. For more info check the plugin's official documentation: https://sweetalert2.github.io/
                     Swal.fire({
-                        text: "Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo.",
+                        text: __("Lo sentimos, parece que se han detectado algunos errores. Inténtalo de nuevo."),
                         icon: "error",
                         buttonsStyling: false,
-                        confirmButtonText: "Ok",
+                        confirmButtonText: __("Ok"),
                         customClass: {
                             confirmButton: "btn btn-success"
                         }

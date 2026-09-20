@@ -96,4 +96,9 @@ class Mensaje extends Model
     {
         return $this->belongsTo(EnvioCampana::class, 'wa_message_id', 'wamid');
     }
+
+    public function contacto()
+    {
+        return $this->belongsTo(Contacto::class, 'contact_id', 'id');
+    }
 }

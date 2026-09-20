@@ -79,11 +79,11 @@ $(document).on('click', '.btnEliminar', function(){
     let id = $(this).attr('data-key');
     Swal.fire({
         icon: "info",
-        text: '¿Está seguro de que deseas eliminar el key?',
+        text: __('¿Está seguro de que deseas eliminar el key?'),
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
+        confirmButtonText: __("Si"),
+        cancelButtonText: __("No"),
         customClass: {
             confirmButton: "btn btn-success",
             cancelButton: "btn btn-danger"
@@ -107,7 +107,7 @@ const eliminar = (id) => {
             'key': id
         }
     }
-    
+
     const success = (response) => {
         if (response.estado == 'success') {
             window.listadoApiKeys();
@@ -125,7 +125,7 @@ const eliminar = (id) => {
 
 const enviarDatos = (form) => {
     let formData = new FormData(document.getElementById("formCrearAPIKey"));
-    
+
     const config = {
         'method': 'POST',
         'headers': {

@@ -72,11 +72,11 @@ $(document).on('click', '.btnEliminar', function(){
     let id = $(this).attr('data-usuario');
     Swal.fire({
         icon: "info",
-        text: '¿Está seguro de que deseas eliminar el usuario?',
+        text: __('¿Está seguro de que deseas eliminar el usuario?'),
         showCancelButton: true,
         buttonsStyling: false,
-        confirmButtonText: "Si",
-        cancelButtonText: "No",
+        confirmButtonText: __("Si"),
+        cancelButtonText: __("No"),
         customClass: {
             confirmButton: "btn btn-success",
             cancelButton: "btn btn-danger"
@@ -100,7 +100,7 @@ const eliminar = (id) => {
             'usuario': id
         }
     }
-    
+
     const success = (response) => {
         if (response.estado == 'success') {
             window.listadoUsuarios();

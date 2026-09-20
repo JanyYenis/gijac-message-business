@@ -576,7 +576,7 @@ class ChatbotNodoController extends Controller
                     'estado'          => ChatbotFlowVersion::PUBLICADO,
                     'creado_por'      => auth()->user()->uuid,
                     'cod_empresa'     => auth()->user()->empresa?->id,
-                    'nota_cambio'     => 'Restaurado desde versión ' . $version->numero_version,
+                    'nota_cambio'     => __('Restaurado desde versión ') . $version->numero_version,
                     'fecha_publicado' => now(),
                 ]);
             });

@@ -45,7 +45,7 @@ window.listadoApiKeys = (id = 0) => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-primary",
-                title: "Listado API Key.",
+                title: __("Listado API Key."),
                 exportOptions: {
                     columns: [0,1,2,3,4],
                     format: {
@@ -169,7 +169,7 @@ window.listadoApiKeysLogs = (id = 0) => {
                 extend: "excel",
                 text: `<i class="fa fa-download"></i> ${__('Excel')}`,
                 className: "btn btn-primary",
-                title: "Listado Logs de las API Keys.",
+                title: __("Listado Logs de las API Keys."),
                 exportOptions: {
                     columns: [0,1,2,3,4,5],
                     format: {

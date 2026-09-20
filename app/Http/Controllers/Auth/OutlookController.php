@@ -54,8 +54,8 @@ class OutlookController extends Controller
 
         if (!isset($providedState) || $expectedState != $providedState) {
             return redirect(route('login'))
-                ->with('error', 'Estado de autenticación no válido')
-                ->with('errorDetail', 'El estado de autenticación proporcionado no coincidió con el valor esperado');
+                ->with('error', __('Estado de autenticación no válido'))
+                ->with('errorDetail', __('El estado de autenticación proporcionado no coincidió con el valor esperado'));
         }
 
         // El código de autorización debe estar en el parámetro de consulta "code"
@@ -92,11 +92,11 @@ class OutlookController extends Controller
                 if ($accion) {
                     return redirect(route('home'));
                 } else {
-                    return redirect(route('login'))->with('error', 'El usuario no se encuentra en nuestra base de datos.');
+                    return redirect(route('login'))->with('error', __('El usuario no se encuentra en nuestra base de datos.'));
                 }
             } catch (\League\OAuth2\Client\Provider\Exception\IdentityProviderException $e) {
                 return redirect(route('login'))
-                    ->with('error', 'Error al solicitar el token de acceso')
+                    ->with('error', __('Error al solicitar el token de acceso'))
                     ->with('errorDetail', json_encode($e->getResponseBody()));
             }
         }

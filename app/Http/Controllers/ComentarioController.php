@@ -48,7 +48,6 @@ class ComentarioController extends Controller
     {
         $datos = $request->all();
         $datos['cod_usuario'] = auth()->user()->id;
-        dd($datos);
 
         $ticket = Ticket::find($datos['']);
 

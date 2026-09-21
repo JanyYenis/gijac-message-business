@@ -18,17 +18,17 @@ class RecomendacionesSheet implements FromArray, WithTitle, WithStyles
     public function array(): array
     {
         if (!$this->analisisIa) {
-            return [['No se pudo generar el análisis de IA para esta campaña.']];
+            return [[__('No se pudo generar el análisis de IA para esta campaña.')]];
         }
 
-        $filas = [['Sugerencias generales']];
+        $filas = [[__('Sugerencias generales')]];
 
         foreach ($this->analisisIa['sugerencias'] ?? [] as $sugerencia) {
             $filas[] = ['• ' . $sugerencia];
         }
 
         $filas[] = [''];
-        $filas[] = ['Recomendaciones por nivel de confianza'];
+        $filas[] = [__('Recomendaciones por nivel de confianza')];
 
         foreach ($this->analisisIa['recomendaciones_por_nivel'] ?? [] as $texto) {
             $filas[] = [$texto];
@@ -39,7 +39,7 @@ class RecomendacionesSheet implements FromArray, WithTitle, WithStyles
 
     public function title(): string
     {
-        return 'Recomendaciones IA';
+        return __('Recomendaciones IA');
     }
 
     public function styles(Worksheet $sheet)

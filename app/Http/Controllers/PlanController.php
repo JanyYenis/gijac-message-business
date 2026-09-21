@@ -123,7 +123,7 @@ class PlanController extends Controller
         $info['tipos'] = Plan::darTipo();
 
         $respuesta["estado"] = "success";
-        $respuesta["mensaje"] = "Datos cargados correctamente";
+        $respuesta["mensaje"] = __("Datos cargados correctamente");
         $respuesta['html'] = view("planes.modals.form-editar", $info)->render();
 
         return response()->json($respuesta);

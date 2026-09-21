@@ -55,7 +55,7 @@ class ReporteCampana implements FromView, ShouldAutoSize, WithStyles //, WithDra
         // $sheet->getColumnDimension('F')->setAutoSize(true);
         // $sheet->getColumnDimension('G')->setAutoSize(true);
         // $sheet->getColumnDimension('H')->setAutoSize(true);
-        $sheet->setTitle('Campaña');
+        $sheet->setTitle(__('Campaña'));
 
         // Configura el estilo de las celdas, por ejemplo, agregar bordes
         // return [

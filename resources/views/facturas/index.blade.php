@@ -496,7 +496,7 @@
                                 <div class="feature-icon">
                                     <i class="fas fa-check"></i>
                                 </div>
-                                {{$plan?->max_contactos}} Contactos Activos
+                                {{$plan?->max_contactos}} {{ __('Contactos Activos') }}
                             </li>
                             @foreach ($plan->serviciosHabilitados as $item)
                                 <li>

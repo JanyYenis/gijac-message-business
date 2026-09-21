@@ -1,4 +1,4 @@
-@props(['url', 'texto' => 'Ver detalles'])
+@props(['url', 'texto' => __('Ver detalles')])
 
 <table role="presentation" cellpadding="0" cellspacing="0">
     <tr>

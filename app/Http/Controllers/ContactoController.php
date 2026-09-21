@@ -255,7 +255,7 @@ class ContactoController extends Controller
         $info['generos'] = Contacto::darTipoGenero();
 
         $respuesta["estado"] = "success";
-        $respuesta["mensaje"] = "Datos cargados correctamente";
+        $respuesta["mensaje"] = __("Datos cargados correctamente");
         $respuesta['html'] = view("contactos.modals.editar", $info)->render();
 
         return response()->json($respuesta);
@@ -365,7 +365,7 @@ class ContactoController extends Controller
 
         return [
             'estado'    => 'success',
-            'mensaje'   => 'Se cargo correctamente los contactos',
+            'mensaje'   => __('Se cargo correctamente los contactos'),
             'contactos' => $contactos
         ];
     }

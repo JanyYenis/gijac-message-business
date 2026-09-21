@@ -54,7 +54,7 @@ class NuevaCampana extends Notification
     {
         return [
             'id' => $this->campana?->id ?? $this->id_campana,
-            'titulo' => 'Nueva campaña.',
+            'titulo' => __('Nueva campaña.'),
             'mensaje' => __('Se creo una nueva campaña con nombre: ').$this->campana?->nombre ?? 'N/A',
             'icono' => 'fas fa-bullhorn',
             'color' => 'info',

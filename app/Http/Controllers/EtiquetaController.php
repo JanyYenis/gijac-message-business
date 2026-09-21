@@ -68,7 +68,7 @@ class EtiquetaController extends Controller
         $info["etiqueta"] = $etiqueta;
 
         $respuesta["estado"] = "success";
-        $respuesta["mensaje"] = "Datos cargados correctamente";
+        $respuesta["mensaje"] = __("Datos cargados correctamente");
         $respuesta['html'] = view("etiquetas.modals.editar", $info)->render();
 
         return response()->json($respuesta);

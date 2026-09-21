@@ -37,6 +37,7 @@
     "/js/recursos/app.js": "/js/recursos/app.js",
     "/js/recursos/particles.js": "/js/recursos/particles.js",
     "/js/catalogo/principal.js": "/js/catalogo/principal.js",
+    "/js/calendario/principal.js": "/js/calendario/principal.js",
     "/css/app.css": "/css/app.css",
     "/img/benefits-3d.png": "/img/benefits-3d.png",
     "/img/bg-chat.png": "/img/bg-chat.png",
@@ -76,5 +77,6 @@
     "/css/llamada.css": "/css/llamada.css",
     "/css/recursos.css": "/css/recursos.css",
     "/css/plantillas.css": "/css/plantillas.css",
-    "/css/catalogo.css": "/css/catalogo.css"
+    "/css/catalogo.css": "/css/catalogo.css",
+    "/css/calendario.css": "/css/calendario.css"
 }

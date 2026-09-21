@@ -51,7 +51,7 @@ class ContactoFormulario extends Notification
     {
         return [
             'id' => $this->contacto->id,
-            'titulo' => 'Nueva solicitud.',
+            'titulo' => __('Nueva solicitud.'),
             'mensaje' => $this->contacto->nombre . __(' acaba de enviar una solicitud'),
             'icono' => 'fas fa-users',
             'color' => 'primary',

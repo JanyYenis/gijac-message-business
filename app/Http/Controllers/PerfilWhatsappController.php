@@ -14,30 +14,30 @@ class PerfilWhatsappController extends Controller
         $info['dato'] = $datos;
         $info['numeroG'] = $this->numeroG;
         $info['categorias'] = [
-            'UNDEFINED' => 'INDEFINIDO',
-            'OTHER' => 'OTRO',
-            'AUTO' => 'AUTO',
-            'BEAUTY' => 'BELLEZA',
-            'APPAREL' => 'VESTIR',
-            'EDU' => 'EDUCACIÓN',
-            'ENTERTAIN' => 'ENTRETENER',
-            'EVENT_PLAN' => 'EVENTO_PLAN',
-            'FINANCE' => 'FINANZAS',
-            'GROCERY' => 'TIENDA DE COMESTIBLES',
-            'GOVT' => 'GOBIERNO',
-            'HOTEL' => 'HOTEL',
-            'HEALTH' => 'SALUD',
-            'NONPROFIT' => 'SIN ÁNIMO DE LUCRO',
-            'PROF_SERVICES' => 'SERVICIOS PROFECIONALES',
-            'RETAIL' => 'MINORISTA',
-            'TRAVEL' => 'VIAJAR',
-            'RESTAURANT' => 'RESTAURANTE',
+            'UNDEFINED' => __('INDEFINIDO'),
+            'OTHER' => __('OTRO'),
+            'AUTO' => __('AUTO'),
+            'BEAUTY' => __('BELLEZA'),
+            'APPAREL' => __('VESTIR'),
+            'EDU' => __('EDUCACIÓN'),
+            'ENTERTAIN' => __('ENTRETENER'),
+            'EVENT_PLAN' => __('EVENTO_PLAN'),
+            'FINANCE' => __('FINANZAS'),
+            'GROCERY' => __('TIENDA DE COMESTIBLES'),
+            'GOVT' => __('GOBIERNO'),
+            'HOTEL' => __('HOTEL'),
+            'HEALTH' => __('SALUD'),
+            'NONPROFIT' => __('SIN ÁNIMO DE LUCRO'),
+            'PROF_SERVICES' => __('SERVICIOS PROFECIONALES'),
+            'RETAIL' => __('MINORISTA'),
+            'TRAVEL' => __('VIAJAR'),
+            'RESTAURANT' => __('RESTAURANTE'),
             // 'NOT_A_BIZ' => 'NOT_A_BIZ',
         ];
         $info['datosNumero'] = getPhoneNumbers($this->waba_id, $this->version, $this->token);
 
         $respuesta["estado"] = "success";
-        $respuesta["mensaje"] = "Datos cargados correctamente";
+        $respuesta["mensaje"] = __("Datos cargados correctamente");
         $respuesta['html'] = view("perfil-whatsapp.editar", $info)->render();
 
         return response()->json($respuesta);

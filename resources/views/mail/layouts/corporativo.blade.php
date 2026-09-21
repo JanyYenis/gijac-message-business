@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('titulo', 'GIJAC WhatsApp')</title>
+    <title>@yield('titulo', 'GIJAC MESSAGE BUSINESS')</title>
 </head>
 <body style="margin:0; padding:0; background-color:#F4F6F5; font-family: Arial, Helvetica, sans-serif;">
 
@@ -78,7 +78,7 @@
                                 {{ __('Este correo fue generado automáticamente por la plataforma GMB WhatsApp Business.') }}
                             </p>
                             <p style="margin:0; font-size:12px; color:#888888;">
-                                © {{ date('Y') }} GIJAC. Todos los derechos reservados.
+                                © {{ date('Y') }} GIJAC WEB. {{ __('Todos los derechos reservados.') }}
                             </p>
                         </td>
                     </tr>

@@ -13,7 +13,7 @@
             {{ __('Nombre de la Etiqueta') }}
         </label>
         <input type="text" class="form-control" id="tagNameEdit" name="nombre" value="{{ $etiqueta?->nombre }}"
-            placeholder="Ingrese el nombre" required maxlength="50">
+            placeholder="{{ __('Ingrese el nombre') }}" required maxlength="50">
         <div class="invalid-feedback"></div>
     </div>
 
@@ -35,6 +35,6 @@
             {{ __('Descripción') }}
         </label>
         <textarea class="form-control" id="tagDescriptionEdit" name="descripcion" rows="3" maxlength="255"
-            placeholder="Descripción opcional de la etiqueta...">{{$etiqueta?->descripcion ?? ''}}</textarea>
+            placeholder="{{ __('Descripción opcional de la etiqueta...') }}">{{$etiqueta?->descripcion ?? ''}}</textarea>
     </div>
 </div>

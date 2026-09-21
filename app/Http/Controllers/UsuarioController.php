@@ -129,7 +129,7 @@ class UsuarioController extends Controller
         $info['paises'] = Pais::where('estado', Pais::ACTIVO)->get();
 
         $respuesta["estado"] = "success";
-        $respuesta["mensaje"] = "Datos cargados correctamente";
+        $respuesta["mensaje"] = __("Datos cargados correctamente");
         $respuesta['html'] = view("usuarios.modals.editar", $info)->render();
 
         return response()->json($respuesta);

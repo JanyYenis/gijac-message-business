@@ -23,14 +23,14 @@
                         <div class="col-lg-6">
                             <div class="fv-row mb-10">
                                 <label class="form-label required">{{ __('Nombre') }}</label>
-                                <input type="text" class="form-control" name="nombre" placeholder="Nombre"
+                                <input type="text" class="form-control" name="nombre" placeholder="{{ __('Nombre') }}"
                                     required />
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="fv-row mb-10">
                                 <label class="form-label">{{ __('Apellido') }}</label>
-                                <input type="text" class="form-control" name="apellido" placeholder="Apellido" />
+                                <input type="text" class="form-control" name="apellido" placeholder="{{ __('Apellido') }}" />
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                             <div class="fv-row mb-10">
                                 <label class="form-label">{{ __('Genero') }}</label>
                                 <select name="genero" id="selectGenero" class="form-control" data-control="select2"
-                                    data-placeholder="Genero" data-allow-clear="true" data-hide-search="true"
+                                    data-placeholder="{{ __('Genero') }}" data-allow-clear="true" data-hide-search="true"
                                     data-dropdown-parent="body">
                                     <option value=""></option>
                                     @foreach ($generos as $item)
@@ -52,7 +52,7 @@
                             <div class="fv-row mb-10">
                                 <label class="form-label">{{ __('Etiquetas') }}</label>
                                 <select name="etiquetas[]" id="selectEtiquetas" class="form-control"
-                                    data-control="select2" multiple data-placeholder="Etiquetas" data-allow-clear="true"
+                                    data-control="select2" multiple data-placeholder="{{ __('Etiquetas') }}" data-allow-clear="true"
                                     data-dropdown-parent="body">
                                     <option></option>
                                     @foreach ($etiquetas as $etiquetas)
@@ -67,7 +67,7 @@
                             <div class="fv-row mb-10">
                                 <label class="required form-label">{{ __('Telefono') }}</label>
                                 <input type="tel" name="telefono" id="tel" class="form-control" maxlength="15"
-                                    placeholder="Ingrese el eléfono" required>
+                                    placeholder="{{ __('Ingrese el teléfono') }}" required>
                             </div>
                         </div>
                     </div>

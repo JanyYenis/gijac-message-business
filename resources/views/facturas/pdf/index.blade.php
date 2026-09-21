@@ -257,10 +257,10 @@
             </td>
             <td class="factura-cell">
                 <div class="factura-titulo">{{ __('FACTURA ELECTRÓNICA') }}<br>{{ __('DE VENTA') }}</div>
-                <div class="factura-numero">No. {{ $factura->invoice }}</div>
+                <div class="factura-numero">{{ __('No.') }} {{ $factura->invoice }}</div>
                 <div class="factura-meta">
-                    <strong>{{ __('Resolución DIAN:') }}</strong> No. {{ $empresa['resolucion'] }} de {{ $empresa['fecha_res'] }}<br>
-                    <strong>{{ __('Rango autorizado:') }}</strong> {{ $empresa['rango_desde'] }} a {{ $empresa['rango_hasta'] }}<br>
+                    <strong>{{ __('Resolución DIAN:') }}</strong> {{ __('No.') }} {{ $empresa['resolucion'] }} {{ __('de') }} {{ $empresa['fecha_res'] }}<br>
+                    <strong>{{ __('Rango autorizado:') }}</strong> {{ $empresa['rango_desde'] }} {{ __('a') }} {{ $empresa['rango_hasta'] }}<br>
                     <strong>{{ __('Vigencia:') }}</strong> {{ $empresa['vigencia'] }}
                 </div>
             </td>
@@ -307,7 +307,7 @@
         </tr>
         <tr>
             <td class="info-label">{{ __('Tiempo Contratado:') }}</td>
-            <td class="info-value">{{ $factura->tiempo }} mes(es)</td>
+            <td class="info-value">{{ $factura->tiempo }} {{ __('mes(es)') }}</td>
             <td class="info-label">{{ __('Fecha Vencimiento:') }}</td>
             <td class="info-value">
                 {{ optional($factura->fecha_vencimiento)->format('Y-m-d') }}

@@ -34,7 +34,7 @@ class ContactosSheet implements FromCollection, WithHeadings, WithMapping, WithT
 
     public function headings(): array
     {
-        return ['Nombre', 'Teléfono', 'Probabilidad de apertura', 'Nivel', 'Tasa histórica (%)', 'Mejor hora de envío'];
+        return [__('Nombre'), __('Teléfono'), __('Probabilidad de apertura'), __('Nivel'), __('Tasa histórica (%)'), __('Mejor hora de envío')];
     }
 
     public function map($contacto): array
@@ -53,7 +53,7 @@ class ContactosSheet implements FromCollection, WithHeadings, WithMapping, WithT
 
     public function title(): string
     {
-        return 'Contactos';
+        return __('Contactos');
     }
 
     public function styles(Worksheet $sheet)

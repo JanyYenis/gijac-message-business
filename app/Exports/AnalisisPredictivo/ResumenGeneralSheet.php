@@ -32,29 +32,29 @@ class ResumenGeneralSheet implements FromArray, WithTitle, WithStyles, WithDrawi
         $promedioApertura = $total ? round($this->predicciones->avg('tasa_historica'), 2) : 0;
 
         $nivelGeneral = match (true) {
-            $promedioApertura >= 70 => 'Alta',
-            $promedioApertura >= 40 => 'Media',
-            default => 'Baja',
+            $promedioApertura >= 70 => __('Alta'),
+            $promedioApertura >= 40 => __('Media'),
+            default => __('Baja'),
         };
 
         $porNivel = $this->predicciones->countBy('nivel');
 
         return [
-            ['Reporte de Predicción de Campaña', ''],
+            [__('Reporte de Predicción de Campaña'), ''],
             ['', ''],
             ['', ''],
-            ['Mensaje analizado', $this->contenidoMensaje],
-            ['Total de contactos', $total],
-            ['Tasa histórica promedio de apertura', $promedioApertura . '%'],
-            ['Nivel de apertura general', $nivelGeneral],
+            [__('Mensaje analizado'), $this->contenidoMensaje],
+            [__('Total de contactos'), $total],
+            [__('Tasa histórica promedio de apertura'), $promedioApertura . '%'],
+            [__('Nivel de apertura general'), $nivelGeneral],
             ['', ''],
-            ['Distribución por nivel de confianza', ''],
-            ['Alta', $porNivel->get('Alta', 0)],
-            ['Media', $porNivel->get('Media', 0)],
-            ['Baja', $porNivel->get('Baja', 0)],
+            [__('Distribución por nivel de confianza'), ''],
+            [__('Alta'), $porNivel->get('Alta', 0)],
+            [__('Media'), $porNivel->get('Media', 0)],
+            [__('Baja'), $porNivel->get('Baja', 0)],
             ['', ''],
-            ['Explicación IA', $this->analisisIa['explicacion'] ?? 'No disponible'],
-            ['Mensaje mejorado sugerido', $this->analisisIa['mensaje_mejorado'] ?? 'No disponible'],
+            [__('Explicación IA'), $this->analisisIa['explicacion'] ?? __('No disponible')],
+            [__('Mensaje mejorado sugerido'), $this->analisisIa['mensaje_mejorado'] ?? __('No disponible')],
         ];
     }
 

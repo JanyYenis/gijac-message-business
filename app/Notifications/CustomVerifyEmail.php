@@ -41,7 +41,7 @@ class CustomVerifyEmail extends Notification
     {
         return (new MailMessage)->view('mail.auth.verificar-email', [
             'url' => $this->verificationUrl($notifiable)
-        ])->subject('GIJAC MESSAGE BUSINESS: Verifica tu cuenta 🚀');
+        ])->subject(__('GIJAC MESSAGE BUSINESS: Verifica tu cuenta 🚀'));
     }
 
     /**

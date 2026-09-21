@@ -63,11 +63,11 @@ class Campana extends Model
 
     protected $casts = [
         'id' => 'string',
-        "fecha_envio" => "date:d/m/Y",
+        "fecha_envio" => "datetime",
     ];
 
     protected $dates = [
-        "fecha_envio" => "date:d/m/Y",
+        "fecha_envio" => "datetime",
     ];
 
     protected static function boot()

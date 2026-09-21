@@ -116,7 +116,7 @@ class PlantillaController extends Controller
         $respuesta['numeroTel'] = $this->numeroG;
         $respuesta['plantilla'] = $plantilla;
         $respuesta["estado"] = "success";
-        $respuesta["mensaje"] = "Datos cargados correctamente";
+        $respuesta["mensaje"] = __("Datos cargados correctamente");
 
         return response()->json($respuesta);
     }
@@ -233,7 +233,7 @@ class PlantillaController extends Controller
             ->get();
 
         $respuesta['estado'] = 'success';
-        $respuesta['mensaje'] = 'Datos cargados correctamente';
+        $respuesta['mensaje'] = __('Datos cargados correctamente');
         $respuesta['html'] = view('plantillas.modals.editar', $info)->render();
 
         // La vista Blade solo precarga nombre/categoría/idioma (son campos
@@ -406,7 +406,7 @@ class PlantillaController extends Controller
 
         return [
             'estado'     => 'success',
-            'mensaje'    => 'Se cargo correctamente.',
+            'mensaje'    => __('Se cargo correctamente.'),
             'plantillas' => $plantillas,
         ];
     }

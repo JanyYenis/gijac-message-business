@@ -52,7 +52,7 @@ class NuevoTicket extends Notification
     {
         return [
             'id' => $this->ticket->id,
-            'titulo' => 'Nuevo ticket.',
+            'titulo' => __('Nuevo ticket.'),
             'mensaje' => __('Se creo un nuevo ticket'),
             'icono' => 'fas fa-bullhorn',
             'color' => 'info',

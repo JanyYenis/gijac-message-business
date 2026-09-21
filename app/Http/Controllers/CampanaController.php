@@ -298,7 +298,7 @@ class CampanaController extends Controller
 
             // Verifica el ID
             if (empty($campana->id)) {
-                throw new ErrorExceptio__(n("aLa campaña no tiene un ID asignado."));
+                throw new ErrorException(__("La campaña no tiene un ID asignado."));
             }
 
             Notification::send(auth()->user(), new NuevaCampana($campana->id));
@@ -382,13 +382,13 @@ class CampanaController extends Controller
             ], $info);
 
             if (!$envio_campana) {
-                throw new ErrorExceptio__(n("aError al intentar registar el detalle de la campaña."));
+                throw new ErrorException(__("Error al intentar registar el detalle de la campaña."));
             }
 
             $envio_campana->refresh();
             // Verifica el ID
             if (empty($envio_campana->id)) {
-                throw new ErrorExceptio__(n("aEl envio de campaña no tiene un ID asignado."));
+                throw new ErrorException(__("El envio de campaña no tiene un ID asignado."));
             }
 
             $variablesDetalleUrls = VariableCampana::where('cod_campana', $idCampana)
@@ -672,7 +672,7 @@ class CampanaController extends Controller
             }
 
             if (!array_key_exists('file', $variablesMensaje)) {
-                throw new ErrorExceptio__(n("aError al intenatr guardar el archivo."));
+                throw new ErrorException(__("Error al intenatr guardar el archivo."));
             }
         } else {
             if ($request->file('archivo')) {
@@ -827,7 +827,7 @@ class CampanaController extends Controller
         }
         $info['error'] = $error;
         $respuesta["estado"] = "success";
-        $respuesta["mensaje"] = "Datos cargados correctamente";
+        $respuesta["mensaje"] = __("Datos cargados correctamente");
         $respuesta["html"] = view("sistema.error", $info)->render();
 
         return response()->json($respuesta);

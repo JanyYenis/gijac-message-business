@@ -118,6 +118,9 @@ mix.js("resources/js/recursos/particles.js", "public/js/recursos/particles.js");
 // CATALOGO
 mix.js("resources/js/catalogo/principal.js", "public/js/catalogo/principal.js");
 
+// CALENDARIO
+mix.js("resources/js/calendario/principal.js", "public/js/calendario/principal.js");
+
 // ----------------------------------------------------------------------------------------------------
 // Carpetas
 mix.copyDirectory('resources/img', 'public/img');
@@ -188,4 +191,9 @@ mix.styles(
 mix.styles(
     "resources/css/catalogo.css",
     "public/css/catalogo.css"
+);
+
+mix.styles(
+    "resources/css/calendario.css",
+    "public/css/calendario.css"
 );

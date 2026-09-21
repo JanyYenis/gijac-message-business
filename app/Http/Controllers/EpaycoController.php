@@ -64,7 +64,7 @@ class EpaycoController extends Controller
 
     public function callback(Request $request)
     {
-        return response()->json(['message' => 'Pago procesado', 'data' => $request->all()]);
+        return response()->json(['message' => __('Pago procesado'), 'data' => $request->all()]);
     }
 
     public function confirmation(Request $request)

@@ -20,7 +20,6 @@ class ContactoPaginaController extends Controller
     public function store(Request $request)
     {
         $datos = $request->all();
-        // dd($datos);
 
         $contacto = ContactoPagina::create($datos);
 

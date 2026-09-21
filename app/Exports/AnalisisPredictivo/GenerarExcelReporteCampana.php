@@ -22,16 +22,16 @@ class GenerarExcelReporteCampana implements WithMultipleSheets
         $predicciones = collect($this->predicciones)->keyBy('contacto_id');
 
         return [
-            'Resumen' => new ResumenGeneralSheet(
+            __('Resumen') => new ResumenGeneralSheet(
                 $predicciones,
                 $this->analisisIa,
                 $this->contenidoMensaje
             ),
-            'Contactos' => new ContactosSheet(
+            __('Contactos') => new ContactosSheet(
                 $this->contactos,
                 $predicciones
             ),
-            'Recomendaciones IA' => new RecomendacionesSheet(
+            __('Recomendaciones IA') => new RecomendacionesSheet(
                 $this->analisisIa
             ),
         ];

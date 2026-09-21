@@ -29,6 +29,6 @@ class WompiController extends Controller
     public function callback(Request $request)
     {
         // Aquí se recibe la notificación de pago
-        return response()->json(['message' => 'Pago recibido', 'data' => $request->all()]);
+        return response()->json(['message' => __('Pago recibido'), 'data' => $request->all()]);
     }
 }

@@ -22,7 +22,7 @@
                                 <i class="fas fa-tag me-1"></i>
                                 {{ __('Nombre de la Etiqueta') }}
                             </label>
-                            <input type="text" class="form-control" id="tagName" name="nombre" placeholder="Ingrese el nombre" required maxlength="50">
+                            <input type="text" class="form-control" id="tagName" name="nombre" placeholder="{{ __('Ingrese el nombre') }}" required maxlength="50">
                             <div class="invalid-feedback"></div>
                         </div>
 
@@ -42,7 +42,7 @@
                                 <i class="fas fa-align-left me-1"></i>
                                 {{ __('Descripción') }}
                             </label>
-                            <textarea class="form-control" id="tagDescription" name="descripcion" rows="3" maxlength="255" placeholder="Descripción opcional de la etiqueta..."></textarea>
+                            <textarea class="form-control" id="tagDescription" name="descripcion" rows="3" maxlength="255" placeholder="{{ __('Descripción opcional de la etiqueta...') }}"></textarea>
                         </div>
                     </div>
                 </div>

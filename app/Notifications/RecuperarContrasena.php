@@ -43,7 +43,7 @@ class RecuperarContrasena extends Notification
     {
         return (new MailMessage)->view('mail.auth.recuperar-contrasena', [
             'url' => route('password.reset', [ 'token' => $this->token, 'email' => $notifiable->email ])
-        ])->subject('GIJAC MESSAGE BUSINESS: Recuperar Contraseña');
+        ])->subject(__('GIJAC MESSAGE BUSINESS: Recuperar Contraseña'));
     }
 
     /**

@@ -25,7 +25,7 @@ class ReporteCampanaMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reporte de predicción de campaña — ' . now()->format('d/m/Y'),
+            subject: __('Reporte de predicción de campaña — ') . now()->format('d/m/Y'),
         );
     }
 

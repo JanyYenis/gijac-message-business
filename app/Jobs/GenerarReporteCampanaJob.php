@@ -41,9 +41,9 @@ class GenerarReporteCampanaJob implements ShouldQueue
 
         $promedioApertura = round(collect($predicciones)->avg('tasa_historica'), 2);
         $nivelGeneral = match (true) {
-            $promedioApertura >= 70 => 'Alta',
-            $promedioApertura >= 40 => 'Media',
-            default => 'Baja',
+            $promedioApertura >= 70 => __('Alta'),
+            $promedioApertura >= 40 => __('Media'),
+            default => __('Baja'),
         };
 
         Mail::to($this->emailDestino)->send(new ReporteCampanaMail(

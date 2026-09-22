@@ -12,7 +12,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('campana:programadas')->everyMinute();
+        $schedule->command('campana:programadas')
+            ->everyMinute()
+            ->withoutOverlapping();
         $schedule->command('cancelar:demo')->everyMinute();
     }
 

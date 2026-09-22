@@ -94,7 +94,15 @@ class ProgramacionCampanaCommand extends Command
                 if ($horaCampana->lt($fechaActual)) {
                     $envios_campana = $campana?->enviosActivos ?? [];
                     if (count($envios_campana)) {
-                        $campana->update(['estado' => Campana::ENVIADO]);
+                        $actualizado = Campana::where('id', $campana->id)
+                            ->where('estado', Campana::PENDIENTE)
+                            ->update(['estado' => Campana::ENVIADO]);
+
+                        if (!$actualizado) {
+                            // Otro proceso ya la tomó, saltamos esta campaña.
+                            continue;
+                        }
+
                         $url = "https://graph.facebook.com/{$this->version}/{$campana?->id_plantilla}";
                         $metodo = 'GET';
                         $responseP = consultaBase($url, $metodo, $this->token);

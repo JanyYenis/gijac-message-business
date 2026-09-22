@@ -15,8 +15,14 @@
                 </p>
             </div>
             <div class="d-flex gap-2">
-                <button class="btn-soft" id="demoToggle"><i class="bi bi-database me-1"></i> <span>{{ __('Modo demo') }}</span></button>
-                <button class="btn-gj" id="addProductBtn"><i class="bi bi-plus-lg me-1"></i> {{ __('Nuevo producto') }}</button>
+                <button class="btn-soft" id="demoToggle">
+                    <i class="bi bi-database me-1"></i>
+                    <span>{{ __('Modo demo') }}</span>
+                </button>
+                <button class="btn-gj" id="addProductBtn">
+                    <i class="bi bi-plus-lg me-1"></i>
+                    {{ __('Nuevo producto') }}
+                </button>
             </div>
         </div>
 
@@ -24,7 +30,9 @@
         <div class="row g-3 mb-4" id="kpiRow">
             <div class="col-6 col-xl-3">
                 <div class="kpi">
-                    <div class="ic ic-teal"><i class="bi bi-box-seam"></i></div>
+                    <div class="ic ic-teal">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
                     <div>
                         <h3 id="kpiTotal">0</h3>
                         <small>{{ __('Productos totales') }}</small>
@@ -33,7 +41,9 @@
             </div>
             <div class="col-6 col-xl-3">
                 <div class="kpi">
-                    <div class="ic ic-green"><i class="bi bi-check-circle"></i></div>
+                    <div class="ic ic-green">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
                     <div>
                         <h3 id="kpiActive">0</h3>
                         <small>{{ __('Activos') }}</small>
@@ -51,7 +61,9 @@
             </div>
             <div class="col-6 col-xl-3">
                 <div class="kpi">
-                    <div class="ic ic-blue"><i class="bi bi-currency-dollar"></i></div>
+                    <div class="ic ic-blue">
+                        <i class="bi bi-currency-dollar"></i>
+                    </div>
                     <div>
                         <h3 id="kpiAvg">$0</h3>
                         <small>{{ __('Precio promedio') }}</small>
@@ -101,18 +113,24 @@
 
         <!-- Empty state -->
         <div class="state-box d-none" id="emptyState">
-            <div class="ic ic-teal"><i class="bi bi-inbox"></i></div>
+            <div class="ic ic-teal">
+                <i class="bi bi-inbox"></i>
+            </div>
             <h5 class="fw-bold">{{ __('No se encontraron productos') }}</h5>
             <p class="text-muted mb-0">{{ __('Ajusta los filtros o crea un producto nuevo para empezar.') }}</p>
         </div>
 
         <!-- Error state -->
         <div class="state-box d-none" id="errorState">
-            <div class="ic ic-amber" style="color:#B36B00; background:#FFF3E0"><i class="bi bi-exclamation-octagon"></i>
+            <div class="ic ic-amber" style="color:#B36B00; background:#FFF3E0">
+                <i class="bi bi-exclamation-octagon"></i>
             </div>
             <h5 class="fw-bold" id="errorTitle">{{ __('Error al cargar el catálogo') }}</h5>
             <p class="text-muted mb-3" id="errorMsg">{{ __('Revisa la consola para más detalles.') }}</p>
-            <button class="btn-gj" id="retryBtn"><i class="bi bi-arrow-counterclockwise me-1"></i> {{ __('Reintentar') }}</button>
+            <button class="btn-gj" id="retryBtn">
+                <i class="bi bi-arrow-counterclockwise me-1"></i>
+                {{ __('Reintentar') }}
+            </button>
         </div>
 
         <!-- Pagination / Load more -->

@@ -80,7 +80,9 @@ class SincronizarPlantillasCommand extends Command
                 }
             }
 
-            $plantillas_eliminar = Plantilla::whereNotIn('id', $plantillas_activas)->get();
+            $plantillas_eliminar = Plantilla::whereNotIn('id', $plantillas_activas)
+                ->where('cod_config', $config->id)
+                ->get();
             foreach ($plantillas_eliminar as $plantilla) {
                 $plantilla->update(['status' => Plantilla::ELIMINADO]);
             }

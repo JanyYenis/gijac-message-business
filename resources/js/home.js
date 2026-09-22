@@ -116,13 +116,13 @@ const chartEtiqueta = (seriesEtiquetas) => {
 
     // ApexCharts - Tags Distribution (Pie)
     let opciones = {
-        series: seriesEtiquetas['sales'],
+        series: seriesEtiquetas['sales'] || [],
         chart: {
             type: 'pie',
             height: 350
         },
-        labels: seriesEtiquetas['etiqueta'],
-        colors: seriesEtiquetas['colores'],
+        labels: seriesEtiquetas['etiqueta'] || [],
+        colors: seriesEtiquetas['colores'] || colorPalette,
         legend: {
             position: 'bottom'
         },
@@ -147,6 +147,9 @@ const graficasDias = (nombreChartGlobal, datos, labels, div) => {
     if (window[nombreChartGlobal]) {
         window[nombreChartGlobal].destroy();
     }
+
+    datos = datos || [];
+    labels = labels || [];
 
     var options = {
         series: datos,

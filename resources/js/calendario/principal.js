@@ -249,7 +249,7 @@ const renderList = (list, empty) => list.length ? list.map(campana => {
                     <div>
                         <div class="agenda-title">${campana.nombre}</div>
                         <div class="agenda-meta">${campana.info_categoria.nombre} · ${campana.envios_activos.length.toLocaleString('es-PE')} contactos</div>
-                        <span class="agenda-pill badge-light-${campana.info_estado.color}">${campana?.info_estado?.nombre}</span>
+                        <span class="agenda-pill badge-light-${campana.info_estado.color}">${__(campana?.info_estado?.nombre)}</span>
                     </div>
                 </div>`;
 }).join('') :

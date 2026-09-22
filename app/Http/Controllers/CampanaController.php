@@ -934,7 +934,7 @@ class CampanaController extends Controller
                 COUNT(*) as cantidad
             ")
             ->join('campanas as c', 'envios_campanas.cod_campana', '=', 'c.id')
-            ->where('c.uuid', $this->uuid)
+            ->where('c.cod_empresa', $this->uuid)
             ->where('envios_campanas.cod_campana', $campana?->id)
             ->where('apertura', EnvioCampana::ABIERTO)
             ->orderBy('rango_horas')

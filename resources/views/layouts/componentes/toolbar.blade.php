@@ -85,6 +85,11 @@
 
             <!--begin::Actions-->
             <div class="d-flex align-items-center gap-2 gapl-lg-4">
+                <select id="" class="form-control" disabled>
+                    @foreach ($configs as $config)
+                        <option value="{{ $config->id }}" disabled {{ $config->estado == 1 ? 'selected' : '' }}>App ID: {{ $config->app_id ?? 'N/A' }}</option>
+                    @endforeach
+                </select>
                 @if ($drawer)
                     <!--begin::Trigger button-->
                     <button id="kt_drawer_example_basic_button" class="btn btn-icon btn-color-gray-600 btn-active-light btn-active-color-primary">

@@ -50,5 +50,12 @@ class AppServiceProvider extends ServiceProvider
                 ->where('estado', Concepto::ACTIVO)->first();
             $view->with('idioma_actual', $idioma_actual);
         });
+
+        // Compartir variable con todas las vistas
+        view()->composer('layouts.componentes.toolbar', function ($view) {
+            $configs = ConfiguracionMeta::where('cod_empresa', auth()->user()->empresa->id)
+                ->get();
+            $view->with('configs', $configs);
+        });
     }
 }

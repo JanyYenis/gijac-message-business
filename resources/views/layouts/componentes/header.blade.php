@@ -12,7 +12,7 @@
         <!--begin::Logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0 me-lg-15">
             <a href="{{ route('home') }}">
-                <img alt="Logo" src="{{ asset('img/logo_mini.png') }}" class="h-30px">
+                <img alt="Logo" src="{{ asset('img/logo_gmb_blanco.png') }}" class="h-30px">
             </a>
         </div>
         <!--end::Logo-->

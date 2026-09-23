@@ -738,7 +738,7 @@
                         </td>
                         <td>
                             <span class="badge ${campaign.clicked ? 'bg-primary text-white' : 'bg-secondary'}">
-                                ${campaign.clicked ? 'Sí' : 'No'}
+                                ${campaign.clicked ? __('Sí') : __('No')}
                             </span>
                         </td>
                         <td>
@@ -824,10 +824,10 @@
             // Campaign History Chart (Bar)
             const campaignHistoryOptions = {
                 series: [{
-                    name: 'Abiertos',
+                    name: __('Abiertos'),
                     data: [1, 1, 1, 0, 1, 1, 1, 0, 1, 1]
                 }, {
-                    name: 'Con Clics',
+                    name: __('Con Clics'),
                     data: [1, 0, 1, 0, 1, 0, 1, 0, 0, 1]
                 }],
                 chart: {
@@ -856,13 +856,13 @@
                 },
                 yaxis: {
                     title: {
-                        text: 'Interacciones'
+                        text: __('Interacciones')
                     },
                     max: 1,
                     tickAmount: 1,
                     labels: {
                         formatter: function (val) {
-                            return val === 1 ? 'Sí' : 'No'
+                            return val === 1 ? __('Sí') : __('No')
                         }
                     }
                 },
@@ -872,7 +872,7 @@
                 tooltip: {
                     y: {
                         formatter: function (val) {
-                            return val === 1 ? 'Sí' : 'No'
+                            return val === 1 ? __('Sí') : __('No')
                         }
                     }
                 }
@@ -888,7 +888,7 @@
                     type: 'pie',
                     height: 350
                 },
-                labels: ['Página Principal', 'Productos', 'Ofertas', 'Blog', 'Contacto'],
+                labels: [__('Página Principal'), __('Productos'), __('Ofertas'), __('Blog'), __('Contacto')],
                 colors: ['#25D366', '#128C7E', '#075E54', '#10B981', '#F59E0B'],
                 legend: {
                     position: 'bottom'
@@ -896,13 +896,13 @@
                 dataLabels: {
                     enabled: true,
                     formatter: function (val, opts) {
-                        return opts.w.config.series[opts.seriesIndex] + ' clics'
+                        return opts.w.config.series[opts.seriesIndex] + __(' clics')
                     }
                 },
                 tooltip: {
                     y: {
                         formatter: function (val) {
-                            return val + " clics"
+                            return val + __(" clics")
                         }
                     }
                 }
@@ -924,7 +924,7 @@
 
             const hourlyPatternOptions = {
                 series: [{
-                    name: 'Aperturas',
+                    name: __('Aperturas'),
                     data: hourlyData
                 }],
                 chart: {
@@ -954,12 +954,12 @@
                 xaxis: {
                     categories: Array.from({length: 24}, (_, i) => i.toString().padStart(2, '0') + ':00'),
                     title: {
-                        text: 'Hora del Día'
+                        text: __('Hora del Día')
                     }
                 },
                 yaxis: {
                     title: {
-                        text: 'Número de Aperturas'
+                        text: __('Número de Aperturas')
                     }
                 },
                 tooltip: {
@@ -968,7 +968,7 @@
                     },
                     y: {
                         formatter: function (val) {
-                            return val + " aperturas"
+                            return val + __(" aperturas")
                         }
                     }
                 }
@@ -982,8 +982,8 @@
         function exportCampaignsToExcel() {
             if (filteredCampaigns.length === 0) {
                 Swal.fire({
-                    title: 'Sin datos',
-                    text: 'No hay campañas para exportar con los filtros actuales',
+                    title: __('Sin datos'),
+                    text: __('No hay campañas para exportar con los filtros actuales'),
                     icon: 'warning',
                     confirmButtonColor: '#F59E0B'
                 });
@@ -991,18 +991,18 @@
             }
 
             Swal.fire({
-                title: 'Exportando campañas...',
-                html: `Preparando historial de <strong>${filteredCampaigns.length}</strong> campañas`,
+                title: __('Exportando campañas...'),
+                html: `${__('Preparando historial de ')}<strong>${filteredCampaigns.length}</strong> ${__('campañas')}`,
                 icon: 'info',
                 showConfirmButton: false,
                 timer: 1500,
                 timerProgressBar: true
             }).then(() => {
                 Swal.fire({
-                    title: '¡Exportación Completa!',
-                    text: 'El historial de campañas se ha exportado correctamente',
+                    title: __('¡Exportación Completa!'),
+                    text: __('El historial de campañas se ha exportado correctamente'),
                     icon: 'success',
-                    confirmButtonText: 'Descargar',
+                    confirmButtonText: __('Descargar'),
                     confirmButtonColor: '#10B981'
                 });
             });
@@ -1011,36 +1011,36 @@
         // Edit contact
         function editContact() {
             Swal.fire({
-                title: 'Editar Contacto',
+                title: __('Editar Contacto'),
                 html: `
                     <div class="text-start">
                         <div class="mb-3">
-                            <label class="form-label">Nombre</label>
+                            <label class="form-label">${__('Nombre')}</label>
                             <input type="text" class="form-control" value="Ana García Martínez">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Teléfono</label>
+                            <label class="form-label">${__('Teléfono')}</label>
                             <input type="text" class="form-control" value="+34 612 345 678">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Estado</label>
+                            <label class="form-label">${__('Estado')}</label>
                             <select class="form-select">
-                                <option value="active" selected>Activo</option>
-                                <option value="inactive">Inactivo</option>
+                                <option value="active" selected>${__('Activo')}</option>
+                                <option value="inactive">${__('Inactivo')}</option>
                             </select>
                         </div>
                     </div>
                 `,
                 showCancelButton: true,
-                confirmButtonText: 'Guardar Cambios',
-                cancelButtonText: 'Cancelar',
+                confirmButtonText: __('Guardar Cambios'),
+                cancelButtonText: __('Cancelar'),
                 confirmButtonColor: '#3B82F6',
                 cancelButtonColor: '#6c757d'
             }).then((result) => {
                 if (result.isConfirmed) {
                     Swal.fire({
-                        title: '¡Actualizado!',
-                        text: 'Los datos del contacto han sido actualizados correctamente',
+                        title: __('¡Actualizado!'),
+                        text: __('Los datos del contacto han sido actualizados correctamente'),
                         icon: 'success',
                         timer: 2000,
                         showConfirmButton: false
@@ -1059,7 +1059,7 @@
             const alertHtml = `
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-triangle me-2"></i>
-                    Este contacto no tiene campañas registradas. Los gráficos y análisis estarán disponibles cuando se envíen campañas.
+                    ${__('Este contacto no tiene campañas registradas. Los gráficos y análisis estarán disponibles cuando se envíen campañas.')}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             `;

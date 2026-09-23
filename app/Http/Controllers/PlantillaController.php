@@ -66,7 +66,7 @@ class PlantillaController extends Controller
         if (!$plantilla) {
             $respuesta['numeroTel'] = $this->numeroG;
             $respuesta["estado"] = "success";
-            $respuesta["mensaje"] = "Sin datos de plantilla";
+            $respuesta["mensaje"] = __("Sin datos de plantilla");
 
             return response()->json($respuesta);
         }

@@ -37,13 +37,13 @@ class HomeController extends Controller
         $fechas = explode(' - ', $request->input('fechas'));
 
         $dias = [
-            1 => ['nombre' => __('domingo'), 'dayOfWeek' => 1],
-            2 => ['nombre' => __('lunes'), 'dayOfWeek' => 2],
-            3 => ['nombre' => __('martes'), 'dayOfWeek' => 3],
-            4 => ['nombre' => __('miercoles'), 'dayOfWeek' => 4],
-            5 => ['nombre' => __('jueves'), 'dayOfWeek' => 5],
-            6 => ['nombre' => __('viernes'), 'dayOfWeek' => 6],
-            7 => ['nombre' => __('sabado'), 'dayOfWeek' => 7],
+            1 => ['nombre' => 'domingo', 'dayOfWeek' => 1],
+            2 => ['nombre' => 'lunes', 'dayOfWeek' => 2],
+            3 => ['nombre' => 'martes', 'dayOfWeek' => 3],
+            4 => ['nombre' => 'miercoles', 'dayOfWeek' => 4],
+            5 => ['nombre' => 'jueves', 'dayOfWeek' => 5],
+            6 => ['nombre' => 'viernes', 'dayOfWeek' => 6],
+            7 => ['nombre' => 'sabado', 'dayOfWeek' => 7],
         ];
 
         $resultados = [];

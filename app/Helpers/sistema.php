@@ -474,10 +474,10 @@ if (!function_exists("diffechas")) {
         $diferencia = $fInicial->diff($fFinal);
 
         // Si el año es cero no muestra nada, Si el año es uno muestra Año, de lo contrario muestra Años
-        $txtAnio = (($diferencia->y == 0) ? "" : ($diferencia->y == 1)) ? "Año" : "Años";
+        $txtAnio = (($diferencia->y == 0) ? "" : ($diferencia->y == 1)) ? __("Año") : __("Años");
 
         // Si el mes es cero no muestra nada, Si el mes es uno muestra mes, de lo contrario muestra Meses
-        $txtMes = (($diferencia->m == 0) ? "" : ($diferencia->m == 1)) ? "Mes" : "Meses";
+        $txtMes = (($diferencia->m == 0) ? "" : ($diferencia->m == 1)) ? __("Mes") : __("Meses");
 
         $formAnio = $diferencia->y == 0 ? "" : "%y {$txtAnio}";
         // Valida si no tiene año no aparece en y en los meses
@@ -504,7 +504,7 @@ if (!function_exists("fechaMensaje")) {
             if ($fecha->format('Y-m-d') == $hoy->format('Y-m-d')) {
                 return $fecha->format('h:i a');
             } elseif ($fecha->format('Y-m-d') == $ayer->format('Y-m-d')) {
-                return 'Ayer';
+                return __('Ayer');
             } else {
                 return $fecha->format('d/m/Y'); // O el formato que desees
             }
@@ -534,7 +534,7 @@ if (!function_exists("calcularDiferenciaDeTiempo")) {
                 return $diferencia->format('%h h %i m');
             }
         } elseif ($fecha->format('Y-m-d') == $ayer->format('Y-m-d')) {
-            return 'Ayer';
+            return __('Ayer');
         } else {
             return $fecha->format('d/m/Y'); // O el formato que desees
         }
@@ -1000,14 +1000,14 @@ if (!function_exists("calcularDiferenciasFechas")) {
         $texto = '';
 
         if ($horas) {
-            $texto = $horas.' horas ';
+            $texto = $horas.__(' horas ');
         }
 
         if ($minutos) {
             if ($horas) {
-                $texto .= ($minutos % 60).' mins';
+                $texto .= ($minutos % 60).__(' mins');
             } else {
-                $texto .= $minutos.' mins';
+                $texto .= $minutos.__(' mins');
             }
         }
 
@@ -1134,7 +1134,7 @@ if (!function_exists('generarInvoice')) {
                 $numero++;
             }
 
-            throw new \Exception("No se pudo generar un invoice único después de {$maxIntentos} intentos.");
+            throw new \Exception(__("No se pudo generar un invoice único después de ").$maxIntentos.__(" intentos."));
         });
     }
 }

@@ -2882,5 +2882,11 @@
     "Sin campañas hoy": "Sin campañas hoy",
     "Sin campañas próximas": "Sin campañas próximas",
     "Seleccione el tipo": "Seleccione el tipo",
-    "Seleccione la categoria": "Seleccione la categoria"
+    "Seleccione la categoria": "Seleccione la categoria",
+    "Año": "Año",
+    "Años": "Años",
+    " horas ": " horas ",
+    " mins": " mins",
+    "No se pudo generar un invoice único después de ": "No se pudo generar un invoice único después de ",
+    " intentos.": " intentos."
 }

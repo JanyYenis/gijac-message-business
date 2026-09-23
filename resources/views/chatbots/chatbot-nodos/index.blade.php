@@ -319,7 +319,7 @@
                     <div class="form-check form-switch fs-5">
                         <label class="form-check-label fs-6 fw-semibold" for="checkEstado">{{ __('Estado') }}</label>
                         <input class="form-check-input" type="checkbox" id="checkEstado" data-id="{{ $ultimo_flujo->id }}"
-                            {{ $ultimo_flujo && !$ultimo_flujo?->estado ? '' : 'checked' }}>
+                            {{ $ultimo_flujo && $ultimo_flujo?->estado == 3 ? '' : 'checked' }}>
                     </div>
                     <div class="toolbar-spacer"></div>
                     <div class="btn-group btn-group-sm zoom-group" role="group">

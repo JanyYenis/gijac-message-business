@@ -328,13 +328,15 @@ const filtrar = () => {
 
             chartEtiqueta(response.seriesEtiquetas);
             graficaTop(response.alcance, response.aperturas, response.fallos);
-            graficasDias('chartLunea', response.seriesLunes, response.lablesLunes, "#diaLunes");
-            graficasDias('chartMartes', response.seriesMartes, response.lablesMartes, "#diaMartes");
-            graficasDias('chartMiercoles', response.seriesMiercoles, response.lablesMiercoles, "#diaMiercoles");
-            graficasDias('chartJueves', response.seriesJueves, response.lablesJueves, "#diaJueves");
-            graficasDias('chartViernes', response.seriesViernes, response.lablesViernes, "#diaViernes");
-            graficasDias('chartSabado', response.seriesSabado, response.lablesSabado, "#diaSabado");
-            graficasDias('chartDomingo', response.seriesDomingo, response.lablesDomingo, "#diaDomingo");
+            console.log(response.labelsLunes);
+
+            graficasDias('chartLunea', response.seriesLunes, response.labelsLunes, "#diaLunes");
+            graficasDias('chartMartes', response.seriesMartes, response.labelsMartes, "#diaMartes");
+            graficasDias('chartMiercoles', response.seriesMiercoles, response.labelsMiercoles, "#diaMiercoles");
+            graficasDias('chartJueves', response.seriesJueves, response.labelsJueves, "#diaJueves");
+            graficasDias('chartViernes', response.seriesViernes, response.labelsViernes, "#diaViernes");
+            graficasDias('chartSabado', response.seriesSabado, response.labelsSabado, "#diaSabado");
+            graficasDias('chartDomingo', response.seriesDomingo, response.labelsDomingo, "#diaDomingo");
             graficaCampanas(response.campanas_por_mes);
         }
     });

@@ -246,7 +246,7 @@
                                             </li>
                                             <li class="mb-2">
                                                 <i class="fas fa-map-marker-alt me-2 text-primary"></i>
-                                                <strong>{{ __('Dirección:') }}</strong> {{ __('Corregimiento de Navarro, callejón El Recuerdo') }}
+                                                <strong>{{ __('Dirección:') }}</strong> {{ __('Cali, Colombia') }}
                                             </li>
                                         </ul>
                                     </div>

@@ -4,7 +4,7 @@
 <head>
     <title>{{ __('GIJAC MESSAGE BUSINESS') }}</title>
     <meta charset="utf-8">
-    <meta name="description" content="Plataforma de procesos de GIJAC MESSAGE BUSINESS">
+    <meta name="description" content="Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.">
     <meta name="keywords"
         content="tailwind, tailwindcss, metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js,
         Node.js, Flask, Symfony &amp; Laravel starter kits, admin themes, web design, figma, web development, free templates,
@@ -15,7 +15,12 @@
     <meta property="og:type" content="article">
     <meta property="og:title" content="GIJAC MESSAGE BUSINESS - Te ayudamos a crecer">
     <meta property="og:url" content="https://message-business.gijac.com">
+    <meta property="og:image" content="https://message-business.gijac.com/img/logo_gmb.png">
     <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
+    <meta property="article:author" content="GIJAC WEB">
+    <!-- Si quieres incluir un thumbnail específico para WhatsApp -->
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="300">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="shortcut icon" href="{{ asset('img/logo_gmb.png') }}">

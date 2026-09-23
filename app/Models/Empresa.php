@@ -107,7 +107,8 @@ class Empresa extends Model
     public function asistenteActivo()
     {
         return $this->asistente()
-            ->where('activo', ChatbotAiAssistant::ACTIVO);
+            ->where('activo', ChatbotAiAssistant::ACTIVO)
+            ->where('estado', ChatbotAiAssistant::ACTIVO);
     }
 
     public function automatizacionN8n()
@@ -118,6 +119,7 @@ class Empresa extends Model
     public function automatizacionN8nActiva()
     {
         return $this->automatizacionN8n()
-            ->where('webhook_activo', AutomatizacionN8n::ACTIVO);
+            ->where('webhook_activo', AutomatizacionN8n::ACTIVO)
+            ->where('estado', AutomatizacionN8n::ACTIVO);
     }
 }

@@ -19,6 +19,7 @@ $(function () {
     /* ===== GUARDAR CONFIGURACIÓN ===== */
     $('#btnSave').on('click', function () {
         let formData = new FormData(document.getElementById("formAsistente"));
+        formData.append('activo', $(this).is(':checked') ? 1 : 0);
 
         var palabrasClave = $('#palabrasClave').val()
             .split(',')

@@ -1189,4 +1189,33 @@ function sendSim() {
     }, 700);
 }
 
+$(document).on('click', '#checkEstado', function() {
+    let formData = new FormData();
+    formData.append('estado', $(this).is(':checked') ? 2 : 3);
+
+    const config = {
+        'method': 'PUT',
+        'headers': {
+            'Accept': generalidades.CONTENT_TYPE_JSON,
+        },
+        'body': formData
+    }
+
+    const success = (response) => {
+        if (response.estado == 'success') {
+            //
+        }
+        generalidades.ocultarCargando('body');
+        generalidades.toastrGenerico(response?.estado, response?.mensaje);
+    }
+
+    const error = (response) => {
+        generalidades.ocultarCargando('body');
+        generalidades.toastrGenerico(response?.estado, response?.mensaje);
+    }
+    const rutaActualizar = route("chatbots.nodos.update-estado", { "chatbot": $(this).attr('data-id') });
+    generalidades.edit(rutaActualizar, config, success, error);
+    generalidades.mostrarCargando('body');
+});
+
 require('./versiones');

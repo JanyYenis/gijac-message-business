@@ -316,6 +316,11 @@
                         <i class="bi bi-clock-history text-dark me-1"></i>
                         {{ __('Historial') }}
                     </button>
+                    <div class="form-check form-switch fs-5">
+                        <label class="form-check-label fs-6 fw-semibold" for="checkEstado">{{ __('Estado') }}</label>
+                        <input class="form-check-input" type="checkbox" id="checkEstado" data-id="{{ $ultimo_flujo->id }}"
+                            {{ $ultimo_flujo && !$ultimo_flujo?->estado ? '' : 'checked' }}>
+                    </div>
                     <div class="toolbar-spacer"></div>
                     <div class="btn-group btn-group-sm zoom-group" role="group">
                         <button class="btn btn-toolbar" id="btnZoomOut">

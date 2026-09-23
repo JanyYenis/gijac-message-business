@@ -2888,5 +2888,7 @@
     " horas ": " horas ",
     " mins": " mins",
     "No se pudo generar un invoice único después de ": "No se pudo generar un invoice único después de ",
-    " intentos.": " intentos."
+    " intentos.": " intentos.",
+    "Ha ocurrido un error al intentar actualizar el estado del flujo.": "Ha ocurrido un error al intentar actualizar el estado del flujo.",
+    "Se actualizo correctamente el estado del flujo.": "Se actualizo correctamente el estado del flujo."
 }

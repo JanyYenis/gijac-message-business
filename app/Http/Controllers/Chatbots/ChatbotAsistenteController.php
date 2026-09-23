@@ -68,7 +68,7 @@ class ChatbotAsistenteController extends Controller
         $asistente->provider    = 'ollama';
         $asistente->creado_por  = $asistente->creado_por ?? auth()->user()->uuid;
         $asistente->cod_empresa = $asistente->cod_empresa ?? auth()->user()->empresa?->id;
-        $asistente->activo      = true;
+        $asistente->activo      = (bool) $request->input('activo') ?? true;
         $asistente->save();
 
         return response()->json([

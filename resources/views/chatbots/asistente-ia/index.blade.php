@@ -117,6 +117,13 @@
                                 placeholder="{{ __('Describe brevemente el propósito del asistente...') }}"
                                 >{{ $asistente?->descripcion ?? '' }}</textarea>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-check form-switch fs-5">
+                                <label class="form-check-label fs-5" for="checkEstado">{{ __('Estado') }}</label>
+                                <input class="form-check-input" type="checkbox" id="checkEstado" name="activo" value="1"
+                                    {{ $asistente && !$asistente?->activo ? '' : 'checked' }}>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

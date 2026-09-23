@@ -71,10 +71,10 @@ class ChatbotNodoController extends Controller
             ->where('estado', ChatbotFlow::ACTIVO)
             ->count();
         $info['ultimo_flujo'] = ChatbotFlow::where(function ($query) {
-            $query->where('creado_por', auth()->user()->uuid)
-                ->orWhere('cod_empresa', auth()->user()->empresa?->id);
-        })
-            ->where('estado', ChatbotFlow::ACTIVO)
+                $query->where('creado_por', auth()->user()->uuid)
+                    ->orWhere('cod_empresa', auth()->user()->empresa?->id);
+            })
+            // ->where('estado', ChatbotFlow::ACTIVO)
             ->orderByDesc('fecha_publicado')
             ->first();
 
@@ -592,5 +592,18 @@ class ChatbotNodoController extends Controller
             'estado'  => 'success',
             'mensaje' => __('Versión restaurada correctamente.'),
         ]);
+    }
+
+    public function updateEstado(Request $request, ChatbotFlow $chatbot)
+    {
+        $actualizar = $chatbot->update(['estado' => $request->input('estado')]);
+        if (!$actualizar) {
+            throw new ErrorException(__('Ha ocurrido un error al intentar actualizar el estado del flujo.'));
+        }
+
+        return [
+            'estado' => 'success',
+            'mensaje' => __('Se actualizo correctamente el estado del flujo.')
+        ];
     }
 }

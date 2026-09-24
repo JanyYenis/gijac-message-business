@@ -2303,7 +2303,7 @@
                     <div class="article-meta">
                         <span class="meta-chip">
                             <span class="author-avatar">G</span> {{ __('Por') }}
-                            <strong>GIJAC WEB</strong></span>
+                            <strong>{{ __('GIJAC WEB') }}</strong></span>
                         <span class="meta-chip">
                             <i class="bi bi-calendar3"></i> {{ __('24 Sep 2026') }}
                         </span>
@@ -2359,22 +2359,18 @@
                                         <li>
                                             <a class="toc-link" href="#razones">
                                                 <span class="toc-num"></span>
-                                                ¿Por qué es indispensable para las empresas?
+                                                {{ __('¿Por qué es indispensable para las empresas?') }}
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#casos-uso"><span class="toc-num"></span>Casos de
-                                                uso por
-                                                industria</a>
+                                            <a class="toc-link" href="#casos-uso"><span class="toc-num"></span>{{ __('Casos de uso por industria') }}</a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#empezar"><span class="toc-num"></span>¿Cómo
-                                                empezar con la
-                                                API?</a>
+                                            <a class="toc-link" href="#empezar"><span class="toc-num"></span>{{ __('¿Cómo empezar con la API?') }}</a>
                                         </li>
                                         <li>
                                             <a class="toc-link" href="#conclusion"><span
-                                                    class="toc-num"></span>Conclusión</a>
+                                                    class="toc-num"></span>{{ __('Conclusión') }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -2383,57 +2379,43 @@
                             <!-- BLOQUE DINÁMICO: heading + paragraph -->
                             <div class="article-section">
                                 <h2>
-                                    API de WhatsApp Business: La herramienta que separa a las
-                                    empresas que crecen de las que se quedan atrás
+                                    {{ __('API de WhatsApp Business: La herramienta que separa a las empresas que crecen de las que se quedan atrás') }}
                                 </h2>
                                 <p class="lead-para">
-                                    Si tu empresa todavía atiende clientes desde el WhatsApp
-                                    personal o la app Business normal,
-                                    <strong>estás perdiendo ventas, tiempo y credibilidad</strong>. Hoy, más de 2.000
-                                    millones de personas usan WhatsApp a
-                                    diario, y el cliente ya no quiere llamar ni escribir un
-                                    correo. Quiere respuesta inmediata, por donde ya está.
+                                    {{ __('Si tu empresa todavía atiende clientes desde el WhatsApp personal o la app Business normal,') }}
+                                    <strong>{{ __('estás perdiendo ventas, tiempo y credibilidad') }}</strong>{{ __('. Hoy, más de 2.000 millones de personas usan WhatsApp a diario, y el cliente ya no quiere llamar ni escribir un correo. Quiere respuesta inmediata, por donde ya está.') }}
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: highlight -->
                                 <div class="highlight-statement reveal" data-reveal="up">
                                     <span class="hs-icon"><i class="bi bi-whatsapp"></i></span>
-                                    <span>Ahí entra la
-                                        <span class="gradient-text">API de WhatsApp Business</span>.</span>
+                                    <span>{{ __('Ahí entra la') }}
+                                        <span class="gradient-text">{{ __('API de WhatsApp Business') }}</span>.</span>
                                 </div>
                             </div>
 
                             <!-- ============ SECCIÓN 1: ¿QUÉ ES? ============ -->
                             <div class="article-section" id="que-es">
-                                <h2>¿Qué es la API de WhatsApp Business?</h2>
+                                <h2>{{ __('¿Qué es la API de WhatsApp Business?') }}</h2>
                                 <p>
-                                    La API de WhatsApp Business es la
-                                    <strong>versión profesional y escalable</strong> de
-                                    WhatsApp, diseñada para que empresas de cualquier tamaño
-                                    conecten el canal de mensajería más usado del mundo
-                                    directamente con sus sistemas: CRM, e-commerce, plataformas
-                                    de atención y flujos de automatización.
+                                    {{ __('La API de WhatsApp Business es la') }}
+                                    <strong>{{ __('versión profesional y escalable') }}</strong> {{ __('de WhatsApp, diseñada para que empresas de cualquier tamaño conecten el canal de mensajería más usado del mundo directamente con sus sistemas: CRM, e-commerce, plataformas de atención y flujos de automatización.') }}
                                 </p>
-                                <span class="def-chip"><i class="bi bi-code-slash me-2"></i>API = Application
-                                    Programming Interface</span>
+                                <span class="def-chip"><i class="bi bi-code-slash me-2"></i>{{ __('API = Application Programming Interface') }}</span>
                                 <p>
-                                    En pocas palabras: es la capa tecnológica que permite que
-                                    <strong>las conversaciones dejen de depender de un
-                                        celular</strong>
-                                    y pasen a ser gestionadas por equipos completos, chatbots e
-                                    inteligencia artificial, con la seguridad y las reglas
-                                    oficiales de Meta.
+                                    {{ __('En pocas palabras: es la capa tecnológica que permite que') }}
+                                    <strong>{{ __('las conversaciones dejen de depender de un celular') }}</strong>
+                                    {{ __('y pasen a ser gestionadas por equipos completos, chatbots e inteligencia artificial, con la seguridad y las reglas oficiales de Meta.') }}
                                 </p>
 
                                 <!-- Mini comparación -->
                                 <div class="vs-wrap reveal" data-reveal="up">
                                     <div class="vs-card vs-app">
                                         <div class="vs-head">
-                                            <i class="bi bi-phone"></i> App WhatsApp Business
+                                            <i class="bi bi-phone"></i> {{ __('App WhatsApp Business') }}
                                         </div>
                                         <p>
-                                            Atención <strong>manual</strong> desde dispositivos
-                                            individuales.
+                                            {{ __('Atención') }} <strong>{{ __('manual') }}</strong> {{ __('desde dispositivos individuales.') }}
                                         </p>
                                     </div>
                                     <div class="vs-arrow">
@@ -2441,11 +2423,10 @@
                                     </div>
                                     <div class="vs-card vs-api">
                                         <div class="vs-head">
-                                            <i class="bi bi-plug"></i> API de WhatsApp Business
+                                            <i class="bi bi-plug"></i> {{ __('API de WhatsApp Business') }}
                                         </div>
                                         <p>
-                                            <strong>Integración + automatización + múltiples usuarios +
-                                                sistemas empresariales.</strong>
+                                            <strong>{{ __('Integración + automatización + múltiples usuarios + sistemas empresariales.') }}</strong>
                                         </p>
                                     </div>
                                 </div>
@@ -2454,12 +2435,9 @@
                                 <div class="callout callout-important reveal" data-reveal="up">
                                     <span class="callout-icon"><i class="bi bi-exclamation-triangle-fill"></i></span>
                                     <div>
-                                        <div class="callout-title">Importante</div>
+                                        <div class="callout-title">{{ __('Importante') }}</div>
                                         <p>
-                                            El acceso a la API se gestiona a través de Meta o de un
-                                            socio oficial (BSP). Trabaja siempre con proveedores
-                                            verificados para proteger tu número y tu reputación de
-                                            marca.
+                                            {{ __('El acceso a la API se gestiona a través de Meta o de un socio oficial (BSP). Trabaja siempre con proveedores verificados para proteger tu número y tu reputación de marca.') }}
                                         </p>
                                     </div>
                                 </div>
@@ -2467,11 +2445,10 @@
 
                             <!-- ============ SECCIÓN 2: APP VS API ============ -->
                             <div class="article-section" id="diferencias">
-                                <h2>Diferencias clave: App vs. API</h2>
+                                <h2>{{ __('Diferencias clave: App vs. API') }}</h2>
                                 <p>
-                                    La app Business es un buen primer paso, pero tiene un techo.
-                                    La API rompe ese techo y convierte WhatsApp en
-                                    <strong>infraestructura empresarial real</strong>:
+                                    {{ __('La app Business es un buen primer paso, pero tiene un techo. La API rompe ese techo y convierte WhatsApp en') }}
+                                    <strong>{{ __('infraestructura empresarial real') }}</strong>:
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: table (responsive: tabla → cards en móvil) -->
@@ -2479,74 +2456,67 @@
                                     <table class="table-compare">
                                         <thead>
                                             <tr>
-                                                <th>Característica</th>
+                                                <th>{{ __('Característica') }}</th>
                                                 <th>
-                                                    <i class="bi bi-phone"></i>App WhatsApp Business
+                                                    <i class="bi bi-phone"></i>{{ __('App WhatsApp Business') }}
                                                 </th>
                                                 <th>
-                                                    <i class="bi bi-plug"></i>API de WhatsApp Business
+                                                    <i class="bi bi-plug"></i>{{ __('API de WhatsApp Business') }}
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td class="feat" data-label="Característica">
-                                                    Usuarios
+                                                    {{ __('Usuarios') }}
                                                 </td>
                                                 <td data-label="App WhatsApp Business">
-                                                    1 a 4 usuarios en un mismo número
+                                                    {{ __('1 a 4 usuarios en un mismo número') }}
                                                 </td>
                                                 <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>Usuarios ilimitados /
-                                                    equipos y plataformas, según
-                                                    configuración
+                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('Usuarios ilimitados / equipos y plataformas, según configuración') }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="feat" data-label="Característica">
-                                                    Automatización
+                                                    {{ __('Automatización') }}
                                                 </td>
                                                 <td data-label="App WhatsApp Business">
-                                                    Respuestas rápidas básicas
+                                                    {{ __('Respuestas rápidas básicas') }}
                                                 </td>
                                                 <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>Chatbots, IA y
-                                                    automatizaciones
+                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('Chatbots, IA y automatizaciones') }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="feat" data-label="Característica">
-                                                    Integración
+                                                    {{ __('Integración') }}
                                                 </td>
-                                                <td data-label="App WhatsApp Business">Limitada</td>
+                                                <td data-label="App WhatsApp Business">{{ __('Limitada') }}</td>
                                                 <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>CRM, e-commerce,
-                                                    automatizaciones y otros sistemas
+                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('CRM, e-commerce, automatizaciones y otros sistemas') }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="feat" data-label="Característica">
-                                                    Gestión empresarial
+                                                    {{ __('Gestión empresarial') }}
                                                 </td>
                                                 <td data-label="App WhatsApp Business">
-                                                    Atención desde aplicación
+                                                    {{ __('Atención desde aplicación') }}
                                                 </td>
                                                 <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>Plataforma
-                                                    centralizada
+                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('Plataforma centralizada') }}
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="feat" data-label="Característica">
-                                                    Envíos
+                                                    {{ __('Envíos') }}
                                                 </td>
                                                 <td data-label="App WhatsApp Business">
-                                                    Funciones limitadas
+                                                    {{ __('Funciones limitadas') }}
                                                 </td>
                                                 <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>Mensajería empresarial
-                                                    mediante las capacidades
-                                                    oficiales de Meta
+                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('Mensajería empresarial mediante las capacidades oficiales de Meta') }}
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -2558,12 +2528,10 @@
                                     <span class="callout-icon"><i class="bi bi-info-circle-fill"></i></span>
                                     <div>
                                         <div class="callout-title">
-                                            ¿Ya usas un número de WhatsApp?
+                                            {{ __('¿Ya usas un número de WhatsApp?') }}
                                         </div>
                                         <p>
-                                            Es posible migrar tu número actual a la API conservando
-                                            tu identidad de marca, para que tus clientes no noten
-                                            ningún cambio en la transición.
+                                            {{ __('Es posible migrar tu número actual a la API conservando tu identidad de marca, para que tus clientes no noten ningún cambio en la transición.') }}
                                         </p>
                                     </div>
                                 </div>
@@ -2571,10 +2539,9 @@
 
                             <!-- ============ SECCIÓN 3: 7 RAZONES ============ -->
                             <div class="article-section" id="razones">
-                                <h2>¿Por qué es indispensable para las empresas en 2026?</h2>
+                                <h2>{{ __('¿Por qué es indispensable para las empresas en 2026?') }}</h2>
                                 <p>
-                                    Estas son las <strong>7 razones</strong> por las que miles
-                                    de empresas están dando el salto a la API este año:
+                                    {{ __('Estas son las') }} <strong>{{ __('7 razones') }}</strong> {{ __('por las que miles de empresas están dando el salto a la API este año:') }}
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: lista de razones (cards numeradas) -->
@@ -2584,11 +2551,9 @@
                                             <span class="reason-num">01</span><span class="reason-icon"><i
                                                     class="bi bi-moon-stars"></i></span>
                                         </div>
-                                        <h3>Atención al cliente que no duerme</h3>
+                                        <h3>{{ __('Atención al cliente que no duerme') }}</h3>
                                         <p>
-                                            Chatbots e IA responden al instante, 24/7, incluso fuera
-                                            de horario. Tu cliente recibe respuesta inmediata sin
-                                            depender de turnos ni horarios.
+                                            {{ __('Chatbots e IA responden al instante, 24/7, incluso fuera de horario. Tu cliente recibe respuesta inmediata sin depender de turnos ni horarios.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
@@ -2597,12 +2562,10 @@
                                                     class="bi bi-cart-check"></i></span>
                                         </div>
                                         <h3>
-                                            Ventas conversacionales y recuperación de carritos
+                                            {{ __('Ventas conversacionales y recuperación de carritos') }}
                                         </h3>
                                         <p>
-                                            Acompaña al cliente en todo el embudo: recordatorios de
-                                            carrito abandonado, seguimiento de pedidos y ofertas
-                                            personalizadas que convierten.
+                                            {{ __('Acompaña al cliente en todo el embudo: recordatorios de carrito abandonado, seguimiento de pedidos y ofertas personalizadas que convierten.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
@@ -2610,11 +2573,9 @@
                                             <span class="reason-num">03</span><span class="reason-icon"><i
                                                     class="bi bi-people"></i></span>
                                         </div>
-                                        <h3>Un solo número para toda la empresa</h3>
+                                        <h3>{{ __('Un solo número para toda la empresa') }}</h3>
                                         <p>
-                                            Ventas, soporte y marketing operan sobre el mismo número
-                                            con bandejas centralizadas, asignación de conversaciones
-                                            y trazabilidad total.
+                                            {{ __('Ventas, soporte y marketing operan sobre el mismo número con bandejas centralizadas, asignación de conversaciones y trazabilidad total.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
@@ -2622,11 +2583,9 @@
                                             <span class="reason-num">04</span><span class="reason-icon"><i
                                                     class="bi bi-cpu"></i></span>
                                         </div>
-                                        <h3>Automatización que ahorra costos</h3>
+                                        <h3>{{ __('Automatización que ahorra costos') }}</h3>
                                         <p>
-                                            Automatiza respuestas frecuentes, agendamientos y
-                                            notificaciones. Tu equipo se enfoca en lo que realmente
-                                            requiere criterio humano.
+                                            {{ __('Automatiza respuestas frecuentes, agendamientos y notificaciones. Tu equipo se enfoca en lo que realmente requiere criterio humano.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
@@ -2634,11 +2593,9 @@
                                             <span class="reason-num">05</span><span class="reason-icon"><i
                                                     class="bi bi-patch-check"></i></span>
                                         </div>
-                                        <h3>Confianza y profesionalismo</h3>
+                                        <h3>{{ __('Confianza y profesionalismo') }}</h3>
                                         <p>
-                                            Nombre verificado, perfil empresarial completo y
-                                            mensajes coherentes: tu marca se ve sólida y confiable
-                                            en cada conversación.
+                                            {{ __('Nombre verificado, perfil empresarial completo y mensajes coherentes: tu marca se ve sólida y confiable en cada conversación.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
@@ -2646,11 +2603,9 @@
                                             <span class="reason-num">06</span><span class="reason-icon"><i
                                                     class="bi bi-shield-check"></i></span>
                                         </div>
-                                        <h3>Cumplimiento y seguridad</h3>
+                                        <h3>{{ __('Cumplimiento y seguridad') }}</h3>
                                         <p>
-                                            Comunicación con cifrado y reglas claras de mensajería,
-                                            alineadas con las políticas oficiales de Meta y las
-                                            buenas prácticas del sector.
+                                            {{ __('Comunicación con cifrado y reglas claras de mensajería, alineadas con las políticas oficiales de Meta y las buenas prácticas del sector.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
@@ -2658,11 +2613,9 @@
                                             <span class="reason-num">07</span><span class="reason-icon"><i
                                                     class="bi bi-graph-up-arrow"></i></span>
                                         </div>
-                                        <h3>Datos para tomar decisiones</h3>
+                                        <h3>{{ __('Datos para tomar decisiones') }}</h3>
                                         <p>
-                                            Métricas de apertura, respuesta y conversión que se
-                                            integran con tu CRM para entender a tus clientes y
-                                            mejorar cada interacción.
+                                            {{ __('Métricas de apertura, respuesta y conversión que se integran con tu CRM para entender a tus clientes y mejorar cada interacción.') }}
                                         </p>
                                     </div>
                                 </div>
@@ -2671,7 +2624,7 @@
                             <!-- ============ MULTIMEDIA: VIDEO ============ -->
                             <!-- BLOQUE DINÁMICO: video (video_url · thumbnail · titulo reemplazables) -->
                             <div class="article-section">
-                                <h2>Mira la API en acción</h2>
+                                <h2>{{ __('Mira la API en acción') }}</h2>
                                 <button class="video-block reveal" data-reveal="up" id="videoBlock" type="button"
                                     aria-label="Reproducir video de demostración">
                                     <img id="videoThumbImg" class="video-thumb img-loading" src=""
@@ -2681,8 +2634,7 @@
                                     <span class="video-tag"><i class="bi bi-play-circle me-1"></i>2:45</span>
                                 </button>
                                 <p class="video-caption">
-                                    <i class="bi bi-youtube me-1"></i>Video de demostración:
-                                    automatización de ventas con WhatsApp Business API.
+                                    <i class="bi bi-youtube me-1"></i>{{ __('Video de demostración: automatización de ventas con WhatsApp Business API.') }}
                                 </p>
                             </div>
 
@@ -2693,9 +2645,7 @@
                                     alt="Empresa conectando WhatsApp con CRM, automatización e inteligencia artificial"
                                     loading="lazy" />
                                 <figcaption>
-                                    <i class="bi bi-camera"></i> WhatsApp Business API permite
-                                    conectar las conversaciones con el ecosistema tecnológico de
-                                    una empresa.
+                                    <i class="bi bi-camera"></i> {{ __('WhatsApp Business API permite conectar las conversaciones con el ecosistema tecnológico de una empresa.') }}
                                 </figcaption>
                             </figure>
 
@@ -2723,7 +2673,7 @@
 
                             <!-- ============ SECCIÓN 4: CASOS DE USO ============ -->
                             <div class="article-section" id="casos-uso">
-                                <h2>Casos de uso por industria</h2>
+                                <h2>{{ __('Casos de uso por industria') }}</h2>
 
                                 <!-- Ejemplo de imagen flotada (variante af-right) -->
                                 <figure class="article-figure af-right">
@@ -2732,52 +2682,44 @@
                                 </figure>
 
                                 <p>
-                                    La API se adapta a <strong>cualquier industria</strong> que
-                                    necesite comunicarse de forma ágil, automática y
-                                    personalizada con sus clientes. Estos son algunos ejemplos
-                                    reales de cómo las empresas la están aprovechando hoy.
+                                    {{ __('La API se adapta a') }} <strong>{{ __('cualquier industria') }}</strong> {{ __('que necesite comunicarse de forma ágil, automática y personalizada con sus clientes. Estos son algunos ejemplos reales de cómo las empresas la están aprovechando hoy.') }}
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: cards por industria -->
                                 <div class="industry-grid">
                                     <div class="industry-card reveal" data-reveal="up">
                                         <span class="industry-icon"><i class="bi bi-bag-check"></i></span>
-                                        <h3>E-commerce</h3>
+                                        <h3>{{ __('E-commerce') }}</h3>
                                         <p>
-                                            Confirmaciones de pedido, recuperación de carritos y
-                                            seguimiento de envíos automáticos.
+                                            {{ __('Confirmaciones de pedido, recuperación de carritos y seguimiento de envíos automáticos.') }}
                                         </p>
                                     </div>
                                     <div class="industry-card reveal" data-reveal="up">
                                         <span class="industry-icon"><i class="bi bi-mortarboard"></i></span>
-                                        <h3>Educación</h3>
+                                        <h3>{{ __('Educación') }}</h3>
                                         <p>
-                                            Recordatorios de clases, procesos de admisión y
-                                            comunicación directa con padres y alumnos.
+                                            {{ __('Recordatorios de clases, procesos de admisión y comunicación directa con padres y alumnos.') }}
                                         </p>
                                     </div>
                                     <div class="industry-card reveal" data-reveal="up">
                                         <span class="industry-icon"><i class="bi bi-heart-pulse"></i></span>
-                                        <h3>Salud y clínicas</h3>
+                                        <h3>{{ __('Salud y clínicas') }}</h3>
                                         <p>
-                                            Confirmación de citas, envío de resultados y
-                                            recordatorios que reducen las inasistencias.
+                                            {{ __('Confirmación de citas, envío de resultados y recordatorios que reducen las inasistencias.') }}
                                         </p>
                                     </div>
                                     <div class="industry-card reveal" data-reveal="up">
                                         <span class="industry-icon"><i class="bi bi-house-door"></i></span>
-                                        <h3>Inmobiliario y servicios</h3>
+                                        <h3>{{ __('Inmobiliario y servicios') }}</h3>
                                         <p>
-                                            Cualificación automática de leads y agendamiento
-                                            inteligente de visitas y cotizaciones.
+                                            {{ __('Cualificación automática de leads y agendamiento inteligente de visitas y cotizaciones.') }}
                                         </p>
                                     </div>
                                     <div class="industry-card reveal" data-reveal="up">
                                         <span class="industry-icon"><i class="bi bi-shop"></i></span>
-                                        <h3>Restaurantes y retail</h3>
+                                        <h3>{{ __('Restaurantes y retail') }}</h3>
                                         <p>
-                                            Reservas, pedidos a domicilio y promociones segmentadas
-                                            que aumentan la recompra.
+                                            {{ __('Reservas, pedidos a domicilio y promociones segmentadas que aumentan la recompra.') }}
                                         </p>
                                     </div>
                                 </div>
@@ -2785,52 +2727,46 @@
 
                             <!-- ============ SECCIÓN 5: CÓMO EMPEZAR ============ -->
                             <div class="article-section" id="empezar">
-                                <h2>¿Cómo empezar con la API?</h2>
+                                <h2>{{ __('¿Cómo empezar con la API?') }}</h2>
                                 <p>
-                                    Poner en marcha la API es más simple de lo que parece. Estos
-                                    son los <strong>5 pasos</strong> del proceso:
+                                    {{ __('Poner en marcha la API es más simple de lo que parece. Estos son los') }} <strong>{{ __('5 pasos') }}</strong> {{ __('del proceso:') }}
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: timeline -->
                                 <div class="timeline reveal" data-reveal="up">
                                     <div class="timeline-step">
                                         <div class="step-dot">01</div>
-                                        <h3>Número de teléfono</h3>
+                                        <h3>{{ __('Número de teléfono') }}</h3>
                                         <p>
-                                            Registra y verifica el número que usará tu empresa para
-                                            comunicarse.
+                                            {{ __('Registra y verifica el número que usará tu empresa para comunicarse.') }}
                                         </p>
                                     </div>
                                     <div class="timeline-step">
                                         <div class="step-dot">02</div>
-                                        <h3>Cuenta empresarial</h3>
+                                        <h3>{{ __('Cuenta empresarial') }}</h3>
                                         <p>
-                                            Crea y verifica tu cuenta en Meta Business Manager con
-                                            los datos de tu empresa.
+                                            {{ __('Crea y verifica tu cuenta en Meta Business Manager con los datos de tu empresa.') }}
                                         </p>
                                     </div>
                                     <div class="timeline-step">
                                         <div class="step-dot">03</div>
-                                        <h3>Configuración de WhatsApp</h3>
+                                        <h3>{{ __('Configuración de WhatsApp') }}</h3>
                                         <p>
-                                            Conecta el número a la API a través de Meta o de un
-                                            socio oficial (BSP).
+                                            {{ __('Conecta el número a la API a través de Meta o de un socio oficial (BSP).') }}
                                         </p>
                                     </div>
                                     <div class="timeline-step">
                                         <div class="step-dot">04</div>
-                                        <h3>Plantillas y mensajes</h3>
+                                        <h3>{{ __('Plantillas y mensajes') }}</h3>
                                         <p>
-                                            Diseña y aprueba tus plantillas de mensajes para iniciar
-                                            conversaciones con calidad.
+                                            {{ __('Diseña y aprueba tus plantillas de mensajes para iniciar conversaciones con calidad.') }}
                                         </p>
                                     </div>
                                     <div class="timeline-step">
                                         <div class="step-dot">05</div>
-                                        <h3>Automatización e integración</h3>
+                                        <h3>{{ __('Automatización e integración') }}</h3>
                                         <p>
-                                            Conecta CRM, chatbots, IA y flujos con herramientas como
-                                            n8n o tu e-commerce.
+                                            {{ __('Conecta CRM, chatbots, IA y flujos con herramientas como n8n o tu e-commerce.') }}
                                         </p>
                                     </div>
                                 </div>
@@ -2842,14 +2778,14 @@
                                             class="code-dot"></span>
                                         <span class="code-lang">POST /v18.0/{phone-number-id}/messages</span>
                                     </div>
-                                    <pre><span class="tc">// Ejemplo: envío de plantilla aprobada por Meta</span>
+                                    <pre><span class="tc">{{ __('// Ejemplo: envío de plantilla aprobada por Meta') }}</span>
 {
-  <span class="tk">"messaging_product"</span>: <span class="ts">"whatsapp"</span>,
-  <span class="tk">"to"</span>: <span class="ts">"50255012345"</span>,
-  <span class="tk">"type"</span>: <span class="ts">"template"</span>,
-  <span class="tk">"template"</span>: {
-    <span class="tk">"name"</span>: <span class="ts">"confirmacion_pedido"</span>,
-    <span class="tk">"language"</span>: { <span class="tk">"code"</span>: <span class="ts">"es"</span> }
+  <span class="tk">{{ __('"messaging_product"') }}</span>: <span class="ts">{{ __('"whatsapp"') }}</span>,
+  <span class="tk">{{ __('"to"') }}</span>: <span class="ts">"50255012345"</span>,
+  <span class="tk">{{ __('"type"') }}</span>: <span class="ts">{{ __('"template"') }}</span>,
+  <span class="tk">{{ __('"template"') }}</span>: {
+    <span class="tk">{{ __('"name"') }}</span>: <span class="ts">{{ __('"confirmacion_pedido"') }}</span>,
+    <span class="tk">{{ __('"language"') }}</span>: { <span class="tk">{{ __('"code"') }}</span>: <span class="ts">{{ __('"es"') }}</span> }
   }
 }</pre>
                                 </div>
@@ -2858,12 +2794,9 @@
                                 <div class="callout callout-tip reveal" data-reveal="up">
                                     <span class="callout-icon"><i class="bi bi-lightbulb-fill"></i></span>
                                     <div>
-                                        <div class="callout-title">Consejo</div>
+                                        <div class="callout-title">{{ __('Consejo') }}</div>
                                         <p>
-                                            Antes de automatizar, define tus respuestas frecuentes y
-                                            tus flujos de venta. Las plantillas bien escritas
-                                            aumentan la tasa de aprobación de Meta y la tasa de
-                                            respuesta de tus clientes.
+                                            {{ __('Antes de automatizar, define tus respuestas frecuentes y tus flujos de venta. Las plantillas bien escritas aumentan la tasa de aprobación de Meta y la tasa de respuesta de tus clientes.') }}
                                         </p>
                                     </div>
                                 </div>
@@ -2872,11 +2805,9 @@
                                 <div class="callout callout-danger reveal" data-reveal="up">
                                     <span class="callout-icon"><i class="bi bi-x-octagon-fill"></i></span>
                                     <div>
-                                        <div class="callout-title">Advertencia</div>
+                                        <div class="callout-title">{{ __('Advertencia') }}</div>
                                         <p>
-                                            No utilices modificaciones no oficiales ni APIs no
-                                            autorizadas: incumplen los términos de Meta y ponen en
-                                            riesgo tu número y la reputación de tu marca.
+                                            {{ __('No utilices modificaciones no oficiales ni APIs no autorizadas: incumplen los términos de Meta y ponen en riesgo tu número y la reputación de tu marca.') }}
                                         </p>
                                     </div>
                                 </div>
@@ -2884,46 +2815,35 @@
 
                             <!-- ============ SECCIÓN 6: CONCLUSIÓN ============ -->
                             <div class="article-section" id="conclusion">
-                                <h2>Conclusión</h2>
+                                <h2>{{ __('Conclusión') }}</h2>
                                 <p>
-                                    En 2026, la pregunta ya no es <em>si</em> tu empresa debería
-                                    usar la API de WhatsApp Business, sino
-                                    <strong>qué tan rápido puede implementarla</strong> antes de
-                                    que tus competidores lo hagan. Atención inmediata,
-                                    automatización inteligente y datos accionables ya no son un
-                                    lujo: son la nueva forma de hacer negocios.
+                                    {{ __('En 2026, la pregunta ya no es') }} <em>{{ __('si') }}</em> {{ __('tu empresa debería usar la API de WhatsApp Business, sino') }}
+                                    <strong>{{ __('qué tan rápido puede implementarla') }}</strong> {{ __('antes de que tus competidores lo hagan. Atención inmediata, automatización inteligente y datos accionables ya no son un lujo: son la nueva forma de hacer negocios.') }}
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: quote -->
                                 <blockquote class="article-quote reveal" data-reveal="up">
                                     <i class="bi bi-quote qmark"></i>
-                                    <p>“No es una opción, es el nuevo estándar.”</p>
+                                    <p>{{ __('“No es una opción, es el nuevo estándar.”') }}</p>
                                     <footer>
-                                        — La forma en que las empresas conversan cambió para
-                                        siempre.
+                                        {{ __('— La forma en que las empresas conversan cambió para siempre.') }}
                                     </footer>
                                 </blockquote>
 
                                 <p>
-                                    ¿Tu empresa ya está lista para dar el salto? En GIJAC te
-                                    acompañamos en todo el proceso: desde la configuración del
-                                    número hasta los chatbots con IA y las automatizaciones con
-                                    n8n.
+                                    {{ __('¿Tu empresa ya está lista para dar el salto? En GIJAC te acompañamos en todo el proceso: desde la configuración del número hasta los chatbots con IA y las automatizaciones con n8n.') }}
                                 </p>
                                 <a href="#" class="btn btn-glow btn-lg mt-2"><i
-                                        class="bi bi-rocket-takeoff me-2"></i>Dar el salto con
-                                    GIJAC</a>
+                                        class="bi bi-rocket-takeoff me-2"></i>{{ __('Dar el salto con GIJAC') }}</a>
                             </div>
 
                             <!-- Byline -->
                             <div class="byline reveal" data-reveal="up">
                                 <span class="author-avatar">G</span>
                                 <div>
-                                    <h4>Equipo GIJAC</h4>
+                                    <h4>{{ __('Equipo GIJAC') }}</h4>
                                     <p>
-                                        Especialistas en WhatsApp Business API, automatización e
-                                        inteligencia artificial aplicada a la comunicación
-                                        empresarial.
+                                        {{ __('Especialistas en WhatsApp Business API, automatización e inteligencia artificial aplicada a la comunicación empresarial.') }}
                                     </p>
                                 </div>
                             </div>
@@ -2935,54 +2855,43 @@
                         <div class="sidebar-sticky">
                             <!-- Tabla de contenidos -->
                             <div class="sidebar-card d-none d-lg-block reveal" data-reveal="right">
-                                <h3><i class="bi bi-list-ul"></i> En este artículo</h3>
+                                <h3><i class="bi bi-list-ul"></i> {{ __('En este artículo') }}</h3>
                                 <ul class="toc-list">
                                     <li>
-                                        <a class="toc-link" href="#que-es"><span class="toc-num"></span>¿Qué es la API de
-                                            WhatsApp
-                                            Business?</a>
+                                        <a class="toc-link" href="#que-es"><span class="toc-num"></span>{{ __('¿Qué es la API de WhatsApp Business?') }}</a>
                                     </li>
                                     <li>
-                                        <a class="toc-link" href="#diferencias"><span class="toc-num"></span>Diferencias
-                                            entre App y
-                                            API</a>
+                                        <a class="toc-link" href="#diferencias"><span class="toc-num"></span>{{ __('Diferencias entre App y API') }}</a>
                                     </li>
                                     <li>
-                                        <a class="toc-link" href="#razones"><span class="toc-num"></span>¿Por qué es
-                                            indispensable
-                                            para las empresas?</a>
+                                        <a class="toc-link" href="#razones"><span class="toc-num"></span>{{ __('¿Por qué es indispensable para las empresas?') }}</a>
                                     </li>
                                     <li>
-                                        <a class="toc-link" href="#casos-uso"><span class="toc-num"></span>Casos de uso
-                                            por
-                                            industria</a>
+                                        <a class="toc-link" href="#casos-uso"><span class="toc-num"></span>{{ __('Casos de uso por industria') }}</a>
                                     </li>
                                     <li>
-                                        <a class="toc-link" href="#empezar"><span class="toc-num"></span>¿Cómo empezar
-                                            con la
-                                            API?</a>
+                                        <a class="toc-link" href="#empezar"><span class="toc-num"></span>{{ __('¿Cómo empezar con la API?') }}</a>
                                     </li>
                                     <li>
                                         <a class="toc-link" href="#conclusion"><span
-                                                class="toc-num"></span>Conclusión</a>
+                                                class="toc-num"></span>{{ __('Conclusión') }}</a>
                                     </li>
                                 </ul>
                             </div>
 
                             <!-- CTA lateral -->
                             <div class="sidebar-cta reveal" data-reveal="right">
-                                <h3>¿Quieres automatizar WhatsApp en tu empresa?</h3>
+                                <h3>{{ __('¿Quieres automatizar WhatsApp en tu empresa?') }}</h3>
                                 <p>
-                                    Conecta WhatsApp Business con tu CRM, automatizaciones,
-                                    chatbots e inteligencia artificial.
+                                    {{ __('Conecta WhatsApp Business con tu CRM, automatizaciones, chatbots e inteligencia artificial.') }}
                                 </p>
                                 <a href="#" class="btn btn-light-glow w-100"><i
-                                        class="bi bi-headset me-2"></i>Habla con un asesor</a>
+                                        class="bi bi-headset me-2"></i>{{ __('Habla con un asesor') }}</a>
                             </div>
 
                             <!-- Compartir -->
                             <div class="sidebar-card reveal" data-reveal="right">
-                                <h3><i class="bi bi-share"></i> Compartir artículo</h3>
+                                <h3><i class="bi bi-share"></i> {{ __('Compartir artículo') }}</h3>
                                 <div class="share-row">
                                     <a class="share-btn share-wa" href="#" target="_blank" rel="noopener"
                                         aria-label="Compartir en WhatsApp"><i class="bi bi-whatsapp"></i></a>
@@ -3014,18 +2923,15 @@
                     <div class="row align-items-center g-4 position-relative" style="z-index: 3">
                         <div class="col-lg-8">
                             <h2>
-                                Convierte WhatsApp en un canal de ventas y atención para tu
-                                empresa
+                                {{ __('Convierte WhatsApp en un canal de ventas y atención para tu empresa') }}
                             </h2>
                             <p class="cta-sub">
-                                Conecta WhatsApp Business con automatizaciones, CRM, chatbots
-                                e inteligencia artificial. Nodos de conexión entre tu empresa
-                                y tus clientes, sin fricción.
+                                {{ __('Conecta WhatsApp Business con automatizaciones, CRM, chatbots e inteligencia artificial. Nodos de conexión entre tu empresa y tus clientes, sin fricción.') }}
                             </p>
                             <div class="d-flex flex-wrap gap-3 mt-4">
                                 <a href="#" class="btn btn-light-glow btn-lg"><i
-                                        class="bi bi-chat-dots me-2"></i>Habla con GIJAC</a>
-                                <a href="#" class="btn btn-dark-glass btn-lg">Conocer GIJAC Message Business
+                                        class="bi bi-chat-dots me-2"></i>{{ __('Habla con GIJAC') }}</a>
+                                <a href="#" class="btn btn-dark-glass btn-lg">{{ __('Conocer GIJAC Message Business') }}
                                     <i class="bi bi-arrow-right ms-2"></i></a>
                             </div>
                         </div>
@@ -3038,14 +2944,14 @@
         <section class="related-section">
             <div class="container">
                 <div class="text-center mb-5">
-                    <span class="article-cat justify-content-center" style="color: var(--teal-light)">Recursos</span>
+                    <span class="article-cat justify-content-center" style="color: var(--teal-light)">{{ __('Recursos') }}</span>
                     <h2
                         style="
                 font-size: clamp(1.7rem, 3vw, 2.4rem);
                 color: var(--teal-dark);
                 letter-spacing: -0.5px;
               ">
-                        También te puede interesar
+                        {{ __('También te puede interesar') }}
                     </h2>
                 </div>
 
@@ -3057,18 +2963,16 @@
                                 <img class="img-loading" src="" alt="Automatización con n8n" loading="lazy" />
                             </div>
                             <div class="related-body">
-                                <span class="related-tag">Automatización</span>
+                                <span class="related-tag">{{ __('Automatización') }}</span>
                                 <h3>
-                                    Automatización con n8n: qué es y cómo puede ayudar a tu
-                                    empresa
+                                    {{ __('Automatización con n8n: qué es y cómo puede ayudar a tu empresa') }}
                                 </h3>
                                 <p>
-                                    Descubre cómo n8n conecta tus herramientas y automatiza
-                                    procesos sin escribir código, paso a paso.
+                                    {{ __('Descubre cómo n8n conecta tus herramientas y automatiza procesos sin escribir código, paso a paso.') }}
                                 </p>
                                 <div class="related-foot">
-                                    <span><i class="bi bi-calendar3 me-1"></i>18 Sep 2026</span><span
-                                        class="related-link">Leer artículo <i class="bi bi-arrow-right"></i></span>
+                                    <span><i class="bi bi-calendar3 me-1"></i>{{ __('18 Sep 2026') }}</span><span
+                                        class="related-link">{{ __('Leer artículo') }} <i class="bi bi-arrow-right"></i></span>
                                 </div>
                             </div>
                         </a>
@@ -3079,18 +2983,16 @@
                                 <img class="img-loading" src="" alt="Chatbot de WhatsApp" loading="lazy" />
                             </div>
                             <div class="related-body">
-                                <span class="related-tag">Chatbots e IA</span>
+                                <span class="related-tag">{{ __('Chatbots e IA') }}</span>
                                 <h3>
-                                    Cómo implementar un chatbot de WhatsApp para atención al
-                                    cliente
+                                    {{ __('Cómo implementar un chatbot de WhatsApp para atención al cliente') }}
                                 </h3>
                                 <p>
-                                    Guía práctica para diseñar, entrenar y lanzar un asistente
-                                    virtual que responde 24/7 en WhatsApp.
+                                    {{ __('Guía práctica para diseñar, entrenar y lanzar un asistente virtual que responde 24/7 en WhatsApp.') }}
                                 </p>
                                 <div class="related-foot">
-                                    <span><i class="bi bi-calendar3 me-1"></i>11 Sep 2026</span><span
-                                        class="related-link">Leer artículo <i class="bi bi-arrow-right"></i></span>
+                                    <span><i class="bi bi-calendar3 me-1"></i>{{ __('11 Sep 2026') }}</span><span
+                                        class="related-link">{{ __('Leer artículo') }} <i class="bi bi-arrow-right"></i></span>
                                 </div>
                             </div>
                         </a>
@@ -3101,15 +3003,14 @@
                                 <img class="img-loading" src="" alt="WhatsApp Business vs API" loading="lazy" />
                             </div>
                             <div class="related-body">
-                                <span class="related-tag">Comparativas</span>
-                                <h3>WhatsApp Business vs WhatsApp Business API</h3>
+                                <span class="related-tag">{{ __('Comparativas') }}</span>
+                                <h3>{{ __('WhatsApp Business vs WhatsApp Business API') }}</h3>
                                 <p>
-                                    Comparamos ambas soluciones en usuarios, automatización,
-                                    costos y escalabilidad para tu empresa.
+                                    {{ __('Comparamos ambas soluciones en usuarios, automatización, costos y escalabilidad para tu empresa.') }}
                                 </p>
                                 <div class="related-foot">
-                                    <span><i class="bi bi-calendar3 me-1"></i>02 Sep 2026</span><span
-                                        class="related-link">Leer artículo <i class="bi bi-arrow-right"></i></span>
+                                    <span><i class="bi bi-calendar3 me-1"></i>{{ __('02 Sep 2026') }}</span><span
+                                        class="related-link">{{ __('Leer artículo') }} <i class="bi bi-arrow-right"></i></span>
                                 </div>
                             </div>
                         </a>
@@ -3126,7 +3027,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 bg-transparent">
                 <div class="d-flex justify-content-between align-items-center mb-2 px-1">
-                    <span id="videoModalLabel" class="text-white fw-bold">Demostración: WhatsApp Business API</span>
+                    <span id="videoModalLabel" class="text-white fw-bold">{{ __('Demostración: WhatsApp Business API') }}</span>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Cerrar"></button>
                 </div>

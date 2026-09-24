@@ -72,6 +72,7 @@ mix.js("resources/js/campanas/ver.js", "public/js/campanas/ver.js");
 
 // CONTACTOS
 mix.js("resources/js/contactos/principal.js", "public/js/contactos/principal.js");
+mix.js("resources/js/contactos/info.js", "public/js/contactos/info.js");
 
 // PLANTILLAS
 mix.js("resources/js/plantillas/principal.js", "public/js/plantillas/principal.js");

@@ -4,23 +4,47 @@
 <head>
     <title>{{ __('GIJAC MESSAGE BUSINESS') }}</title>
     <meta charset="utf-8">
-    <meta name="description" content="Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.">
-    <meta name="keywords"
-        content="tailwind, tailwindcss, metronic, bootstrap, bootstrap 5, angular, VueJs, React, Asp.Net Core, Rails, Spring, Blazor, Django, Express.js,
-        Node.js, Flask, Symfony &amp; Laravel starter kits, admin themes, web design, figma, web development, free templates,
-        free admin themes, bootstrap theme, bootstrap template, bootstrap dashboard, bootstrap dak mode, bootstrap button,
-        bootstrap datepicker, bootstrap timepicker, fullcalendar, datatables, flaticon">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta property="og:locale" content="es_ES">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="GIJAC MESSAGE BUSINESS - Te ayudamos a crecer">
-    <meta property="og:url" content="https://message-business.gijac.com">
-    <meta property="og:image" content="https://message-business.gijac.com/img/logo_gmb.png">
-    <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
-    <meta property="article:author" content="GIJAC WEB">
-    <!-- Si quieres incluir un thumbnail específico para WhatsApp -->
-    <meta property="og:image:width" content="400">
-    <meta property="og:image:height" content="300">
+
+    @hasSection('meta')
+        @yield('meta')
+    @else
+        <meta name="description"
+            content="{{ __('Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.') }}">
+        <meta name="keywords"
+            content="WhatsApp Business, automatización, campañas WhatsApp, chatbot, inteligencia artificial, GIJAC Message Business">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:locale" content="es_ES">
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="GIJAC MESSAGE BUSINESS - Te ayudamos a crecer">
+        <meta property="og:url" content="https://message-business.gijac.com">
+        <meta property="og:image" content="https://message-business.gijac.com/img/logo_gmb.png">
+        <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
+        <meta property="article:author" content="GIJAC WEB">
+        <meta property="og:image:width" content="400">
+        <meta property="og:image:height" content="300">
+
+        @verbatim
+            <script type="application/ld+json">
+                {
+                    "@context":"https://schema.org",
+                    "@type":"Organization",
+                    "@id":"https://message-business.gijac.com/#organization",
+                    "name":"GIJAC MESSAGE BUSINESS",
+                    "url":"https://message-business.gijac.com",
+                    "logo":"https://message-business.gijac.com/img/logo_gmb.png",
+                    "description":"{{ __('Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.') }}",
+                    "foundingLocation":{
+                        "@type":"Place",
+                        "name":"Cali, Colombia"
+                    },
+                    "sameAs":[
+                        "https://wa.me/573171789584"
+                    ]
+                }
+            </script>
+        @endverbatim
+    @endif
+
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="shortcut icon" href="{{ asset('img/logo_gmb.png') }}">
@@ -200,6 +224,9 @@
     <button id="back-to-top" aria-label="{{ __('Volver arriba') }}">
         <i class="bi bi-arrow-up"></i>
     </button>
+
+    @section('modal')
+    @show
 
     @routes
     <script>

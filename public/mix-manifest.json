@@ -18,6 +18,7 @@
     "/js/campanas/detalle.js": "/js/campanas/detalle.js",
     "/js/campanas/ver.js": "/js/campanas/ver.js",
     "/js/contactos/principal.js": "/js/contactos/principal.js",
+    "/js/contactos/info.js": "/js/contactos/info.js",
     "/js/plantillas/principal.js": "/js/plantillas/principal.js",
     "/js/perfil-whatsapp.js": "/js/perfil-whatsapp.js",
     "/js/planes/principal.js": "/js/planes/principal.js",

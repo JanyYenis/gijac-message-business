@@ -302,7 +302,7 @@
                             </div>
                             <div class="contact-detail">
                                 <i class="fas fa-calendar text-muted"></i>
-                                <span>{{ __('Registrado el') }} <span id="contactDate">{{ $contacto->created_at }}</span></span>
+                                <span>{{ __('Registrado el') }} <span id="contactDate">{{ $contacto->created_at->translatedFormat('d M Y, h:i') }}</span></span>
                             </div>
                             <div class="contact-detail">
                                 <i class="fas fa-chart-line text-muted"></i>
@@ -323,22 +323,40 @@
                             </span>
                         @endif
                         <div class="mt-2" id="contactTags">
-                            <span class="tag-badge" style="background-color: #dc354520; color: #dc3545; border: 1px solid #dc354540;">
-                                <i class="fas fa-tag"></i>
-                                {{ __('Cliente VIP') }}
-                            </span>
-                            <span class="tag-badge" style="background-color: #28a74520; color: #28a745; border: 1px solid #28a74540;">
-                                <i class="fas fa-tag"></i>
-                                {{ __('Marketing') }}
-                            </span>
+                            @foreach ($contacto?->etiquetasActivas as $etiqueta_contacto)
+                                @php
+                                    $etiqueta = $etiqueta_contacto?->etiqueta ?? null;
+                                    $color = $etiqueta?->color ?? '#28a745';
+                                    $hex = ltrim($color, '#');
+
+                                    if (strlen($hex) === 3) {
+                                        $hex = $hex[0] . $hex[0]
+                                            . $hex[1] . $hex[1]
+                                            . $hex[2] . $hex[2];
+                                    }
+
+                                    $r = hexdec(substr($hex, 0, 2));
+                                    $g = hexdec(substr($hex, 2, 2));
+                                    $b = hexdec(substr($hex, 4, 2));
+
+                                    $background = "rgba($r, $g, $b, 0.12)";
+                                    $border = "rgba($r, $g, $b, 0.30)";
+                                @endphp
+                                <span class="tag-badge" style="background-color: {{ $background }};
+                                    color: {{ $color }};
+                                    border: 1px solid {{ $border }};">
+                                    <i class="fas fa-tag"></i>
+                                    {{ $etiqueta->nombre ?? 'N/A' }}
+                                </span>
+                            @endforeach
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <button type="button" class="btn btn-edit" onclick="editContact()">
+                    {{-- <button type="button" class="btn btn-edit" onclick="editContact()">
                         <i class="fas fa-edit"></i>
                         {{ __('Editar Contacto') }}
-                    </button>
+                    </button> --}}
                 </div>
             </div>
         </div>
@@ -479,14 +497,30 @@
                         <i class="fas fa-envelope-open text-success me-2" style="font-size: 2rem;"></i>
                         <h5 class="mb-0">{{ __('Tasa de Apertura') }}</h5>
                     </div>
-                    <div class="comparison-value text-success" id="contactOpenRate">89.2%</div>
+                    <div class="comparison-value text-success" id="contactOpenRate">{{ $cantidad_efectividad_uuid }}%</div>
                     <div class="comparison-label">{{ __('Este Contacto') }}</div>
                     <div class="comparison-vs">{{ __('vs') }}</div>
-                    <div class="comparison-average" id="averageOpenRate">76.4%</div>
+                    <div class="comparison-average" id="averageOpenRate">{{ $cantidad_efectividad ?? 0 }}%</div>
                     <div class="comparison-label">{{ __('Promedio General') }}</div>
-                    <div class="comparison-difference positive" id="openRateDifference">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>{{ __('+12.8% mejor que la media') }}</span>
+                        @php
+                            $icono = '';
+                            $clase = '';
+                            $mensaje = '';
+                            $resultado = round($cantidad_efectividad_uuid - $cantidad_efectividad, 2) ?? 0;
+                            if ($resultado > 0) {
+                                $icono = 'fas fa-arrow-up';
+                                $clase = 'positive';
+                                $mensaje = ' mejor que la media';
+                            } else {
+                                $icono = 'fas fa-arrow-down';
+                                $clase = 'negative';
+                                $mensaje = ' por debajo que la media';
+                            }
+
+                        @endphp
+                    <div class="comparison-difference {{ $clase }}" id="openRateDifference">
+                        <i class="{{ $icono }}"></i>
+                        <span>{{ $resultado."%". __($mensaje) }}</span>
                     </div>
                 </div>
             </div>
@@ -517,7 +551,7 @@
 @endsection
 
 @section('scripts')
-    {{-- <script src="{{ mix('/js/contactos/principal.js') }}" ></script> --}}
+    <script src="{{ mix('js/contactos/info.js') }}" ></script>
     <script>
         // Global variables
         let campaigns = [];
@@ -553,7 +587,6 @@
             };
 
             // Update contact info
-            $('#contactOpenRate').text(contact.openRate + '%');
             $('#contactClickRate').text(contact.clickRate + '%');
             $('#totalClicks').text(contact.totalClicks);
             $('#uniqueLinks').text(contact.uniqueLinks);

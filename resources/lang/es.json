@@ -23,7 +23,8 @@
     "+1.2% este mes": "+1.2% este mes",
     "+12% vs semana pasada": "+12% vs semana pasada",
     "+12.6% mejor que la media": "+12.6% mejor que la media",
-    "+12.8% mejor que la media": "+12.8% mejor que la media",
+    " mejor que la media": " mejor que la media",
+    " por debajo que la media": " por debajo que la media",
     "+18% aperturas": "+18% aperturas",
     "+8% este mes": "+8% este mes",
     ", escanea el código QR. Generará un código de 6 dígitos para que lo ingrese a continuación.": ", escanea el código QR. Generará un código de 6 dígitos para que lo ingrese a continuación.",
@@ -2911,5 +2912,17 @@
     "El historial de campañas se ha exportado correctamente": "El historial de campañas se ha exportado correctamente",
     "¡Actualizado!": "¡Actualizado!",
     "Los datos del contacto han sido actualizados correctamente": "Los datos del contacto han sido actualizados correctamente",
-    "Este contacto no tiene campañas registradas. Los gráficos y análisis estarán disponibles cuando se envíen campañas.": "Este contacto no tiene campañas registradas. Los gráficos y análisis estarán disponibles cuando se envíen campañas."
+    "Este contacto no tiene campañas registradas. Los gráficos y análisis estarán disponibles cuando se envíen campañas.": "Este contacto no tiene campañas registradas. Los gráficos y análisis estarán disponibles cuando se envíen campañas.",
+    "Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.": "Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.",
+    "Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.": "Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.",
+    "API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026": "API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026",
+    "API de WhatsApp Business: Qué es y por qué tu empresa la necesita en": "API de WhatsApp Business: Qué es y por qué tu empresa la necesita en",
+    "Por": "Por",
+    "24 Sep 2026": "24 Sep 2026",
+    "8 min de lectura": "8 min de lectura",
+    "2.4k vistas": "2.4k vistas",
+    "API de WhatsApp Business para empresas: conexiones, automatización, CRM e inteligencia artificial": "API de WhatsApp Business para empresas: conexiones, automatización, CRM e inteligencia artificial",
+    "En este artículo": "En este artículo",
+    "¿Qué es la API de WhatsApp Business?": "¿Qué es la API de WhatsApp Business?",
+    "Diferencias entre App y API": "Diferencias entre App y API"
 }

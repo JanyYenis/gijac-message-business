@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorException;
 use App\Http\Requests\Contactos\StoreContactoRequest;
+use App\Models\Campana;
 use App\Models\Contacto;
+use App\Models\EnvioCampana;
 use App\Models\Etiqueta;
 use App\Models\EtiquetaContacto;
 use App\Models\Plan;
@@ -230,7 +232,51 @@ class ContactoController extends Controller
 
     public function showInfo(Contacto $contacto)
     {
+        $contacto->load(
+            'etiquetasActivas'
+        );
         $info['contacto'] = $contacto;
+        $info['campanas_programadas'] = Campana::where('estado', Campana::PENDIENTE)
+            ->where('cod_empresa', $this->uuid)
+            ->count();
+
+        $info['campanas_enviadas'] = Campana::where('estado', Campana::ENVIADO)
+            ->where('cod_empresa', $this->uuid)
+            ->count();
+        $cantidad_envios = EnvioCampana::whereHas('campana', function($query) {
+                $query->where('cod_empresa', $this->uuid)
+                    ->where('estado', Campana::ENVIADO);
+            })
+            ->where('estado', EnvioCampana::ACTIVO)
+            ->count();
+        $cantidad_aperturas = EnvioCampana::whereHas('campana', function($query) {
+                $query->where('cod_empresa', $this->uuid)
+                    ->where('estado', Campana::ENVIADO);
+            })
+            ->where('estado', EnvioCampana::ACTIVO)
+            ->where('apertura', EnvioCampana::ABIERTO)
+            ->count();
+
+        $cantidad_efectividad = $cantidad_aperturas && $cantidad_envios ? ($cantidad_aperturas / $cantidad_envios) * 100 : 0;
+        $info['cantidad_efectividad'] = round($cantidad_efectividad, 2);
+        $cantidad_envios_uuid = EnvioCampana::whereHas('campana', function($query) {
+                $query->where('cod_empresa', $this->uuid)
+                    ->where('estado', Campana::ENVIADO);
+            })
+            ->where('cod_contacto', $contacto?->id)
+            ->where('estado', EnvioCampana::ACTIVO)
+            ->count();
+        $cantidad_aperturas__uuid = EnvioCampana::whereHas('campana', function($query) {
+                $query->where('cod_empresa', $this->uuid)
+                    ->where('estado', Campana::ENVIADO);
+            })
+            ->where('cod_contacto', $contacto?->id)
+            ->where('estado', EnvioCampana::ACTIVO)
+            ->where('apertura', EnvioCampana::ABIERTO)
+            ->count();
+
+        $cantidad_efectividad_uuid = $cantidad_aperturas__uuid && $cantidad_envios_uuid ? ($cantidad_aperturas__uuid / $cantidad_envios_uuid) * 100 : 0;
+        $info['cantidad_efectividad_uuid'] = round($cantidad_efectividad_uuid, 2);
 
         return view('contactos.info', $info);
     }

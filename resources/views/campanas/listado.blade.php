@@ -27,6 +27,12 @@
                 <div class="c-sub">
                     <span>
                         <i class="fa-regular fa-user me-1"></i>
+                        {{ $campana?->usuario?->nombre_completo ?? 'N/A' }}
+                    </span>
+                </div>
+                <div class="c-sub">
+                    <span>
+                        <i class="fa-solid fa-align-left me-1"></i>
                         {{ $campana?->descripcion ?? 'N/A' }}
                     </span>
                 </div>

@@ -137,8 +137,8 @@ class SendWhatsAppMessage implements ShouldQueue
             $campo = $value?->valor;
 
             // Bug corregido: era $contacto (indefinida), debe ser $this->contacto
-            if ($campo && property_exists($this->contacto, $campo)) {
-                $valor = $this->contacto->$campo;
+            if ($campo && array_key_exists($campo, $this->contacto->getAttributes())) {
+                $valor = $this->contacto->{$campo};
             }
             $valores[$llave] = $valor;
         }

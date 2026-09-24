@@ -529,6 +529,7 @@ $(document).on('hidden.bs.modal', modalCrearCampana, function (e) {
 
     // Reset de plantilla seleccionada SIN disparar el 'change' que hace la petición
     $('#selectPlantilla').val(null).trigger('change.select2');
+    $('#campaignCategory').val(null).trigger('change.select2');
     $('#templatePreview').empty();
     $('.seccionEncabezado').addClass('d-none');
     $('.inputVariable').remove();

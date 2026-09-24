@@ -2322,7 +2322,7 @@
         <!-- BLOQUE DINÁMICO: featured_image -->
         <div class="featured-wrap">
             <figure class="featured-figure">
-                <img id="featuredImg" class="img-loading" src=""
+                <img id="featuredImg" class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/featured.png') }}"
                     alt="{{ __('API de WhatsApp Business para empresas: conexiones, automatización, CRM e inteligencia artificial') }}"
                     fetchpriority="high" />
             </figure>
@@ -2363,14 +2363,22 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#casos-uso"><span class="toc-num"></span>{{ __('Casos de uso por industria') }}</a>
+                                            <a class="toc-link" href="#casos-uso">
+                                                <span class="toc-num"></span>
+                                                {{ __('Casos de uso por industria') }}
+                                            </a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#empezar"><span class="toc-num"></span>{{ __('¿Cómo empezar con la API?') }}</a>
+                                            <a class="toc-link" href="#empezar">
+                                                <span class="toc-num"></span>
+                                                {{ __('¿Cómo empezar con la API?') }}
+                                            </a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#conclusion"><span
-                                                    class="toc-num"></span>{{ __('Conclusión') }}</a>
+                                            <a class="toc-link" href="#conclusion">
+                                                <span class="toc-num"></span>
+                                                {{ __('Conclusión') }}
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -2383,14 +2391,21 @@
                                 </h2>
                                 <p class="lead-para">
                                     {{ __('Si tu empresa todavía atiende clientes desde el WhatsApp personal o la app Business normal,') }}
-                                    <strong>{{ __('estás perdiendo ventas, tiempo y credibilidad') }}</strong>{{ __('. Hoy, más de 2.000 millones de personas usan WhatsApp a diario, y el cliente ya no quiere llamar ni escribir un correo. Quiere respuesta inmediata, por donde ya está.') }}
+                                    <strong>{{ __('estás perdiendo ventas, tiempo y credibilidad') }}</strong>
+                                    {{ __('. Hoy, más de 2.000 millones de personas usan WhatsApp a diario, y el cliente ya no quiere llamar ni escribir un correo. Quiere respuesta inmediata, por donde ya está.') }}
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: highlight -->
                                 <div class="highlight-statement reveal" data-reveal="up">
-                                    <span class="hs-icon"><i class="bi bi-whatsapp"></i></span>
-                                    <span>{{ __('Ahí entra la') }}
-                                        <span class="gradient-text">{{ __('API de WhatsApp Business') }}</span>.</span>
+                                    <span class="hs-icon">
+                                        <i class="bi bi-whatsapp"></i>
+                                    </span>
+                                    <span>
+                                        {{ __('Ahí entra la') }}
+                                        <span class="gradient-text">
+                                            {{ __('API de WhatsApp Business') }}
+                                        </span>.
+                                    </span>
                                 </div>
                             </div>
 
@@ -2399,9 +2414,13 @@
                                 <h2>{{ __('¿Qué es la API de WhatsApp Business?') }}</h2>
                                 <p>
                                     {{ __('La API de WhatsApp Business es la') }}
-                                    <strong>{{ __('versión profesional y escalable') }}</strong> {{ __('de WhatsApp, diseñada para que empresas de cualquier tamaño conecten el canal de mensajería más usado del mundo directamente con sus sistemas: CRM, e-commerce, plataformas de atención y flujos de automatización.') }}
+                                    <strong>{{ __('versión profesional y escalable') }}</strong>
+                                    {{ __('de WhatsApp, diseñada para que empresas de cualquier tamaño conecten el canal de mensajería más usado del mundo directamente con sus sistemas: CRM, e-commerce, plataformas de atención y flujos de automatización.') }}
                                 </p>
-                                <span class="def-chip"><i class="bi bi-code-slash me-2"></i>{{ __('API = Application Programming Interface') }}</span>
+                                <span class="def-chip">
+                                    <i class="bi bi-code-slash me-2"></i>
+                                    {{ __('API = Application Programming Interface') }}
+                                </span>
                                 <p>
                                     {{ __('En pocas palabras: es la capa tecnológica que permite que') }}
                                     <strong>{{ __('las conversaciones dejen de depender de un celular') }}</strong>
@@ -2433,7 +2452,9 @@
 
                                 <!-- BLOQUE DINÁMICO: alert tipo "importante" -->
                                 <div class="callout callout-important reveal" data-reveal="up">
-                                    <span class="callout-icon"><i class="bi bi-exclamation-triangle-fill"></i></span>
+                                    <span class="callout-icon">
+                                        <i class="bi bi-exclamation-triangle-fill text-white"></i>
+                                    </span>
                                     <div>
                                         <div class="callout-title">{{ __('Importante') }}</div>
                                         <p>
@@ -2525,7 +2546,9 @@
 
                                 <!-- BLOQUE DINÁMICO: alert tipo "info" -->
                                 <div class="callout callout-info reveal" data-reveal="up">
-                                    <span class="callout-icon"><i class="bi bi-info-circle-fill"></i></span>
+                                    <span class="callout-icon">
+                                        <i class="bi bi-info-circle-fill text-white"></i>
+                                    </span>
                                     <div>
                                         <div class="callout-title">
                                             {{ __('¿Ya usas un número de WhatsApp?') }}
@@ -2627,7 +2650,7 @@
                                 <h2>{{ __('Mira la API en acción') }}</h2>
                                 <button class="video-block reveal" data-reveal="up" id="videoBlock" type="button"
                                     aria-label="Reproducir video de demostración">
-                                    <img id="videoThumbImg" class="video-thumb img-loading" src=""
+                                    <img id="videoThumbImg" class="video-thumb img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/video-thumb.png') }}"
                                         alt="Video de demostración de WhatsApp Business API" loading="lazy" />
                                     <span class="video-overlay"><span class="play-btn"><i
                                                 class="bi bi-play-fill"></i></span></span>
@@ -2641,7 +2664,7 @@
                             <!-- ============ IMAGEN INTERMEDIA ============ -->
                             <!-- BLOQUE DINÁMICO: image (variantes: af-full | af-center | af-left | af-right) -->
                             <figure class="article-figure af-center reveal" data-reveal="up">
-                                <img id="inlineImg" class="img-loading" src=""
+                                <img id="inlineImg" class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/inline-1.png') }}"
                                     alt="Empresa conectando WhatsApp con CRM, automatización e inteligencia artificial"
                                     loading="lazy" />
                                 <figcaption>
@@ -2653,18 +2676,18 @@
                             <!-- BLOQUE DINÁMICO: gallery (lightbox con navegación y contador) -->
                             <div id="gallery" class="gallery-grid reveal" data-reveal="up">
                                 <div class="gallery-item"
-                                    data-caption="Flujos de conversación automatizados con chatbots e IA.">
-                                    <img class="img-loading" src="" alt="Flujos de conversación automatizados"
+                                    data-caption="Constructor visual de flujos de conversación automatizados con chatbot">
+                                    <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/gallery-1.png') }}" alt="Flujos de conversación automatizados"
                                         loading="lazy" />
                                 </div>
                                 <div class="gallery-item"
-                                    data-caption="Integración de WhatsApp con CRM, e-commerce y n8n.">
-                                    <img class="img-loading" src="" alt="Integración con CRM y automatizaciones"
+                                    data-caption="Integración de WhatsApp Business API con e-commerce y CRM">
+                                    <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/gallery-2.png') }}" alt="Integración con CRM y automatizaciones"
                                         loading="lazy" />
                                 </div>
                                 <div class="gallery-item"
-                                    data-caption="Métricas en tiempo real para tomar mejores decisiones.">
-                                    <img class="img-loading" src=""
+                                    data-caption="Dashboard de métricas de WhatsApp Business API en tiempo real">
+                                    <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/gallery-3.png') }}"
                                         alt="Métricas y reportes de WhatsApp Business API" loading="lazy" />
                                 </div>
                             </div>
@@ -2677,7 +2700,7 @@
 
                                 <!-- Ejemplo de imagen flotada (variante af-right) -->
                                 <figure class="article-figure af-right">
-                                    <img id="floatImg" class="img-loading" src=""
+                                    <img id="floatImg" class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/float-1.png') }}"
                                         alt="Atención automatizada por WhatsApp en distintos sectores" loading="lazy" />
                                 </figure>
 
@@ -2792,7 +2815,9 @@
 
                                 <!-- BLOQUE DINÁMICO: alert tipo "consejo" -->
                                 <div class="callout callout-tip reveal" data-reveal="up">
-                                    <span class="callout-icon"><i class="bi bi-lightbulb-fill"></i></span>
+                                    <span class="callout-icon">
+                                        <i class="bi bi-lightbulb-fill text-white"></i>
+                                    </span>
                                     <div>
                                         <div class="callout-title">{{ __('Consejo') }}</div>
                                         <p>
@@ -2803,7 +2828,9 @@
 
                                 <!-- BLOQUE DINÁMICO: alert tipo "advertencia" -->
                                 <div class="callout callout-danger reveal" data-reveal="up">
-                                    <span class="callout-icon"><i class="bi bi-x-octagon-fill"></i></span>
+                                    <span class="callout-icon">
+                                        <i class="bi bi-x-octagon-fill text-white"></i>
+                                    </span>
                                     <div>
                                         <div class="callout-title">{{ __('Advertencia') }}</div>
                                         <p>
@@ -2833,8 +2860,10 @@
                                 <p>
                                     {{ __('¿Tu empresa ya está lista para dar el salto? En GIJAC te acompañamos en todo el proceso: desde la configuración del número hasta los chatbots con IA y las automatizaciones con n8n.') }}
                                 </p>
-                                <a href="#" class="btn btn-glow btn-lg mt-2"><i
-                                        class="bi bi-rocket-takeoff me-2"></i>{{ __('Dar el salto con GIJAC') }}</a>
+                                <a href="{{ route('register') }}" class="btn btn-glow btn-lg mt-2">
+                                    <i class="bi bi-rocket-takeoff me-2"></i>
+                                    {{ __('Dar el salto con GIJAC') }}
+                                </a>
                             </div>
 
                             <!-- Byline -->
@@ -2885,8 +2914,10 @@
                                 <p>
                                     {{ __('Conecta WhatsApp Business con tu CRM, automatizaciones, chatbots e inteligencia artificial.') }}
                                 </p>
-                                <a href="#" class="btn btn-light-glow w-100"><i
-                                        class="bi bi-headset me-2"></i>{{ __('Habla con un asesor') }}</a>
+                                <a href="{{ route('contactarnos') }}" class="btn btn-light-glow w-100">
+                                    <i class="bi bi-headset me-2"></i>
+                                    {{ __('Habla con un asesor') }}
+                                </a>
                             </div>
 
                             <!-- Compartir -->
@@ -2914,8 +2945,6 @@
         <section class="cta-final-section">
             <div class="container">
                 <div class="final-cta reveal" data-reveal="up">
-                    <div class="app-orb-1"></div>
-                    <div class="app-orb-2"></div>
                     <span class="floating-chip chip-1 float-a"><i class="bi bi-whatsapp"></i></span>
                     <span class="floating-chip chip-2 float-b"><i class="bi bi-diagram-3"></i></span>
                     <span class="floating-chip chip-3 float-c"><i class="bi bi-robot"></i></span>
@@ -2929,10 +2958,14 @@
                                 {{ __('Conecta WhatsApp Business con automatizaciones, CRM, chatbots e inteligencia artificial. Nodos de conexión entre tu empresa y tus clientes, sin fricción.') }}
                             </p>
                             <div class="d-flex flex-wrap gap-3 mt-4">
-                                <a href="#" class="btn btn-light-glow btn-lg"><i
-                                        class="bi bi-chat-dots me-2"></i>{{ __('Habla con GIJAC') }}</a>
-                                <a href="#" class="btn btn-dark-glass btn-lg">{{ __('Conocer GIJAC Message Business') }}
-                                    <i class="bi bi-arrow-right ms-2"></i></a>
+                                <a href="{{ route('contactarnos') }}" class="btn btn-light-glow btn-lg">
+                                    <i class="bi bi-chat-dots me-2"></i>
+                                    {{ __('Habla con GIJAC WEB') }}
+                                </a>
+                                <a href="{{ url('/') }}" class="btn btn-dark-glass btn-lg">
+                                    {{ __('Conocer GIJAC Message Business') }}
+                                    <i class="bi bi-arrow-right ms-2"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -2960,7 +2993,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#" class="related-card reveal" data-reveal="up">
                             <div class="related-thumb">
-                                <img class="img-loading" src="" alt="Automatización con n8n" loading="lazy" />
+                                <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/video-thumb.png') }}" alt="Automatización con n8n" loading="lazy" />
                             </div>
                             <div class="related-body">
                                 <span class="related-tag">{{ __('Automatización') }}</span>
@@ -2980,7 +3013,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#" class="related-card reveal" data-reveal="up">
                             <div class="related-thumb">
-                                <img class="img-loading" src="" alt="Chatbot de WhatsApp" loading="lazy" />
+                                <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/video-thumb.png') }}" alt="Chatbot de WhatsApp" loading="lazy" />
                             </div>
                             <div class="related-body">
                                 <span class="related-tag">{{ __('Chatbots e IA') }}</span>
@@ -3000,7 +3033,7 @@
                     <div class="col-md-6 col-lg-4">
                         <a href="#" class="related-card reveal" data-reveal="up">
                             <div class="related-thumb">
-                                <img class="img-loading" src="" alt="WhatsApp Business vs API" loading="lazy" />
+                                <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/video-thumb.png') }}" alt="WhatsApp Business vs API" loading="lazy" />
                             </div>
                             <div class="related-body">
                                 <span class="related-tag">{{ __('Comparativas') }}</span>
@@ -3497,56 +3530,6 @@
                     "</svg>";
                 return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
             }
-
-            /* Asignar placeholders (aquí Laravel imprimirá las URLs reales) */
-            $("#featuredImg").attr(
-                "src",
-                svgArt({
-                    w: 1600,
-                    h: 900,
-                    type: "network"
-                }),
-            );
-            $("#inlineImg").attr("src", svgArt({
-                w: 1200,
-                h: 760,
-                type: "flow"
-            }));
-            $("#floatImg").attr("src", svgArt({
-                w: 640,
-                h: 500,
-                type: "chat"
-            }));
-            $("#videoThumbImg").attr(
-                "src",
-                svgArt({
-                    w: 1600,
-                    h: 900,
-                    type: "chat"
-                }),
-            );
-            var galTypes = ["chat", "flow", "chart"];
-            $("#gallery .gallery-item img").each(function(i) {
-                $(this).attr(
-                    "src",
-                    svgArt({
-                        w: 1200,
-                        h: 900,
-                        type: galTypes[i % 3]
-                    }),
-                );
-            });
-            var relTypes = ["flow", "chat", "network"];
-            $("#relatedRow .related-thumb img").each(function(i) {
-                $(this).attr(
-                    "src",
-                    svgArt({
-                        w: 900,
-                        h: 560,
-                        type: relTypes[i % 3]
-                    }),
-                );
-            });
 
             /* Quitar skeleton al cargar cada imagen */
             $("img.img-loading").on("load", function() {

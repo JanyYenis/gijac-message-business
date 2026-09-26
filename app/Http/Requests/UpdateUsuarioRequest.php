@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Classes\FormRequest\FormRequest;
+use App\Rules\CantidadUsuario;
 use App\Rules\UsuarioEmail;
 use App\Rules\UsuarioIdentificacion;
 use App\Rules\UsuarioTelefono;
@@ -77,6 +78,10 @@ class UpdateUsuarioRequest extends FormRequest
                     new UsuarioEmail($this->get('id'))
                 ];
             }
+        } else {
+            $reglas['estado'] = [
+                new CantidadUsuario($this->get('id')),
+            ];
         }
 
         return $reglas;

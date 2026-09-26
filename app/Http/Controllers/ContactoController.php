@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorException;
 use App\Http\Requests\Contactos\StoreContactoRequest;
+use App\Http\Requests\Contactos\UpdateContactoRequest;
 use App\Models\Campana;
 use App\Models\Contacto;
 use App\Models\EnvioCampana;
@@ -307,7 +308,7 @@ class ContactoController extends Controller
         return response()->json($respuesta);
     }
 
-    public function update(Request $request, Contacto $contacto)
+    public function update(Request $request, UpdateContactoRequest $contacto)
     {
         $datos = $request->all();
         $actualizar = $contacto->update($datos);

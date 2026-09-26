@@ -641,6 +641,7 @@
     "Confirmar contraseña": "Confirmar contraseña",
     "Confirmar nueva contraseña": "Confirmar nueva contraseña",
     "Conoce la plataforma, la estructura de tu cuenta y los primeros ajustes recomendados.": "Conoce la plataforma, la estructura de tu cuenta y los primeros ajustes recomendados.",
+    "Conoce los planes y precios de GIJAC Message Business. Elige la solución ideal para gestionar WhatsApp Business, campañas, contactos, automatizaciones, chatbots e inteligencia artificial para tu empresa.": "Conoce los planes y precios de GIJAC Message Business. Elige la solución ideal para gestionar WhatsApp Business, campañas, contactos, automatizaciones, chatbots e inteligencia artificial para tu empresa.",
     "Conocer GIJAC Message Business": "Conocer GIJAC Message Business",
     "Consejo": "Consejo",
     "Constructor de Chatbots": "Constructor de Chatbots",
@@ -1431,6 +1432,7 @@
     "Haga clic aquí para solicitar el correo de verificación": "Haga clic aquí para solicitar el correo de verificación",
     "Has superado el limite de 30 contactos activos para tu plan demo.": "Has superado el limite de 30 contactos activos para tu plan demo.",
     "Has superado el limite de contactos activos para tu plan.": "Has superado el limite de contactos activos para tu plan.",
+    "Has superado el limite de usuarios (Agentes) activos para tu plan.": "Has superado el limite de usuarios (Agentes) activos para tu plan.",
     "Hasta": "Hasta",
     "Hasta 2 MB": "Hasta 2 MB",
     "Hay cambios sin guardar": "Hay cambios sin guardar",
@@ -2161,6 +2163,7 @@
     "Por favor acepta nuestros términos para continuar:": "Por favor acepta nuestros términos para continuar:",
     "Por favor revise el archivo, recuerde que el numero de telefono, el codigo del pais y el nombre o abreviacion del pais son indispensables": "Por favor revise el archivo, recuerde que el numero de telefono, el codigo del pais y el nombre o abreviacion del pais son indispensables",
     "Por favor selecciona uno de nuestros planes para crear un contacto.": "Por favor selecciona uno de nuestros planes para crear un contacto.",
+    "Por favor selecciona uno de nuestros planes para crear un usuario (Agente).": "Por favor selecciona uno de nuestros planes para crear un usuario (Agente).",
     "Por favor, elimine ": "Por favor, elimine ",
     "Por favor, escribe el mismo valor de nuevo.": "Por favor, escribe el mismo valor de nuevo.",
     "Por favor, escribe sólo dígitos.": "Por favor, escribe sólo dígitos.",
@@ -3066,5 +3069,9 @@
     "📞 Llamada entrante": "📞 Llamada entrante",
     "📲 Abrir App (Android)": "📲 Abrir App (Android)",
     "📲 Abrir App (iOS)": "📲 Abrir App (iOS)",
-    "🔥 Promoción especial": "🔥 Promoción especial"
+    "🔥 Promoción especial": "🔥 Promoción especial",
+    "No se encontró la empresa asociada al usuario.": "No se encontró la empresa asociada al usuario.",
+    "Has superado el límite de usuarios (Agentes) activos para tu plan.": "Has superado el límite de usuarios (Agentes) activos para tu plan.",
+    "Has superado el límite de 30 contactos activos para tu plan demo.": "Has superado el límite de 30 contactos activos para tu plan demo.",
+    "Has superado el límite de contactos activos para tu plan.": "Has superado el límite de contactos activos para tu plan."
 }

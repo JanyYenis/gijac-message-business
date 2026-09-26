@@ -14,7 +14,7 @@
             content="WhatsApp Business, automatización, campañas WhatsApp, chatbot, inteligencia artificial, GIJAC Message Business">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:locale" content="es_ES">
-        <meta property="og:type" content="article">
+        <meta property="og:type" content="website">
         <meta property="og:title" content="GIJAC MESSAGE BUSINESS - Te ayudamos a crecer">
         <meta property="og:url" content="https://message-business.gijac.com">
         <meta property="og:image" content="https://message-business.gijac.com/img/logo_gmb.png">

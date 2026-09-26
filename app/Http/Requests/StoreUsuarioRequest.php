@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Classes\FormRequest\FormRequest;
+use App\Rules\CantidadUsuario;
 use App\Rules\UsuarioEmail;
 use App\Rules\UsuarioIdentificacion;
 use App\Rules\UsuarioTelefono;
@@ -52,7 +53,8 @@ class StoreUsuarioRequest extends FormRequest
             'identificacion' => [
                 "required",
                 "numeric",
-                new UsuarioIdentificacion()
+                new UsuarioIdentificacion(),
+                new CantidadUsuario()
             ],
             'telefono' => [
                 "required",

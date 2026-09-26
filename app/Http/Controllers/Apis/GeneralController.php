@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\SendWhatsAppMessage;
 use App\Models\Campana;
 use App\Models\ConfiguracionMeta;
 use App\Models\Contacto;
@@ -11,8 +10,8 @@ use App\Models\Mensaje;
 use App\Models\Plan;
 use App\Models\Plantilla;
 use App\Models\Usuario;
+use App\Services\Contactos\ContactoService;
 use Illuminate\Http\Request;
-use libphonenumber\PhoneNumberUtil;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
@@ -173,40 +172,14 @@ class GeneralController extends Controller
 
         if (!$contacto) {
             $empresa = $usuario?->empresa ?? false;
-            $tienePlan = $empresa?->facturaVigente?->cod_plan ?? null;
             $esDemo = $usuario?->demo ?? null;
-            $cantidadContactosActivos = Contacto::where('estado', Contacto::ACTIVO)
-                ->where('cod_empresa', $empresa->id)
-                ->count();
-            if ($tienePlan) {
-                $plan = Plan::find($tienePlan);
-                if ($plan?->max_contactos) {
-                    if ($plan?->max_contactos <= $cantidadContactosActivos) {
-                        return response()->json(['estado' => 'error', 'mensaje' => __('Has superado el limite de contactos activos para tu plan.')], 500);
-                    }
-                }
-            } else if ($esDemo) {
-                if (30 <= $cantidadContactosActivos) {
-                    return response()->json(['estado' => 'error', 'mensaje' => __('Has superado el limite de 30 contactos activos para tu plan demo.')], 500);
-                }
-            } else {
-                return response()->json(['estado' => 'error', 'mensaje' => __('Por favor selecciona uno de nuestros planes para crear un contacto.')], 500);
-            }
 
-            $phoneUtil = PhoneNumberUtil::getInstance();
-            $parsedNumber = $phoneUtil->parse($telefono, null);
-                // Obtener el código del país
-            $countryCode = $parsedNumber->getCountryCode();
-
-            // Obtener el resto del número sin el código del país
-            $nationalNumber = $parsedNumber->getNationalNumber();
-
-            $contacto = Contacto::create([
-                'telefono' => $nationalNumber,
-                'codigo_telefono' => $countryCode,
-                'uuid' => $usuario->uuid,
-                'cod_empresa' => $empresa?->id,
-            ]);
+            $contacto = app(ContactoService::class)->crearAutomaticamente(
+                empresa: $empresa,
+                telefono: $telefono,
+                uuid: $empresa->cod_usuario,
+                esDemo: $esDemo ?? false // o el valor que corresponda
+            );
         }
 
         $whatsapp_cloud_api = new WhatsAppCloudApi([

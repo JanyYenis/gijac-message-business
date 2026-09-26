@@ -1,5 +1,54 @@
 @extends('layouts.principal')
 
+@section('meta')
+    <meta name="description"
+        content="{{ __('Conoce los planes y precios de GIJAC Message Business. Elige la solución ideal para gestionar WhatsApp Business, campañas, contactos, automatizaciones, chatbots e inteligencia artificial para tu empresa.') }}">
+
+    <meta name="keywords"
+        content="precios WhatsApp Business, planes WhatsApp Business, precios automatización WhatsApp, planes chatbot, WhatsApp API, campañas WhatsApp, inteligencia artificial, automatización empresarial, GIJAC Message Business">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Planes y precios | GIJAC MESSAGE BUSINESS">
+    <meta property="og:description"
+        content="{{ __('Conoce los planes de GIJAC Message Business y elige la solución ideal para gestionar WhatsApp Business, campañas, contactos, automatizaciones, chatbots e inteligencia artificial.') }}">
+    <meta property="og:url" content="https://message-business.gijac.com/precios">
+    <meta property="og:image" content="https://message-business.gijac.com/img/logo_gmb.png">
+    <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
+    <meta property="article:author" content="GIJAC WEB">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="300">
+
+    @verbatim
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "@id": "https://message-business.gijac.com/precios#webpage",
+                "name": "Planes y precios | GIJAC MESSAGE BUSINESS",
+                "url": "https://message-business.gijac.com/precios",
+                "description": "{{ __('Conoce los planes y precios de GIJAC Message Business y elige la solución ideal para gestionar WhatsApp Business, campañas, contactos, automatizaciones, chatbots e inteligencia artificial.') }}",
+                "isPartOf": {
+                    "@type": "WebSite",
+                    "name": "GIJAC MESSAGE BUSINESS",
+                    "url": "https://message-business.gijac.com"
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "GIJAC MESSAGE BUSINESS",
+                    "url": "https://message-business.gijac.com",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "https://message-business.gijac.com/img/logo_gmb.png"
+                    }
+                }
+            }
+        </script>
+    @endverbatim
+@endsection
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
     <style>

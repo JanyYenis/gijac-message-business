@@ -2,34 +2,34 @@
 
 @section('meta')
     <meta name="description"
-        content="{{ __('Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.') }}">
+        content="{{ __('Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable.') }}">
     <meta name="author" content="GIJAC WEB">
     <link rel="canonical"
-        href="https://message-business.gijac.com/api-whatsapp-business-importancia-empresas">
+        href="https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo">
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
     <meta property="og:title"
-        content="{{ __('API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026') }}">
+        content="{{ __('Cómo Enviar Mensajes Masivos por WhatsApp sin Ser Bloqueado en 2026 [Guía Oficial]') }}">
     <meta property="og:description"
-        content="{{ __('Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.') }}">
+        content="{{ __('Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable.') }}">
     <meta property="og:url"
-        content="https://message-business.gijac.com/api-whatsapp-business-importancia-empresas">
+        content="https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo">
     <meta property="og:image"
         content="https://message-business.gijac.com/img/logo_gmb.png">
     <meta property="og:image:alt"
         content="GIJAC Message Business - API de WhatsApp Business">
     <meta property="article:published_time"
-        content="2026-09-24T09:00:00-05:00">
+        content="2026-09-26T09:00:00-05:00">
     <meta property="article:modified_time"
-        content="2026-09-24T09:00:00-05:00">
+        content="2026-09-26T09:00:00-05:00">
     <meta property="article:author"
         content="GIJAC WEB">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title"
-        content="{{ __('API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026') }}">
+        content="{{ __('Cómo Enviar Mensajes Masivos por WhatsApp sin Ser Bloqueado en 2026 [Guía Oficial]') }}">
     <meta name="twitter:description"
-        content="{{ __('Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.') }}">
+        content="{{ __('Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable.') }}">
     <meta name="twitter:image"
         content="https://message-business.gijac.com/img/logo_gmb.png">
 
@@ -38,10 +38,10 @@
             {
                 "@context": "https://schema.org",
                 "@type": "BlogPosting",
-                "@id": "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas#blogposting",
-                "url": "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas",
-                "headline": "API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026",
-                "description": "Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.",
+                "@id": "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo#blogposting",
+                "url": "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo",
+                "headline": "Cómo Enviar Mensajes Masivos por WhatsApp sin Ser Bloqueado en 2026 [Guía Oficial]",
+                "description": "Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable.",
                 "image": {
                     "@type": "ImageObject",
                     "url": "https://message-business.gijac.com/img/logo_gmb.png"
@@ -60,11 +60,11 @@
                         "url": "https://message-business.gijac.com/img/logo_gmb.png"
                     }
                 },
-                "datePublished": "2026-09-24T09:00:00-05:00",
-                "dateModified": "2026-09-24T09:00:00-05:00",
+                "datePublished": "2026-09-26T09:00:00-05:00",
+                "dateModified": "2026-09-26T09:00:00-05:00",
                 "mainEntityOfPage": {
                     "@type": "WebPage",
-                    "@id": "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas"
+                    "@id": "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo"
                 }
             }
         </script>
@@ -74,8 +74,8 @@
 @section('css')
     <style>
         /* ============================================================
-       GIJAC MESSAGE BUSINESS — Estilos base (entregados por el cliente)
-       ============================================================ */
+                    GIJAC MESSAGE BUSINESS — Estilos base
+                    ============================================================ */
         :root {
             --teal: #1e6f78;
             --teal-dark: #145962;
@@ -646,12 +646,8 @@
         }
 
         /* ============================================================
-       ARTÍCULO — Sistema de componentes reutilizable (GIJAC Blog)
-       Bloques dinámicos previstos: paragraph · heading · image ·
-       video · gallery · quote · table · alert · list · code · CTA
-       ============================================================ */
-
-        /* --- Barra de progreso de lectura --- */
+               SISTEMA DE ARTÍCULO (idéntico al artículo base)
+               ============================================================ */
         #readingProgress {
             position: fixed;
             top: 0;
@@ -663,7 +659,6 @@
             transition: width 0.08s linear;
         }
 
-        /* --- Skeleton de imágenes --- */
         .img-loading {
             background: linear-gradient(100deg,
                     #e6edf0 40%,
@@ -679,7 +674,6 @@
             }
         }
 
-        /* --- Header móvil: links legibles sobre panel claro --- */
         @media (max-width: 991.98px) {
 
             .site-header .nav-link,
@@ -698,7 +692,6 @@
             }
         }
 
-        /* --- Hero del artículo (oscuro corporativo) --- */
         .article-hero {
             position: relative;
             z-index: 1;
@@ -847,7 +840,6 @@
             font-size: 0.8rem;
         }
 
-        /* --- Imagen principal (16:9, solapada sobre el hero) --- */
         .featured-wrap {
             position: relative;
             z-index: 5;
@@ -870,7 +862,6 @@
             display: block;
         }
 
-        /* --- Layout de artículo --- */
         .article-layout {
             position: relative;
             z-index: 1;
@@ -973,7 +964,6 @@
             margin: 2.6rem 0;
         }
 
-        /* --- Declaración destacada (intro) --- */
         .highlight-statement {
             display: flex;
             align-items: center;
@@ -1003,7 +993,6 @@
             box-shadow: 0 10px 20px -8px rgba(18, 140, 126, 0.7);
         }
 
-        /* --- Callouts reutilizables (alert: info | importante | consejo | advertencia) --- */
         .callout {
             display: flex;
             gap: 1rem;
@@ -1110,7 +1099,6 @@
             color: #7a3b37;
         }
 
-        /* --- Chip de definición --- */
         .def-chip {
             display: inline-block;
             background: var(--mint);
@@ -1124,7 +1112,6 @@
             font-size: 0.95rem;
         }
 
-        /* --- Mini comparación App vs API --- */
         .vs-wrap {
             display: flex;
             gap: 1rem;
@@ -1196,8 +1183,7 @@
             }
         }
 
-        /* --- Tabla comparativa responsive --- */
-        .compare-wrap {
+        .table-compare-wrap {
             border-radius: 18px;
             overflow: hidden;
             border: 1px solid rgba(30, 111, 120, 0.12);
@@ -1299,7 +1285,6 @@
             }
         }
 
-        /* --- 7 razones --- */
         .reasons-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1381,7 +1366,6 @@
             }
         }
 
-        /* --- Bloque de video --- */
         .video-block {
             position: relative;
             display: block;
@@ -1475,9 +1459,6 @@
             margin-top: 0.8rem;
         }
 
-        /* --- Figuras dentro del artículo ---
-       Variantes listas para el CMS: .af-full (100%) · .af-center (centrada) ·
-       .af-left / .af-right (flotadas ~46%)                                --- */
         .article-figure {
             margin: 2rem 0;
         }
@@ -1537,7 +1518,6 @@
             }
         }
 
-        /* --- Galería + Lightbox --- */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1688,64 +1668,6 @@
             }
         }
 
-        /* --- Casos de uso por industria --- */
-        .industry-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.1rem;
-            margin-top: 1.8rem;
-        }
-
-        .industry-card {
-            background: #fff;
-            border-radius: 18px;
-            padding: 1.5rem 1.1rem;
-            text-align: center;
-            border: 1px solid rgba(30, 111, 120, 0.09);
-            box-shadow: 0 16px 38px -30px rgba(20, 89, 98, 0.6);
-            transition:
-                transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
-                box-shadow 0.35s ease;
-            height: 100%;
-        }
-
-        .industry-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 26px 50px -26px rgba(20, 89, 98, 0.55);
-        }
-
-        .industry-icon {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 0.9rem;
-            border-radius: 16px;
-            background: var(--grad);
-            color: #fff;
-            display: grid;
-            place-items: center;
-            font-size: 1.45rem;
-            box-shadow: 0 12px 24px -10px rgba(44, 143, 153, 0.65);
-            transition: transform 0.45s ease;
-        }
-
-        .industry-card:hover .industry-icon {
-            transform: rotate(-8deg) scale(1.08);
-        }
-
-        .industry-card h3 {
-            font-size: 1.02rem;
-            color: var(--teal-dark);
-            margin-bottom: 0.4rem;
-        }
-
-        .industry-card p {
-            font-size: 0.85rem;
-            color: #647476;
-            line-height: 1.55;
-            margin: 0 !important;
-        }
-
-        /* --- Timeline de pasos --- */
         .timeline {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -1802,6 +1724,16 @@
             margin: 0 !important;
         }
 
+        /* Modificador para timelines de 3 pasos (reutilizable: 3, 4, 5...) */
+        .timeline.timeline-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .timeline.timeline-3::before {
+            left: 16%;
+            right: 16%;
+        }
+
         @media (max-width: 991.98px) {
             .timeline {
                 grid-template-columns: 1fr;
@@ -1834,7 +1766,6 @@
             }
         }
 
-        /* --- Bloque de código --- */
         .code-block {
             background: #0b2d33;
             border-radius: 18px;
@@ -1889,7 +1820,6 @@
             color: #6f9a99;
         }
 
-        /* --- Cita --- */
         .article-quote {
             position: relative;
             background: var(--mint);
@@ -1921,7 +1851,6 @@
             font-size: 0.87rem;
         }
 
-        /* --- Byline de autor --- */
         .byline {
             display: flex;
             align-items: center;
@@ -1952,7 +1881,6 @@
             color: #647476;
         }
 
-        /* --- Sidebar --- */
         .sidebar-sticky {
             position: sticky;
             top: 100px;
@@ -2159,7 +2087,6 @@
             color: #fff !important;
         }
 
-        /* --- CTA final --- */
         .cta-final-section {
             position: relative;
             z-index: 1;
@@ -2200,7 +2127,6 @@
             }
         }
 
-        /* --- Artículos relacionados --- */
         .related-section {
             background: #fff;
             padding: 5.5rem 0;
@@ -2303,6 +2229,167 @@
             color: var(--teal-dark);
             gap: 0.65rem;
         }
+
+        /* ============================================================
+               NUEVOS COMPONENTES REUTILIZABLES (agregados al sistema)
+               ============================================================ */
+
+        /* --- Franja de KPIs destacados --- */
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 1.8rem 0;
+        }
+
+        .kpi-chip {
+            background: var(--mint);
+            border: 1px solid rgba(30, 111, 120, 0.12);
+            border-radius: 16px;
+            padding: 1.15rem 0.8rem;
+            text-align: center;
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .kpi-chip:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px -20px rgba(20, 89, 98, 0.6);
+        }
+
+        .kpi-value {
+            font-family: var(--font-head);
+            font-weight: 800;
+            font-size: 1.55rem;
+            color: var(--teal);
+            line-height: 1.1;
+        }
+
+        .kpi-label {
+            font-size: 0.78rem;
+            color: #64747a;
+            margin-top: 0.3rem;
+            font-weight: 600;
+            line-height: 1.35;
+        }
+
+        @media (max-width: 767.98px) {
+            .kpi-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* --- Cards de pérdida / riesgo (bloque "advertencia de costo") --- */
+        .loss-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.1rem;
+            margin: 1.8rem 0;
+        }
+
+        .loss-card {
+            background: #fdf5f4;
+            border: 1px solid #f3d3d0;
+            border-radius: 16px;
+            padding: 1.3rem 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .loss-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .loss-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #d9534f;
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            box-shadow: 0 8px 18px -8px rgba(217, 83, 79, 0.6);
+        }
+
+        .loss-card h3 {
+            font-size: 1rem;
+            color: #8a3a35;
+            margin: 0 0 0.35rem;
+        }
+
+        .loss-card p {
+            font-size: 0.88rem;
+            color: #7a5350;
+            margin: 0 !important;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 767.98px) {
+            .loss-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- FAQ Acordeón (compatible con datos estructurados FAQPage) --- */
+        .faq-list {
+            margin: 1.8rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            --bs-accordion-btn-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231E6F78'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%231E6F78'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            --bs-accordion-btn-focus-box-shadow: none;
+            background: #fff;
+            border: 1px solid rgba(30, 111, 120, 0.1);
+            border-radius: 16px !important;
+            overflow: hidden;
+            box-shadow: 0 12px 30px -24px rgba(20, 89, 98, 0.55);
+        }
+
+        .faq-item .accordion-button {
+            font-family: var(--font-head);
+            font-weight: 700;
+            color: var(--teal-dark);
+            font-size: 1rem;
+            padding: 1.1rem 1.25rem;
+            background: #fff;
+            gap: 0.75rem;
+        }
+
+        .faq-item .accordion-button .faq-q-icon {
+            flex: 0 0 auto;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: var(--mint);
+            color: var(--teal-light);
+            display: grid;
+            place-items: center;
+            font-size: 1rem;
+        }
+
+        .faq-item .accordion-button:not(.collapsed) {
+            background: var(--mint);
+            color: var(--teal-dark);
+            box-shadow: inset 0 -1px 0 rgba(30, 111, 120, 0.1);
+        }
+
+        .faq-item .accordion-button:not(.collapsed) .faq-q-icon {
+            background: var(--grad);
+            color: #fff;
+        }
+
+        .faq-item .accordion-body {
+            color: #44585a;
+            font-size: 0.94rem;
+            line-height: 1.75;
+            padding: 0 1.25rem 1.25rem 1.25rem;
+        }
     </style>
 @endsection
 
@@ -2315,28 +2402,20 @@
             <div class="container">
                 <!-- BLOQUE DINÁMICO: category · title · subtitle · meta -->
                 <div class="text-center">
-                    <span class="article-cat">
-                        <i class="bi bi-whatsapp"></i> {{ __('WhatsApp Business') }}
-                    </span>
+                    <span class="article-cat"><i class="bi bi-send"></i> {{ __('Mensajes Masivos') }}</span>
                     <h1 class="article-title">
-                        {{ __('API de WhatsApp Business: Qué es y por qué tu empresa la necesita en') }} <span class="gradient-text">2026</span>
+                        {{ __('Cómo Enviar Mensajes Masivos por WhatsApp') }}
+                        <span class="gradient-text">{{ __('sin Ser Bloqueado') }}</span> {{ __('en 2026') }}
                     </h1>
                     <p class="article-sub">
-                        {{ __('Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.') }}
+                        {{ __('Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable.') }}
                     </p>
                     <div class="article-meta">
-                        <span class="meta-chip">
-                            <span class="author-avatar">G</span> {{ __('Por') }}
-                            <strong>{{ __('GIJAC WEB') }}</strong></span>
-                        <span class="meta-chip">
-                            <i class="bi bi-calendar3"></i> {{ __('24 Sep 2026') }}
-                        </span>
-                        <span class="meta-chip">
-                            <i class="bi bi-clock-history"></i> {{ __('8 min de lectura') }}
-                        </span>
-                        <span class="meta-chip">
-                            <i class="bi bi-eye"></i> {{ __('2.4k vistas') }}
-                        </span>
+                        <span class="meta-chip"><span class="author-avatar">G</span> {{ __('Por') }}
+                            <strong>{{ __('GIJAC') }}</strong></span>
+                        <span class="meta-chip"><i class="bi bi-calendar3"></i> {{ __('08 Oct 2026') }}</span>
+                        <span class="meta-chip"><i class="bi bi-clock-history"></i> {{ __('9 min de lectura') }}</span>
+                        <span class="meta-chip"><i class="bi bi-eye"></i> {{ __('3.1k vistas') }}</span>
                     </div>
                 </div>
             </div>
@@ -2346,8 +2425,8 @@
         <!-- BLOQUE DINÁMICO: featured_image -->
         <div class="featured-wrap">
             <figure class="featured-figure">
-                <img id="featuredImg" class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/featured.png') }}"
-                    alt="{{ __('API de WhatsApp Business para empresas: conexiones, automatización, CRM e inteligencia artificial') }}"
+                <img id="featuredImg" class="img-loading" src=""
+                    alt="Envío masivo de mensajes por WhatsApp con la API oficial de Meta sin riesgo de bloqueo"
                     fetchpriority="high" />
             </figure>
         </div>
@@ -2363,232 +2442,66 @@
                             <div class="sidebar-card d-lg-none mb-5">
                                 <button class="toc-toggle" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#mobileToc" aria-expanded="false" aria-controls="mobileToc">
-                                    {{ __('En este artículo') }}
-                                    <i class="bi bi-chevron-down"></i>
+                                    {{ __('En este artículo') }} <i class="bi bi-chevron-down"></i>
                                 </button>
                                 <div class="collapse" id="mobileToc">
                                     <ul class="toc-list mt-3">
                                         <li>
-                                            <a class="toc-link" href="#que-es">
-                                                <span class="toc-num"></span>
-                                                {{ __('¿Qué es la API de WhatsApp Business?') }}
-                                            </a>
+                                            <a class="toc-link" href="#por-que-bloquean"><span class="toc-num"></span>{{ __('¿Por qué te bloquean el número?') }}</a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#diferencias">
-                                                <span class="toc-num"></span>
-                                                {{ __('Diferencias entre App y API') }}
-                                            </a>
+                                            <a class="toc-link" href="#solucion-gijac"><span class="toc-num"></span>{{ __('La solución oficial: GIJAC') }}</a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#razones">
-                                                <span class="toc-num"></span>
-                                                {{ __('¿Por qué es indispensable para las empresas?') }}
-                                            </a>
+                                            <a class="toc-link" href="#primer-masivo"><span class="toc-num"></span>{{ __('Tu primer masivo en 3 pasos') }}</a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#casos-uso">
-                                                <span class="toc-num"></span>
-                                                {{ __('Casos de uso por industria') }}
-                                            </a>
+                                            <a class="toc-link" href="#costo-no-oficial"><span
+                                                    class="toc-num"></span>{{ __('¿Cuánto cuesta NO usar una plataforma oficial?') }}</a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#empezar">
-                                                <span class="toc-num"></span>
-                                                {{ __('¿Cómo empezar con la API?') }}
-                                            </a>
+                                            <a class="toc-link" href="#faq"><span class="toc-num"></span>{{ __('Preguntas frecuentes') }}</a>
                                         </li>
                                         <li>
-                                            <a class="toc-link" href="#conclusion">
-                                                <span class="toc-num"></span>
-                                                {{ __('Conclusión') }}
-                                            </a>
+                                            <a class="toc-link" href="#conclusion"><span
+                                                    class="toc-num"></span>{{ __('Conclusión') }}</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
 
-                            <!-- BLOQUE DINÁMICO: heading + paragraph -->
+                            <!-- BLOQUE DINÁMICO: heading + paragraph (intro) -->
                             <div class="article-section">
-                                <h2>
-                                    {{ __('API de WhatsApp Business: La herramienta que separa a las empresas que crecen de las que se quedan atrás') }}
-                                </h2>
+                                <h2>{{ __('El error #1 de las empresas en Colombia') }}</h2>
                                 <p class="lead-para">
-                                    {{ __('Si tu empresa todavía atiende clientes desde el WhatsApp personal o la app Business normal,') }}
-                                    <strong>{{ __('estás perdiendo ventas, tiempo y credibilidad') }}</strong>
-                                    {{ __('. Hoy, más de 2.000 millones de personas usan WhatsApp a diario, y el cliente ya no quiere llamar ni escribir un correo. Quiere respuesta inmediata, por donde ya está.') }}
+                                    {{ __('Si has intentado enviar una promoción a 100 clientes por WhatsApp y al día siguiente amaneciste con el número bloqueado,') }} <strong>{{ __('no eres el único') }}</strong>{{ __('. Es el error #1 de las empresas en Colombia.') }}
+                                </p>
+                                <p>
+                                    {{ __('El problema no es WhatsApp.') }}
+                                    <strong>{{ __('El problema es que lo estás haciendo con la herramienta equivocada.') }}</strong>
+                                </p>
+                                <p>
+                                    {{ __('En esta guía te voy a explicar cómo lo hacen las empresas que envían miles de mensajes al día sin que Meta les toque el número, y cómo puedes hacerlo tú hoy mismo con') }}
+                                    <strong>{{ __('GIJAC MESSAGE BUSINESS') }}</strong>.
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: highlight -->
                                 <div class="highlight-statement reveal" data-reveal="up">
-                                    <span class="hs-icon">
-                                        <i class="bi bi-whatsapp"></i>
-                                    </span>
-                                    <span>
-                                        {{ __('Ahí entra la') }}
-                                        <span class="gradient-text">
-                                            {{ __('API de WhatsApp Business') }}
-                                        </span>.
-                                    </span>
+                                    <span class="hs-icon"><i class="bi bi-shield-check"></i></span>
+                                    <span>{{ __('La única forma') }}
+                                        <span class="gradient-text">{{ __('100% legal y aprobada por Meta') }}</span>
+                                        {{ __('de hacer envíos masivos es con la API Oficial de WhatsApp Business.') }}</span>
                                 </div>
                             </div>
 
-                            <!-- ============ SECCIÓN 1: ¿QUÉ ES? ============ -->
-                            <div class="article-section" id="que-es">
-                                <h2>{{ __('¿Qué es la API de WhatsApp Business?') }}</h2>
+                            <!-- ============ SECCIÓN 1: ¿POR QUÉ TE BLOQUEAN? ============ -->
+                            <div class="article-section" id="por-que-bloquean">
+                                <h2>
+                                    {{ __('¿Por qué te bloquean el número al hacer envíos masivos?') }}
+                                </h2>
                                 <p>
-                                    {{ __('La API de WhatsApp Business es la') }}
-                                    <strong>{{ __('versión profesional y escalable') }}</strong>
-                                    {{ __('de WhatsApp, diseñada para que empresas de cualquier tamaño conecten el canal de mensajería más usado del mundo directamente con sus sistemas: CRM, e-commerce, plataformas de atención y flujos de automatización.') }}
-                                </p>
-                                <span class="def-chip">
-                                    <i class="bi bi-code-slash me-2"></i>
-                                    {{ __('API = Application Programming Interface') }}
-                                </span>
-                                <p>
-                                    {{ __('En pocas palabras: es la capa tecnológica que permite que') }}
-                                    <strong>{{ __('las conversaciones dejen de depender de un celular') }}</strong>
-                                    {{ __('y pasen a ser gestionadas por equipos completos, chatbots e inteligencia artificial, con la seguridad y las reglas oficiales de Meta.') }}
-                                </p>
-
-                                <!-- Mini comparación -->
-                                <div class="vs-wrap reveal" data-reveal="up">
-                                    <div class="vs-card vs-app">
-                                        <div class="vs-head">
-                                            <i class="bi bi-phone"></i> {{ __('App WhatsApp Business') }}
-                                        </div>
-                                        <p>
-                                            {{ __('Atención') }} <strong>{{ __('manual') }}</strong> {{ __('desde dispositivos individuales.') }}
-                                        </p>
-                                    </div>
-                                    <div class="vs-arrow">
-                                        <i class="bi bi-arrow-right"></i>
-                                    </div>
-                                    <div class="vs-card vs-api">
-                                        <div class="vs-head">
-                                            <i class="bi bi-plug"></i> {{ __('API de WhatsApp Business') }}
-                                        </div>
-                                        <p>
-                                            <strong>{{ __('Integración + automatización + múltiples usuarios + sistemas empresariales.') }}</strong>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- BLOQUE DINÁMICO: alert tipo "importante" -->
-                                <div class="callout callout-important reveal" data-reveal="up">
-                                    <span class="callout-icon">
-                                        <i class="bi bi-exclamation-triangle-fill text-white"></i>
-                                    </span>
-                                    <div>
-                                        <div class="callout-title">{{ __('Importante') }}</div>
-                                        <p>
-                                            {{ __('El acceso a la API se gestiona a través de Meta o de un socio oficial (BSP). Trabaja siempre con proveedores verificados para proteger tu número y tu reputación de marca.') }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- ============ SECCIÓN 2: APP VS API ============ -->
-                            <div class="article-section" id="diferencias">
-                                <h2>{{ __('Diferencias clave: App vs. API') }}</h2>
-                                <p>
-                                    {{ __('La app Business es un buen primer paso, pero tiene un techo. La API rompe ese techo y convierte WhatsApp en') }}
-                                    <strong>{{ __('infraestructura empresarial real') }}</strong>:
-                                </p>
-
-                                <!-- BLOQUE DINÁMICO: table (responsive: tabla → cards en móvil) -->
-                                <div class="compare-wrap reveal" data-reveal="up">
-                                    <table class="table-compare">
-                                        <thead>
-                                            <tr>
-                                                <th>{{ __('Característica') }}</th>
-                                                <th>
-                                                    <i class="bi bi-phone"></i>{{ __('App WhatsApp Business') }}
-                                                </th>
-                                                <th>
-                                                    <i class="bi bi-plug"></i>{{ __('API de WhatsApp Business') }}
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td class="feat" data-label="Característica">
-                                                    {{ __('Usuarios') }}
-                                                </td>
-                                                <td data-label="App WhatsApp Business">
-                                                    {{ __('1 a 4 usuarios en un mismo número') }}
-                                                </td>
-                                                <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('Usuarios ilimitados / equipos y plataformas, según configuración') }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="feat" data-label="Característica">
-                                                    {{ __('Automatización') }}
-                                                </td>
-                                                <td data-label="App WhatsApp Business">
-                                                    {{ __('Respuestas rápidas básicas') }}
-                                                </td>
-                                                <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('Chatbots, IA y automatizaciones') }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="feat" data-label="Característica">
-                                                    {{ __('Integración') }}
-                                                </td>
-                                                <td data-label="App WhatsApp Business">{{ __('Limitada') }}</td>
-                                                <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('CRM, e-commerce, automatizaciones y otros sistemas') }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="feat" data-label="Característica">
-                                                    {{ __('Gestión empresarial') }}
-                                                </td>
-                                                <td data-label="App WhatsApp Business">
-                                                    {{ __('Atención desde aplicación') }}
-                                                </td>
-                                                <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('Plataforma centralizada') }}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="feat" data-label="Característica">
-                                                    {{ __('Envíos') }}
-                                                </td>
-                                                <td data-label="App WhatsApp Business">
-                                                    {{ __('Funciones limitadas') }}
-                                                </td>
-                                                <td data-label="API de WhatsApp Business">
-                                                    <i class="bi bi-check-circle-fill api-check"></i>{{ __('Mensajería empresarial mediante las capacidades oficiales de Meta') }}
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <!-- BLOQUE DINÁMICO: alert tipo "info" -->
-                                <div class="callout callout-info reveal" data-reveal="up">
-                                    <span class="callout-icon">
-                                        <i class="bi bi-info-circle-fill text-white"></i>
-                                    </span>
-                                    <div>
-                                        <div class="callout-title">
-                                            {{ __('¿Ya usas un número de WhatsApp?') }}
-                                        </div>
-                                        <p>
-                                            {{ __('Es posible migrar tu número actual a la API conservando tu identidad de marca, para que tus clientes no noten ningún cambio en la transición.') }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- ============ SECCIÓN 3: 7 RAZONES ============ -->
-                            <div class="article-section" id="razones">
-                                <h2>{{ __('¿Por qué es indispensable para las empresas en 2026?') }}</h2>
-                                <p>
-                                    {{ __('Estas son las') }} <strong>{{ __('7 razones') }}</strong> {{ __('por las que miles de empresas están dando el salto a la API este año:') }}
+                                    {{ __('Meta es muy claro. Te bloquea por') }}
+                                    <strong>{{ __('3 razones') }}</strong>:
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: lista de razones (cards numeradas) -->
@@ -2596,73 +2509,152 @@
                                     <div class="reason-card reveal" data-reveal="up">
                                         <div class="reason-top">
                                             <span class="reason-num">01</span><span class="reason-icon"><i
-                                                    class="bi bi-moon-stars"></i></span>
+                                                    class="bi bi-phone-x"></i></span>
                                         </div>
-                                        <h3>{{ __('Atención al cliente que no duerme') }}</h3>
+                                        <h3>{{ __('Usas la App normal para lo que no fue hecha') }}</h3>
                                         <p>
-                                            {{ __('Chatbots e IA responden al instante, 24/7, incluso fuera de horario. Tu cliente recibe respuesta inmediata sin depender de turnos ni horarios.') }}
+                                            {{ __('La App de WhatsApp Business solo permite listas de difusión de 256 contactos y si 3 personas te reportan como spam, tu número muere.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
                                         <div class="reason-top">
                                             <span class="reason-num">02</span><span class="reason-icon"><i
-                                                    class="bi bi-cart-check"></i></span>
+                                                    class="bi bi-bug"></i></span>
                                         </div>
-                                        <h3>
-                                            {{ __('Ventas conversacionales y recuperación de carritos') }}
-                                        </h3>
+                                        <h3>{{ __('Usas apps piratas') }}</h3>
                                         <p>
-                                            {{ __('Acompaña al cliente en todo el embudo: recordatorios de carrito abandonado, seguimiento de pedidos y ofertas personalizadas que convierten.') }}
+                                            {{ __('Esas que prometen "WhatsApp masivo ilimitado gratis" modifican WhatsApp. Meta las detecta en horas. Pierdes el número, las conversaciones y la confianza de tus clientes.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
                                         <div class="reason-top">
                                             <span class="reason-num">03</span><span class="reason-icon"><i
+                                                    class="bi bi-envelope-x"></i></span>
+                                        </div>
+                                        <h3>{{ __('Envías sin permiso') }}</h3>
+                                        <p>
+                                            {{ __('Si la persona no te dio su consentimiento para escribirle, y le envías una oferta fría, te va a reportar.') }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- BLOQUE DINÁMICO: alert tipo "advertencia" -->
+                                <div class="callout callout-danger reveal" data-reveal="up">
+                                    <span class="callout-icon"><i class="bi bi-x-octagon-fill"></i></span>
+                                    <div>
+                                        <div class="callout-title">{{ __('Advertencia') }}</div>
+                                        <p>
+                                            {{ __('Nunca uses modificaciones no oficiales ni herramientas piratas para enviar masivos: Meta las detecta en horas y la suspensión del número suele ser permanente, sin opción de recuperar tus conversaciones ni tu historial.') }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <p>
+                                    {{ __('La única forma 100% legal y aprobada por Meta para hacer envíos masivos es con la') }}
+                                    <strong>{{ __('API Oficial de WhatsApp Business') }}</strong>{{ __('. Y ahí es donde entra') }} <strong>{{ __('GIJAC MESSAGE BUSINESS') }}</strong>.
+                                </p>
+                            </div>
+
+                            <!-- ============ SECCIÓN 2: LA SOLUCIÓN OFICIAL ============ -->
+                            <div class="article-section" id="solucion-gijac">
+                                <h2>{{ __('La solución oficial: GIJAC MESSAGE BUSINESS') }}</h2>
+
+                                <p>
+                                    {{ __('GIJAC MESSAGE BUSINESS no es otra app de mensajería. Es una') }}
+                                    <strong>{{ __('plataforma conectada directamente a la API Oficial de Meta') }}</strong>
+                                    {{ __('que te permite hacer lo que la app normal no te deja, pero sin riesgos.') }}
+                                </p>
+
+                                <!-- Figura flotada (variante af-right) -->
+                                <figure class="article-figure af-right reveal" data-reveal="up">
+                                    <img id="floatImg" class="img-loading" src=""
+                                        alt="Equipo de ventas atendiendo el mismo número de WhatsApp Business desde la plataforma GIJAC"
+                                        loading="lazy" />
+                                </figure>
+
+                                <p>{{ __('Esto es lo que cambia cuando usas GIJAC:') }}</p>
+
+                                <!-- BLOQUE DINÁMICO: lista de beneficios (cards numeradas) -->
+                                <div class="reasons-grid">
+                                    <div class="reason-card reveal" data-reveal="up">
+                                        <div class="reason-top">
+                                            <span class="reason-num">01</span><span class="reason-icon"><i
+                                                    class="bi bi-send-check"></i></span>
+                                        </div>
+                                        <h3>{{ __('Envíos Masivos que Sí Llegan') }}</h3>
+                                        <p>
+                                            {{ __('Olvídate del límite de 256. Con GIJAC puedes enviar 1.000, 5.000 o 10.000 mensajes en un clic, segmentando por ciudad, interés o última compra. Usamos plantillas aprobadas por Meta, por lo que tu mensaje tiene un') }}
+                                            <strong>{{ __('98% de tasa de entrega y 0% de riesgo de baneo') }}</strong>.
+                                        </p>
+                                    </div>
+                                    <div class="reason-card reveal" data-reveal="up">
+                                        <div class="reason-top">
+                                            <span class="reason-num">02</span><span class="reason-icon"><i
                                                     class="bi bi-people"></i></span>
                                         </div>
-                                        <h3>{{ __('Un solo número para toda la empresa') }}</h3>
+                                        <h3>{{ __('Un Solo Número para Todo tu Equipo') }}</h3>
                                         <p>
-                                            {{ __('Ventas, soporte y marketing operan sobre el mismo número con bandejas centralizadas, asignación de conversaciones y trazabilidad total.') }}
+                                            {{ __('¿Tienes 3 vendedores respondiendo del mismo celular? Es un caos. Con GIJAC, todo tu equipo atiende el mismo número desde su computador, con chats asignados, etiquetas de "cliente nuevo", "por pagar", "entregado" e historial completo. Nada se pierde.') }}
+                                        </p>
+                                    </div>
+                                    <div class="reason-card reveal" data-reveal="up">
+                                        <div class="reason-top">
+                                            <span class="reason-num">03</span><span class="reason-icon"><i
+                                                    class="bi bi-robot"></i></span>
+                                        </div>
+                                        <h3>{{ __('Respuestas Automáticas que Venden por Ti') }}</h3>
+                                        <p>
+                                            {{ __('Configura un chatbot en 5 minutos sin programar. Que el bot responda "¿cuál es el precio?", envíe tu catálogo, pida la dirección de envío y califique si el cliente está listo para comprar. Tu equipo solo entra a cerrar la venta.') }}
                                         </p>
                                     </div>
                                     <div class="reason-card reveal" data-reveal="up">
                                         <div class="reason-top">
                                             <span class="reason-num">04</span><span class="reason-icon"><i
-                                                    class="bi bi-cpu"></i></span>
+                                                    class="bi bi-plug"></i></span>
                                         </div>
-                                        <h3>{{ __('Automatización que ahorra costos') }}</h3>
+                                        <h3>{{ __('Adiós al "¿Me puedes reenviar el comprobante?"') }}</h3>
                                         <p>
-                                            {{ __('Automatiza respuestas frecuentes, agendamientos y notificaciones. Tu equipo se enfoca en lo que realmente requiere criterio humano.') }}
+                                            {{ __('GIJAC se conecta con tu sistema. Envía automáticamente confirmación de pedido, guía de transporte, recordatorio de cita y encuesta de satisfacción. Ahorras más de') }}
+                                            <strong>{{ __('15 horas de trabajo operativo a la semana') }}</strong>.
                                         </p>
                                     </div>
-                                    <div class="reason-card reveal" data-reveal="up">
-                                        <div class="reason-top">
-                                            <span class="reason-num">05</span><span class="reason-icon"><i
-                                                    class="bi bi-patch-check"></i></span>
+                                </div>
+
+                                <!-- BLOQUE DINÁMICO: KPIs destacados -->
+                                <div class="kpi-row reveal" data-reveal="up">
+                                    <div class="kpi-chip">
+                                        <div class="kpi-value">98%</div>
+                                        <div class="kpi-label">
+                                            {{ __('Tasa de entrega con plantillas oficiales') }}
                                         </div>
-                                        <h3>{{ __('Confianza y profesionalismo') }}</h3>
-                                        <p>
-                                            {{ __('Nombre verificado, perfil empresarial completo y mensajes coherentes: tu marca se ve sólida y confiable en cada conversación.') }}
-                                        </p>
                                     </div>
-                                    <div class="reason-card reveal" data-reveal="up">
-                                        <div class="reason-top">
-                                            <span class="reason-num">06</span><span class="reason-icon"><i
-                                                    class="bi bi-shield-check"></i></span>
+                                    <div class="kpi-chip">
+                                        <div class="kpi-value">0%</div>
+                                        <div class="kpi-label">
+                                            {{ __('Riesgo de baneo con la API oficial') }}
                                         </div>
-                                        <h3>{{ __('Cumplimiento y seguridad') }}</h3>
-                                        <p>
-                                            {{ __('Comunicación con cifrado y reglas claras de mensajería, alineadas con las políticas oficiales de Meta y las buenas prácticas del sector.') }}
-                                        </p>
                                     </div>
-                                    <div class="reason-card reveal" data-reveal="up">
-                                        <div class="reason-top">
-                                            <span class="reason-num">07</span><span class="reason-icon"><i
-                                                    class="bi bi-graph-up-arrow"></i></span>
+                                    <div class="kpi-chip">
+                                        <div class="kpi-value">10.000</div>
+                                        <div class="kpi-label">
+                                            {{ __('Mensajes por campaña en un clic') }}
                                         </div>
-                                        <h3>{{ __('Datos para tomar decisiones') }}</h3>
+                                    </div>
+                                    <div class="kpi-chip">
+                                        <div class="kpi-value">+15 h</div>
+                                        <div class="kpi-label">
+                                            {{ __('Ahorradas por semana en tareas operativas') }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- BLOQUE DINÁMICO: alert tipo "consejo" -->
+                                <div class="callout callout-tip reveal" data-reveal="up">
+                                    <span class="callout-icon"><i class="bi bi-lightbulb-fill"></i></span>
+                                    <div>
+                                        <div class="callout-title">{{ __('Consejo') }}</div>
                                         <p>
-                                            {{ __('Métricas de apertura, respuesta y conversión que se integran con tu CRM para entender a tus clientes y mejorar cada interacción.') }}
+                                            {{ __('Segmenta antes de enviar: una campaña a 2.000 clientes interesados vende más que una a 10.000 números fríos. Con GIJAC puedes filtrar por ciudad, interés o última compra en segundos.') }}
                                         </p>
                                     </div>
                                 </div>
@@ -2671,197 +2663,200 @@
                             <!-- ============ MULTIMEDIA: VIDEO ============ -->
                             <!-- BLOQUE DINÁMICO: video (video_url · thumbnail · titulo reemplazables) -->
                             <div class="article-section">
-                                <h2>{{ __('Mira la API en acción') }}</h2>
+                                <h2>{{ __('Mira GIJAC en acción') }}</h2>
                                 <button class="video-block reveal" data-reveal="up" id="videoBlock" type="button"
-                                    aria-label="Reproducir video de demostración">
-                                    <img id="videoThumbImg" class="video-thumb img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/video-thumb.png') }}"
-                                        alt="Video de demostración de WhatsApp Business API" loading="lazy" />
+                                    aria-label="Reproducir video de demostración de GIJAC">
+                                    <img id="videoThumbImg" class="video-thumb img-loading" src=""
+                                        alt="Video de demostración de GIJAC MESSAGE BUSINESS enviando una campaña masiva oficial"
+                                        loading="lazy" />
                                     <span class="video-overlay"><span class="play-btn"><i
                                                 class="bi bi-play-fill"></i></span></span>
-                                    <span class="video-tag"><i class="bi bi-play-circle me-1"></i>2:45</span>
+                                    <span class="video-tag"><i class="bi bi-play-circle me-1"></i>3:10</span>
                                 </button>
                                 <p class="video-caption">
-                                    <i class="bi bi-youtube me-1"></i>{{ __('Video de demostración: automatización de ventas con WhatsApp Business API.') }}
+                                    <i class="bi bi-youtube me-1"></i>{{ __('Demostración: lanza tu primera campaña masiva oficial con GIJAC en menos de 24 horas.') }}
                                 </p>
-                            </div>
-
-                            <!-- ============ IMAGEN INTERMEDIA ============ -->
-                            <!-- BLOQUE DINÁMICO: image (variantes: af-full | af-center | af-left | af-right) -->
-                            <figure class="article-figure af-center reveal" data-reveal="up">
-                                <img id="inlineImg" class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/inline-1.png') }}"
-                                    alt="Empresa conectando WhatsApp con CRM, automatización e inteligencia artificial"
-                                    loading="lazy" />
-                                <figcaption>
-                                    <i class="bi bi-camera"></i> {{ __('WhatsApp Business API permite conectar las conversaciones con el ecosistema tecnológico de una empresa.') }}
-                                </figcaption>
-                            </figure>
-
-                            <!-- ============ GALERÍA ============ -->
-                            <!-- BLOQUE DINÁMICO: gallery (lightbox con navegación y contador) -->
-                            <div id="gallery" class="gallery-grid reveal" data-reveal="up">
-                                <div class="gallery-item"
-                                    data-caption="Constructor visual de flujos de conversación automatizados con chatbot">
-                                    <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/gallery-1.png') }}" alt="Flujos de conversación automatizados"
-                                        loading="lazy" />
-                                </div>
-                                <div class="gallery-item"
-                                    data-caption="Integración de WhatsApp Business API con e-commerce y CRM">
-                                    <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/gallery-2.png') }}" alt="Integración con CRM y automatizaciones"
-                                        loading="lazy" />
-                                </div>
-                                <div class="gallery-item"
-                                    data-caption="Dashboard de métricas de WhatsApp Business API en tiempo real">
-                                    <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/gallery-3.png') }}"
-                                        alt="Métricas y reportes de WhatsApp Business API" loading="lazy" />
-                                </div>
                             </div>
 
                             <hr class="separator" />
 
-                            <!-- ============ SECCIÓN 4: CASOS DE USO ============ -->
-                            <div class="article-section" id="casos-uso">
-                                <h2>{{ __('Casos de uso por industria') }}</h2>
-
-                                <!-- Ejemplo de imagen flotada (variante af-right) -->
-                                <figure class="article-figure af-right">
-                                    <img id="floatImg" class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/float-1.png') }}"
-                                        alt="Atención automatizada por WhatsApp en distintos sectores" loading="lazy" />
-                                </figure>
-
+                            <!-- ============ SECCIÓN 3: 3 PASOS ============ -->
+                            <div class="article-section" id="primer-masivo">
+                                <h2>{{ __('¿Cómo enviar tu primer masivo con GIJAC en 3 pasos?') }}</h2>
                                 <p>
-                                    {{ __('La API se adapta a') }} <strong>{{ __('cualquier industria') }}</strong> {{ __('que necesite comunicarse de forma ágil, automática y personalizada con sus clientes. Estos son algunos ejemplos reales de cómo las empresas la están aprovechando hoy.') }}
+                                    {{ __('No necesitas ser técnico. Solo sigue estos') }}
+                                    <strong>{{ __('3 pasos') }}</strong>:
                                 </p>
 
-                                <!-- BLOQUE DINÁMICO: cards por industria -->
-                                <div class="industry-grid">
-                                    <div class="industry-card reveal" data-reveal="up">
-                                        <span class="industry-icon"><i class="bi bi-bag-check"></i></span>
-                                        <h3>{{ __('E-commerce') }}</h3>
+                                <!-- BLOQUE DINÁMICO: timeline (variante 3 pasos) -->
+                                <div class="timeline timeline-3 reveal" data-reveal="up">
+                                    <div class="timeline-step">
+                                        <div class="step-dot">01</div>
+                                        <h3>{{ __('Importa tus contactos con permiso') }}</h3>
                                         <p>
-                                            {{ __('Confirmaciones de pedido, recuperación de carritos y seguimiento de envíos automáticos.') }}
+                                            {{ __('Sube tu base de datos en Excel o sincroniza tu tienda. GIJAC filtra automáticamente los números inválidos.') }}
                                         </p>
                                     </div>
-                                    <div class="industry-card reveal" data-reveal="up">
-                                        <span class="industry-icon"><i class="bi bi-mortarboard"></i></span>
-                                        <h3>{{ __('Educación') }}</h3>
+                                    <div class="timeline-step">
+                                        <div class="step-dot">02</div>
+                                        <h3>{{ __('Elige una plantilla aprobada') }}</h3>
                                         <p>
-                                            {{ __('Recordatorios de clases, procesos de admisión y comunicación directa con padres y alumnos.') }}
+                                            {{ __('Usa una de nuestras plantillas ya aprobadas por Meta para promociones, recordatorios o bienvenidas. No esperas días por aprobación.') }}
                                         </p>
                                     </div>
-                                    <div class="industry-card reveal" data-reveal="up">
-                                        <span class="industry-icon"><i class="bi bi-heart-pulse"></i></span>
-                                        <h3>{{ __('Salud y clínicas') }}</h3>
+                                    <div class="timeline-step">
+                                        <div class="step-dot">03</div>
+                                        <h3>{{ __('Envía y mide') }}</h3>
                                         <p>
-                                            {{ __('Confirmación de citas, envío de resultados y recordatorios que reducen las inasistencias.') }}
+                                            {{ __('Haz clic en enviar. Ve en tiempo real quién lo recibió, quién lo leyó, quién respondió y cuánto vendiste con esa campaña.') }}
                                         </p>
                                     </div>
-                                    <div class="industry-card reveal" data-reveal="up">
-                                        <span class="industry-icon"><i class="bi bi-house-door"></i></span>
-                                        <h3>{{ __('Inmobiliario y servicios') }}</h3>
+                                </div>
+
+                                <p>
+                                    {{ __('Mientras otras empresas ruegan para que no les bloqueen el número, tú tendrás') }}
+                                    <strong>{{ __('un panel con métricas de cada campaña') }}</strong>.
+                                </p>
+
+                                <!-- BLOQUE DINÁMICO: image (variante af-center) -->
+                                <figure class="article-figure af-center reveal" data-reveal="up">
+                                    <img id="inlineImg" class="img-loading" src=""
+                                        alt="Panel de métricas de una campaña masiva de WhatsApp en GIJAC"
+                                        loading="lazy" />
+                                    <figcaption>
+                                        <i class="bi bi-bar-chart-line"></i> {{ __('El panel de GIJAC muestra en tiempo real quién recibió, leyó y respondió cada campaña masiva.') }}
+                                    </figcaption>
+                                </figure>
+
+                                <!-- BLOQUE DINÁMICO: gallery (lightbox con navegación y contador) -->
+                                <div id="gallery" class="gallery-grid reveal" data-reveal="up">
+                                    <div class="gallery-item"
+                                        data-caption="Importa tu base de datos en Excel y GIJAC filtra los números inválidos automáticamente.">
+                                        <img class="img-loading" src=""
+                                            alt="Importación de contactos para envío masivo de WhatsApp en GIJAC"
+                                            loading="lazy" />
+                                    </div>
+                                    <div class="gallery-item"
+                                        data-caption="Plantillas ya aprobadas por Meta para promociones, recordatorios y bienvenidas.">
+                                        <img class="img-loading" src=""
+                                            alt="Plantillas aprobadas por Meta para campañas masivas de WhatsApp"
+                                            loading="lazy" />
+                                    </div>
+                                    <div class="gallery-item"
+                                        data-caption="Métricas de campaña: entregados, leídos, respondidos y ventas generadas.">
+                                        <img class="img-loading" src=""
+                                            alt="Métricas en tiempo real de campañas masivas de WhatsApp Business"
+                                            loading="lazy" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ============ SECCIÓN 4: COSTO DE NO USARLA ============ -->
+                            <div class="article-section" id="costo-no-oficial">
+                                <h2>{{ __('¿Cuánto te cuesta NO usar una plataforma oficial?') }}</h2>
+                                <p>{{ __('Un número bloqueado no es solo un número. Es:') }}</p>
+
+                                <!-- BLOQUE DINÁMICO: lista de pérdidas -->
+                                <div class="loss-grid">
+                                    <div class="loss-card reveal" data-reveal="up">
+                                        <span class="loss-icon"><i class="bi bi-person-slash"></i></span>
+                                        <h3>{{ __('Clientes perdidos') }}</h3>
                                         <p>
-                                            {{ __('Cualificación automática de leads y agendamiento inteligente de visitas y cotizaciones.') }}
+                                            {{ __('Todos tus clientes perdiendo el contacto contigo de un día para otro.') }}
                                         </p>
                                     </div>
-                                    <div class="industry-card reveal" data-reveal="up">
-                                        <span class="industry-icon"><i class="bi bi-shop"></i></span>
-                                        <h3>{{ __('Restaurantes y retail') }}</h3>
+                                    <div class="loss-card reveal" data-reveal="up">
+                                        <span class="loss-icon"><i class="bi bi-trash3"></i></span>
+                                        <h3>{{ __('Historial borrado') }}</h3>
                                         <p>
-                                            {{ __('Reservas, pedidos a domicilio y promociones segmentadas que aumentan la recompra.') }}
+                                            {{ __('Tu catálogo y todo tu historial de conversaciones eliminado sin posibilidad de recuperación.') }}
+                                        </p>
+                                    </div>
+                                    <div class="loss-card reveal" data-reveal="up">
+                                        <span class="loss-icon"><i class="bi bi-arrow-repeat"></i></span>
+                                        <h3>{{ __('Empezar de cero') }}</h3>
+                                        <p>
+                                            {{ __('Tener que avisar a todos que cambiaste de número y reconstruir tu canal desde cero.') }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <p>
+                                    {{ __('Por menos de lo que te cuesta un empleado a medio tiempo, GIJAC te blinda el activo más importante de tu empresa:') }}
+                                    <strong>{{ __('tu canal de comunicación con el cliente') }}</strong>.
+                                </p>
+
+                                <!-- BLOQUE DINÁMICO: alert tipo "importante" -->
+                                <div class="callout callout-important reveal" data-reveal="up">
+                                    <span class="callout-icon"><i class="bi bi-exclamation-triangle-fill"></i></span>
+                                    <div>
+                                        <div class="callout-title">{{ __('Importante') }}</div>
+                                        <p>
+                                            {{ __('Cada reporte de spam acumulado afecta la calidad de tu número ante Meta. Mientras peor es tu calificación, más límites de envío sufres — y la recuperación puede tardar semanas o no llegar nunca.') }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- ============ SECCIÓN 5: CÓMO EMPEZAR ============ -->
-                            <div class="article-section" id="empezar">
-                                <h2>{{ __('¿Cómo empezar con la API?') }}</h2>
+                            <!-- ============ SECCIÓN 5: FAQ ============ -->
+                            <div class="article-section" id="faq">
+                                <h2>{{ __('Preguntas frecuentes') }}</h2>
                                 <p>
-                                    {{ __('Poner en marcha la API es más simple de lo que parece. Estos son los') }} <strong>{{ __('5 pasos') }}</strong> {{ __('del proceso:') }}
+                                    {{ __('Resolvemos las dudas más comunes sobre los envíos masivos por WhatsApp:') }}
                                 </p>
 
-                                <!-- BLOQUE DINÁMICO: timeline -->
-                                <div class="timeline reveal" data-reveal="up">
-                                    <div class="timeline-step">
-                                        <div class="step-dot">01</div>
-                                        <h3>{{ __('Número de teléfono') }}</h3>
-                                        <p>
-                                            {{ __('Registra y verifica el número que usará tu empresa para comunicarse.') }}
-                                        </p>
+                                <!-- BLOQUE DINÁMICO: FAQ (acordeón · sincronizado con FAQPage schema) -->
+                                <div class="accordion faq-list reveal" data-reveal="up" id="faqAccordion">
+                                    <div class="accordion-item faq-item">
+                                        <h3 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="false"
+                                                aria-controls="faq1">
+                                                <span class="faq-q-icon"><i class="bi bi-question-lg"></i></span>
+                                                {{ __('¿Puedo enviar mensajes masivos a números que no me tienen agendado?') }}
+                                            </button>
+                                        </h3>
+                                        <div id="faq1" class="accordion-collapse collapse"
+                                            data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body">
+                                                {{ __('Sí, siempre y cuando ese contacto te haya dado su') }}
+                                                <strong>{{ __('consentimiento previo') }}</strong> {{ __('y uses una plantilla aprobada por Meta a través de la API oficial, como lo hace GIJAC.') }}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="timeline-step">
-                                        <div class="step-dot">02</div>
-                                        <h3>{{ __('Cuenta empresarial') }}</h3>
-                                        <p>
-                                            {{ __('Crea y verifica tu cuenta en Meta Business Manager con los datos de tu empresa.') }}
-                                        </p>
+                                    <div class="accordion-item faq-item">
+                                        <h3 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#faq2" aria-expanded="false"
+                                                aria-controls="faq2">
+                                                <span class="faq-q-icon"><i class="bi bi-patch-check"></i></span>
+                                                {{ __('¿GIJAC MESSAGE BUSINESS es oficial de Meta?') }}
+                                            </button>
+                                        </h3>
+                                        <div id="faq2" class="accordion-collapse collapse"
+                                            data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body">
+                                                {{ __('Sí. GIJAC opera sobre la') }}
+                                                <strong>{{ __('API Oficial de WhatsApp Business') }}</strong>{{ __(', lo que garantiza que tus envíos cumplen todas las políticas de Meta y tu número está protegido.') }}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="timeline-step">
-                                        <div class="step-dot">03</div>
-                                        <h3>{{ __('Configuración de WhatsApp') }}</h3>
-                                        <p>
-                                            {{ __('Conecta el número a la API a través de Meta o de un socio oficial (BSP).') }}
-                                        </p>
-                                    </div>
-                                    <div class="timeline-step">
-                                        <div class="step-dot">04</div>
-                                        <h3>{{ __('Plantillas y mensajes') }}</h3>
-                                        <p>
-                                            {{ __('Diseña y aprueba tus plantillas de mensajes para iniciar conversaciones con calidad.') }}
-                                        </p>
-                                    </div>
-                                    <div class="timeline-step">
-                                        <div class="step-dot">05</div>
-                                        <h3>{{ __('Automatización e integración') }}</h3>
-                                        <p>
-                                            {{ __('Conecta CRM, chatbots, IA y flujos con herramientas como n8n o tu e-commerce.') }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- BLOQUE DINÁMICO: code -->
-                                <div class="code-block reveal" data-reveal="up">
-                                    <div class="code-head">
-                                        <span class="code-dot"></span><span class="code-dot"></span><span
-                                            class="code-dot"></span>
-                                        <span class="code-lang">POST /v18.0/{phone-number-id}/messages</span>
-                                    </div>
-                                    <pre>
-                                        <span class="tc">{{ __('// Ejemplo: envío de plantilla aprobada por Meta') }}</span>
-                                        {
-                                            <span class="tk">{{ __('"messaging_product"') }}</span>: <span class="ts">{{ __('"whatsapp"') }}</span>,
-                                            <span class="tk">{{ __('"to"') }}</span>: <span class="ts">"50255012345"</span>,
-                                            <span class="tk">{{ __('"type"') }}</span>: <span class="ts">{{ __('"template"') }}</span>,
-                                            <span class="tk">{{ __('"template"') }}</span>: {
-                                                <span class="tk">{{ __('"name"') }}</span>: <span class="ts">{{ __('"confirmacion_pedido"') }}</span>,
-                                                <span class="tk">{{ __('"language"') }}</span>: { <span class="tk">{{ __('"code"') }}</span>: <span class="ts">{{ __('"es"') }}</span> }
-                                            }
-                                        }
-                                    </pre>
-                                </div>
-
-                                <!-- BLOQUE DINÁMICO: alert tipo "consejo" -->
-                                <div class="callout callout-tip reveal" data-reveal="up">
-                                    <span class="callout-icon">
-                                        <i class="bi bi-lightbulb-fill text-white"></i>
-                                    </span>
-                                    <div>
-                                        <div class="callout-title">{{ __('Consejo') }}</div>
-                                        <p>
-                                            {{ __('Antes de automatizar, define tus respuestas frecuentes y tus flujos de venta. Las plantillas bien escritas aumentan la tasa de aprobación de Meta y la tasa de respuesta de tus clientes.') }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- BLOQUE DINÁMICO: alert tipo "advertencia" -->
-                                <div class="callout callout-danger reveal" data-reveal="up">
-                                    <span class="callout-icon">
-                                        <i class="bi bi-x-octagon-fill text-white"></i>
-                                    </span>
-                                    <div>
-                                        <div class="callout-title">{{ __('Advertencia') }}</div>
-                                        <p>
-                                            {{ __('No utilices modificaciones no oficiales ni APIs no autorizadas: incumplen los términos de Meta y ponen en riesgo tu número y la reputación de tu marca.') }}
-                                        </p>
+                                    <div class="accordion-item faq-item">
+                                        <h3 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#faq3" aria-expanded="false"
+                                                aria-controls="faq3">
+                                                <span class="faq-q-icon"><i class="bi bi-sim"></i></span>
+                                                {{ __('¿Necesito un número nuevo para usar GIJAC?') }}
+                                            </button>
+                                        </h3>
+                                        <div id="faq3" class="accordion-collapse collapse"
+                                            data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body">
+                                                {{ __('Recomendamos un número nuevo que no haya sido bloqueado antes, pero podemos ayudarte a') }}
+                                                <strong>{{ __('evaluar tu número actual') }}</strong> {{ __('en la asesoría gratuita.') }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -2870,26 +2865,25 @@
                             <div class="article-section" id="conclusion">
                                 <h2>{{ __('Conclusión') }}</h2>
                                 <p>
-                                    {{ __('En 2026, la pregunta ya no es') }} <em>{{ __('si') }}</em> {{ __('tu empresa debería usar la API de WhatsApp Business, sino') }}
-                                    <strong>{{ __('qué tan rápido puede implementarla') }}</strong> {{ __('antes de que tus competidores lo hagan. Atención inmediata, automatización inteligente y datos accionables ya no son un lujo: son la nueva forma de hacer negocios.') }}
+                                    {{ __('En 2026, enviar mensajes masivos por WhatsApp no se trata de enviar más, se trata de') }} <strong>{{ __('enviar mejor') }}</strong>{{ __('. De forma oficial, segmentada y automatizada.') }}
                                 </p>
 
                                 <!-- BLOQUE DINÁMICO: quote -->
                                 <blockquote class="article-quote reveal" data-reveal="up">
                                     <i class="bi bi-quote qmark"></i>
-                                    <p>{{ __('“No es una opción, es el nuevo estándar.”') }}</p>
+                                    <p>
+                                        {{ __('“Si sigues usando listas de difusión o apps no oficiales, es cuestión de tiempo para que te bloqueen.”') }}
+                                    </p>
                                     <footer>
-                                        {{ __('— La forma en que las empresas conversan cambió para siempre.') }}
+                                        {{ __('— La seguridad de tu número no es un lujo, es la base de tu canal de ventas.') }}
                                     </footer>
                                 </blockquote>
 
                                 <p>
-                                    {{ __('¿Tu empresa ya está lista para dar el salto? En GIJAC te acompañamos en todo el proceso: desde la configuración del número hasta los chatbots con IA y las automatizaciones con n8n.') }}
+                                    {{ __('Si te pasas a la API oficial con una plataforma pensada para empresas como') }} <strong>{{ __('GIJAC MESSAGE BUSINESS') }}</strong>{{ __(', conviertes WhatsApp en tu mejor vendedor.') }}
                                 </p>
-                                <a href="{{ route('register') }}" class="btn btn-glow btn-lg mt-2">
-                                    <i class="bi bi-rocket-takeoff me-2"></i>
-                                    {{ __('Dar el salto con GIJAC') }}
-                                </a>
+                                <a href="#" class="btn btn-glow btn-lg mt-2"><i
+                                        class="bi bi-rocket-takeoff me-2"></i>{{ __('Quiero mi demo gratis de GIJAC') }}</a>
                             </div>
 
                             <!-- Byline -->
@@ -2898,7 +2892,7 @@
                                 <div>
                                     <h4>{{ __('Equipo GIJAC') }}</h4>
                                     <p>
-                                        {{ __('Especialistas en WhatsApp Business API, automatización e inteligencia artificial aplicada a la comunicación empresarial.') }}
+                                        {{ __('Especialistas en WhatsApp Business API, envíos masivos oficiales, automatización e inteligencia artificial para empresas.') }}
                                     </p>
                                 </div>
                             </div>
@@ -2913,19 +2907,19 @@
                                 <h3><i class="bi bi-list-ul"></i> {{ __('En este artículo') }}</h3>
                                 <ul class="toc-list">
                                     <li>
-                                        <a class="toc-link" href="#que-es"><span class="toc-num"></span>{{ __('¿Qué es la API de WhatsApp Business?') }}</a>
+                                        <a class="toc-link" href="#por-que-bloquean"><span class="toc-num"></span>{{ __('¿Por qué te bloquean el número?') }}</a>
                                     </li>
                                     <li>
-                                        <a class="toc-link" href="#diferencias"><span class="toc-num"></span>{{ __('Diferencias entre App y API') }}</a>
+                                        <a class="toc-link" href="#solucion-gijac"><span class="toc-num"></span>{{ __('La solución oficial: GIJAC') }}</a>
                                     </li>
                                     <li>
-                                        <a class="toc-link" href="#razones"><span class="toc-num"></span>{{ __('¿Por qué es indispensable para las empresas?') }}</a>
+                                        <a class="toc-link" href="#primer-masivo"><span class="toc-num"></span>{{ __('Tu primer masivo en 3 pasos') }}</a>
                                     </li>
                                     <li>
-                                        <a class="toc-link" href="#casos-uso"><span class="toc-num"></span>{{ __('Casos de uso por industria') }}</a>
+                                        <a class="toc-link" href="#costo-no-oficial"><span class="toc-num"></span>{{ __('¿Cuánto cuesta NO usar una plataforma oficial?') }}</a>
                                     </li>
                                     <li>
-                                        <a class="toc-link" href="#empezar"><span class="toc-num"></span>{{ __('¿Cómo empezar con la API?') }}</a>
+                                        <a class="toc-link" href="#faq"><span class="toc-num"></span>{{ __('Preguntas frecuentes') }}</a>
                                     </li>
                                     <li>
                                         <a class="toc-link" href="#conclusion"><span
@@ -2936,14 +2930,11 @@
 
                             <!-- CTA lateral -->
                             <div class="sidebar-cta reveal" data-reveal="right">
-                                <h3>{{ __('¿Quieres automatizar WhatsApp en tu empresa?') }}</h3>
+                                <h3>{{ __('¿Miedo a que te bloqueen el número?') }}</h3>
                                 <p>
-                                    {{ __('Conecta WhatsApp Business con tu CRM, automatizaciones, chatbots e inteligencia artificial.') }}
+                                    {{ __('Envía campañas masivas 100% oficiales con plantillas aprobadas por Meta. Verificamos tu número y lanzamos tu primera campaña en menos de 24 horas.') }}
                                 </p>
-                                <a href="{{ route('contactarnos') }}" class="btn btn-light-glow w-100">
-                                    <i class="bi bi-headset me-2"></i>
-                                    {{ __('Habla con un asesor') }}
-                                </a>
+                                <a href="#" class="btn btn-light-glow w-100"><i class="bi bi-send me-2"></i>{{ __('Quiero mi demo gratis') }}</a>
                             </div>
 
                             <!-- Compartir -->
@@ -2971,27 +2962,22 @@
         <section class="cta-final-section">
             <div class="container">
                 <div class="final-cta reveal" data-reveal="up">
+                    <div class="app-orb-1"></div>
+                    <div class="app-orb-2"></div>
                     <span class="floating-chip chip-1 float-a"><i class="bi bi-whatsapp"></i></span>
-                    <span class="floating-chip chip-2 float-b"><i class="bi bi-diagram-3"></i></span>
-                    <span class="floating-chip chip-3 float-c"><i class="bi bi-robot"></i></span>
+                    <span class="floating-chip chip-2 float-b"><i class="bi bi-send-check"></i></span>
+                    <span class="floating-chip chip-3 float-c"><i class="bi bi-graph-up-arrow"></i></span>
 
                     <div class="row align-items-center g-4 position-relative" style="z-index: 3">
                         <div class="col-lg-8">
-                            <h2>
-                                {{ __('Convierte WhatsApp en un canal de ventas y atención para tu empresa') }}
-                            </h2>
+                            <h2>{{ __('¿Listo para enviar tu primer masivo sin miedo?') }}</h2>
                             <p class="cta-sub">
-                                {{ __('Conecta WhatsApp Business con automatizaciones, CRM, chatbots e inteligencia artificial. Nodos de conexión entre tu empresa y tus clientes, sin fricción.') }}
+                                {{ __('Prueba GIJAC MESSAGE BUSINESS gratis hoy. Te ayudamos a verificar tu número, migrar tus contactos y lanzar tu primera campaña masiva oficial en menos de 24 horas.') }}
                             </p>
                             <div class="d-flex flex-wrap gap-3 mt-4">
-                                <a href="{{ route('contactarnos') }}" class="btn btn-light-glow btn-lg">
-                                    <i class="bi bi-chat-dots me-2"></i>
-                                    {{ __('Habla con GIJAC WEB') }}
-                                </a>
-                                <a href="{{ url('/') }}" class="btn btn-dark-glass btn-lg">
-                                    {{ __('Conocer GIJAC Message Business') }}
-                                    <i class="bi bi-arrow-right ms-2"></i>
-                                </a>
+                                <a href="#" class="btn btn-light-glow btn-lg"><i class="bi bi-send me-2"></i>{{ __('Quiero mi demo gratis') }}</a>
+                                <a href="#" class="btn btn-dark-glass btn-lg">{{ __('Conocer GIJAC Message Business') }}
+                                    <i class="bi bi-arrow-right ms-2"></i></a>
                             </div>
                         </div>
                     </div>
@@ -3014,30 +3000,26 @@
                     </h2>
                 </div>
 
-                <!-- BLOQUE DINÁMICO: related_articles -->
+                <!-- BLOQUE DINÁMICO: related_articles (con internal linking entre artículos) -->
                 <div class="row g-4" id="relatedRow">
                     <div class="col-md-6 col-lg-4">
-                        <a href="{{ route('articulos.mensajes-masivos') }}" class="related-card reveal" data-reveal="up">
+                        <a href="{{ route('articulos.api-whatsapp') }}" class="related-card reveal"
+                            data-reveal="up">
                             <div class="related-thumb">
-                                <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/video-thumb.png') }}" alt="Automatización con n8n" loading="lazy" />
+                                <img class="img-loading" src="" alt="API de WhatsApp Business para empresas"
+                                    loading="lazy" />
                             </div>
                             <div class="related-body">
-                                <span class="related-tag">{{ __('Mensajes Masivos') }}</span>
+                                <span class="related-tag">{{ __('WhatsApp Business') }}</span>
                                 <h3>
-                                    {{ __('Cómo Enviar Mensajes Masivos por WhatsApp') }}
+                                    {{ __('API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026') }}
                                 </h3>
                                 <p>
-                                    {{ __('Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable.') }}
+                                    {{ __('Descubre qué es la API oficial, en qué se diferencia de la app normal y por qué es clave para escalar ventas y atención.') }}
                                 </p>
                                 <div class="related-foot">
-                                    <span>
-                                        <i class="bi bi-calendar3 me-1"></i>
-                                        {{ __('26 Sep 2026') }}
-                                    </span>
-                                    <span class="related-link">
-                                        {{ __('Leer artículo') }}
-                                        <i class="bi bi-arrow-right"></i>
-                                    </span>
+                                    <span><i class="bi bi-calendar3 me-1"></i>{{ __('24 Sep 2026') }}</span><span
+                                        class="related-link">{{ __('Leer artículo') }} <i class="bi bi-arrow-right"></i></span>
                                 </div>
                             </div>
                         </a>
@@ -3045,7 +3027,27 @@
                     {{-- <div class="col-md-6 col-lg-4">
                         <a href="#" class="related-card reveal" data-reveal="up">
                             <div class="related-thumb">
-                                <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/video-thumb.png') }}" alt="Chatbot de WhatsApp" loading="lazy" />
+                                <img class="img-loading" src="" alt="Automatización con n8n" loading="lazy" />
+                            </div>
+                            <div class="related-body">
+                                <span class="related-tag">{{ __('Automatización') }}</span>
+                                <h3>
+                                    {{ __('Automatización con n8n: qué es y cómo puede ayudar a tu empresa') }}
+                                </h3>
+                                <p>
+                                    {{ __('Descubre cómo n8n conecta tus herramientas y automatiza procesos sin escribir código, paso a paso.') }}
+                                </p>
+                                <div class="related-foot">
+                                    <span><i class="bi bi-calendar3 me-1"></i>{{ __('18 Sep 2026') }}</span><span
+                                        class="related-link">{{ __('Leer artículo') }} <i class="bi bi-arrow-right"></i></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <a href="#" class="related-card reveal" data-reveal="up">
+                            <div class="related-thumb">
+                                <img class="img-loading" src="" alt="Chatbot de WhatsApp" loading="lazy" />
                             </div>
                             <div class="related-body">
                                 <span class="related-tag">{{ __('Chatbots e IA') }}</span>
@@ -3057,24 +3059,6 @@
                                 </p>
                                 <div class="related-foot">
                                     <span><i class="bi bi-calendar3 me-1"></i>{{ __('11 Sep 2026') }}</span><span
-                                        class="related-link">{{ __('Leer artículo') }} <i class="bi bi-arrow-right"></i></span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <a href="#" class="related-card reveal" data-reveal="up">
-                            <div class="related-thumb">
-                                <img class="img-loading" src="{{ asset('img/articulos/api-whatsapp-business-importancia-empresas/video-thumb.png') }}" alt="WhatsApp Business vs API" loading="lazy" />
-                            </div>
-                            <div class="related-body">
-                                <span class="related-tag">{{ __('Comparativas') }}</span>
-                                <h3>{{ __('WhatsApp Business vs WhatsApp Business API') }}</h3>
-                                <p>
-                                    {{ __('Comparamos ambas soluciones en usuarios, automatización, costos y escalabilidad para tu empresa.') }}
-                                </p>
-                                <div class="related-foot">
-                                    <span><i class="bi bi-calendar3 me-1"></i>{{ __('02 Sep 2026') }}</span><span
                                         class="related-link">{{ __('Leer artículo') }} <i class="bi bi-arrow-right"></i></span>
                                 </div>
                             </div>
@@ -3092,12 +3076,12 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content border-0 bg-transparent">
                 <div class="d-flex justify-content-between align-items-center mb-2 px-1">
-                    <span id="videoModalLabel" class="text-white fw-bold">{{ __('Demostración: WhatsApp Business API') }}</span>
+                    <span id="videoModalLabel" class="text-white fw-bold">{{ __('Demostración: GIJAC MESSAGE BUSINESS') }}</span>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Cerrar"></button>
                 </div>
                 <div class="ratio ratio-16x9 rounded-4 overflow-hidden shadow">
-                    <iframe id="videoFrame" src="" title="Video de demostración de WhatsApp Business API"
+                    <iframe id="videoFrame" src="" title="Video de demostración de GIJAC MESSAGE BUSINESS"
                         allow="
                 accelerometer;
                 autoplay;
@@ -3139,10 +3123,10 @@
             "use strict";
 
             /* ==========================================================
-               GENERADOR DE IMÁGENES PLACEHOLDER (SVG data-URI)
-               En producción, Laravel reemplazará estos <img> por URLs
-               reales desde MySQL/CMS. Solo cambia el atributo src.
-               ========================================================== */
+           GENERADOR DE IMÁGENES PLACEHOLDER (SVG data-URI)
+           En producción, Laravel reemplazará estos <img> por URLs
+           reales desde MySQL/CMS. Solo cambia el atributo src.
+           ========================================================== */
             function svgArt(o) {
                 var w = o.w || 1600,
                     h = o.h || 900,
@@ -3563,14 +3547,64 @@
                 return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
             }
 
+            /* Asignar placeholders (aquí Laravel imprimirá las URLs reales) */
+            $("#featuredImg").attr(
+                "src",
+                svgArt({
+                    w: 1600,
+                    h: 900,
+                    type: "network"
+                }),
+            );
+            $("#inlineImg").attr("src", svgArt({
+                w: 1200,
+                h: 760,
+                type: "chart"
+            }));
+            $("#floatImg").attr("src", svgArt({
+                w: 640,
+                h: 500,
+                type: "chat"
+            }));
+            $("#videoThumbImg").attr(
+                "src",
+                svgArt({
+                    w: 1600,
+                    h: 900,
+                    type: "flow"
+                }),
+            );
+            var galTypes = ["chat", "flow", "chart"];
+            $("#gallery .gallery-item img").each(function(i) {
+                $(this).attr(
+                    "src",
+                    svgArt({
+                        w: 1200,
+                        h: 900,
+                        type: galTypes[i % 3]
+                    }),
+                );
+            });
+            var relTypes = ["network", "flow", "chat"];
+            $("#relatedRow .related-thumb img").each(function(i) {
+                $(this).attr(
+                    "src",
+                    svgArt({
+                        w: 900,
+                        h: 560,
+                        type: relTypes[i % 3]
+                    }),
+                );
+            });
+
             /* Quitar skeleton al cargar cada imagen */
             $("img.img-loading").on("load", function() {
                 $(this).removeClass("img-loading");
             });
 
             /* ==========================================================
-               HEADER · PROGRESO DE LECTURA · BACK TO TOP · TOC ACTIVO
-               ========================================================== */
+           HEADER · PROGRESO DE LECTURA · BACK TO TOP · TOC ACTIVO
+           ========================================================== */
             var $header = $("#siteHeader"),
                 $tocSections = $(".article-section[id]"),
                 $tocLinks = $(".toc-link");
@@ -3631,8 +3665,8 @@
             );
 
             /* ==========================================================
-               ANIMACIONES REVEAL
-               ========================================================== */
+           ANIMACIONES REVEAL
+           ========================================================== */
             if ("IntersectionObserver" in window) {
                 var io = new IntersectionObserver(
                     function(entries) {
@@ -3654,9 +3688,9 @@
             }
 
             /* ==========================================================
-               MODAL DE VIDEO (carga perezosa del iframe)
-               video_url / thumbnail / titulo reemplazables desde el CMS
-               ========================================================== */
+           MODAL DE VIDEO (carga perezosa del iframe)
+           video_url / thumbnail / titulo reemplazables desde el CMS
+           ========================================================== */
             var VIDEO_URL =
                 "https://www.youtube.com/embed/aqz-KE-bpKQ?autoplay=1&rel=0";
             $("#videoBlock").on("click", function() {
@@ -3670,8 +3704,8 @@
             });
 
             /* ==========================================================
-               LIGHTBOX DE GALERÍA (navegación · contador · teclado)
-               ========================================================== */
+           LIGHTBOX DE GALERÍA (navegación · contador · teclado)
+           ========================================================== */
             var $items = $("#gallery .gallery-item"),
                 lbIndex = 0;
 
@@ -3719,8 +3753,8 @@
             });
 
             /* ==========================================================
-               COMPARTIR (URL dinámica según dominio actual)
-               ========================================================== */
+           COMPARTIR (URL dinámica según dominio actual)
+           ========================================================== */
             var pageUrl = encodeURIComponent(window.location.href);
             var pageTitle = encodeURIComponent(document.title);
             $(".share-wa").attr(

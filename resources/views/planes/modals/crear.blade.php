@@ -28,7 +28,7 @@
                                         <i class="fas fa-tag me-1"></i>
                                         {{ __('Nombre del Plan') }}
                                     </label>
-                                    <input type="text" class="form-control" placeholder="Nombre" id="nombre"
+                                    <input type="text" class="form-control" placeholder="{{ __('Nombre') }}" id="nombre"
                                         name="nombre" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
@@ -37,11 +37,11 @@
                                         {{ __('Categoria') }}
                                     </label>
                                     <select class="form-select" id="categoria" name="categoria" data-control="select2"
-                                        required data-placeholder="Categoria" data-allow-clear="true"
+                                        required data-placeholder="{{ __('Categoria') }}" data-allow-clear="true"
                                         data-hide-search="true" data-dropdown-parent="body">
                                         <option value=""></option>
                                         @foreach ($categorias as $item)
-                                            <option value="{{ $item?->codigo }}">{{ $item?->nombre }}</option>
+                                            <option value="{{ $item?->codigo }}">{{ __($item?->nombre) }}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -52,11 +52,11 @@
                                         {{ __('Tipo') }}
                                     </label>
                                     <select class="form-select" id="tipo" name="tipo" data-control="select2"
-                                        required data-placeholder="Tipo" data-allow-clear="true" data-hide-search="true"
+                                        required data-placeholder="{{ __('Tipo') }}" data-allow-clear="true" data-hide-search="true"
                                         data-dropdown-parent="body">
                                         <option value=""></option>
                                         @foreach ($tipos as $item)
-                                            <option value="{{ $item?->codigo }}">{{ $item?->nombre }}</option>
+                                            <option value="{{ $item?->codigo }}">{{ __($item?->nombre) }}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback"></div>
@@ -70,12 +70,21 @@
                                         name="valor" step="0.01" min="0" required>
                                     <div class="invalid-feedback"></div>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-6">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="limitarContactos">
                                         <label class="form-check-label fw-bold" for="limitarContactos">
                                             <i class="fas fa-users me-1"></i>
                                             {{ __('Limitar número de contactos activos') }}
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="limitarUsuarios">
+                                        <label class="form-check-label fw-bold" for="limitarUsuarios">
+                                            <i class="fas fa-users me-1"></i>
+                                            {{ __('Limitar número de usuarios (Agentes)') }}
                                         </label>
                                     </div>
                                 </div>
@@ -87,6 +96,24 @@
                                     <input type="number" class="form-control" placeholder="0" id="max_contactos"
                                         name="max_contactos" min="1">
                                     <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-md-6" id="maxUsuariosContainer" style="display: none;">
+                                    <label for="max_usuarios" class="form-label">
+                                        <i class="fas fa-hashtag me-1"></i>
+                                        {{ __('Máximo de usuarios (Agentes)') }}
+                                    </label>
+                                    <input type="number" class="form-control" placeholder="0" id="max_usuarios"
+                                        name="max_usuarios" min="1">
+                                    <div class="invalid-feedback"></div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="checkPublica" value="1">
+                                        <label class="form-check-label fw-bold" for="checkPublica">
+                                            <i class="fa-solid fa-globe me-1"></i>
+                                            {{ __('Marcar como publico') }}
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
 
@@ -129,6 +156,10 @@
                                 <div class="price-contacts" id="previewContacts">
                                     <i class="fas fa-users me-2"></i>
                                     {{ __('Contactos ilimitados') }}
+                                </div>
+                                <div class="price-contacts" id="previewUsuarios">
+                                    <i class="fas fa-users me-2"></i>
+                                    {{ __('Usuarios ilimitados') }}
                                 </div>
                                 <div class="mt-3">
                                     <small class="opacity-75">

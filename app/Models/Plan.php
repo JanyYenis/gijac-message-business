@@ -23,6 +23,9 @@ class Plan extends Model
     const ANUAL   = 2;
     const OTRO    = 3;
 
+    const PUBLICO = 1;
+    const PRIVADO = 0;
+
     protected $table = 'planes';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
@@ -34,7 +37,10 @@ class Plan extends Model
         'tipo',
         'valor',
         'max_contactos',
-        'estado'
+        'max_usuarios',
+        'publico',
+        'popular',
+        'estado',
     ];
 
     protected $casts = [

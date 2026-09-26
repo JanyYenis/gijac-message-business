@@ -8,7 +8,7 @@
                     <i class="fas fa-tag me-1"></i>
                     {{ __('Nombre del Plan') }}
                 </label>
-                <input type="text" class="form-control" placeholder="Nombre" id="nombreEdit"
+                <input type="text" class="form-control" placeholder="{{ __('Nombre') }}" id="nombreEdit"
                     name="nombre" required value="{{ $plan?->nombre }}">
                 <div class="invalid-feedback"></div>
             </div>
@@ -17,11 +17,11 @@
                     {{ __('Categoria') }}
                 </label>
                 <select class="form-select" id="categoriaEdit" name="categoria" data-control="select2"
-                    required data-placeholder="Categoria" data-allow-clear="true"
+                    required data-placeholder="{{ __('Categoria') }}" data-allow-clear="true"
                     data-hide-search="true" data-dropdown-parent="body">
                     <option value=""></option>
                     @foreach ($categorias as $item)
-                        <option value="{{ $item?->codigo }}" {{ $plan?->categoria == $item?->codigo ? 'selected' : '' }}>{{ $item?->nombre }}</option>
+                        <option value="{{ $item?->codigo }}" {{ $plan?->categoria == $item?->codigo ? 'selected' : '' }}>{{ __($item?->nombre) }}</option>
                     @endforeach
                 </select>
                 <div class="invalid-feedback"></div>
@@ -32,11 +32,11 @@
                     {{ __('Tipo') }}
                 </label>
                 <select class="form-select" id="tipoEdit" name="tipo" data-control="select2"
-                    required data-placeholder="Tipo" data-allow-clear="true" data-hide-search="true"
+                    required data-placeholder="{{ __('Tipo') }}" data-allow-clear="true" data-hide-search="true"
                     data-dropdown-parent="body">
                     <option value=""></option>
                     @foreach ($tipos as $item)
-                        <option value="{{ $item?->codigo }}" {{ $plan?->tipo == $item?->codigo ? 'selected' : '' }}>{{ $item?->nombre }}</option>
+                        <option value="{{ $item?->codigo }}" {{ $plan?->tipo == $item?->codigo ? 'selected' : '' }}>{{ __($item?->nombre) }}</option>
                     @endforeach
                 </select>
                 <div class="invalid-feedback"></div>
@@ -50,12 +50,21 @@
                     name="valor" step="0.01" min="0" required value="{{ $plan?->valor ?? 0 }}">
                 <div class="invalid-feedback"></div>
             </div>
-            <div class="col-12">
+            <div class="col-6">
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" {{ $plan?->max_contactos ? 'checked' : '' }} id="limitarContactosEdit">
                     <label class="form-check-label fw-bold" for="limitarContactosEdit">
                         <i class="fas fa-users me-1"></i>
                         {{ __('Limitar número de contactos activos') }}
+                    </label>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" {{ $plan?->max_usuarios ? 'checked' : '' }} id="limitarUsuariosEdit">
+                    <label class="form-check-label fw-bold" for="limitarUsuariosEdit">
+                        <i class="fas fa-users me-1"></i>
+                        {{ __('Limitar número de usuarios (Agentes)') }}
                     </label>
                 </div>
             </div>
@@ -67,6 +76,24 @@
                 <input type="number" class="form-control" placeholder="0" id="max_contactosEdit"
                     name="max_contactos" min="1" value="{{ $plan?->max_contactos }}">
                 <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-md-6" id="maxUsuariosContainerEdit" style="display: {{ $plan?->max_usuarios ? 'block' : 'none' }};">
+                <label for="max_usuariosEdit" class="form-label">
+                    <i class="fas fa-hashtag me-1"></i>
+                    {{ __('Máximo de contactos activos') }}
+                </label>
+                <input type="number" class="form-control" placeholder="0" id="max_usuariosEdit"
+                    name="max_usuarios" min="1" value="{{ $plan?->max_usuarios }}">
+                <div class="invalid-feedback"></div>
+            </div>
+            <div class="col-12">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" {{ $plan?->publico ? 'cheched' : '' }} id="checkPublicaEdit" value="1">
+                    <label class="form-check-label fw-bold" for="checkPublicaEdit">
+                        <i class="fa-solid fa-globe me-1"></i>
+                        {{ __('Marcar como publico') }}
+                    </label>
+                </div>
             </div>
         </div>
 
@@ -109,6 +136,10 @@
             <div class="price-contacts" id="previewContactsEdit">
                 <i class="fas fa-users me-2"></i>
                 {{ __('Contactos ilimitados') }}
+            </div>
+            <div class="price-contacts" id="previewUsuariosEdit">
+                <i class="fas fa-users me-2"></i>
+                {{ __('Usuarios ilimitados') }}
             </div>
             <div class="mt-3">
                 <small class="opacity-75">

@@ -184,12 +184,14 @@
                                                 <th width="5%" class="text-center all">#</th>
                                                 <th width="10%" class="text-center all">{{ __('Nombre') }}</th>
                                                 <th width="10%" class="text-center all">{{ __('Precio') }}</th>
-                                                <th width="10%" class="text-center all">{{ __('Categoria') }}</th>
                                                 <th width="10%" class="text-center all">{{ __('Tipo') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Categoria') }}</th>
                                                 <th width="10%" class="text-center all">{{ __('Nº Contactos') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Nº Usuarios') }}</th>
                                                 <th width="10%" class="text-center none">{{ __('Servicios Incluidos') }}</th>
                                                 <th width="10%" class="text-center none">{{ __('Fecha Creación') }}</th>
                                                 <th width="10%" class="text-center all">{{ __('Estado') }}</th>
+                                                <th width="10%" class="text-center all">{{ __('Visibilidad') }}</th>
                                                 <th width="10%" class="text-center all">{{ __('Acciones') }}</th>
                                             </tr>
                                         </thead>

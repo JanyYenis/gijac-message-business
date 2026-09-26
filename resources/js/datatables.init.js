@@ -3,8 +3,8 @@
 const defaults = {
     language: {
         aria: {
-            sortAscending: ": activate to sort column ascending",
-            sortDescending: ": activate to sort column descending"
+            sortAscending: __(": activar para ordenar la columna de forma ascendente"),
+            sortDescending: __(": activar para ordenar la columna de forma descendente")
         },
         processing: __("Cargando..."),
         emptyTable: __("No hay datos en la tabla"),

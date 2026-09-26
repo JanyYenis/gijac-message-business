@@ -23,6 +23,7 @@ const iniciarComponentes = (form = "") => {
 
 const enviarDatos = (form) => {
     let formData = new FormData(document.getElementById("formCrearPlan"));
+    formData.append('publico', $('#checkPublica').is(':checked') ? 1 : 0);
     // Get services data
     $('#formCrearPlan .service-toggle').each(function() {
         const name = $(this).attr('name');
@@ -78,8 +79,20 @@ $(document).on('change', '#limitarContactos', function() {
     }
 });
 
+// Toggle max users field
+$(document).on('change', '#limitarUsuarios', function() {
+    if ($(this).is(':checked')) {
+        $('#maxUsuariosContainer').slideDown();
+        $('#max_usuarios').prop('required', true);
+    } else {
+        $('#maxUsuariosContainer').slideUp();
+        $('#max_usuarios').prop('required', false).val('');
+        updatePreview();
+    }
+});
+
 // Update preview on form changes
-$(document).on('input change', '#valor, #tipo, #max_contactos', updatePreview);
+$(document).on('input change', '#valor, #tipo, #max_contactos, #max_usuarios', updatePreview);
 
 // Service toggle change
 $(document).on('change', '.service-toggle', function() {
@@ -95,6 +108,7 @@ function updatePreview() {
     const valor = parseFloat($('#valor').val()) || 0;
     const tipo = $('#tipo').val();
     const maxContactos = $('#max_contactos').val();
+    const maxUsuarios = $('#max_usuarios').val();
 
     // Update price
     $('#previewPrice').text('$' + valor.toFixed(2));
@@ -110,12 +124,21 @@ function updatePreview() {
     if (maxContactos && maxContactos > 0) {
         contactsText = parseInt(maxContactos).toLocaleString() + __(' contactos máximo');
     }
+
+    // Update contacts
+    let usersText = __('Usuarios ilimitados');
+    if (maxUsuarios && maxUsuarios > 0) {
+        usersText = parseInt(maxUsuarios).toLocaleString() + __(' usuarios máximo');
+    }
     $('#previewContacts').html('<i class="fas fa-users me-2"></i>' + contactsText);
+    $('#previewUsuarios').html('<i class="fas fa-users me-2"></i>' + usersText);
 }
 
 function resetModal() {
     $('#maxContactosContainer').hide();
+    $('#maxUsuariosContainer').hide();
     $('#limitarContactos').prop('checked', false);
+    $('#checkPublica').prop('checked', false);
     $('.service-item').removeClass('active');
     $('.service-toggle').prop('checked', false);
     $('.form-control, .form-select').removeClass('is-invalid');

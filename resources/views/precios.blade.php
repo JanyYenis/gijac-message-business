@@ -47,6 +47,7 @@
                                 <h2 class="fw-bold mb-3">${{formatoMiles($plan?->valor ?? 0)}}<span class="fs-6 text-muted">/{{ __($plan?->infoTipo?->nombre) }}</span></h2>
                                 <ul class="list-unstyled mb-4">
                                     <li>• {{ $plan?->max_contactos ? formatoMiles($plan?->max_contactos) : __('Ilimitado') }} {{ __('Contactos Activos') }}</li>
+                                    <li>• {{ $plan?->max_usuarios ? formatoMiles($plan?->max_usuarios) : __('Ilimitado') }} {{ __('Usuarios Activos') }}</li>
                                     @foreach ($plan->serviciosHabilitados as $item)
                                         <li>• {{ __($item?->nombre) }}</li>
                                     @endforeach

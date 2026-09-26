@@ -22,7 +22,7 @@ class PlanController extends Controller
     public function index()
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
-        !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
+            !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
             throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
@@ -37,7 +37,7 @@ class PlanController extends Controller
     public function listado(Request $request)
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
-        !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
+            !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
             throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
@@ -53,16 +53,17 @@ class PlanController extends Controller
                 $info['concepto'] = $model?->infoEstado;
                 return view("sistema.estado", $info);
             })
+            ->addColumn("publico", "planes.columnas.publico")
             ->addColumn("action", "planes.columnas.acciones")
             ->addColumn("servicios", "planes.columnas.servicios")
-            ->rawColumns(["action", "servicios"])
+            ->rawColumns(["action", "servicios", "publico"])
             ->make(true);
     }
 
     public function store(StorePlanRequest $request)
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
-        !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
+            !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
             throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 
@@ -110,7 +111,7 @@ class PlanController extends Controller
     public function edit(Request $request, Plan $plan)
     {
         if (!can(Usuario::PERMISO_PLANES_LISTADO) && !can(Usuario::PERMISO_PLANES_CREAR) &&
-        !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
+            !can(Usuario::PERMISO_PLANES_EDITAR) && !can(Usuario::PERMISO_PLANES_ELIMINAR)) {
             throw new ErrorException(__("No tienes permisos para acceder a esta sección."));
         }
 

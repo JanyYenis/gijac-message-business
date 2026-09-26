@@ -25,8 +25,11 @@
             {
                 "@context": "https://schema.org",
                 "@type": "BlogPosting",
-                "headline": "API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026",
-                "description": "Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.",
+                "@id": "https://message-business.gijac.com/#BlogPosting"
+                "url": "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas"
+                "logo":"https://message-business.gijac.com/img/logo_gmb.png",
+                "headline": "{{ __('API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026') }}",
+                "description": "{{ __('Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.') }}",
                 "image": "https://message-business.gijac.com/img/logo_gmb.png",
                 "author": {
                     "@type": "Organization",

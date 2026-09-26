@@ -45,6 +45,7 @@ const iniciarComponentes = (form = "") => {
 const enviarDatos = (form) => {
     let formData = new FormData(document.getElementById("formEditarPlanes"));
     formData.append('_method', 'PUT');
+    formData.append('publico', $('#checkPublicaEdit').is(':checked') ? 1 : 0);
 
     // Get services data
     $('#formEditarPlanes .service-toggle').each(function() {
@@ -96,8 +97,20 @@ $(document).on('change', '#limitarContactosEdit', function() {
     }
 });
 
+// Toggle max contacts field
+$(document).on('change', '#limitarUsuariosEdit', function() {
+    if ($(this).is(':checked')) {
+        $('#maxUsuariosContainerEdit').slideDown();
+        $('#max_usuariosEdit').prop('required', true);
+    } else {
+        $('#maxUsuariosContainerEdit').slideUp();
+        $('#max_usuariosEdit').prop('required', false).val('');
+        updatePreview();
+    }
+});
+
 // Update preview on form changes
-$(document).on('input change', '#valorEdit, #tipoEdit, #max_contactosEdit', updatePreview);
+$(document).on('input change', '#valorEdit, #tipoEdit, #max_contactosEdit, #max_usuariosEdit', updatePreview);
 
 // Service toggle change
 $(document).on('change', '#formEditarPlanes .service-toggle', function() {
@@ -113,6 +126,7 @@ function updatePreview() {
     const valor = parseFloat($('#valorEdit').val()) || 0;
     const tipo = $('#tipoEdit').val();
     const maxContactos = $('#max_contactosEdit').val();
+    const maxUsuarios = $('#max_usuariosEdit').val();
 
     // Update price
     $('#previewPriceEdit').text('$' + valor.toFixed(2));
@@ -128,5 +142,12 @@ function updatePreview() {
     if (maxContactos && maxContactos > 0) {
         contactsText = parseInt(maxContactos).toLocaleString() + __(' contactos máximo');
     }
+
+    // Update contacts
+    let usersText = __('Usuarios ilimitados');
+    if (maxUsuarios && maxUsuarios > 0) {
+        usersText = parseInt(maxUsuarios).toLocaleString() + __(' usuarios máximo');
+    }
     $('#previewContactsEdit').html('<i class="fas fa-users me-2"></i>' + contactsText);
+    $('#previewUsuariosEdit').html('<i class="fas fa-users me-2"></i>' + usersText);
 }

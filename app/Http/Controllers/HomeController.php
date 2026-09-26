@@ -26,6 +26,7 @@ class HomeController extends Controller
         $info['planes'] = Plan::with('serviciosHabilitados', 'infoTipo')
             ->where('estado', Plan::ACTIVO)
             ->where('tipo', Plan::MESUAL)
+            ->where('publico', Plan::PUBLICO)
             ->orderBy('categoria')
             ->get();
 

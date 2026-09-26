@@ -44,7 +44,7 @@ window.listadoPlanes = () => {
                 className: "btn btn-light-success",
                 title: __("Listado Planes."),
                 exportOptions: {
-                    columns: [0,1,2,3,4,5,6,7,8],
+                    columns: [0,1,2,3,4,5,6,7,8,9],
                     format: {
                         body: function (data, row, column, node) {
                             // eliminar HTML
@@ -93,21 +93,28 @@ window.listadoPlanes = () => {
                 data: 'info_tipo.nombre',
                 name: 'info_tipo.nombre',
                 render: function (data, type, full, meta) {
-                    return full?.info_tipo?.nombre ?? 'N/A';
+                    return __(full?.info_tipo?.nombre) ?? 'N/A';
                 }
             },
             {
                 data: 'info_categoria.nombre',
                 name: 'info_categoria.nombre',
                 render: function (data, type, full, meta) {
-                    return full?.info_categoria?.nombre ?? 'N/A';
+                    return __(full?.info_categoria?.nombre) ?? 'N/A';
                 }
             },
             {
                 data: 'max_contactos',
                 name: 'max_contactos',
                 render: function (data, type, full, meta) {
-                    return full?.max_contactos ? full?.max_contactos.toLocaleString('en-US') : 0;
+                    return full?.max_contactos ? full?.max_contactos.toLocaleString('en-US') : __('Ilimitado');
+                }
+            },
+            {
+                data: 'max_usuarios',
+                name: 'max_usuarios',
+                render: function (data, type, full, meta) {
+                    return full?.max_usuarios ? full?.max_usuarios.toLocaleString('en-US') : __('Ilimitado');
                 }
             },
             {
@@ -117,6 +124,10 @@ window.listadoPlanes = () => {
             {
                 data: 'created_at',
                 name: 'created_at',
+            },
+            {
+                data: 'publico',
+                name: 'publico',
             },
             {
                 data: 'estado',

@@ -45,10 +45,13 @@
         @endverbatim
     @endif
 
+    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="shortcut icon" href="{{ asset('img/logo_gmb.png') }}">
-    <!-- CSRF Token -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <!-- Font Awesome for icons -->

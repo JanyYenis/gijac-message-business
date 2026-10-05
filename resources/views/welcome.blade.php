@@ -572,6 +572,42 @@
             }
         }
     </style>
+    <style>
+        .rocket-wrap {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    pointer-events: none;
+}
+/* Resplandor detrás del cohete */
+.rocket-wrap::before {
+    content: "";
+    position: absolute;
+    left: 50%; top: 52%;
+    width: 340px; height: 340px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, rgba(34,211,238,.35) 0%, rgba(20,184,166,.15) 40%, transparent 70%);
+    filter: blur(30px);
+    animation: rocketGlow 4s ease-in-out infinite;
+}
+@keyframes rocketGlow {
+    50% { opacity: .6; transform: translate(-50%, -50%) scale(1.15); }
+}
+#rocket-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    pointer-events: none;
+    /* La llama se desvanece en vez de cortarse */
+    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+}
+@media (max-width: 991px) {
+    .rocket-wrap { height: 300px; }
+}
+    </style>
 @endsection
 
 @section('content')
@@ -757,7 +793,8 @@
                         <div class="badge-3d">
                             <!-- Reemplazar por el logo oficial de WhatsApp Business -->
                             <span>
-                                <img src="{{ asset('img/whatsapp-business.png') }}" alt="{{ __('WhatsApp Business') }}" width="100%">
+                                <img src="{{ asset('img/whatsapp-business.png') }}" alt="{{ __('WhatsApp Business') }}"
+                                    width="100%">
                             </span>
                         </div>
                         <div class="node-label">
@@ -790,9 +827,6 @@
                     <p>{{ __('Tecnología empresarial') }}</p>
                 </div>
             </div>
-            <p class="note">
-                {{ __('Los logotipos de Meta y WhatsApp son marcas de Meta Platforms, Inc. Sustituye los marcadores por los recursos oficiales.') }}
-            </p>
         </div>
     </section>
 
@@ -1056,15 +1090,7 @@
                     </div>
                     <div class="col-lg-5 text-center">
                         <div class="rocket-wrap">
-                            <img src="{{ asset('img/rocket-3d.png') }}" alt="Cohete despegando" class="rocket-img" />
-                            <div class="rocket-flame"></div>
-                            <div class="rocket-sparks">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
+                            <canvas id="rocket-canvas" aria-hidden="true"></canvas>
                         </div>
                     </div>
                 </div>
@@ -1186,5 +1212,261 @@
             size();
             draw();
         });
+    </script>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module">
+        import * as THREE from "three";
+
+        const canvas = document.getElementById("rocket-canvas");
+        const wrap = canvas.parentElement;
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+        camera.position.set(0, 0, 11);
+
+        const renderer = new THREE.WebGLRenderer({
+            canvas,
+            antialias: true,
+            alpha: true
+        });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1.15;
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+
+        function resize() {
+            const w = wrap.clientWidth,
+                h = wrap.clientHeight;
+            renderer.setSize(w, h, false); // false = NO tocar el style del canvas
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+        }
+        resize();
+        window.addEventListener("resize", resize);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+        scene.add(new THREE.HemisphereLight(0x93c5fd, 0x0f766e, 1.2));
+        const key = new THREE.DirectionalLight(0xffffff, 2.4);
+        key.position.set(4, 5, 6); scene.add(key);
+        const rim = new THREE.DirectionalLight(0x22d3ee, 2.2);
+        rim.position.set(-5, 2, -3); scene.add(rim);
+
+        // Cohete
+        const rocketGroup = new THREE.Group();
+        const rocket = new THREE.Group();
+        rocketGroup.add(rocket);
+        rocketGroup.rotation.z = -0.35;   // diagonal, como saliendo disparado
+        rocketGroup.scale.setScalar(1.1);
+        rocketGroup.position.y = 0.7;     // centra cohete + llama en el encuadre
+        scene.add(rocketGroup);
+
+        const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, metalness: 0.25, roughness: 0.35 });
+        const accentMat = new THREE.MeshStandardMaterial({ color: 0x22d3ee, metalness: 0.3, roughness: 0.25, emissive: 0x22d3ee, emissiveIntensity: 0.9 });
+        const darkMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.4, roughness: 0.45 });
+        const windowMat = new THREE.MeshStandardMaterial({ color: 0x67e8f9, emissive: 0x22d3ee, emissiveIntensity: 1.8 });
+
+        const add = (geo, mat, y = 0) => {
+            const m = new THREE.Mesh(geo, mat);
+            m.position.y = y;
+            rocket.add(m);
+            return m;
+        };
+
+        add(new THREE.CylinderGeometry(0.45, 0.5, 2.2, 32), bodyMat);
+        add(new THREE.ConeGeometry(0.45, 1, 32), bodyMat, 1.6);
+
+        const ringGeo = new THREE.TorusGeometry(0.46, 0.035, 16, 32);
+        [1.1, -0.6].forEach(y => {
+            const r = add(ringGeo, accentMat, y);
+            r.rotation.x = Math.PI / 2;
+        });
+
+        for (let i = 0; i < 3; i++) {
+            const a = (i / 3) * Math.PI * 2;
+            const w = add(new THREE.SphereGeometry(0.1, 16, 16), windowMat, 0.6);
+            w.position.x = Math.cos(a) * 0.46;
+            w.position.z = Math.sin(a) * 0.46;
+        }
+
+        const finShape = new THREE.Shape();
+        finShape.moveTo(0, 0);
+        finShape.lineTo(0.5, 0);
+        finShape.lineTo(0.55, -0.6);
+        finShape.lineTo(0.05, -0.5);
+        finShape.lineTo(0, 0);
+        const finGeo = new THREE.ExtrudeGeometry(finShape, {
+            depth: 0.06,
+            bevelEnabled: true,
+            bevelThickness: 0.01,
+            bevelSize: 0.01,
+            bevelSegments: 2
+        });
+        for (let i = 0; i < 3; i++) {
+            const a = (i / 3) * Math.PI * 2;
+            const f = add(finGeo, darkMat, -0.9);
+            f.position.x = Math.cos(a) * 0.4;
+            f.position.z = Math.sin(a) * 0.4;
+            f.rotation.y = a + Math.PI / 2;
+        }
+
+        add(new THREE.CylinderGeometry(0.35, 0.3, 0.3, 32), darkMat, -1.35);
+        add(new THREE.CylinderGeometry(0.3, 0.42, 0.25, 32), darkMat, -1.65);
+
+        // Llama
+        const flame = new THREE.Group();
+        [
+            [0.4, 1.8, 0x3b82f6, 0.35, -0.9],
+            [0.28, 1.3, 0x22d3ee, 0.55, -0.65],
+            [0.16, 0.9, 0xffffff, 0.85, -0.45]
+        ]
+        .forEach(([r, h, c, o, y]) => {
+            const m = new THREE.Mesh(
+                new THREE.ConeGeometry(r, h, 32, 4, true),
+                new THREE.MeshBasicMaterial({
+                    color: c,
+                    transparent: true,
+                    opacity: o,
+                    side: THREE.DoubleSide,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                })
+            );
+            m.position.y = y;
+            m.rotation.x = Math.PI;
+            flame.add(m);
+        });
+        flame.position.y = -1.7;
+        rocket.add(flame);
+
+        const flameLight = new THREE.PointLight(0x22d3ee, 3, 10);
+        flameLight.position.set(0, -2.2, 0);
+        rocket.add(flameLight);
+
+        // Partículas del motor
+        const N = window.innerWidth < 900 ? 80 : 200;
+        const pos = new Float32Array(N * 3),
+            vel = [],
+            life = [],
+            maxLife = [];
+        for (let i = 0; i < N; i++) {
+            const a = Math.random() * Math.PI * 2,
+                r = Math.random() * 0.12;
+            pos[i * 3] = Math.cos(a) * r;
+            pos[i * 3 + 1] = -1.8;
+            pos[i * 3 + 2] = Math.sin(a) * r;
+            vel.push({
+                x: (Math.random() - 0.5) * 0.015,
+                y: -Math.random() * 0.06 - 0.02,
+                z: (Math.random() - 0.5) * 0.015
+            });
+            const l = Math.random() * 1.5 + 0.6;
+            life.push(Math.random() * l);
+            maxLife.push(l);
+        }
+        const pGeo = new THREE.BufferGeometry();
+        pGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+        const particles = new THREE.Points(pGeo, new THREE.ShaderMaterial({
+            vertexShader: `void main(){vec4 mv=modelViewMatrix*vec4(position,1.0);gl_PointSize=3.0*(150.0/-mv.z);gl_Position=projectionMatrix*mv;}`,
+            fragmentShader: `void main(){float d=length(gl_PointCoord-vec2(0.5));if(d>0.5)discard;float a=pow(1.0-d*2.0,2.0);gl_FragColor=vec4(mix(vec3(1.0),vec3(0.13,0.83,0.93),d*2.0),a*0.9);}`,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        }));
+        rocket.add(particles);
+
+        // Mouse (suave)
+        const SN = 120, sp = new Float32Array(SN * 3);
+        for (let i = 0; i < SN; i++) {
+            sp[i*3] = (Math.random() - 0.5) * 14;
+            sp[i*3+1] = (Math.random() - 0.5) * 10;
+            sp[i*3+2] = -3 - Math.random() * 4;
+        }
+        const sGeo = new THREE.BufferGeometry();
+        sGeo.setAttribute("position", new THREE.BufferAttribute(sp, 3));
+        const stars = new THREE.Points(sGeo, new THREE.PointsMaterial({ color: 0x9ff3ff, size: 0.06, transparent: true, opacity: 0.8 }));
+        scene.add(stars);
+        let mx = 0,
+            my = 0,
+            tmx = 0,
+            tmy = 0;
+        window.addEventListener("mousemove", e => {
+            tmx = (e.clientX / window.innerWidth) * 2 - 1;
+            tmy = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Solo animar cuando el CTA está visible
+        let visible = false,
+            entered = false;
+        const state = {
+            y: -2.5,
+            flame: 0.1,
+            scale: 0.85
+        };
+        new IntersectionObserver(([e]) => {
+            visible = e.isIntersecting;
+            if (visible && !entered) {
+                entered = true;
+                gsap.to(state, {
+                    y: 0,
+                    duration: 2.2,
+                    ease: "power2.out"
+                });
+                gsap.to(state, {
+                    flame: 1,
+                    scale: 1,
+                    duration: 1.6,
+                    ease: "power2.in"
+                });
+            }
+        }, {
+            threshold: 0.1
+        }).observe(wrap);
+
+        const clock = new THREE.Clock();
+        (function animate() {
+            requestAnimationFrame(animate);
+            if (!visible) return;
+
+            const dt = Math.min(clock.getDelta(), 0.1);
+            const t = clock.elapsedTime;
+
+            mx += (tmx - mx) * 0.04;
+            my += (tmy - my) * 0.04;
+            rocketGroup.rotation.y = mx * 0.1;
+            rocketGroup.rotation.x = -my * 0.06;
+
+            rocket.position.y = state.y + Math.sin(t * 0.7) * 0.12;
+            rocket.rotation.y += dt * 0.15;
+            rocket.scale.setScalar(state.scale);
+
+            const fl = Math.sin(t * 18) * 0.08 + Math.sin(t * 11) * 0.05;
+            flame.scale.set(state.flame * (1 + Math.cos(t * 14) * 0.04), state.flame * (1 + fl), state.flame * (1 + Math
+                .cos(t * 14) * 0.04));
+            flameLight.intensity = 3 * state.flame + Math.sin(t * 18) * 0.3;
+
+            for (let i = 0; i < N; i++) {
+                life[i] -= dt;
+                if (life[i] <= 0) {
+                    pos[i * 3 + 1] = -1.8;
+                    pos[i * 3] = (Math.random() - 0.5) * 0.2;
+                    pos[i * 3 + 2] = (Math.random() - 0.5) * 0.2;
+                    life[i] = maxLife[i];
+                } else {
+                    pos[i * 3] += vel[i].x;
+                    pos[i * 3 + 1] += vel[i].y;
+                    pos[i * 3 + 2] += vel[i].z;
+                }
+            }
+            pGeo.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        })();
     </script>
 @endsection

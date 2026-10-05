@@ -39,7 +39,7 @@
 @endif
 
 @component("tickets.paginado")
-    @slot("catidadDatos", $tickets)
+    @slot("cantidadDatos", $tickets)
     @slot("ultimaPagina", $ultimaPagina)
     @slot("paginaActual", $paginaActual)
 @endcomponent

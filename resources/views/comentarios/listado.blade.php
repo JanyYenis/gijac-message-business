@@ -69,7 +69,7 @@
 @endif
 
 @component("comentarios.paginado")
-    @slot("catidadDatos", $comentarios)
+    @slot("cantidadDatos", $comentarios)
     @slot("ultimaPagina", $ultimaPagina)
     @slot("paginaActual", $paginaActual)
 @endcomponent

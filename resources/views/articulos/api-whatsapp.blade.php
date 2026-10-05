@@ -2826,16 +2826,16 @@
                                         <span class="code-lang">POST /v18.0/{phone-number-id}/messages</span>
                                     </div>
                                     <pre>
-                                        <span class="tc">{{ __('// Ejemplo: envío de plantilla aprobada por Meta') }}</span>
-                                        {
-                                            <span class="tk">{{ __('"messaging_product"') }}</span>: <span class="ts">{{ __('"whatsapp"') }}</span>,
-                                            <span class="tk">{{ __('"to"') }}</span>: <span class="ts">"50255012345"</span>,
-                                            <span class="tk">{{ __('"type"') }}</span>: <span class="ts">{{ __('"template"') }}</span>,
-                                            <span class="tk">{{ __('"template"') }}</span>: {
-                                                <span class="tk">{{ __('"name"') }}</span>: <span class="ts">{{ __('"confirmacion_pedido"') }}</span>,
-                                                <span class="tk">{{ __('"language"') }}</span>: { <span class="tk">{{ __('"code"') }}</span>: <span class="ts">{{ __('"es"') }}</span> }
-                                            }
-                                        }
+<span class="tc">{{ __('// Ejemplo: envío de plantilla aprobada por Meta') }}</span>
+{
+    <span class="tk">{{ __('"messaging_product"') }}</span>: <span class="ts">{{ __('"whatsapp"') }}</span>,
+    <span class="tk">{{ __('"to"') }}</span>: <span class="ts">"50255012345"</span>,
+    <span class="tk">{{ __('"type"') }}</span>: <span class="ts">{{ __('"template"') }}</span>,
+    <span class="tk">{{ __('"template"') }}</span>: {
+        <span class="tk">{{ __('"name"') }}</span>: <span class="ts">{{ __('"confirmacion_pedido"') }}</span>,
+        <span class="tk">{{ __('"language"') }}</span>: { <span class="tk">{{ __('"code"') }}</span>: <span class="ts">{{ __('"es"') }}</span> }
+    }
+}
                                     </pre>
                                 </div>
 

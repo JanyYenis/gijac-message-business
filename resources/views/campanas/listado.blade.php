@@ -157,7 +157,7 @@
 </div>
 
 @component('campanas.paginado')
-    @slot('catidadDatos', $campanas)
+    @slot('cantidadDatos', $campanas)
     @slot('ultimaPagina', $ultimaPagina)
     @slot('paginaActual', $paginaActual)
 @endcomponent

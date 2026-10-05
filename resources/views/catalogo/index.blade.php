@@ -107,7 +107,7 @@
         </div>
 
         <!-- Grid -->
-        <div class="row g-4" id="productsGrid">
+        <div class="row g-4 seccionListadoCatalogo" id="productsGrid">
             <!-- Skeletons se inyectan desde JS -->
         </div>
 

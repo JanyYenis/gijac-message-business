@@ -14,7 +14,7 @@ $(function () {
 
 const iniciarComponentes = () => {
 
-    var start = moment().subtract(29, "days");
+    var start = moment().startOf("year");
     var end = moment();
 
     $("#inputFechas").daterangepicker({

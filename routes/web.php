@@ -61,13 +61,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/generar-sitemap', function () {
-    SitemapGenerator::create('https://message-business.gijac.com')
-        ->writeToFile(public_path('sitemap.xml'));
-
-    return 'Sitemap generado';
-});
-
 Auth::routes(['verify' => true]);
 
 Route::get('/precios', [HomeController::class, 'precios'])->name('precios');

@@ -574,39 +574,50 @@
     </style>
     <style>
         .rocket-wrap {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    pointer-events: none;
-}
-/* Resplandor detrás del cohete */
-.rocket-wrap::before {
-    content: "";
-    position: absolute;
-    left: 50%; top: 52%;
-    width: 340px; height: 340px;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(34,211,238,.35) 0%, rgba(20,184,166,.15) 40%, transparent 70%);
-    filter: blur(30px);
-    animation: rocketGlow 4s ease-in-out infinite;
-}
-@keyframes rocketGlow {
-    50% { opacity: .6; transform: translate(-50%, -50%) scale(1.15); }
-}
-#rocket-canvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    pointer-events: none;
-    /* La llama se desvanece en vez de cortarse */
-    -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-}
-@media (max-width: 991px) {
-    .rocket-wrap { height: 300px; }
-}
+            position: relative;
+            width: 100%;
+            height: 420px;
+            pointer-events: none;
+        }
+
+        /* Resplandor detrás del cohete */
+        .rocket-wrap::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 52%;
+            width: 340px;
+            height: 340px;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(34, 211, 238, .35) 0%, rgba(20, 184, 166, .15) 40%, transparent 70%);
+            filter: blur(30px);
+            animation: rocketGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes rocketGlow {
+            50% {
+                opacity: .6;
+                transform: translate(-50%, -50%) scale(1.15);
+            }
+        }
+
+        #rocket-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            pointer-events: none;
+            /* La llama se desvanece en vez de cortarse */
+            -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+        }
+
+        @media (max-width: 991px) {
+            .rocket-wrap {
+                height: 300px;
+            }
+        }
     </style>
 @endsection
 
@@ -1254,23 +1265,43 @@
         scene.add(new THREE.AmbientLight(0xffffff, 0.9));
         scene.add(new THREE.HemisphereLight(0x93c5fd, 0x0f766e, 1.2));
         const key = new THREE.DirectionalLight(0xffffff, 2.4);
-        key.position.set(4, 5, 6); scene.add(key);
+        key.position.set(4, 5, 6);
+        scene.add(key);
         const rim = new THREE.DirectionalLight(0x22d3ee, 2.2);
-        rim.position.set(-5, 2, -3); scene.add(rim);
+        rim.position.set(-5, 2, -3);
+        scene.add(rim);
 
         // Cohete
         const rocketGroup = new THREE.Group();
         const rocket = new THREE.Group();
         rocketGroup.add(rocket);
-        rocketGroup.rotation.z = -0.35;   // diagonal, como saliendo disparado
+        rocketGroup.rotation.z = -0.35; // diagonal, como saliendo disparado
         rocketGroup.scale.setScalar(1.1);
-        rocketGroup.position.y = 0.7;     // centra cohete + llama en el encuadre
+        rocketGroup.position.y = 0.7; // centra cohete + llama en el encuadre
         scene.add(rocketGroup);
 
-        const bodyMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, metalness: 0.25, roughness: 0.35 });
-        const accentMat = new THREE.MeshStandardMaterial({ color: 0x22d3ee, metalness: 0.3, roughness: 0.25, emissive: 0x22d3ee, emissiveIntensity: 0.9 });
-        const darkMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.4, roughness: 0.45 });
-        const windowMat = new THREE.MeshStandardMaterial({ color: 0x67e8f9, emissive: 0x22d3ee, emissiveIntensity: 1.8 });
+        const bodyMat = new THREE.MeshStandardMaterial({
+            color: 0xf1f5f9,
+            metalness: 0.25,
+            roughness: 0.35
+        });
+        const accentMat = new THREE.MeshStandardMaterial({
+            color: 0x22d3ee,
+            metalness: 0.3,
+            roughness: 0.25,
+            emissive: 0x22d3ee,
+            emissiveIntensity: 0.9
+        });
+        const darkMat = new THREE.MeshStandardMaterial({
+            color: 0x475569,
+            metalness: 0.4,
+            roughness: 0.45
+        });
+        const windowMat = new THREE.MeshStandardMaterial({
+            color: 0x67e8f9,
+            emissive: 0x22d3ee,
+            emissiveIntensity: 1.8
+        });
 
         const add = (geo, mat, y = 0) => {
             const m = new THREE.Mesh(geo, mat);
@@ -1382,15 +1413,21 @@
         rocket.add(particles);
 
         // Mouse (suave)
-        const SN = 120, sp = new Float32Array(SN * 3);
+        const SN = 120,
+            sp = new Float32Array(SN * 3);
         for (let i = 0; i < SN; i++) {
-            sp[i*3] = (Math.random() - 0.5) * 14;
-            sp[i*3+1] = (Math.random() - 0.5) * 10;
-            sp[i*3+2] = -3 - Math.random() * 4;
+            sp[i * 3] = (Math.random() - 0.5) * 14;
+            sp[i * 3 + 1] = (Math.random() - 0.5) * 10;
+            sp[i * 3 + 2] = -3 - Math.random() * 4;
         }
         const sGeo = new THREE.BufferGeometry();
         sGeo.setAttribute("position", new THREE.BufferAttribute(sp, 3));
-        const stars = new THREE.Points(sGeo, new THREE.PointsMaterial({ color: 0x9ff3ff, size: 0.06, transparent: true, opacity: 0.8 }));
+        const stars = new THREE.Points(sGeo, new THREE.PointsMaterial({
+            color: 0x9ff3ff,
+            size: 0.06,
+            transparent: true,
+            opacity: 0.8
+        }));
         scene.add(stars);
         let mx = 0,
             my = 0,

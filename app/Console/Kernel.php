@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
             ->everyMinute()
             ->withoutOverlapping();
         $schedule->command('cancelar:demo')->everyMinute();
+        $schedule->command('sitemap:generate')->daily();
     }
 
     /**

@@ -59,7 +59,7 @@ class WhatsAppOnboardingController extends Controller
                 'phone_number_id'  => $account->phone_number_id,
                 'business_id'      => $account->business_id,
                 'phone_number'     => $account->phone_number,
-                'quality'          => $account->quality_rating,
+                'quality'          => WhatsappAccount::ratingToMeta($account->quality_rating),
                 'limit'            => $account->messaging_limit,
                 'webhook'          => $account->webhook_subscribed,
                 'registered'       => $account->number_registered,
@@ -153,7 +153,7 @@ class WhatsAppOnboardingController extends Controller
                 'access_token'       => Crypt::encrypt($accessToken),
                 'phone_number'       => $phone['display_phone_number'] ?? '',
                 'display_name'       => $phone['verified_name'] ?? null,
-                'quality_rating'     => $phone['quality_rating'] ?? 'UNKNOWN',
+                'quality_rating'     => WhatsappAccount::ratingFromMeta($phone['quality_rating'] ?? null),
                 'messaging_limit'    => $limit,
                 'webhook_subscribed' => $webhookOk,
                 'number_registered'  => $registered,
@@ -177,7 +177,7 @@ class WhatsAppOnboardingController extends Controller
                     'phone_number_id' => $phoneId,
                     'business_id'     => $data['business_id'],
                     'phone_number'    => $phone['display_phone_number'] ?? '',
-                    'quality'         => $phone['quality_rating'] ?? 'UNKNOWN',
+                    'quality_rating'  => WhatsappAccount::ratingFromMeta($phone['quality_rating'] ?? null),
                     'limit'           => $limit,
                     'webhook'         => $webhookOk,
                     'registered'      => $registered,
@@ -232,7 +232,9 @@ class WhatsAppOnboardingController extends Controller
         $phone = $res->json();
 
         $account->update([
-            'quality_rating'  => $phone['quality_rating'] ?? $account->quality_rating,
+            'quality_rating'  => isset($phone['quality_rating'])
+                ? WhatsappAccount::ratingFromMeta($phone['quality_rating'])
+                : $account->quality_rating,
             'messaging_limit' => isset($phone['messaging_limit_tier'])
                 ? str_replace('TIER_', '', $phone['messaging_limit_tier'])
                 : $account->messaging_limit,
@@ -241,7 +243,7 @@ class WhatsAppOnboardingController extends Controller
         return response()->json([
             'success' => true,
             'account' => [
-                'quality_rating'  => $account->quality_rating,
+                'quality_rating'  => WhatsappAccount::ratingToMeta($account->quality_rating),
                 'messaging_limit' => $account->messaging_limit,
             ],
         ]);

@@ -17,10 +17,28 @@ class WhatsappAccount extends Model
     const RATING_RED     = 3;
     const RATING_UNKNOWN = 4;
 
+    /** Texto de Meta => entero de la BD */
+    const RATING_FROM_META = [
+        'GREEN'   => self::RATING_GREEN,
+        'YELLOW'  => self::RATING_YELLOW,
+        'RED'     => self::RATING_RED,
+        'UNKNOWN' => self::RATING_UNKNOWN,
+    ];
+
+    /** Entero de la BD => texto de Meta (el JS usa estos para mostrar "Excelente", etc.) */
+    const RATING_TO_META = [
+        self::RATING_GREEN   => 'GREEN',
+        self::RATING_YELLOW  => 'YELLOW',
+        self::RATING_RED     => 'RED',
+        self::RATING_UNKNOWN => 'UNKNOWN',
+    ];
+
     protected $table = 'whatsapp_accounts';
     protected $primaryKey = 'id';
     protected $keyType = 'string';
     public $incrementing = false;
+
+    protected $hidden = ['access_token', 'two_factor_pin'];
 
     protected $fillable = [
         'usuario_id',
@@ -28,6 +46,7 @@ class WhatsappAccount extends Model
         'phone_number_id',
         'business_id',
         'access_token',
+        'two_factor_pin',
         'phone_number',
         'display_name',
         'estado',
@@ -41,12 +60,12 @@ class WhatsappAccount extends Model
     protected $casts = [
         'id' => 'string',
         "created_at" => "date:d/m/Y",
-        "token_expires_at" => "date:d/m/Y",
+        "token_expires_at" => "datetime",
     ];
 
     protected $dates = [
         "created_at" => "date:d/m/Y",
-        "token_expires_at" => "date:d/m/Y",
+        "token_expires_at" => "datetime",
     ];
 
     protected static function boot()
@@ -56,5 +75,15 @@ class WhatsappAccount extends Model
         static::creating(function ($model) {
             $model->id = Str::uuid();
         });
+    }
+
+    public static function ratingFromMeta(?string $value): int
+    {
+        return self::RATING_FROM_META[strtoupper((string) $value)] ?? self::RATING_UNKNOWN;
+    }
+
+    public static function ratingToMeta($value): string
+    {
+        return self::RATING_TO_META[(int) $value] ?? 'UNKNOWN';
     }
 }

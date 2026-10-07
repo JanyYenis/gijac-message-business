@@ -45,13 +45,14 @@ class WhatsAppOnboardingController extends Controller
             'fb_config_id'    => $this->configId,
             'graph_version'   => config('facebook.graph_version', 'v26.0'),
             'routes' => [
-                'exchange'   => url('/api/whatsapp/exchange-token'),
+                'exchange'   => route('whatsapp.exchange'),
                 'resubscribe'=> route('whatsapp.resubscribe'),
                 'register'   => route('whatsapp.register'),
                 'renew'      => route('whatsapp.renew'),
                 'test'       => route('whatsapp.test'),
                 'disconnect' => route('whatsapp.disconnect'),
                 'templates'  => url('/admin/whatsapp/templates'),
+                'status' => route('whatsapp.status')
             ],
             'account' => $account ? [
                 'waba_id'          => $account->waba_id,
@@ -84,88 +85,103 @@ class WhatsAppOnboardingController extends Controller
        ========================================================= */
     public function exchangeToken(Request $request)
     {
-        $request->validate(['code' => 'required|string']);
+        $data = $request->validate([
+            'code'            => 'required|string',
+            'event'           => 'nullable|string',
+            'waba_id'         => 'nullable|string',
+            'phone_number_id' => 'nullable|string',
+            'business_id'     => 'nullable|string',
+        ]);
 
         try {
-            /* 1. Cambiar code por access_token (exchange de código) */
+            /* 1. code -> business token (el code vive 30 s, esto va primero) */
             $tokenRes = Http::get("{$this->graph}/oauth/access_token", [
                 'client_id'     => $this->appId,
                 'client_secret' => $this->appSecret,
-                'code'          => $request->input('code'),
+                'code'          => $data['code'],
             ])->throw()->json();
 
             $accessToken = $tokenRes['access_token'] ?? null;
             abort_if(! $accessToken, 422, 'No se pudo obtener el access_token de Meta.');
 
-            /* 2. Portafolios comerciales del usuario */
-            $businesses = Http::get("{$this->graph}/me/businesses", [
-                'access_token' => $accessToken,
-            ])->throw()->json('data', []);
+            $expiresAt = isset($tokenRes['expires_in'])
+                ? now()->addSeconds((int) $tokenRes['expires_in'])
+                : now()->addDays(60);
 
-            abort_if(empty($businesses), 422, 'No se encontró ningún Portafolio Comercial de Meta.');
+            /* 2. IDs: del evento del navegador, o por debug_token si no llegó */
+            $wabaId = $data['waba_id'] ?? $this->resolveWabaId($accessToken);
+            abort_if(! $wabaId, 422, 'No se pudo determinar la cuenta de WhatsApp Business.');
 
-            /* 3. Buscar WABA dentro de los portafolios */
-            $waba = null;
-            foreach ($businesses as $biz) {
-                $wabas = Http::get("{$this->graph}/{$biz['id']}/owned_whatsapp_business_accounts", [
-                    'access_token' => $accessToken,
-                    'fields'       => 'id,name,account_review_status,health_status',
-                ])->throw()->json('data', []);
+            $phoneId = $data['phone_number_id'];
+            if (! $phoneId) {
+                $phoneId = Http::withToken($accessToken)
+                    ->get("{$this->graph}/{$wabaId}/phone_numbers")
+                    ->throw()->json('data.0.id');
+            }
+            abort_if(! $phoneId, 422, 'La cuenta no tiene un número de teléfono vinculado.');
 
-                if (! empty($wabas)) {
-                    $waba = $wabas[0];
-                    $businessId = $biz['id'];
-                    break;
+            $phone = Http::withToken($accessToken)->get("{$this->graph}/{$phoneId}", [
+                'fields' => 'display_phone_number,verified_name,quality_rating,code_verification_status,messaging_limit_tier',
+            ])->throw()->json();
+
+            /* 3. Suscribir la app a los webhooks de la WABA */
+            $subscribe = Http::withToken($accessToken)
+                ->post("{$this->graph}/{$wabaId}/subscribed_apps")->json();
+            $webhookOk = ($subscribe['success'] ?? false) === true;
+
+            /* 4. Registrar el número en Cloud API (solo flujo normal; no en coexistencia) */
+            $pin = null;
+            $registered = ($phone['code_verification_status'] ?? '') === 'VERIFIED';
+            if (in_array($data['event'] ?? 'FINISH', ['FINISH', null], true)) {
+                $pin = (string) random_int(100000, 999999);
+                $reg = Http::withToken($accessToken)->post("{$this->graph}/{$phoneId}/register", [
+                    'messaging_product' => 'whatsapp',
+                    'pin'               => $pin,
+                ]);
+                $registered = $reg->successful() && $reg->json('success') === true;
+                if (! $registered) {
+                    report(new \RuntimeException('Register falló: ' . $reg->body()));
                 }
             }
-            abort_if(! $waba, 422, 'No se encontró ninguna cuenta de WhatsApp Business API.');
 
-            /* 4. Números de teléfono del WABA */
-            $phones = Http::get("{$this->graph}/{$waba['id']}/phone_numbers", [
-                'access_token' => $accessToken,
-                'fields'       => 'id,display_phone_number,verified_name,quality_rating,code_verification_status',
-            ])->throw()->json('data', []);
+            $limit = str_replace('TIER_', '', $phone['messaging_limit_tier'] ?? '1K');
 
-            abort_if(empty($phones), 422, 'El WABA no tiene números de teléfono vinculados.');
-            $phone = $phones[0];
+            /* 5. Persistir (token y PIN cifrados) */
+            $attrs = [
+                'phone_number_id'    => $phoneId,
+                'business_id'        => $data['business_id'],
+                'access_token'       => Crypt::encrypt($accessToken),
+                'phone_number'       => $phone['display_phone_number'] ?? '',
+                'display_name'       => $phone['verified_name'] ?? null,
+                'quality_rating'     => $phone['quality_rating'] ?? 'UNKNOWN',
+                'messaging_limit'    => $limit,
+                'webhook_subscribed' => $webhookOk,
+                'number_registered'  => $registered,
+                'estado'             => WhatsappAccount::CONECTADO,
+                'token_expires_at'   => $expiresAt,
+            ];
+            if ($pin) {
+                $attrs['two_factor_pin'] = Crypt::encrypt($pin);
+            }
 
-            /* 5. Suscribir la app al webhook del WABA */
-            $subscribe = Http::asForm()->post(
-                "{$this->graph}/{$waba['id']}/subscribed_apps",
-                ['access_token' => $accessToken]
-            )->json();
-
-            /* 6. Persistir (token encriptado) */
             WhatsappAccount::updateOrCreate(
-                ['usuario_id' => auth()->user()->uuid, 'waba_id' => $waba['id']],
-                [
-                    'phone_number_id'    => $phone['id'],
-                    'business_id'        => $businessId ?? null,
-                    'access_token'       => Crypt::encrypt($accessToken),
-                    'phone_number'       => $phone['display_phone_number'] ?? '',
-                    'display_name'       => $phone['verified_name'] ?? null,
-                    'quality_rating'     => $phone['quality_rating'] ?? 'UNKNOWN',
-                    'messaging_limit'    => '1K',
-                    'webhook_subscribed' => ($subscribe['success'] ?? false) === true,
-                    'number_registered'  => ($phone['code_verification_status'] ?? '') === 'VERIFIED',
-                    'estado'             => WhatsappAccount::CONECTADO,
-                    'token_expires_at'   => now()->addDays(60),
-                ]
+                ['usuario_id' => auth()->user()->uuid, 'waba_id' => $wabaId],
+                $attrs
             );
 
             return response()->json([
                 'success' => true,
                 'message' => 'Cuenta de WhatsApp vinculada correctamente.',
                 'account' => [
-                    'waba_id'         => $waba['id'],
-                    'phone_number_id' => $phone['id'],
-                    'business_id'     => $businessId ?? null,
+                    'waba_id'         => $wabaId,
+                    'phone_number_id' => $phoneId,
+                    'business_id'     => $data['business_id'],
                     'phone_number'    => $phone['display_phone_number'] ?? '',
                     'quality'         => $phone['quality_rating'] ?? 'UNKNOWN',
-                    'limit'           => '1K',
-                    'webhook'         => ($subscribe['success'] ?? false) === true,
-                    'registered'      => ($phone['code_verification_status'] ?? '') === 'VERIFIED',
-                    'token_days'      => 60,
+                    'limit'           => $limit,
+                    'webhook'         => $webhookOk,
+                    'registered'      => $registered,
+                    'token_days'      => max(0, (int) now()->diffInDays($expiresAt, false)),
                 ],
             ]);
         } catch (\Throwable $e) {
@@ -177,6 +193,22 @@ class WhatsAppOnboardingController extends Controller
         }
     }
 
+    /** Fallback: obtiene la WABA autorizada leyendo los scopes granulares del token */
+    private function resolveWabaId(string $accessToken): ?string
+    {
+        $scopes = Http::get("{$this->graph}/debug_token", [
+            'input_token'  => $accessToken,
+            'access_token' => "{$this->appId}|{$this->appSecret}",
+        ])->throw()->json('data.granular_scopes', []);
+
+        foreach ($scopes as $s) {
+            if (($s['scope'] ?? '') === 'whatsapp_business_management') {
+                return $s['target_ids'][0] ?? null;
+            }
+        }
+        return null;
+    }
+
     /* =========================================================
        GET /admin/whatsapp/status — Refresca calidad y límite
        ========================================================= */
@@ -185,22 +217,34 @@ class WhatsAppOnboardingController extends Controller
         $account = $this->currentAccountOrFail();
         $token   = Crypt::decrypt($account->access_token);
 
-        $phone = Http::get("{$this->graph}/{$account->phone_number_id}", [
-            'access_token' => $token,
-            'fields'       => 'quality_rating,display_phone_number',
-        ])->json();
+        $res = Http::withToken($token)
+            ->get("{$this->graph}/{$account->phone_number_id}", [
+                'fields' => 'quality_rating,display_phone_number,messaging_limit_tier',
+            ]);
 
-        $waba = Http::get("{$this->graph}/{$account->waba_id}", [
-            'access_token' => $token,
-            'fields'       => 'account_review_status,messaging_limit_tier',
-        ])->json();
+        if ($res->failed()) {
+            return response()->json([
+                'success' => false,
+                'message' => $res->json('error.message', 'No se pudo consultar a Meta.'),
+            ], 422);
+        }
+
+        $phone = $res->json();
 
         $account->update([
             'quality_rating'  => $phone['quality_rating'] ?? $account->quality_rating,
-            'messaging_limit' => $waba['messaging_limit_tier'] ?? $account->messaging_limit,
+            'messaging_limit' => isset($phone['messaging_limit_tier'])
+                ? str_replace('TIER_', '', $phone['messaging_limit_tier'])
+                : $account->messaging_limit,
         ]);
 
-        return response()->json(['success' => true, 'account' => $account->fresh()]);
+        return response()->json([
+            'success' => true,
+            'account' => [
+                'quality_rating'  => $account->quality_rating,
+                'messaging_limit' => $account->messaging_limit,
+            ],
+        ]);
     }
 
     /* POST — POST /{waba_id}/subscribed_apps */
@@ -229,11 +273,16 @@ class WhatsAppOnboardingController extends Controller
         $account = $this->currentAccountOrFail();
         $token   = Crypt::decrypt($account->access_token);
 
+        $pin = $account->two_factor_pin ? Crypt::decrypt($account->two_factor_pin) : null;
+        if (!$pin) {
+            return response()->json(['success' => false, 'message' => 'No hay PIN guardado.'], 422);
+        }
+
         $res = Http::withHeaders([
             'Authorization' => "Bearer {$token}",
         ])->post("{$this->graph}/{$account->phone_number_id}/register", [
             'messaging_product' => 'whatsapp',
-            'pin'               => (string) $account->two_factor_pin ?? '000000', // PIN 2FA configurado
+            'pin'               => $pin, // PIN 2FA configurado
         ])->json();
 
         $ok = isset($res['success']) && $res['success'] === true;

@@ -121,10 +121,11 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(f
         ->name('login-qr.refresh');
 });
 
-Route::middleware(['auth', 'role:admin'])
+Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])
     ->prefix('admin/whatsapp')
     ->group(function () {
     Route::get('/onboarding',  [WhatsAppOnboardingController::class, 'connect'])->name('whatsapp.onboarding');
+    Route::post('/exchange-token',[WhatsAppOnboardingController::class, 'exchangeToken'])->name('whatsapp.exchange');
     Route::get('/status',      [WhatsAppOnboardingController::class, 'status'])->name('whatsapp.status');
     Route::post('/resubscribe',[WhatsAppOnboardingController::class, 'resubscribeWebhook'])->name('whatsapp.resubscribe');
     Route::post('/register',   [WhatsAppOnboardingController::class, 'registerNumber'])->name('whatsapp.register');
@@ -254,9 +255,6 @@ Route::get('/wompi/callback', [WompiController::class, 'callback'])->name('wompi
 // Route::get('/prueba', [PruebaController::class, 'index']);
 
 Route::get('/prueba', function(){
-    // $contacto = Contacto::find('45bf225e-f996-40c2-907a-c7e3df925aaf');
-    // $campo = 'numero_completo';
-    // dd($contacto->$campo);
     return view('prueba.index');
 });
 

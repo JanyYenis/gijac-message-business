@@ -3,8 +3,8 @@
 @section('css')
     <style>
         /* ============================================================
-                            1. BASE · Identidad GIJAC
-                            ============================================================ */
+                                        1. BASE · Identidad GIJAC
+                                        ============================================================ */
         :root {
             --teal: #1e6f78;
             --teal-dark: #145962;
@@ -66,8 +66,8 @@
         }
 
         /* ============================================================
-                       2. BOTONES
-                       ============================================================ */
+                                   2. BOTONES
+                                   ============================================================ */
         .btn {
             font-family: var(--font-head);
             font-weight: 600;
@@ -125,8 +125,8 @@
         }
 
         /* ============================================================
-                       3. SHELL · Sidebar blanco + Topbar
-                       ============================================================ */
+                                   3. SHELL · Sidebar blanco + Topbar
+                                   ============================================================ */
         .dash-sidebar {
             position: fixed;
             top: 0;
@@ -423,8 +423,8 @@
         }
 
         /* ============================================================
-                       4. PAGE HEADER
-                       ============================================================ */
+                                   4. PAGE HEADER
+                                   ============================================================ */
         .page-header {
             margin-bottom: 1.6rem;
         }
@@ -446,8 +446,8 @@
         }
 
         /* ============================================================
-                       5. HERO DE ONBOARDING (oscuro + composición 3D CSS)
-                       ============================================================ */
+                                   5. HERO DE ONBOARDING (oscuro + composición 3D CSS)
+                                   ============================================================ */
         .wa-hero {
             position: relative;
             overflow: hidden;
@@ -827,8 +827,8 @@
         }
 
         /* ============================================================
-                       6. TILT 3D (clase reutilizable · máx 4°)
-                       ============================================================ */
+                                   6. TILT 3D (clase reutilizable · máx 4°)
+                                   ============================================================ */
         .tilt-3d {
             transform-style: preserve-3d;
             transition: transform 0.25s var(--ease);
@@ -836,8 +836,8 @@
         }
 
         /* ============================================================
-                       7. ESTADO DE CONEXIÓN
-                       ============================================================ */
+                                   7. ESTADO DE CONEXIÓN
+                                   ============================================================ */
         .section-head {
             margin: 2.4rem 0 1.1rem;
         }
@@ -1063,8 +1063,8 @@
         }
 
         /* ============================================================
-                       8. DASHBOARD CONECTADO (3 columnas)
-                       ============================================================ */
+                                   8. DASHBOARD CONECTADO (3 columnas)
+                                   ============================================================ */
         .id-row {
             display: flex;
             justify-content: space-between;
@@ -1300,8 +1300,8 @@
         }
 
         /* ============================================================
-                       9. ACCIONES
-                       ============================================================ */
+                                   9. ACCIONES
+                                   ============================================================ */
         .action-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1369,8 +1369,8 @@
         }
 
         /* ============================================================
-                       10. LOGS
-                       ============================================================ */
+                                   10. LOGS
+                                   ============================================================ */
         .logs-table {
             width: 100%;
             border-collapse: collapse;
@@ -1451,8 +1451,8 @@
         }
 
         /* ============================================================
-                       11. MODALES · TOASTS · DEMO
-                       ============================================================ */
+                                   11. MODALES · TOASTS · DEMO
+                                   ============================================================ */
         .modal-content {
             border: 0;
             border-radius: 22px;
@@ -1607,8 +1607,8 @@
         }
 
         /* ============================================================
-                       12. RESPONSIVE
-                       ============================================================ */
+                                   12. RESPONSIVE
+                                   ============================================================ */
         @media (max-width: 1199.98px) {
             .action-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1817,8 +1817,8 @@
         </div>
 
         <!-- ============================================================
-                        HERO DE ONBOARDING (composición 3D)
-                        ============================================================ -->
+                                    HERO DE ONBOARDING (composición 3D)
+                                    ============================================================ -->
         <section class="wa-hero" id="waHero" aria-labelledby="heroTitle">
             <div class="h-glow h-glow-1" aria-hidden="true"></div>
             <div class="h-glow h-glow-2" aria-hidden="true"></div>
@@ -1895,8 +1895,8 @@
         </section>
 
         <!-- ============================================================
-                        ESTADO DE CONEXIÓN
-                        ============================================================ -->
+                                    ESTADO DE CONEXIÓN
+                                    ============================================================ -->
         <div class="section-head">
             <h3 class="fs-2">{{ __('Estado de conexión') }}</h3>
             <p class="fs-5">
@@ -2000,8 +2000,8 @@
         </div>
 
         <!-- ============================================================
-                        DASHBOARD CONECTADO (3 columnas · visible solo conectado)
-                        ============================================================ -->
+                                    DASHBOARD CONECTADO (3 columnas · visible solo conectado)
+                                    ============================================================ -->
         <div id="dashConnected" class="d-none">
             <div class="row g-4 mt-1">
                 <!-- CARD 1 · CUENTA WHATSAPP -->
@@ -2017,8 +2017,8 @@
                                 {{ __('WABA ID') }}
                             </span>
                             <span class="id-value fs-6">
-                                <code class="fs-6">123456789012345</code>
-                                <button class="copy-btn" data-copy="123456789012345" data-bs-toggle="tooltip"
+                                <code class="fs-6" data-field="waba_id"></code>
+                                <button class="copy-btn" data-copy="" data-bs-toggle="tooltip"
                                     data-bs-title="{{ __('Copiar ID') }}" aria-label="{{ __('Copiar WABA ID') }}">
                                     <i class="bi bi-clipboard"></i>
                                 </button>
@@ -2030,8 +2030,8 @@
                                 {{ __('Phone Number ID') }}
                             </span>
                             <span class="id-value fs-6">
-                                <code class="fs-6">987654321098765</code>
-                                <button class="copy-btn" data-copy="987654321098765" data-bs-toggle="tooltip"
+                                <code class="fs-6" data-field="phone_number_id"></code>
+                                <button class="copy-btn" data-copy="" data-bs-toggle="tooltip"
                                     data-bs-title="{{ __('Copiar ID') }}"
                                     aria-label="{{ __('Copiar Phone Number ID') }}">
                                     <i class="bi bi-clipboard"></i>
@@ -2044,17 +2044,21 @@
                                 {{ __('Número vinculado') }}
                             </span>
                             <span class="id-value fs-6">
-                                <code class="fs-6">+57 300 123 4567</code>
-                                <button class="copy-btn" data-copy="+57 300 123 4567" data-bs-toggle="tooltip"
+                                <code class="fs-6" data-field="phone_number"></code>
+                                <button class="copy-btn" data-copy="" data-bs-toggle="tooltip"
                                     data-bs-title="{{ __('Copiar ID') }}" aria-label="{{ __('Copiar número') }}">
                                     <i class="bi bi-clipboard"></i>
                                 </button>
                             </span>
                         </div>
                         <div class="id-row">
-                            <span class="id-label fs-6"><i class="bi bi-building"></i> {{ __('Business ID') }}</span>
-                            <span class="id-value fs-6"><code class="fs-6">112233445566</code>
-                                <button class="copy-btn" data-copy="112233445566" data-bs-toggle="tooltip"
+                            <span class="id-label fs-6">
+                                <i class="bi bi-building"></i>
+                                {{ __('Business ID') }}
+                            </span>
+                            <span class="id-value fs-6">
+                                <code class="fs-6" data-field="business_id"></code>
+                                <button class="copy-btn" data-copy="" data-bs-toggle="tooltip"
                                     data-bs-title="{{ __('Copiar ID') }}" aria-label="{{ __('Copiar Business ID') }}">
                                     <i class="bi bi-clipboard"></i>
                                 </button>
@@ -2112,7 +2116,7 @@
                         <div class="tech-row">
                             <div class="tech-info">
                                 <strong class="fs-6">{{ __('Token') }}</strong>
-                                <small class="fs-7">{{ __('Expira en 58 días') }}</small>
+                                <small class="fs-7" data-field="token_text">{{ __('Expira en 58 días') }}</small>
                                 <div class="mini-bar">
                                     <div class="mini-fill" data-fill="82"></div>
                                 </div>
@@ -2127,7 +2131,7 @@
                                 <strong class="fs-6">{{ __('API Version') }}</strong>
                                 <small class="fs-7">{{ __('Graph API') }}</small>
                             </div>
-                            <span class="mini-badge mb-ok fs-7 api-pill">v21.0</span>
+                            <span class="mini-badge mb-ok fs-7 api-pill" data-field="api_version">v0.0</span>
                         </div>
                     </div>
                 </div>
@@ -2142,11 +2146,14 @@
                         <div class="q-hero">
                             <span class="q-big">
                                 <span class="q-dot"></span>
-                                {{ __('Excelente') }}
+                                <span data-field="quality">
+                                    {{ __('Excelente') }}
+                                </span>
                             </span>
                         </div>
                         <div class="limit-caption">{{ __('Límite de mensajes') }}</div>
-                        <div class="limit-value">10K
+                        <div class="limit-value">
+                            <span data-field="limit">10K</span>
                             <small class="fs-7">{{ __('mensajes / día') }}</small>
                         </div>
                         <div class="tier-meter" role="img" aria-label="{{ __('Nivel de capacidad: 10K de 100K') }}">
@@ -2168,8 +2175,8 @@
         </div>
 
         <!-- ============================================================
-                        ACCIONES · ADMINISTRAR CONEXIÓN
-                        ============================================================ -->
+                                    ACCIONES · ADMINISTRAR CONEXIÓN
+                                    ============================================================ -->
         <div class="section-head">
             <h3 class="fs-2">{{ __('Administrar conexión') }}</h3>
             <p class="fs-5">{{ __('Acciones disponibles sobre tu número de WhatsApp Business.') }}</p>
@@ -2207,8 +2214,8 @@
         </div>
 
         <!-- ============================================================
-                        ACTIVIDAD / LOGS
-                        ============================================================ -->
+                                    ACTIVIDAD / LOGS
+                                    ============================================================ -->
         <div class="section-head">
             <h3 class="fs-2">{{ __('Actividad reciente') }}</h3>
             <p class="fs-5">{{ __('Últimos eventos relacionados con tu conexión de WhatsApp.') }}</p>
@@ -2313,8 +2320,8 @@
 
 @section('modal')
     <!-- ============================================================
-                 MODAL · PROBAR CONEXIÓN
-                 ============================================================ -->
+                             MODAL · PROBAR CONEXIÓN
+                             ============================================================ -->
     <div class="modal fade" id="testModal" tabindex="-1" aria-labelledby="testModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -2367,8 +2374,8 @@
     </div>
 
     <!-- ============================================================
-                 MODAL · CONFIRMAR DESCONEXIÓN
-                 ============================================================ -->
+                             MODAL · CONFIRMAR DESCONEXIÓN
+                             ============================================================ -->
     <div class="modal fade" id="disconnectModal" tabindex="-1" aria-labelledby="discTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 440px">
             <div class="modal-content">
@@ -2403,7 +2410,51 @@
             /* ==========================================================
             1. ESTADO MOCK · cambia entre los dos escenarios
             ========================================================== */
-            let connected = false;
+            const BOOT = @json($boot);
+            let connected = BOOT.connected;
+            const signup = {
+                code: null,
+                session: null,
+                sent: false,
+                timer: null
+            };
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': BOOT.csrf,
+                    'Accept': 'application/json'
+                }
+            });
+
+            function errMsg(xhr) {
+                return (xhr.responseJSON && xhr.responseJSON.message) || 'Error inesperado';
+            }
+
+            const QUALITY = {
+                GREEN: 'Excelente',
+                YELLOW: 'Media',
+                RED: 'Baja',
+                UNKNOWN: 'Sin datos'
+            };
+
+            function fillAccount(a) {
+                ['waba_id', 'phone_number_id', 'phone_number', 'business_id'].forEach(function(f) {
+                    if (a[f] == null) return;
+                    const $c = $('code[data-field="' + f + '"]').text(a[f]);
+                    $c.closest('.id-value').find('.copy-btn').attr('data-copy', a[f]).data('copy', a[f]);
+                });
+                if (a.quality) $('[data-field="quality"]').text(QUALITY[a.quality] || a.quality);
+                if (a.limit) $('[data-field="limit"]').text(a.limit);
+                if (a.token_days != null) {
+                    $('[data-field="token_text"]').text('Expira en ' + a.token_days + ' días');
+                    const pct = Math.min(100, Math.round(a.token_days / 60 * 100));
+                    $('[data-field="token_text"]').closest('.tech-row').find('.mini-fill')
+                        .attr('data-fill', pct).data('fill', pct);
+                }
+                $('[data-field="api_version"]').text(BOOT.graph_version);
+            }
+            if (BOOT.account) fillAccount(BOOT.account);
+            if (!BOOT.demo) $('#demoToggle').remove();
 
             /* ==========================================================
             2. HELPERS · toasts, loading, fade
@@ -2547,77 +2598,178 @@
             /* ==========================================================
                7. ACCIONES SIMULADAS (mock · sin backend)
                ========================================================== */
-            /* Conectar con Meta → pasa a estado conectado */
-            // $("#btnConnectMeta").on("click", function() {
-            //     setLoading($(this), true, "Conectando…");
-            //     setTimeout(function() {
-            //         setLoading($("#btnConnectMeta"), false);
-            //         connected = true;
-            //         renderState();
-            //         toast(
-            //             "success",
-            //             "Conexión simulada correctamente",
-            //             "Tu WhatsApp Business ahora está vinculado.",
-            //         );
-            //         setTimeout(function() {
-            //             $("#dashConnected")[0].scrollIntoView({
-            //                 behavior: "smooth",
-            //                 block: "start",
-            //             });
-            //         }, 350);
-            //     }, 1400);
-            // });
+            /* ===== Embedded Signup ===== */
+            if (!BOOT.demo) {
+                window.fbAsyncInit = function() {
+                    FB.init({
+                        appId: BOOT.fb_app_id,
+                        autoLogAppEvents: true,
+                        xfbml: true,
+                        version: BOOT.graph_version
+                    });
+                };
+                $('<script>', {
+                    async: true,
+                    defer: true,
+                    crossorigin: 'anonymous',
+                    src: 'https://connect.facebook.net/en_US/sdk.js'
+                }).appendTo('head');
+            }
 
-            /* Desconectar (modal → confirmación) */
-            $("#btnConfirmDisconnect").on("click", function() {
-                setLoading($(this), true, "Desconectando…");
-                setTimeout(function() {
-                    setLoading($("#btnConfirmDisconnect"), false);
-                    bootstrap.Modal.getInstance(
-                        document.getElementById("disconnectModal"),
-                    ).hide();
-                    connected = false;
+            function sendSignup() {
+                if (signup.sent || !signup.code) return;
+                const s = signup.session;
+                if (s && !String(s.event).startsWith('FINISH')) return;
+                signup.sent = true;
+                clearTimeout(signup.timer);
+
+                $.ajax({
+                    url: BOOT.routes.exchange,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        code: signup.code,
+                        event: s ? s.event : null,
+                        waba_id: s && s.data ? s.data.waba_id || null : null,
+                        phone_number_id: s && s.data ? s.data.phone_number_id || null : null,
+                        business_id: s && s.data ? s.data.business_id || null : null
+                    })
+                }).done(function(res) {
+                    BOOT.account = res.account;
+                    fillAccount(res.account);
+                    connected = true;
                     renderState();
-                    toast(
-                        "info",
-                        "Cuenta desconectada",
-                        "Tu número fue desvinculado de la plataforma.",
-                    );
-                }, 1000);
+                    toast('success', 'WhatsApp conectado', res.message);
+                    setTimeout(function() {
+                        $('#dashConnected')[0].scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }, 350);
+                }).fail(function(xhr) {
+                    toast('error', 'No se pudo vincular', errMsg(xhr));
+                }).always(function() {
+                    setLoading($('#btnConnectMeta'), false);
+                });
+            }
+
+            window.addEventListener('message', function(event) {
+                if (!event.origin.endsWith('facebook.com')) return;
+                let data;
+                try {
+                    data = JSON.parse(event.data);
+                } catch (e) {
+                    return;
+                } // mensajes internos del SDK
+                if (data.type !== 'WA_EMBEDDED_SIGNUP') return;
+
+                if (data.event === 'CANCEL' || data.event === 'ERROR') {
+                    setLoading($('#btnConnectMeta'), false);
+                    toast('warning', 'Flujo no completado',
+                        data.data && data.data.error_message ? data.data.error_message :
+                        'Cancelaste el proceso.');
+                    return;
+                }
+                signup.session = data;
+                sendSignup();
             });
 
-            /* Probar conexión → estado de éxito dentro del modal */
+            $('#btnConnectMeta').on('click', function() {
+                if (BOOT.demo) {
+                    toast('warning', 'Modo demo',
+                        'Falta configurar client_id y config_id en config/facebook.php.');
+                    return;
+                }
+                signup.code = null;
+                signup.session = null;
+                signup.sent = false;
+                setLoading($(this), true, 'Conectando…');
+
+                FB.login(function(response) {
+                    if (response.authResponse) {
+                        signup.code = response.authResponse.code;
+                        if (signup.session) {
+                            sendSignup();
+                        } else {
+                            // Si el evento con los IDs no llega, el servidor los resuelve solo
+                            signup.timer = setTimeout(sendSignup, 6000);
+                        }
+                    } else {
+                        setLoading($('#btnConnectMeta'), false);
+                        toast('info', 'Cancelado', 'No se completó el inicio de sesión con Meta.');
+                    }
+                }, {
+                    config_id: BOOT.fb_config_id,
+                    response_type: 'code',
+                    override_default_response_type: true,
+                    extras: {
+                        setup: {}
+                    }
+                });
+            });
+
+            /* Desconectar */
+            $("#btnConfirmDisconnect").on("click", function() {
+                const $b = $(this);
+                setLoading($b, true, "Desconectando…");
+                $.ajax({
+                        url: BOOT.routes.disconnect,
+                        method: 'DELETE'
+                    })
+                    .done(function(res) {
+                        bootstrap.Modal.getInstance(document.getElementById("disconnectModal")).hide();
+                        connected = false;
+                        renderState();
+                        toast("info", "Cuenta desconectada", res.message);
+                    })
+                    .fail(function(xhr) {
+                        toast("error", "Error", errMsg(xhr));
+                    })
+                    .always(function() {
+                        setLoading($b, false);
+                    });
+            });
+
+            /* Probar conexión */
             $("#testForm").on("submit", function(e) {
                 e.preventDefault();
-                setLoading($("#btnSubmitTest"), true, "Enviando…");
-                setTimeout(function() {
-                    setLoading($("#btnSubmitTest"), false);
-                    $("#testFormWrap").addClass("d-none");
-                    $("#testSuccess").removeClass("d-none").addClass("fade-swap");
-                    toast(
-                        "success",
-                        "Mensaje de prueba enviado",
-                        "Entregado a " + $("#testTo").val() + " (simulado).",
-                    );
-                }, 1200);
-            });
-            /* Restaurar el modal al cerrarse */
-            $("#testModal").on("hidden.bs.modal", function() {
-                $("#testSuccess").addClass("d-none").removeClass("fade-swap");
-                $("#testFormWrap").removeClass("d-none");
+                const $b = $("#btnSubmitTest");
+                setLoading($b, true, "Enviando…");
+                $.post(BOOT.routes.test, {
+                        to: $("#testTo").val(),
+                        message: $("#testMsg").val().trim()
+                    })
+                    .done(function(res) {
+                        $("#testFormWrap").addClass("d-none");
+                        $("#testSuccess").removeClass("d-none").addClass("fade-swap");
+                        toast("success", "Mensaje de prueba enviado", res.message);
+                    })
+                    .fail(function(xhr) {
+                        toast("error", "No se pudo enviar", errMsg(xhr));
+                    })
+                    .always(function() {
+                        setLoading($b, false);
+                    });
             });
 
             /* Actualizar configuración */
             $("#btnSync").on("click", function() {
-                setLoading($(this), true, "");
-                setTimeout(function() {
-                    setLoading($("#btnSync"), false);
-                    toast(
-                        "success",
-                        "Configuración actualizada",
-                        "Los datos de tu cuenta fueron sincronizados.",
-                    );
-                }, 1000);
+                const $b = $(this);
+                setLoading($b, true, "");
+                $.get(BOOT.routes.test.replace('test-message', 'status'))
+                    .done(function(res) {
+                        fillAccount({
+                            quality: res.account.quality_rating,
+                            limit: res.account.messaging_limit
+                        });
+                        toast("success", "Configuración actualizada", "Datos sincronizados con Meta.");
+                    })
+                    .fail(function(xhr) {
+                        toast("error", "Error", errMsg(xhr));
+                    })
+                    .always(function() {
+                        setLoading($b, false);
+                    });
             });
 
             /* Ver plantillas (placeholder de navegación) */

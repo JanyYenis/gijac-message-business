@@ -18,24 +18,6 @@
     --shadow-lg: 0 25px 60px -20px rgba(20, 89, 98, .35);
 }
 
-* {
-    box-sizing: border-box
-}
-
-html,
-body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 14px
-}
-
-body {
-    overflow-x: hidden;
-    position: relative;
-    min-height: 100vh
-}
-
 h1,
 h2,
 h3,

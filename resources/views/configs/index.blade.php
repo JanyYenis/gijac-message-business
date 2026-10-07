@@ -3,8 +3,8 @@
 @section('css')
     <style>
         /* ============================================================
-                1. BASE · Identidad GIJAC
-                ============================================================ */
+                            1. BASE · Identidad GIJAC
+                            ============================================================ */
         :root {
             --teal: #1e6f78;
             --teal-dark: #145962;
@@ -66,8 +66,8 @@
         }
 
         /* ============================================================
-           2. BOTONES
-           ============================================================ */
+                       2. BOTONES
+                       ============================================================ */
         .btn {
             font-family: var(--font-head);
             font-weight: 600;
@@ -125,8 +125,8 @@
         }
 
         /* ============================================================
-           3. SHELL · Sidebar blanco + Topbar
-           ============================================================ */
+                       3. SHELL · Sidebar blanco + Topbar
+                       ============================================================ */
         .dash-sidebar {
             position: fixed;
             top: 0;
@@ -423,8 +423,8 @@
         }
 
         /* ============================================================
-           4. PAGE HEADER
-           ============================================================ */
+                       4. PAGE HEADER
+                       ============================================================ */
         .page-header {
             margin-bottom: 1.6rem;
         }
@@ -446,8 +446,8 @@
         }
 
         /* ============================================================
-           5. HERO DE ONBOARDING (oscuro + composición 3D CSS)
-           ============================================================ */
+                       5. HERO DE ONBOARDING (oscuro + composición 3D CSS)
+                       ============================================================ */
         .wa-hero {
             position: relative;
             overflow: hidden;
@@ -827,8 +827,8 @@
         }
 
         /* ============================================================
-           6. TILT 3D (clase reutilizable · máx 4°)
-           ============================================================ */
+                       6. TILT 3D (clase reutilizable · máx 4°)
+                       ============================================================ */
         .tilt-3d {
             transform-style: preserve-3d;
             transition: transform 0.25s var(--ease);
@@ -836,8 +836,8 @@
         }
 
         /* ============================================================
-           7. ESTADO DE CONEXIÓN
-           ============================================================ */
+                       7. ESTADO DE CONEXIÓN
+                       ============================================================ */
         .section-head {
             margin: 2.4rem 0 1.1rem;
         }
@@ -1063,8 +1063,8 @@
         }
 
         /* ============================================================
-           8. DASHBOARD CONECTADO (3 columnas)
-           ============================================================ */
+                       8. DASHBOARD CONECTADO (3 columnas)
+                       ============================================================ */
         .id-row {
             display: flex;
             justify-content: space-between;
@@ -1300,8 +1300,8 @@
         }
 
         /* ============================================================
-           9. ACCIONES
-           ============================================================ */
+                       9. ACCIONES
+                       ============================================================ */
         .action-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1369,8 +1369,8 @@
         }
 
         /* ============================================================
-           10. LOGS
-           ============================================================ */
+                       10. LOGS
+                       ============================================================ */
         .logs-table {
             width: 100%;
             border-collapse: collapse;
@@ -1451,8 +1451,8 @@
         }
 
         /* ============================================================
-           11. MODALES · TOASTS · DEMO
-           ============================================================ */
+                       11. MODALES · TOASTS · DEMO
+                       ============================================================ */
         .modal-content {
             border: 0;
             border-radius: 22px;
@@ -1607,8 +1607,8 @@
         }
 
         /* ============================================================
-           12. RESPONSIVE
-           ============================================================ */
+                       12. RESPONSIVE
+                       ============================================================ */
         @media (max-width: 1199.98px) {
             .action-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -1817,8 +1817,8 @@
         </div>
 
         <!-- ============================================================
-            HERO DE ONBOARDING (composición 3D)
-            ============================================================ -->
+                        HERO DE ONBOARDING (composición 3D)
+                        ============================================================ -->
         <section class="wa-hero" id="waHero" aria-labelledby="heroTitle">
             <div class="h-glow h-glow-1" aria-hidden="true"></div>
             <div class="h-glow h-glow-2" aria-hidden="true"></div>
@@ -1851,9 +1851,10 @@
                             <div class="fnode-wrap z1">
                                 <div class="fnode float-a">
                                     <span class="fnode-chip chip-gijac">
-                                        <img src="{{ asset('img/logo_gmb.png') }}" alt="GIJAC Message Business" width="100%">
+                                        <img src="{{ asset('img/logo_gmb.png') }}" alt="GIJAC Message Business"
+                                            width="100%">
                                     </span>
-                                    <strong>GIJAC</strong><small>MESSAGE BUSINESS</small>
+                                    <strong>{{ __('GIJAC') }}</strong><small>{{ __('MESSAGE BUSINESS') }}</small>
                                 </div>
                             </div>
                             <div class="fconn" aria-hidden="true">
@@ -1894,11 +1895,11 @@
         </section>
 
         <!-- ============================================================
-            ESTADO DE CONEXIÓN
-            ============================================================ -->
+                        ESTADO DE CONEXIÓN
+                        ============================================================ -->
         <div class="section-head">
-            <h3 class="fs-4">{{ __('Estado de conexión') }}</h3>
-            <p class="fs-7">
+            <h3 class="fs-2">{{ __('Estado de conexión') }}</h3>
+            <p class="fs-5">
                 {{ __('Situación actual de tu vinculación con WhatsApp Business Platform.') }}
             </p>
         </div>
@@ -1911,25 +1912,26 @@
                         <span class="dot-off"></span>
                         {{ __('NO CONECTADO') }}
                     </span>
-                    <h4 class="state-title">
+                    <h4 class="state-title fs-3">
                         {{ __('Tu cuenta de WhatsApp Business todavía no está vinculada.') }}
                     </h4>
-                    <p class="state-desc">
+                    <p class="state-desc fs-7">
                         {{ __('Conecta tu cuenta de Meta Business para comenzar a utilizar WhatsApp Business desde GIJAC.') }}
                     </p>
                     <button type="button" class="btn btn-meta btn-lg" id="btnConnectMeta">
-                        <i class="bi bi-meta me-2"></i>
+                        <i class="bi bi-meta fs-3 text-white"></i>
                         {{ __('Conectar con Meta') }}
                     </button>
 
-                    <div class="req-label">{{ __('Antes de comenzar') }}</div>
+                    <div class="req-label fs-5">{{ __('Antes de comenzar') }}</div>
                     <div class="req-grid">
                         <div class="req-mini">
                             <span class="req-ico">
                                 <i class="bi bi-check-lg text-primary"></i>
                             </span>
                             <span>
-                                <strong>{{ __('Business Manager de Meta') }}</strong><small>{{ __('Con acceso de administrador') }}</small>
+                                <strong class="fs-4">{{ __('Business Manager de Meta') }}</strong>
+                                <small class="fs-7">{{ __('Con acceso de administrador') }}</small>
                             </span>
                         </div>
                         <div class="req-mini">
@@ -1937,7 +1939,8 @@
                                 <i class="bi bi-check-lg text-primary"></i>
                             </span>
                             <span>
-                                <strong>{{ __('Cuenta de WhatsApp Business') }}</strong><small>{{ __('WABA activa en tu portafolio') }}</small>
+                                <strong class="fs-4">{{ __('Cuenta de WhatsApp Business') }}</strong>
+                                <small class="fs-7">{{ __('WABA activa en tu portafolio') }}</small>
                             </span>
                         </div>
                         <div class="req-mini">
@@ -1945,7 +1948,8 @@
                                 <i class="bi bi-check-lg text-primary"></i>
                             </span>
                             <span>
-                                <strong>{{ __('Número disponible para WhatsApp') }}</strong><small>{{ __('Sin vincular a otra plataforma') }}</small>
+                                <strong class="fs-4">{{ __('Número disponible para WhatsApp') }}</strong>
+                                <small class="fs-7">{{ __('Sin vincular a otra plataforma') }}</small>
                             </span>
                         </div>
                     </div>
@@ -1957,27 +1961,38 @@
                         <span class="dot-live"></span>
                         {{ __('CONECTADO') }}
                     </span>
-                    <h4 class="state-title">
-                        WhatsApp Business conectado correctamente
+                    <h4 class="state-title fs-3">
+                        {{ __('WhatsApp Business conectado correctamente') }}
                     </h4>
-                    <p class="state-desc">
-                        Tu cuenta está activa y lista para utilizar WhatsApp desde GIJAC
-                        Message Business.
+                    <p class="state-desc fs-7">
+                        {{ __('Tu cuenta está activa y lista para utilizar WhatsApp desde GIJAC Message Business.') }}
                     </p>
 
                     <!-- Timeline META → WHATSAPP → GIJAC -->
                     <div class="conn-chain" aria-label="Cadena de conexión">
                         <div class="chain-step">
-                            <span class="chain-dot"><i class="bi bi-meta"></i><span class="mini-live"></span></span>
-                            <strong>META BUSINESS</strong><small>Portafolio verificado</small>
+                            <span class="chain-dot">
+                                <i class="bi bi-meta fs-3 text-primary"></i>
+                                <span class="mini-live"></span>
+                            </span>
+                            <strong class="fs-4">{{ __('META BUSINESS') }}</strong>
+                            <small class="fs-7">{{ __('Portafolio verificado') }}</small>
                         </div>
                         <div class="chain-step">
-                            <span class="chain-dot"><i class="bi bi-whatsapp"></i><span class="mini-live"></span></span>
-                            <strong>WHATSAPP BUSINESS</strong><small>Número oficial vinculado</small>
+                            <span class="chain-dot">
+                                <i class="bi bi-whatsapp fs-3 text-primary"></i>
+                                <span class="mini-live"></span>
+                            </span>
+                            <strong class="fs-4">{{ __('WHATSAPP BUSINESS') }}</strong>
+                            <small class="fs-7">{{ __('Número oficial vinculado') }}</small>
                         </div>
                         <div class="chain-step">
-                            <span class="chain-dot"><i class="bi bi-hexagon-fill"></i><span class="mini-live"></span></span>
-                            <strong>GIJAC MESSAGE BUSINESS</strong><small>Plataforma operativa</small>
+                            <span class="chain-dot">
+                                <i class="bi bi-hexagon-fill fs-3 text-primary"></i>
+                                <span class="mini-live"></span>
+                            </span>
+                            <strong class="fs-4">{{ __('GIJAC MESSAGE BUSINESS') }}</strong>
+                            <small class="fs-7">{{ __('Plataforma operativa') }}</small>
                         </div>
                     </div>
                 </div>
@@ -1985,48 +2000,62 @@
         </div>
 
         <!-- ============================================================
-            DASHBOARD CONECTADO (3 columnas · visible solo conectado)
-            ============================================================ -->
+                        DASHBOARD CONECTADO (3 columnas · visible solo conectado)
+                        ============================================================ -->
         <div id="dashConnected" class="d-none">
             <div class="row g-4 mt-1">
                 <!-- CARD 1 · CUENTA WHATSAPP -->
                 <div class="col-lg-4">
                     <div class="gi-card gi-card-pad h-100 tilt-3d">
-                        <h4>
-                            <i class="bi bi-person-badge"></i> Cuenta WhatsApp Business
+                        <h4 class="fs-4">
+                            <i class="bi bi-person-badge"></i>
+                            {{ __('Cuenta WhatsApp Business') }}
                         </h4>
                         <div class="id-row">
-                            <span class="id-label"><i class="bi bi-hash"></i> WABA ID</span>
-                            <span class="id-value"><code>123456789012345</code>
+                            <span class="id-label fs-6">
+                                <i class="bi bi-hash"></i>
+                                {{ __('WABA ID') }}
+                            </span>
+                            <span class="id-value fs-6">
+                                <code class="fs-6">123456789012345</code>
                                 <button class="copy-btn" data-copy="123456789012345" data-bs-toggle="tooltip"
-                                    data-bs-title="Copiar ID" aria-label="Copiar WABA ID">
+                                    data-bs-title="{{ __('Copiar ID') }}" aria-label="{{ __('Copiar WABA ID') }}">
                                     <i class="bi bi-clipboard"></i>
                                 </button>
                             </span>
                         </div>
                         <div class="id-row">
-                            <span class="id-label"><i class="bi bi-phone"></i> Phone Number ID</span>
-                            <span class="id-value"><code>987654321098765</code>
+                            <span class="id-label fs-6">
+                                <i class="bi bi-phone"></i>
+                                {{ __('Phone Number ID') }}
+                            </span>
+                            <span class="id-value fs-6">
+                                <code class="fs-6">987654321098765</code>
                                 <button class="copy-btn" data-copy="987654321098765" data-bs-toggle="tooltip"
-                                    data-bs-title="Copiar ID" aria-label="Copiar Phone Number ID">
+                                    data-bs-title="{{ __('Copiar ID') }}"
+                                    aria-label="{{ __('Copiar Phone Number ID') }}">
                                     <i class="bi bi-clipboard"></i>
                                 </button>
                             </span>
                         </div>
                         <div class="id-row">
-                            <span class="id-label"><i class="bi bi-telephone"></i> Número vinculado</span>
-                            <span class="id-value"><code>+57 300 123 4567</code>
+                            <span class="id-label fs-6">
+                                <i class="bi bi-telephone"></i>
+                                {{ __('Número vinculado') }}
+                            </span>
+                            <span class="id-value fs-6">
+                                <code class="fs-6">+57 300 123 4567</code>
                                 <button class="copy-btn" data-copy="+57 300 123 4567" data-bs-toggle="tooltip"
-                                    data-bs-title="Copiar ID" aria-label="Copiar número">
+                                    data-bs-title="{{ __('Copiar ID') }}" aria-label="{{ __('Copiar número') }}">
                                     <i class="bi bi-clipboard"></i>
                                 </button>
                             </span>
                         </div>
                         <div class="id-row">
-                            <span class="id-label"><i class="bi bi-building"></i> Business ID</span>
-                            <span class="id-value"><code>112233445566</code>
+                            <span class="id-label fs-6"><i class="bi bi-building"></i> {{ __('Business ID') }}</span>
+                            <span class="id-value fs-6"><code class="fs-6">112233445566</code>
                                 <button class="copy-btn" data-copy="112233445566" data-bs-toggle="tooltip"
-                                    data-bs-title="Copiar ID" aria-label="Copiar Business ID">
+                                    data-bs-title="{{ __('Copiar ID') }}" aria-label="{{ __('Copiar Business ID') }}">
                                     <i class="bi bi-clipboard"></i>
                                 </button>
                             </span>
@@ -2037,48 +2066,68 @@
                 <!-- CARD 2 · ESTADO TÉCNICO -->
                 <div class="col-lg-4">
                     <div class="gi-card gi-card-pad h-100 tilt-3d">
-                        <h4><i class="bi bi-cpu"></i> Estado técnico</h4>
+                        <h4 class="fs-4">
+                            <i class="bi bi-cpu"></i>
+                            {{ __('Estado técnico') }}
+                        </h4>
                         <div class="tech-row">
                             <div class="tech-info">
-                                <strong>Webhook</strong><small>Eventos en tiempo real</small>
+                                <strong class="fs-6">{{ __('Webhook') }}</strong>
+                                <small class="fs-7">{{ __('Eventos en tiempo real') }}</small>
                                 <div class="mini-bar">
                                     <div class="mini-fill" data-fill="100"></div>
                                 </div>
                             </div>
-                            <span class="mini-badge mb-ok"><span class="q-dot"></span> Suscrito</span>
+                            <span class="mini-badge mb-ok fs-7">
+                                <span class="q-dot"></span>
+                                {{ __('Suscrito') }}
+                            </span>
                         </div>
                         <div class="tech-row">
                             <div class="tech-info">
-                                <strong>Número</strong><small>Registro en Cloud API</small>
+                                <strong class="fs-6">{{ __('Número') }}</strong>
+                                <small class="fs-7">{{ __('Registro en Cloud API') }}</small>
                                 <div class="mini-bar">
                                     <div class="mini-fill" data-fill="100"></div>
                                 </div>
                             </div>
-                            <span class="mini-badge mb-ok"><span class="q-dot"></span> Registrado</span>
+                            <span class="mini-badge mb-ok fs-7">
+                                <span class="q-dot"></span>
+                                {{ __('Registrado') }}
+                            </span>
                         </div>
                         <div class="tech-row">
                             <div class="tech-info">
-                                <strong>API</strong><small>Envío y recepción</small>
+                                <strong class="fs-6">{{ __('API') }}</strong>
+                                <small class="fs-7">{{ __('Envío y recepción') }}</small>
                                 <div class="mini-bar">
                                     <div class="mini-fill" data-fill="100"></div>
                                 </div>
                             </div>
-                            <span class="mini-badge mb-ok"><span class="q-dot"></span> Operativa</span>
+                            <span class="mini-badge mb-ok fs-7">
+                                <span class="q-dot"></span>
+                                {{ __('Operativa') }}
+                            </span>
                         </div>
                         <div class="tech-row">
                             <div class="tech-info">
-                                <strong>Token</strong><small>Expira en 58 días</small>
+                                <strong class="fs-6">{{ __('Token') }}</strong>
+                                <small class="fs-7">{{ __('Expira en 58 días') }}</small>
                                 <div class="mini-bar">
                                     <div class="mini-fill" data-fill="82"></div>
                                 </div>
                             </div>
-                            <span class="mini-badge mb-ok"><span class="q-dot"></span> Activo</span>
+                            <span class="mini-badge mb-ok fs-7">
+                                <span class="q-dot"></span>
+                                {{ __('Activo') }}
+                            </span>
                         </div>
                         <div class="tech-row">
                             <div class="tech-info">
-                                <strong>API Version</strong><small>Graph API</small>
+                                <strong class="fs-6">{{ __('API Version') }}</strong>
+                                <small class="fs-7">{{ __('Graph API') }}</small>
                             </div>
-                            <span class="mini-badge mb-ok api-pill">v21.0</span>
+                            <span class="mini-badge mb-ok fs-7 api-pill">v21.0</span>
                         </div>
                     </div>
                 </div>
@@ -2086,23 +2135,32 @@
                 <!-- CARD 3 · CALIDAD Y CAPACIDAD -->
                 <div class="col-lg-4">
                     <div class="gi-card gi-card-pad h-100 tilt-3d">
-                        <h4><i class="bi bi-heart-pulse"></i> Calidad del número</h4>
+                        <h4 class="fs-4">
+                            <i class="bi bi-heart-pulse"></i>
+                            {{ __('Calidad del número') }}
+                        </h4>
                         <div class="q-hero">
-                            <span class="q-big"><span class="q-dot"></span> Excelente</span>
+                            <span class="q-big">
+                                <span class="q-dot"></span>
+                                {{ __('Excelente') }}
+                            </span>
                         </div>
-                        <div class="limit-caption">Límite de mensajes</div>
-                        <div class="limit-value">10K <small>mensajes / día</small></div>
-                        <div class="tier-meter" role="img" aria-label="Nivel de capacidad: 10K de 100K">
+                        <div class="limit-caption">{{ __('Límite de mensajes') }}</div>
+                        <div class="limit-value">10K
+                            <small class="fs-7">{{ __('mensajes / día') }}</small>
+                        </div>
+                        <div class="tier-meter" role="img" aria-label="{{ __('Nivel de capacidad: 10K de 100K') }}">
                             <span class="tier-seg"></span>
                             <span class="tier-seg active"></span>
                             <span class="tier-seg"></span>
                         </div>
-                        <div class="tier-labels">
-                            <span>1K</span><span class="on">10K</span><span>100K</span>
+                        <div class="tier-labels fs-5">
+                            <span>1K</span>
+                            <span class="on">10K</span>
+                            <span>100K</span>
                         </div>
-                        <p class="text-center mb-0 mt-3" style="font-size: 0.78rem; color: #8aa0a2">
-                            Los límites aumentan automáticamente al mantener una buena
-                            calidad.
+                        <p class="text-center mb-0 mt-3 fs-6" style="color: #8aa0a2">
+                            {{ __('Los límites aumentan automáticamente al mantener una buena calidad.') }}
                         </p>
                     </div>
                 </div>
@@ -2110,98 +2168,133 @@
         </div>
 
         <!-- ============================================================
-            ACCIONES · ADMINISTRAR CONEXIÓN
-            ============================================================ -->
+                        ACCIONES · ADMINISTRAR CONEXIÓN
+                        ============================================================ -->
         <div class="section-head">
-            <h3>Administrar conexión</h3>
-            <p>Acciones disponibles sobre tu número de WhatsApp Business.</p>
+            <h3 class="fs-2">{{ __('Administrar conexión') }}</h3>
+            <p class="fs-5">{{ __('Acciones disponibles sobre tu número de WhatsApp Business.') }}</p>
         </div>
         <div class="action-grid">
             <button class="action-card" id="btnTest" data-bs-toggle="modal" data-bs-target="#testModal">
                 <i class="ac-ico bi bi-send"></i>
-                <span>Probar conexión<small>Envía un mensaje de verificación</small></span>
+                <span class="fs-5">
+                    {{ __('Probar conexión') }}
+                    <small class="fs-7">{{ __('Envía un mensaje de verificación') }}</small>
+                </span>
             </button>
             <a class="action-card" href="#" id="btnTemplates">
                 <i class="ac-ico bi bi-layout-text-window-reverse"></i>
-                <span>Ver plantillas<small>Gestiona tus plantillas aprobadas</small></span>
+                <span class="fs-5">
+                    {{ __('Ver plantillas') }}
+                    <small class="fs-7">{{ __('Gestiona tus plantillas aprobadas') }}</small>
+                </span>
             </a>
             <button class="action-card" id="btnSync">
                 <i class="ac-ico bi bi-arrow-clockwise"></i>
-                <span>Actualizar configuración<small>Sincroniza datos de la cuenta</small></span>
+                <span class="fs-5">
+                    {{ __('Actualizar configuración') }}
+                    <small class="fs-7">{{ __('Sincroniza datos de la cuenta') }}</small>
+                </span>
             </button>
             <button class="action-card danger" id="btnDisconnect" data-bs-toggle="modal"
                 data-bs-target="#disconnectModal">
-                <i class="ac-ico bi bi-plug-x"></i>
-                <span>Desconectar<small>Desvincula tu número actual</small></span>
+                <i class="ac-ico bi bi-ban"></i>
+                <span class="fs-5">
+                    {{ __('Desconectar') }}
+                    <small class="fs-7">{{ __('Desvincula tu número actual') }}</small>
+                </span>
             </button>
         </div>
 
         <!-- ============================================================
-            ACTIVIDAD / LOGS
-            ============================================================ -->
+                        ACTIVIDAD / LOGS
+                        ============================================================ -->
         <div class="section-head">
-            <h3>Actividad reciente</h3>
-            <p>Últimos eventos relacionados con tu conexión de WhatsApp.</p>
+            <h3 class="fs-2">{{ __('Actividad reciente') }}</h3>
+            <p class="fs-5">{{ __('Últimos eventos relacionados con tu conexión de WhatsApp.') }}</p>
         </div>
         <div class="gi-card" style="overflow: hidden">
             <div class="table-responsive">
-                <table class="logs-table" aria-label="Actividad reciente de la conexión">
+                <table class="logs-table fs-5" aria-label="{{ __('Actividad reciente de la conexión') }}">
                     <thead>
                         <tr>
-                            <th scope="col">Evento</th>
-                            <th scope="col">Cuenta</th>
-                            <th scope="col">Fecha</th>
-                            <th scope="col">Estado</th>
+                            <th scope="col">{{ __('Evento') }}</th>
+                            <th scope="col">{{ __('Cuenta') }}</th>
+                            <th scope="col">{{ __('Fecha') }}</th>
+                            <th scope="col">{{ __('Estado') }}</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td data-label="Evento">
-                                <span class="ev-cell"><i class="bi bi-plug"></i> Webhook conectado</span>
+                                <span class="ev-cell">
+                                    <i class="bi bi-plug"></i>
+                                    {{ __('Webhook conectado') }}
+                                </span>
                             </td>
                             <td data-label="Cuenta">
-                                <span class="mono">WABA 123456</span>
+                                <span class="mono">{{ __('WABA 123456') }}</span>
                             </td>
-                            <td data-label="Fecha">Hoy, 10:32</td>
+                            <td data-label="Fecha">{{ __('Hoy, 10:32') }}</td>
                             <td data-label="Estado">
-                                <span class="log-badge lb-ok"><i class="bi bi-check-lg"></i> Correcto</span>
+                                <span class="log-badge lb-ok">
+                                    <i class="bi bi-check-lg"></i>
+                                    {{ __('Correcto') }}
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td data-label="Evento">
-                                <span class="ev-cell"><i class="bi bi-phone-check"></i> Número registrado</span>
+                                <span class="ev-cell">
+                                    <i class="bi bi-telephone"></i>
+                                    {{ __('Número registrado') }}
+                                </span>
                             </td>
                             <td data-label="Cuenta">
                                 <span class="mono">+57 300 123 4567</span>
                             </td>
-                            <td data-label="Fecha">Hoy, 10:31</td>
+                            <td data-label="Fecha">{{ __('Hoy, 10:31') }}</td>
                             <td data-label="Estado">
-                                <span class="log-badge lb-ok"><i class="bi bi-check-lg"></i> Correcto</span>
+                                <span class="log-badge lb-ok">
+                                    <i class="bi bi-check-lg"></i>
+                                    {{ __('Correcto') }}
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td data-label="Evento">
-                                <span class="ev-cell"><i class="bi bi-link-45deg"></i> Cuenta vinculada</span>
+                                <span class="ev-cell">
+                                    <i class="bi bi-link-45deg"></i>
+                                    {{ __('Cuenta vinculada') }}
+                                </span>
                             </td>
                             <td data-label="Cuenta">
-                                <span class="mono">Meta Business</span>
+                                <span class="mono">{{ __('Meta Business') }}</span>
                             </td>
-                            <td data-label="Fecha">Hoy, 10:30</td>
+                            <td data-label="Fecha">{{ __('Hoy, 10:30') }}</td>
                             <td data-label="Estado">
-                                <span class="log-badge lb-ok"><i class="bi bi-check-lg"></i> Correcto</span>
+                                <span class="log-badge lb-ok">
+                                    <i class="bi bi-check-lg"></i>
+                                    {{ __('Correcto') }}
+                                </span>
                             </td>
                         </tr>
                         <tr>
                             <td data-label="Evento">
-                                <span class="ev-cell"><i class="bi bi-exclamation-triangle"></i> Error de
-                                    sincronización</span>
+                                <span class="ev-cell">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                    {{ __('Error de sincronización') }}
+                                </span>
                             </td>
                             <td data-label="Cuenta">
-                                <span class="mono">WABA 123456</span>
+                                <span class="mono">{{ __('WABA 123456') }}</span>
                             </td>
-                            <td data-label="Fecha">Ayer, 18:42</td>
+                            <td data-label="Fecha">{{ __('Ayer, 18:42') }}</td>
                             <td data-label="Estado">
-                                <span class="log-badge lb-warn"><i class="bi bi-exclamation-lg"></i> Revisar</span>
+                                <span class="log-badge lb-warn">
+                                    <i class="bi bi-exclamation-lg"></i>
+                                    {{ __('Revisar') }}
+                                </span>
                             </td>
                         </tr>
                     </tbody>
@@ -2209,13 +2302,97 @@
             </div>
         </div>
     </main>
+
+    <!-- Toasts + toggle demo -->
+    <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+    <button class="demo-toggle" id="demoToggle" title="Herramienta de demostración">
+        <i class="bi bi-toggles"></i>
+        {{ __('Demo · Cambiar estado') }}
+    </button>
 @endsection
 
 @section('modal')
-    @component('configs.modals.crear')
-    @endcomponent
-    @component('configs.modals.modals')
-    @endcomponent
+    <!-- ============================================================
+                 MODAL · PROBAR CONEXIÓN
+                 ============================================================ -->
+    <div class="modal fade" id="testModal" tabindex="-1" aria-labelledby="testModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="p-4">
+                    <div id="testFormWrap">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="mb-0" id="testModalTitle">
+                                <i class="bi bi-send me-2"
+                                    style="color: var(--teal-light)"></i>{{ __('Probar conexión') }}
+                            </h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
+                        </div>
+                        <form id="testForm">
+                            <div class="mb-3">
+                                <label for="testTo" class="form-label">{{ __('Número de WhatsApp') }}</label>
+                                <input type="tel" class="form-control" id="testTo" value="+57 300 123 4567" />
+                            </div>
+                            <div class="mb-4">
+                                <label for="testMsg" class="form-label">{{ __('Mensaje') }}</label>
+                                <textarea class="form-control" id="testMsg" rows="3">
+    {{ __('Hola, este es un mensaje de prueba enviado desde GIJAC Message Business.') }}</textarea>
+                            </div>
+                            <div class="d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">
+                                    {{ __('Cancelar') }}
+                                </button>
+                                <button type="submit" class="btn btn-glow" id="btnSubmitTest">
+                                    <i class="bi bi-send me-1"></i> {{ __('Enviar mensaje de prueba') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Vista de éxito (se muestra tras el envío simulado) -->
+                    <div id="testSuccess" class="d-none text-center py-3">
+                        <div class="confirm-ico ci-ok">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                        <h4 class="mb-2">{{ __('Mensaje enviado') }}</h4>
+                        <p class="text-secondary mb-4" style="font-size: 0.9rem">
+                            {{ __('La conexión funciona correctamente. Revisa el WhatsApp de destino.') }}
+                        </p>
+                        <button type="button" class="btn btn-glow" data-bs-dismiss="modal">
+                            {{ __('Listo') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+                 MODAL · CONFIRMAR DESCONEXIÓN
+                 ============================================================ -->
+    <div class="modal fade" id="disconnectModal" tabindex="-1" aria-labelledby="discTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 440px">
+            <div class="modal-content">
+                <div class="p-4 text-center">
+                    <div class="confirm-ico ci-warn">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <h4 id="discTitle">{{ __('¿Desconectar WhatsApp Business?') }}</h4>
+                    <p class="text-secondary" style="font-size: 0.9rem">
+                        {{ __('Al desconectar esta cuenta dejarás de gestionar este número desde GIJAC Message Business.') }}
+                    </p>
+                    <div class="d-flex justify-content-center gap-2 mt-4">
+                        <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">
+                            {{ __('Cancelar') }}
+                        </button>
+                        <button type="button" class="btn btn-danger-soft" id="btnConfirmDisconnect"
+                            style="color: #fff; background: #d9534f; border-color: #d9534f">
+                            <i class="bi bi-plug-x me-1"></i> {{ __('Desconectar cuenta') }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
@@ -2290,10 +2467,10 @@
                     $("#dashConnected").removeClass("d-none");
                     refade($("#stateConnected"));
                     /* Animar barras tras el pintado */
-                    setTimeout(function () {
-                    $("#dashConnected .mini-fill").each(function () {
-                        $(this).css("width", $(this).data("fill") + "%");
-                    });
+                    setTimeout(function() {
+                        $("#dashConnected .mini-fill").each(function() {
+                            $(this).css("width", $(this).data("fill") + "%");
+                        });
                     }, 80);
                 } else {
                     $("#stateDisconnected").removeClass("d-none");
@@ -2304,8 +2481,8 @@
             renderState();
 
             /* ==========================================================
-           5. PARALLAX del hero (composición 3D)
-           ========================================================== */
+               5. PARALLAX del hero (composición 3D)
+               ========================================================== */
             const $stage = $("#flowStage");
             $("#waHero")
                 .on("mousemove", function(e) {
@@ -2327,8 +2504,8 @@
                 });
 
             /* ==========================================================
-           6. COPIAR ID · tooltip + toast + feedback
-           ========================================================== */
+               6. COPIAR ID · tooltip + toast + feedback
+               ========================================================== */
             /* Inicializar tooltips de Bootstrap */
             document
                 .querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -2368,28 +2545,28 @@
             });
 
             /* ==========================================================
-           7. ACCIONES SIMULADAS (mock · sin backend)
-           ========================================================== */
+               7. ACCIONES SIMULADAS (mock · sin backend)
+               ========================================================== */
             /* Conectar con Meta → pasa a estado conectado */
-            $("#btnConnectMeta").on("click", function() {
-                setLoading($(this), true, "Conectando…");
-                setTimeout(function() {
-                    setLoading($("#btnConnectMeta"), false);
-                    connected = true;
-                    renderState();
-                    toast(
-                        "success",
-                        "Conexión simulada correctamente",
-                        "Tu WhatsApp Business ahora está vinculado.",
-                    );
-                    setTimeout(function() {
-                        $("#dashConnected")[0].scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                        });
-                    }, 350);
-                }, 1400);
-            });
+            // $("#btnConnectMeta").on("click", function() {
+            //     setLoading($(this), true, "Conectando…");
+            //     setTimeout(function() {
+            //         setLoading($("#btnConnectMeta"), false);
+            //         connected = true;
+            //         renderState();
+            //         toast(
+            //             "success",
+            //             "Conexión simulada correctamente",
+            //             "Tu WhatsApp Business ahora está vinculado.",
+            //         );
+            //         setTimeout(function() {
+            //             $("#dashConnected")[0].scrollIntoView({
+            //                 behavior: "smooth",
+            //                 block: "start",
+            //             });
+            //         }, 350);
+            //     }, 1400);
+            // });
 
             /* Desconectar (modal → confirmación) */
             $("#btnConfirmDisconnect").on("click", function() {
@@ -2454,8 +2631,8 @@
             });
 
             /* ==========================================================
-           8. TOGGLE DEMO · alternar escenarios
-           ========================================================== */
+               8. TOGGLE DEMO · alternar escenarios
+               ========================================================== */
             $("#demoToggle").on("click", function() {
                 connected = !connected;
                 renderState();
@@ -2467,8 +2644,8 @@
             });
 
             /* ==========================================================
-           9. SIDEBAR MÓVIL
-           ========================================================== */
+               9. SIDEBAR MÓVIL
+               ========================================================== */
             function closeSidebar() {
                 $("#dashSidebar").removeClass("open");
                 $("#sidebarBackdrop").removeClass("show");

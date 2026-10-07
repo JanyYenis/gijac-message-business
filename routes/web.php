@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\WhatsAppOnboardingController;
 use App\Http\Controllers\Auth\LoginQrController;
 use App\Http\Controllers\Auth\OutlookController;
 use App\Http\Controllers\CampanaController;
@@ -118,6 +119,18 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(f
 
     Route::get('/login-qr/refresh', [LoginQrController::class, 'refresh'])
         ->name('login-qr.refresh');
+});
+
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin/whatsapp')
+    ->group(function () {
+    Route::get('/onboarding',  [WhatsAppOnboardingController::class, 'connect'])->name('whatsapp.onboarding');
+    Route::get('/status',      [WhatsAppOnboardingController::class, 'status'])->name('whatsapp.status');
+    Route::post('/resubscribe',[WhatsAppOnboardingController::class, 'resubscribeWebhook'])->name('whatsapp.resubscribe');
+    Route::post('/register',   [WhatsAppOnboardingController::class, 'registerNumber'])->name('whatsapp.register');
+    Route::post('/renew-token',[WhatsAppOnboardingController::class, 'renewToken'])->name('whatsapp.renew');
+    Route::post('/test-message',[WhatsAppOnboardingController::class, 'sendTest'])->name('whatsapp.test');
+    Route::delete('/disconnect',[WhatsAppOnboardingController::class, 'disconnect'])->name('whatsapp.disconnect');
 });
 
 Route::post('/device-link', [LoginQrController::class, 'deviceLink']);
@@ -241,9 +254,10 @@ Route::get('/wompi/callback', [WompiController::class, 'callback'])->name('wompi
 // Route::get('/prueba', [PruebaController::class, 'index']);
 
 Route::get('/prueba', function(){
-    $contacto = Contacto::find('45bf225e-f996-40c2-907a-c7e3df925aaf');
-    $campo = 'numero_completo';
-    dd($contacto->$campo);
+    // $contacto = Contacto::find('45bf225e-f996-40c2-907a-c7e3df925aaf');
+    // $campo = 'numero_completo';
+    // dd($contacto->$campo);
+    return view('prueba.index');
 });
 
 Route::get('/meta', function() {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\WhatsAppOnboardingController;
 use App\Http\Controllers\Apis\Mobile\AuthController;
 use App\Http\Controllers\Apis\Mobile\ChatController;
 use App\Http\Controllers\ChatbotController;
@@ -64,5 +65,8 @@ Route::prefix('mobile')->group(function () {
         Route::post('/chats/{numero}/read', [ChatController::class, 'markAsRead']);
     });
 });
+
+Route::middleware(['auth:sanctum', 'role:admin'])
+    ->post('/whatsapp/exchange-token', [WhatsAppOnboardingController::class, 'exchangeToken']);
 
 include 'apis/general/principal.php';

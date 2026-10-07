@@ -17,7 +17,7 @@
         try {
             const data = JSON.parse(event.data);
             if (data.type === 'WA_EMBEDDED_SIGNUP') {
-                console.log('message event: ', data); // remove after testing
+                console.log('WA_EMBEDDED_SIGNUP: ', data); // remove after testing
                 // your code goes here
             }
         } catch {

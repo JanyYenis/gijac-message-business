@@ -328,7 +328,6 @@ const filtrar = () => {
 
             chartEtiqueta(response.seriesEtiquetas);
             graficaTop(response.alcance, response.aperturas, response.fallos);
-            console.log(response.labelsLunes);
 
             graficasDias('chartLunea', response.seriesLunes, response.labelsLunes, "#diaLunes");
             graficasDias('chartMartes', response.seriesMartes, response.labelsMartes, "#diaMartes");

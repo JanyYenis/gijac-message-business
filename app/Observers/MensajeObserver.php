@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
 use Illuminate\Support\Facades\DB;
@@ -55,7 +55,7 @@ class MensajeObserver
             return;
         }
 
-        $config = ConfiguracionMeta::whereIn(
+        $config = WhatsappAccount::whereIn(
             'phone_number_id',
             [$mensaje->wa_from, $mensaje->wa_to]
         )->first();

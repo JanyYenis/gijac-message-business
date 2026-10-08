@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Apis;
 
 use App\Http\Controllers\Controller;
 use App\Models\Campana;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\Mensaje;
 use App\Models\Plan;
@@ -142,7 +142,7 @@ class GeneralController extends Controller
         }
 
         $usuario = Usuario::where('uuid', $request->input('user_id'))->first();
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('cod_empresa', $usuario?->empresa?->id)
             ->first();
 

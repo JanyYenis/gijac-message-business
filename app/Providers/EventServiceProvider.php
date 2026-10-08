@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Mensaje;
 use App\Observers\ConfigObserver;
 use App\Observers\MensajeObserver;
@@ -29,7 +29,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        ConfiguracionMeta::observe(ConfigObserver::class);
+        WhatsappAccount::observe(ConfigObserver::class);
         Mensaje::observe(MensajeObserver::class);
     }
 }

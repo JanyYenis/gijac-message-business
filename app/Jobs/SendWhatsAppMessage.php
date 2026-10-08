@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Exceptions\ErrorException;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\DetalleLink;
 use App\Models\EnvioCampana;
 use App\Models\VariableCampana;
@@ -54,7 +54,7 @@ class SendWhatsAppMessage implements ShouldQueue
      */
     public function handle(): void
     {
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('cod_empresa', $this->empresaId)->first();
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('cod_empresa', $this->empresaId)->first();
         $this->version = $config?->version ?? null;
         $this->waba_id = $config?->waba_id ?? null;
         $this->app_id = $config?->app_id ?? null;

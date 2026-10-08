@@ -19,7 +19,7 @@ use App\Http\Controllers\WompiController;
 use App\Models\Chatbot;
 use App\Models\ChatbotNode;
 use App\Models\ChatbotOption;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\EnvioCampana;
 use App\Models\Mensaje;
@@ -259,7 +259,7 @@ Route::get('/prueba', function(){
 });
 
 Route::get('/meta', function() {
-    $config = ConfiguracionMeta::find(1);
+    $config = WhatsappAccount::find(1);
     // dd($config);
 
     // dd(app(WabaService::class)->subscribeWaba($config->version, $config->token, $config->waba_id));

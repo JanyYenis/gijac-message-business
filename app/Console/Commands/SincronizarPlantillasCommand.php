@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Plantilla;
 use App\Models\PlantillaComponente;
 use App\Models\Usuario;
@@ -17,7 +17,7 @@ class SincronizarPlantillasCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'sincronizar:plantillas {app_id}';
+    protected $signature = 'sincronizar:plantillas {waba_id}';
 
     /**
      * The console command description.
@@ -33,14 +33,14 @@ class SincronizarPlantillasCommand extends Command
      */
     public function handle()
     {
-        $appId = $this->argument('app_id');
-        $this->sincronizar($appId);
+        $waba_id = $this->argument('waba_id');
+        $this->sincronizar($waba_id);
     }
 
-    public function sincronizar($appId)
+    public function sincronizar(string $waba_id)
     {
-        $configuraciones = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
-            ->where('app_id', $appId)
+        $configuraciones = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
+            ->where('waba_id', $waba_id)
             ->get();
 
         $plantillas_activas = [];

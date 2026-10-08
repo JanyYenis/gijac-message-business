@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MessageResource;
 use App\Models\Contacto;
 use App\Models\Mensaje;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -28,7 +28,7 @@ class MessageController extends Controller
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
+        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
@@ -84,7 +84,7 @@ class MessageController extends Controller
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
+        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
@@ -119,7 +119,7 @@ class MessageController extends Controller
         ]);
 
         $contacto = Contacto::findOrFail($validated['contact_id']);
-        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
+        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
@@ -141,7 +141,7 @@ class MessageController extends Controller
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
+        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 

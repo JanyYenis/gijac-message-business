@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Sistema\Concepto;
 use App\Models\Usuario;
 use Illuminate\Support\ServiceProvider;
@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
             if (auth()->check()) {
                 $uuid = auth()->user()->empresa?->id ?? false;
                 // Cargar la configuración solo con los campos necesarios
-                $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
+                $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
                     ->where('cod_empresa', $uuid)
                     ->select('phone_number_id')
                     ->first();
@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Compartir variable con todas las vistas
         view()->composer('layouts.componentes.toolbar', function ($view) {
-            $configs = ConfiguracionMeta::where('cod_empresa', auth()->user()->empresa->id)
+            $configs = WhatsappAccount::where('cod_empresa', auth()->user()->empresa->id)
                 ->get();
             $view->with('configs', $configs);
         });

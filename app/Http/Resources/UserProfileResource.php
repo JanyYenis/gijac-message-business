@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,9 +16,9 @@ class UserProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         $configMeta = $this->empresa
-            ? ConfiguracionMeta::firstWhere([
+            ? WhatsappAccount::firstWhere([
                 'cod_empresa' => $this->empresa->id,
-                'estado' => ConfiguracionMeta::ACTIVO,
+                'estado' => WhatsappAccount::CONECTADO,
             ])
             : null;
 

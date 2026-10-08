@@ -137,7 +137,7 @@ class Contacto extends Model
 
     public function getPermisoEnvioAttribute()
     {
-        $configuracion_meta = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
+        $configuracion_meta = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('cod_empresa', $this->cod_empresa)
             ->first();
 

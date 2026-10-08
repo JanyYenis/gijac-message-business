@@ -7,7 +7,7 @@ use App\Models\AutomatizacionN8n;
 use App\Models\Chatbots\ChatbotAiAssistant;
 use App\Models\Chatbots\ChatbotAiHistorial;
 use App\Models\Chatbots\ChatbotFlow;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\Empresa;
 use App\Models\Mensaje;
@@ -56,7 +56,7 @@ class WebhookMessage implements ShouldQueue
      */
     public function messages($datos, $app_id)
     {
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('app_id', $app_id)
             ->first();
 
@@ -140,7 +140,7 @@ class WebhookMessage implements ShouldQueue
     /**
      * Chatbot avanzado (flujo visual con nodos).
      */
-    private function runChatbotAvanzado(ConfiguracionMeta $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ParsedWhatsAppMessage $parsed): void
+    private function runChatbotAvanzado(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ParsedWhatsAppMessage $parsed): void
     {
         $flow = ChatbotFlow::where('cod_empresa', $config->cod_empresa)
             ->where('estado', ChatbotFlow::ACTIVO)
@@ -165,7 +165,7 @@ class WebhookMessage implements ShouldQueue
     /**
      * Chatbot IA básico (webhook a n8n).
      */
-    private function runChatbotWebhook(ConfiguracionMeta $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, string $tipoOriginal, ParsedWhatsAppMessage $parsed, string $waMsgId): void
+    private function runChatbotWebhook(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, string $tipoOriginal, ParsedWhatsAppMessage $parsed, string $waMsgId): void
     {
         $mensaje = Mensaje::where('wa_message_id', $waMsgId)->first();
 
@@ -241,7 +241,7 @@ class WebhookMessage implements ShouldQueue
     /**
      * Chatbot IA (asistente Ollama configurado en el módulo de Asistente IA).
      */
-    private function runChatbotIaBasico(ConfiguracionMeta $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ChatbotAiAssistant $asistente, string $waMsgId): void
+    private function runChatbotIaBasico(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ChatbotAiAssistant $asistente, string $waMsgId): void
     {
         $capacidades = $asistente->capacidades ?? [];
 
@@ -328,7 +328,7 @@ class WebhookMessage implements ShouldQueue
         return collect($registro->historial ?? [])->take(-20)->values()->all();
     }
 
-    private function guardarHistorialAsistente(Contacto $contacto, ConfiguracionMeta $config, string $textoUsuario, string $respuestaAsistente): void
+    private function guardarHistorialAsistente(Contacto $contacto, WhatsappAccount $config, string $textoUsuario, string $respuestaAsistente): void
     {
         $registro = ChatbotAiHistorial::firstOrNew(['contacto_id' => $contacto->id]);
         $registro->cod_empresa = $config->cod_empresa;
@@ -342,7 +342,7 @@ class WebhookMessage implements ShouldQueue
         $registro->save();
     }
 
-    private function enviarYRegistrarRespuestaIa(WhatsAppCloudApi $api, ConfiguracionMeta $config, string $waFrom, Contacto $contacto, string $texto, int $responseType): void
+    private function enviarYRegistrarRespuestaIa(WhatsAppCloudApi $api, WhatsappAccount $config, string $waFrom, Contacto $contacto, string $texto, int $responseType): void
     {
         $responseMensaje = $api->sendTextMessage($waFrom, $texto);
         if (!$responseMensaje?->body()) return;

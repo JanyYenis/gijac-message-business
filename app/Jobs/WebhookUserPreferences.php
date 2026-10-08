@@ -15,15 +15,15 @@ class WebhookUserPreferences implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $datos;
-    protected $app_id;
+    protected $waba_id;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($datos, $app_id)
+    public function __construct($datos, $waba_id)
     {
         $this->datos = $datos;
-        $this->app_id = $app_id;
+        $this->waba_id = $waba_id;
     }
 
     /**
@@ -31,10 +31,10 @@ class WebhookUserPreferences implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->user_preferences($this->datos, $this->app_id);
+        $this->user_preferences($this->datos, $this->waba_id);
     }
 
-    public function user_preferences($datos, $app_id)
+    public function user_preferences($datos, $waba_id)
     {
         $telefono = $datos['user_preferences'][0]['wa_id'];
         $contacto = Contacto::whereRaw("numero_completo = ?", [$telefono])?->first() ?? null;

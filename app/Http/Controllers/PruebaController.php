@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ChatPregunta;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\ConfiguracionAi;
 use App\Models\Contacto;
 use App\Models\Mensaje;
@@ -36,7 +36,7 @@ class PruebaController extends Controller
 
     public function chatBot($app_id, $telefono, $mensaje, $valor = null, $audio = null, $nombre_audio = null)
     {
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('app_id', $app_id)->first();
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('app_id', $app_id)->first();
         $whatsapp_cloud_api = new WhatsAppCloudApi([
             'from_phone_number_id' => $config->phone_number_id,
             'access_token' => $config->token,
@@ -218,7 +218,7 @@ class PruebaController extends Controller
 
     public function enviarRespuestaChat($app_id, $telefono, $pregunta, $respuestasActivas = [], $tipo, $header, $tipo_header)
     {
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('app_id', $app_id)->first();
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('app_id', $app_id)->first();
         $whatsapp_cloud_api = new WhatsAppCloudApi([
             'from_phone_number_id' => $config->phone_number_id,
             'access_token' => $config->token,

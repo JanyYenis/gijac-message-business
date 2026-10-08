@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -35,7 +35,7 @@ class Controller extends BaseController
             Carbon::setLocale('es');
             if (Auth::check()) { // Verifica si el usuario está autenticado
                 $this->uuid = Auth::user()->empresa?->id ?? null;
-                $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
+                $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
                     ->where('cod_empresa', $this->uuid)
                     ->first();
                 $this->demo = Auth::user()->demo;

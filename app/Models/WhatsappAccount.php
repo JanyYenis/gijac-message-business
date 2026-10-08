@@ -42,6 +42,7 @@ class WhatsappAccount extends Model
 
     protected $fillable = [
         'usuario_id',
+        "cod_empresa",
         'waba_id',
         'phone_number_id',
         'business_id',

@@ -248,7 +248,7 @@ class Usuario extends User implements MustVerifyEmail
     public function configuracion()
     {
         return $this->hasOneThrough(
-            ConfiguracionMeta::class,
+            WhatsappAccount::class,
             UsuarioEmpresa::class,
             'cod_usuario',
             'cod_empresa',

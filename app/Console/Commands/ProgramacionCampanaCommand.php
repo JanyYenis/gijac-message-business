@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Exceptions\ErrorException;
 use App\Jobs\SendWhatsAppMessage;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\VariableCampana;
 use App\Models\Campana;
 use App\Models\EventoDetalle;
@@ -51,7 +51,7 @@ class ProgramacionCampanaCommand extends Command
 
     public function iniciar($id)
     {
-        $config = ConfiguracionMeta::Where('estado', ConfiguracionMeta::ACTIVO)
+        $config = WhatsappAccount::Where('estado', WhatsappAccount::CONECTADO)
             ->where('cod_empresa', $id)
             ->first() ?? null;
 

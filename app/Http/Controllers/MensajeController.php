@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Events\MensajeSent;
 use App\Exceptions\ErrorException;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
@@ -476,7 +476,7 @@ class MensajeController extends Controller
             $this->whatsapp_cloud_api->markMessageAsRead($mensaje->wa_message_id);
         }
 
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('phone_number_id', $this->phone_number_id)->first();
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('phone_number_id', $this->phone_number_id)->first();
         $contacto = Contacto::where("numero_completo", $de)
                 ->where('cod_empresa', $config->cod_empresa)
                 ->first();

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Contacto;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,8 +17,8 @@ class ChatController extends Controller
     // Obtener el phone_number_id dinámicamente basado en la empresa del usuario
     private function getPhoneNumberId($user)
     {
-        $config = ConfiguracionMeta::where('cod_empresa', $user->cod_empresa)
-            ->where('estado', ConfiguracionMeta::ACTIVO)
+        $config = WhatsappAccount::where('cod_empresa', $user->cod_empresa)
+            ->where('estado', WhatsappAccount::CONECTADO)
             ->first();
 
         if (!$config) {
@@ -28,10 +28,10 @@ class ChatController extends Controller
         return $config->phone_number_id;
     }
 
-    // Instanciar la API de WhatsApp dinámicamente (asumiendo que tienes un helper o método en ConfiguracionMeta)
+    // Instanciar la API de WhatsApp dinámicamente (asumiendo que tienes un helper o método en WhatsappAccount)
     private function getWhatsappApi($phoneNumberId)
     {
-        $config = ConfiguracionMeta::where('phone_number_id', $phoneNumberId)->first();
+        $config = WhatsappAccount::where('phone_number_id', $phoneNumberId)->first();
         if (!$config || !$config->token) {
             throw new \Exception(__('Token de WhatsApp no configurado.'));
         }

@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\Empresa;
 use App\Models\Usuario;
@@ -20,15 +20,15 @@ class WebhookContacts implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $datos;
-    protected $app_id;
+    protected $waba_id;
 
     /**
      * Create a new job instance.
      */
-    public function __construct($datos, $app_id)
+    public function __construct($datos, $waba_id)
     {
         $this->datos = $datos;
-        $this->app_id = $app_id;
+        $this->waba_id = $waba_id;
     }
 
     /**
@@ -36,12 +36,12 @@ class WebhookContacts implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->contacts($this->datos, $this->app_id);
+        $this->contacts($this->datos, $this->waba_id);
     }
 
-    public function contacts($datos, $app_id)
+    public function contacts($datos, $waba_id)
     {
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('app_id', $app_id)->first();
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('waba_id', $waba_id)->first();
         $nombre = $datos['contacts'][0]['profile']['name'] ?? 'Sin nombre';
         $telefono = $datos['contacts'][0]['wa_id'];
         $contacto = Contacto::whereRaw("numero_completo = ?", [$telefono])?->first() ?? null;

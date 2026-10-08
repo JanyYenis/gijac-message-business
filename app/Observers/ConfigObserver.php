@@ -2,30 +2,30 @@
 
 namespace App\Observers;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 
 class ConfigObserver
 {
     /**
      * Handle the Config "created" event.
      */
-    public function created(ConfiguracionMeta $config): void
+    public function created(WhatsappAccount $config): void
     {
-        $this->actualizarConfig($config);
+        // $this->actualizarConfig($config);
     }
 
     /**
      * Handle the Config "updated" event.
      */
-    public function updated(ConfiguracionMeta $config): void
+    public function updated(WhatsappAccount $config): void
     {
-        $this->actualizarConfig($config);
+        // $this->actualizarConfig($config);
     }
 
     /**
      * Handle the Config "deleted" event.
      */
-    public function deleted(ConfiguracionMeta $config): void
+    public function deleted(WhatsappAccount $config): void
     {
         //
     }
@@ -33,7 +33,7 @@ class ConfigObserver
     /**
      * Handle the Config "restored" event.
      */
-    public function restored(ConfiguracionMeta $config): void
+    public function restored(WhatsappAccount $config): void
     {
         //
     }
@@ -41,23 +41,23 @@ class ConfigObserver
     /**
      * Handle the Config "force deleted" event.
      */
-    public function forceDeleted(ConfiguracionMeta $config): void
+    public function forceDeleted(WhatsappAccount $config): void
     {
         //
     }
 
-    public function actualizarConfig(ConfiguracionMeta $config)
+    public function actualizarConfig(WhatsappAccount $config)
     {
         if ($config->wasChanged('estado')) {
-            if ($config->estado == ConfiguracionMeta::ACTIVO) {
-                $configs = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)
+            if ($config->estado == WhatsappAccount::CONECTADO) {
+                $configs = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
                     ->where('cod_empresa', $config->cod_empresa)
                     ->whereNot('id', $config->id)
                     ->get();
 
                 foreach ($configs as $item) {
                     $item->updateQuietly([
-                        'estado' => ConfiguracionMeta::INACTIVO
+                        'estado' => WhatsappAccount::DESCONECTADO,
                     ]);
                 }
             }

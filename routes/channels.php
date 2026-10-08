@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -19,9 +19,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('chat.{id}', function ($user, $id) {
-    $config = ConfiguracionMeta::firstWhere([
+    $config = WhatsappAccount::firstWhere([
         'cod_empresa' => $user->empresa?->id,
-        'estado' => ConfiguracionMeta::ACTIVO
+        'estado' => WhatsappAccount::CONECTADO
     ]) ?? null;
 
     if ($config) {
@@ -32,9 +32,9 @@ Broadcast::channel('chat.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('chat.leido.{id}', function ($user, $id) {
-    $config = ConfiguracionMeta::firstWhere([
+    $config = WhatsappAccount::firstWhere([
         'cod_empresa' => $user->empresa?->id,
-        'estado' => ConfiguracionMeta::ACTIVO
+        'estado' => WhatsappAccount::CONECTADO
     ]) ?? null;
 
     if ($config) {
@@ -55,9 +55,9 @@ Broadcast::channel('online', function ($user) {
 });
 
 Broadcast::channel('calls.{id}', function ($user, $id) {
-    $config = ConfiguracionMeta::firstWhere([
+    $config = WhatsappAccount::firstWhere([
         'cod_empresa' => $user->empresa?->id,
-        'estado' => ConfiguracionMeta::ACTIVO
+        'estado' => WhatsappAccount::CONECTADO
     ]) ?? null;
 
     if ($config) {

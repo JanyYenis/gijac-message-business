@@ -7,7 +7,7 @@ use App\Jobs\WebhookContacts;
 use App\Jobs\WebhookMessage;
 use App\Jobs\WebhookStatus;
 use App\Jobs\WebhookUserPreferences;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\Mensaje;
 use Exception;
@@ -19,11 +19,10 @@ use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
 class WebhookController extends Controller
 {
-    public function webhook(Request $request, $app_id)
+    public function webhook(Request $request)
     {
         try {
-            $config = ConfiguracionMeta::where('app_id', $app_id)->where('estado', ConfiguracionMeta::ACTIVO)?->first() ?? null;
-            $token = $config?->token_1;
+            $token = env('FACEBOOK_WEBOOK_TOKEN');
             $query = $request->query();
 
             $mode = $query['hub_mode'];
@@ -45,7 +44,7 @@ class WebhookController extends Controller
         }
     }
 
-    public function acctionWebhook(Request $request, $app_id)
+    public function acctionWebhook(Request $request)
     {
         try {
             // $fileName = "plantilla.json";
@@ -58,24 +57,25 @@ class WebhookController extends Controller
             // }
             $bodyContent = json_decode($request->getContent(), true);
             $datos = $bodyContent['entry'][0]['changes'][0]['value'];
+            $wabaId = $bodyContent['entry'][0]['id']?? null;
             if (array_key_exists('contacts', $datos)) {
                 $telefono = $datos['contacts'][0]['wa_id'];
                 $contacto = Contacto::whereRaw("numero_completo = ?", [$telefono])?->first() ?? null;
                 if (!$contacto) {
-                    dispatch(new WebhookContacts($datos, $app_id));
+                    dispatch(new WebhookContacts($datos, $wabaId));
                 }
             }
 
             if (array_key_exists('statuses', $datos)) {
-                dispatch(new WebhookStatus($datos, $app_id));
+                dispatch(new WebhookStatus($datos, $wabaId));
             }
 
             if (array_key_exists('user_preferences', $datos)) {
-                dispatch(new WebhookUserPreferences($datos, $app_id));
+                dispatch(new WebhookUserPreferences($datos, $wabaId));
             }
 
             if (array_key_exists('messages', $datos)) {
-                dispatch(new WebhookMessage($datos, $app_id));
+                dispatch(new WebhookMessage($datos, $wabaId));
             }
 
             if (array_key_exists('calls', $datos)) {
@@ -88,7 +88,7 @@ class WebhookController extends Controller
                 array_key_exists('template_category_update', $datos) ||
                 array_key_exists('template_correct_category_detection', $datos)) {
                 Artisan::call('sincronizar:plantillas', [
-                    'app_id' => $app_id
+                    'waba_id' => $wabaId
                 ]);
             }
 

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Apis;
 use App\Exceptions\ErrorException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ChatResource;
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\Mensaje;
 use App\Models\Usuario;
@@ -21,7 +21,7 @@ class ChatController extends Controller
     public function index(Request $request)
     {
         $usuario = Usuario::where('uuid', $request->user()->uuid)->first();
-        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
+        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
 
         $usuarios = Contacto::selectRaw('
@@ -84,7 +84,7 @@ class ChatController extends Controller
             ];
         }
 
-        $config = ConfiguracionMeta::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
+        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
         $phoneNumberId = $config->phone_number_id;
 
         // Traer mensajes entre el contacto y el número de la empresa

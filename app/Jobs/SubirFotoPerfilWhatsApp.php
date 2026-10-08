@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\ConfiguracionMeta;
+use App\Models\WhatsappAccount;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -41,7 +41,7 @@ class SubirFotoPerfilWhatsApp implements ShouldQueue
      */
     public function handle(): void
     {
-        $config = ConfiguracionMeta::where('estado', ConfiguracionMeta::ACTIVO)->where('cod_empresa', $this->empresaId)->first();
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('cod_empresa', $this->empresaId)->first();
         $this->version = $config?->version ?? null;
         $this->waba_id = $config?->waba_id ?? null;
         $this->app_id = $config?->app_id ?? null;

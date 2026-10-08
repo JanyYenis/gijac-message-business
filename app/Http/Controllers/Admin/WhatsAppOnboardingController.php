@@ -164,10 +164,11 @@ class WhatsAppOnboardingController extends Controller
                 $attrs['two_factor_pin'] = Crypt::encrypt($pin);
             }
 
-            WhatsappAccount::updateOrCreate(
-                ['usuario_id' => auth()->user()->uuid, 'waba_id' => $wabaId],
-                $attrs
-            );
+            WhatsappAccount::updateOrCreate([
+                'usuario_id' => auth()->user()->uuid,
+                'waba_id' => $wabaId,
+                'cod_empresa' => auth()->user()->empresa?->id
+            ], $attrs);
 
             return response()->json([
                 'success' => true,
@@ -364,6 +365,7 @@ class WhatsAppOnboardingController extends Controller
     private function currentAccountOrFail(): WhatsappAccount
     {
         return WhatsappAccount::where('usuario_id', auth()->user()->uuid)
+            ->where('cod_empresa', auth()->user()->empresa?->id)
             ->where('estado', WhatsappAccount::CONECTADO)
             ->firstOrFail();
     }

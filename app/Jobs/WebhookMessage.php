@@ -37,27 +37,27 @@ class WebhookMessage implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $datos;
-    protected $app_id;
+    protected $waba_id;
 
-    public function __construct($datos, $app_id)
+    public function __construct($datos, $waba_id)
     {
         $this->datos = $datos;
-        $this->app_id = $app_id;
+        $this->waba_id = $waba_id;
     }
 
     public function handle(): void
     {
-        $this->messages($this->datos, $this->app_id);
+        $this->messages($this->datos, $this->waba_id);
     }
 
     /**
      * Punto de entrada: parsea el payload, persiste el mensaje
      * y decide si debe entrar al chatbot avanzado o al IA básico.
      */
-    public function messages($datos, $app_id)
+    public function messages($datos, $waba_id)
     {
         $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
-            ->where('app_id', $app_id)
+            ->where('waba_id', $waba_id)
             ->first();
 
         if (!$config) {

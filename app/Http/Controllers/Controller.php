@@ -19,7 +19,6 @@ class Controller extends BaseController
     public $cod_config;
     public $version;
     public $waba_id;
-    public $app_id;
     public $phone_number_id	;
     public $token;
     public $numeroG;
@@ -40,12 +39,11 @@ class Controller extends BaseController
                     ->first();
                 $this->demo = Auth::user()->demo;
                 $this->plan = Auth::user()->cod_plan;
-                $this->version = $config?->version ?? null;
+                $this->version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v17.0'));
                 $this->waba_id = $config?->waba_id ?? null;
-                $this->app_id = $config?->app_id ?? null;
                 $this->phone_number_id = $config?->phone_number_id ?? null;
-                $this->token = $config?->token ?? null;
-                $this->numeroG = $config?->numero ?? '573000000000';
+                $this->token = $config?->access_token ?? null;
+                $this->numeroG = $config?->phone_number ?? '573000000000';
                 $this->cod_config = $config?->id;
 
                 if ($this->phone_number_id && $this->token && $this->version) {
@@ -61,7 +59,6 @@ class Controller extends BaseController
                 // Maneja el caso cuando no hay un usuario autenticado
                 $this->version = null;
                 $this->waba_id = null;
-                $this->app_id = null;
                 $this->phone_number_id = null;
                 $this->token = null;
                 $this->numeroG = '573000000000';

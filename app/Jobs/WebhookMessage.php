@@ -56,6 +56,7 @@ class WebhookMessage implements ShouldQueue
      */
     public function messages($datos, $waba_id)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('waba_id', $waba_id)
             ->first();
@@ -66,8 +67,8 @@ class WebhookMessage implements ShouldQueue
 
         $api = new WhatsAppCloudApi([
             'from_phone_number_id' => $config->phone_number_id,
-            'access_token' => $config->token,
-            'graph_version' => $config->version,
+            'access_token' => $config->access_token,
+            'graph_version' => $version,
         ]);
 
         $mensajeData = $datos['messages'][0] ?? null;

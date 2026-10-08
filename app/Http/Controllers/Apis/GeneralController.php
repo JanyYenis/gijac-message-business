@@ -136,6 +136,7 @@ class GeneralController extends Controller
         $info        = $request->input('info', []);
         $nombres_variables        = $request->input('nombres_variables', []);
         $variables   = $info['variables'] ?? [];
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
 
         if (str_starts_with($telefono, '+')) {
             $telefono = str_replace(' ', '', substr($telefono, 1));
@@ -146,13 +147,13 @@ class GeneralController extends Controller
             ->where('cod_empresa', $usuario?->empresa?->id)
             ->first();
 
-        if (!$config || !$config->token || !$config->version) {
+        if (!$config || !$config->access_token || !$version) {
             return response()->json(['estado' => 'error', 'mensaje' => __('No hay configuración de Meta activa para este usuario.')], 422);
         }
 
         // Traemos la plantilla directo de Meta (igual que en store()/update())
-        $url = "https://graph.facebook.com/{$config->version}/{$idPlantilla}";
-        $respuesta = consultaBase($url, 'GET', $config->token);
+        $url = "https://graph.facebook.com/{$version}/{$idPlantilla}";
+        $respuesta = consultaBase($url, 'GET', $config->access_token);
         $plantilla = json_decode($respuesta);
 
         if (!$plantilla || isset($plantilla->error)) {
@@ -184,8 +185,8 @@ class GeneralController extends Controller
 
         $whatsapp_cloud_api = new WhatsAppCloudApi([
             'from_phone_number_id' => $config->phone_number_id,
-            'access_token' => $config->token,
-            'graph_version' => $config->version,
+            'access_token' => $config->access_token,
+            'graph_version' => $version,
         ]);
 
         $component_header  = [];

@@ -30,7 +30,6 @@ class SendWhatsAppMessage implements ShouldQueue
     protected $nombres_variables;
     public $version;
     public $waba_id;
-    public $app_id;
     public $phone_number_id	;
     public $token;
     public $numeroG;
@@ -54,13 +53,13 @@ class SendWhatsAppMessage implements ShouldQueue
      */
     public function handle(): void
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('cod_empresa', $this->empresaId)->first();
-        $this->version = $config?->version ?? null;
+        $this->version = $version ?? null;
         $this->waba_id = $config?->waba_id ?? null;
-        $this->app_id = $config?->app_id ?? null;
         $this->phone_number_id = $config?->phone_number_id ?? null;
-        $this->token = $config?->token ?? null;
-        $this->numeroG = $config?->numero ?? '573000000000';
+        $this->token = $config?->access_token ?? null;
+        $this->numeroG = $config?->phone_number ?? '573000000000';
 
         if ($this->phone_number_id && $this->token && $this->version) {
             $this->whatsapp_cloud_api = new WhatsAppCloudApi([

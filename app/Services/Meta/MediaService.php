@@ -25,7 +25,6 @@ class MediaService
      * - messaging_product: whatsapp
      * - file: archivo multimedia
      *
-     * @param string $version Versión de la API de Graph de Meta.
      * @param string $accessToken Token de acceso de WhatsApp Business.
      * @param string $phoneNumberId ID del número de teléfono de WhatsApp.
      * @param string $filePath Ruta local del archivo que se desea subir.
@@ -34,12 +33,12 @@ class MediaService
      * @return array|\Illuminate\Http\JsonResponse
      */
     public function uploadMedia(
-        string $version,
         string $accessToken,
         string $phoneNumberId,
         string $filePath,
         string $mimeType
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->attach(
                 'file',
@@ -78,7 +77,6 @@ class MediaService
      *
      * La URL devuelta por Meta es temporal y tiene una validez de 5 minutos.
      *
-     * @param string $version Versión de la API de Graph de Meta.
      * @param string $accessToken Token de acceso de WhatsApp Business.
      * @param string $mediaId ID del archivo multimedia.
      * @param string|null $phoneNumberId ID del número de teléfono de WhatsApp.
@@ -86,11 +84,11 @@ class MediaService
      * @return array|\Illuminate\Http\JsonResponse
      */
     public function getMediaUrl(
-        string $version,
         string $accessToken,
         string $mediaId,
         ?string $phoneNumberId = null
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $url = "https://graph.facebook.com/{$version}/{$mediaId}";
 
         $query = [];
@@ -138,9 +136,7 @@ class MediaService
      * https://developers.facebook.com/docs/graph-api/guides/upload
      * https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates/media-based-templates
      *
-     * @param string $version    Versión de Graph API, ej. "v24.0".
      * @param string $accessToken Token de acceso (system user / app).
-     * @param string $appId      ID de la app de Meta (App ID, no WABA ID).
      * @param string $filePath   Ruta local del archivo ya guardado en disco.
      * @param string $mimeType   Tipo MIME del archivo (ej. image/png).
      *
@@ -149,12 +145,12 @@ class MediaService
      * @throws RuntimeException Si alguno de los dos pasos falla.
      */
     public function uploadHeaderMedia(
-        string $version,
         string $accessToken,
-        string $appId,
         string $filePath,
         string $mimeType
     ): string {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
+        $appId = config('facebook.client_id', env('FACEBOOK_CLIENT_ID'));
         if (! is_readable($filePath)) {
             throw new RuntimeException("No se pudo leer el archivo: {$filePath}");
         }

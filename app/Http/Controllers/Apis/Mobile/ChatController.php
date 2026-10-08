@@ -31,16 +31,17 @@ class ChatController extends Controller
     // Instanciar la API de WhatsApp dinámicamente (asumiendo que tienes un helper o método en WhatsappAccount)
     private function getWhatsappApi($phoneNumberId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $config = WhatsappAccount::where('phone_number_id', $phoneNumberId)->first();
-        if (!$config || !$config->token) {
+        if (!$config || !$config->access_token) {
             throw new \Exception(__('Token de WhatsApp no configurado.'));
         }
 
         // Ajusta esto según cómo instancies tu API en tu proyecto
         return new \Netflie\WhatsAppCloudApi\WhatsAppCloudApi([
             'from_phone_number_id' => $phoneNumberId,
-            'access_token' => $config->token,
-            'version' => $config->version, // O la versión que uses
+            'access_token' => $config->access_token,
+            'graph_version' => $version, // O la versión que uses
         ]);
     }
 

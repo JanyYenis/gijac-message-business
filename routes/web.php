@@ -255,14 +255,14 @@ Route::get('/wompi/callback', [WompiController::class, 'callback'])->name('wompi
 // Route::get('/prueba', [PruebaController::class, 'index']);
 
 Route::get('/prueba', function(){
-    return view('prueba.index');
+    // return view('prueba.index');
 });
 
 Route::get('/meta', function() {
     $config = WhatsappAccount::find(1);
     // dd($config);
 
-    // dd(app(WabaService::class)->subscribeWaba($config->version, $config->token, $config->waba_id));
-    // dd(app(WabaService::class)->getWaba($config->version, $config->token, $config->waba_id));
-    dd(app(CatalogoService::class)->getCatalogProducts($config->version, '', $config->token));
+    // dd(app(WabaService::class)->subscribeWaba($config->token, $config->waba_id));
+    // dd(app(WabaService::class)->getWaba($config->token, $config->waba_id));
+    dd(app(CatalogoService::class)->getCatalogProducts('', $config->token));
 });

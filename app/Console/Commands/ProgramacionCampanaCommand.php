@@ -32,7 +32,6 @@ class ProgramacionCampanaCommand extends Command
 
     public $version;
     public $waba_id;
-    public $app_id;
     public $phone_number_id	;
     public $token;
     public $numeroG;
@@ -56,12 +55,11 @@ class ProgramacionCampanaCommand extends Command
             ->first() ?? null;
 
         if ($config) {
-            $this->version = $config->version;
+            $this->version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
             $this->waba_id = $config->waba_id;
-            $this->app_id = $config->app_id;
             $this->phone_number_id = $config->phone_number_id;
-            $this->token = $config->token;
-            $this->numeroG = $config?->numero ?? '573161542681';
+            $this->token = $config->access_token;
+            $this->numeroG = $config?->phone_number ?? '573161542681';
 
             $this->whatsapp_cloud_api = new WhatsAppCloudApi([
                 'from_phone_number_id' => $this->phone_number_id,

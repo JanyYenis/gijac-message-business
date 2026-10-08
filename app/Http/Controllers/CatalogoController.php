@@ -11,7 +11,7 @@ class CatalogoController extends Controller
 {
     private function catalogo(): CatalogoService
     {
-        return new CatalogoService($this->token, $this->version);
+        return new CatalogoService($this->token);
     }
 
     public function index()

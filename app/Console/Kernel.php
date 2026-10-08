@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
             ->withoutOverlapping();
         $schedule->command('cancelar:demo')->everyMinute();
         $schedule->command('sitemap:generate')->daily();
+        $schedule->command('whatsapp:check-tokens')->dailyAt('03:00');
+        $schedule->command('whatsapp:renew-expiring-soon')->dailyAt('04:00');
     }
 
     /**

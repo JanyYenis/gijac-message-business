@@ -156,9 +156,7 @@ class PlantillaController extends Controller
 
             try {
                 $handle = $uploadService->uploadHeaderMedia(
-                    $this->version,
                     $this->token,
-                    $this->app_id,
                     $archivo->getRealPath(),
                     $archivo->getMimeType()
                 );
@@ -174,7 +172,6 @@ class PlantillaController extends Controller
         }
 
         $respuestaMeta = $templatesService->createTemplateFromComponents(
-            $this->version,
             $this->token,
             $this->waba_id,
             $payload['name'],
@@ -341,9 +338,7 @@ class PlantillaController extends Controller
             if ($archivo && $archivo->isValid()) {
                 try {
                     $handle = $uploadService->uploadHeaderMedia(
-                        $this->version,
                         $this->token,
-                        $this->app_id,
                         $archivo->getRealPath(),
                         $archivo->getMimeType()
                     );
@@ -361,7 +356,6 @@ class PlantillaController extends Controller
         }
 
         $respuestaMeta = $templatesService->updateTemplateFromComponents(
-            $this->version,
             $this->token,
             $plantilla->id,
             $payload['name'],
@@ -426,7 +420,7 @@ class PlantillaController extends Controller
             throw new ErrorException(__("No se pudo eliminar la plantilla."));
         }
 
-        app(TemplatesService::class)->deleteMessageTemplate($this->version, $this->token, $this->waba_id, $plantilla->name);
+        app(TemplatesService::class)->deleteMessageTemplate($this->token, $this->waba_id, $plantilla->name);
 
         return [
             'estado'  => 'success',
@@ -437,7 +431,7 @@ class PlantillaController extends Controller
     public function sincronizar(Request $request)
     {
         Artisan::call('sincronizar:plantillas', [
-            'app_id' => $this->app_id
+            'waba_id' => $this->waba_id
         ]);
 
         return [

@@ -15,8 +15,9 @@ class WehbookService
      * https://developers.facebook.com/docs/whatsapp/embedded-signup/webhooks#subscribe-to-a-whatsapp-business-account
      */
 
-    public function subscribeWaba(string $version, string $accessToken, string $wabaId)
+    public function subscribeWaba(string $accessToken, string $wabaId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/subscribed_apps");
 
@@ -38,8 +39,9 @@ class WehbookService
      * Para consultar las aplicaciones suscritas, se realiza una petición
      * GET al endpoint subscribed_apps de la cuenta de WhatsApp Business.
      */
-    public function getSubscribedApps(string $version, string $accessToken, string $wabaId)
+    public function getSubscribedApps(string $accessToken, string $wabaId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get("https://graph.facebook.com/{$version}/{$wabaId}/subscribed_apps");
 
@@ -64,8 +66,9 @@ class WehbookService
      * Al ejecutar esta operación, la aplicación dejará de recibir
      * notificaciones de Webhooks asociadas a la WABA.
      */
-    public function unsubscribeWaba(string $version, string $accessToken, string $wabaId)
+    public function unsubscribeWaba(string $accessToken, string $wabaId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->delete("https://graph.facebook.com/{$version}/{$wabaId}/subscribed_apps");
 
@@ -107,7 +110,8 @@ class WehbookService
      * Referencia:
      * https://developers.facebook.com/docs/whatsapp/embedded-signup/webhooks#overriding-the-callback-url
      */
-    public function subscribeWabaWithCallback(string $version, string $accessToken, string $wabaId, string $callbackUrl, string $verifyToken) {
+    public function subscribeWabaWithCallback(string $accessToken, string $wabaId, string $callbackUrl, string $verifyToken) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/subscribed_apps", [
                 'override_callback_uri' => $callbackUrl,

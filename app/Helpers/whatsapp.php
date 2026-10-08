@@ -4,8 +4,9 @@ use App\Models\Campana;
 use Illuminate\Support\Facades\Http;
 
 if (!function_exists('generarSeccionSubirArchivo')) {
-    function generarSeccionSubirArchivo($urlArchivo, $app_id, $version, $token, $url)
+    function generarSeccionSubirArchivo($urlArchivo, $version, $token, $url)
     {
+        $app_id = config('facebook.client_id', env('FACEBOOK_CLIENT_ID'));
         $bytes = filesize($urlArchivo);
         // echo "El tamaño de la imagen es $bytes bytes. app_id: {$app_id}";
         // echo '<br><br>';
@@ -95,8 +96,9 @@ if (!function_exists('subirArchivo')) {
 }
 
 if (!function_exists('getPhoneNumbers')) {
-    function getPhoneNumbers($waba_id, $version, $token)
+    function getPhoneNumbers($waba_id, $token)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '.$token
         ])->get("https://graph.facebook.com/{$version}/{$waba_id}/phone_numbers");

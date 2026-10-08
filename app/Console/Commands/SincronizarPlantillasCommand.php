@@ -42,12 +42,13 @@ class SincronizarPlantillasCommand extends Command
         $configuraciones = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('waba_id', $waba_id)
             ->get();
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
 
         $plantillas_activas = [];
         foreach ($configuraciones as $config) {
-            $url = "https://graph.facebook.com/{$config->version}/{$config->waba_id}/message_templates";
+            $url = "https://graph.facebook.com/{$version}/{$config->waba_id}/message_templates";
             $metodo = 'GET';
-            $response = consultaBase($url, $metodo, $config->token);
+            $response = consultaBase($url, $metodo, $config->access_token);
             $obj = json_decode($response);
 
             $templates = $obj?->data ?? [];

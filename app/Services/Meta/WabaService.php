@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Http;
 
 class WabaService
 {
-    public function getWaba(string $version, string $accessToken, string $wabaId): array
+    public function getWaba(string $accessToken, string $wabaId): array
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get("https://graph.facebook.com/{$version}/{$wabaId}");
 
@@ -18,8 +19,9 @@ class WabaService
         ];
     }
 
-    public function getOwnedWaba(string $version, string $accessToken, string $businessId): array
+    public function getOwnedWaba(string $accessToken, string $businessId): array
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get("https://graph.facebook.com/{$version}/{$businessId}/owned_whatsapp_business_accounts");
 
@@ -30,8 +32,9 @@ class WabaService
         ];
     }
 
-    public function getSharedWaba(string $version, string $accessToken, string $businessId): array
+    public function getSharedWaba(string $accessToken, string $businessId): array
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get(
                 "https://graph.facebook.com/{$version}/{$businessId}/client_whatsapp_business_accounts"

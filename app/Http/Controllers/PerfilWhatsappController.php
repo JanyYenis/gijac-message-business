@@ -34,7 +34,7 @@ class PerfilWhatsappController extends Controller
             'RESTAURANT' => __('RESTAURANTE'),
             // 'NOT_A_BIZ' => 'NOT_A_BIZ',
         ];
-        $info['datosNumero'] = getPhoneNumbers($this->waba_id, $this->version, $this->token);
+        $info['datosNumero'] = getPhoneNumbers($this->waba_id, $this->token);
 
         $respuesta["estado"] = "success";
         $respuesta["mensaje"] = __("Datos cargados correctamente");
@@ -60,7 +60,7 @@ class PerfilWhatsappController extends Controller
             $datos['profile_picture_url'] = public_path('img/perfil-whatsapp/'.$nombreOriginal);
             $url = 'img/perfil-whatsapp/'.$nombreOriginal;
             dispatch(new SubirFotoPerfilWhatsApp(auth()->user()->empresa?->id, $datos['profile_picture_url'], $url));
-            // dd(generarSeccionSubirArchivo($datos['profile_picture_url'], $this->app_id, $this->version, $this->token));
+            // dd(generarSeccionSubirArchivo($datos['profile_picture_url'], $this->version, $this->token));
             // $response = $this->whatsapp_cloud_api->uploadMedia($datos['profile_picture_url']);
             // $datos['profile_picture_url'] = $response->decodedBody()['id'];
         }

@@ -7,9 +7,10 @@ use Illuminate\Support\Str;
 
 class WhatsappAccount extends Model
 {
-    const TC_ESTADO    = 'TC_ESTADO_WHATSAPP_ACCOUNT';
-    const CONECTADO    = 1;
-    const DESCONECTADO = 0;
+    const TC_ESTADO      = 'TC_ESTADO_WHATSAPP_ACCOUNT';
+    const CONECTADO      = 1;
+    const TOKEN_EXPIRADO = 2;
+    const DESCONECTADO   = 0;
 
     const TC_RATING      = 'TC_RATING_WHATSAPP_ACCOUNT';
     const RATING_GREEN   = 1;

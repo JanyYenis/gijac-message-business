@@ -49,7 +49,7 @@ class MensajeController extends Controller
         if ($info['datosPerfilWhatsapp']) {
             $info['datosPerfilWhatsapp'] = json_decode($info['datosPerfilWhatsapp'], true)['data'][0];
         }
-        $info['datosNumero'] = getPhoneNumbers($this->waba_id, $this->version, $this->token);
+        $info['datosNumero'] = getPhoneNumbers($this->waba_id, $this->token);
 
         return view('chats.index', $info);
     }

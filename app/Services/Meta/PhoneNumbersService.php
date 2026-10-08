@@ -36,8 +36,9 @@ class PhoneNumbersService
      * Para obtener más información sobre la calificación de calidad:
      * https://www.facebook.com/business/help/896873687365001
      */
-    public function getPhoneNumbers(string $version, string $accessToken, string $wabaId)
+    public function getPhoneNumbers(string $accessToken, string $wabaId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get("https://graph.facebook.com/{$version}/{$wabaId}/phone_numbers");
 
@@ -83,10 +84,11 @@ class PhoneNumbersService
      * Para obtener más información sobre la calificación de calidad:
      * https://www.facebook.com/business/help/896873687365001
      */
-    public function getPhoneNumber(string $version, string $accessToken, string $phoneNumberId)
+    public function getPhoneNumber(string $accessToken, string $phoneNumberId, ?string $fields = null)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
-            ->get("https://graph.facebook.com/{$version}/{$phoneNumberId}");
+            ->get("https://graph.facebook.com/{$version}/{$phoneNumberId}", array_filter(['fields' => $fields]));
 
         if ($response->successful()) {
             return $response->json();
@@ -112,8 +114,9 @@ class PhoneNumbersService
      * - name_status: Estado del nombre para mostrar asociado al número
      *   de teléfono.
      */
-    public function getPhoneNameStatus(string $version, string $accessToken, string $phoneNumberId)
+    public function getPhoneNameStatus(string $accessToken, string $phoneNumberId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get("https://graph.facebook.com/{$version}/{$phoneNumberId}", [
                 'fields' => 'name_status',
@@ -157,10 +160,10 @@ class PhoneNumbersService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/phone_numbers/
      */
     public function getSandboxPhoneNumbers(
-        string $version,
         string $accessToken,
         string $wabaId
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get("https://graph.facebook.com/{$version}/{$wabaId}/phone_numbers", [
                 'fields' => 'id,is_official_business_account,display_phone_number,verified_name',
@@ -216,13 +219,13 @@ class PhoneNumbersService
      * https://developers.facebook.com/docs/whatsapp/cloud-api/reference/phone-numbers#verify
      */
     public function requestPhoneVerificationCode(
-        string $version,
         string $accessToken,
         string $phoneNumberId,
         string $codeMethod = 'SMS',
         string $locale = 'es_ES',
         string $language = 'es_ES'
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$phoneNumberId}/request_code", [
                 'code_method' => $codeMethod,
@@ -263,11 +266,11 @@ class PhoneNumbersService
      * https://developers.facebook.com/docs/whatsapp/cloud-api/reference/phone-numbers#verify
      */
     public function verifyPhoneCode(
-        string $version,
         string $accessToken,
         string $phoneNumberId,
         string $code
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$phoneNumberId}/verify_code", [
                 'code' => $code,
@@ -306,11 +309,11 @@ class PhoneNumbersService
      * https://developers.facebook.com/docs/whatsapp/cloud-api/reference/registration#register-phone
      */
     public function changeTwoStepVerificationPin(
-        string $version,
         string $accessToken,
         string $phoneNumberId,
         string $pin
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$phoneNumberId}", [
                 'pin' => $pin,

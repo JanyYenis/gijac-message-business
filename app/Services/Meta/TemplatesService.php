@@ -24,8 +24,9 @@ class TemplatesService
      * Referencia del endpoint:
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-hsm/
      */
-    public function getMessageTemplate(string $version, string $accessToken, string $templateId)
+    public function getMessageTemplate(string $accessToken, string $templateId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get("https://graph.facebook.com/{$version}/{$templateId}");
 
@@ -61,8 +62,9 @@ class TemplatesService
      * Referencia del endpoint:
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
-    public function getMessageTemplates(string $version, string $accessToken, string $wabaId, ?string $name = null)
+    public function getMessageTemplates(string $accessToken, string $wabaId, ?string $name = null)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $params = [];
 
         if ($name) {
@@ -103,8 +105,9 @@ class TemplatesService
      * Referencia del endpoint:
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
-    public function getMessageTemplateNamespace(string $version, string $accessToken, string $wabaId)
+    public function getMessageTemplateNamespace(string $accessToken, string $wabaId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->get("https://graph.facebook.com/{$version}/{$wabaId}", [
                 'fields' => 'message_template_namespace',
@@ -174,8 +177,9 @@ class TemplatesService
      * Referencia del endpoint:
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
-    public function createAuthenticationTemplate(string $version, string $accessToken, string $wabaId, string $name, string $language = 'en_US', int $codeExpirationMinutes = 10, string $buttonText = 'Copy Code')
+    public function createAuthenticationTemplate(string $accessToken, string $wabaId, string $name, string $language = 'en_US', int $codeExpirationMinutes = 10, string $buttonText = 'Copy Code')
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'name' => $name,
@@ -271,7 +275,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createAuthenticationOneTapTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -282,6 +285,7 @@ class TemplatesService
         string $buttonText = 'Copy Code',
         string $autofillText = 'Autofill'
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'name' => $name,
@@ -370,7 +374,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createCatalogTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -380,6 +383,7 @@ class TemplatesService
         string $buttonText = 'View catalog',
         string $language = 'en_US'
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'name' => $name,
@@ -476,7 +480,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createMultiProductTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -487,6 +490,7 @@ class TemplatesService
         string $buttonText = 'View items',
         string $language = 'en_US'
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'name' => $name,
@@ -581,7 +585,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createMarketingQuickReplyTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -593,6 +596,7 @@ class TemplatesService
         array $buttons,
         string $language = 'en_US'
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $quickReplyButtons = [];
 
         foreach ($buttons as $button) {
@@ -700,7 +704,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createMarketingImageTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -715,6 +718,7 @@ class TemplatesService
         array $urlExamples = [],
         string $language = 'en_US'
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'name' => $name,
@@ -818,7 +822,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createUtilityLocationTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -828,6 +831,7 @@ class TemplatesService
         string $buttonText = 'Dejar de recibir actualizaciones',
         string $language = 'en_US'
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'name' => $name,
@@ -928,7 +932,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createUtilityDocumentTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -938,6 +941,7 @@ class TemplatesService
         array $buttons,
         string $language = 'en_US'
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $templateButtons = [];
 
         foreach ($buttons as $button) {
@@ -1027,11 +1031,11 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function deleteMessageTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $templateName
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->delete("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'name' => $templateName,
@@ -1078,12 +1082,12 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function deleteMessageTemplateByHsm(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $hsmId,
         string $name
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->delete("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'hsm_id' => $hsmId,
@@ -1159,7 +1163,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createMessageTemplate(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -1171,6 +1174,7 @@ class TemplatesService
         ?string $footer = null,
         array $buttons = []
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $components = [];
 
         /*
@@ -1318,7 +1322,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function updateMessageTemplate(
-        string $version,
         string $accessToken,
         string $templateId,
         string $name,
@@ -1330,6 +1333,7 @@ class TemplatesService
         ?string $footer = null,
         array $buttons = []
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $components = [];
 
         /*
@@ -1435,7 +1439,6 @@ class TemplatesService
      * https://developers.facebook.com/docs/graph-api/reference/whats-app-business-account/message_templates/
      */
     public function createTemplateFromComponents(
-        string $version,
         string $accessToken,
         string $wabaId,
         string $name,
@@ -1443,6 +1446,7 @@ class TemplatesService
         string $category,
         array $components
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
                 'name' => $name,
@@ -1468,7 +1472,6 @@ class TemplatesService
      * /{TEMPLATE_ID} en vez de /{WABA_ID}/message_templates).
      */
     public function updateTemplateFromComponents(
-        string $version,
         string $accessToken,
         string $templateId,
         string $name,
@@ -1476,6 +1479,7 @@ class TemplatesService
         string $category,
         array $components
     ) {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$templateId}", [
                 'name' => $name,

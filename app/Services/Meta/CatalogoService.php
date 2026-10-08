@@ -21,8 +21,9 @@ class CatalogoService
     private ?string $catalogoId;
     private ?string $token;
 
-    public function __construct(string $token, string $version = 'v26.0')
+    public function __construct(string $token)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $cfg = config('whatsapp');
         $this->url = $cfg['url'].'/'.$version;
         $this->catalogoId = $cfg['id'];

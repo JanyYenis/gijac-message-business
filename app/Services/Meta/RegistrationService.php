@@ -18,8 +18,9 @@ class RegistrationService
      * - pin: Required. A 6-digit pin you previously set up.
      *   For more information, see Set Two-Step Verification.
      */
-    public function registerPhone(string $version, string $accessToken, string $phoneNumberId, string $pin)
+    public function registerPhone(string $accessToken, string $phoneNumberId, string $pin)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$phoneNumberId}/register", [
                 'messaging_product' => 'whatsapp',
@@ -51,8 +52,9 @@ class RegistrationService
      *     "success": true
      * }
      */
-    public function deregisterPhone(string $version, string $accessToken, string $phoneNumberId)
+    public function deregisterPhone(string $accessToken, string $phoneNumberId)
     {
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $response = Http::withToken($accessToken)
             ->post("https://graph.facebook.com/{$version}/{$phoneNumberId}/deregister");
 

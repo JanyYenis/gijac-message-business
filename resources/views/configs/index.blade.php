@@ -2416,7 +2416,6 @@
                 code: null,
                 session: null,
                 sent: false,
-                timer: null
             };
 
             $.ajaxSetup({
@@ -2632,7 +2631,8 @@
                         event: s ? s.event : null,
                         waba_id: s && s.data ? s.data.waba_id || null : null,
                         phone_number_id: s && s.data ? s.data.phone_number_id || null : null,
-                        business_id: s && s.data ? s.data.business_id || null : null
+                        business_id: s && s.data ? s.data.business_id || null : null,
+                        pin: signup.session.data?.pin || null // Para números nuevos
                     })
                 }).done(function(res) {
                     BOOT.account = res.account;
@@ -2648,13 +2648,14 @@
                     }, 350);
                 }).fail(function(xhr) {
                     toast('error', 'No se pudo vincular', errMsg(xhr));
+                    signup.sent = false; // Permite reintentar
                 }).always(function() {
                     setLoading($('#btnConnectMeta'), false);
                 });
             }
 
             window.addEventListener('message', function(event) {
-                if (!event.origin.endsWith('facebook.com')) return;
+                if (event.origin!== 'https://www.facebook.com' && event.origin!== 'https://web.facebook.com') return;
                 let data;
                 try {
                     data = JSON.parse(event.data);
@@ -2688,12 +2689,7 @@
                 FB.login(function(response) {
                     if (response.authResponse) {
                         signup.code = response.authResponse.code;
-                        if (signup.session) {
-                            sendSignup();
-                        } else {
-                            // Si el evento con los IDs no llega, el servidor los resuelve solo
-                            signup.timer = setTimeout(sendSignup, 6000);
-                        }
+                        sendSignup();
                     } else {
                         setLoading($('#btnConnectMeta'), false);
                         toast('info', 'Cancelado', 'No se completó el inicio de sesión con Meta.');
@@ -2703,6 +2699,8 @@
                     response_type: 'code',
                     override_default_response_type: true,
                     extras: {
+                        featureType: 'whatsapp_business_app_onboarding', // OBLIGATORIO para Tech Provider
+                        sessionInfoVersion: '3',
                         setup: {}
                     }
                 });
@@ -2756,7 +2754,7 @@
             $("#btnSync").on("click", function() {
                 const $b = $(this);
                 setLoading($b, true, "");
-                $.get(BOOT.routes.test.replace('test-message', 'status'))
+                $.get(BOOT.routes.status)
                     .done(function(res) {
                         fillAccount({
                             quality: res.account.quality_rating,

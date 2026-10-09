@@ -15,7 +15,7 @@ class MensajeObserver
      */
     public function created(Mensaje $mensaje): void
     {
-        Log::info('OBSERVER MENSAJE CREATED', [
+        Log::info('OBSERVER MENSAJE CREATED ', [
             'id' => $mensaje->id,
             'wa_message_id' => $mensaje->wa_message_id,
         ]);

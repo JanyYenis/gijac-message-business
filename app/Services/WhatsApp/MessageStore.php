@@ -13,6 +13,11 @@ class MessageStore
 {
     public function guardarEntrante(array $mensajeData, ParsedWhatsAppMessage $parsed, string $waFrom, ?string $waTo, string $waMsgId, int $estado, Carbon $sentAt, ?string $contactId): Mensaje
     {
+        logger()->error('DEBUG MESSAGE STORE: ejecutando guardarEntrante', [
+            'wa_message_id' => $waMsgId,
+            'contact_id' => $contactId,
+        ]);
+
         $mensaje = Mensaje::updateOrCreate(['wa_message_id' => $waMsgId], [
             'wa_from' => $waFrom,
             'wa_to' => $waTo,
@@ -26,9 +31,8 @@ class MessageStore
 
         $mensaje->refresh();
 
-        logger()->info('Mensaje guardado desde webhook', [
+        logger()->error('DEBUG MESSAGE STORE: mensaje guardado', [
             'id' => $mensaje->id,
-            'wa_message_id' => $mensaje->wa_message_id,
             'wasRecentlyCreated' => $mensaje->wasRecentlyCreated,
             'contact_id' => $mensaje->contact_id,
         ]);

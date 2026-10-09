@@ -29,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        parent::boot();
         // WhatsappAccount::observe(ConfigObserver::class);
         Mensaje::observe(MensajeObserver::class);
     }

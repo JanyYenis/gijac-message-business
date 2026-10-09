@@ -64,26 +64,22 @@ class MensajeObserver
             return;
         }
 
-
         // El mensaje viene del contacto
         $esMensajeEntrante = $mensaje->wa_from != $config->phone_number_id;
 
         $datos = [
             'ultimo_mensaje' => $mensaje->body,
             'tipo_ultimo_mensaje' => $mensaje->type,
-            'ultima_fecha' => $mensaje->created_at,
+            'ultima_fecha' => $mensaje->sent_at,
         ];
 
         if ($esMensajeEntrante) {
             $datos['mensajes_no_leidos'] = DB::raw('mensajes_no_leidos + 1');
         }
 
-        Conversacion::updateOrCreate(
-            [
-                'contacto_id' => $mensaje->contact_id,
-                'phone_number_id' => $config->phone_number_id,
-            ],
-            $datos
-        );
+        Conversacion::updateOrCreate([
+            'contacto_id' => $mensaje->contact_id,
+            'phone_number_id' => $config->phone_number_id,
+        ], $datos);
     }
 }

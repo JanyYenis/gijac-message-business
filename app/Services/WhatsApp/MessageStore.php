@@ -13,7 +13,7 @@ class MessageStore
 {
     public function guardarEntrante(array $mensajeData, ParsedWhatsAppMessage $parsed, string $waFrom, ?string $waTo, string $waMsgId, int $estado, Carbon $sentAt, ?string $contactId): Mensaje
     {
-        return Mensaje::updateOrCreate(['wa_message_id' => $waMsgId], [
+        $mensaje = Mensaje::updateOrCreate(['wa_message_id' => $waMsgId], [
             'wa_from' => $waFrom,
             'wa_to' => $waTo,
             'type' => $parsed->tipo,
@@ -23,6 +23,10 @@ class MessageStore
             'estado' => $estado,
             'sent_at' => $sentAt,
         ]);
+
+        $mensaje->refresh();
+
+        return $mensaje;
     }
 
     public function marcarAperturaCampana(string $waMsgId): void

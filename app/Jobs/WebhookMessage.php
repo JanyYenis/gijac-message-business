@@ -27,6 +27,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
@@ -65,9 +66,10 @@ class WebhookMessage implements ShouldQueue
             return;
         }
 
+        $token = Crypt::decrypt($config->access_token);
         $api = new WhatsAppCloudApi([
             'from_phone_number_id' => $config->phone_number_id,
-            'access_token' => $config->access_token,
+            'access_token' => $token,
             'graph_version' => $version,
         ]);
 

@@ -9,6 +9,7 @@ use App\Models\Mensaje;
 use App\Models\WhatsappAccount;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Netflie\WhatsAppCloudApi\Message\Media\LinkID;
 
@@ -37,10 +38,11 @@ class ChatController extends Controller
             throw new \Exception(__('Token de WhatsApp no configurado.'));
         }
 
+        $token = Crypt::decrypt($config->access_token);
         // Ajusta esto según cómo instancies tu API en tu proyecto
         return new \Netflie\WhatsAppCloudApi\WhatsAppCloudApi([
             'from_phone_number_id' => $phoneNumberId,
-            'access_token' => $config->access_token,
+            'access_token' => $token,
             'graph_version' => $version, // O la versión que uses
         ]);
     }

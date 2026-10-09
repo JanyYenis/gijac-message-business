@@ -14,6 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
@@ -58,7 +59,7 @@ class SendWhatsAppMessage implements ShouldQueue
         $this->version = $version ?? null;
         $this->waba_id = $config?->waba_id ?? null;
         $this->phone_number_id = $config?->phone_number_id ?? null;
-        $this->token = $config?->access_token ?? null;
+        $this->token = $config?->access_token ? Crypt::decrypt($config->access_token) : null;
         $this->numeroG = $config?->phone_number ?? '573000000000';
 
         if ($this->phone_number_id && $this->token && $this->version) {

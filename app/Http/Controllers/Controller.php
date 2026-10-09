@@ -10,6 +10,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
 class Controller extends BaseController
@@ -42,7 +43,7 @@ class Controller extends BaseController
                 $this->version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v17.0'));
                 $this->waba_id = $config?->waba_id ?? null;
                 $this->phone_number_id = $config?->phone_number_id ?? null;
-                $this->token = $config?->access_token ?? null;
+                $this->token = $config?->access_token ? Crypt::decrypt($config?->access_token) : null;
                 $this->numeroG = $config?->phone_number ?? '573000000000';
                 $this->cod_config = $config?->id;
 

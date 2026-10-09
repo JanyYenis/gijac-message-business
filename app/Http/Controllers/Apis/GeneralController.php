@@ -12,6 +12,7 @@ use App\Models\Plantilla;
 use App\Models\Usuario;
 use App\Services\Contactos\ContactoService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
@@ -151,9 +152,10 @@ class GeneralController extends Controller
             return response()->json(['estado' => 'error', 'mensaje' => __('No hay configuración de Meta activa para este usuario.')], 422);
         }
 
+        $token = Crypt::decrypt($config->access_token);
         // Traemos la plantilla directo de Meta (igual que en store()/update())
         $url = "https://graph.facebook.com/{$version}/{$idPlantilla}";
-        $respuesta = consultaBase($url, 'GET', $config->access_token);
+        $respuesta = consultaBase($url, 'GET', $token);
         $plantilla = json_decode($respuesta);
 
         if (!$plantilla || isset($plantilla->error)) {
@@ -185,7 +187,7 @@ class GeneralController extends Controller
 
         $whatsapp_cloud_api = new WhatsAppCloudApi([
             'from_phone_number_id' => $config->phone_number_id,
-            'access_token' => $config->access_token,
+            'access_token' => $token,
             'graph_version' => $version,
         ]);
 

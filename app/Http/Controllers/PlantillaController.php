@@ -186,12 +186,18 @@ class PlantillaController extends Controller
         if ($respuestaMeta instanceof \Illuminate\Http\JsonResponse) {
             $error = $respuestaMeta->getData(true);
 
+            $mensaje = $error['error']['error']['error_user_msg']
+                ?? $error['error']['error']['error_user_title']
+                ?? $error['error']['error']['error_user_msgmessage']
+                ?? $error['error']['error']['message']
+                ?? __('Meta rechazó la plantilla.');
+
+            if (isset($error['error'])) {
+                $mensaje = ($error['error']['error']['message'] ?? 'N/A').' - '.($error['error']['error']['error_user_title'] ?? 'N/A').' - '.($error['error']['error']['error_user_msgmessage'] ?? 'N/A');
+            }
             return response()->json([
                 'estado' => 'error',
-                'mensaje' => $error['error']['error']['error_user_msg']
-                    ?? $error['error']['error']['error_user_title']
-                    ?? $error['error']['error']['error_user_msgmessage']
-                    ?? __('Meta rechazó la plantilla.'),
+                'mensaje' => $mensaje,
                 'validaciones' => [],
             ], $respuestaMeta->getStatusCode());
         }

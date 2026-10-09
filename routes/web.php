@@ -255,6 +255,16 @@ Route::get('/wompi/callback', [WompiController::class, 'callback'])->name('wompi
 // Route::get('/prueba', [PruebaController::class, 'index']);
 
 Route::get('/prueba', function(){
+    $whatsapp_cloud_api = new WhatsAppCloudApi([
+        'from_phone_number_id' => '1358651900662484',
+        'access_token' => env('WHATSAPP_VERIFY_TOKEN'),
+        'graph_version' => env('FACEBOOK_GRAPH_VERSION', 'v26.0'),
+    ]);
+    $response = $whatsapp_cloud_api->sendTextMessage('573152094191', 'Hola');
+    if ($response?->body()) {
+        $data = json_decode($response?->body());
+        dd($data);
+    }
     // return view('prueba.index');
 });
 

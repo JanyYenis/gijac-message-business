@@ -8,6 +8,7 @@ use App\Models\PlantillaComponente;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 
 class SincronizarPlantillasCommand extends Command
@@ -46,9 +47,10 @@ class SincronizarPlantillasCommand extends Command
 
         $plantillas_activas = [];
         foreach ($configuraciones as $config) {
+            $token = Crypt::decrypt($config->access_token);
             $url = "https://graph.facebook.com/{$version}/{$config->waba_id}/message_templates";
             $metodo = 'GET';
-            $response = consultaBase($url, $metodo, $config->access_token);
+            $response = consultaBase($url, $metodo, $token);
             $obj = json_decode($response);
 
             $templates = $obj?->data ?? [];

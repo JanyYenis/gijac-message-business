@@ -11,6 +11,7 @@ use App\Models\EventoDetalle;
 use App\Models\Mensaje;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Crypt;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
@@ -58,7 +59,7 @@ class ProgramacionCampanaCommand extends Command
             $this->version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
             $this->waba_id = $config->waba_id;
             $this->phone_number_id = $config->phone_number_id;
-            $this->token = $config->access_token;
+            $this->token = Crypt::decrypt($config->access_token);
             $this->numeroG = $config?->phone_number ?? '573161542681';
 
             $this->whatsapp_cloud_api = new WhatsAppCloudApi([

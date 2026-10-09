@@ -26,6 +26,13 @@ class MessageStore
 
         $mensaje->refresh();
 
+        logger()->info('Mensaje guardado desde webhook', [
+            'id' => $mensaje->id,
+            'wa_message_id' => $mensaje->wa_message_id,
+            'wasRecentlyCreated' => $mensaje->wasRecentlyCreated,
+            'contact_id' => $mensaje->contact_id,
+        ]);
+
         return $mensaje;
     }
 

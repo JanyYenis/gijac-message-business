@@ -6,6 +6,7 @@ use App\Models\WhatsappAccount;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class MensajeObserver
 {
@@ -14,6 +15,10 @@ class MensajeObserver
      */
     public function created(Mensaje $mensaje): void
     {
+        Log::info('OBSERVER MENSAJE CREATED', [
+            'id' => $mensaje->id,
+            'wa_message_id' => $mensaje->wa_message_id,
+        ]);
         $this->actualizarConversacion($mensaje);
     }
 
@@ -22,6 +27,10 @@ class MensajeObserver
      */
     public function updated(Mensaje $mensaje): void
     {
+        Log::info('OBSERVER MENSAJE UPDATED', [
+            'id' => $mensaje->id,
+            'wa_message_id' => $mensaje->wa_message_id,
+        ]);
         $this->actualizarConversacion($mensaje);
     }
 

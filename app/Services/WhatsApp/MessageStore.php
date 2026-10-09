@@ -8,12 +8,13 @@ use App\Models\Contacto;
 use App\Models\EnvioCampana;
 use App\Models\Mensaje;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class MessageStore
 {
     public function guardarEntrante(array $mensajeData, ParsedWhatsAppMessage $parsed, string $waFrom, ?string $waTo, string $waMsgId, int $estado, Carbon $sentAt, ?string $contactId): Mensaje
     {
-        logger()->error('DEBUG MESSAGE STORE: ejecutando guardarEntrante', [
+        Log::info('DEBUG MESSAGE STORE: ejecutando guardarEntrante', [
             'wa_message_id' => $waMsgId,
             'contact_id' => $contactId,
         ]);
@@ -31,7 +32,7 @@ class MessageStore
 
         $mensaje->refresh();
 
-        logger()->error('DEBUG MESSAGE STORE: mensaje guardado', [
+        Log::error('DEBUG MESSAGE STORE: mensaje guardado', [
             'id' => $mensaje->id,
             'wasRecentlyCreated' => $mensaje->wasRecentlyCreated,
             'contact_id' => $mensaje->contact_id,

@@ -57,6 +57,11 @@ class WebhookMessage implements ShouldQueue
      */
     public function messages($datos, $waba_id)
     {
+        Log::info('WEBHOOK WHATSAPP: método messages ejecutado', [
+            'waba_id' => $waba_id,
+            'tiene_mensajes' => !empty($datos['messages']),
+            'cantidad_mensajes' => count($datos['messages'] ?? []),
+        ]);
         $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
         $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('waba_id', $waba_id)

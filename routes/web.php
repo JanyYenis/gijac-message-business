@@ -32,6 +32,7 @@ use App\Services\Meta\CatalogoService;
 use App\Services\Meta\WabaService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
@@ -46,6 +47,7 @@ use Netflie\WhatsAppCloudApi\Message\OptionsList\Section;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 use Spatie\Sitemap\SitemapGenerator;
 use Stichoza\GoogleTranslate\GoogleTranslate;
+use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -255,16 +257,21 @@ Route::get('/wompi/callback', [WompiController::class, 'callback'])->name('wompi
 // Route::get('/prueba', [PruebaController::class, 'index']);
 
 Route::get('/prueba', function(){
-    $whatsapp_cloud_api = new WhatsAppCloudApi([
-        'from_phone_number_id' => '1358651900662484',
-        'access_token' => env('WHATSAPP_VERIFY_TOKEN'),
-        'graph_version' => env('FACEBOOK_GRAPH_VERSION', 'v26.0'),
-    ]);
-    $response = $whatsapp_cloud_api->sendTextMessage('573152094191', 'Hola');
-    if ($response?->body()) {
-        $data = json_decode($response?->body());
-        dd($data);
-    }
+    // dd(Str::uuid());
+
+    // dd(Crypt::encrypt('EAACsiX5e5eQBSnZCKwAzNe5zEPWhoP5u6ZCIAZC2Ch784dCWyoYrHAMVmCbg0LbLunMSWJ9D34a4YWGZB7Uz5ONJ0gQeG6NBHdZCXUEoyilf03oHtDssRiiHZBYv1isc2zgqi5lMTDGufW6ZBZAPElzLtt5xZAvMKtKgsIr5AHn9fC8hxvYbUy938gcV2af0QZCQZDZD'));
+
+    // $whatsapp_cloud_api = new WhatsAppCloudApi([
+    //     'from_phone_number_id' => '1358651900662484',
+    //     'access_token' => env('WHATSAPP_VERIFY_TOKEN'),
+    //     'graph_version' => env('FACEBOOK_GRAPH_VERSION', 'v26.0'),
+    // ]);
+    // $response = $whatsapp_cloud_api->sendTextMessage('573152094191', 'Hola');
+    // if ($response?->body()) {
+    //     $data = json_decode($response?->body());
+    //     dd($data);
+    // }
+
     // return view('prueba.index');
 });
 

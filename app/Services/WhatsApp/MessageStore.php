@@ -14,11 +14,6 @@ class MessageStore
 {
     public function guardarEntrante(array $mensajeData, ParsedWhatsAppMessage $parsed, string $waFrom, ?string $waTo, string $waMsgId, int $estado, Carbon $sentAt, ?string $contactId): Mensaje
     {
-        Log::info('DEBUG MESSAGE STORE: ejecutando guardarEntrante', [
-            'wa_message_id' => $waMsgId,
-            'contact_id' => $contactId,
-        ]);
-
         $mensaje = Mensaje::updateOrCreate(['wa_message_id' => $waMsgId], [
             'wa_from' => $waFrom,
             'wa_to' => $waTo,
@@ -31,12 +26,6 @@ class MessageStore
         ]);
 
         $mensaje->refresh();
-
-        Log::error('DEBUG MESSAGE STORE: mensaje guardado', [
-            'id' => $mensaje->id,
-            'wasRecentlyCreated' => $mensaje->wasRecentlyCreated,
-            'contact_id' => $mensaje->contact_id,
-        ]);
 
         return $mensaje;
     }

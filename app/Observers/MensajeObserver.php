@@ -15,10 +15,6 @@ class MensajeObserver
      */
     public function created(Mensaje $mensaje): void
     {
-        Log::info('OBSERVER MENSAJE CREATED ', [
-            'id' => $mensaje->id,
-            'wa_message_id' => $mensaje->wa_message_id,
-        ]);
         $this->actualizarConversacion($mensaje);
     }
 
@@ -27,10 +23,6 @@ class MensajeObserver
      */
     public function updated(Mensaje $mensaje): void
     {
-        Log::info('OBSERVER MENSAJE UPDATED', [
-            'id' => $mensaje->id,
-            'wa_message_id' => $mensaje->wa_message_id,
-        ]);
         $this->actualizarConversacion($mensaje);
     }
 

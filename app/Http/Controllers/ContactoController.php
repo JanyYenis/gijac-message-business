@@ -120,10 +120,10 @@ class ContactoController extends Controller
         // dd(count($data[0]) - 1);
 
         $cantidadRegistros = count($data[0]) - 1;
-        $tienePlan = auth()->user()?->cod_plan ?? null;
+        $tienePlan = auth()->user()?->empresa?->facturaVigente?->cod_plan ?? null;
         $esDemo = auth()->user()?->demo ?? null;
         $cantidadContactosActivos = Contacto::where('estado', Contacto::ACTIVO)
-            ->where('uuid', $this->uuid)
+            ->where('cod_empresa', $this->uuid)
             ->count();
         if ($tienePlan) {
             $plan = Plan::find($tienePlan);

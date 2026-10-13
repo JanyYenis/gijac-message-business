@@ -16,5 +16,11 @@ class InvoiceTemporal extends Model
     protected $fillable = [
         'invoice',
         'estado',
+        'cod_plan',
+        'cod_usuario',
+        'cod_empresa',
+        'tiempo',
+        'valor',
+        'currency',
     ];
 }

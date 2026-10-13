@@ -138,11 +138,6 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])
 
 Route::post('/device-link', [LoginQrController::class, 'deviceLink']);
 
-Route::get('/epayco/bancos', [EpaycoController::class, 'obtenerBancos'])
-        ->withoutMiddleware(['auth']);
-Route::post('/epayco/pago', [EpaycoController::class, 'transaccionPse'])
-    ->name('epayco.pago')
-    ->withoutMiddleware(['auth']);
 Route::get('/epayco/callback', [EpaycoController::class, 'callback'])
     ->name('epayco.callback')
     ->withoutMiddleware(['auth']);

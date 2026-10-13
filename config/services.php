@@ -47,4 +47,13 @@ return [
         'base_url' => env('OLLAMA_BASE_URL', 'http://localhost:11434'),
         'model' => env('OLLAMA_MODEL', 'gpt-oss:120b-cloud'),
     ],
+
+    'epayco' => [
+        'public_key' => env('EPAYCO_PUBLIC_KEY'),
+        'private_key' => env('EPAYCO_PRIVATE_KEY'),
+        'p_key' => env('EPAYCO_P_KEY'),
+        'invoice_prefix' => env('PREFIJO_FACTURA', 'INV'),
+        // En producción NO definas EPAYCO_TEST (o ponlo en false). Solo true en local/pruebas.
+        'test' => filter_var(env('EPAYCO_TEST', false), FILTER_VALIDATE_BOOLEAN),
+    ],
 ];

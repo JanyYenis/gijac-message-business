@@ -79,7 +79,8 @@ class Empresa extends Model
     {
         return $this->factura()
             ->whereDate('fecha_vencimiento', '>=', now())
-            ->where('x_response', 'Aceptada');
+            ->where('x_response', 'Aceptada')
+            ->latest('created_at');
     }
 
     public function nodos()

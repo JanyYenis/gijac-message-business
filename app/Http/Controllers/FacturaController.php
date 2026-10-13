@@ -64,12 +64,15 @@ class FacturaController extends Controller
 
     public function ver(Request $request, $factura)
     {
+        abort_unless(auth()->user()?->empresa?->id, 403);
+
         $factura = Factura::with(
                 'plan.serviciosHabilitados',
                 'usuario.infoDocumento'
             )
             ->where('invoice', $factura)
-            ->first() ?? null;
+            ->where('cod_empresa', auth()->user()?->empresa?->id)
+            ->firstOrFail();
 
         $data = [
             'factura' => $factura,

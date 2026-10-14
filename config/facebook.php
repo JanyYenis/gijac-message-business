@@ -26,6 +26,9 @@ return [
 
     'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
 
+    // Token que se escribe en el panel de Meta al configurar el webhook (el nombre de la variable conserva el typo original)
+    'webhook_token' => env('FACEBOOK_WEBOOK_TOKEN'),
+
     'config_id'     => env('FACEBOOK_CONFIG_ID'),   // Configuration ID del Embedded Signup
     'graph_version' => env('FACEBOOK_GRAPH_VERSION', 'v26.0'),
 ];

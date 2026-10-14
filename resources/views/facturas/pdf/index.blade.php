@@ -25,7 +25,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Factura {{ $factura->invoice }}</title>
+    <title>{{ __('Comprobante') }} {{ $factura->invoice }}</title>
     <style>
         @page {
             margin: 30px 35px;
@@ -256,12 +256,14 @@
                 </div>
             </td>
             <td class="factura-cell">
-                <div class="factura-titulo">{{ __('FACTURA ELECTRÓNICA') }}<br>{{ __('DE VENTA') }}</div>
+                <div class="factura-titulo">{{ __('COMPROBANTE DE PAGO') }}</div>
                 <div class="factura-numero">{{ __('No.') }} {{ $factura->invoice }}</div>
                 <div class="factura-meta">
-                    <strong>{{ __('Resolución DIAN:') }}</strong> {{ __('No.') }} {{ $empresa['resolucion'] }} {{ __('de') }} {{ $empresa['fecha_res'] }}<br>
-                    <strong>{{ __('Rango autorizado:') }}</strong> {{ $empresa['rango_desde'] }} {{ __('a') }} {{ $empresa['rango_hasta'] }}<br>
-                    <strong>{{ __('Vigencia:') }}</strong> {{ $empresa['vigencia'] }}
+                    @if (($factura->estado_fe ?? 1) === 3)
+                        <strong>{{ __('Factura electrónica:') }}</strong> {{ $factura->numero_fe }}
+                    @else
+                        {{ __('Este documento no es una factura electrónica.') }}
+                    @endif
                 </div>
             </td>
         </tr>
@@ -381,9 +383,12 @@
         @endif
 
         <p class="footer-note" style="color: black;">
-            {{ __('Esta factura representa una representación gráfica de un documento electrónico legal emitido bajo la normativa de la DIAN. La firma digital de ePayco garantiza la validez e integridad del recaudo y la transacción.') }}
+            @if (($factura->estado_fe ?? 1) === 3)
+                {{ __('La factura electrónica de esta transacción fue emitida ante la DIAN con el número y el CUFE indicados. Este comprobante resume el pago recibido a través de ePayco.') }}
+            @else
+                {{ __('Este es un comprobante del pago recibido a través de ePayco. No es una factura electrónica. Si la necesitas, solicítala desde tu perfil, en el historial de facturación.') }}
+            @endif
         </p>
     </div>
 </body>
 </html>
-{{-- @dd('jany') --}}

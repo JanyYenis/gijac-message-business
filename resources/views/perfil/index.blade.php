@@ -129,7 +129,7 @@
                             <li class="nav-item text-primary" role="presentation">
                                 <button class="nav-link btnTabFacturas" id="faturas-tab" data-bs-toggle="tab"
                                         data-bs-target="#tabFacturas" type="button" role="tab">
-                                    <i class="bi bi-phone me-2 text-primary"></i>{{ __('Facturas') }}
+                                    <i class="bi bi-phone me-2 text-primary"></i>{{ __('Comprobante de pago') }}
                                 </button>
                             </li>
                         @endcan

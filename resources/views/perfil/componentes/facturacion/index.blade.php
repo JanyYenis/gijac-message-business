@@ -111,7 +111,7 @@
 <div class="card mb-5 mb-xl-10">
     <div class="card-header card-header-stretch pb-0">
         <div class="card-title">
-            <h3 class="m-0">{{ __('Historial de facturación') }}</h3>
+            <h3 class="m-0">{{ __('Historial de comprobantes de pago') }}</h3>
         </div>
     </div>
     <div class="card-body">

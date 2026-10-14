@@ -2,114 +2,154 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CallsEvent;
 use App\Jobs\WebhookContacts;
 use App\Jobs\WebhookMessage;
 use App\Jobs\WebhookStatus;
 use App\Jobs\WebhookUserPreferences;
-use App\Models\WhatsappAccount;
 use App\Models\Contacto;
-use App\Models\Mensaje;
-use Exception;
+use App\Models\WhatsappAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
-use Netflie\WhatsAppCloudApi\Message\ButtonReply\Button;
-use Netflie\WhatsAppCloudApi\Message\ButtonReply\ButtonAction;
-use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
+    /**
+     * Verificación inicial del webhook (la hace Meta una vez al registrarlo).
+     */
     public function webhook(Request $request)
     {
-        try {
-            $token = env('FACEBOOK_WEBOOK_TOKEN');
-            $query = $request->query();
+        $mode = $request->query('hub_mode');
+        $challenge = $request->query('hub_challenge');
+        $verifyToken = (string) $request->query('hub_verify_token');
+        $token = (string) config('facebook.webhook_token');
 
-            $mode = $query['hub_mode'];
-            $palabraReto = $query['hub_challenge'];
-            $tokenVerificacion = $query['hub_verify_token'];
-
-            if ($mode && $tokenVerificacion) {
-                if ($mode === 'subscribe' && $token == $tokenVerificacion) {
-                    return response($palabraReto, 200)->header('Content-Type', 'text/plain');
-                }
-            }
-
-            throw new Exception("Peticion invalida");
-        } catch (Exception $e) {
-            return response()->json([
-                'estado' => 'error',
-                'mensaje' => $e->getMessage(),
-            ], 500);
+        if ($mode === 'subscribe' && $token !== '' && hash_equals($token, $verifyToken)) {
+            return response($challenge, 200)->header('Content-Type', 'text/plain');
         }
+
+        return response()->json([
+            'estado' => 'error',
+            'mensaje' => 'Petición inválida',
+        ], 403);
     }
 
+    /**
+     * Eventos de WhatsApp. Solo se procesan si vienen firmados por Meta.
+     * Todo el trabajo pesado va a la cola; aquí se responde rápido con 200.
+     */
     public function acctionWebhook(Request $request)
     {
-        try {
-            // $fileName = "plantilla.json";
+        if (!$this->firmaValida($request)) {
+            Log::warning('Webhook de WhatsApp con firma inválida', ['ip' => $request->ip()]);
+            return response()->json(['estado' => 'error', 'mensaje' => 'Firma no válida'], 403);
+        }
 
-            // // Escribe el JSON en el archivo
-            // if (file_put_contents($fileName, $request->getContent())) {
-            //     echo "El archivo $fileName fue creado exitosamente.";
-            // } else {
-            //     echo "Hubo un error al crear el archivo.";
-            // }
-            $bodyContent = json_decode($request->getContent(), true);
-            $datos = $bodyContent['entry'][0]['changes'][0]['value'];
-            $wabaId = $bodyContent['entry'][0]['id']?? null;
-            if (array_key_exists('contacts', $datos)) {
-                $telefono = $datos['contacts'][0]['wa_id'];
-                $contacto = Contacto::whereRaw("numero_completo = ?", [$telefono])?->first() ?? null;
-                if (!$contacto) {
-                    dispatch(new WebhookContacts($datos, $wabaId));
+        $body = json_decode($request->getContent(), true);
+        if (!is_array($body) || ($body['object'] ?? null) !== 'whatsapp_business_account') {
+            return response()->json(['message' => 'ignorado'], 200);
+        }
+
+        // Meta puede agrupar varias entradas y varios cambios en una sola petición
+        foreach ($body['entry'] ?? [] as $entry) {
+            $wabaId = $entry['id'] ?? null;
+
+            foreach ($entry['changes'] ?? [] as $change) {
+                try {
+                    $this->procesarCambio($change['value'] ?? [], $wabaId);
+                } catch (\Throwable $e) {
+                    // Se responde 200 igual: si no, Meta reintenta el mismo evento durante días
+                    Log::error('Error procesando un cambio del webhook de WhatsApp', [
+                        'waba_id' => $wabaId,
+                        'error' => $e->getMessage(),
+                    ]);
                 }
             }
+        }
 
-            if (array_key_exists('statuses', $datos)) {
-                dispatch(new WebhookStatus($datos, $wabaId));
+        return response()->json(['message' => 'ok'], 200);
+    }
+
+    /**
+     * Valida el encabezado X-Hub-Signature-256 (HMAC-SHA256 del cuerpo con el App Secret).
+     */
+    private function firmaValida(Request $request): bool
+    {
+        $secret = (string) config('facebook.client_secret');
+        $firma = (string) $request->header('X-Hub-Signature-256');
+
+        if ($secret === '' || $firma === '') {
+            return false;
+        }
+
+        $esperada = 'sha256=' . hash_hmac('sha256', $request->getContent(), $secret);
+
+        return hash_equals($esperada, $firma);
+    }
+
+    private function procesarCambio(array $datos, ?string $wabaId): void
+    {
+        $empresaId = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
+            ->where('waba_id', $wabaId)
+            ->value('cod_empresa');
+
+        // Contactos nuevos: uno por contacto, solo si no existen en ESA empresa
+        foreach ($datos['contacts'] ?? [] as $contacto) {
+            $telefono = $contacto['wa_id'] ?? null;
+            if (!$telefono || !$empresaId) {
+                continue;
             }
 
-            if (array_key_exists('user_preferences', $datos)) {
-                dispatch(new WebhookUserPreferences($datos, $wabaId));
+            $existe = Contacto::where('numero_completo', $telefono)
+                ->where('cod_empresa', $empresaId)
+                ->exists();
+
+            if (!$existe) {
+                dispatch(new WebhookContacts(array_merge($datos, ['contacts' => [$contacto]]), $wabaId));
+            }
+        }
+
+        // Estados (enviado, entregado, leído, fallido): un job por estado
+        foreach ($datos['statuses'] ?? [] as $estado) {
+            dispatch(new WebhookStatus(array_merge($datos, ['statuses' => [$estado]]), $wabaId));
+        }
+
+        if (array_key_exists('user_preferences', $datos)) {
+            dispatch(new WebhookUserPreferences($datos, $wabaId));
+        }
+
+        // Mensajes entrantes: un job por mensaje, ignorando los que Meta reenvía
+        foreach ($datos['messages'] ?? [] as $mensaje) {
+            $id = $mensaje['id'] ?? null;
+            if ($id && !Cache::add('wa:webhook:msg:' . $id, 1, now()->addDay())) {
+                continue;
             }
 
-            if (array_key_exists('messages', $datos)) {
-                dispatch(new WebhookMessage($datos, $wabaId));
-            }
+            $contactos = collect($datos['contacts'] ?? []);
+            $contacto = $contactos->firstWhere('wa_id', $mensaje['from'] ?? null) ?? $contactos->first();
 
-            if (array_key_exists('calls', $datos)) {
-                // broadcast(new CallsEvent($nuevo_mensaje));
-            }
+            dispatch(new WebhookMessage(
+                array_merge($datos, [
+                    'messages' => [$mensaje],
+                    'contacts' => $contacto ? [$contacto] : [],
+                ]),
+                $wabaId
+            ));
+        }
 
-            if (array_key_exists('message_template_components_update', $datos) ||
-                array_key_exists('message_template_quality_update', $datos) ||
-                array_key_exists('message_template_status_update', $datos) ||
-                array_key_exists('template_category_update', $datos) ||
-                array_key_exists('template_correct_category_detection', $datos)) {
-                Artisan::call('sincronizar:plantillas', [
-                    'waba_id' => $wabaId
-                ]);
+        // Cambios en plantillas: se sincronizan en cola para no demorar la respuesta a Meta
+        foreach ([
+            'message_template_components_update',
+            'message_template_quality_update',
+            'message_template_status_update',
+            'template_category_update',
+            'template_correct_category_detection',
+        ] as $campo) {
+            if (array_key_exists($campo, $datos)) {
+                Artisan::queue('sincronizar:plantillas', ['waba_id' => $wabaId]);
+                break;
             }
-
-            return response()->json([
-                'message' => 'ok'
-            ], 200);
-        } catch (Exception $e) {
-            $mensaje = Mensaje::updateOrCreate([
-                'wa_message_id' => 'error'
-            ], [
-                'wa_from'   => 1,
-                'wa_to'     => 1,
-                'type'      => Mensaje::TEXTO,
-                'body'      => $e->getMessage(),
-                'estado'    => Mensaje::ERROR,
-                'sent_at'   => now(),
-            ]);
-            return response()->json([
-                'estado' => 'error',
-                'mensaje' => $e->getMessage(),
-            ], 500);
         }
     }
 }

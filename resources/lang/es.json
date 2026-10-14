@@ -3293,5 +3293,16 @@
     "📞 Llamada entrante": "📞 Llamada entrante",
     "📲 Abrir App (Android)": "📲 Abrir App (Android)",
     "📲 Abrir App (iOS)": "📲 Abrir App (iOS)",
-    "🔥 Promoción especial": "🔥 Promoción especial"
+    "🔥 Promoción especial": "🔥 Promoción especial",
+    "Comprobante de pago": "Comprobante de pago",
+    "Historial de comprobantes de pago": "Historial de comprobantes de pago",
+    "COMPROBANTE DE PAGO": "COMPROBANTE DE PAGO",
+    "Comprobante": "Comprobante",
+    "Factura electrónica:": "Factura electrónica:",
+    "Este documento no es una factura electrónica.": "Este documento no es una factura electrónica.",
+    "La factura electrónica de esta transacción fue emitida ante la DIAN con el número y el CUFE indicados. Este comprobante resume el pago recibido a través de ePayco.": "La factura electrónica de esta transacción fue emitida ante la DIAN con el número y el CUFE indicados. Este comprobante resume el pago recibido a través de ePayco.",
+    "Este es un comprobante del pago recibido a través de ePayco. No es una factura electrónica. Si la necesitas, solicítala desde tu perfil, en el historial de facturación.": "Este es un comprobante del pago recibido a través de ePayco. No es una factura electrónica. Si la necesitas, solicítala desde tu perfil, en el historial de facturación.",
+    "Registrar factura electrónica": "Registrar factura electrónica",
+    "Solicitar factura electrónica": "Solicitar factura electrónica",
+    "Ver comprobante": "Ver comprobante"
 }

@@ -12,6 +12,11 @@ class Factura extends Model
     const INACTIVO  = 2;
     const ELIMINADO = 0;
 
+    // Estado de la factura electrónica (se emite aparte, con la herramienta de la DIAN)
+    const FE_NO_SOLICITADA = 1;
+    const FE_SOLICITADA    = 2;
+    const FE_EMITIDA       = 3;
+
     protected $table = 'facturas';
 
     protected $fillable = [
@@ -42,9 +47,17 @@ class Factura extends Model
         'cod_empresa',
         'tiempo',
         'fecha_vencimiento',
+        'estado_fe',
+        'numero_fe',
+        'cufe',
+        'fe_observaciones',
+        'fe_solicitada_at',
+        'fe_emitida_at',
     ];
 
     protected $casts = [
+        'fe_solicitada_at' => 'datetime',
+        'fe_emitida_at' => 'datetime',
         "fecha_vencimiento" => "date:d/m/Y g:i a",
         "created_at" => "date:d/m/Y",
         "updated_at" => "date:d/m/Y",

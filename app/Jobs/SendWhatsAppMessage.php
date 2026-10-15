@@ -4,11 +4,14 @@ namespace App\Jobs;
 
 use App\Exceptions\ErrorException;
 use App\Models\WhatsappAccount;
+use App\Models\DetalleErrorMensaje;
 use App\Models\DetalleLink;
 use App\Models\EnvioCampana;
 use App\Models\VariableCampana;
 use App\Models\Mensaje;
 use App\Models\Plantilla;
+use App\Models\Usuario;
+use App\Notifications\WhatsappTokenNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -16,6 +19,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
@@ -35,6 +40,17 @@ class SendWhatsAppMessage implements ShouldQueue
     public $token;
     public $numeroG;
     public $whatsapp_cloud_api;
+
+    // Sin límite de intentos: los reintentos por límite de velocidad de Meta se controlan con retryUntil().
+    public $tries = 0;
+
+    // Códigos de Meta que son temporales (límite de velocidad / servicio): se reintenta en vez de marcar fallo.
+    const CODIGOS_TEMPORALES = [4, 1, 2, 80004, 80007, 130429, 131000, 131016, 131056];
+
+    public function retryUntil()
+    {
+        return now()->addHours(6);
+    }
 
     /**
      * Create a new job instance.
@@ -78,14 +94,64 @@ class SendWhatsAppMessage implements ShouldQueue
         $info['wamid'] = null;
         $info['estado'] = EnvioCampana::ACTIVO;
 
-        $response = $this->enviarCampana($this->contacto, $this->plantilla, $this->info, $this->idCampana, $this->nombres_variables);
+        if (!$this->whatsapp_cloud_api) {
+            $this->registrarFallo($info, 0, 'Cuenta no conectada', 'La cuenta de WhatsApp no está conectada o no tiene token.');
+            return;
+        }
+
+        // Límite de velocidad por número de WhatsApp (mensajes por segundo), compartido entre todos los workers
+        $limite = (int) config('facebook.envio_por_segundo', env('WHATSAPP_ENVIO_POR_SEGUNDO', 10));
+        $puede = Redis::throttle('wa-envio:' . $this->phone_number_id)
+            ->allow(max(1, $limite))->every(1)->block(0)
+            ->then(fn () => true, fn () => false);
+
+        if (!$puede) {
+            $this->release(rand(1, 3));
+            return;
+        }
+
+        try {
+            $response = $this->enviarCampana($this->contacto, $this->plantilla, $this->info, $this->idCampana, $this->nombres_variables);
+        } catch (\Throwable $e) {
+            // Error de red/conexión: se reintenta
+            Log::warning('Error de conexión al enviar campaña', ['cod_campana' => $this->idCampana, 'error' => $e->getMessage()]);
+            $this->release(min(300, 15 * $this->attempts()));
+            return;
+        }
 
         if (!$response || $response->isError()) {
+            $cuerpo = $response ? ($response->decodedBody() ?? []) : [];
+            $codigo = (int) ($cuerpo['error']['code'] ?? 0);
+            $http = $response ? (int) $response->httpStatusCode() : 0;
+
+            if ($response && ($http >= 500 || in_array($codigo, self::CODIGOS_TEMPORALES, true))) {
+                Log::warning('Meta pidió reintentar el envío', ['cod_campana' => $this->idCampana, 'codigo' => $codigo, 'http' => $http]);
+                $this->release(min(300, 15 * $this->attempts()));
+                return;
+            }
+
             Log::warning('Fallo al enviar campaña', [
                 'cod_campana' => $this->idCampana,
                 'telefono' => $info['telefono'],
-                'detalle' => $response?->decodedBody(),
+                'detalle' => $cuerpo,
             ]);
+
+            // Token revocado/vencido (190): se desconecta la cuenta y se avisa una sola vez al cliente
+            if ($codigo === 190 && $config) {
+                $cambio = WhatsappAccount::where('id', $config->id)
+                    ->where('estado', WhatsappAccount::CONECTADO)
+                    ->update(['estado' => WhatsappAccount::TOKEN_EXPIRADO]);
+                if ($cambio) {
+                    Usuario::where('uuid', $config->usuario_id)->first()?->notify(new WhatsappTokenNotification(null));
+                }
+            }
+            $this->registrarFallo(
+                $info,
+                $codigo,
+                $cuerpo['error']['type'] ?? 'Error de envío',
+                $cuerpo['error']['message'] ?? 'No se pudo enviar el mensaje.',
+                $cuerpo['error']['error_data']['details'] ?? null
+            );
             return;
         }
 
@@ -93,6 +159,51 @@ class SendWhatsAppMessage implements ShouldQueue
         $messageId = $data->messages[0]->id ?? null;
         $info['wamid'] = $messageId ?? 'Nooo';
 
+        // El mensaje ya salió: si algo falla al registrarlo NO se relanza (evita enviarlo dos veces)
+        try {
+            $this->registrarEnvio($info, $messageId);
+        } catch (\Throwable $e) {
+            Log::error('Mensaje enviado pero no se pudo registrar', [
+                'cod_campana' => $this->idCampana,
+                'wamid' => $messageId,
+                'error' => $e->getMessage(),
+            ]);
+        }
+    }
+
+    protected function registrarFallo(array $info, $codigo, $titulo, $mensaje, $detalle = null): void
+    {
+        $wamid = 'fallo-' . Str::uuid();
+        $info['wamid'] = $wamid;
+
+        EnvioCampana::updateOrCreate([
+            'cod_campana' => $info['cod_campana'],
+            'telefono' => $info['telefono'],
+        ], $info);
+
+        Mensaje::create([
+            'campaign_id'   => $this->idCampana,
+            'contact_id'    => $this->contacto->id,
+            'wa_message_id' => $wamid,
+            'wa_from'       => $this->phone_number_id,
+            'wa_to'         => $this->contacto->numero_completo,
+            'type'          => Mensaje::PLANTILLA,
+            'body'          => '',
+            'estado'        => Mensaje::FALLIDO,
+            'sent_at'       => now(),
+        ]);
+
+        DetalleErrorMensaje::create([
+            'wamid' => $wamid,
+            'code' => $codigo,
+            'title' => $titulo,
+            'message' => $mensaje,
+            'details' => $detalle,
+        ]);
+    }
+
+    protected function registrarEnvio(array $info, $messageId): void
+    {
         $envio_campana = EnvioCampana::updateOrCreate([
             'cod_campana' => $info['cod_campana'],
             'telefono' => $info['telefono'],

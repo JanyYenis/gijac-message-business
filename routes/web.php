@@ -129,6 +129,7 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])
     Route::get('/onboarding',  [WhatsAppOnboardingController::class, 'connect'])->name('whatsapp.onboarding');
     Route::post('/exchange-token',[WhatsAppOnboardingController::class, 'exchangeToken'])->name('whatsapp.exchange');
     Route::get('/status',      [WhatsAppOnboardingController::class, 'status'])->name('whatsapp.status');
+    Route::get('/checklist', [WhatsAppOnboardingController::class, 'checklist'])->name('whatsapp.checklist');
     Route::post('/resubscribe',[WhatsAppOnboardingController::class, 'resubscribeWebhook'])->name('whatsapp.resubscribe');
     Route::post('/register',   [WhatsAppOnboardingController::class, 'registerNumber'])->name('whatsapp.register');
     Route::post('/renew-token',[WhatsAppOnboardingController::class, 'renewToken'])->name('whatsapp.renew');

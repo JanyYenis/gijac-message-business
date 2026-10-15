@@ -31,4 +31,5 @@ return [
 
     'config_id'     => env('FACEBOOK_CONFIG_ID'),   // Configuration ID del Embedded Signup
     'graph_version' => env('FACEBOOK_GRAPH_VERSION', 'v26.0'),
+    'envio_por_segundo' => env('WHATSAPP_ENVIO_POR_SEGUNDO', 10),
 ];

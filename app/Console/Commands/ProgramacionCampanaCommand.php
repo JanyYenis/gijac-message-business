@@ -12,6 +12,7 @@ use App\Models\Mensaje;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 use Netflie\WhatsAppCloudApi\Message\Template\Component;
 use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
@@ -106,6 +107,13 @@ class ProgramacionCampanaCommand extends Command
                         $metodo = 'GET';
                         $responseP = consultaBase($url, $metodo, $this->token);
                         $plantilla = json_decode($responseP);
+
+                        // Si Meta no devolvió la plantilla, no se pierde la campaña: vuelve a pendiente y se reintenta
+                        if (!isset($plantilla->name)) {
+                            Log::error('No se pudo consultar la plantilla de la campaña', ['cod_campana' => $campana->id]);
+                            Campana::where('id', $campana->id)->update(['estado' => Campana::PENDIENTE]);
+                            continue;
+                        }
                         $variables = [];
                         if ($campana?->contenido_multimedia && ($campana?->tipo == Campana::IMAGEN ||
                             $campana?->tipo == Campana::VIDEO || $campana?->tipo == Campana::DOCUMENTO)) {

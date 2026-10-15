@@ -61,6 +61,7 @@ class WhatsAppOnboardingController extends Controller
                 'disconnect'  => route('whatsapp.disconnect'),
                 'templates'   => url('/admin/whatsapp/templates'),
                 'status'      => route('whatsapp.status'),
+                'checklist'   => route('whatsapp.checklist'),
             ],
             'account' => $account ? [
                 'waba_id'         => $account->waba_id,
@@ -73,7 +74,7 @@ class WhatsAppOnboardingController extends Controller
                 'registered'      => $account->number_registered,
                 'token_days'      => $account->token_expires_at
                     ? max(0, (int) now()->diffInDays($account->token_expires_at, false))
-                    : 60,
+                    : null,
             ] : null,
             'logs' => WhatsappWebhookLog::latest()->take(5)
                 ->get(['event_type', 'waba_id', 'created_at', 'estado'])
@@ -113,9 +114,10 @@ class WhatsAppOnboardingController extends Controller
             $token = $tokenRes['access_token']?? null;
             abort_if(! $token, 422, 'No se pudo obtener el access_token de 【entity-Meta¦canonical_name=Meta】.');
 
+            // Sin expires_in = token que no vence (se corrige con el valor real de debug_token en el chequeo diario)
             $expiresAt = isset($tokenRes['expires_in'])
                ? now()->addSeconds((int) $tokenRes['expires_in'])
-                : now()->addDays(60);
+                : null;
 
             /* 2. IDs: del evento del navegador, o por fallback */
             $wabaId = $data['waba_id']?? $this->resolveWabaId($token);
@@ -194,7 +196,7 @@ class WhatsAppOnboardingController extends Controller
                     'limit' => $limit,
                     'webhook' => $webhookOk,
                     'registered' => $registered,
-                    'token_days' => max(0, (int) now()->diffInDays($expiresAt, false)),
+                    'token_days' => $expiresAt ? max(0, (int) now()->diffInDays($expiresAt, false)) : null,
                 ],
             ]);
         } catch (\Throwable $e) {
@@ -281,6 +283,180 @@ class WhatsAppOnboardingController extends Controller
             'success' => $ok,
             'message' => $ok ? 'Número registrado en Cloud API.' : 'No se pudo registrar el número. Verifica el PIN 2FA.',
         ], $ok ? 200 : 422);
+    }
+
+    /* =========================================================
+       GET /admin/whatsapp/checklist
+       Estado real de la cuenta frente a Meta, paso a paso
+       ========================================================= */
+    public function checklist()
+    {
+        $account = WhatsappAccount::where('usuario_id', auth()->user()->uuid)
+            ->where('cod_empresa', auth()->user()->empresa?->id)
+            ->whereIn('estado', [WhatsappAccount::CONECTADO, WhatsappAccount::TOKEN_EXPIRADO])
+            ->latest('updated_at')
+            ->first();
+
+        $items = [];
+        $item = function (string $clave, string $titulo, string $estado, string $detalle, bool $requerido = true) use (&$items) {
+            $items[] = compact('clave', 'titulo', 'estado', 'detalle', 'requerido');
+        };
+
+        // Consulta a Meta que nunca lanza excepción: devuelve [] si falla
+        $get = function (string $url, array $query = [], ?string $token = null): array {
+            try {
+                $req = $token ? Http::withToken($token) : Http::acceptJson();
+                $res = $req->timeout(10)->get($url, $query);
+                return $res->successful() ? ($res->json() ?? []) : [];
+            } catch (\Throwable $e) {
+                return [];
+            }
+        };
+
+        if (! $account) {
+            $item('cuenta', 'Cuenta de WhatsApp conectada', 'pendiente', 'Conecta tu cuenta con Facebook para empezar.');
+            return response()->json(['success' => true, 'listo' => false, 'items' => $items]);
+        }
+
+        $conectada = $account->estado === WhatsappAccount::CONECTADO;
+        $item(
+            'cuenta',
+            'Cuenta de WhatsApp conectada',
+            $conectada ? 'ok' : 'error',
+            $conectada
+                ? "Número {$account->phone_number}"
+                : 'La conexión se perdió. Vuelve a conectar tu cuenta con Facebook.'
+        );
+
+        $token = Crypt::decrypt($account->access_token);
+
+        /* Token y permisos */
+        $dbg = $get("{$this->graph}/debug_token", [
+            'input_token' => $token,
+            'access_token' => "{$this->appId}|{$this->appSecret}",
+        ])['data'] ?? [];
+
+        if (! $dbg) {
+            $item('token', 'Autorización (token) vigente', 'pendiente', 'No se pudo verificar con Meta en este momento. Intenta de nuevo.');
+        } elseif (! ($dbg['is_valid'] ?? false)) {
+            $item('token', 'Autorización (token) vigente', 'error', 'La autorización venció o fue revocada. Vuelve a conectar tu cuenta.');
+        } else {
+            $scopes = $dbg['scopes'] ?? [];
+            $faltan = array_diff(['whatsapp_business_management', 'whatsapp_business_messaging'], $scopes);
+            $dias = ! empty($dbg['expires_at']) ? (int) now()->diffInDays(\Carbon\Carbon::createFromTimestamp($dbg['expires_at']), false) : null;
+
+            if ($faltan) {
+                $item('token', 'Autorización (token) vigente', 'error', 'Faltan permisos: ' . implode(', ', $faltan) . '. Vuelve a conectar y acepta todos los permisos.');
+            } elseif ($dias !== null && $dias <= 7) {
+                $item('token', 'Autorización (token) vigente', 'pendiente', "Vence en {$dias} día(s). Renuévala o vuelve a conectar.");
+            } else {
+                $item('token', 'Autorización (token) vigente', 'ok', $dias === null ? 'No vence.' : "Vence en {$dias} días.");
+            }
+        }
+
+        if (! $conectada || ! $dbg || ! ($dbg['is_valid'] ?? false)) {
+            return response()->json(['success' => true, 'listo' => false, 'items' => $items]);
+        }
+
+        /* Webhook: ¿nuestra app está suscrita a la WABA? */
+        $subs = $get("{$this->graph}/{$account->waba_id}/subscribed_apps", [], $token)['data'] ?? [];
+        $suscrita = false;
+        foreach ($subs as $s) {
+            if ((string) ($s['whatsapp_business_api_data']['id'] ?? '') === $this->appId) {
+                $suscrita = true;
+            }
+        }
+        $item(
+            'webhook',
+            'Recepción de mensajes (webhook)',
+            $suscrita ? 'ok' : 'error',
+            $suscrita ? 'Tu cuenta está recibiendo mensajes y estados.' : 'La aplicación no está suscrita a tu cuenta. Usa "Re-suscribir webhook".'
+        );
+
+        /* Número */
+        $phone = $get("{$this->graph}/{$account->phone_number_id}", [
+            'fields' => 'status,code_verification_status,quality_rating,messaging_limit_tier,verified_name,name_status',
+        ], $token);
+
+        if (! $phone) {
+            $item('numero', 'Número verificado y activo', 'pendiente', 'No se pudo consultar el número en Meta.');
+        } else {
+            $verificado = ($phone['code_verification_status'] ?? '') === 'VERIFIED';
+            $estadoNum = $phone['status'] ?? 'UNKNOWN';
+            $nombre = $phone['name_status'] ?? null;
+            $ok = $verificado && $estadoNum === 'CONNECTED';
+            $detalle = $ok
+                ? 'Número conectado a la API.'
+                : "Estado: {$estadoNum}" . ($verificado ? '' : ' (sin verificar)') . '. Revisa el número en WhatsApp Manager.';
+            $item('numero', 'Número verificado y activo', $ok ? 'ok' : 'error', $detalle);
+
+            if ($nombre && $nombre !== 'APPROVED') {
+                $item('nombre', 'Nombre de visualización aprobado', 'pendiente', "Estado del nombre: {$nombre}.", false);
+            }
+
+            $rating = $phone['quality_rating'] ?? 'UNKNOWN';
+            $limite = str_replace('TIER_', '', $phone['messaging_limit_tier'] ?? '');
+            $item(
+                'calidad',
+                'Calidad del número',
+                $rating === 'RED' ? 'error' : ($rating === 'YELLOW' ? 'pendiente' : 'ok'),
+                'Calidad: ' . $rating . ($limite ? " · Límite: {$limite} contactos nuevos / 24 h" : ''),
+                false
+            );
+        }
+
+        /* WABA: salud de envío, método de pago y verificación del negocio */
+        $waba = $get("{$this->graph}/{$account->waba_id}", [
+            'fields' => 'health_status,primary_funding_id,business_verification_status',
+        ], $token);
+
+        if ($waba) {
+            $puede = $waba['health_status']['can_send_message'] ?? null;
+            if ($puede) {
+                $detalle = 'Meta permite enviar mensajes.';
+                if ($puede !== 'AVAILABLE') {
+                    $errores = [];
+                    foreach (($waba['health_status']['entities'] ?? []) as $e) {
+                        foreach (($e['errors'] ?? []) as $er) {
+                            $errores[] = trim(($er['error_description'] ?? '') . ' ' . ($er['possible_solution'] ?? ''));
+                        }
+                    }
+                    $detalle = "Envío {$puede}. " . implode(' | ', array_slice($errores, 0, 2));
+                }
+                $item('salud', 'Meta permite enviar mensajes', $puede === 'AVAILABLE' ? 'ok' : ($puede === 'LIMITED' ? 'pendiente' : 'error'), $detalle);
+            }
+
+            $pago = ! empty($waba['primary_funding_id']);
+            $item(
+                'pago',
+                'Método de pago en WhatsApp Manager',
+                $pago ? 'ok' : 'pendiente',
+                $pago ? 'Método de pago configurado.' : 'Agrégalo en WhatsApp Manager > Facturación; sin él Meta no deja enviar plantillas de pago.'
+            );
+
+            $ver = $waba['business_verification_status'] ?? 'not_verified';
+            $item(
+                'verificacion',
+                'Negocio verificado en Meta',
+                $ver === 'verified' ? 'ok' : 'pendiente',
+                $ver === 'verified' ? 'Negocio verificado.' : 'Sin verificar: tu límite de envío es bajo. Verifica tu negocio en Meta Business Suite para ampliarlo.',
+                false
+            );
+        }
+
+        /* Plan */
+        $plan = auth()->user()?->empresa?->facturaVigente;
+        $item(
+            'plan',
+            'Plan activo',
+            $plan ? 'ok' : 'pendiente',
+            $plan ? 'Plan vigente hasta ' . $plan->fecha_vencimiento->format('d/m/Y') . '.' : 'No tienes un plan vigente. Elige uno para enviar campañas.',
+            false
+        );
+
+        $listo = collect($items)->where('requerido', true)->every(fn ($i) => $i['estado'] === 'ok');
+
+        return response()->json(['success' => true, 'listo' => $listo, 'items' => $items]);
     }
 
     /* POST — renovar token (sigue siendo un placeholder) */

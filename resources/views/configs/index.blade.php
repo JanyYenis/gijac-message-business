@@ -1187,6 +1187,34 @@
             animation: pulse 2s infinite;
         }
 
+        .mb-warn {
+            background: #fdf7e6;
+            color: #a97a06;
+            border-color: #f1e0ae;
+        }
+
+        .mb-bad {
+            background: #fdeeed;
+            color: #b3403a;
+            border-color: #f3c9c6;
+        }
+
+        .mb-warn .q-dot,
+        .mb-bad .q-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .mini-fill.warn {
+            background: linear-gradient(90deg, #f1c04a, #d99a05);
+        }
+
+        .mini-fill.bad {
+            background: linear-gradient(90deg, #e57a76, #d9534f);
+        }
+
         .mini-bar {
             height: 4px;
             border-radius: 4px;
@@ -1817,8 +1845,8 @@
         </div>
 
         <!-- ============================================================
-                                    HERO DE ONBOARDING (composición 3D)
-                                    ============================================================ -->
+            HERO DE ONBOARDING (composición 3D)
+            ============================================================ -->
         <section class="wa-hero" id="waHero" aria-labelledby="heroTitle">
             <div class="h-glow h-glow-1" aria-hidden="true"></div>
             <div class="h-glow h-glow-2" aria-hidden="true"></div>
@@ -1895,8 +1923,8 @@
         </section>
 
         <!-- ============================================================
-                                    ESTADO DE CONEXIÓN
-                                    ============================================================ -->
+            ESTADO DE CONEXIÓN
+            ============================================================ -->
         <div class="section-head">
             <h3 class="fs-2">{{ __('Estado de conexión') }}</h3>
             <p class="fs-5">
@@ -2000,8 +2028,8 @@
         </div>
 
         <!-- ============================================================
-                                    DASHBOARD CONECTADO (3 columnas · visible solo conectado)
-                                    ============================================================ -->
+            DASHBOARD CONECTADO (3 columnas · visible solo conectado)
+            ============================================================ -->
         <div id="dashConnected" class="d-none">
             <div class="row g-4 mt-1">
                 <!-- CARD 1 · CUENTA WHATSAPP -->
@@ -2074,7 +2102,7 @@
                             <i class="bi bi-cpu"></i>
                             {{ __('Estado técnico') }}
                         </h4>
-                        <div class="tech-row">
+                        <div class="tech-row" data-check="webhook">
                             <div class="tech-info">
                                 <strong class="fs-6">{{ __('Webhook') }}</strong>
                                 <small class="fs-7">{{ __('Eventos en tiempo real') }}</small>
@@ -2087,7 +2115,7 @@
                                 {{ __('Suscrito') }}
                             </span>
                         </div>
-                        <div class="tech-row">
+                        <div class="tech-row" data-check="numero">
                             <div class="tech-info">
                                 <strong class="fs-6">{{ __('Número') }}</strong>
                                 <small class="fs-7">{{ __('Registro en Cloud API') }}</small>
@@ -2100,7 +2128,7 @@
                                 {{ __('Registrado') }}
                             </span>
                         </div>
-                        <div class="tech-row">
+                        <div class="tech-row" data-check="salud">
                             <div class="tech-info">
                                 <strong class="fs-6">{{ __('API') }}</strong>
                                 <small class="fs-7">{{ __('Envío y recepción') }}</small>
@@ -2113,7 +2141,7 @@
                                 {{ __('Operativa') }}
                             </span>
                         </div>
-                        <div class="tech-row">
+                        <div class="tech-row" data-check="token">
                             <div class="tech-info">
                                 <strong class="fs-6">{{ __('Token') }}</strong>
                                 <small class="fs-7" data-field="token_text">{{ __('Expira en 58 días') }}</small>
@@ -2175,8 +2203,8 @@
         </div>
 
         <!-- ============================================================
-                                    ACCIONES · ADMINISTRAR CONEXIÓN
-                                    ============================================================ -->
+            ACCIONES · ADMINISTRAR CONEXIÓN
+            ============================================================ -->
         <div class="section-head">
             <h3 class="fs-2">{{ __('Administrar conexión') }}</h3>
             <p class="fs-5">{{ __('Acciones disponibles sobre tu número de WhatsApp Business.') }}</p>
@@ -2214,13 +2242,13 @@
         </div>
 
         <!-- ============================================================
-                                    ACTIVIDAD / LOGS
-                                    ============================================================ -->
-        <div class="section-head">
+            ACTIVIDAD / LOGS
+            ============================================================ -->
+        <div class="section-head d-none">
             <h3 class="fs-2">{{ __('Actividad reciente') }}</h3>
             <p class="fs-5">{{ __('Últimos eventos relacionados con tu conexión de WhatsApp.') }}</p>
         </div>
-        <div class="gi-card" style="overflow: hidden">
+        <div class="gi-card d-none" style="overflow: hidden">
             <div class="table-responsive">
                 <table class="logs-table fs-5" aria-label="{{ __('Actividad reciente de la conexión') }}">
                     <thead>
@@ -2320,8 +2348,8 @@
 
 @section('modal')
     <!-- ============================================================
-                             MODAL · PROBAR CONEXIÓN
-                             ============================================================ -->
+        MODAL · PROBAR CONEXIÓN
+        ============================================================ -->
     <div class="modal fade" id="testModal" tabindex="-1" aria-labelledby="testModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -2338,12 +2366,12 @@
                         <form id="testForm">
                             <div class="mb-3">
                                 <label for="testTo" class="form-label">{{ __('Número de WhatsApp') }}</label>
-                                <input type="tel" class="form-control" id="testTo" value="+57 300 123 4567" />
+                                <input type="tel" class="form-control" id="testTo" value="" placeholder="+57 300 000 0000" />
                             </div>
                             <div class="mb-4">
                                 <label for="testMsg" class="form-label">{{ __('Mensaje') }}</label>
-                                <textarea class="form-control" id="testMsg" rows="3">
-    {{ __('Hola, este es un mensaje de prueba enviado desde GIJAC Message Business.') }}</textarea>
+                                <textarea class="form-control" id="testMsg" rows="3"
+                                    >{{ __('Hola, este es un mensaje de prueba enviado desde GIJAC Message Business.') }}</textarea>
                             </div>
                             <div class="d-flex justify-content-end gap-2">
                                 <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">
@@ -2374,8 +2402,8 @@
     </div>
 
     <!-- ============================================================
-                             MODAL · CONFIRMAR DESCONEXIÓN
-                             ============================================================ -->
+        MODAL · CONFIRMAR DESCONEXIÓN
+        ============================================================ -->
     <div class="modal fade" id="disconnectModal" tabindex="-1" aria-labelledby="discTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 440px">
             <div class="modal-content">
@@ -2444,9 +2472,10 @@
                 });
                 if (a.quality) $('[data-field="quality"]').text(QUALITY[a.quality] || a.quality);
                 if (a.limit) $('[data-field="limit"]').text(a.limit);
-                if (a.token_days != null) {
-                    $('[data-field="token_text"]').text('Expira en ' + a.token_days + ' días');
-                    const pct = Math.min(100, Math.round(a.token_days / 60 * 100));
+                if ('token_days' in a) {
+                    const sinVencimiento = a.token_days == null;
+                    $('[data-field="token_text"]').text(sinVencimiento ? 'No vence' : 'Expira en ' + a.token_days + ' días');
+                    const pct = sinVencimiento ? 100 : Math.min(100, Math.round(a.token_days / 60 * 100));
                     $('[data-field="token_text"]').closest('.tech-row').find('.mini-fill')
                         .attr('data-fill', pct).data('fill', pct);
                 }
@@ -2529,6 +2558,47 @@
                 }
             }
             renderState();
+
+            /* ==========================================================
+               4. ESTADO TÉCNICO REAL · consulta el checklist contra Meta
+               ========================================================== */
+            const CHECK_TXT = {
+                webhook: { ok: 'Suscrito', pendiente: 'Pendiente', error: 'Sin suscribir' },
+                numero: { ok: 'Registrado', pendiente: 'Pendiente', error: 'Sin registrar' },
+                salud: { ok: 'Operativa', pendiente: 'Limitada', error: 'Bloqueada' },
+                token: { ok: 'Activo', pendiente: 'Por vencer', error: 'Inválido' }
+            };
+            const CHECK_CLS = { ok: 'mb-ok', pendiente: 'mb-warn', error: 'mb-bad' };
+            const CHECK_FILL = { ok: 100, pendiente: 50, error: 15 };
+
+            function pintarFila(clave, estado, detalle) {
+                const $row = $('#dashConnected .tech-row[data-check="' + clave + '"]');
+                if (!$row.length || !CHECK_CLS[estado]) return;
+                $row.find('.mini-badge')
+                    .removeClass('mb-ok mb-warn mb-bad').addClass(CHECK_CLS[estado])
+                    .html('<span class="q-dot"></span> ' + CHECK_TXT[clave][estado]);
+                const pct = estado === 'ok' && clave === 'token' ? ($row.find('.mini-fill').data('fill') || 100) : CHECK_FILL[estado];
+                $row.find('.mini-fill').removeClass('warn bad')
+                    .addClass(estado === 'pendiente' ? 'warn' : (estado === 'error' ? 'bad' : ''))
+                    .data('fill', pct).css('width', pct + '%');
+                if (detalle && estado !== 'ok') $row.find('.tech-info small').text(detalle);
+            }
+
+            function cargarChecklist() {
+                if (BOOT.demo || !connected || !BOOT.routes.checklist) return;
+                $.get(BOOT.routes.checklist).done(function(res) {
+                    const items = res.items || [];
+                    items.forEach(function(it) { pintarFila(it.clave, it.estado, it.detalle); });
+                    // Si el token no sirve, el resto no se puede verificar: no se muestra en verde
+                    const tok = items.find(function(i) { return i.clave === 'token'; });
+                    if (tok && tok.estado === 'error') {
+                        ['webhook', 'numero', 'salud'].forEach(function(c) {
+                            pintarFila(c, 'pendiente', 'No se puede verificar sin una autorización válida.');
+                        });
+                    }
+                });
+            }
+            cargarChecklist();
 
             /* ==========================================================
                5. PARALLAX del hero (composición 3D)
@@ -2632,13 +2702,14 @@
                         waba_id: s && s.data ? s.data.waba_id || null : null,
                         phone_number_id: s && s.data ? s.data.phone_number_id || null : null,
                         business_id: s && s.data ? s.data.business_id || null : null,
-                        pin: signup.session.data?.pin || null // Para números nuevos
+                        pin: signup.session?.data?.pin || null // Para números nuevos
                     })
                 }).done(function(res) {
                     BOOT.account = res.account;
                     fillAccount(res.account);
                     connected = true;
                     renderState();
+                    cargarChecklist();
                     toast('success', 'WhatsApp conectado', res.message);
                     setTimeout(function() {
                         $('#dashConnected')[0].scrollIntoView({
@@ -2760,6 +2831,7 @@
                             quality: res.account.quality_rating,
                             limit: res.account.messaging_limit
                         });
+                        cargarChecklist();
                         toast("success", "Configuración actualizada", "Datos sincronizados con Meta.");
                     })
                     .fail(function(xhr) {

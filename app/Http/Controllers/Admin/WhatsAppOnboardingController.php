@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\WhatsappAccount;
+use App\Models\WhatsappNumber;
 use App\Models\WhatsappWebhookLog;
 use App\Services\Meta\PhoneNumbersService;
 use App\Services\Meta\RegistrationService;
@@ -11,6 +12,7 @@ use App\Services\Meta\WehbookService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 
 class WhatsAppOnboardingController extends Controller
@@ -62,6 +64,7 @@ class WhatsAppOnboardingController extends Controller
                 'templates'   => url('/admin/whatsapp/templates'),
                 'status'      => route('whatsapp.status'),
                 'checklist'   => route('whatsapp.checklist'),
+                'numbers'     => url('/admin/whatsapp/numbers'),
             ],
             'account' => $account ? [
                 'waba_id'         => $account->waba_id,
@@ -183,6 +186,12 @@ class WhatsAppOnboardingController extends Controller
                 }
                 $account->update(['number_registered' => $registered]);
             }
+
+            // El número recién conectado queda como principal en whatsapp_numbers
+            $this->guardarNumero($account, $phone + ['id' => $phoneId], [
+                'registered' => $registered,
+                'pin' => $pinFromFrontend,
+            ], true);
 
             return response()->json([
                 'success' => true,
@@ -373,10 +382,40 @@ class WhatsAppOnboardingController extends Controller
             $suscrita ? 'Tu cuenta está recibiendo mensajes y estados.' : 'La aplicación no está suscrita a tu cuenta. Usa "Re-suscribir webhook".'
         );
 
-        /* Número */
-        $phone = $get("{$this->graph}/{$account->phone_number_id}", [
-            'fields' => 'status,code_verification_status,quality_rating,messaging_limit_tier,verified_name,name_status',
-        ], $token);
+        /* Números de la cuenta (el activo y los demás) */
+        $campos = 'id,display_phone_number,verified_name,status,code_verification_status,quality_rating,messaging_limit_tier';
+        $lista = $get("{$this->graph}/{$account->waba_id}/phone_numbers", ['fields' => $campos . ',name_status'], $token)['data'] ?? [];
+        if (! $lista) {
+            $lista = $get("{$this->graph}/{$account->waba_id}/phone_numbers", ['fields' => $campos], $token)['data'] ?? [];
+        }
+
+        $locales = WhatsappNumber::where('whatsapp_account_id', $account->id)
+            ->where('estado', WhatsappAccount::CONECTADO)
+            ->pluck('phone_number_id')->flip();
+
+        $numeros = [];
+        foreach ($lista as $n) {
+            $digitos = preg_replace('/\D/', '', $n['display_phone_number'] ?? '');
+            $numeros[] = [
+                'id'            => $n['id'] ?? null,
+                'numero'        => $n['display_phone_number'] ?? '',
+                'nombre'        => $n['verified_name'] ?? '',
+                'nombre_estado' => $n['name_status'] ?? null,
+                'estado'        => $n['status'] ?? 'UNKNOWN',
+                'verificado'    => ($n['code_verification_status'] ?? '') === 'VERIFIED',
+                'calidad'       => $n['quality_rating'] ?? 'UNKNOWN',
+                'limite'        => str_replace('TIER_', '', $n['messaging_limit_tier'] ?? ''),
+                // Los números de prueba que entrega Meta empiezan por +1 555
+                'es_prueba'     => str_starts_with($digitos, '1555'),
+                'activo'        => ($n['id'] ?? null) === $account->phone_number_id,
+                'en_app'        => isset($locales[$n['id'] ?? '']),
+            ];
+        }
+
+        $phone = collect($lista)->firstWhere('id', $account->phone_number_id)
+            ?? $get("{$this->graph}/{$account->phone_number_id}", [
+                'fields' => 'status,code_verification_status,quality_rating,messaging_limit_tier,verified_name',
+            ], $token);
 
         if (! $phone) {
             $item('numero', 'Número verificado y activo', 'pendiente', 'No se pudo consultar el número en Meta.');
@@ -427,12 +466,14 @@ class WhatsAppOnboardingController extends Controller
             }
 
             $pago = ! empty($waba['primary_funding_id']);
-            $item(
-                'pago',
-                'Método de pago en WhatsApp Manager',
-                $pago ? 'ok' : 'pendiente',
-                $pago ? 'Método de pago configurado.' : 'Agrégalo en WhatsApp Manager > Facturación; sin él Meta no deja enviar plantillas de pago.'
-            );
+            $hayProduccion = collect($numeros)->contains(fn ($n) => ! $n['es_prueba']);
+            if ($pago) {
+                $item('pago', 'Método de pago en Meta', 'ok', 'Método de pago configurado.', false);
+            } elseif (! $hayProduccion) {
+                $item('pago', 'Método de pago en Meta', 'ok', 'No lo necesitas mientras uses el número de prueba. Lo pedirá Meta al enviar con un número de producción.', false);
+            } else {
+                $item('pago', 'Método de pago en Meta', 'pendiente', 'Sin tarjeta, Meta no deja enviar con tu número de producción.', true);
+            }
 
             $ver = $waba['business_verification_status'] ?? 'not_verified';
             $item(
@@ -456,7 +497,26 @@ class WhatsAppOnboardingController extends Controller
 
         $listo = collect($items)->where('requerido', true)->every(fn ($i) => $i['estado'] === 'ok');
 
-        return response()->json(['success' => true, 'listo' => $listo, 'items' => $items]);
+        // Meta permite 2 números por portafolio nuevo; 20 al verificar el negocio o llegar al límite de 2.000
+        $tiers = ['2K', '10K', '100K', 'UNLIMITED'];
+        $activo = collect($numeros)->firstWhere('activo', true);
+        $verificadoNegocio = ($waba['business_verification_status'] ?? '') === 'verified';
+        $maximo = ($verificadoNegocio || in_array($activo['limite'] ?? '', $tiers, true)) ? 20 : 2;
+
+        $biz = urlencode((string) $account->business_id);
+        $resumen = [
+            'numeros'      => $numeros,
+            'cupo'         => ['usados' => count($numeros), 'maximo' => $maximo],
+            'verificacion' => $waba['business_verification_status'] ?? 'not_verified',
+            'con_pago'     => ! empty($waba['primary_funding_id']),
+            'enlaces'      => [
+                'pago'         => "https://business.facebook.com/billing_hub/payment_settings?asset_id={$account->waba_id}&business_id={$biz}&placement=standalone",
+                'verificacion' => "https://business.facebook.com/settings/security?business_id={$biz}",
+                'manager'      => "https://business.facebook.com/latest/whatsapp_manager/overview?asset_id={$account->waba_id}&business_id={$biz}",
+            ],
+        ];
+
+        return response()->json(['success' => true, 'listo' => $listo, 'items' => $items, 'resumen' => $resumen]);
     }
 
     /* POST — renovar token (sigue siendo un placeholder) */
@@ -530,6 +590,239 @@ class WhatsAppOnboardingController extends Controller
         }
     }
 
+    /* =========================================================
+       NÚMEROS · agregar, verificar, registrar y elegir el principal
+       ========================================================= */
+
+    /** POST /numbers — crea el número en la WABA (queda sin verificar) */
+    public function numberStart(Request $request)
+    {
+        $request->merge([
+            'cc'           => preg_replace('/\D/', '', (string) $request->input('cc')),
+            'phone_number' => preg_replace('/\D/', '', (string) $request->input('phone_number')),
+        ]);
+        $data = $request->validate([
+            'cc'            => ['required', 'regex:/^\d{1,3}$/'],
+            'phone_number'  => ['required', 'regex:/^\d{6,14}$/'],
+            'verified_name' => ['required', 'string', 'min:3', 'max:100'],
+        ]);
+
+        $account = $this->currentAccountOrFail();
+        $token   = Crypt::decrypt($account->access_token);
+
+        try {
+            $res = Http::withToken($token)->timeout(20)
+                ->post("{$this->graph}/{$account->waba_id}/phone_numbers", $data);
+        } catch (\Throwable $e) {
+            report($e);
+            return response()->json(['success' => false, 'message' => 'No se pudo contactar a Meta. Intenta de nuevo.'], 502);
+        }
+
+        if ($res->failed() || ! $res->json('id')) {
+            return response()->json([
+                'success' => false,
+                'message' => $this->metaMessage($res->json(), 'No se pudo crear el número.'),
+            ], 422);
+        }
+
+        return response()->json([
+            'success' => true,
+            'phone_number_id' => (string) $res->json('id'),
+            'message' => 'Número creado. Ahora debes verificarlo.',
+        ]);
+    }
+
+    /** POST /numbers/{phone}/code — envía el código por SMS o llamada */
+    public function numberCode(Request $request, string $phone)
+    {
+        $data = $request->validate(['method' => ['required', 'in:SMS,VOICE']]);
+
+        $account = $this->currentAccountOrFail();
+        $token   = Crypt::decrypt($account->access_token);
+        $this->numeroDeLaCuenta($account, $token, $phone);
+
+        $res = $this->phones->requestPhoneVerificationCode($token, $phone, $data['method']);
+        if ($this->failed($res)) {
+            return response()->json(['success' => false, 'message' => $this->errorMessage($res, 'No se pudo enviar el código.')], 422);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => $data['method'] === 'SMS' ? 'Te enviamos el código por SMS.' : 'Recibirás una llamada con el código.',
+        ]);
+    }
+
+    /** POST /numbers/{phone}/verify — confirma el código recibido */
+    public function numberVerify(Request $request, string $phone)
+    {
+        $request->merge(['code' => preg_replace('/\D/', '', (string) $request->input('code'))]);
+        $data = $request->validate(['code' => ['required', 'regex:/^\d{6}$/']]);
+
+        $account = $this->currentAccountOrFail();
+        $token   = Crypt::decrypt($account->access_token);
+        $this->numeroDeLaCuenta($account, $token, $phone);
+
+        $res = $this->phones->verifyPhoneCode($token, $phone, $data['code']);
+        if ($this->failed($res)) {
+            return response()->json(['success' => false, 'message' => $this->errorMessage($res, 'Código incorrecto o vencido.')], 422);
+        }
+
+        return response()->json(['success' => true, 'message' => 'Número verificado.']);
+    }
+
+    /** POST /numbers/{phone}/register — registra en Cloud API con un PIN y lo guarda en la app */
+    public function numberRegister(Request $request, string $phone)
+    {
+        $data = $request->validate(['pin' => ['required', 'digits:6']]);
+
+        $account = $this->currentAccountOrFail();
+        $token   = Crypt::decrypt($account->access_token);
+        $n       = $this->numeroDeLaCuenta($account, $token, $phone);
+
+        if (($n['code_verification_status'] ?? '') !== 'VERIFIED') {
+            return response()->json(['success' => false, 'message' => 'Primero debes verificar el número con el código.'], 422);
+        }
+
+        $res = $this->registration->registerPhone($token, $phone, $data['pin']);
+        $ok  = ! $this->failed($res) && ($res['success'] ?? false) === true;
+        if (! $ok) {
+            return response()->json([
+                'success' => false,
+                'message' => $this->errorMessage($res, 'No se pudo registrar el número. Revisa el PIN.'),
+            ], 422);
+        }
+
+        $this->guardarNumero($account, $n, ['registered' => true, 'pin' => $data['pin']]);
+
+        return response()->json(['success' => true, 'message' => 'Número registrado y agregado a tu cuenta.']);
+    }
+
+    /** POST /numbers/{phone}/link — agrega a la app un número que ya está conectado en Meta */
+    public function numberLink(string $phone)
+    {
+        $account = $this->currentAccountOrFail();
+        $token   = Crypt::decrypt($account->access_token);
+        $n       = $this->numeroDeLaCuenta($account, $token, $phone);
+
+        if (($n['code_verification_status'] ?? '') !== 'VERIFIED' || ($n['status'] ?? '') !== 'CONNECTED') {
+            return response()->json(['success' => false, 'message' => 'El número aún no está conectado en Meta.'], 422);
+        }
+
+        $this->guardarNumero($account, $n, ['registered' => true]);
+
+        return response()->json(['success' => true, 'message' => 'Número agregado a la app.']);
+    }
+
+    /** POST /numbers/{phone}/principal — el número pasa a ser el que usan chats y campañas */
+    public function numberPrincipal(string $phone)
+    {
+        $account = $this->currentAccountOrFail();
+        $token   = Crypt::decrypt($account->access_token);
+
+        $num = WhatsappNumber::where('whatsapp_account_id', $account->id)
+            ->where('phone_number_id', $phone)
+            ->where('estado', WhatsappAccount::CONECTADO)
+            ->firstOrFail();
+
+        $n = $this->numeroDeLaCuenta($account, $token, $phone);
+        if (($n['status'] ?? '') !== 'CONNECTED') {
+            return response()->json(['success' => false, 'message' => 'El número no está conectado en Meta todavía.'], 422);
+        }
+
+        DB::transaction(function () use ($account, $num, $n) {
+            $this->marcarPrincipal($account, $num);
+
+            // whatsapp_accounts refleja el principal: el resto de la app sigue leyendo de ahí
+            $account->update([
+                'phone_number_id'   => $num->phone_number_id,
+                'phone_number'      => $n['display_phone_number'] ?? $num->phone_number,
+                'display_name'      => $n['verified_name'] ?? $num->display_name,
+                'two_factor_pin'    => $num->two_factor_pin,
+                'number_registered' => true,
+                'quality_rating'    => WhatsappAccount::ratingFromMeta($n['quality_rating'] ?? null),
+                'messaging_limit'   => str_replace('TIER_', '', $n['messaging_limit_tier'] ?? $account->messaging_limit),
+            ]);
+        });
+
+        $account->refresh();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Ahora este es tu número principal.',
+            'account' => [
+                'phone_number_id' => $account->phone_number_id,
+                'phone_number'    => $account->phone_number,
+                'quality'         => WhatsappAccount::ratingToMeta($account->quality_rating),
+                'limit'           => $account->messaging_limit,
+            ],
+        ]);
+    }
+
+    /** Verifica que el número pertenezca a la WABA del usuario y devuelve sus datos de Meta */
+    private function numeroDeLaCuenta(WhatsappAccount $account, string $token, string $phoneId): array
+    {
+        $res = Http::withToken($token)->timeout(15)->get("{$this->graph}/{$account->waba_id}/phone_numbers", [
+            'fields' => 'id,display_phone_number,verified_name,status,code_verification_status,quality_rating,messaging_limit_tier',
+        ]);
+
+        foreach ($res->json('data', []) as $n) {
+            if ((string) ($n['id'] ?? '') === $phoneId) {
+                return $n;
+            }
+        }
+
+        abort(404, 'Ese número no pertenece a tu cuenta de WhatsApp.');
+    }
+
+    /** Crea o actualiza el número en whatsapp_numbers */
+    private function guardarNumero(WhatsappAccount $account, array $n, array $extra = [], bool $principal = false): WhatsappNumber
+    {
+        $digitos = preg_replace('/\D/', '', (string) ($n['display_phone_number'] ?? ''));
+
+        $attrs = [
+            'whatsapp_account_id' => $account->id,
+            'cod_empresa'         => $account->cod_empresa,
+            'waba_id'             => $account->waba_id,
+            'phone_number'        => $n['display_phone_number'] ?? '',
+            'display_name'        => $n['verified_name'] ?? null,
+            'number_registered'   => $extra['registered'] ?? false,
+            'es_prueba'           => str_starts_with($digitos, '1555'),
+            'estado'              => WhatsappAccount::CONECTADO,
+        ];
+        if (! empty($extra['pin'])) {
+            $attrs['two_factor_pin'] = Crypt::encrypt($extra['pin']);
+        }
+
+        $num = WhatsappNumber::updateOrCreate(['phone_number_id' => (string) $n['id']], $attrs);
+
+        if ($principal) {
+            $this->marcarPrincipal($account, $num);
+        }
+
+        return $num;
+    }
+
+    private function marcarPrincipal(WhatsappAccount $account, WhatsappNumber $num): void
+    {
+        WhatsappNumber::where('whatsapp_account_id', $account->id)
+            ->where('id', '!=', $num->id)
+            ->update(['principal' => false]);
+        $num->update(['principal' => true]);
+    }
+
+    /** Mensaje de error de Meta en texto claro, con pistas para los casos más comunes */
+    private function metaMessage(?array $json, string $default): string
+    {
+        $e   = $json['error'] ?? [];
+        $msg = $e['error_user_msg'] ?? $e['message'] ?? $default;
+
+        if (stripos($msg, 'already') !== false || stripos($msg, 'en uso') !== false) {
+            $msg .= ' Si el número está activo en la app WhatsApp (personal o Business), elimina esa cuenta primero.';
+        }
+
+        return $msg;
+    }
+
     /* POST — mensaje de prueba (no tienes MessagesService, queda con Http) */
     public function sendTest(Request $request)
     {
@@ -573,6 +866,7 @@ class WhatsAppOnboardingController extends Controller
         }
 
         $account->update(['estado' => WhatsappAccount::DESCONECTADO]);
+        WhatsappNumber::where('whatsapp_account_id', $account->id)->update(['estado' => WhatsappAccount::DESCONECTADO]);
 
         return response()->json(['success' => true, 'message' => 'Cuenta desconectada correctamente.']);
     }

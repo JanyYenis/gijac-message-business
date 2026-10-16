@@ -2203,6 +2203,86 @@
         </div>
 
         <!-- ============================================================
+            PAGO Y VERIFICACIONES · NÚMEROS (visible solo conectado)
+            ============================================================ -->
+        <div id="dashExtra" class="d-none">
+            <div class="section-head">
+                <h3 class="fs-2">{{ __('Pago y verificaciones') }}</h3>
+                <p class="fs-5">{{ __('Lo que Meta necesita para que envíes mensajes con tu número de producción.') }}</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="gi-card gi-card-pad h-100">
+                        <h4 class="fs-4"><i class="bi bi-credit-card"></i> {{ __('Método de pago') }}</h4>
+                        <span class="mini-badge mb-warn fs-7" id="payBadge"><span class="q-dot"></span> {{ __('Verificando…') }}</span>
+                        <p class="mt-3 mb-2 fs-6" id="payText" style="color: #6b8083"></p>
+                        <p class="mb-3 fs-7" style="color: #8aa0a2">{{ __('El número de prueba no necesita tarjeta. Solo se pide para enviar con un número de producción. Meta no acepta tarjetas prepago, virtuales ni de regalo.') }}</p>
+                        <a class="btn btn-glow btn-sm d-none" id="payLink" target="_blank" rel="noopener">
+                            <i class="bi bi-box-arrow-up-right"></i> {{ __('Agregar tarjeta en Meta') }}
+                        </a>
+                        <details class="mt-3 fs-6">
+                            <summary>{{ __('¿Cómo se agrega?') }}</summary>
+                            <ol class="mt-2 mb-0 fs-7" style="color: #6b8083">
+                                <li>{{ __('Abre el botón de arriba (o Meta Business Suite > Facturación y pagos).') }}</li>
+                                <li>{{ __('En "Métodos de pago", agrega una tarjeta de crédito o débito.') }}</li>
+                                <li>{{ __('En la pestaña "Cuentas de WhatsApp Business", elige tu cuenta y pulsa "Agregar método de pago".') }}</li>
+                                <li>{{ __('Vuelve aquí y pulsa "Actualizar configuración".') }}</li>
+                            </ol>
+                        </details>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="gi-card gi-card-pad h-100">
+                        <h4 class="fs-4"><i class="bi bi-patch-check"></i> {{ __('Verificación del negocio') }}</h4>
+                        <span class="mini-badge mb-warn fs-7" id="verBadge"><span class="q-dot"></span> {{ __('Verificando…') }}</span>
+                        <p class="mt-3 mb-2 fs-6" id="verText" style="color: #6b8083"></p>
+                        <p class="mb-3 fs-7" style="color: #8aa0a2">{{ __('Verificar tu negocio sube el límite de contactos nuevos por día y permite hasta 20 números. Meta puede tardar hasta 14 días hábiles.') }}</p>
+                        <a class="btn btn-glow btn-sm d-none" id="verLink" target="_blank" rel="noopener">
+                            <i class="bi bi-box-arrow-up-right"></i> {{ __('Verificar mi negocio en Meta') }}
+                        </a>
+                        <details class="mt-3 fs-6">
+                            <summary>{{ __('¿Qué necesito?') }}</summary>
+                            <ul class="mt-2 mb-0 fs-7" style="color: #6b8083">
+                                <li>{{ __('Nombre legal, dirección y teléfono de tu empresa, exactamente como en tus documentos.') }}</li>
+                                <li>{{ __('Un sitio web con HTTPS que cargue correctamente.') }}</li>
+                                <li>{{ __('Si Meta no encuentra tu empresa, te pedirá un documento oficial (por ejemplo, el certificado de existencia y representación legal).') }}</li>
+                            </ul>
+                        </details>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gi-card gi-card-pad mt-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                    <h4 class="fs-4 mb-0"><i class="bi bi-telephone"></i> {{ __('Números de WhatsApp') }}</h4>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="mini-badge mb-ok fs-7" id="cupoBadge">—</span>
+                        <button type="button" class="btn btn-glow btn-sm" id="btnAddNumber">
+                            <i class="bi bi-plus-lg"></i> {{ __('Agregar número') }}
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="logs-table fs-5" aria-label="{{ __('Números de WhatsApp de tu cuenta') }}">
+                        <thead>
+                            <tr>
+                                <th scope="col">{{ __('Número') }}</th>
+                                <th scope="col">{{ __('Nombre visible') }}</th>
+                                <th scope="col">{{ __('Estado') }}</th>
+                                <th scope="col">{{ __('Calidad y límite') }}</th>
+                                <th scope="col">{{ __('Tipo') }}</th>
+                                <th scope="col">{{ __('Acciones') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody id="numbersBody">
+                            <tr><td colspan="6" class="text-center" style="color: #8aa0a2">{{ __('Cargando…') }}</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
             ACCIONES · ADMINISTRAR CONEXIÓN
             ============================================================ -->
         <div class="section-head">
@@ -2409,10 +2489,10 @@
             <div class="modal-content">
                 <div class="p-4 text-center">
                     <div class="confirm-ico ci-warn">
-                        <i class="bi bi-exclamation-triangle"></i>
+                        <i class="bi bi-exclamation-triangle text-white fs-1"></i>
                     </div>
                     <h4 id="discTitle">{{ __('¿Desconectar WhatsApp Business?') }}</h4>
-                    <p class="text-secondary" style="font-size: 0.9rem">
+                    <p class="text-dark" style="font-size: 0.9rem">
                         {{ __('Al desconectar esta cuenta dejarás de gestionar este número desde GIJAC Message Business.') }}
                     </p>
                     <div class="d-flex justify-content-center gap-2 mt-4">
@@ -2424,6 +2504,105 @@
                             <i class="bi bi-plug-x me-1"></i> {{ __('Desconectar cuenta') }}
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+        MODAL · AGREGAR NÚMERO (asistente de 4 pasos)
+        ============================================================ -->
+    <div class="modal fade" id="numberModal" tabindex="-1" aria-labelledby="nwTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 480px">
+            <div class="modal-content">
+                <div class="p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h4 class="mb-0" id="nwTitle">
+                            <i class="bi bi-telephone-plus me-2" style="color: var(--teal-light)"></i>{{ __('Agregar número') }}
+                        </h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <p class="mb-3 fs-7" id="nwLabel" style="color: #8aa0a2"></p>
+                    <div class="alert alert-danger py-2 fs-7 d-none" id="nwError" role="alert"></div>
+
+                    <!-- Paso 1 · datos del número -->
+                    <form id="nwStep1" class="nw-step">
+                        <p class="fs-7" style="color: #6b8083">
+                            {{ __('El número debe poder recibir SMS o llamadas y no estar activo en la app WhatsApp (personal o Business). Si lo está, elimina esa cuenta antes de continuar.') }}
+                        </p>
+                        <div class="row g-2 mb-3">
+                            <div class="col-4">
+                                <label for="nwCc" class="form-label">{{ __('País') }}</label>
+                                <input type="text" class="form-control" id="nwCc" value="57" inputmode="numeric" maxlength="3" required />
+                            </div>
+                            <div class="col-8">
+                                <label for="nwNum" class="form-label">{{ __('Número') }}</label>
+                                <input type="tel" class="form-control" id="nwNum" placeholder="3001234567" inputmode="numeric" required />
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label for="nwName" class="form-label">{{ __('Nombre que verán tus clientes') }}</label>
+                            <input type="text" class="form-control" id="nwName" maxlength="100" required />
+                            <small class="fs-7" style="color: #8aa0a2">{{ __('Debe corresponder a tu negocio. Meta lo revisa y puede tardar en aprobarlo.') }}</small>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">{{ __('Cancelar') }}</button>
+                            <button type="submit" class="btn btn-glow" id="nwBtn1">{{ __('Continuar') }}</button>
+                        </div>
+                    </form>
+
+                    <!-- Paso 2 · enviar código -->
+                    <div id="nwStep2" class="nw-step d-none">
+                        <p class="fs-7" style="color: #6b8083">{{ __('Elige cómo quieres recibir el código de verificación.') }}</p>
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="nwMethod" id="nwSms" value="SMS" checked />
+                                <label class="form-check-label" for="nwSms">{{ __('Mensaje de texto (SMS)') }}</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="nwMethod" id="nwVoice" value="VOICE" />
+                                <label class="form-check-label" for="nwVoice">{{ __('Llamada de voz') }}</label>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">{{ __('Cancelar') }}</button>
+                            <button type="button" class="btn btn-glow" id="nwBtn2">{{ __('Enviar código') }}</button>
+                        </div>
+                    </div>
+
+                    <!-- Paso 3 · código -->
+                    <form id="nwStep3" class="nw-step d-none">
+                        <div class="mb-4">
+                            <label for="nwCode" class="form-label">{{ __('Código de 6 dígitos') }}</label>
+                            <input type="text" class="form-control" id="nwCode" inputmode="numeric" maxlength="7" autocomplete="one-time-code" required />
+                            <small class="fs-7" style="color: #8aa0a2">{{ __('Si no llega, puedes volver y pedirlo de nuevo (Meta limita los intentos).') }}</small>
+                        </div>
+                        <div class="d-flex justify-content-between gap-2">
+                            <button type="button" class="btn btn-ghost" id="nwBack3">{{ __('Pedir otro código') }}</button>
+                            <button type="submit" class="btn btn-glow" id="nwBtn3">{{ __('Verificar') }}</button>
+                        </div>
+                    </form>
+
+                    <!-- Paso 4 · PIN y registro -->
+                    <form id="nwStep4" class="nw-step d-none">
+                        <p class="fs-7" style="color: #6b8083">
+                            {{ __('Crea un PIN de 6 dígitos (verificación en dos pasos). Guárdalo: lo necesitarás si algún día tienes que volver a registrar el número.') }}
+                        </p>
+                        <div class="row g-2 mb-4">
+                            <div class="col-6">
+                                <label for="nwPin" class="form-label">{{ __('PIN') }}</label>
+                                <input type="password" class="form-control" id="nwPin" inputmode="numeric" maxlength="6" autocomplete="new-password" required />
+                            </div>
+                            <div class="col-6">
+                                <label for="nwPin2" class="form-label">{{ __('Repite el PIN') }}</label>
+                                <input type="password" class="form-control" id="nwPin2" inputmode="numeric" maxlength="6" autocomplete="new-password" required />
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end gap-2">
+                            <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">{{ __('Cancelar') }}</button>
+                            <button type="submit" class="btn btn-glow" id="nwBtn4">{{ __('Registrar número') }}</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -2539,11 +2718,11 @@
             ========================================================== */
             function renderState() {
                 $("#stateDisconnected, #stateConnected").addClass("d-none");
-                $("#dashConnected").addClass("d-none");
+                $("#dashConnected, #dashExtra").addClass("d-none");
 
                 if (connected) {
                     $("#stateConnected").removeClass("d-none");
-                    $("#dashConnected").removeClass("d-none");
+                    $("#dashConnected, #dashExtra").removeClass("d-none");
                     refade($("#stateConnected"));
                     /* Animar barras tras el pintado */
                     setTimeout(function() {
@@ -2584,11 +2763,99 @@
                 if (detalle && estado !== 'ok') $row.find('.tech-info small').text(detalle);
             }
 
+            function esc(s) { return $('<div>').text(s == null ? '' : s).html(); }
+
+            const VER_TXT = {
+                verified: ['mb-ok', 'Verificado', 'Tu negocio está verificado en Meta.'],
+                pending: ['mb-warn', 'En revisión', 'Meta está revisando tu verificación.'],
+                pending_submission: ['mb-warn', 'En proceso', 'Tienes la verificación iniciada pero sin enviar.'],
+                pending_need_more_info: ['mb-warn', 'Faltan datos', 'Meta necesita más información o documentos.'],
+                rejected: ['mb-bad', 'Rechazada', 'Meta rechazó la verificación. Revisa los motivos en Meta e inténtalo de nuevo.'],
+                failed: ['mb-bad', 'Fallida', 'La verificación falló. Revisa los datos de tu empresa en Meta.'],
+                expired: ['mb-bad', 'Vencida', 'La verificación venció. Debes repetirla.'],
+                revoked: ['mb-bad', 'Revocada', 'Meta revocó la verificación.'],
+                ineligible: ['mb-warn', 'No elegible', 'Meta no permite verificar este negocio desde aquí. Revisa tus notificaciones en Meta.'],
+                not_verified: ['mb-warn', 'Sin verificar', 'Tu negocio aún no está verificado.']
+            };
+            const NOMBRE_TXT = {
+                APPROVED: ['mb-ok', 'Aprobado'], AVAILABLE_WITHOUT_REVIEW: ['mb-ok', 'Aprobado'],
+                PENDING_REVIEW: ['mb-warn', 'En revisión'], DECLINED: ['mb-bad', 'Rechazado'], EXPIRED: ['mb-bad', 'Vencido']
+            };
+
+            function badge(cls, texto) {
+                return '<span class="mini-badge ' + cls + ' fs-7"><span class="q-dot"></span> ' + esc(texto) + '</span>';
+            }
+
+            function accionesNumero(n) {
+                const btn = function(accion, texto) {
+                    return '<button type="button" class="btn btn-ghost btn-sm num-act" data-act="' + accion +
+                        '" data-id="' + esc(n.id) + '" data-num="' + esc(n.numero) + '">' + texto + '</button>';
+                };
+                if (!n.verificado) return btn('verificar', 'Verificar');
+                if (n.estado !== 'CONNECTED') return btn('registrar', 'Registrar');
+                if (!n.en_app) return btn('vincular', 'Agregar a la app');
+                if (!n.activo) return btn('principal', 'Usar como principal');
+                return '<span style="color:#8aa0a2">—</span>';
+            }
+
+            function pintarResumen(res) {
+                const r = res.resumen;
+                if (!r) {
+                    $('#payBadge, #verBadge').attr('class', 'mini-badge mb-warn fs-7').html('<span class="q-dot"></span> No disponible');
+                    $('#payText, #verText').text('Reconecta tu cuenta para poder consultar este estado en Meta.');
+                    $('#numbersBody').html('<tr><td colspan="6" class="text-center" style="color:#8aa0a2">Reconecta tu cuenta para ver tus números.</td></tr>');
+                    return;
+                }
+                const items = res.items || [];
+                const pago = items.find(function(i) { return i.clave === 'pago'; });
+
+                // Pago
+                if (pago) {
+                    $('#payBadge').attr('class', 'mini-badge ' + CHECK_CLS[pago.estado] + ' fs-7')
+                        .html('<span class="q-dot"></span> ' + (r.con_pago ? 'Configurado' : (pago.estado === 'ok' ? 'No necesario' : 'Falta tarjeta')));
+                    $('#payText').text(pago.detalle);
+                    $('#payLink').toggleClass('d-none', r.con_pago).attr('href', r.enlaces.pago);
+                }
+
+                // Verificación del negocio
+                const v = VER_TXT[r.verificacion] || VER_TXT.not_verified;
+                $('#verBadge').attr('class', 'mini-badge ' + v[0] + ' fs-7').html('<span class="q-dot"></span> ' + v[1]);
+                $('#verText').text(v[2]);
+                $('#verLink').toggleClass('d-none', r.verificacion === 'verified').attr('href', r.enlaces.verificacion);
+
+                // Números
+                const lleno = r.cupo.usados >= r.cupo.maximo;
+                $('#btnAddNumber').prop('disabled', lleno).attr('title', lleno
+                    ? 'Llegaste al máximo de números que Meta permite por ahora. Verifica tu negocio para ampliarlo.' : '');
+                $('#cupoBadge').text(r.cupo.usados + ' de ' + r.cupo.maximo + ' números')
+                    .attr('class', 'mini-badge ' + (r.cupo.usados >= r.cupo.maximo ? 'mb-warn' : 'mb-ok') + ' fs-7');
+                const filas = (r.numeros || []).map(function(n) {
+                    const conectado = n.estado === 'CONNECTED' && n.verificado;
+                    const est = conectado ? badge('mb-ok', 'Conectado')
+                        : badge('mb-warn', n.verificado ? n.estado : 'Sin verificar');
+                    const nom = n.nombre_estado && NOMBRE_TXT[n.nombre_estado]
+                        ? ' ' + badge(NOMBRE_TXT[n.nombre_estado][0], NOMBRE_TXT[n.nombre_estado][1]) : '';
+                    const tipo = n.es_prueba
+                        ? '<span class="log-badge lb-warn">' + esc('Prueba') + '</span>'
+                        : '<span class="log-badge lb-ok">' + esc('Producción') + '</span>';
+                    return '<tr>' +
+                        '<td data-label="Número"><span class="mono">' + esc(n.numero) + '</span>' + (n.activo ? ' ' + badge('mb-ok', 'Activo') : '') + '</td>' +
+                        '<td data-label="Nombre visible">' + esc(n.nombre || '—') + nom + '</td>' +
+                        '<td data-label="Estado">' + est + '</td>' +
+                        '<td data-label="Calidad y límite">' + esc((QUALITY[n.calidad] || n.calidad) + (n.limite ? ' · ' + n.limite : '')) + '</td>' +
+                        '<td data-label="Tipo">' + tipo + '</td>' +
+                        '<td data-label="Acciones">' + accionesNumero(n) + '</td></tr>';
+                });
+                $('#numbersBody').html(filas.length ? filas.join('')
+                    : '<tr><td colspan="6" class="text-center" style="color:#8aa0a2">No se pudieron leer los números desde Meta.</td></tr>');
+            }
+
             function cargarChecklist() {
                 if (BOOT.demo || !connected || !BOOT.routes.checklist) return;
                 $.get(BOOT.routes.checklist).done(function(res) {
                     const items = res.items || [];
                     items.forEach(function(it) { pintarFila(it.clave, it.estado, it.detalle); });
+                    pintarResumen(res);
                     // Si el token no sirve, el resto no se puede verificar: no se muestra en verde
                     const tok = items.find(function(i) { return i.clave === 'token'; });
                     if (tok && tok.estado === 'error') {
@@ -2840,6 +3107,99 @@
                     .always(function() {
                         setLoading($b, false);
                     });
+            });
+
+            /* ==========================================================
+               7b. AGREGAR NÚMERO · asistente y acciones por número
+               ========================================================== */
+            const nw = { id: null };
+            const numUrl = function(path) { return BOOT.routes.numbers + path; };
+
+            function nwStep(n) {
+                $('#numberModal .nw-step').addClass('d-none');
+                $('#nwStep' + n).removeClass('d-none');
+                $('#nwError').addClass('d-none').text('');
+            }
+
+            function nwFail(xhr) {
+                $('#nwError').removeClass('d-none').text(errMsg(xhr));
+            }
+
+            function nwOpen(step, id, label) {
+                nw.id = id || null;
+                $('#nwLabel').text(label || '');
+                $('#nwStep1')[0].reset();
+                $('#nwCode, #nwPin, #nwPin2').val('');
+                nwStep(step);
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('numberModal')).show();
+            }
+
+            $('#btnAddNumber').on('click', function() { nwOpen(1); });
+
+            $('#nwStep1').on('submit', function(e) {
+                e.preventDefault();
+                const $b = $('#nwBtn1');
+                setLoading($b, true, 'Creando…');
+                $.post(numUrl(''), {
+                    cc: $('#nwCc').val(),
+                    phone_number: $('#nwNum').val(),
+                    verified_name: $('#nwName').val().trim()
+                }).done(function(res) {
+                    nw.id = res.phone_number_id;
+                    nwStep(2);
+                }).fail(nwFail).always(function() { setLoading($b, false); });
+            });
+
+            $('#nwBtn2').on('click', function() {
+                const $b = $(this);
+                setLoading($b, true, 'Enviando…');
+                $.post(numUrl('/' + nw.id + '/code'), { method: $('input[name="nwMethod"]:checked').val() })
+                    .done(function(res) { toast('success', 'Código enviado', res.message); nwStep(3); })
+                    .fail(nwFail).always(function() { setLoading($b, false); });
+            });
+
+            $('#nwBack3').on('click', function() { nwStep(2); });
+
+            $('#nwStep3').on('submit', function(e) {
+                e.preventDefault();
+                const $b = $('#nwBtn3');
+                setLoading($b, true, 'Verificando…');
+                $.post(numUrl('/' + nw.id + '/verify'), { code: $('#nwCode').val() })
+                    .done(function() { nwStep(4); })
+                    .fail(nwFail).always(function() { setLoading($b, false); });
+            });
+
+            $('#nwStep4').on('submit', function(e) {
+                e.preventDefault();
+                const pin = $('#nwPin').val();
+                if (!/^\d{6}$/.test(pin)) { $('#nwError').removeClass('d-none').text('El PIN debe tener 6 dígitos.'); return; }
+                if (pin !== $('#nwPin2').val()) { $('#nwError').removeClass('d-none').text('Los PIN no coinciden.'); return; }
+                const $b = $('#nwBtn4');
+                setLoading($b, true, 'Registrando…');
+                $.post(numUrl('/' + nw.id + '/register'), { pin: pin })
+                    .done(function(res) {
+                        bootstrap.Modal.getInstance(document.getElementById('numberModal')).hide();
+                        toast('success', 'Número agregado', res.message);
+                        cargarChecklist();
+                    })
+                    .fail(nwFail).always(function() { setLoading($b, false); });
+            });
+
+            $(document).on('click', '.num-act', function() {
+                const $b = $(this), id = $b.data('id'), numero = $b.data('num'), act = $b.data('act');
+                if (act === 'verificar') return nwOpen(2, id, numero);
+                if (act === 'registrar') return nwOpen(4, id, numero);
+
+                if (act === 'principal' && !window.confirm('Los chats y las campañas usarán este número. Los envíos que estén en curso saldrán desde el nuevo número. ¿Continuar?')) return;
+
+                setLoading($b, true, '');
+                $.post(numUrl('/' + id + '/' + (act === 'vincular' ? 'link' : 'principal')))
+                    .done(function(res) {
+                        if (res.account) fillAccount(res.account);
+                        toast('success', 'Listo', res.message);
+                        cargarChecklist();
+                    })
+                    .fail(function(xhr) { toast('error', 'No se pudo completar', errMsg(xhr)); setLoading($b, false); });
             });
 
             /* Ver plantillas (placeholder de navegación) */

@@ -135,6 +135,15 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])
     Route::post('/renew-token',[WhatsAppOnboardingController::class, 'renewToken'])->name('whatsapp.renew');
     Route::post('/test-message',[WhatsAppOnboardingController::class, 'sendTest'])->name('whatsapp.test');
     Route::delete('/disconnect',[WhatsAppOnboardingController::class, 'disconnect'])->name('whatsapp.disconnect');
+
+    Route::post('/numbers', [WhatsAppOnboardingController::class, 'numberStart'])->name('whatsapp.numbers.start');
+    Route::middleware('throttle:6,1')->group(function () {
+        Route::post('/numbers/{phone}/code',     [WhatsAppOnboardingController::class, 'numberCode'])->whereNumber('phone');
+        Route::post('/numbers/{phone}/verify',   [WhatsAppOnboardingController::class, 'numberVerify'])->whereNumber('phone');
+        Route::post('/numbers/{phone}/register', [WhatsAppOnboardingController::class, 'numberRegister'])->whereNumber('phone');
+    });
+    Route::post('/numbers/{phone}/link',      [WhatsAppOnboardingController::class, 'numberLink'])->whereNumber('phone');
+    Route::post('/numbers/{phone}/principal', [WhatsAppOnboardingController::class, 'numberPrincipal'])->whereNumber('phone');
 });
 
 Route::post('/device-link', [LoginQrController::class, 'deviceLink']);

@@ -57,7 +57,7 @@ class WebhookController extends Controller
 
             foreach ($entry['changes'] ?? [] as $change) {
                 try {
-                    $this->procesarCambio($change['value'] ?? [], $wabaId);
+                    $this->procesarCambio($change['value'] ?? [], $wabaId, $change['field'] ?? null);
                 } catch (\Throwable $e) {
                     // Se responde 200 igual: si no, Meta reintenta el mismo evento durante días
                     Log::error('Error procesando un cambio del webhook de WhatsApp', [
@@ -88,7 +88,7 @@ class WebhookController extends Controller
         return hash_equals($esperada, $firma);
     }
 
-    private function procesarCambio(array $datos, ?string $wabaId): void
+    private function procesarCambio(array $datos, ?string $wabaId, ?string $campo = null): void
     {
         $empresaId = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('waba_id', $wabaId)
@@ -138,18 +138,16 @@ class WebhookController extends Controller
             ));
         }
 
-        // Cambios en plantillas: se sincronizan en cola para no demorar la respuesta a Meta
-        foreach ([
+        // Cambios en plantillas: Meta manda el tipo de evento en "field" (no dentro de "value").
+        // Se sincroniza en cola y con una pausa corta; los eventos que lleguen en ese lapso quedan cubiertos.
+        if (in_array($campo, [
             'message_template_components_update',
             'message_template_quality_update',
             'message_template_status_update',
             'template_category_update',
             'template_correct_category_detection',
-        ] as $campo) {
-            if (array_key_exists($campo, $datos)) {
-                Artisan::queue('sincronizar:plantillas', ['waba_id' => $wabaId]);
-                break;
-            }
+        ], true) && Cache::add('wa:plantillas:sync:' . $wabaId, 1, 20)) {
+            Artisan::queue('sincronizar:plantillas', ['waba_id' => $wabaId])->delay(now()->addSeconds(20));
         }
     }
 }

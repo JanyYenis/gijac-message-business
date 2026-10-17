@@ -13,6 +13,7 @@ class PlantillaComponente extends Model
     const BODY    = 2;
     const FOOTER  = 3;
     const BUTTONS = 4;
+    const OTRO    = 99; // componentes que la app aún no edita (carrusel, oferta limitada…), guardados completos en "example"
 
     const VALIDAR_TIPO = [
         'HEADER'  => self::HEADER,
@@ -28,6 +29,7 @@ class PlantillaComponente extends Model
     const DOCUMENTO    = 4;
     const LOCALIZACION = 5;
     const N_A          = 6;
+    const PRODUCTO     = 7;
 
     const VALIDAR_FORMATO = [
         'TEXT'    => self::TEXTO,
@@ -35,6 +37,7 @@ class PlantillaComponente extends Model
         'VIDEO'    => self::VIDEO,
         'DOCUMENT' => self::DOCUMENTO,
         'LOCATION' => self::LOCALIZACION,
+        'PRODUCT'  => self::PRODUCTO,
     ];
 
     protected $fillable = [

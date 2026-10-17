@@ -63,5 +63,41 @@ class PlantillaSeeder extends Seeder
             'estado' => Concepto::ACTIVO,
             'color' => 'danger',
         ]);
+
+        Concepto::updateOrCreate([
+            'id_tipo' => $tc_estado?->id,
+            'codigo' => Plantilla::PAUSADO,
+        ], [
+            'nombre' => 'Pausado',
+            'estado' => Concepto::ACTIVO,
+            'color' => 'warning',
+        ]);
+
+        Concepto::updateOrCreate([
+            'id_tipo' => $tc_estado?->id,
+            'codigo' => Plantilla::DESHABILITADO,
+        ], [
+            'nombre' => 'Deshabilitado',
+            'estado' => Concepto::ACTIVO,
+            'color' => 'danger',
+        ]);
+
+        Concepto::updateOrCreate([
+            'id_tipo' => $tc_estado?->id,
+            'codigo' => Plantilla::EN_APELACION,
+        ], [
+            'nombre' => 'En apelación',
+            'estado' => Concepto::ACTIVO,
+            'color' => 'info',
+        ]);
+
+        Concepto::updateOrCreate([
+            'id_tipo' => $tc_estado?->id,
+            'codigo' => Plantilla::LIMITE_EXCEDIDO,
+        ], [
+            'nombre' => 'Límite excedido',
+            'estado' => Concepto::ACTIVO,
+            'color' => 'warning',
+        ]);
     }
 }

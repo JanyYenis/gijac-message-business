@@ -13,11 +13,23 @@ class Plantilla extends Model
     const PENDIENTE = 2;
     const RECHAZADO = 3;
     const ELIMINADO = 4;
+    const PAUSADO         = 5;
+    const DESHABILITADO   = 6;
+    const EN_APELACION    = 7;
+    const LIMITE_EXCEDIDO = 8;
 
+    // Estados que Meta puede devolver; los desconocidos se tratan como pendientes.
     const VALIDAR_VALOR_ESTADO = [
-        'APPROVED' => self::APROBADO,
-        'PENDING'  => self::PENDIENTE,
-        'REJECTED' => self::RECHAZADO,
+        'APPROVED'         => self::APROBADO,
+        'PENDING'          => self::PENDIENTE,
+        'REJECTED'         => self::RECHAZADO,
+        'PAUSED'           => self::PAUSADO,
+        'DISABLED'         => self::DESHABILITADO,
+        'ARCHIVED'         => self::DESHABILITADO,
+        'IN_APPEAL'        => self::EN_APELACION,
+        'LIMIT_EXCEEDED'   => self::LIMITE_EXCEDIDO,
+        'PENDING_DELETION' => self::ELIMINADO,
+        'DELETED'          => self::ELIMINADO,
     ];
 
     const TC_CATEGORIA_PLANTILLA  = 'TC_CATEGORIA_PLANTILLA';

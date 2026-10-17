@@ -1444,16 +1444,18 @@ class TemplatesService
         string $name,
         string $language,
         string $category,
-        array $components
+        array $components,
+        array $extra = []
     ) {
         $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
+        // $extra: campos opcionales de Meta (parameter_format, message_send_ttl_seconds, sub_category…)
         $response = Http::withToken($accessToken)
-            ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", [
+            ->post("https://graph.facebook.com/{$version}/{$wabaId}/message_templates", array_merge($extra, [
                 'name' => $name,
                 'language' => $language,
                 'category' => $category,
                 'components' => $components,
-            ]);
+            ]));
 
         if ($response->successful()) {
             return $response->json();

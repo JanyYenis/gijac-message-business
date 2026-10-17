@@ -12,6 +12,7 @@ use App\Models\VariableCampana;
 use App\Services\Meta\MediaService;
 use App\Services\Meta\TemplatesService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -127,7 +128,7 @@ class PlantillaController extends Controller
         // de Meta (buildMetaPayload() -> name, language, category, components).
         $payload = json_decode($request->input('payload'), true);
 
-        if (! is_array($payload) || empty($payload['name']) || empty($payload['category']) || empty($payload['components'])) {
+        if (! is_array($payload) || empty($payload['name']) || empty($payload['language']) || empty($payload['category']) || empty($payload['components'])) {
             return response()->json([
                 'estado' => 'error',
                 'mensaje' => __('El payload de la plantilla es inválido o está incompleto.'),
@@ -177,7 +178,8 @@ class PlantillaController extends Controller
             $payload['name'],
             $payload['language'],
             $payload['category'],
-            $components
+            $components,
+            $this->camposExtra($payload, $components)
         );
 
         // createTemplateFromComponents() devuelve el array decodificado de Meta
@@ -202,9 +204,8 @@ class PlantillaController extends Controller
             ], $respuestaMeta->getStatusCode());
         }
 
-        // Aquí, si además quieres guardar un registro local de la plantilla
-        // (nombre, categoría, estado PENDING, id devuelto por Meta, etc.),
-        // es el lugar: Plantilla::create([...]) con $respuestaMeta['id'].
+        // La copia local se trae de Meta en segundo plano (queda como pendiente hasta que la revisen)
+        Artisan::queue('sincronizar:plantillas', ['waba_id' => $this->waba_id])->delay(now()->addSeconds(5));
 
         return response()->json([
             'estado' => 'success',
@@ -332,6 +333,14 @@ class PlantillaController extends Controller
             ], 422);
         }
 
+        // Carruseles, ofertas por tiempo limitado, etc.: el formulario no los conoce y al guardar se perderían
+        if ($plantilla->componentes()->where('type', PlantillaComponente::OTRO)->exists()) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => __('Esta plantilla usa componentes (carrusel, oferta por tiempo limitado…) que por ahora solo se editan en Meta.'),
+            ], 422);
+        }
+
         $components = $payload['components'];
 
         $headerIndex = collect($components)->search(function ($c) {
@@ -382,10 +391,8 @@ class PlantillaController extends Controller
             ], $respuestaMeta->getStatusCode());
         }
 
-        // Aquí, si además sincronizas la copia local (tabla plantillas /
-        // plantilla_componentes) con lo que el usuario acaba de editar,
-        // es el lugar: $plantilla->update([...]) + reemplazar sus
-        // componentes con los nuevos.
+        // La copia local se actualiza desde Meta en segundo plano
+        Artisan::queue('sincronizar:plantillas', ['waba_id' => $this->waba_id])->delay(now()->addSeconds(5));
 
         return response()->json([
             'estado' => 'success',
@@ -436,13 +443,38 @@ class PlantillaController extends Controller
 
     public function sincronizar(Request $request)
     {
-        Artisan::call('sincronizar:plantillas', [
+        $codigo = Artisan::call('sincronizar:plantillas', [
             'waba_id' => $this->waba_id
         ]);
+
+        if ($codigo !== 0) {
+            return response()->json([
+                'estado'  => 'error',
+                'mensaje' => trim(Artisan::output()) ?: __('No se pudieron sincronizar las plantillas.'),
+            ], 502);
+        }
 
         return [
             'estado'  => 'success',
             'mensaje' => __('Se ha sincronizado correctamente.'),
         ];
+    }
+
+    /**
+     * Campos opcionales de Meta que acompañan a la plantilla al crearla.
+     * Si el cuerpo usa variables con nombre, Meta exige parameter_format = named.
+     */
+    private function camposExtra(array $payload, array $components): array
+    {
+        $extra = Arr::only($payload, ['message_send_ttl_seconds', 'sub_category']);
+
+        $conNombre = collect($components)->contains(
+            fn ($c) => isset($c['example']['body_text_named_params']) || isset($c['example']['header_text_named_params'])
+        );
+        if ($conNombre) {
+            $extra['parameter_format'] = 'named';
+        }
+
+        return $extra;
     }
 }

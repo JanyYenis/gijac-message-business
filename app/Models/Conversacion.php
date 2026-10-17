@@ -21,12 +21,15 @@ class Conversacion extends Model
         'mensajes_no_leidos',
         'agente_uuid',
         'agente_hasta',
+        'etiqueta_id',
+        'ultimo_entrante_at',
     ];
 
     protected $casts = [
         'id' => 'string',
         'contacto_id' => 'string',
         'agente_hasta' => 'datetime',
+        'ultimo_entrante_at' => 'datetime',
     ];
 
     protected static function boot()

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Classes\Models\Model;
+use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class Etiqueta extends Model
@@ -74,5 +76,36 @@ class Etiqueta extends Model
     public function contactoEtiquetaActivo()
     {
         return $this->contactoEtiqueta()->where('estado', EtiquetaContacto::ACTIVO);
+    }
+
+    /** Usuarios activos de la empresa del usuario autenticado, para elegir quién atiende una etiqueta */
+    public static function agentesDisponibles()
+    {
+        $uuids = DB::table('usuarios_empresas')
+            ->where('cod_empresa', auth()->user()->empresa?->id)
+            ->pluck('cod_usuario');
+
+        return Usuario::whereIn('uuid', $uuids)
+            ->where('estado', Usuario::ACTIVO)
+            ->orderBy('nombre')
+            ->get(['uuid', 'nombre', 'apellido']);
+    }
+
+    /** Deja exactamente estos agentes (solo de la misma empresa) atendiendo la etiqueta */
+    public function sincronizarAgentes(array $uuids): void
+    {
+        $validos = self::agentesDisponibles()->pluck('uuid')->intersect($uuids)->values();
+
+        DB::transaction(function () use ($validos) {
+            DB::table('etiqueta_agentes')->where('etiqueta_id', $this->id)->delete();
+            foreach ($validos as $uuid) {
+                DB::table('etiqueta_agentes')->insert([
+                    'etiqueta_id' => $this->id,
+                    'usuario_uuid' => $uuid,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        });
     }
 }

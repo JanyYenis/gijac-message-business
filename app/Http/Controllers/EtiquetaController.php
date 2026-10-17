@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ErrorException;
 use App\Models\Etiqueta;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -48,7 +49,7 @@ class EtiquetaController extends Controller
 
     public function store(Request $request)
     {
-        $datos = $request->all();
+        $datos = $request->except('agentes');
         $datos['uuid'] = auth()->user()->uuid;
         $datos['cod_empresa'] = auth()->user()->empresa->id;
         $etiqueta = Etiqueta::create($datos);
@@ -56,6 +57,9 @@ class EtiquetaController extends Controller
         if (!$etiqueta) {
             throw new ErrorException(__('Error al intentar crear la nueva etiqueta.'));
         }
+
+        $etiqueta->refresh();
+        $etiqueta->sincronizarAgentes($request->input('agentes', []));
 
         return [
             'estado' => 'success',
@@ -67,6 +71,13 @@ class EtiquetaController extends Controller
     {
         $info["etiqueta"] = $etiqueta;
 
+        // Agentes de la empresa y cuáles atienden esta etiqueta
+        $info['usuarios'] = Etiqueta::agentesDisponibles();
+        $info['asignados'] = DB::table('etiqueta_agentes')
+            ->where('etiqueta_id', $etiqueta->id)
+            ->pluck('usuario_uuid')
+            ->all();
+
         $respuesta["estado"] = "success";
         $respuesta["mensaje"] = __("Datos cargados correctamente");
         $respuesta['html'] = view("etiquetas.modals.editar", $info)->render();
@@ -76,12 +87,14 @@ class EtiquetaController extends Controller
 
     public function update(Request $request, Etiqueta $etiqueta)
     {
-        $datos = $request->all();
+        $datos = $request->except('agentes');
         $actualizar = $etiqueta->update($datos);
 
         if (!$actualizar) {
             throw new ErrorException(__('Error al intentar actualizar la etiqueta.'));
         }
+
+        $etiqueta->sincronizarAgentes($request->input('agentes', []));
 
         return [
             'estado' => 'success',

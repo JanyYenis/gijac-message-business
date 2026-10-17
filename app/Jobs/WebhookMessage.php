@@ -140,14 +140,19 @@ class WebhookMessage implements ShouldQueue
 
         if (!$esEntradaValidaParaChatbot) return;
 
-        // El bot se puede apagar por número (los números sin registro en whatsapp_numbers siguen activos)
-        if ($numero && !$numero->bot_activo) return;
-
         $empresa = Empresa::find($config->cod_empresa);
         if (!$empresa) return;
 
         $plan = Plan::find($empresa->facturaVigente?->cod_plan);
         if (!$plan) return;
+
+        // Clasificación con IA y asignación a un agente cuando el cliente abre una conversación nueva
+        if ($contacto && $plan->tieneServicio('clasificacion.ia')) {
+            ClasificarChat::evaluar($config->cod_empresa, $contacto->id, $config->phone_number_id, $parsed->body);
+        }
+
+        // El bot se puede apagar por número (los números sin registro en whatsapp_numbers siguen activos)
+        if ($numero && !$numero->bot_activo) return;
 
         if ($plan->tieneServicio('chatbots.avanzados') && $contacto?->estado_chatbot == Contacto::ACTIVO && $empresa?->nodoActivo()) {
             $this->runChatbotAvanzado($config, $api, $waFrom, $contacto, $parsed);

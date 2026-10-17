@@ -8,6 +8,7 @@ use App\Models\Chatbots\ChatbotAiAssistant;
 use App\Models\Chatbots\ChatbotAiHistorial;
 use App\Models\Chatbots\ChatbotFlow;
 use App\Models\WhatsappAccount;
+use App\Models\WhatsappNumber;
 use App\Models\Contacto;
 use App\Models\Empresa;
 use App\Models\Mensaje;
@@ -66,6 +67,22 @@ class WebhookMessage implements ShouldQueue
             return;
         }
 
+        // Número al que escribieron: si no es el principal, el resto del flujo trabaja con ese
+        $numeroDestino = $datos['metadata']['phone_number_id'] ?? null;
+        $numero = null;
+        if ($numeroDestino) {
+            $numero = WhatsappNumber::where('phone_number_id', $numeroDestino)
+                ->where('waba_id', $waba_id)
+                ->where('estado', WhatsappAccount::CONECTADO)
+                ->first();
+
+            if ($numero && $numero->phone_number_id !== $config->phone_number_id) {
+                $config = $config->replicate(); // copia en memoria, no se guarda
+                $config->phone_number_id = $numero->phone_number_id;
+                $config->phone_number = $numero->phone_number;
+            }
+        }
+
         $token = Crypt::decrypt($config->access_token);
         $api = new WhatsAppCloudApi([
             'from_phone_number_id' => $config->phone_number_id,
@@ -122,6 +139,9 @@ class WebhookMessage implements ShouldQueue
             && ($tipoMapped == Mensaje::TEXTO || $parsed->valorChat);
 
         if (!$esEntradaValidaParaChatbot) return;
+
+        // El bot se puede apagar por número (los números sin registro en whatsapp_numbers siguen activos)
+        if ($numero && !$numero->bot_activo) return;
 
         $empresa = Empresa::find($config->cod_empresa);
         if (!$empresa) return;

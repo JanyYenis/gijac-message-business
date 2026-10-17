@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\WhatsappAccount;
+use App\Models\WhatsappNumber;
 use App\Models\Usuario;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -43,6 +44,13 @@ class Controller extends BaseController
                 $this->version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v17.0'));
                 $this->waba_id = $config?->waba_id ?? null;
                 $this->phone_number_id = $config?->phone_number_id ?? null;
+                // Si el usuario tiene otro número asignado, los chats salen por ese (mismo WABA y token)
+                if ($config) {
+                    $asignado = WhatsappNumber::paraUsuario(Auth::user());
+                    if ($asignado && $asignado->waba_id === $config->waba_id) {
+                        $this->phone_number_id = $asignado->phone_number_id;
+                    }
+                }
                 $this->token = $config?->access_token ? Crypt::decrypt($config?->access_token) : null;
                 $this->numeroG = $config?->phone_number ?? '573000000000';
                 $this->cod_config = $config?->id;

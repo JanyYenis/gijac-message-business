@@ -7,6 +7,8 @@ use App\Models\Contacto;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
 use App\Models\WhatsappAccount;
+use App\Models\WhatsappNumber;
+use App\Services\Chats\ConversacionAgente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -18,6 +20,12 @@ class ChatController extends Controller
     // Obtener el phone_number_id dinámicamente basado en la empresa del usuario
     private function getPhoneNumberId($user)
     {
+        // Número asignado al usuario (o el principal si no tiene)
+        $numero = WhatsappNumber::paraUsuario($user);
+        if ($numero) {
+            return $numero->phone_number_id;
+        }
+
         $config = WhatsappAccount::where('cod_empresa', $user->cod_empresa)
             ->where('estado', WhatsappAccount::CONECTADO)
             ->first();
@@ -33,7 +41,9 @@ class ChatController extends Controller
     private function getWhatsappApi($phoneNumberId)
     {
         $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
-        $config = WhatsappAccount::where('phone_number_id', $phoneNumberId)->first();
+        // Los números secundarios no están en whatsapp_accounts: el token es el de su cuenta
+        $config = WhatsappAccount::where('phone_number_id', $phoneNumberId)->first()
+            ?? WhatsappNumber::where('phone_number_id', $phoneNumberId)->first()?->cuenta;
         if (!$config || !$config->access_token) {
             throw new \Exception(__('Token de WhatsApp no configurado.'));
         }
@@ -159,6 +169,11 @@ class ChatController extends Controller
         $contacto = Contacto::where('numero_completo', $numeroCompleto)->first();
         if (!$contacto) {
             return response()->json(['success' => false, 'message' => __('Contacto no encontrado')], 404);
+        }
+
+        // Otro agente puede estar atendiendo este chat
+        if ($bloqueo = ConversacionAgente::reclamar($contacto->id, $phoneNumberId, $user)) {
+            return response()->json(['success' => false, 'message' => $bloqueo], 409);
         }
 
         $mensajeTexto = $request->input('mensaje');

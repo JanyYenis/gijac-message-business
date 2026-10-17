@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\WhatsappAccount;
+use App\Models\WhatsappNumber;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -21,6 +22,7 @@ class UserProfileResource extends JsonResource
                 'estado' => WhatsappAccount::CONECTADO,
             ])
             : null;
+        $numero = WhatsappNumber::paraUsuario($this->resource);
 
         return [
             'id'            => $this->uuid,
@@ -66,7 +68,8 @@ class UserProfileResource extends JsonResource
             'roles'         => $this->whenLoaded('roles', function () {
                 return $this->roles->pluck('nombre')->toArray();
             }),
-            'phone_number_id' => $configMeta?->phone_number_id,
+            'phone_number_id' => $numero?->phone_number_id ?? $configMeta?->phone_number_id,
+            'whatsapp_numero' => $numero?->phone_number ?? $configMeta?->phone_number,
             'tiene_2fa'     => !empty($this->google2fa_secret),
             'verificado'    => !is_null($this->email_verified_at),
         ];

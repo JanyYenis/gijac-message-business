@@ -144,6 +144,9 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])
     });
     Route::post('/numbers/{phone}/link',      [WhatsAppOnboardingController::class, 'numberLink'])->whereNumber('phone');
     Route::post('/numbers/{phone}/principal', [WhatsAppOnboardingController::class, 'numberPrincipal'])->whereNumber('phone');
+    Route::get('/numbers/{phone}/agentes', [WhatsAppOnboardingController::class, 'numberAgents'])->whereNumber('phone');
+    Route::post('/numbers/{phone}/agentes', [WhatsAppOnboardingController::class, 'numberAssign'])->whereNumber('phone');
+    Route::post('/numbers/{phone}/bot', [WhatsAppOnboardingController::class, 'numberBot'])->whereNumber('phone');
 });
 
 Route::post('/device-link', [LoginQrController::class, 'deviceLink']);

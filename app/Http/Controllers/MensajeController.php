@@ -8,6 +8,7 @@ use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
+use App\Services\Chats\ConversacionAgente;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Http\Request;
@@ -179,6 +180,11 @@ class MensajeController extends Controller
                 'estado' => 'error',
                 'mensaje' => __('Contacto no encontrado')
             ];
+        }
+
+        // Otro agente puede estar atendiendo este chat
+        if ($bloqueo = ConversacionAgente::reclamar($contacto->id, $this->phone_number_id, auth()->user())) {
+            return ['estado' => 'error', 'mensaje' => $bloqueo];
         }
 
         // Datos base del mensaje
@@ -476,7 +482,7 @@ class MensajeController extends Controller
             $this->whatsapp_cloud_api->markMessageAsRead($mensaje->wa_message_id);
         }
 
-        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('phone_number_id', $this->phone_number_id)->first();
+        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('cod_empresa', $this->uuid)->first();
         $contacto = Contacto::where("numero_completo", $de)
                 ->where('cod_empresa', $config->cod_empresa)
                 ->first();

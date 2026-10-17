@@ -2489,10 +2489,10 @@
             <div class="modal-content">
                 <div class="p-4 text-center">
                     <div class="confirm-ico ci-warn">
-                        <i class="bi bi-exclamation-triangle text-white fs-1"></i>
+                        <i class="bi bi-exclamation-triangle"></i>
                     </div>
                     <h4 id="discTitle">{{ __('¿Desconectar WhatsApp Business?') }}</h4>
-                    <p class="text-dark" style="font-size: 0.9rem">
+                    <p class="text-secondary" style="font-size: 0.9rem">
                         {{ __('Al desconectar esta cuenta dejarás de gestionar este número desde GIJAC Message Business.') }}
                     </p>
                     <div class="d-flex justify-content-center gap-2 mt-4">
@@ -2512,6 +2512,26 @@
     <!-- ============================================================
         MODAL · AGREGAR NÚMERO (asistente de 4 pasos)
         ============================================================ -->
+    <div class="modal fade" id="assignModal" tabindex="-1" aria-labelledby="agTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 480px">
+            <div class="modal-content">
+                <div class="p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <h4 class="mb-0" id="agTitle"><i class="bi bi-people me-2" style="color: var(--teal-light)"></i>{{ __('Agentes del número') }}</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <p class="mb-1 fs-7 mono" id="agNumero" style="color: #8aa0a2"></p>
+                    <p class="mb-3 fs-7" id="agAyuda" style="color: #6b8083"></p>
+                    <div id="agLista" style="max-height: 320px; overflow-y: auto"></div>
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <button type="button" class="btn btn-ghost btn-sm" data-bs-dismiss="modal">{{ __('Cancelar') }}</button>
+                        <button type="button" class="btn btn-glow btn-sm" id="agGuardar">{{ __('Guardar') }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="numberModal" tabindex="-1" aria-labelledby="nwTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="max-width: 480px">
             <div class="modal-content">
@@ -2794,8 +2814,11 @@
                 if (!n.verificado) return btn('verificar', 'Verificar');
                 if (n.estado !== 'CONNECTED') return btn('registrar', 'Registrar');
                 if (!n.en_app) return btn('vincular', 'Agregar a la app');
-                if (!n.activo) return btn('principal', 'Usar como principal');
-                return '<span style="color:#8aa0a2">—</span>';
+                const agentes = btn('agentes', '<i class="bi bi-people"></i> Agentes' + (n.agentes ? ' (' + n.agentes + ')' : ''));
+                const bot = '<button type="button" class="btn btn-ghost btn-sm num-act" data-act="bot" data-on="' + (n.bot ? 1 : 0) +
+                    '" data-id="' + esc(n.id) + '" data-num="' + esc(n.numero) + '"><i class="bi bi-robot"></i> Bot: ' + (n.bot ? 'activo' : 'apagado') + '</button>';
+                if (!n.activo) return agentes + ' ' + bot + ' ' + btn('principal', 'Usar como principal');
+                return agentes + ' ' + bot;
             }
 
             function pintarResumen(res) {
@@ -3185,10 +3208,54 @@
                     .fail(nwFail).always(function() { setLoading($b, false); });
             });
 
+            /* Asignación de agentes a un número */
+            let agId = null;
+            function abrirAgentes(id, numero) {
+                agId = id;
+                $('#agNumero').text(numero);
+                $('#agLista').html('<p class="text-center fs-7" style="color:#8aa0a2">Cargando…</p>');
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('assignModal')).show();
+                $.get(numUrl('/' + id + '/agentes')).done(function(res) {
+                    $('#agAyuda').text(res.principal
+                        ? 'Este es tu número principal: lo usan todos los usuarios que no tengan otro asignado.'
+                        : 'Los usuarios marcados usarán este número en la app móvil.');
+                    const filas = (res.usuarios || []).map(function(u) {
+                        return '<label class="d-flex align-items-center gap-2 py-2 border-bottom">' +
+                            '<input type="checkbox" class="form-check-input mt-0 ag-chk" value="' + esc(u.id) + '"' + (u.asignado ? ' checked' : '') + '>' +
+                            '<span class="flex-grow-1">' + esc(u.nombre) + '<br><small style="color:#8aa0a2">' + esc(u.email || '') + '</small></span>' +
+                            (u.otro ? '<small style="color:#b7791f">Hoy usa ' + esc(u.otro) + '</small>' : '') + '</label>';
+                    });
+                    $('#agLista').html(filas.join('') || '<p class="text-center fs-7" style="color:#8aa0a2">No hay usuarios en tu empresa.</p>');
+                }).fail(function(xhr) {
+                    $('#agLista').html('<p class="text-center fs-7" style="color:#c0392b">' + esc(errMsg(xhr)) + '</p>');
+                });
+            }
+
+            $('#agGuardar').on('click', function() {
+                const $b = $(this);
+                const sel = $('.ag-chk:checked').map(function() { return this.value; }).get();
+                setLoading($b, true, '');
+                $.post(numUrl('/' + agId + '/agentes'), { agentes: sel })
+                    .done(function(res) {
+                        bootstrap.Modal.getInstance(document.getElementById('assignModal')).hide();
+                        toast('success', 'Listo', res.message);
+                        cargarChecklist();
+                    })
+                    .fail(function(xhr) { toast('error', 'No se pudo guardar', errMsg(xhr)); })
+                    .always(function() { setLoading($b, false); });
+            });
+
             $(document).on('click', '.num-act', function() {
                 const $b = $(this), id = $b.data('id'), numero = $b.data('num'), act = $b.data('act');
                 if (act === 'verificar') return nwOpen(2, id, numero);
                 if (act === 'registrar') return nwOpen(4, id, numero);
+                if (act === 'agentes') return abrirAgentes(id, numero);
+                if (act === 'bot') {
+                    setLoading($b, true, '');
+                    return $.post(numUrl('/' + id + '/bot'), { activo: $b.data('on') ? 0 : 1 })
+                        .done(function(res) { toast('success', 'Listo', res.message); cargarChecklist(); })
+                        .fail(function(xhr) { toast('error', 'No se pudo cambiar', errMsg(xhr)); setLoading($b, false); });
+                }
 
                 if (act === 'principal' && !window.confirm('Los chats y las campañas usarán este número. Los envíos que estén en curso saldrán desde el nuevo número. ¿Continuar?')) return;
 

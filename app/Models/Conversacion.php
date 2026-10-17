@@ -19,11 +19,14 @@ class Conversacion extends Model
         'tipo_ultimo_mensaje',
         'ultima_fecha',
         'mensajes_no_leidos',
+        'agente_uuid',
+        'agente_hasta',
     ];
 
     protected $casts = [
         'id' => 'string',
         'contacto_id' => 'string',
+        'agente_hasta' => 'datetime',
     ];
 
     protected static function boot()

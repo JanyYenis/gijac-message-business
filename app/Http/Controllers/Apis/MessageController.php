@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\MessageResource;
 use App\Models\Contacto;
 use App\Models\Mensaje;
-use App\Models\WhatsappAccount;
+use App\Models\WhatsappNumber;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -28,8 +28,7 @@ class MessageController extends Controller
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
-        $phoneNumberId = $config->phone_number_id;
+        $phoneNumberId = WhatsappNumber::idParaUsuario($usuario);
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
         // Traer mensajes entre el contacto y el número de la empresa
@@ -84,8 +83,7 @@ class MessageController extends Controller
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
-        $phoneNumberId = $config->phone_number_id;
+        $phoneNumberId = WhatsappNumber::idParaUsuario($usuario);
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
         // Crear el mensaje
@@ -119,8 +117,7 @@ class MessageController extends Controller
         ]);
 
         $contacto = Contacto::findOrFail($validated['contact_id']);
-        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
-        $phoneNumberId = $config->phone_number_id;
+        $phoneNumberId = WhatsappNumber::idParaUsuario($usuario);
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
         $this->markMessagesAsRead($phoneNumberId, $numeroCompleto);
@@ -141,8 +138,7 @@ class MessageController extends Controller
             ->where('estado', Contacto::ACTIVO)
             ->firstOrFail();
 
-        $config = WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail();
-        $phoneNumberId = $config->phone_number_id;
+        $phoneNumberId = WhatsappNumber::idParaUsuario($usuario);
         $numeroCompleto = $contacto->codigo_telefono . $contacto->telefono;
 
         // Estado del contacto (últimos 24h)

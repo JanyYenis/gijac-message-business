@@ -24,6 +24,7 @@ class WhatsappNumber extends Model
         'two_factor_pin',
         'number_registered',
         'principal',
+        'bot_activo',
         'es_prueba',
         'estado',
     ];
@@ -32,6 +33,7 @@ class WhatsappNumber extends Model
         'id' => 'string',
         'number_registered' => 'boolean',
         'principal' => 'boolean',
+        'bot_activo' => 'boolean',
         'es_prueba' => 'boolean',
     ];
 
@@ -47,5 +49,37 @@ class WhatsappNumber extends Model
     public function cuenta()
     {
         return $this->belongsTo(WhatsappAccount::class, 'whatsapp_account_id', 'id');
+    }
+
+    /**
+     * Número que debe usar un usuario: el que tiene asignado (si sigue conectado)
+     * o, si no tiene ninguno, el principal de su empresa.
+     */
+    public static function paraUsuario($usuario): ?self
+    {
+        $empresa = $usuario?->empresa?->id ?? $usuario?->cod_empresa;
+        if (! $empresa) {
+            return null;
+        }
+
+        $asignado = static::query()
+            ->join('whatsapp_number_usuarios as a', 'a.whatsapp_number_id', '=', 'whatsapp_numbers.id')
+            ->where('a.usuario_uuid', $usuario->uuid)
+            ->where('whatsapp_numbers.cod_empresa', $empresa)
+            ->where('whatsapp_numbers.estado', WhatsappAccount::CONECTADO)
+            ->select('whatsapp_numbers.*')
+            ->first();
+
+        return $asignado ?? static::where('cod_empresa', $empresa)
+            ->where('estado', WhatsappAccount::CONECTADO)
+            ->where('principal', true)
+            ->first();
+    }
+
+    /** phone_number_id que debe usar el usuario (asignado o principal); 404 si la empresa no tiene número */
+    public static function idParaUsuario($usuario): string
+    {
+        return static::paraUsuario($usuario)?->phone_number_id
+            ?? WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail()->phone_number_id;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Usuario;
 use App\Models\WhatsappAccount;
 use App\Models\WhatsappNumber;
 use App\Models\WhatsappWebhookLog;
@@ -393,6 +394,15 @@ class WhatsAppOnboardingController extends Controller
             ->where('estado', WhatsappAccount::CONECTADO)
             ->pluck('phone_number_id')->flip();
 
+        $bots = WhatsappNumber::where('whatsapp_account_id', $account->id)->pluck('bot_activo', 'phone_number_id');
+
+        $agentes = DB::table('whatsapp_number_usuarios as a')
+            ->join('whatsapp_numbers as w', 'w.id', '=', 'a.whatsapp_number_id')
+            ->where('w.whatsapp_account_id', $account->id)
+            ->selectRaw('w.phone_number_id, COUNT(*) as total')
+            ->groupBy('w.phone_number_id')
+            ->pluck('total', 'phone_number_id');
+
         $numeros = [];
         foreach ($lista as $n) {
             $digitos = preg_replace('/\D/', '', $n['display_phone_number'] ?? '');
@@ -409,6 +419,8 @@ class WhatsAppOnboardingController extends Controller
                 'es_prueba'     => str_starts_with($digitos, '1555'),
                 'activo'        => ($n['id'] ?? null) === $account->phone_number_id,
                 'en_app'        => isset($locales[$n['id'] ?? '']),
+                'agentes'       => (int) ($agentes[$n['id'] ?? ''] ?? 0),
+                'bot'           => (bool) ($bots[$n['id'] ?? ''] ?? true),
             ];
         }
 
@@ -756,6 +768,106 @@ class WhatsAppOnboardingController extends Controller
                 'limit'           => $account->messaging_limit,
             ],
         ]);
+    }
+
+    /** GET /numbers/{phone}/agentes — usuarios de la empresa y cuál tiene asignado este número */
+    public function numberAgents(string $phone)
+    {
+        $account = $this->currentAccountOrFail();
+        $num = $this->numeroLocal($account, $phone);
+
+        $asignados = DB::table('whatsapp_number_usuarios')
+            ->where('cod_empresa', $account->cod_empresa)
+            ->pluck('whatsapp_number_id', 'usuario_uuid');
+
+        $otros = WhatsappNumber::whereIn('id', $asignados->values()->unique())->pluck('phone_number', 'id');
+
+        $usuarios = Usuario::whereIn('uuid', $this->usuariosDeLaEmpresa($account))
+            ->orderBy('nombre')
+            ->get(['uuid', 'nombre', 'apellido', 'email'])
+            ->map(function ($u) use ($asignados, $otros, $num) {
+                $idNumero = $asignados[$u->uuid] ?? null;
+                return [
+                    'id'       => $u->uuid,
+                    'nombre'   => trim($u->nombre . ' ' . $u->apellido),
+                    'email'    => $u->email,
+                    'asignado' => $idNumero === $num->id,
+                    'otro'     => ($idNumero && $idNumero !== $num->id) ? ($otros[$idNumero] ?? null) : null,
+                ];
+            })->values();
+
+        return response()->json(['success' => true, 'principal' => (bool) $num->principal, 'usuarios' => $usuarios]);
+    }
+
+    /** POST /numbers/{phone}/agentes — deja exactamente estos usuarios asignados al número */
+    public function numberAssign(Request $request, string $phone)
+    {
+        $account = $this->currentAccountOrFail();
+        $num = $this->numeroLocal($account, $phone);
+
+        $data = $request->validate([
+            'agentes'   => 'nullable|array',
+            'agentes.*' => 'string',
+        ]);
+
+        // Solo usuarios de la misma empresa
+        $validos = Usuario::whereIn('uuid', $this->usuariosDeLaEmpresa($account))
+            ->whereIn('uuid', $data['agentes'] ?? [])
+            ->pluck('uuid');
+
+        DB::transaction(function () use ($num, $account, $validos) {
+            // Quita a los que ya no están marcados
+            DB::table('whatsapp_number_usuarios')
+                ->where('whatsapp_number_id', $num->id)
+                ->whereNotIn('usuario_uuid', $validos)
+                ->delete();
+
+            // Un usuario solo puede tener un número: el nuevo reemplaza al anterior
+            foreach ($validos as $uuid) {
+                DB::table('whatsapp_number_usuarios')->updateOrInsert(
+                    ['usuario_uuid' => $uuid],
+                    [
+                        'whatsapp_number_id' => $num->id,
+                        'cod_empresa'        => $account->cod_empresa,
+                        'updated_at'         => now(),
+                        'created_at'         => now(),
+                    ]
+                );
+            }
+        });
+
+        return response()->json(['success' => true, 'message' => 'Asignación guardada.', 'total' => $validos->count()]);
+    }
+
+    /** POST /numbers/{phone}/bot — enciende o apaga el bot (flujo, IA y n8n) para este número */
+    public function numberBot(Request $request, string $phone)
+    {
+        $account = $this->currentAccountOrFail();
+        $num = $this->numeroLocal($account, $phone);
+
+        $activo = $request->boolean('activo');
+        $num->update(['bot_activo' => $activo]);
+
+        return response()->json([
+            'success' => true,
+            'message' => $activo ? 'El bot volvió a responder en este número.' : 'El bot ya no responderá en este número.',
+        ]);
+    }
+
+    /** uuid de los usuarios vinculados a la empresa de la cuenta (tabla usuarios_empresas) */
+    private function usuariosDeLaEmpresa(WhatsappAccount $account)
+    {
+        return DB::table('usuarios_empresas')
+            ->where('cod_empresa', $account->cod_empresa)
+            ->pluck('cod_usuario');
+    }
+
+    private function numeroLocal(WhatsappAccount $account, string $phone): WhatsappNumber
+    {
+        return WhatsappNumber::where('whatsapp_account_id', $account->id)
+            ->where('phone_number_id', $phone)
+            ->where('estado', WhatsappAccount::CONECTADO)
+            ->firstOrFail();
     }
 
     /** Verifica que el número pertenezca a la WABA del usuario y devuelve sus datos de Meta */

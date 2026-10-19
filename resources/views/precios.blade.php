@@ -1,13 +1,13 @@
 @extends('layouts.principal')
 
+@section('title', 'Planes y precios | GIJAC MESSAGE BUSINESS')
+
 @section('meta')
     <meta name="description"
         content="{{ __('Conoce los planes y precios de GIJAC Message Business. Elige la solución ideal para gestionar WhatsApp Business, campañas, contactos, automatizaciones, chatbots e inteligencia artificial para tu empresa.') }}">
 
     <meta name="keywords"
         content="precios WhatsApp Business, planes WhatsApp Business, precios automatización WhatsApp, planes chatbot, WhatsApp API, campañas WhatsApp, inteligencia artificial, automatización empresarial, GIJAC Message Business">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <meta property="og:locale" content="es_ES">
     <meta property="og:type" content="website">
@@ -21,32 +21,33 @@
     <meta property="og:image:width" content="400">
     <meta property="og:image:height" content="300">
 
-    @verbatim
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "WebPage",
-                "@id": "https://message-business.gijac.com/precios#webpage",
-                "name": "Planes y precios | GIJAC MESSAGE BUSINESS",
-                "url": "https://message-business.gijac.com/precios",
-                "description": "{{ __('Conoce los planes y precios de GIJAC Message Business y elige la solución ideal para gestionar WhatsApp Business, campañas, contactos, automatizaciones, chatbots e inteligencia artificial.') }}",
-                "isPartOf": {
-                    "@type": "WebSite",
-                    "name": "GIJAC MESSAGE BUSINESS",
-                    "url": "https://message-business.gijac.com"
-                },
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "GIJAC MESSAGE BUSINESS",
-                    "url": "https://message-business.gijac.com",
-                    "logo": {
-                        "@type": "ImageObject",
-                        "url": "https://message-business.gijac.com/img/logo_gmb.png"
-                    }
-                }
-            }
-        </script>
-    @endverbatim
+    @php
+        $schema = [
+            "@context" => "https://schema.org",
+            "@type" => "WebPage",
+            "@id" => "https://message-business.gijac.com/precios#webpage",
+            "name" => "Planes y precios | GIJAC MESSAGE BUSINESS",
+            "url" => "https://message-business.gijac.com/precios",
+            "description" => __('Conoce los planes y precios de GIJAC Message Business y elige la solución ideal para gestionar WhatsApp Business, campañas, contactos, automatizaciones, chatbots e inteligencia artificial.'),
+            "isPartOf" => [
+                "@type" => "WebSite",
+                "name" => "GIJAC MESSAGE BUSINESS",
+                "url" => "https://message-business.gijac.com"
+            ],
+            "publisher" => [
+                "@type" => "Organization",
+                "name" => "GIJAC MESSAGE BUSINESS",
+                "url" => "https://message-business.gijac.com",
+                "logo" => [
+                    "@type" => "ImageObject",
+                    "url" => "https://message-business.gijac.com/img/logo_gmb.png"
+                ]
+            ]
+        ];
+    @endphp
+    <script type="application/ld+json">
+        {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    </script>
 @endsection
 
 @section('css')

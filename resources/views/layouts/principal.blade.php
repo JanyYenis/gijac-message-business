@@ -2,8 +2,11 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light"><!--begin::Head-->
 
 <head>
-    <title>{{ __('GIJAC MESSAGE BUSINESS') }}</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@yield('title', 'GIJAC Message Business | API de WhatsApp Business, campañas y chatbots con IA')</title>
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+    <meta name="robots" content="index, follow, max-image-preview:large">
 
     @hasSection('meta')
         @yield('meta')
@@ -12,7 +15,6 @@
             content="{{ __('Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.') }}">
         <meta name="keywords"
             content="WhatsApp Business, automatización, campañas WhatsApp, chatbot, inteligencia artificial, GIJAC Message Business">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:locale" content="es_ES">
         <meta property="og:type" content="website">
         <meta property="og:title" content="GIJAC MESSAGE BUSINESS - Te ayudamos a crecer">
@@ -23,26 +25,27 @@
         <meta property="og:image:width" content="400">
         <meta property="og:image:height" content="300">
 
-        @verbatim
-            <script type="application/ld+json">
-                {
-                    "@context":"https://schema.org",
-                    "@type":"Organization",
-                    "@id":"https://message-business.gijac.com/#organization",
-                    "name":"GIJAC MESSAGE BUSINESS",
-                    "url":"https://message-business.gijac.com",
-                    "logo":"https://message-business.gijac.com/img/logo_gmb.png",
-                    "description":"{{ __('Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.') }}",
-                    "foundingLocation":{
-                        "@type":"Place",
-                        "name":"Cali, Colombia"
-                    },
-                    "sameAs":[
-                        "https://wa.me/573171789584"
-                    ]
-                }
-            </script>
-        @endverbatim
+        @php
+            $schema = [
+                "@context" => "https://schema.org",
+                "@type" => "Organization",
+                "@id" => "https://message-business.gijac.com/#organization",
+                "name" => "GIJAC MESSAGE BUSINESS",
+                "url" => "https://message-business.gijac.com",
+                "logo" => "https://message-business.gijac.com/img/logo_gmb.png",
+                "description" => __('Gestiona la comunicación de tu empresa por WhatsApp con GIJAC Message Business. Crea campañas, administra contactos, automatiza conversaciones y usa inteligencia artificial.'),
+                "foundingLocation" => [
+                    "@type" => "Place",
+                    "name" => "Cali, Colombia"
+                ],
+                "sameAs" => [
+                    "https://wa.me/573171789584"
+                ]
+            ];
+        @endphp
+        <script type="application/ld+json">
+            {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+        </script>
     @endif
 
     <!-- CSRF Token -->

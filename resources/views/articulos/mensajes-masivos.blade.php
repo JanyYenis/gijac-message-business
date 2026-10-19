@@ -1,11 +1,11 @@
 @extends('layouts.principal')
 
+@section('title', 'Mensajes Masivos por WhatsApp | GIJAC MESSAGE BUSINESS')
+
 @section('meta')
     <meta name="description"
         content="{{ __('Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable.') }}">
     <meta name="author" content="GIJAC WEB">
-    <link rel="canonical"
-        href="https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo">
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
@@ -33,42 +33,43 @@
     <meta name="twitter:image"
         content="https://message-business.gijac.com/img/logo_gmb.png">
 
-    @verbatim
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "BlogPosting",
-                "@id": "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo#blogposting",
-                "url": "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo",
-                "headline": "Cómo Enviar Mensajes Masivos por WhatsApp sin Ser Bloqueado en 2026 [Guía Oficial]",
-                "description": "Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable.",
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "https://message-business.gijac.com/img/logo_gmb.png"
-                },
-                "author": {
-                    "@type": "Organization",
-                    "name": "GIJAC WEB",
-                    "url": "https://gijac.com"
-                },
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "GIJAC MESSAGE BUSINESS",
-                    "url": "https://message-business.gijac.com",
-                    "logo": {
-                        "@type": "ImageObject",
-                        "url": "https://message-business.gijac.com/img/logo_gmb.png"
-                    }
-                },
-                "datePublished": "2026-09-26T09:00:00-05:00",
-                "dateModified": "2026-09-26T09:00:00-05:00",
-                "mainEntityOfPage": {
-                    "@type": "WebPage",
-                    "@id": "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo"
-                }
-            }
-        </script>
-    @endverbatim
+    @php
+        $schema = [
+            "@context" => "https://schema.org",
+            "@type" => "BlogPosting",
+            "@id" => "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo#blogposting",
+            "url" => "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo",
+            "headline" => __("Cómo Enviar Mensajes Masivos por WhatsApp sin Ser Bloqueado en 2026 [Guía Oficial]"),
+            "description" => __("Aprende a enviar mensajes masivos por WhatsApp sin riesgo de baneo usando la API oficial. Descubre cómo GIJAC MESSAGE BUSINESS lo hace fácil, legal y rentable."),
+            "image" => [
+                "@type" => "ImageObject",
+                "url" => "https://message-business.gijac.com/img/logo_gmb.png"
+            ],
+            "author" => [
+                "@type" => "Organization",
+                "name" => "GIJAC WEB",
+                "url" => "https://gijac.com"
+            ],
+            "publisher" => [
+                "@type" => "Organization",
+                "name" => "GIJAC MESSAGE BUSINESS",
+                "url" => "https://message-business.gijac.com",
+                "logo" => [
+                    "@type" => "ImageObject",
+                    "url" => "https://message-business.gijac.com/img/logo_gmb.png"
+                ]
+            ],
+            "datePublished" => "2026-09-26T09:00:00-05:00",
+            "dateModified" => "2026-09-26T09:00:00-05:00",
+            "mainEntityOfPage" => [
+                "@type" => "WebPage",
+                "@id" => "https://message-business.gijac.com/enviar-mensajes-masivos-whatsapp-sin-bloqueo"
+            ]
+        ];
+    @endphp
+    <script type="application/ld+json">
+        {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    </script>
 @endsection
 
 @section('css')

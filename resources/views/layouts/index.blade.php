@@ -17,7 +17,7 @@
     <meta property="og:image" content="{{ asset('img/logo_gmb.png') }}">
     <meta property="og:url" content="{{ url()->current() }}">
     <link rel="canonical" href="{{ url()->current() }}">
-    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="robots" content="@yield('robots', 'index, follow, max-image-preview:large')">
 
     <link rel="shortcut icon" href="{{ asset('img/logo_gmb.png') }}">
 
@@ -1968,28 +1968,6 @@
             font-family: circular;
         }
     </style>
-
-    <!-- JSON-LD -->
-    @verbatim
-        <script type="application/ld+json">
-            {
-                "@context":"https://schema.org",
-                "@type":"Organization",
-                "@id":"https://message-business.gijac.com/#organization",
-                "name":"GIJAC MESSAGE BUSINESS",
-                "url":"https://message-business.gijac.com/",
-                "logo":"https://message-business.gijac.com/img/logo_gmb.png",
-                "description":"Plataforma para el envio de mensajes/campañas de manera masiva por el canal mas importante que es WhatsApp, asiendo uso de la API de WhatsApp Business.",
-                "foundingLocation":{
-                    "@type":"Place",
-                    "name":"Cali, Colombia"
-                },
-                "sameAs":[
-                    "https://wa.me/573171789584"
-                ]
-            }
-        </script>
-    @endverbatim
 
     @section('css')
     @show

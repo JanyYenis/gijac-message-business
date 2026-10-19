@@ -1,11 +1,11 @@
 @extends('layouts.principal')
 
+@section('title', 'API de WhatsApp Business | GIJAC MESSAGE BUSINESS')
+
 @section('meta')
     <meta name="description"
         content="{{ __('Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.') }}">
     <meta name="author" content="GIJAC WEB">
-    <link rel="canonical"
-        href="https://message-business.gijac.com/api-whatsapp-business-importancia-empresas">
     <!-- Open Graph -->
     <meta property="og:type" content="article">
     <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
@@ -33,42 +33,43 @@
     <meta name="twitter:image"
         content="https://message-business.gijac.com/img/logo_gmb.png">
 
-    @verbatim
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "BlogPosting",
-                "@id": "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas#blogposting",
-                "url": "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas",
-                "headline": "API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026",
-                "description": "Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa.",
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "https://message-business.gijac.com/img/logo_gmb.png"
-                },
-                "author": {
-                    "@type": "Organization",
-                    "name": "GIJAC WEB",
-                    "url": "https://gijac.com"
-                },
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "GIJAC MESSAGE BUSINESS",
-                    "url": "https://message-business.gijac.com",
-                    "logo": {
-                        "@type": "ImageObject",
-                        "url": "https://message-business.gijac.com/img/logo_gmb.png"
-                    }
-                },
-                "datePublished": "2026-09-24T09:00:00-05:00",
-                "dateModified": "2026-09-24T09:00:00-05:00",
-                "mainEntityOfPage": {
-                    "@type": "WebPage",
-                    "@id": "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas"
-                }
-            }
-        </script>
-    @endverbatim
+    @php
+        $schema = [
+            "@context" => "https://schema.org",
+            "@type" => "BlogPosting",
+            "@id" => "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas#blogposting",
+            "url" => "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas",
+            "headline" => __("API de WhatsApp Business: Qué es y por qué tu empresa la necesita en 2026"),
+            "description" => __("Descubre qué es la API de WhatsApp Business, en qué se diferencia de la app normal y por qué es clave para escalar ventas, atención y automatización en tu empresa."),
+            "image" => [
+                "@type" => "ImageObject",
+                "url" => "https://message-business.gijac.com/img/logo_gmb.png"
+            ],
+            "author" => [
+                "@type" => "Organization",
+                "name" => "GIJAC WEB",
+                "url" => "https://gijac.com"
+            ],
+            "publisher" => [
+                "@type" => "Organization",
+                "name" => "GIJAC MESSAGE BUSINESS",
+                "url" => "https://message-business.gijac.com",
+                "logo" => [
+                    "@type" => "ImageObject",
+                    "url" => "https://message-business.gijac.com/img/logo_gmb.png"
+                ]
+            ],
+            "datePublished" => "2026-09-24T09:00:00-05:00",
+            "dateModified" => "2026-09-24T09:00:00-05:00",
+            "mainEntityOfPage" => [
+                "@type" => "WebPage",
+                "@id" => "https://message-business.gijac.com/api-whatsapp-business-importancia-empresas"
+            ]
+        ];
+    @endphp
+    <script type="application/ld+json">
+        {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    </script>
 @endsection
 
 @section('css')

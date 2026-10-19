@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /tickets
+Disallow: /facturas/
 
 Sitemap: https://message-business.gijac.com/sitemap.xml

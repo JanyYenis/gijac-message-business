@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [CatalogoController::class, 'index'])
     ->name('index');
 
+Route::post('crear', [CatalogoController::class, 'crear'])
+    ->name('crear');
+
 Route::get('/listado', [CatalogoController::class, 'listado'])
     ->name('listado');
 

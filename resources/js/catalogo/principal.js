@@ -129,7 +129,7 @@ $('#productForm').on('submit', function (e) {
         if (response.estado == 'success') {
             bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
             Swal.fire({ icon: 'success', title: response.mensaje, timer: 1800, showConfirmButton: false });
-            cargarListado(paginaActual, true);
+            cargarListado(paginaActual);
         }
         generalidades.ocultarCargando('body');
         $('#saveProductBtn').prop('disabled', false);
@@ -164,10 +164,26 @@ $(document).on('click', '.js-delete', function () {
         $.ajax({ url: route('catalogo.eliminar', { id: id }), method: 'DELETE' })
             .done(res => {
                 Swal.fire({ icon: 'success', title: res.mensaje, timer: 1500, showConfirmButton: false });
-                cargarListado(paginaActual, true);
+                cargarListado(paginaActual);
             })
             .fail(xhr => Swal.fire('Error', xhr.responseJSON?.message ?? 'No se pudo eliminar', 'error'));
     });
+});
+
+/* ---- Crear catálogo (lo decide el cliente) ---- */
+$(document).on('click', '.js-crear-catalogo', function () {
+    const nombre = ($('#nuevoCatalogoNombre').val() || '').trim();
+    const $btn = $(this).prop('disabled', true);
+
+    $.post(route('catalogo.crear'), { nombre: nombre })
+        .done(res => {
+            Swal.fire({ icon: 'success', title: res.mensaje, timer: 1800, showConfirmButton: false });
+            cargarListado(1, true);
+        })
+        .fail(xhr => {
+            $btn.prop('disabled', false);
+            Swal.fire('Error', xhr.responseJSON?.mensaje ?? xhr.responseJSON?.message ?? 'No se pudo crear el catálogo', 'error');
+        });
 });
 
 $('#pDesc').on('input', function () { $('#pDescCount').text(this.value.length); });

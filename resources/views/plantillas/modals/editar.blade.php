@@ -141,6 +141,14 @@
                     <div class="field-error" id="dzErr-DOCUMENT-Edit"></div>
                 </div>
 
+                <!-- PRODUCT -->
+                <div class="h-pane d-none" id="hpane-PRODUCT-Edit">
+                    <div class="help-text">
+                        <i class="fa-solid fa-circle-info me-1"></i>
+                        {{ __('La imagen del producto se toma del catálogo al enviar. Combínalo con el botón "Single Product Message".') }}
+                    </div>
+                </div>
+
                 <!-- LOCATION -->
                 <div class="h-pane d-none" id="hpane-LOCATION-Edit">
                     <div class="row g-2">

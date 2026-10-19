@@ -32,8 +32,16 @@
     var LIMITS = {
         name: 512, headerText: 60, body: 1024, footer: 60, btnText: 25,
         maxButtons: 10, maxQuickReply: 10, maxUrl: 2, maxPhone: 1,
-        maxCopyCode: 1, maxOtp: 1, copyCodeExample: 20
+        maxCopyCode: 1, maxOtp: 1, copyCodeExample: 20,
+        maxFlow: 1, maxVoiceCall: 1, maxSpm: 1,
+        copyCodeExampleLto: 15, ltoText: 16, ltoBody: 600,
+        cardBody: 160, cardsMin: 2, cardsMax: 10, cardBtnMax: 2
     };
+
+    // Rango permitido de message_send_ttl_seconds según Meta (segundos).
+    // MARKETING solo aplica en la Marketing Messages API (ver nota en la vista).
+    var TTL_RANGE = { 1: [30, 900], 3: [30, 43200], 2: [43200, 2592000] };
+    var FLOW_ACTIONS = ['navigate', 'data_exchange'];
 
     // Códigos reales del backend (App\Models\... constantes PHP):
     //   const AUTENTICACION = 1;
@@ -61,7 +69,10 @@
         PHONE_NUMBER: { label: 'Número de teléfono', icon: 'fa-phone', fields: ['text', 'phone'] },
         COPY_CODE: { label: 'Copiar código (cupón)', icon: 'fa-copy', fields: ['example'] },
         CATALOG: { label: 'Catálogo', icon: 'fa-store', fields: ['text'] },
-        MPM: { label: 'Multi Product Message', icon: 'fa-boxes-stacked', fields: ['text'] }
+        MPM: { label: 'Multi Product Message', icon: 'fa-boxes-stacked', fields: ['text'] },
+        SPM: { label: 'Single Product Message', icon: 'fa-bag-shopping', fields: ['text'] },
+        FLOW: { label: 'WhatsApp Flow', icon: 'fa-diagram-project', fields: ['text'] },
+        VOICE_CALL: { label: 'Llamada de WhatsApp', icon: 'fa-phone-volume', fields: ['text'] }
     };
 
     // Botón exclusivo de AUTHENTICATION (no aparece en el menú normal).
@@ -72,7 +83,8 @@
         { key: 'IMAGE', label: 'Imagen', icon: 'fa-image' },
         { key: 'VIDEO', label: 'Video', icon: 'fa-video' },
         { key: 'DOCUMENT', label: 'Documento', icon: 'fa-file-pdf' },
-        { key: 'LOCATION', label: 'Ubicación', icon: 'fa-location-dot' }
+        { key: 'LOCATION', label: 'Ubicación', icon: 'fa-location-dot' },
+        { key: 'PRODUCT', label: 'Producto', icon: 'fa-box' }
     ];
 
     /* ---------------- Estado ---------------- */
@@ -82,7 +94,8 @@
         dirty: false,
         buttons: [],
         seq: 0,
-        media: { IMAGE: null, VIDEO: null, DOCUMENT: null }
+        media: { IMAGE: null, VIDEO: null, DOCUMENT: null },
+        cards: [], cardSeq: 0
     };
 
     function esc(s) { return $('<i>').text(s == null ? '' : s).html(); }
@@ -259,6 +272,7 @@
                     address: ($('#locAddress').val() || '').trim()
                 };
             }
+            if (type === 'PRODUCT') return { format: 'PRODUCT' };
             var f = state.media[type];
             return { format: type, file: f ? { name: f.name, size: f.size, type: f.type } : null, url: f ? f.url : null };
         },
@@ -395,7 +409,7 @@
                     if (this.type === 'checkbox') state.buttons[idx][field] = this.checked;
                     else state.buttons[idx][field] = this.value;
                     if (field === 'url') ButtonBuilder.renderUrlVars($(this).closest('.btn-item'), idx);
-                    if (field === 'otp_type') ButtonBuilder.render(); // re-render para mostrar/ocultar campos ONE_TAP/ZERO_TAP
+                    if (field === 'otp_type' || field === 'flow_action') ButtonBuilder.render(); // re-render para mostrar/ocultar campos ONE_TAP/ZERO_TAP
                     markDirty(); Preview.render();
                 })
                 .on('click', '.btn-remove', function () {
@@ -458,7 +472,10 @@
             if (type === 'URL' && count >= LIMITS.maxUrl) { ButtonBuilder.warn(__('Solo se permiten ') + LIMITS.maxUrl + __(' botones de tipo URL.')); return; }
             if (type === 'PHONE_NUMBER' && count >= LIMITS.maxPhone) { ButtonBuilder.warn(__('Solo se permite 1 botón de llamada.')); return; }
             if (type === 'COPY_CODE' && count >= LIMITS.maxCopyCode) { ButtonBuilder.warn(__('Solo se permite 1 botón de copiar código.')); return; }
-            state.buttons.push({ id: ++state.seq, type: type, text: '', url: '', phone: '', example: '' });
+            if (type === 'FLOW' && count >= LIMITS.maxFlow) { ButtonBuilder.warn(__('Solo se permite 1 botón de Flow.')); return; }
+            if (type === 'VOICE_CALL' && count >= LIMITS.maxVoiceCall) { ButtonBuilder.warn(__('Solo se permite 1 botón de llamada de WhatsApp.')); return; }
+            if (type === 'SPM' && count >= LIMITS.maxSpm) { ButtonBuilder.warn(__('Solo se permite 1 botón de producto.')); return; }
+            state.buttons.push({ id: ++state.seq, type: type, text: '', url: '', phone: '', example: '', flow_id: '', flow_action: 'navigate', navigate_screen: '' });
             ButtonBuilder.render(); markDirty(); Preview.render();
         },
         warn: function (msg) { $('#btnLimitWarn').text(msg).addClass('show'); setTimeout(function () { $('#btnLimitWarn').removeClass('show'); }, 5000); },
@@ -469,12 +486,23 @@
                 phone: [__('Número telefónico'), '+573001234567', 20],
                 example: [__('Código de ejemplo'), 'Ej: SUMMER20', LIMITS.copyCodeExample],
                 package: [__('Package name'), 'com.empresa.app', 200],
-                signature: [__('Signature hash'), 'K8a/AINcGX7', 200]
+                signature: [__('Signature hash'), 'K8a/AINcGX7', 200],
+                flow_id: [__('ID del Flow'), '123456789012345', 40],
+                navigate_screen: [__('Pantalla inicial (navigate_screen)'), 'WELCOME_SCREEN', 100]
             }[field];
             return '<div class="col-md-6 mb-2"><label class="form-label">' + map[0] + '</label>' +
                 '<input type="text" class="form-control form-control-sm" data-field="' + field + '" maxlength="' + map[2] +
                 '" placeholder="' + map[1] + '" value="' + esc(b[field] || '') + '">' +
                 '<div class="field-error"></div></div>';
+        },
+        flowFields: function (b) {
+            var opts = FLOW_ACTIONS.map(function (v) {
+                return '<option value="' + v + '"' + (b.flow_action === v ? ' selected' : '') + '>' + v + '</option>';
+            }).join('');
+            return ButtonBuilder.field(b, 'flow_id') +
+                `<div class="col-md-6 mb-2"><label class="form-label">${__('Acción del Flow')}</label>` +
+                '<select class="form-select form-select-sm" data-field="flow_action">' + opts + '</select></div>' +
+                (b.flow_action === 'navigate' ? ButtonBuilder.field(b, 'navigate_screen') : '');
         },
         otpTypeField: function (b) {
             var opts = ['COPY_CODE', 'ONE_TAP', 'ZERO_TAP'].map(function (v) {
@@ -523,7 +551,8 @@
                     '<i class="fa-solid ' + meta.icon + ' text-info"></i>' +
                     '<span class="bi-type-1">' + __(meta.label) + '</span>' +
                     `<button type="button" class="icon-btn ms-auto btn-remove" title="${__('Eliminar botón')}"><i class="fa-solid fa-trash-can"></i></button></div>` +
-                    '<div class="row g-2">' + meta.fields.map(function (f) { return ButtonBuilder.field(b, f); }).join('') + '</div>' +
+                    '<div class="row g-2">' + meta.fields.map(function (f) { return ButtonBuilder.field(b, f); }).join('') +
+                    (b.type === 'FLOW' ? ButtonBuilder.flowFields(b) : '') + '</div>' +
                     '<div class="btn-url-vars mt-1"></div></div>';
             });
             $('#buttonsList').html(html);
@@ -551,7 +580,8 @@
                     if (VariableManager.detect(out.url).length) out.example = [(b.urlExample || '').trim()];
                 }
                 if (b.type === 'PHONE_NUMBER') out.phone_number = (b.phone || '').trim();
-                if (b.type === 'COPY_CODE') { out.text = __('Copiar código'); out.example = [(b.example || '').trim()]; }
+                if (b.type === 'COPY_CODE') { out.text = __('Copiar código'); out.example = (b.example || '').trim(); }
+                if (b.type === 'FLOW') { out.flow_id = (b.flow_id || '').trim(); out.flow_action = b.flow_action || 'navigate'; out.navigate_screen = (b.navigate_screen || '').trim(); }
                 return out;
             });
         },
@@ -566,10 +596,212 @@
                 return {
                     id: ++state.seq, type: b.type, text: b.text || '', url: b.url || '',
                     urlExample: (b.example && b.example[0]) || '', phone: b.phone_number || '',
-                    example: (b.example && b.example[0]) || ''
+                    example: Array.isArray(b.example) ? (b.example[0] || '') : (b.example || ''),
+                    flow_id: b.flow_id || '', flow_action: (b.flow_action || 'navigate').toLowerCase(), navigate_screen: b.navigate_screen || ''
                 };
             });
             ButtonBuilder.render();
+        }
+    };
+
+
+    /* ============================================================
+       LimitedOffer — oferta por tiempo limitado (solo MARKETING).
+       Meta: header IMAGE/VIDEO + componente limited_time_offer
+       (texto máx. 16) + body (máx. 600) + botón copy_code y/o URL.
+       Sin footer.
+       ============================================================ */
+    var LimitedOffer = {
+        init: function () {
+            $('#ltoSwitch').on('change', function () {
+                $('#ltoOn').toggleClass('d-none', !this.checked);
+                applyCategoryUI(); markDirty(); Preview.render();
+            });
+            $('#ltoText, #ltoExpiration').on('input change', function () {
+                if (this.id === 'ltoText') Counter.update($(this), LIMITS.ltoText);
+                markDirty(); Preview.render();
+            });
+        },
+        active: function () { return !isAuth() && !Carousel.active() && $('#ltoSwitch').is(':checked'); },
+        data: function () {
+            if (!LimitedOffer.active()) return null;
+            return { text: ($('#ltoText').val() || '').trim(), has_expiration: $('#ltoExpiration').is(':checked') };
+        }
+    };
+
+    /* ============================================================
+       Carousel — tarjetas con media (IMAGE/VIDEO) o de producto
+       (header PRODUCT + botón SPM). Solo MARKETING, 2 a 10 tarjetas,
+       todas con los mismos componentes. El cuerpo principal es el
+       mismo BODY del formulario.
+       ============================================================ */
+    var CARD_BTN_TYPES = { QUICK_REPLY: 'Respuesta rápida', URL: 'URL', PHONE_NUMBER: 'Teléfono' };
+
+    var Carousel = {
+        init: function () {
+            $('#carouselSwitch').on('change', function () {
+                $('#carouselOn').toggleClass('d-none', !this.checked);
+                if (this.checked && !state.cards.length) { Carousel.addCard(); Carousel.addCard(); }
+                applyCategoryUI(); markDirty(); Preview.render();
+            });
+            $('#carouselMode, #cardSpmText').on('input change', function () {
+                $('#cardSpmWrap').toggleClass('d-none', Carousel.mode() !== 'PRODUCT');
+                Carousel.render(); markDirty(); Preview.render();
+            });
+            $('#addCardBtn').on('click', function () { Carousel.addCard(); markDirty(); Preview.render(); });
+
+            $('#cardsList')
+                .on('click', '.card-remove', function () {
+                    var idx = $(this).closest('.btn-item').index();
+                    if (state.cards.length <= LIMITS.cardsMin) { Carousel.warn(__('Un carrusel necesita mínimo ') + LIMITS.cardsMin + __(' tarjetas.')); return; }
+                    state.cards.splice(idx, 1); Carousel.render(); markDirty(); Preview.render();
+                })
+                .on('click', '.card-add-btn', function () {
+                    var c = state.cards[$(this).closest('.btn-item').index()];
+                    if (c.buttons.length >= LIMITS.cardBtnMax) { Carousel.warn(__('Máximo ') + LIMITS.cardBtnMax + __(' botones por tarjeta.')); return; }
+                    c.buttons.push({ type: 'QUICK_REPLY', text: '', value: '', example: '' });
+                    Carousel.render(); markDirty(); Preview.render();
+                })
+                .on('click', '.card-btn-remove', function () {
+                    var $it = $(this).closest('.btn-item');
+                    state.cards[$it.index()].buttons.splice($(this).closest('.card-btn').index(), 1);
+                    Carousel.render(); markDirty(); Preview.render();
+                })
+                .on('input change', '[data-cf]', function () {
+                    var $it = $(this).closest('.btn-item'), c = state.cards[$it.index()], f = $(this).data('cf');
+                    if (f === 'file') {
+                        var file = this.files[0];
+                        if (!file) return;
+                        var ok = c.mtype === 'IMAGE' ? ['image/jpeg', 'image/png'] : ['video/mp4', 'video/3gpp'];
+                        if (ok.indexOf(file.type) === -1) { toast(__('Formato no permitido para la tarjeta.'), true); this.value = ''; return; }
+                        if (file.size > 16 * 1024 * 1024) { toast(__('El archivo supera 16 MB.'), true); this.value = ''; return; }
+                        c.file = file; c.url = URL.createObjectURL(file);
+                    } else if (f === 'mtype') {
+                        state.cards.forEach(function (x) { x.mtype = $(this).val(); x.file = null; x.url = null; }.bind(this));
+                        Carousel.render();
+                    } else if (f.indexOf('b-') === 0) {
+                        var parts = f.split('-'); // b-{campo}
+                        c.buttons[$(this).closest('.card-btn').index()][parts[1]] = this.value;
+                        if (parts[1] === 'type') Carousel.render();
+                    } else { c[f] = this.value; }
+                    markDirty(); Preview.render();
+                });
+        },
+        warn: function (m) { $('#cardsWarn').text(m).addClass('show'); setTimeout(function () { $('#cardsWarn').removeClass('show'); }, 5000); },
+        active: function () { return !isAuth() && $('#carouselSwitch').is(':checked'); },
+        mode: function () { return $('#carouselMode').val() || 'MEDIA'; },
+        addCard: function () {
+            if (state.cards.length >= LIMITS.cardsMax) { Carousel.warn(__('Un carrusel admite máximo ') + LIMITS.cardsMax + __(' tarjetas.')); return; }
+            var prev = state.cards[0];
+            state.cards.push({ id: ++state.cardSeq, mtype: prev ? prev.mtype : 'IMAGE', file: null, url: null, body: '', buttons: [] });
+            Carousel.render();
+        },
+        render: function () {
+            var product = Carousel.mode() === 'PRODUCT', html = '';
+            state.cards.forEach(function (c, i) {
+                html += '<div class="btn-item" data-id="' + c.id + '"><div class="btn-item-head">' +
+                    '<i class="fa-solid fa-image text-info"></i><span class="bi-type-1">' + __('Tarjeta') + ' ' + (i + 1) + '</span>' +
+                    '<button type="button" class="icon-btn ms-auto card-remove"><i class="fa-solid fa-trash-can"></i></button></div><div class="row g-2">';
+                if (product) {
+                    html += '<div class="col-12 help-text">' + __('El producto de cada tarjeta se elige al enviar la plantilla (catálogo conectado).') + '</div>';
+                } else {
+                    html += '<div class="col-md-4 mb-2"><label class="form-label">' + __('Tipo de media') + '</label><select class="form-select form-select-sm" data-cf="mtype">' +
+                        ['IMAGE', 'VIDEO'].map(function (t) { return '<option value="' + t + '"' + (c.mtype === t ? ' selected' : '') + '>' + (t === 'IMAGE' ? __('Imagen') : __('Video')) + '</option>'; }).join('') + '</select></div>' +
+                        '<div class="col-md-8 mb-2"><label class="form-label">' + __('Archivo') + (c.file ? ' · ' + esc(c.file.name) : '') + '</label>' +
+                        '<input type="file" class="form-control form-control-sm" data-cf="file" accept="' + (c.mtype === 'IMAGE' ? 'image/jpeg,image/png' : 'video/mp4,video/3gpp') + '"><div class="field-error"></div></div>' +
+                        '<div class="col-12 mb-2"><label class="form-label">' + __('Texto de la tarjeta (opcional, igual en todas)') + '</label>' +
+                        '<input type="text" class="form-control form-control-sm" data-cf="body" maxlength="' + LIMITS.cardBody + '" value="' + esc(c.body) + '"><div class="field-error"></div></div>';
+                    c.buttons.forEach(function (b) {
+                        html += '<div class="card-btn col-12"><div class="row g-2 align-items-end mb-1">' +
+                            '<div class="col-md-3"><select class="form-select form-select-sm" data-cf="b-type">' +
+                            Object.keys(CARD_BTN_TYPES).map(function (k) { return '<option value="' + k + '"' + (b.type === k ? ' selected' : '') + '>' + __(CARD_BTN_TYPES[k]) + '</option>'; }).join('') + '</select></div>' +
+                            '<div class="col-md-4"><input type="text" class="form-control form-control-sm" data-cf="b-text" maxlength="' + LIMITS.btnText + '" placeholder="' + __('Texto del botón') + '" value="' + esc(b.text) + '"><div class="field-error"></div></div>' +
+                            (b.type === 'QUICK_REPLY' ? '<div class="col-md-4"></div>' :
+                                '<div class="col-md-4"><input type="text" class="form-control form-control-sm" data-cf="b-value" placeholder="' + (b.type === 'URL' ? 'https://ejemplo.com/p/{{1}}' : '+573001234567') + '" value="' + esc(b.value) + '"><div class="field-error"></div></div>') +
+                            '<div class="col-md-1"><button type="button" class="icon-btn card-btn-remove"><i class="fa-solid fa-xmark"></i></button></div>' +
+                            (b.type === 'URL' && VariableManager.detect(b.value).length ? '<div class="col-12"><input type="text" class="form-control form-control-sm" data-cf="b-example" placeholder="https://ejemplo.com/p/123" value="' + esc(b.example) + '"><div class="field-error"></div></div>' : '') +
+                            '</div></div>';
+                    });
+                    html += '<div class="col-12"><button type="button" class="btn btn-soft btn-sm card-add-btn"><i class="fa-solid fa-plus me-1"></i>' + __('Agregar botón') + '</button></div>';
+                }
+                html += '</div></div>';
+            });
+            $('#cardsList').html(html);
+        },
+        data: function () {
+            if (!Carousel.active()) return null;
+            return { mode: Carousel.mode(), spm: ($('#cardSpmText').val() || '').trim(), cards: state.cards };
+        },
+        // Componente CAROUSEL listo para Meta (el header_handle lo agrega el backend).
+        meta: function () {
+            var product = Carousel.mode() === 'PRODUCT';
+            return {
+                type: 'CAROUSEL',
+                cards: state.cards.map(function (c) {
+                    var comps = [{ type: 'HEADER', format: product ? 'PRODUCT' : c.mtype }];
+                    if (!product && c.body.trim()) comps.push({ type: 'BODY', text: c.body.trim() });
+                    var btns = product ? [{ type: 'SPM', text: ($('#cardSpmText').val() || '').trim() }] :
+                        c.buttons.map(function (b) {
+                            if (b.type === 'URL') {
+                                var u = { type: 'URL', text: b.text, url: b.value };
+                                if (VariableManager.detect(b.value).length) u.example = [b.example];
+                                return u;
+                            }
+                            if (b.type === 'PHONE_NUMBER') return { type: 'PHONE_NUMBER', text: b.text, phone_number: b.value };
+                            return { type: 'QUICK_REPLY', text: b.text };
+                        });
+                    if (btns.length) comps.push({ type: 'BUTTONS', buttons: btns });
+                    return { components: comps };
+                })
+            };
+        },
+        validate: function () {
+            var ok = true, product = Carousel.mode() === 'PRODUCT';
+            if (state.cards.length < LIMITS.cardsMin || state.cards.length > LIMITS.cardsMax) { Carousel.warn(__('El carrusel debe tener entre 2 y 10 tarjetas.')); return false; }
+            if (product) {
+                if (!($('#cardSpmText').val() || '').trim()) { fail($('#cardSpmText'), __('El texto del botón es obligatorio.')); ok = false; }
+                return ok;
+            }
+            var sig = function (c) { return c.buttons.map(function (b) { return b.type; }).join(',') + '|' + (c.body.trim() ? 1 : 0); };
+            var first = sig(state.cards[0]);
+            state.cards.forEach(function (c, i) {
+                var $it = $('#cardsList .btn-item').eq(i);
+                if (!c.file) { fail($it.find('[data-cf="file"]'), __('Selecciona un archivo para la tarjeta.')); ok = false; }
+                if (sig(c) !== first) { Carousel.warn(__('Todas las tarjetas deben tener los mismos componentes (mismo texto y mismos botones).')); ok = false; }
+                if (VariableManager.detect(c.body).length) { fail($it.find('[data-cf="body"]'), __('El texto de la tarjeta no admite variables.')); ok = false; }
+                c.buttons.forEach(function (b, j) {
+                    var $b = $it.find('.card-btn').eq(j);
+                    if (!b.text.trim()) { fail($b.find('[data-cf="b-text"]'), __('El texto es obligatorio.')); ok = false; }
+                    if (b.type === 'URL') {
+                        var vs = VariableManager.detect(b.value);
+                        if (!/^https?:\/\/[^\s]+\.[^\s]+/.test(b.value.replace(/\{\{\d+\}\}/g, 'x'))) { fail($b.find('[data-cf="b-value"]'), __('Ingresa una URL válida (https://…).')); ok = false; }
+                        else if (vs.length > 1 || (vs.length === 1 && !/\{\{\d+\}\}$/.test(b.value.trim()))) { fail($b.find('[data-cf="b-value"]'), __('Una sola variable y al final de la URL.')); ok = false; }
+                        else if (vs.length && !b.example.trim()) { fail($b.find('[data-cf="b-example"]'), __('Agrega un ejemplo de la URL.')); ok = false; }
+                    }
+                    if (b.type === 'PHONE_NUMBER' && !/^\+?\d{7,15}$/.test(b.value)) { fail($b.find('[data-cf="b-value"]'), __('Número inválido. Ej: +573001234567')); ok = false; }
+                });
+            });
+            return ok;
+        }
+    };
+
+    /* TTL (message_send_ttl_seconds): tiempo máximo que Meta reintenta entregar el mensaje */
+    var Ttl = {
+        value: function () {
+            var v = parseInt($('#ttlSeconds').val(), 10);
+            return isNaN(v) ? null : v;
+        },
+        range: function () { return TTL_RANGE[Number($('#tplCategory').val())] || null; },
+        hint: function () {
+            var r = Ttl.range();
+            $('#ttlHint').text(r ? (__('Entre ') + r[0] + __(' y ') + r[1] + __(' segundos. Vacío = valor por defecto de Meta.')) : '');
+            $('#ttlMarketingNote').toggleClass('d-none', Number($('#tplCategory').val()) !== CATEGORY_MARKETING);
+        },
+        validate: function () {
+            var v = Ttl.value(), r = Ttl.range();
+            if (v === null) return true;
+            if (!r || v < r[0] || v > r[1]) { fail($('#ttlSeconds'), __('Valor fuera del rango permitido para esta categoría.')); return false; }
+            return true;
         }
     };
 
@@ -596,11 +828,18 @@
                     html += '<div class="wa-media">' + (d.header.url ? '<video src="' + d.header.url + '" muted controls></video>' : '<i class="fa-solid fa-video fa-2x"></i>') + '</div>';
                 } else if (d.header.format === 'DOCUMENT') {
                     html += '<div class="wa-doc"><i class="fa-solid fa-file-pdf"></i><span>' + esc(d.header.file ? d.header.file.name : 'documento.pdf') + '</span></div>';
+                } else if (d.header.format === 'PRODUCT') {
+                    html += '<div class="wa-media"><i class="fa-solid fa-box fa-2x"></i></div>';
                 } else if (d.header.format === 'LOCATION') {
                     html += '<div class="wa-media"><i class="fa-solid fa-location-dot fa-2x"></i></div>' +
                         '<div class="wa-header-text">' + esc(d.header.name || 'Ubicación') + '</div>' +
                         '<div class="wa-footer mb-1">' + esc(d.header.address || '') + '</div>';
                 }
+            }
+
+            var lto = LimitedOffer.data();
+            if (lto) {
+                html += '<div class="wa-footer mb-1"><i class="fa-solid fa-clock me-1"></i><b>' + esc(lto.text || __('Oferta')) + '</b>' + (lto.has_expiration ? ' · ⏳' : '') + '</div>';
             }
 
             html += '<div class="wa-body">' + (d.body.text ? Preview.fill(d.body.text, d.body.examples) :
@@ -613,12 +852,27 @@
             d.buttons.forEach(function (b) {
                 var ic = b.type === 'URL' ? 'fa-arrow-up-right-from-square'
                     : b.type === 'PHONE_NUMBER' ? 'fa-phone'
-                        : (b.type === 'COPY_CODE' || b.type === 'OTP') ? 'fa-copy' : 'fa-reply';
+                        : (b.type === 'COPY_CODE' || b.type === 'OTP') ? 'fa-copy'
+                            : b.type === 'FLOW' ? 'fa-diagram-project'
+                                : b.type === 'VOICE_CALL' ? 'fa-phone-volume'
+                                    : (b.type === 'SPM' || b.type === 'MPM') ? 'fa-bag-shopping' : 'fa-reply';
                 btns += '<div class="wa-btn"><i class="fa-solid ' + ic + '"></i>' + esc(b.text || __('Botón')) + '</div>';
             });
 
+            var car = Carousel.data(), cardsHtml = '';
+            if (car) {
+                cardsHtml = '<div class="d-flex gap-2 mt-2" style="overflow-x:auto">' + car.cards.map(function (c, i) {
+                    var media = car.mode === 'PRODUCT' ? '<i class="fa-solid fa-box fa-2x"></i>'
+                        : (c.url ? (c.mtype === 'VIDEO' ? '<video src="' + c.url + '" muted></video>' : '<img src="' + c.url + '" alt="">') : '<i class="fa-solid fa-image fa-2x"></i>');
+                    var cb = car.mode === 'PRODUCT' ? '<div class="wa-btn">' + esc(car.spm || __('Ver producto')) + '</div>'
+                        : c.buttons.map(function (b) { return '<div class="wa-btn">' + esc(b.text || __('Botón')) + '</div>'; }).join('');
+                    return '<div class="wa-bubble" style="min-width:150px"><div class="wa-media">' + media + '</div>' +
+                        (c.body ? '<div class="wa-body">' + esc(c.body) + '</div>' : '') + '<div class="wa-btns">' + cb + '</div></div>';
+                }).join('') + '</div>';
+            }
+
             $('#waPreview').html('<div class="wa-bubble">'
-                + html + (btns ? '<div class="wa-btns" style="max-width:90%">' + btns + '</div>' : '') + '</div>');
+                + html + (btns ? '<div class="wa-btns" style="max-width:90%">' + btns + '</div>' : '') + '</div>' + cardsHtml);
             $('#jsonPreview').text(JSON.stringify(buildMetaPayload(), null, 2));
         }
     };
@@ -659,6 +913,8 @@
         if (!category) { fail($('#tplCategory'), __('Selecciona una categoría.')); ok = false; }
         if (!d.language) { fail($('#tplLanguage'), __('Selecciona un idioma.')); ok = false; }
 
+        if (!Ttl.validate()) ok = false;
+
         if (Number(category) === CATEGORY_AUTH) {
             // Header: nunca debe existir (la UI ya lo oculta y lo desactiva).
             var otp = state.buttons[0];
@@ -691,6 +947,28 @@
             }
         }
 
+        if (Carousel.active()) {
+            if (!Carousel.validate()) ok = false;
+            if (!ok) toast(__('Revisa los campos marcados en rojo.'), true);
+            return ok;
+        }
+
+        var lto = LimitedOffer.data();
+        if (lto) {
+            if (Number(category) !== CATEGORY_MARKETING) { ButtonBuilder.warn(__('La oferta por tiempo limitado solo existe en Marketing.')); ok = false; }
+            if (!lto.text) { fail($('#ltoText'), __('Escribe el texto de la oferta.')); ok = false; }
+            else if (lto.text.length > LIMITS.ltoText) { fail($('#ltoText'), __('Máximo ') + LIMITS.ltoText + __(' caracteres.')); ok = false; }
+            if (!d.header || (d.header.format !== 'IMAGE' && d.header.format !== 'VIDEO')) { ButtonBuilder.warn(__('La oferta por tiempo limitado requiere encabezado de imagen o video.')); ok = false; }
+            if (d.body.text.length > LIMITS.ltoBody) { fail($('#bodyText'), __('Con oferta por tiempo limitado el cuerpo admite máximo ') + LIMITS.ltoBody + __(' caracteres.')); ok = false; }
+            if (d.footer) { fail($('#footerText'), __('La oferta por tiempo limitado no admite pie de página.')); ok = false; }
+            if (!state.buttons.some(function (b) { return b.type === 'COPY_CODE' || b.type === 'URL'; })) { ButtonBuilder.warn(__('Agrega un botón de Copiar código y/o URL para la oferta.')); ok = false; }
+            state.buttons.forEach(function (b, i) {
+                if (b.type === 'COPY_CODE' && (b.example || '').length > LIMITS.copyCodeExampleLto) {
+                    fail($('#buttonsList .btn-item').eq(i).find('[data-field="example"]'), __('Con oferta limitada el código admite máximo ') + LIMITS.copyCodeExampleLto + __(' caracteres.')); ok = false;
+                }
+            });
+        }
+
         if (d.header) {
             if (d.header.format === 'TEXT') {
                 var $h = $('#headerText');
@@ -707,7 +985,7 @@
                 if (!/^-?\d+(\.\d+)?$/.test(d.header.latitude)) { fail($('#locLat'), __('Latitud inválida.')); ok = false; }
                 if (!/^-?\d+(\.\d+)?$/.test(d.header.longitude)) { fail($('#locLng'), __('Longitud inválida.')); ok = false; }
                 if (!d.header.name) { fail($('#locName'), __('Indica el nombre del lugar.')); ok = false; }
-            } else if (!d.header.file) {
+            } else if (d.header.format !== 'PRODUCT' && !d.header.file) {
                 $('#dzErr-' + d.header.format).text(__('Selecciona un archivo válido.')).addClass('show'); ok = false;
             }
         }
@@ -736,6 +1014,11 @@
             }
             if (b.type === 'PHONE_NUMBER' && !/^\+?\d{7,15}$/.test(b.phone_number || '')) {
                 fail($item.find('[data-field="phone"]'), __('Número inválido. Ej: +573001234567')); ok = false;
+            }
+            if (b.type === 'FLOW') {
+                var fb = state.buttons[i];
+                if (!/^\d{5,25}$/.test((fb.flow_id || '').trim())) { fail($item.find('[data-field="flow_id"]'), __('El ID del Flow es numérico.')); ok = false; }
+                if (fb.flow_action === 'navigate' && !(fb.navigate_screen || '').trim()) { fail($item.find('[data-field="navigate_screen"]'), __('Indica la pantalla inicial del Flow.')); ok = false; }
             }
             if (b.type === 'COPY_CODE') {
                 var code = state.buttons[i].example || '';
@@ -776,7 +1059,7 @@
     // formato es completamente distinto al de MARKETING/UTILITY
     // (ver sección 6 de las reglas: body sin "text", footer sin
     // "text", un único botón "otp").
-    function buildMetaPayload() {
+    function buildMetaPayloadBase() {
         var name = ($('#tplName').val() || '').trim();
         var language = $('#tplLanguage').val();
         var categoryCode = Number($('#tplCategory').val());
@@ -822,6 +1105,9 @@
             }
         }
 
+        var lto = LimitedOffer.data();
+        if (lto) components.push({ type: 'LIMITED_TIME_OFFER', limited_time_offer: { text: lto.text, has_expiration: lto.has_expiration } });
+
         var b = BodyBuilder.data();
         var bodyComponent = { type: 'BODY', text: b.text };
         var bvars = VariableManager.detect(b.text);
@@ -836,6 +1122,13 @@
         }
         components.push(bodyComponent);
 
+        if (Carousel.active()) {
+            // Carrusel: solo BODY + CAROUSEL (sin header, pie ni botones propios).
+            components = components.filter(function (c) { return c.type === 'BODY'; });
+            components.push(Carousel.meta());
+            return { name: name, language: language, category: metaCategory, components: components };
+        }
+
         var f = FooterBuilder.data();
         if (f && f.text) components.push({ type: 'FOOTER', text: f.text });
 
@@ -846,19 +1139,42 @@
                 return out;
             }
             if (bt.type === 'PHONE_NUMBER') return { type: 'PHONE_NUMBER', text: bt.text, phone_number: bt.phone };
-            if (bt.type === 'COPY_CODE') return { type: 'COPY_CODE', example: [bt.example] };
-            return { type: bt.type, text: bt.text }; // QUICK_REPLY, CATALOG, MPM
+            if (bt.type === 'COPY_CODE') return { type: 'COPY_CODE', example: bt.example }; // Meta: string, no arreglo
+            if (bt.type === 'FLOW') {
+                var fb = { type: 'FLOW', text: bt.text, flow_id: bt.flow_id, flow_action: bt.flow_action || 'navigate' };
+                if (fb.flow_action === 'navigate') fb.navigate_screen = bt.navigate_screen;
+                return fb;
+            }
+            return { type: bt.type, text: bt.text }; // QUICK_REPLY, CATALOG, MPM, SPM, VOICE_CALL
         });
         if (buttons.length) components.push({ type: 'BUTTONS', buttons: buttons });
 
         return { name: name, language: language, category: metaCategory, components: components };
     }
 
+    // Payload final: base + campos de envío (TTL).
+    function buildMetaPayload() {
+        var p = buildMetaPayloadBase(), ttl = Ttl.value();
+        if (ttl !== null) p.message_send_ttl_seconds = ttl;
+        return p;
+    }
+
     // Muestra/oculta secciones según la categoría elegida.
     function applyCategoryUI() {
         var auth = isAuth();
 
-        $('#secHeader').toggleClass('d-none', auth);
+        var marketing = Number($('#tplCategory').val()) === CATEGORY_MARKETING;
+        var car = Carousel.active();
+        $('#secCarousel, #secLto').toggleClass('d-none', !marketing);
+        if (!marketing) {
+            $('#carouselSwitch, #ltoSwitch').prop('checked', false);
+            $('#carouselOn, #ltoOn').addClass('d-none');
+        }
+        // Carrusel: el header, pie, botones y oferta propios no aplican.
+        $('#secLto').toggleClass('d-none', !marketing || car);
+        $('#secFooterCard, #secButtons').toggleClass('d-none', car);
+        $('#secHeader').toggleClass('d-none', auth || car);
+        Ttl.hint();
         if (auth) $('#headerSwitch').prop('checked', false).trigger('change');
 
         $('#bodyAuthNotice').toggleClass('d-none', !auth);
@@ -890,6 +1206,8 @@
         state.mode = template ? 'edit' : 'create';
         state.id = template ? (template.id || null) : null;
         state.buttons = []; state.media = { IMAGE: null, VIDEO: null, DOCUMENT: null };
+        state.cards = []; Carousel.render(); $('#cardSpmWrap').addClass('d-none');
+        $('#carouselSwitch, #ltoSwitch').prop('checked', false); $('#carouselOn, #ltoOn').addClass('d-none');
 
         $('#tplForm')[0].reset();
         clearErrors();
@@ -1004,6 +1322,9 @@
         BodyBuilder.init();
         FooterBuilder.init();
         ButtonBuilder.init();
+        LimitedOffer.init();
+        Carousel.init();
+        $('#ttlSeconds').on('input', function () { markDirty(); Preview.render(); });
 
         $('#tplName').on('input', function () {
             this.value = this.value.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
@@ -1052,6 +1373,11 @@
             if (media && media.file) formData.append('archivo', media.file);
         }
 
+        // Carrusel de media: un archivo por tarjeta (archivo_card_0, archivo_card_1…)
+        if (Carousel.active() && Carousel.mode() === 'MEDIA') {
+            state.cards.forEach(function (c, i) { if (c.file) formData.append('archivo_card_' + i, c.file); });
+        }
+
         const config = {
             'method': 'POST',
             'headers': {
@@ -1084,6 +1410,7 @@
         generalidades.resetValidate(formCrearPlantilla);
         $('#tplCategory').val(null).trigger('change');
         $('#tplLanguage').val(null).trigger('change');
+        $('#ttlSeconds').val('');
     });
 
 

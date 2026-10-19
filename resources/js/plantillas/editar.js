@@ -32,7 +32,8 @@
     var LIMITS = {
         name: 512, headerText: 60, body: 1024, footer: 60, btnText: 25,
         maxButtons: 10, maxQuickReply: 10, maxUrl: 2, maxPhone: 1,
-        maxCopyCode: 1, maxOtp: 1, copyCodeExample: 20
+        maxCopyCode: 1, maxOtp: 1, copyCodeExample: 20,
+        maxFlow: 1, maxVoiceCall: 1, maxSpm: 1
     };
 
     var CATEGORY_AUTH = 1;
@@ -45,13 +46,18 @@
         1: 'Códigos de autenticación y verificación. Meta genera el texto automáticamente.'
     };
 
+    var FLOW_ACTIONS = ['navigate', 'data_exchange'];
+
     var BUTTON_TYPES = {
         QUICK_REPLY: { label: 'Respuesta rápida', icon: 'fa-reply', fields: ['text'] },
         URL: { label: 'URL', icon: 'fa-link', fields: ['text', 'url'] },
         PHONE_NUMBER: { label: 'Número de teléfono', icon: 'fa-phone', fields: ['text', 'phone'] },
         COPY_CODE: { label: 'Copiar código (cupón)', icon: 'fa-copy', fields: ['example'] },
         CATALOG: { label: 'Catálogo', icon: 'fa-store', fields: ['text'] },
-        MPM: { label: 'Multi Product Message', icon: 'fa-boxes-stacked', fields: ['text'] }
+        MPM: { label: 'Multi Product Message', icon: 'fa-boxes-stacked', fields: ['text'] },
+        SPM: { label: 'Single Product Message', icon: 'fa-bag-shopping', fields: ['text'] },
+        FLOW: { label: 'WhatsApp Flow', icon: 'fa-diagram-project', fields: ['text'] },
+        VOICE_CALL: { label: 'Llamada de WhatsApp', icon: 'fa-phone-volume', fields: ['text'] }
     };
     var OTP_TYPE_META = { label: 'OTP (autenticación)', icon: 'fa-key' };
     var HEADER_TYPES = [
@@ -59,7 +65,8 @@
         { key: 'IMAGE', label: 'Imagen', icon: 'fa-image' },
         { key: 'VIDEO', label: 'Video', icon: 'fa-video' },
         { key: 'DOCUMENT', label: 'Documento', icon: 'fa-file-pdf' },
-        { key: 'LOCATION', label: 'Ubicación', icon: 'fa-location-dot' }
+        { key: 'LOCATION', label: 'Ubicación', icon: 'fa-location-dot' },
+        { key: 'PRODUCT', label: 'Producto', icon: 'fa-box' }
     ];
 
     /* ---------------- Estado ---------------- */
@@ -246,6 +253,7 @@
                     address: ($('#locAddressEdit').val() || '').trim()
                 };
             }
+            if (type === 'PRODUCT') return { format: 'PRODUCT' };
             var f = state.media[type];
             return { format: type, file: f ? { name: f.name, size: f.size, type: f.type } : null, url: f ? f.url : null };
         },
@@ -435,7 +443,10 @@
             if (type === 'URL' && count >= LIMITS.maxUrl) { ButtonBuilder.warn(__('Solo se permiten ') + LIMITS.maxUrl + __(' botones de tipo URL.')); return; }
             if (type === 'PHONE_NUMBER' && count >= LIMITS.maxPhone) { ButtonBuilder.warn(__('Solo se permite 1 botón de llamada.')); return; }
             if (type === 'COPY_CODE' && count >= LIMITS.maxCopyCode) { ButtonBuilder.warn(__('Solo se permite 1 botón de copiar código.')); return; }
-            state.buttons.push({ id: ++state.seq, type: type, text: '', url: '', phone: '', example: '' });
+            if (type === 'FLOW' && count >= LIMITS.maxFlow) { ButtonBuilder.warn(__('Solo se permite 1 botón de Flow.')); return; }
+            if (type === 'VOICE_CALL' && count >= LIMITS.maxVoiceCall) { ButtonBuilder.warn(__('Solo se permite 1 botón de llamada de WhatsApp.')); return; }
+            if (type === 'SPM' && count >= LIMITS.maxSpm) { ButtonBuilder.warn(__('Solo se permite 1 botón de producto.')); return; }
+            state.buttons.push({ id: ++state.seq, type: type, text: '', url: '', phone: '', example: '', flow_id: '', flow_action: 'navigate', navigate_screen: '' });
             ButtonBuilder.render(); Preview.render();
         },
         warn: function (msg) { $('#btnLimitWarnEdit').text(msg).addClass('show'); setTimeout(function () { $('#btnLimitWarnEdit').removeClass('show'); }, 5000); },
@@ -446,12 +457,23 @@
                 phone: [__('Número telefónico'), '+573001234567', 20],
                 example: [__('Código de ejemplo'), 'Ej: SUMMER20', LIMITS.copyCodeExample],
                 package: [__('Package name'), 'com.empresa.app', 200],
-                signature: [__('Signature hash'), 'K8a/AINcGX7', 200]
+                signature: [__('Signature hash'), 'K8a/AINcGX7', 200],
+                flow_id: [__('ID del Flow'), '123456789012345', 40],
+                navigate_screen: [__('Pantalla inicial (navigate_screen)'), 'WELCOME_SCREEN', 100]
             }[field];
             return '<div class="col-md-6 mb-2"><label class="form-label">' + map[0] + '</label>' +
                 '<input type="text" class="form-control form-control-sm" data-field="' + field + '" maxlength="' + map[2] +
                 '" placeholder="' + map[1] + '" value="' + esc(b[field] || '') + '">' +
                 '<div class="field-error"></div></div>';
+        },
+        flowFields: function (b) {
+            var opts = FLOW_ACTIONS.map(function (v) {
+                return '<option value="' + v + '"' + (b.flow_action === v ? ' selected' : '') + '>' + v + '</option>';
+            }).join('');
+            return ButtonBuilder.field(b, 'flow_id') +
+                `<div class="col-md-6 mb-2"><label class="form-label">${__('Acción del Flow')}</label>` +
+                '<select class="form-select form-select-sm" data-field="flow_action">' + opts + '</select></div>' +
+                (b.flow_action === 'navigate' ? ButtonBuilder.field(b, 'navigate_screen') : '');
         },
         otpTypeField: function (b) {
             var opts = ['COPY_CODE', 'ONE_TAP', 'ZERO_TAP'].map(function (v) {
@@ -500,7 +522,8 @@
                     '<i class="fa-solid ' + meta.icon + ' text-info"></i>' +
                     '<span class="bi-type-1">' + __(meta.label) + '</span>' +
                     `<button type="button" class="icon-btn ms-auto btn-remove" title="${__('Eliminar botón')}"><i class="fa-solid fa-trash-can"></i></button></div>` +
-                    '<div class="row g-2">' + meta.fields.map(function (f) { return ButtonBuilder.field(b, f); }).join('') + '</div>' +
+                    '<div class="row g-2">' + meta.fields.map(function (f) { return ButtonBuilder.field(b, f); }).join('') +
+                    (b.type === 'FLOW' ? ButtonBuilder.flowFields(b) : '') + '</div>' +
                     '<div class="btn-url-vars mt-1"></div></div>';
             });
             $('#buttonsListEdit').html(html);
@@ -527,7 +550,8 @@
                     if (VariableManager.detect(out.url).length) out.example = [(b.urlExample || '').trim()];
                 }
                 if (b.type === 'PHONE_NUMBER') out.phone_number = (b.phone || '').trim();
-                if (b.type === 'COPY_CODE') { out.text = __('Copiar código'); out.example = [(b.example || '').trim()]; }
+                if (b.type === 'COPY_CODE') { out.text = __('Copiar código'); out.example = (b.example || '').trim(); }
+                if (b.type === 'FLOW') { out.flow_id = (b.flow_id || '').trim(); out.flow_action = b.flow_action || 'navigate'; out.navigate_screen = (b.navigate_screen || '').trim(); }
                 return out;
             });
         },
@@ -546,7 +570,8 @@
                 return {
                     id: ++state.seq, type: b.type, text: b.text || '', url: b.url || '',
                     urlExample: (b.example && b.example[0]) || '', phone: b.phone_number || '',
-                    example: (b.example && b.example[0]) || ''
+                    example: Array.isArray(b.example) ? (b.example[0] || '') : (b.example || ''),
+                    flow_id: b.flow_id || '', flow_action: (b.flow_action || 'navigate').toLowerCase(), navigate_screen: b.navigate_screen || ''
                 };
             });
             ButtonBuilder.render();
@@ -577,6 +602,8 @@
                     html += '<div class="wa-media">' + (d.header.url ? '<video src="' + d.header.url + '" muted controls></video>' : '<i class="fa-solid fa-video fa-2x"></i>') + '</div>';
                 } else if (d.header.format === 'DOCUMENT') {
                     html += '<div class="wa-doc"><i class="fa-solid fa-file-pdf"></i><span>' + esc(d.header.file ? d.header.file.name : 'documento.pdf') + '</span></div>';
+                } else if (d.header.format === 'PRODUCT') {
+                    html += '<div class="wa-media"><i class="fa-solid fa-box fa-2x"></i></div>';
                 } else if (d.header.format === 'LOCATION') {
                     html += '<div class="wa-media"><i class="fa-solid fa-location-dot fa-2x"></i></div>' +
                         '<div class="wa-header-text">' + esc(d.header.name || 'Ubicación') + '</div>' +
@@ -594,7 +621,10 @@
             d.buttons.forEach(function (b) {
                 var ic = b.type === 'URL' ? 'fa-arrow-up-right-from-square'
                     : b.type === 'PHONE_NUMBER' ? 'fa-phone'
-                        : (b.type === 'COPY_CODE' || b.type === 'OTP') ? 'fa-copy' : 'fa-reply';
+                        : (b.type === 'COPY_CODE' || b.type === 'OTP') ? 'fa-copy'
+                            : b.type === 'FLOW' ? 'fa-diagram-project'
+                                : b.type === 'VOICE_CALL' ? 'fa-phone-volume'
+                                    : (b.type === 'SPM' || b.type === 'MPM') ? 'fa-bag-shopping' : 'fa-reply';
                 btns += '<div class="wa-btn"><i class="fa-solid ' + ic + '"></i>' + esc(b.text || __('Botón')) + '</div>';
             });
 
@@ -684,7 +714,7 @@
                 if (!/^-?\d+(\.\d+)?$/.test(d.header.latitude)) { fail($('#locLatEdit'), __('Latitud inválida.')); ok = false; }
                 if (!/^-?\d+(\.\d+)?$/.test(d.header.longitude)) { fail($('#locLngEdit'), __('Longitud inválida.')); ok = false; }
                 if (!d.header.name) { fail($('#locNameEdit'), __('Indica el nombre del lugar.')); ok = false; }
-            } else if (!d.header.file && !(state.media[d.header.format])) {
+            } else if (d.header.format !== 'PRODUCT' && !d.header.file && !(state.media[d.header.format])) {
                 // Si el header ya tenía IMAGE/VIDEO/DOCUMENT guardado y el
                 // usuario no tocó el dropzone, se deja pasar (se conserva
                 // el archivo/handle existente en el backend).
@@ -715,6 +745,11 @@
             }
             if (b.type === 'PHONE_NUMBER' && !/^\+?\d{7,15}$/.test(b.phone_number || '')) {
                 fail($item.find('[data-field="phone"]'), __('Número inválido. Ej: +573001234567')); ok = false;
+            }
+            if (b.type === 'FLOW') {
+                var fb = state.buttons[i];
+                if (!/^\d{5,25}$/.test((fb.flow_id || '').trim())) { fail($item.find('[data-field="flow_id"]'), __('El ID del Flow es numérico.')); ok = false; }
+                if (fb.flow_action === 'navigate' && !(fb.navigate_screen || '').trim()) { fail($item.find('[data-field="navigate_screen"]'), __('Indica la pantalla inicial del Flow.')); ok = false; }
             }
             if (b.type === 'COPY_CODE') {
                 var code = state.buttons[i].example || '';
@@ -811,7 +846,12 @@
                 return out;
             }
             if (bt.type === 'PHONE_NUMBER') return { type: 'PHONE_NUMBER', text: bt.text, phone_number: bt.phone };
-            if (bt.type === 'COPY_CODE') return { type: 'COPY_CODE', example: [bt.example] };
+            if (bt.type === 'COPY_CODE') return { type: 'COPY_CODE', example: bt.example }; // Meta: string, no arreglo
+            if (bt.type === 'FLOW') {
+                var fb = { type: 'FLOW', text: bt.text, flow_id: bt.flow_id, flow_action: bt.flow_action || 'navigate' };
+                if (fb.flow_action === 'navigate') fb.navigate_screen = bt.navigate_screen;
+                return fb;
+            }
             return { type: bt.type, text: bt.text };
         });
         if (buttons.length) components.push({ type: 'BUTTONS', buttons: buttons });

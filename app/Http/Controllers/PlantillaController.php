@@ -172,6 +172,12 @@ class PlantillaController extends Controller
             $components[$headerIndex]['example'] = ['header_handle' => [$handle]];
         }
 
+        // Carrusel de media: cada tarjeta trae su archivo en "archivo_card_{n}"
+        $errorCarrusel = $this->subirMediaCarrusel($components, $request, $uploadService);
+        if ($errorCarrusel) {
+            return $errorCarrusel;
+        }
+
         $respuestaMeta = $templatesService->createTemplateFromComponents(
             $this->token,
             $this->waba_id,
@@ -461,12 +467,59 @@ class PlantillaController extends Controller
     }
 
     /**
+     * Sube a Meta el archivo de cada tarjeta IMAGE/VIDEO del componente CAROUSEL
+     * e inyecta su header_handle. Devuelve una respuesta de error o null si todo salió bien.
+     */
+    private function subirMediaCarrusel(array &$components, Request $request, MediaService $uploadService)
+    {
+        $indice = collect($components)->search(fn ($c) => strtoupper($c['type'] ?? '') === 'CAROUSEL');
+        if ($indice === false) {
+            return null;
+        }
+
+        foreach ($components[$indice]['cards'] ?? [] as $i => $card) {
+            foreach ($card['components'] ?? [] as $j => $comp) {
+                if (strtoupper($comp['type'] ?? '') !== 'HEADER' || ! in_array($comp['format'] ?? '', ['IMAGE', 'VIDEO'])) {
+                    continue;
+                }
+
+                $archivo = $request->file('archivo_card_'.$i);
+                if (! $archivo || ! $archivo->isValid()) {
+                    return response()->json([
+                        'estado' => 'error',
+                        'mensaje' => __('Falta el archivo de la tarjeta :n del carrusel.', ['n' => $i + 1]),
+                    ], 422);
+                }
+
+                try {
+                    $handle = $uploadService->uploadHeaderMedia($this->token, $archivo->getRealPath(), $archivo->getMimeType());
+                } catch (\Throwable $e) {
+                    return response()->json([
+                        'estado' => 'error',
+                        'mensaje' => __('No se pudo subir el archivo de la tarjeta :n a Meta.', ['n' => $i + 1]),
+                        'error' => $e->getMessage(),
+                    ], 502);
+                }
+
+                $components[$indice]['cards'][$i]['components'][$j]['example'] = ['header_handle' => [$handle]];
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Campos opcionales de Meta que acompañan a la plantilla al crearla.
      * Si el cuerpo usa variables con nombre, Meta exige parameter_format = named.
      */
     private function camposExtra(array $payload, array $components): array
     {
         $extra = Arr::only($payload, ['message_send_ttl_seconds', 'sub_category']);
+
+        // TTL: se descarta si no es un entero positivo (Meta valida el rango según la categoría)
+        if (isset($extra['message_send_ttl_seconds']) && (! is_numeric($extra['message_send_ttl_seconds']) || (int) $extra['message_send_ttl_seconds'] < 1)) {
+            unset($extra['message_send_ttl_seconds']);
+        }
 
         $conNombre = collect($components)->contains(
             fn ($c) => isset($c['example']['body_text_named_params']) || isset($c['example']['header_text_named_params'])

@@ -5,6 +5,7 @@ namespace Database\Seeders\Conceptos;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Plantilla;
+use App\Models\PlantillaComponente;
 use App\Models\Sistema\Concepto;
 use App\Models\Sistema\TipoConcepto;
 use Illuminate\Database\Seeder;
@@ -99,5 +100,50 @@ class PlantillaSeeder extends Seeder
             'estado' => Concepto::ACTIVO,
             'color' => 'warning',
         ]);
+
+        // Tipos de componente y formatos de encabezado (incluye los nuevos: oferta limitada/carrusel guardados como "Otro" y encabezado de producto)
+        $tc_tipo = TipoConcepto::updateOrCreate([
+            'nombre' => PlantillaComponente::TC_TIPO_PLANTILLAS_COMPONENTES,
+        ], [
+            'descripcion' => 'Tipos de componentes de las plantillas de META.',
+            'estado' => TipoConcepto::ACTIVO,
+        ]);
+
+        $tipos = [
+            PlantillaComponente::HEADER => 'Encabezado',
+            PlantillaComponente::BODY => 'Cuerpo',
+            PlantillaComponente::FOOTER => 'Pie de página',
+            PlantillaComponente::BUTTONS => 'Botones',
+            PlantillaComponente::OTRO => 'Otro (carrusel, oferta por tiempo limitado…)',
+        ];
+        foreach ($tipos as $codigo => $nombre) {
+            Concepto::updateOrCreate([
+                'id_tipo' => $tc_tipo?->id,
+                'codigo' => $codigo,
+            ], ['nombre' => $nombre, 'estado' => Concepto::ACTIVO, 'color' => 'primary']);
+        }
+
+        $tc_formato = TipoConcepto::updateOrCreate([
+            'nombre' => PlantillaComponente::TC_FORMATO_ENCABEZADO,
+        ], [
+            'descripcion' => 'Formatos del encabezado de las plantillas de META.',
+            'estado' => TipoConcepto::ACTIVO,
+        ]);
+
+        $formatos = [
+            PlantillaComponente::TEXTO => 'Texto',
+            PlantillaComponente::IMAGEN => 'Imagen',
+            PlantillaComponente::VIDEO => 'Video',
+            PlantillaComponente::DOCUMENTO => 'Documento',
+            PlantillaComponente::LOCALIZACION => 'Ubicación',
+            PlantillaComponente::N_A => 'N/A',
+            PlantillaComponente::PRODUCTO => 'Producto',
+        ];
+        foreach ($formatos as $codigo => $nombre) {
+            Concepto::updateOrCreate([
+                'id_tipo' => $tc_formato?->id,
+                'codigo' => $codigo,
+            ], ['nombre' => $nombre, 'estado' => Concepto::ACTIVO, 'color' => 'primary']);
+        }
     }
 }

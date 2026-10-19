@@ -103,6 +103,14 @@
                                 <div id="headerOn" class="d-none mt-3">
                                     <div class="type-grid mb-3" id="headerTypeGrid"></div>
 
+                                    <!-- PRODUCT (cabecera de producto del catálogo, plantilla SPM) -->
+                                    <div class="h-pane d-none" id="hpane-PRODUCT">
+                                        <div class="help-text">
+                                            <i class="fa-solid fa-circle-info me-1"></i>
+                                            {{ __('La imagen del producto se toma del catálogo al enviar. Combínalo con el botón "Single Product Message".') }}
+                                        </div>
+                                    </div>
+
                                     <!-- TEXT -->
                                     <div class="h-pane" id="hpane-TEXT">
                                         <label class="form-label" for="headerText">{{ __('Texto del encabezado') }}</label>
@@ -189,6 +197,37 @@
                                 </div>
                             </section>
 
+                            <!-- Oferta por tiempo limitado (solo MARKETING) -->
+                            <section class="sec-card d-none" id="secLto">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="sec-title mb-0">
+                                            <i class="fa-solid fa-hourglass-half"></i>{{ __('Oferta por tiempo limitado') }}
+                                            <span class="sec-optional">{{ __('Opcional') }}</span>
+                                        </div>
+                                        <p class="sec-hint mb-0 mt-1">
+                                            {{ __('Requiere encabezado de imagen o video, botón de copiar código y/o URL, y no admite pie de página.') }}
+                                        </p>
+                                    </div>
+                                    <div class="form-check form-switch ms-3">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="ltoSwitch" />
+                                    </div>
+                                </div>
+                                <div id="ltoOn" class="d-none mt-3">
+                                    <label class="form-label" for="ltoText">{{ __('Texto de la oferta') }}</label>
+                                    <input type="text" class="form-control" id="ltoText" maxlength="16"
+                                        placeholder="{{ __('ej: Expira pronto') }}" autocomplete="off" />
+                                    <div class="d-flex justify-content-end">
+                                        <span class="counter" data-counter="ltoText">0 / 16</span>
+                                    </div>
+                                    <div class="field-error"></div>
+                                    <div class="form-check mt-2">
+                                        <input type="checkbox" class="form-check-input" id="ltoExpiration" checked>
+                                        <label class="form-check-label" for="ltoExpiration">{{ __('Mostrar cuenta regresiva de expiración') }}</label>
+                                    </div>
+                                </div>
+                            </section>
+
                             <!-- Cuerpo -->
                             <section class="sec-card">
                                 <div class="sec-title">
@@ -244,7 +283,7 @@
                             </section>
 
                             <!-- Pie de página -->
-                            <section class="sec-card">
+                            <section class="sec-card" id="secFooterCard">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div>
                                         <div class="sec-title mb-0">
@@ -286,8 +325,44 @@
                                 </div>
                             </section>
 
+                            <!-- Carrusel (solo MARKETING) -->
+                            <section class="sec-card d-none" id="secCarousel">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <div class="sec-title mb-0">
+                                            <i class="fa-solid fa-images"></i>{{ __('Carrusel') }}
+                                            <span class="sec-optional">{{ __('Opcional') }}</span>
+                                        </div>
+                                        <p class="sec-hint mb-0 mt-1">
+                                            {{ __('De 2 a 10 tarjetas deslizables. Reemplaza el encabezado, pie y botones de la plantilla.') }}
+                                        </p>
+                                    </div>
+                                    <div class="form-check form-switch ms-3">
+                                        <input class="form-check-input" type="checkbox" role="switch" id="carouselSwitch" />
+                                    </div>
+                                </div>
+                                <div id="carouselOn" class="d-none mt-3">
+                                    <label class="form-label" for="carouselMode">{{ __('Tipo de carrusel') }}</label>
+                                    <select class="form-select mb-3" id="carouselMode">
+                                        <option value="MEDIA">{{ __('Imagen / video por tarjeta') }}</option>
+                                        <option value="PRODUCT">{{ __('Productos del catálogo') }}</option>
+                                    </select>
+                                    <div id="cardSpmWrap" class="d-none mb-3">
+                                        <label class="form-label" for="cardSpmText">{{ __('Texto del botón de producto') }}</label>
+                                        <input type="text" class="form-control" id="cardSpmText" maxlength="25"
+                                            placeholder="{{ __('ej: Ver producto') }}" autocomplete="off" />
+                                        <div class="field-error"></div>
+                                    </div>
+                                    <div id="cardsList"></div>
+                                    <button type="button" class="btn btn-soft btn-sm mt-2" id="addCardBtn">
+                                        <i class="fa-solid fa-plus me-1"></i>{{ __('Agregar tarjeta') }}
+                                    </button>
+                                    <div class="limit-warn" id="cardsWarn"></div>
+                                </div>
+                            </section>
+
                             <!-- Botones -->
-                            <section class="sec-card">
+                            <section class="sec-card" id="secButtons">
                                 <div class="sec-title">
                                     <i class="fa-solid fa-hand-pointer"></i>
                                     {{ __('Botones') }}
@@ -326,6 +401,21 @@
                                 </div>
                                 <div id="buttonsList" class="mt-3"></div>
                                 <div class="limit-warn" id="btnLimitWarn"></div>
+                            </section>
+
+                            <!-- Opciones de envío: TTL -->
+                            <section class="sec-card" id="secTtl">
+                                <div class="sec-title">
+                                    <i class="fa-solid fa-stopwatch"></i>{{ __('Tiempo de vida del mensaje (TTL)') }}
+                                    <span class="sec-optional">{{ __('Opcional') }}</span>
+                                </div>
+                                <p class="sec-hint">{{ __('Segundos máximos que Meta reintenta entregar el mensaje antes de descartarlo.') }}</p>
+                                <input type="number" class="form-control" id="ttlSeconds" min="30" placeholder="{{ __('Segundos') }}">
+                                <span class="help-text" id="ttlHint"></span>
+                                <div class="help-text d-none" id="ttlMarketingNote">
+                                    {{ __('En Marketing el TTL solo lo aplica la Marketing Messages API de Meta.') }}
+                                </div>
+                                <div class="field-error"></div>
                             </section>
                         </div>
 

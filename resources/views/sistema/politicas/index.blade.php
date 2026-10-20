@@ -1,5 +1,55 @@
 @extends('layouts.principal')
 
+@section('title', 'Política de privacidad | GIJAC MESSAGE BUSINESS')
+
+@section('meta')
+    <meta name="description"
+        content="{{ __('Conoce cómo GIJAC Message Business recopila, usa y protege los datos personales de sus usuarios y de los contactos gestionados en la plataforma.') }}">
+
+    <meta name="keywords"
+        content="precios WhatsApp Business, planes WhatsApp Business, precios automatización WhatsApp, planes chatbot, WhatsApp API, campañas WhatsApp, inteligencia artificial, automatización empresarial, GIJAC Message Business">
+
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Política de privacidad | GIJAC MESSAGE BUSINESS">
+    <meta property="og:description"
+        content="{{ __('Conoce cómo GIJAC Message Business recopila, usa y protege los datos personales de sus usuarios y de los contactos gestionados en la plataforma.') }}">
+    <meta property="og:url" content="https://message-business.gijac.com/politicas-de-privacidad">
+    <meta property="og:image" content="https://message-business.gijac.com/img/logo_gmb.png">
+    <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
+    <meta property="article:author" content="GIJAC WEB">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="300">
+
+    @php
+        $schema = [
+            "@context" => "https://schema.org",
+            "@type" => "Webpage",
+            "@id" => "https://message-business.gijac.com/politicas-de-privacidad#webpage",
+            "name" => "Política de privacidad | GIJAC MESSAGE BUSINESS",
+            "url" => "https://message-business.gijac.com/politicas-de-privacidad",
+            "description" => __('Conoce cómo GIJAC Message Business recopila, usa y protege los datos personales de sus usuarios y de los contactos gestionados en la plataforma.'),
+            "isPartOf" => [
+                "@type" => "WebSite",
+                "name" => "GIJAC MESSAGE BUSINESS",
+                "url" => "https://message-business.gijac.com"
+            ],
+            "publisher" => [
+                "@type" => "Organization",
+                "name" => "GIJAC MESSAGE BUSINESS",
+                "url" => "https://message-business.gijac.com",
+                "logo" => [
+                    "@type" => "ImageObject",
+                    "url" => "https://message-business.gijac.com/img/logo_gmb.png"
+                ]
+            ]
+        ];
+    @endphp
+    <script type="application/ld+json">
+        {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    </script>
+@endsection
+
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/gmb.css') }}">
     <style>

@@ -1,19 +1,19 @@
 @extends('layouts.principal')
 
-@section('title', 'Recursos y guías de WhatsApp Business | GIJAC MESSAGE BUSINESS')
+@section('title', 'Eliminación de datos | GIJAC MESSAGE BUSINESS')
 
 @section('meta')
     <meta name="description"
-        content="{{ __('Artículos, guías y recursos para sacar el máximo provecho de la API de WhatsApp Business: campañas, automatización, chatbots e inteligencia artificial.') }}">
+        content="{{ __('Instrucciones para solicitar la eliminación de tus datos personales y de tu cuenta en GIJAC Message Business.') }}">
 
     <meta name="keywords"
         content="precios WhatsApp Business, planes WhatsApp Business, precios automatización WhatsApp, planes chatbot, WhatsApp API, campañas WhatsApp, inteligencia artificial, automatización empresarial, GIJAC Message Business">
 
     <meta property="og:locale" content="es_ES">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Recursos y guías de WhatsApp Business | GIJAC MESSAGE BUSINESS">
+    <meta property="og:title" content="Eliminación de datos | GIJAC MESSAGE BUSINESS">
     <meta property="og:description"
-        content="{{ __('Artículos, guías y recursos para sacar el máximo provecho de la API de WhatsApp Business: campañas, automatización, chatbots e inteligencia artificial.') }}">
+        content="{{ __('Instrucciones para solicitar la eliminación de tus datos personales y de tu cuenta en GIJAC Message Business.') }}">
     <meta property="og:url" content="https://message-business.gijac.com/recursos">
     <meta property="og:image" content="https://message-business.gijac.com/img/logo_gmb.png">
     <meta property="og:site_name" content="GIJAC MESSAGE BUSINESS">
@@ -24,11 +24,11 @@
     @php
         $schema = [
             "@context" => "https://schema.org",
-            "@type" => "CollectionPage",
-            "@id" => "https://message-business.gijac.com/recursos#CollectionPage",
-            "name" => "Recursos y guías de WhatsApp Business | GIJAC MESSAGE BUSINESS",
+            "@type" => "Webpage",
+            "@id" => "https://message-business.gijac.com/recursos#webpage",
+            "name" => "Eliminación de datos | GIJAC MESSAGE BUSINESS",
             "url" => "https://message-business.gijac.com/recursos",
-            "description" => __('Artículos, guías y recursos para sacar el máximo provecho de la API de WhatsApp Business: campañas, automatización, chatbots e inteligencia artificial.'),
+            "description" => __('Instrucciones para solicitar la eliminación de tus datos personales y de tu cuenta en GIJAC Message Business.'),
             "isPartOf" => [
                 "@type" => "WebSite",
                 "name" => "GIJAC MESSAGE BUSINESS",

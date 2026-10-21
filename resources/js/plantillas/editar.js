@@ -937,6 +937,17 @@
         state.listo = true;
         Preview.render();
         generalidades.ocultarCargando('body');
+
+        $('#tplCategoryEdit').select2({
+            allowClear: true,
+            placeholder: __('Seleccione la categoría'),
+            minimumResultsForSearch: -1,
+        });
+
+        $('#tplLanguageEdit').select2({
+            allowClear: true,
+            placeholder: __('Seleccione la categoría'),
+        });
     };
 
     const enviarDatos = (form) => {

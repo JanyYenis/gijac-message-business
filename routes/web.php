@@ -72,18 +72,6 @@ Route::post('/contactarnos/guardar', [ContactoPaginaController::class, 'store'])
 
 Route::get('/campanas/redireccion/{telefono}/{idCampana}/{indexBtn}/link', [CampanaController::class, 'redireccionLink']);
 
-Route::get('/chatbot-n8n', function (\Illuminate\Http\Request $request) {
-    $userMessage = $request->input('message');
-
-    $response = Http::post('https://jany1207.app.n8n.cloud/webhook/d2081356-62b0-4cac-970e-58d070efc7fe/chat', [
-        'chatInput' => 'Hola',
-        'sessionId' => '573152094191', // Para mantener la sesión
-        // 'sessionId' => $request->session()->getId(), // Para mantener la sesión
-    ]);
-
-    dd($response->json());
-});
-
 Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(function () {
     // Dashboard
     Route::get('/home', [HomeController::class, 'index'])

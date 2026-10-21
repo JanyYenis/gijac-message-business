@@ -3,8 +3,8 @@
 @section('css')
     <style>
         /* ============================================================
-                                        1. BASE · Identidad GIJAC
-                                        ============================================================ */
+            1. BASE · Identidad GIJAC
+            ============================================================ */
         :root {
             --teal: #1e6f78;
             --teal-dark: #145962;
@@ -2309,7 +2309,7 @@
                     <small class="fs-7">{{ __('Envía un mensaje de verificación') }}</small>
                 </span>
             </button>
-            <a class="action-card" href="#" id="btnTemplates">
+            <a class="action-card" href="{{ route('plantillas.index') }}" id="btnTemplates">
                 <i class="ac-ico bi bi-layout-text-window-reverse"></i>
                 <span class="fs-5">
                     {{ __('Ver plantillas') }}
@@ -2503,8 +2503,10 @@
                     <div class="confirm-ico ci-warn">
                         <i class="bi bi-exclamation-triangle text-white fs-1"></i>
                     </div>
-                    <h4 id="discTitle">{{ __('¿Desconectar WhatsApp Business?') }}</h4>
-                    <p class="text-dark" style="font-size: 0.9rem">
+                    <h4 id="discTitle" class="fs-2">
+                        {{ __('¿Desconectar WhatsApp Business?') }}
+                    </h4>
+                    <p class="text-dark fs-6">
                         {{ __('Al desconectar esta cuenta dejarás de gestionar este número desde GIJAC Message Business.') }}
                     </p>
                     <div class="d-flex justify-content-center gap-2 mt-4">
@@ -2529,7 +2531,10 @@
             <div class="modal-content">
                 <div class="p-4">
                     <div class="d-flex justify-content-between align-items-center mb-1">
-                        <h4 class="mb-0" id="agTitle"><i class="bi bi-people me-2" style="color: var(--teal-light)"></i>{{ __('Agentes del número') }}</h4>
+                        <h4 class="mb-0" id="agTitle">
+                            <i class="bi bi-people me-2" style="color: var(--teal-light)"></i>
+                            {{ __('Agentes del número') }}
+                        </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
                     <p class="mb-1 fs-7 mono" id="agNumero" style="color: #8aa0a2"></p>
@@ -2550,7 +2555,8 @@
                 <div class="p-4">
                     <div class="d-flex justify-content-between align-items-center mb-1">
                         <h4 class="mb-0" id="nwTitle">
-                            <i class="bi bi-telephone-plus me-2" style="color: var(--teal-light)"></i>{{ __('Agregar número') }}
+                            <i class="bi bi-telephone-plus me-2" style="color: var(--teal-light)"></i>
+                            {{ __('Agregar número') }}
                         </h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
@@ -2563,13 +2569,15 @@
                             {{ __('El número debe poder recibir SMS o llamadas y no estar activo en la app WhatsApp (personal o Business). Si lo está, elimina esa cuenta antes de continuar.') }}
                         </p>
                         <div class="row g-2 mb-3">
-                            <div class="col-4">
+                            {{-- <div class="col-4">
                                 <label for="nwCc" class="form-label">{{ __('País') }}</label>
-                                <input type="text" class="form-control" id="nwCc" value="57" inputmode="numeric" maxlength="3" required />
-                            </div>
-                            <div class="col-8">
+                                <input type="text" class="form-control" id="nwCc" value="57" inputmode="numeric" maxlength="3"
+                                    required/>
+                            </div> --}}
+                            <div class="col-12">
                                 <label for="nwNum" class="form-label">{{ __('Número') }}</label>
-                                <input type="tel" class="form-control" id="nwNum" placeholder="3001234567" inputmode="numeric" required />
+                                <input type="tel" class="form-control" id="nwNum" placeholder="3001234567" inputmode="numeric"
+                                    required/>
                             </div>
                         </div>
                         <div class="mb-4">
@@ -3175,9 +3183,14 @@
                 e.preventDefault();
                 const $b = $('#nwBtn1');
                 setLoading($b, true, 'Creando…');
+                let inputTelefono = generalidades.darTelefonoInput(`#nwStep1 #nwNum`);
+                let tel = inputTelefono?.getNumber(intlTelInputUtils.numberFormat.NATIONAL);
+                let codigo = inputTelefono?.getSelectedCountryData()?.dialCode ?? '';
+                tel = tel.replace(/\((\w+)\)/g, "$1").replace(/-/g, "").replace(/\s/g, "");
+
                 $.post(numUrl(''), {
-                    cc: $('#nwCc').val(),
-                    phone_number: $('#nwNum').val(),
+                    cc: codigo,
+                    phone_number: tel,
                     verified_name: $('#nwName').val().trim()
                 }).done(function(res) {
                     nw.id = res.phone_number_id;
@@ -3316,6 +3329,10 @@
                 $("#sidebarBackdrop").toggleClass("show");
             });
             $("#sidebarBackdrop").on("click", closeSidebar);
+        });
+
+        $(document).on('shown.bs.modal', '#numberModal', function () {
+            generalidades.initTelefonoInput(`#nwStep1 #nwNum`);
         });
     </script>
 @endsection

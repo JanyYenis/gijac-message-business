@@ -15,12 +15,12 @@
                 </p>
             </div>
             <div class="d-flex gap-2">
-                <button class="btn-soft" id="demoToggle">
+                {{-- <button class="btn-soft" id="demoToggle">
                     <i class="bi bi-database me-1"></i>
                     <span>{{ __('Modo demo') }}</span>
-                </button>
+                </button> --}}
                 <button class="btn-gj" id="addProductBtn">
-                    <i class="bi bi-plus-lg me-1"></i>
+                    <i class="bi bi-plus-lg me-1 text-white"></i>
                     {{ __('Nuevo producto') }}
                 </button>
             </div>
@@ -31,7 +31,7 @@
             <div class="col-6 col-xl-3">
                 <div class="kpi">
                     <div class="ic ic-teal">
-                        <i class="bi bi-box-seam"></i>
+                        <i class="bi bi-box-seam text-white fs-1"></i>
                     </div>
                     <div>
                         <h3 id="kpiTotal">0</h3>
@@ -42,7 +42,7 @@
             <div class="col-6 col-xl-3">
                 <div class="kpi">
                     <div class="ic ic-green">
-                        <i class="bi bi-check-circle"></i>
+                        <i class="bi bi-check-circle text-white fs-1"></i>
                     </div>
                     <div>
                         <h3 id="kpiActive">0</h3>
@@ -52,7 +52,9 @@
             </div>
             <div class="col-6 col-xl-3">
                 <div class="kpi">
-                    <div class="ic ic-amber"><i class="bi bi-exclamation-triangle"></i></div>
+                    <div class="ic ic-amber">
+                        <i class="bi bi-exclamation-triangle text-white fs-1"></i>
+                    </div>
                     <div>
                         <h3 id="kpiLow">0</h3>
                         <small>{{ __('Stock bajo') }}</small>
@@ -62,7 +64,7 @@
             <div class="col-6 col-xl-3">
                 <div class="kpi">
                     <div class="ic ic-blue">
-                        <i class="bi bi-currency-dollar"></i>
+                        <i class="bi bi-currency-dollar text-white fs-1"></i>
                     </div>
                     <div>
                         <h3 id="kpiAvg">$0</h3>
@@ -77,13 +79,15 @@
             <div class="row g-2 align-items-end">
                 <div class="col-12 col-md-4 col-lg-3">
                     <label class="form-label small text-uppercase mb-1" style="color:var(--gj-900)">{{ __('Categoría') }}</label>
-                    <select class="form-select form-select-gj" id="filterCategory">
+                    <select class="form-control" id="filterCategory" data-control="select2" data-placeholder="{{ __('Categoría') }}"
+                        data-allow-clear="true" data-hide-search="true">
                         <option value="">{{ __('Todas las categorías') }}</option>
                     </select>
                 </div>
                 <div class="col-12 col-md-4 col-lg-3">
                     <label class="form-label small text-uppercase mb-1" style="color:var(--gj-900)">{{ __('Disponibilidad') }}</label>
-                    <select class="form-select form-select-gj" id="filterAvailability">
+                    <select class="form-control" id="filterAvailability" data-control="select2" data-placeholder="{{ __('Disponibilidad') }}"
+                        data-allow-clear="true" data-hide-search="true">
                         <option value="">{{ __('Todos') }}</option>
                         <option value="in stock">{{ __('En stock') }}</option>
                         <option value="out of stock">{{ __('Agotado') }}</option>
@@ -93,7 +97,8 @@
                 </div>
                 <div class="col-12 col-md-4 col-lg-3">
                     <label class="form-label small text-uppercase mb-1" style="color:var(--gj-900)">{{ __('Ordenar') }}</label>
-                    <select class="form-select form-select-gj" id="sortBy">
+                    <select class="form-control" id="sortBy" data-control="select2" data-placeholder="{{ __('Ordenar') }}"
+                        data-hide-search="true">
                         <option value="newest">{{ __('Más recientes') }}</option>
                         <option value="price_asc">{{ __('Precio: menor a mayor') }}</option>
                         <option value="price_desc">{{ __('Precio: mayor a menor') }}</option>
@@ -114,7 +119,7 @@
         <!-- Empty state -->
         <div class="state-box d-none" id="emptyState">
             <div class="ic ic-teal">
-                <i class="bi bi-inbox"></i>
+                <i class="bi bi-inbox text-white fs-1"></i>
             </div>
             <h5 class="fw-bold">{{ __('No se encontraron productos') }}</h5>
             <p class="text-muted mb-0">{{ __('Ajusta los filtros o crea un producto nuevo para empezar.') }}</p>
@@ -122,8 +127,8 @@
 
         <!-- Error state -->
         <div class="state-box d-none" id="errorState">
-            <div class="ic ic-amber" style="color:#B36B00; background:#FFF3E0">
-                <i class="bi bi-exclamation-octagon"></i>
+            <div class="ic ic-amber">
+                <i class="bi bi-exclamation-octagon text-white fs-1"></i>
             </div>
             <h5 class="fw-bold" id="errorTitle">{{ __('Error al cargar el catálogo') }}</h5>
             <p class="text-muted mb-3" id="errorMsg">{{ __('Revisa la consola para más detalles.') }}</p>
@@ -191,7 +196,7 @@
                             <div class="col-6 col-md-3">
                                 <label class="form-label">{{ __('Precio *') }}</label>
                                 <div class="input-group">
-                                    <span class="input-group-text border-0"
+                                    <span class="input-group-text"
                                         style="background:#fff; color:var(--gj-900); font-weight:700">$</span>
                                     <input type="number" step="0.01" min="0"
                                         class="form-control form-control-gj" id="pPrice" required>
@@ -200,7 +205,7 @@
                             <div class="col-6 col-md-3">
                                 <label class="form-label">{{ __('Precio oferta') }}</label>
                                 <div class="input-group">
-                                    <span class="input-group-text border-0"
+                                    <span class="input-group-text"
                                         style="background:#fff; color:var(--gj-900); font-weight:700">$</span>
                                     <input type="number" step="0.01" min="0"
                                         class="form-control form-control-gj" id="pSalePrice">
@@ -208,7 +213,7 @@
                             </div>
                             <div class="col-6 col-md-3">
                                 <label class="form-label">{{ __('Moneda') }}</label>
-                                <select class="form-select form-select-gj" id="pCurrency">
+                                <select class="form-control" id="pCurrency">
                                     <option value="USD">{{ __('USD') }}</option>
                                     <option value="EUR">{{ __('EUR') }}</option>
                                     <option value="COP" selected>{{ __('COP') }}</option>
@@ -218,7 +223,7 @@
                             </div>
                             <div class="col-6 col-md-3">
                                 <label class="form-label">{{ __('Disponibilidad') }}</label>
-                                <select class="form-select form-select-gj" id="pAvailability">
+                                <select class="form-control" id="pAvailability">
                                     <option value="in stock">{{ __('En stock') }}</option>
                                     <option value="out of stock">{{ __('Agotado') }}</option>
                                     <option value="preorder">{{ __('Preventa') }}</option>
@@ -232,7 +237,7 @@
                             </div>
                             <div class="col-6 col-md-3">
                                 <label class="form-label">{{ __('Condición') }}</label>
-                                <select class="form-select form-select-gj" id="pCondition">
+                                <select class="form-control" id="pCondition">
                                     <option value="new">{{ __('Nuevo') }}</option>
                                     <option value="refurbished">{{ __('Reacondicionado') }}</option>
                                     <option value="used">{{ __('Usado') }}</option>
@@ -241,7 +246,7 @@
                             <div class="col-12">
                                 <label class="form-label">{{ __('Imagen del producto (URL)') }}</label>
                                 <div class="input-group mb-2">
-                                    <span class="input-group-text border-0" style="background:#fff"><i
+                                    <span class="input-group-text" style="background:#fff"><i
                                             class="bi bi-link-45deg"></i></span>
                                     <input type="url" class="form-control form-control-gj" id="pImageUrl"
                                         placeholder="https://…">

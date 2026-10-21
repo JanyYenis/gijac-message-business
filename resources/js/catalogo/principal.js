@@ -175,15 +175,31 @@ $(document).on('click', '.js-crear-catalogo', function () {
     const nombre = ($('#nuevoCatalogoNombre').val() || '').trim();
     const $btn = $(this).prop('disabled', true);
 
-    $.post(route('catalogo.crear'), { nombre: nombre })
-        .done(res => {
-            Swal.fire({ icon: 'success', title: res.mensaje, timer: 1800, showConfirmButton: false });
+    const config = {
+        "method": "POST",
+        "body": {},
+        "headers": {
+            "Content-Type": generalidades.CONTENT_TYPE_JSON,
+            "Accept": generalidades.CONTENT_TYPE_JSON
+        }
+    };
+
+    const success = (response) => {
+        if (response.estado === "success") {
+            Swal.fire({ icon: 'success', title: response.mensaje, timer: 1800, showConfirmButton: false });
             cargarListado(1, true);
-        })
-        .fail(xhr => {
-            $btn.prop('disabled', false);
-            Swal.fire('Error', xhr.responseJSON?.mensaje ?? xhr.responseJSON?.message ?? 'No se pudo crear el catálogo', 'error');
-        });
+        }
+        generalidades.ocultarCargando("body");
+    };
+    const error = (response) => {
+        $btn.prop('disabled', false);
+        Swal.fire('Error', response.responseJSON?.mensaje ?? response.responseJSON?.message ??
+            response.mensaje ?? 'No se pudo crear el catálogo', 'error');
+        generalidades.ocultarCargando("body");
+    }
+
+    generalidades.mostrarCargando("body");
+    generalidades.post(route('catalogo.crear', { nombre: nombre }), config, success, error);
 });
 
 $('#pDesc').on('input', function () { $('#pDescCount').text(this.value.length); });

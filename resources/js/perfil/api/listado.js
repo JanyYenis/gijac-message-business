@@ -117,10 +117,10 @@ window.listadoApiKeys = (id = 0) => {
             [0, "asc"]
         ],
         lengthMenu: [
-            [15, 20, 50, 100, -1],
-            [15, 20, 50, 100, __("Todos")]
+            [5, 10, 15, 20, -1],
+            [5, 10, 15, 20, __("Todos")]
         ],
-        pageLength: 15,
+        pageLength: 5,
         dom: `<'row d-flex align-items-center justify-content-between'
                 <'col-md-6 col-sm-6 col-lg-6 d-flex align-items-center justify-content-start'<''l><'w-100'f>>
                 <'col-md-6 col-sm-6 col-lg-6 d-flex align-items-center justify-content-end' <''B>>
@@ -242,10 +242,10 @@ window.listadoApiKeysLogs = (id = 0) => {
             [0, "asc"]
         ],
         lengthMenu: [
-            [15, 20, 50, 100, -1],
-            [15, 20, 50, 100, __("Todos")]
+            [5, 10, 10, 20, -1],
+            [5, 10, 10, 20, __("Todos")]
         ],
-        pageLength: 15,
+        pageLength: 5,
         dom: `<'row d-flex align-items-center justify-content-between'
                 <'col-md-6 col-sm-6 col-lg-6 d-flex align-items-center justify-content-start'<''l><'w-100'f>>
                 <'col-md-6 col-sm-6 col-lg-6 d-flex align-items-center justify-content-end' <''B>>

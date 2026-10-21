@@ -8,7 +8,20 @@ window.driver = driver;
 window.intlTelInput = require("intl-tel-input");
 
 $(function() {
-    //
+    /* ---------- Header scroll effect ---------- */
+    const $header = $('#kt_app_header');
+    const $backTop = $('#back-to-top');
+    function onScroll() {
+        const y = window.scrollY;
+        $header.toggleClass('scrolled', y > 30);
+        $backTop.toggleClass('show', y > 500);
+    }
+    $(window).on('scroll', onScroll);
+    onScroll();
+
+    $backTop.on('click', function () {
+        $('html, body').animate({ scrollTop: 0 }, 700);
+    });
 })
 
 require('./generalidades');

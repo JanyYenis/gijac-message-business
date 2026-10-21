@@ -7,7 +7,7 @@
     --gj-800: #1E6F78;
     --gj-700: #287F88;
     --gj-500: #2C8F99;
-    --gj-soft: #E8F3F4;
+    --gj-soft: linear-gradient(135deg, var(--info-color), #60A5FA);;
     --ink: #0F2A2E;
     --muted: #6B8285;
     --line: #E3EBEC;
@@ -252,7 +252,7 @@ body {
 
 .btn-soft {
     background: #fff;
-    border: 1px solid var(--line);
+    border: 1px solid var(--line) !important;
     color: var(--gj-800);
     border-radius: 12px;
     padding: 9px 16px;
@@ -262,9 +262,12 @@ body {
 }
 
 .btn-soft:hover {
-    background: var(--gj-soft);
-    border-color: var(--gj-500);
-    color: var(--gj-900);
+    background: var(--gj-900);
+    color: #fff !important;
+}
+
+.btn-soft:hover i {
+    color: #fff !important;
 }
 
 .btn-soft.active {
@@ -338,22 +341,22 @@ body {
 }
 
 .ic-teal {
-    background: var(--gj-soft);
+    background: linear-gradient(135deg, var(--danger-color), #F87171);
     color: var(--gj-800);
 }
 
 .ic-green {
-    background: #E7F7EE;
+    background: linear-gradient(135deg, var(--success-color), #34D399);;
     color: #17864C;
 }
 
 .ic-amber {
-    background: #FFF3E0;
+    background: linear-gradient(135deg, var(--warning-color), #FBBF24);;
     color: #B36B00;
 }
 
 .ic-blue {
-    background: #E8F0FE;
+    background: var(--gj-soft);
     color: #1A56C4;
 }
 

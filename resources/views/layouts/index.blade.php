@@ -1969,6 +1969,37 @@
         }
     </style>
 
+    <style>
+        /* ===== Back to top ===== */
+        #back-to-top {
+            position: fixed;
+            right: 0px;
+            bottom: 39px;
+            z-index: 999;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: none;
+            color: #fff;
+            background: var(--grad);
+            box-shadow: 0 10px 24px -6px rgba(44, 143, 153, .8);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all .35s ease;
+            cursor: pointer;
+        }
+
+        #back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        #back-to-top:hover {
+            transform: translateY(-4px);
+        }
+    </style>
     @section('css')
     @show
 </head>
@@ -2066,7 +2097,7 @@
     <!--begin::Engage modals-->
     <!--begin::Modal - Sitemap-->
     <!--end::Modal - Sitemap--> <!--end::Engage modals-->
-    <!--begin::Scrolltop-->
+    {{-- <!--begin::Scrolltop-->
     <div id="kt_scrolltop" class="scrolltop" data-kt-scrolltop="true">
         <span class="svg-icon">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
@@ -2082,7 +2113,11 @@
             </svg>
         </span>
     </div>
-    <!--end::Scrolltop-->
+    <!--end::Scrolltop--> --}}
+    <!-- Back to top -->
+    <button id="back-to-top" aria-label="{{ __('Volver arriba') }}">
+        <i class="bi bi-arrow-up text-white"></i>
+    </button>
 
     <!--begin::Modals-->
 

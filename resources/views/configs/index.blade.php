@@ -1518,7 +1518,7 @@
         }
 
         .ci-warn {
-            background: #fdf7e6;
+            background: #a10000;
             color: #a97a06;
         }
 
@@ -2233,12 +2233,21 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="gi-card gi-card-pad h-100">
-                        <h4 class="fs-4"><i class="bi bi-patch-check"></i> {{ __('Verificación del negocio') }}</h4>
-                        <span class="mini-badge mb-warn fs-7" id="verBadge"><span class="q-dot"></span> {{ __('Verificando…') }}</span>
+                        <h4 class="fs-4">
+                            <i class="bi bi-patch-check"></i>
+                            {{ __('Verificación del negocio') }}
+                        </h4>
+                        <span class="mini-badge mb-warn fs-7" id="verBadge">
+                            <span class="q-dot"></span>
+                            {{ __('Verificando…') }}
+                        </span>
                         <p class="mt-3 mb-2 fs-6" id="verText" style="color: #6b8083"></p>
-                        <p class="mb-3 fs-7" style="color: #8aa0a2">{{ __('Verificar tu negocio sube el límite de contactos nuevos por día y permite hasta 20 números. Meta puede tardar hasta 14 días hábiles.') }}</p>
+                        <p class="mb-3 fs-7" style="color: #8aa0a2">
+                            {{ __('Verificar tu negocio sube el límite de contactos nuevos por día y permite hasta 20 números. Meta puede tardar hasta 14 días hábiles.') }}
+                        </p>
                         <a class="btn btn-glow btn-sm d-none" id="verLink" target="_blank" rel="noopener">
-                            <i class="bi bi-box-arrow-up-right"></i> {{ __('Verificar mi negocio en Meta') }}
+                            <i class="bi bi-box-arrow-up-right text-white"></i>
+                            {{ __('Verificar mi negocio en Meta') }}
                         </a>
                         <details class="mt-3 fs-6">
                             <summary>{{ __('¿Qué necesito?') }}</summary>
@@ -2254,11 +2263,14 @@
 
             <div class="gi-card gi-card-pad mt-4">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-                    <h4 class="fs-4 mb-0"><i class="bi bi-telephone"></i> {{ __('Números de WhatsApp') }}</h4>
+                    <h4 class="fs-4 mb-0">
+                        <i class="bi bi-telephone"></i>
+                        {{ __('Números de WhatsApp') }}</h4>
                     <div class="d-flex align-items-center gap-2">
                         <span class="mini-badge mb-ok fs-7" id="cupoBadge">—</span>
                         <button type="button" class="btn btn-glow btn-sm" id="btnAddNumber">
-                            <i class="bi bi-plus-lg"></i> {{ __('Agregar número') }}
+                            <i class="bi bi-plus-lg text-white"></i>
+                            {{ __('Agregar número') }}
                         </button>
                     </div>
                 </div>
@@ -2489,10 +2501,10 @@
             <div class="modal-content">
                 <div class="p-4 text-center">
                     <div class="confirm-ico ci-warn">
-                        <i class="bi bi-exclamation-triangle"></i>
+                        <i class="bi bi-exclamation-triangle text-white fs-1"></i>
                     </div>
                     <h4 id="discTitle">{{ __('¿Desconectar WhatsApp Business?') }}</h4>
-                    <p class="text-secondary" style="font-size: 0.9rem">
+                    <p class="text-dark" style="font-size: 0.9rem">
                         {{ __('Al desconectar esta cuenta dejarás de gestionar este número desde GIJAC Message Business.') }}
                     </p>
                     <div class="d-flex justify-content-center gap-2 mt-4">
@@ -2500,7 +2512,7 @@
                             {{ __('Cancelar') }}
                         </button>
                         <button type="button" class="btn btn-danger-soft" id="btnConfirmDisconnect"
-                            style="color: #fff; background: #d9534f; border-color: #d9534f">
+                            style="color: #fff; background: #a10000;">
                             <i class="bi bi-plug-x me-1"></i> {{ __('Desconectar cuenta') }}
                         </button>
                     </div>

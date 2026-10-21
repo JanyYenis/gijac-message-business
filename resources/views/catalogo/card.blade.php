@@ -11,7 +11,7 @@
                     @endif
                     <div class="p-badges">
                         <span class="pill {{ $p['agotado'] ? 'pill-out' : 'pill-stock' }}">
-                            <i class="bi {{ $p['agotado'] ? 'bi-x-circle-fill' : 'bi-check-circle-fill' }}"></i>
+                            <i class="bi {{ $p['agotado'] ? 'bi-x-circle-fill' : 'bi-check-circle-fill' }} text-primary"></i>
                             {{ $p['agotado'] ? __('Agotado') : __('En stock') }}
                         </span>
                         @if ($p['precio_oferta'])
@@ -58,13 +58,13 @@
                     <div class="p-foot">
                         {{-- @if ($puede_editar) --}}
                             <button class="btn btn-soft js-edit">
-                                <i class="bi bi-pencil me-1"></i>
+                                <i class="bi bi-pencil me-1 text-gijac"></i>
                                 {{ __('Editar') }}
                             </button>
                         {{-- @endif
                         @if ($puede_eliminar) --}}
                             <button class="btn btn-soft text-danger js-delete">
-                                <i class="bi bi-trash3 me-1"></i>
+                                <i class="bi bi-trash3 me-1 text-danger"></i>
                                 {{ __('Eliminar') }}
                             </button>
                         {{-- @endif --}}

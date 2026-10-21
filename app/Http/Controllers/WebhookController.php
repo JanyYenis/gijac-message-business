@@ -8,6 +8,7 @@ use App\Jobs\WebhookStatus;
 use App\Jobs\WebhookUserPreferences;
 use App\Models\Contacto;
 use App\Models\WhatsappAccount;
+use App\Services\Api\ApiWebhookService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
@@ -113,6 +114,19 @@ class WebhookController extends Controller
         // Estados (enviado, entregado, leído, fallido): un job por estado
         foreach ($datos['statuses'] ?? [] as $estado) {
             dispatch(new WebhookStatus(array_merge($datos, ['statuses' => [$estado]]), $wabaId));
+
+            // Webhook del cliente (API): estado del mensaje
+            ApiWebhookService::emitir($empresaId, 'message.status', array_filter([
+                'wamid' => $estado['id'] ?? null,
+                'estado' => $estado['status'] ?? null,
+                'destinatario' => $estado['recipient_id'] ?? null,
+                'numero' => $datos['metadata']['display_phone_number'] ?? null,
+                'timestamp' => $estado['timestamp'] ?? null,
+                'error' => isset($estado['errors'][0]) ? [
+                    'codigo' => $estado['errors'][0]['code'] ?? null,
+                    'mensaje' => $estado['errors'][0]['title'] ?? ($estado['errors'][0]['message'] ?? null),
+                ] : null,
+            ], fn ($v) => $v !== null));
         }
 
         if (array_key_exists('user_preferences', $datos)) {
@@ -128,6 +142,24 @@ class WebhookController extends Controller
 
             $contactos = collect($datos['contacts'] ?? []);
             $contacto = $contactos->firstWhere('wa_id', $mensaje['from'] ?? null) ?? $contactos->first();
+
+            // Webhook del cliente (API): mensaje recibido
+            $tipo = $mensaje['type'] ?? 'text';
+            ApiWebhookService::emitir($empresaId, 'message.received', array_filter([
+                'wamid' => $id,
+                'de' => $mensaje['from'] ?? null,
+                'nombre' => $contacto['profile']['name'] ?? null,
+                'numero' => $datos['metadata']['display_phone_number'] ?? null,
+                'tipo' => $tipo,
+                'texto' => $mensaje['text']['body']
+                    ?? $mensaje['button']['text']
+                    ?? $mensaje['interactive']['button_reply']['title']
+                    ?? $mensaje['interactive']['list_reply']['title']
+                    ?? $mensaje[$tipo]['caption']
+                    ?? null,
+                'media_id' => $mensaje[$tipo]['id'] ?? null,
+                'timestamp' => $mensaje['timestamp'] ?? null,
+            ], fn ($v) => $v !== null));
 
             dispatch(new WebhookMessage(
                 array_merge($datos, [

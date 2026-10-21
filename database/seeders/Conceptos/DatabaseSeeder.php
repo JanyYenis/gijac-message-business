@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             IdiomasSeeder::class,
             PlantillaSeeder::class,
             CampanaSeeder::class,
+            ChatbotGeneralSeeder::class,
         ]);
     }
 }

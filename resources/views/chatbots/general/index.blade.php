@@ -921,13 +921,13 @@
 
                         <label class="label">{{ __('Acción al detectar una palabra clave') }}</label>
                         <div id="kwAction">
-                            <label class="opt sel"><input type="radio" name="kwact" value="now" class="cfg"
+                            <label class="opt sel"><input type="radio" name="kwact" value="1" class="cfg"
                                     checked><span><span class="t">{{ __('Transferir inmediatamente a un agente') }}</span><span
                                         class="d">{{ __('La conversación pasa al primer asesor disponible.') }}</span></span></label>
-                            <label class="opt"><input type="radio" name="kwact" value="msg"
+                            <label class="opt"><input type="radio" name="kwact" value="2"
                                     class="cfg"><span><span class="t">{{ __('Enviar mensaje y transferir') }}</span><span
                                         class="d">{{ __('Avisa al usuario antes de pasar con un asesor.') }}</span></span></label>
-                            <label class="opt"><input type="radio" name="kwact" value="ask"
+                            <label class="opt"><input type="radio" name="kwact" value="3"
                                     class="cfg"><span><span class="t">{{ __('Preguntar si desea hablar con un agente') }}</span><span class="d">{{ __('El usuario confirma antes de la transferencia.') }}</span></span></label>
                         </div>
 
@@ -996,7 +996,7 @@
                             <div class="col-sm-6">
                                 <label class="label">{{ __('Tiempo máximo de espera para un agente') }}</label>
                                 <div class="input-group" style="max-width:220px">
-                                    <input type="number" min="1" max="120" value="10"
+                                    <input type="number" min="0" max="1440" value="10"
                                         class="form-control cfg" id="waitMin" />
                                     <span class="input-group-text"
                                         style="border-radius:0 12px 12px 0;border-color:var(--border);background:#F4F7F8;font-size:13px">{{ __('minutos') }}</span>
@@ -1005,11 +1005,11 @@
                         </div>
 
                         <label class="label">{{ __('Si ningún agente está disponible') }}</label>
-                        <label class="opt sel"><input type="radio" name="noagent" class="cfg" checked><span><span
+                        <label class="opt sel"><input type="radio" name="noagent" value="1" class="cfg" checked><span><span
                                     class="t">{{ __('Mantener conversación en espera') }}</span><span class="d">{{ __('El cliente permanece en cola hasta que alguien responda.') }}</span></span></label>
-                        <label class="opt"><input type="radio" name="noagent" class="cfg"><span><span
+                        <label class="opt"><input type="radio" name="noagent" value="2" class="cfg"><span><span
                                     class="t">{{ __('Enviar mensaje alternativo') }}</span><span class="d">{{ __('Informa que responderán más tarde.') }}</span></span></label>
-                        <label class="opt"><input type="radio" name="noagent" class="cfg"><span><span
+                        <label class="opt"><input type="radio" name="noagent" value="3" class="cfg"><span><span
                                     class="t">{{ __('Cerrar conversación') }}</span><span class="d">{{ __('Finaliza la atención y registra el caso.') }}</span></span></label>
                     </section>
 
@@ -1022,17 +1022,17 @@
                                 <div class="sec-sub">{{ __('Define qué debe hacer el chatbot cuando no encuentra información suficiente para responder.') }}</div>
                             </div>
                         </div>
-                        <label class="opt"><input type="radio" name="unres" class="cfg"><span><span
+                        <label class="opt"><input type="radio" name="unres" value="1" class="cfg"><span><span
                                     class="t">{{ __('Intentar nuevamente') }}</span><span class="d">{{ __('Reformula la pregunta al usuario una vez más.') }}</span></span></label>
-                        <label class="opt sel"><input type="radio" name="unres" class="cfg" checked><span><span
+                        <label class="opt sel"><input type="radio" name="unres" value="2" class="cfg" checked><span><span
                                     class="t">{{ __('Transferir a un agente') }}</span><span class="d">{{ __('Pasa la conversación a una persona del equipo.') }}</span></span></label>
-                        <label class="opt"><input type="radio" name="unres" class="cfg"><span><span
+                        <label class="opt"><input type="radio" name="unres" value="3" class="cfg"><span><span
                                     class="t">{{ __('Ejecutar el siguiente motor disponible') }}</span><span class="d">{{ __('Continúa con el siguiente sistema del flujo de atención.') }}</span></span></label>
-                        <label class="opt"><input type="radio" name="unres" class="cfg"><span><span
+                        <label class="opt"><input type="radio" name="unres" value="4" class="cfg"><span><span
                                     class="t">{{ __('Enviar un mensaje personalizado') }}</span><span class="d">{{ __('Responde con el texto que definas abajo.') }}</span></span></label>
                         <div class="mt-3">
                             <label class="label">{{ __('Mensaje cuando no se puede resolver la solicitud') }}</label>
-                            <textarea class="form-control cfg" rows="3">{{ __('No estoy seguro de poder ayudarte con esta solicitud. Permíteme comunicarte con uno de nuestros asesores.') }}</textarea>
+                            <textarea class="form-control cfg" id="unresMsg" rows="3">{{ __('No estoy seguro de poder ayudarte con esta solicitud. Permíteme comunicarte con uno de nuestros asesores.') }}</textarea>
                         </div>
                     </section>
 
@@ -1063,11 +1063,11 @@
                             <div class="hint">{{ __('Después de este tiempo sin actividad, una nueva interacción se considerará una nueva conversación.') }}</div>
                         </div>
                         <label class="label">{{ __('Reiniciar conversación') }}</label>
-                        <label class="opt sel"><input type="radio" name="reset" class="cfg" checked><span><span
+                        <label class="opt sel"><input type="radio" name="reset" value="1" class="cfg" checked><span><span
                                     class="t">{{ __('Cierto tiempo de inactividad') }}</span></span></label>
-                        <label class="opt"><input type="radio" name="reset" class="cfg"><span><span
+                        <label class="opt"><input type="radio" name="reset" value="2" class="cfg"><span><span
                                     class="t">{{ __('Transferencia a agente') }}</span></span></label>
-                        <label class="opt"><input type="radio" name="reset" class="cfg"><span><span
+                        <label class="opt"><input type="radio" name="reset" value="3" class="cfg"><span><span
                                     class="t">{{ __('Finalización del flujo') }}</span></span></label>
                     </section>
 
@@ -1099,7 +1099,7 @@
                             <label class="label">{{ __('Mensajes consecutivos') }}</label>
                             <div class="d-flex align-items-center gap-2 flex-wrap">
                                 <span style="font-size:13.5px">{{ __('Esperar hasta') }}</span>
-                                <input type="number" min="0" max="30" value="3" class="form-control cfg"
+                                <input type="number" min="0" max="30" value="3" class="form-control cfg" id="groupSec"
                                     style="max-width:90px" />
                                 <span style="font-size:13.5px">{{ __('segundos para agrupar mensajes consecutivos del usuario.') }}</span>
                             </div>
@@ -1174,123 +1174,36 @@
 @section('scripts')
     <script>
         $(function() {
-            /* ---------- MOCK DATA ---------- */
-            var DAYS = [{
-                    k: 'lun',
-                    l: 'L',
-                    full: 'Lunes',
-                    on: true
-                }, {
-                    k: 'mar',
-                    l: 'M',
-                    full: 'Martes',
-                    on: true
-                },
-                {
-                    k: 'mie',
-                    l: 'M',
-                    full: 'Miércoles',
-                    on: true
-                }, {
-                    k: 'jue',
-                    l: 'J',
-                    full: 'Jueves',
-                    on: true
-                },
-                {
-                    k: 'vie',
-                    l: 'V',
-                    full: 'Viernes',
-                    on: true
-                }, {
-                    k: 'sab',
-                    l: 'S',
-                    full: 'Sábado',
-                    on: false
-                },
-                {
-                    k: 'dom',
-                    l: 'D',
-                    full: 'Domingo',
-                    on: false
-                }
-            ];
-            var RANGES = [{
-                a: '08:00',
-                b: '18:00'
-            }];
-            var KEYWORDS = ['cotización', 'precio', 'asesor', 'factura', 'soporte', 'hablar con una persona',
-                'agente', 'humano'
-            ];
-            var MSGS = [{
-                    id: 'welcome',
-                    title: 'Mensaje de bienvenida',
-                    desc: 'Se envía cuando un usuario inicia una nueva conversación.',
-                    on: true,
-                    text: '¡Hola! 👋 Soy el asistente virtual de { empresa }. ¿En qué podemos ayudarte hoy?'
-                },
-                {
-                    id: 'offhours',
-                    title: 'Mensaje fuera de horario',
-                    desc: 'Se envía cuando un usuario escribe fuera del horario de atención.',
-                    on: true,
-                    text: 'Hola 👋 En este momento estamos fuera de nuestro horario de atención. Nuestro horario es de lunes a viernes de 8:00 a.m. a 6:00 p.m. Te responderemos cuando volvamos a estar disponibles.'
-                },
-                {
-                    id: 'transfer',
-                    title: 'Mensaje de transferencia',
-                    desc: 'Se envía cuando la conversación pasa de un chatbot a un agente humano.',
-                    on: true,
-                    text: 'Perfecto 👍 Voy a transferir tu conversación con uno de nuestros asesores. En un momento te atenderán.'
-                }
-            ];
-            var ENGINES = [{
-                    id: 'nodes',
-                    name: 'Chatbot por Nodos',
-                    desc: 'Flujos visuales configurados mediante nodos y condiciones.',
-                    badge: 'Visual',
-                    icon: 'fa-diagram-project',
-                    c: '#2563EB',
-                    bg: 'rgba(37,99,235,.10)'
-                },
-                {
-                    id: 'ai',
-                    name: 'Asistente IA',
-                    desc: 'Permite responder utilizando inteligencia artificial y conocimiento configurado.',
-                    badge: 'IA',
-                    icon: 'fa-brain',
-                    c: '#7C3AED',
-                    bg: 'rgba(124,58,237,.10)'
-                },
-                {
-                    id: 'auto',
-                    name: 'Automatización',
-                    desc: 'Envía la conversación o información a una automatización externa como n8n.',
-                    badge: 'Automatización',
-                    icon: 'fa-bolt',
-                    c: '#D97706',
-                    bg: 'rgba(217,119,6,.12)'
-                }
-            ];
-            var REASONS = [{
-                    t: 'Palabra clave detectada',
-                    on: true
-                }, {
-                    t: 'Usuario solicita un asesor',
-                    on: true
-                },
-                {
-                    t: 'El chatbot no puede resolver la consulta',
-                    on: true
-                }, {
-                    t: 'Error en el chatbot',
-                    on: false
-                },
-                {
-                    t: 'Usuario solicita hablar con una persona',
-                    on: true
-                }
-            ];
+            /* ---------- DATOS GUARDADOS ---------- */
+            var CFG = @json($configChatbot);
+            var DAYS = [['L', 'Lunes'], ['M', 'Martes'], ['M', 'Miércoles'], ['J', 'Jueves'], ['V', 'Viernes'], ['S', 'Sábado'], ['D', 'Domingo']]
+                .map(function(d, i) {
+                    return { k: i + 1, l: d[0], full: d[1], on: CFG.dias.indexOf(i + 1) !== -1 };
+                });
+            var RANGES = CFG.rangos.map(function(r) { return { a: r.a, b: r.b }; });
+            var KEYWORDS = CFG.palabras.slice();
+            var MSG_INFO = {
+                1: ['Mensaje de bienvenida', 'Se envía cuando un usuario inicia una nueva conversación.'],
+                2: ['Mensaje fuera de horario', 'Se envía cuando un usuario escribe fuera del horario de atención.'],
+                3: ['Mensaje de transferencia', 'Se envía cuando la conversación pasa de un chatbot a un agente humano.']
+            };
+            var MSGS = CFG.mensajes.map(function(m) {
+                return { id: m.tipo, title: MSG_INFO[m.tipo][0], desc: MSG_INFO[m.tipo][1], on: m.activo, text: m.mensaje };
+            });
+            var ENGINE_INFO = {
+                1: { name: 'Chatbot por Nodos', desc: 'Flujos visuales configurados mediante nodos y condiciones.', badge: 'Visual', icon: 'fa-diagram-project', c: '#2563EB', bg: 'rgba(37,99,235,.10)' },
+                2: { name: 'Asistente IA', desc: 'Permite responder utilizando inteligencia artificial y conocimiento configurado.', badge: 'IA', icon: 'fa-brain', c: '#7C3AED', bg: 'rgba(124,58,237,.10)' },
+                3: { name: 'Automatización', desc: 'Envía la conversación o información a una automatización externa como n8n.', badge: 'Automatización', icon: 'fa-bolt', c: '#D97706', bg: 'rgba(217,119,6,.12)' }
+            };
+            var ENGINES = CFG.motores.map(function(t) { return $.extend({ id: t }, ENGINE_INFO[t]); });
+            var REASONS = [
+                { id: 1, t: 'Palabra clave detectada' },
+                { id: 2, t: 'Usuario solicita un asesor' },
+                { id: 3, t: 'El chatbot no puede resolver la consulta' },
+                { id: 4, t: 'Error en el chatbot' },
+                { id: 5, t: 'Usuario solicita hablar con una persona' }
+            ].map(function(r) { r.on = !!CFG.motivos[r.id]; return r; });
+            function esc(t) { return $('<div>').text(t == null ? '' : t).html(); }
             var dirty = false;
 
             /* ---------- RENDER: DAYS ---------- */
@@ -1364,7 +1277,7 @@
             function renderKw(isNew) {
                 $('#kwList').html(KEYWORDS.map(function(k, i) {
                     return '<span class="tag' + (isNew && i === KEYWORDS.length - 1 ? ' new' : '') +
-                        '">' + k + '<button data-i="' + i +
+                        '">' + esc(k) + '<button data-i="' + i +
                         '"><i class="fa-solid fa-xmark"></i></button></span>';
                 }).join(''));
                 $('#sKw').text(KEYWORDS.length + ' configuradas');
@@ -1410,7 +1323,7 @@
                             '') +
                         '><span class="track"></span><span class="txt muted">Activo</span></label>' +
                         '</div>' +
-                        '<textarea class="form-control msg-text" rows="3">' + m.text + '</textarea>' +
+                        '<textarea class="form-control msg-text" rows="3">' + esc(m.text) + '</textarea>' +
                         '<div class="d-flex justify-content-between align-items-center mt-2 flex-wrap gap-2">' +
                         '<div class="dropdown">' +
                         '<button class="btn btn-ghost btn-sm dropdown-toggle" data-bs-toggle="dropdown"><i class="fa-solid fa-code me-2"></i>Insertar variable</button>' +
@@ -1432,11 +1345,13 @@
                     len = this.value.length;
                 card.find('.counter').text(len + ' / 1024 caracteres').toggleClass('warn', len > 1024);
                 MSGS.forEach(function(m) {
-                    if (m.id === card.data('id')) m.text = $(this).val ? '' : m.text;
+                    if (m.id === card.data('id')) m.text = this.value;
                 }.bind(this));
                 touch();
             });
             $('#msgCards').on('change', '.msg-on', function() {
+                var id = $(this).closest('.sub-card').data('id'), on = this.checked;
+                MSGS.forEach(function(m) { if (m.id === id) m.on = on; });
                 touch();
             });
             $('#msgCards').on('click', '.var-i', function(e) {
@@ -1506,7 +1421,7 @@
             $('#reasons').html(REASONS.map(function(r, i) {
                 return '<div class="col-md-6"><label class="opt' + (r.on ? ' sel' : '') +
                     '" style="margin-bottom:0">' +
-                    '<input type="checkbox" class="cfg chk" style="accent-color:var(--blue)"' + (r.on ?
+                    '<input type="checkbox" class="cfg chk" data-id="' + r.id + '" style="accent-color:var(--blue)"' + (r.on ?
                         ' checked' : '') + '>' +
                     '<span class="t">' + r.t + '</span></label></div>';
             }).join(''));
@@ -1584,10 +1499,51 @@
                 touch();
             });
 
+            function payload() {
+                var motivos = {};
+                $('#reasons .chk').each(function() { motivos[$(this).data('id')] = this.checked; });
+                return {
+                    activo: $('#botActive').prop('checked'),
+                    respetar_horario: $('#useSchedule').prop('checked'),
+                    accion_palabra_clave: +$('input[name=kwact]:checked').val(),
+                    coincidencia_aproximada: $('#fuzzy').prop('checked'),
+                    permitir_transferencia: $('#allowTransfer').prop('checked'),
+                    tiempo_espera_agente: +$('#waitMin').val() || 0,
+                    accion_sin_agente: +$('input[name=noagent]:checked').val(),
+                    mantener_contexto: $('#keepCtx').prop('checked'),
+                    tiempo_sesion: +$('#sessionMin').val() || 30,
+                    tipo_reinicio_conversacion: +$('input[name=reset]:checked').val(),
+                    tiempo_respuesta: +$('#delay').val(),
+                    mostrar_escribiendo: $('#typing').prop('checked'),
+                    agrupar_mensajes: +$('#groupSec').val() || 0,
+                    accion_respuesta_no_resuelta: +$('input[name=unres]:checked').val(),
+                    mensaje_no_resuelto: $('#unresMsg').val(),
+                    dias: DAYS.filter(function(d) { return d.on; }).map(function(d) { return d.k; }),
+                    rangos: RANGES,
+                    palabras: KEYWORDS,
+                    mensajes: MSGS.map(function(m) { return { tipo: m.id, activo: m.on, mensaje: m.text }; }),
+                    motores: ENGINES.map(function(e) { return e.id; }),
+                    motivos: motivos
+                };
+            }
+
             function save() {
-                dirty = false;
-                $('#savebar').removeClass('show');
-                toast('Configuración guardada correctamente.');
+                var $b = $('#btnSave,#btnSaveTop').prop('disabled', true);
+                $.ajax({
+                    url: "{{ route('chatbots.configuracion.guardar') }}",
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(payload()),
+                    headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
+                }).done(function() {
+                    dirty = false;
+                    $('#savebar').removeClass('show');
+                    toast('Configuración guardada correctamente.');
+                }).fail(function(xhr) {
+                    var errs = xhr.responseJSON && xhr.responseJSON.errors;
+                    var msg = errs ? Object.values(errs)[0][0] : ((xhr.responseJSON && xhr.responseJSON.message) || 'No se pudo guardar la configuración.');
+                    toast(msg, 'amber');
+                }).always(function() { $b.prop('disabled', false); });
             }
             $('#btnSave,#btnSaveTop').on('click', save);
             $('#btnDiscard').on('click', function() {
@@ -1643,7 +1599,26 @@
             renderKw();
             renderMsgs();
             renderEngines();
-            setActive(true);
+            setActive(CFG.activo);
+            $('#useSchedule').prop('checked', CFG.respetar_horario);
+            $('#scheduleBody').toggle(CFG.respetar_horario);
+            $('#scheduleHint').text(CFG.respetar_horario ? 'El chatbot solo atenderá dentro de los días y horas configurados.' : 'El chatbot estará disponible las 24 horas.');
+            $('input[name=kwact][value=' + CFG.accion_palabra_clave + ']').prop('checked', true);
+            $('#fuzzy').prop('checked', CFG.coincidencia_aproximada);
+            $('#allowTransfer').prop('checked', CFG.permitir_transferencia);
+            $('#sTransfer').text(CFG.permitir_transferencia ? 'Activada' : 'Desactivada');
+            $('#waitMin').val(CFG.tiempo_espera_agente);
+            $('input[name=noagent][value=' + CFG.accion_sin_agente + ']').prop('checked', true);
+            $('input[name=unres][value=' + CFG.accion_respuesta_no_resuelta + ']').prop('checked', true);
+            $('#unresMsg').val(CFG.mensaje_no_resuelto || '');
+            $('#keepCtx').prop('checked', CFG.mantener_contexto);
+            $('#sessionMin').val(CFG.tiempo_sesion);
+            $('input[name=reset][value=' + CFG.tipo_reinicio_conversacion + ']').prop('checked', true);
+            $('#delay').val(CFG.tiempo_respuesta);
+            $('#delayVal').text(CFG.tiempo_respuesta + ' s');
+            $('#typing').prop('checked', CFG.mostrar_escribiendo);
+            $('#groupSec').val(CFG.agrupar_mensajes);
+            $('.opt').each(function() { $(this).toggleClass('sel', $(this).find('input').prop('checked')); });
             summary();
             $('#savebar').removeClass('show');
             dirty = false;

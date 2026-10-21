@@ -6,7 +6,9 @@ use App\DTO\ParsedWhatsAppMessage;
 use App\Models\AutomatizacionN8n;
 use App\Models\Chatbots\ChatbotAiAssistant;
 use App\Models\Chatbots\ChatbotAiHistorial;
+use App\Models\Chatbots\ChatbotConfiguracion as Cfg;
 use App\Models\Chatbots\ChatbotFlow;
+use App\Models\Chatbots\ChatbotSession;
 use App\Models\WhatsappAccount;
 use App\Models\WhatsappNumber;
 use App\Models\Contacto;
@@ -16,9 +18,11 @@ use App\Models\Plan;
 use App\Services\AI\AudioTranscriptionService;
 use App\Services\AI\ChatbotAiPromptBuilder;
 use App\Services\AI\OllamaService;
+use App\Services\Chatbot\ChatbotConfigService;
 use App\Services\Chatbot\ChatbotNodeExecutor;
 use App\Services\Chatbot\ChatbotSessionResolver;
 use App\Services\Mensajes\MessageContentService;
+use App\Services\Meta\TypingIndicatorsService;
 use App\Services\N8n\N8nService;
 use App\Services\WhatsApp\IncomingMessageParser;
 use App\Services\WhatsApp\MessageStore;
@@ -28,6 +32,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -154,28 +159,23 @@ class WebhookMessage implements ShouldQueue
         // El bot se puede apagar por número (los números sin registro en whatsapp_numbers siguen activos)
         if ($numero && !$numero->bot_activo) return;
 
-        if ($plan->tieneServicio('chatbots.avanzados') && $contacto?->estado_chatbot == Contacto::ACTIVO && $empresa?->nodoActivo()) {
-            $this->runChatbotAvanzado($config, $api, $waFrom, $contacto, $parsed);
-        } else
-        if ($plan->tieneServicio('chatbots.ia') && $contacto?->estado_chatbot_ia == Contacto::ACTIVO && $empresa?->asistenteActivo()) {
-            $asistente = $empresa->asistenteActivo;
-            $this->runChatbotIaBasico($config, $api, $waFrom, $contacto, $asistente, $waMsgId);
-        } elseif ($plan->tieneServicio('chatbot.n8n') && $contacto?->estado_chatbot_ia == Contacto::ACTIVO && $empresa?->automatizacionN8nActiva()) {
-            $this->runChatbotWebhook($config, $api, $waFrom, $contacto, $tipoOriginal, $parsed, $waMsgId);
-        }
+        if (!$contacto) return;
+
+        // Configuración general del chatbot de la empresa (horario, mensajes, palabras clave, orden de motores, transferencia…)
+        $this->orquestarChatbot($config, $api, $token, $waFrom, $contacto, $parsed, $waMsgId, $tipoOriginal, $empresa, $plan, $sentAt);
     }
 
     /**
      * Chatbot avanzado (flujo visual con nodos).
      */
-    private function runChatbotAvanzado(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ParsedWhatsAppMessage $parsed): void
+    private function runChatbotAvanzado(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ParsedWhatsAppMessage $parsed): bool
     {
         $flow = ChatbotFlow::where('cod_empresa', $config->cod_empresa)
             ->where('estado', ChatbotFlow::ACTIVO)
             ->first();
 
         if (!$flow) {
-            return;
+            return false;
         }
 
         $resolver = app(ChatbotSessionResolver::class);
@@ -184,28 +184,30 @@ class WebhookMessage implements ShouldQueue
 
         if (!$nextNode) {
             Log::warning("CHATBOT: nextNode nulo para sesión {$session->id}");
-            return;
+            return false;
         }
 
         app(ChatbotNodeExecutor::class)->execute($flow, $session, $nextNode, $waFrom, $config, $api);
+
+        return true;
     }
 
     /**
      * Chatbot IA básico (webhook a n8n).
      */
-    private function runChatbotWebhook(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, string $tipoOriginal, ParsedWhatsAppMessage $parsed, string $waMsgId): void
+    private function runChatbotWebhook(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, string $tipoOriginal, ParsedWhatsAppMessage $parsed, string $waMsgId, ?string $textoOverride = null): bool
     {
         $mensaje = Mensaje::where('wa_message_id', $waMsgId)->first();
 
         if (!$mensaje) {
-            return;
+            return false;
         }
 
-        $texto = app(MessageContentService::class)
+        $texto = $textoOverride ?: app(MessageContentService::class)
             ->obtenerTexto($mensaje);
 
         if (!$texto) {
-            return;
+            return true; // sin texto (imagen, audio sin transcribir…): no hay nada que enviar a la automatización
         }
 
         $automatizacion = AutomatizacionN8n::query()
@@ -215,7 +217,7 @@ class WebhookMessage implements ShouldQueue
             ->first();
 
         if (!$automatizacion) {
-            return;
+            return false;
         }
 
         $payload = [
@@ -242,12 +244,15 @@ class WebhookMessage implements ShouldQueue
         $data = app(N8nService::class)
             ->ejecutar($automatizacion, $payload, $contacto);
 
-        if (!$data || empty($data['output'])) {
-            return;
+        if ($data === null || $data === false) {
+            return false; // la automatización no respondió / falló
+        }
+        if (empty($data['output'])) {
+            return true; // n8n recibió el mensaje; puede responder por su cuenta
         }
         $responseMensaje = $api->sendTextMessage($waFrom, $data['output']);
 
-        if (!$responseMensaje?->body()) return;
+        if (!$responseMensaje?->body()) return true;
 
         $body = json_decode($responseMensaje->body());
 
@@ -264,31 +269,33 @@ class WebhookMessage implements ShouldQueue
             'sent_at' => now(),
             'response_type' => Mensaje::N8N,
         ]);
+
+        return true;
     }
 
     /**
      * Chatbot IA (asistente Ollama configurado en el módulo de Asistente IA).
      */
-    private function runChatbotIaBasico(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ChatbotAiAssistant $asistente, string $waMsgId): void
+    private function runChatbotIaBasico(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ChatbotAiAssistant $asistente, string $waMsgId, ?string $textoOverride = null, bool $mantenerContexto = true): bool
     {
         $capacidades = $asistente->capacidades ?? [];
 
         if (!in_array(ChatbotAiAssistant::RESPONDER_AUTOMATICAMENTE, $capacidades)) {
-            return; // el asistente existe pero tiene apagada la respuesta automática
+            return false; // el asistente existe pero tiene apagada la respuesta automática
         }
 
         $mensaje = Mensaje::where('wa_message_id', $waMsgId)->first();
-        if (!$mensaje) return;
+        if (!$mensaje) return false;
 
-        $texto = app(MessageContentService::class)->obtenerTexto($mensaje);
-        if (!$texto) return;
+        $texto = $textoOverride ?: app(MessageContentService::class)->obtenerTexto($mensaje);
+        if (!$texto) return true; // sin texto: nada que responder
 
         // --- Horario ---
         if ($asistente->respetar_horario && !$this->dentroDeHorarioAsistente($asistente)) {
             if ($asistente->mensaje_fuera_horario) {
                 $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $asistente->mensaje_fuera_horario, Mensaje::IA);
             }
-            return;
+            return true;
         }
 
         // --- Palabras clave -> transferencia a humano ---
@@ -302,13 +309,13 @@ class WebhookMessage implements ShouldQueue
                     $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $asistente->mensaje_transferencia, Mensaje::HUMANA);
                 }
                 $contacto->update(['estado_chatbot_ia' => Contacto::INACTIVO]);
-                return;
+                return true;
             }
         }
 
         // --- Historial / contexto ---
-        $guardarContexto      = in_array(ChatbotAiAssistant::GUARDAR_CONTEXTO, $capacidades);
-        $recordarConversacion = in_array(ChatbotAiAssistant::REMEMBRAR_CONVERSACION, $capacidades);
+        $guardarContexto      = $mantenerContexto && in_array(ChatbotAiAssistant::GUARDAR_CONTEXTO, $capacidades);
+        $recordarConversacion = $mantenerContexto && in_array(ChatbotAiAssistant::REMEMBRAR_CONVERSACION, $capacidades);
 
         $historial = ($recordarConversacion && $guardarContexto)
             ? $this->obtenerHistorialAsistente($contacto)
@@ -325,16 +332,238 @@ class WebhookMessage implements ShouldQueue
             );
         } catch (Throwable $e) {
             report($e);
-            return;
+            return false;
         }
 
-        if (!$respuesta) return;
+        if (!$respuesta) return false;
 
         $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $respuesta, Mensaje::IA);
 
         if ($guardarContexto) {
             $this->guardarHistorialAsistente($contacto, $config, $texto, $respuesta);
         }
+
+        return true;
+    }
+
+    /* =====================================================================
+     * Orquestador: aplica la "Configuración" del chatbot de la empresa
+     * ===================================================================== */
+
+    private function orquestarChatbot(WhatsappAccount $config, WhatsAppCloudApi $api, string $token, string $waFrom, Contacto $contacto, ParsedWhatsAppMessage $parsed, string $waMsgId, string $tipoOriginal, Empresa $empresa, Plan $plan, Carbon $sentAt): void
+    {
+        $cfg = ChatbotConfigService::paraEmpresa($empresa->id);
+        if (!$cfg->activo) return;
+
+        $vars = ['nombre' => $contacto->nombre_completo, 'empresa' => $empresa->nombre ?? ''];
+        $texto = trim((string) ($parsed->body ?? ''));
+
+        // ¿Conversación nueva? (sin mensajes del cliente en los últimos "tiempo de sesión" minutos)
+        $ultimo = Mensaje::where('wa_from', $waFrom)->where('wa_message_id', '!=', $waMsgId)->max('sent_at');
+        $nueva = !$ultimo || Carbon::parse($ultimo)->diffInMinutes($sentAt, true) >= max(1, (int) $cfg->tiempo_sesion);
+        if ($nueva) {
+            $this->iniciarConversacion($cfg, $contacto, $waFrom);
+        }
+
+        // Contacto con un agente (o con el bot apagado): el chatbot no interviene
+        if ($contacto->estado_chatbot != Contacto::ACTIVO && $contacto->estado_chatbot_ia != Contacto::ACTIVO) return;
+
+        // Respuesta a "¿Quieres hablar con un agente?"
+        if (Cache::pull("bot:confirma:{$contacto->id}") && $this->esAfirmativo($texto)) {
+            $this->transferir($cfg, $contacto, $config, $api, $waFrom, $vars, Cfg::MOTIVO_PALABRA_CLAVE, true);
+            return;
+        }
+
+        // Horario de atención
+        if (!ChatbotConfigService::dentroDeHorario($cfg)) {
+            $fuera = ChatbotConfigService::mensaje($cfg, Cfg::MENSAJE_FUERA_HORARIO, $vars);
+            if ($fuera && Cache::add("bot:fh:{$contacto->id}", 1, now()->addMinutes(60))) {
+                $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $fuera, null);
+            }
+            return;
+        }
+
+        if ($nueva && ($bienvenida = ChatbotConfigService::mensaje($cfg, Cfg::MENSAJE_BIENVENIDA, $vars))) {
+            $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $bienvenida, null);
+        }
+
+        // Palabras clave / "quiero un asesor" -> transferencia
+        if ($cfg->permitir_transferencia && $texto !== '') {
+            $motivo = null;
+            if (ChatbotConfigService::palabraClave($cfg, $texto) && ChatbotConfigService::motivoActivo($cfg, Cfg::MOTIVO_PALABRA_CLAVE)) {
+                $motivo = Cfg::MOTIVO_PALABRA_CLAVE;
+            }
+            $motivo ??= ChatbotConfigService::motivoPorFrase($cfg, $texto);
+
+            if ($motivo) {
+                $porPalabra = $motivo === Cfg::MOTIVO_PALABRA_CLAVE;
+                if ($porPalabra && $cfg->accion_palabra_clave == Cfg::PALABRA_PREGUNTAR) {
+                    Cache::put("bot:confirma:{$contacto->id}", 1, now()->addMinutes(10));
+                    $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, '¿Quieres que te comunique con un asesor? Responde *sí* o *no*.', null);
+                    return;
+                }
+                $this->transferir($cfg, $contacto, $config, $api, $waFrom, $vars, $motivo, !($porPalabra && $cfg->accion_palabra_clave == Cfg::PALABRA_TRANSFERIR));
+                return;
+            }
+        }
+
+        $motores = $this->motoresDisponibles($cfg, $empresa, $plan, $contacto);
+        if (!$motores) return;
+
+        // Mensajes consecutivos: se espera unos segundos; si llegó otro más reciente, ese job responderá por todos
+        $textoGrupo = null;
+        if ($cfg->agrupar_mensajes > 0 && $texto !== '' && !$parsed->valorChat) {
+            sleep(min(30, (int) $cfg->agrupar_mensajes));
+            $hayNuevo = Mensaje::where('wa_from', $waFrom)->where('estado', Mensaje::ENVIADO)
+                ->where('wa_message_id', '!=', $waMsgId)->where('sent_at', '>', $sentAt)->exists();
+            if ($hayNuevo) return;
+            $textoGrupo = $this->textoAgrupado($waFrom, $config->phone_number_id);
+        }
+
+        if ($cfg->mostrar_escribiendo) {
+            try {
+                app(TypingIndicatorsService::class)->sendTypingIndicatorAndReadReceipt($token, $config->phone_number_id, $waMsgId);
+            } catch (Throwable $e) {
+                // el indicador es un extra: si falla, se responde igual
+            }
+        }
+        if ($cfg->tiempo_respuesta > 0) {
+            sleep(min(10, (int) $cfg->tiempo_respuesta));
+        }
+
+        // Motores en el orden elegido por el cliente
+        foreach ($motores as $motor) {
+            try {
+                $resuelto = $this->ejecutarMotor($motor, $config, $api, $waFrom, $contacto, $parsed, $waMsgId, $tipoOriginal, $empresa, $textoGrupo, (bool) $cfg->mantener_contexto);
+            } catch (Throwable $e) {
+                report($e);
+                $this->transferir($cfg, $contacto, $config, $api, $waFrom, $vars, Cfg::MOTIVO_ERROR, true);
+                return;
+            }
+
+            if ($resuelto) return;
+            if ($cfg->accion_respuesta_no_resuelta != Cfg::NO_RESUELTA_SIGUIENTE) break;
+        }
+
+        $this->sinResolver($cfg, $contacto, $config, $api, $waFrom, $vars);
+    }
+
+    /** Motores que pueden atender a este contacto ahora, en el orden de prioridad configurado. */
+    private function motoresDisponibles(Cfg $cfg, Empresa $empresa, Plan $plan, Contacto $contacto): array
+    {
+        $disponibles = [];
+        foreach (ChatbotConfigService::motoresEnOrden($cfg) as $tipo) {
+            $ok = match ($tipo) {
+                Cfg::MOTOR_NODOS => $plan->tieneServicio('chatbots.avanzados') && $contacto->estado_chatbot == Contacto::ACTIVO && $empresa->nodoActivo()->exists(),
+                Cfg::MOTOR_IA => $plan->tieneServicio('chatbots.ia') && $contacto->estado_chatbot_ia == Contacto::ACTIVO
+                    && $empresa->asistenteActivo()->exists()
+                    && in_array(ChatbotAiAssistant::RESPONDER_AUTOMATICAMENTE, $empresa->asistenteActivo()->first()?->capacidades ?? []),
+                Cfg::MOTOR_AUTOMATIZACION => $plan->tieneServicio('chatbot.n8n') && $contacto->estado_chatbot_ia == Contacto::ACTIVO && $empresa->automatizacionN8nActiva()->exists(),
+                default => false,
+            };
+            if ($ok) $disponibles[] = $tipo;
+        }
+
+        return $disponibles;
+    }
+
+    private function ejecutarMotor(int $motor, WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ParsedWhatsAppMessage $parsed, string $waMsgId, string $tipoOriginal, Empresa $empresa, ?string $textoGrupo, bool $mantenerContexto): bool
+    {
+        return match ($motor) {
+            Cfg::MOTOR_NODOS => $this->runChatbotAvanzado($config, $api, $waFrom, $contacto, $parsed),
+            Cfg::MOTOR_IA => $this->runChatbotIaBasico($config, $api, $waFrom, $contacto, $empresa->asistenteActivo()->first(), $waMsgId, $textoGrupo, $mantenerContexto),
+            Cfg::MOTOR_AUTOMATIZACION => $this->runChatbotWebhook($config, $api, $waFrom, $contacto, $tipoOriginal, $parsed, $waMsgId, $textoGrupo),
+            default => false,
+        };
+    }
+
+    /** Lo que hace el chatbot cuando ningún motor pudo resolver (opción "Respuestas no resueltas"). */
+    private function sinResolver(Cfg $cfg, Contacto $contacto, WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, array $vars): void
+    {
+        switch ((int) $cfg->accion_respuesta_no_resuelta) {
+            case Cfg::NO_RESUELTA_REINTENTAR:
+                if (Cache::add("bot:reintento:{$contacto->id}", 1, now()->addMinutes(10))) {
+                    $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, 'No logré entender tu consulta. ¿Podrías contármela de nuevo con otras palabras?', null);
+                    break;
+                }
+                $this->transferir($cfg, $contacto, $config, $api, $waFrom, $vars, Cfg::MOTIVO_NO_RESUELVE, true);
+                break;
+            case Cfg::NO_RESUELTA_MENSAJE:
+                if (trim((string) $cfg->mensaje_no_resuelto) !== '') {
+                    $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $cfg->mensaje_no_resuelto, null);
+                }
+                break;
+            default: // transferir (o "siguiente motor" ya agotados)
+                $this->transferir($cfg, $contacto, $config, $api, $waFrom, $vars, Cfg::MOTIVO_NO_RESUELVE, true);
+        }
+    }
+
+    /**
+     * Pasa la conversación a un agente: apaga el bot para ese contacto, avisa (opcional) y programa la espera de agente.
+     * No hace nada si las transferencias están apagadas o ese motivo está desactivado.
+     */
+    private function transferir(Cfg $cfg, Contacto $contacto, WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, array $vars, int $motivo, bool $conMensaje): bool
+    {
+        if (!$cfg->permitir_transferencia || !ChatbotConfigService::motivoActivo($cfg, $motivo)) {
+            return false;
+        }
+
+        if ($conMensaje && ($m = ChatbotConfigService::mensaje($cfg, Cfg::MENSAJE_TRANSFERENCIA, $vars))) {
+            $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $m, null);
+        }
+
+        $contacto->update(['estado_chatbot' => Contacto::INACTIVO, 'estado_chatbot_ia' => Contacto::INACTIVO]);
+        Cache::put("bot:transferido:{$contacto->id}", 1, now()->addDays(7));
+
+        ChatbotSession::where('telefono_contacto', $waFrom)->whereIn('estado', [ChatbotSession::ACTIVO, ChatbotSession::ESPERANDO])
+            ->update(['estado' => ChatbotSession::AGENTE, 'fecha_finalizado' => now()]);
+
+        if ($cfg->tipo_reinicio_conversacion == Cfg::REINICIO_TRANSFERENCIA) {
+            ChatbotAiHistorial::where('contacto_id', $contacto->id)->delete();
+        }
+
+        if ($cfg->tiempo_espera_agente > 0 && in_array((int) $cfg->accion_sin_agente, [Cfg::SIN_AGENTE_MENSAJE, Cfg::SIN_AGENTE_CERRAR], true)) {
+            ChatbotEsperaAgente::dispatch($contacto->id, $config->id, $config->phone_number_id, now()->format('Y-m-d H:i:s'), (int) $cfg->accion_sin_agente)
+                ->delay(now()->addMinutes((int) $cfg->tiempo_espera_agente));
+        }
+
+        return true;
+    }
+
+    /** Nueva conversación tras inactividad: se olvida el contexto y, si el contacto estaba transferido, el bot vuelve a atenderlo. */
+    private function iniciarConversacion(Cfg $cfg, Contacto $contacto, string $waFrom): void
+    {
+        if ($cfg->tipo_reinicio_conversacion != Cfg::REINICIO_INACTIVIDAD) return;
+
+        ChatbotAiHistorial::where('contacto_id', $contacto->id)->delete();
+        ChatbotSession::where('telefono_contacto', $waFrom)->whereIn('estado', [ChatbotSession::ACTIVO, ChatbotSession::ESPERANDO])
+            ->update(['estado' => ChatbotSession::EXPIRADO, 'fecha_finalizado' => now()]);
+
+        // Solo se reactiva si fue el propio chatbot quien lo transfirió (no si alguien lo apagó a mano)
+        if (Cache::pull("bot:transferido:{$contacto->id}")) {
+            $contacto->update(['estado_chatbot' => Contacto::ACTIVO, 'estado_chatbot_ia' => Contacto::ACTIVO]);
+        }
+    }
+
+    private function esAfirmativo(string $texto): bool
+    {
+        $t = ChatbotConfigService::normalizar($texto);
+
+        return $t !== '' && (bool) preg_match('/^(si|sii+|claro|dale|ok|okay|yes|por favor|quiero|listo|de una)\b/', $t);
+    }
+
+    /** Mensajes del cliente desde la última respuesta que se le envió, como una sola consulta. */
+    private function textoAgrupado(string $waFrom, string $phoneNumberId): ?string
+    {
+        $ultimaSalida = Mensaje::where('wa_from', $phoneNumberId)->where('wa_to', $waFrom)->max('sent_at');
+
+        $textos = Mensaje::where('wa_from', $waFrom)->where('estado', Mensaje::ENVIADO)
+            ->when($ultimaSalida, fn ($q) => $q->where('sent_at', '>', $ultimaSalida))
+            ->orderBy('sent_at')->get()
+            ->map(fn ($m) => app(MessageContentService::class)->obtenerTexto($m))
+            ->filter()->values();
+
+        return $textos->count() > 1 ? $textos->implode("\n") : null;
     }
 
     private function dentroDeHorarioAsistente(ChatbotAiAssistant $asistente): bool
@@ -370,7 +599,7 @@ class WebhookMessage implements ShouldQueue
         $registro->save();
     }
 
-    private function enviarYRegistrarRespuestaIa(WhatsAppCloudApi $api, WhatsappAccount $config, string $waFrom, Contacto $contacto, string $texto, int $responseType): void
+    private function enviarYRegistrarRespuestaIa(WhatsAppCloudApi $api, WhatsappAccount $config, string $waFrom, Contacto $contacto, string $texto, ?int $responseType): void
     {
         $responseMensaje = $api->sendTextMessage($waFrom, $texto);
         if (!$responseMensaje?->body()) return;

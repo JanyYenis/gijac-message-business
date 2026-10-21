@@ -92,7 +92,7 @@
         .btn-ghost {
             color: var(--teal-dark);
             background: #fff;
-            border: 1px solid rgba(20, 89, 98, 0.2);
+            border: 1px solid rgba(20, 89, 98, 0.2) !important;
         }
 
         .btn-ghost:hover {

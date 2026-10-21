@@ -22,6 +22,18 @@
                             <input type="text" name="etiqueta" class="form-control" placeholder="{{ __('Ingrese una etiqueta') }}" required>
                         </div>
                     </div>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label class="fs-5 mb-1">{{ __('Permisos de la llave') }}</label>
+                            <div class="text-muted fs-7 mb-3">{{ __('Da solo los permisos que necesita tu integración.') }}</div>
+                            @foreach (\App\Models\ApiKey::SCOPES as $scope => $texto)
+                                <div class="form-check form-check-custom form-check-solid mb-3">
+                                    <input class="form-check-input" type="checkbox" name="scopes[]" value="{{ $scope }}" id="scope_{{ $loop->index }}" checked>
+                                    <label class="form-check-label" for="scope_{{ $loop->index }}">{{ __($texto) }} <code class="ms-2">{{ $scope }}</code></label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-footer">

@@ -9,7 +9,9 @@ use App\Models\Plan;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\RateLimiter;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidateApiKey
@@ -19,20 +21,13 @@ class ValidateApiKey
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next) {
+    /** Uso: validate_api_key  o  validate_api_key:messages.send (permiso que debe tener la llave). */
+    public function handle(Request $request, Closure $next, string ...$scopes) {
         $ip = $request->ip();
         $userAgent = $request->header('User-Agent');
         $apiKey = $request->header('X-API-KEY');
 
-        $location = null;
-
-        if (!in_array($ip, ['127.0.0.1', '::1'])) {
-            // Obtener ubicación desde la API externa
-            $geoData = Http::get("http://ip-api.com/json/{$ip}")->json();
-            if (count($geoData)) {
-                $location = (array_key_exists('country', $geoData) ? $geoData['country'] : '') . ', ' . (array_key_exists('regionName', $geoData) ? $geoData['regionName'] : '') . ', ' . (array_key_exists('city', $geoData) ? $geoData['city'] : '');
-            }
-        }
+        $location = $this->ubicacion($ip);
 
         // Verificar si la IP está bloqueada
         $ultimoIntento = ApiKeyLog::where('ip_address', $ip)
@@ -85,7 +80,7 @@ class ValidateApiKey
         }
 
         // Validar la API Key
-        $key = ApiKey::where('key', $apiKey)->where('estado', ApiKey::ACTIVO)->first();
+        $key = ApiKey::where('key_hash', ApiKey::hashear($apiKey))->where('estado', ApiKey::ACTIVO)->first();
 
         if (!$key) {
             ApiKeyLog::create([
@@ -102,12 +97,13 @@ class ValidateApiKey
 
         $usuario = $key?->user ?? null;
         $tiene = false;
+        $empresa = null;
         if ($usuario?->empresa) {
             $empresa = Empresa::with('facturaVigente')->find($usuario?->empresa?->id);
             if ($empresa?->facturaVigente) {
                 $factura = $empresa?->facturaVigente ?? null;
                 $plan = Plan::find($factura->cod_plan);
-                $tiene = $plan->tieneServicio('api');
+                $tiene = (bool) $plan?->tieneServicio('api');
             }
         } else {
             return response()->json(['error' => 'No cuenta asociado a ningun negocio.'], 403);
@@ -125,6 +121,30 @@ class ValidateApiKey
             return response()->json(['error' => 'Por favor revise que tenga un plan activo.'], 403);
         }
 
+        // La llave debe tener el permiso que pide la ruta
+        foreach ($scopes as $scope) {
+            if (!$key->tieneScope($scope)) {
+                ApiKeyLog::create([
+                    'api_key_id' => $key->id,
+                    'ip_address' => $ip,
+                    'user_agent' => $userAgent,
+                    'fecha' => now(),
+                    'estado' => ApiKeyLog::ERROR,
+                    'comentario' => "Permiso insuficiente: {$scope}",
+                    'location' => $location
+                ]);
+                return response()->json(['error' => "Esta API Key no tiene el permiso requerido ({$scope})."], 403);
+            }
+        }
+
+        // Límite de solicitudes por llave (60 por minuto)
+        $limite = 'api-key:' . $key->id;
+        if (RateLimiter::tooManyAttempts($limite, 60)) {
+            return response()->json(['error' => 'Demasiadas solicitudes. Intenta de nuevo en unos segundos.'], 429)
+                ->header('Retry-After', RateLimiter::availableIn($limite));
+        }
+        RateLimiter::hit($limite, 60);
+
         // Registrar uso exitoso
         ApiKeyLog::create([
             'api_key_id' => $key->id,
@@ -135,9 +155,37 @@ class ValidateApiKey
             'location' => $location
         ]);
 
+        $key->forceFill(['ultimo_uso' => now()])->saveQuietly();
+
         // 🔹 Agregar el ID del usuario a la request
         $request->merge(['user_id' => $key->uuid]);
+        $request->attributes->set('api_key', $key);
+        $request->attributes->set('api_usuario', $usuario);
+        $request->attributes->set('api_empresa', $empresa ?? $usuario->empresa);
+        $request->attributes->set('api_empresa_id', ($empresa ?? $usuario->empresa)?->id);
 
         return $next($request);
+    }
+
+    /** País/región/ciudad de la IP. Se guarda en caché 24 h y nunca rompe la petición si el servicio falla. */
+    private function ubicacion(string $ip): ?string
+    {
+        if (in_array($ip, ['127.0.0.1', '::1'])) {
+            return null;
+        }
+
+        return Cache::remember("api:geo:{$ip}", now()->addDay(), function () use ($ip) {
+            try {
+                $geo = Http::timeout(2)->get("http://ip-api.com/json/{$ip}")->json();
+            } catch (\Throwable $e) {
+                return null;
+            }
+
+            if (!is_array($geo) || empty($geo['country'])) {
+                return null;
+            }
+
+            return ($geo['country'] ?? '') . ', ' . ($geo['regionName'] ?? '') . ', ' . ($geo['city'] ?? '');
+        });
     }
 }

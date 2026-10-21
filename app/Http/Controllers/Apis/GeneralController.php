@@ -126,7 +126,7 @@ class GeneralController extends Controller
     public function enviarPlantillaIndividual(Request $request)
     {
         $request->validate([
-            'plantilla' => 'required',
+            'plantilla' => ['required', 'regex:/^[0-9]{5,25}$/'],
             'telefono'  => 'required|string',
             'user_id'   => 'required|string',
             'info'      => 'array',
@@ -144,6 +144,9 @@ class GeneralController extends Controller
         }
 
         $usuario = Usuario::where('uuid', $request->input('user_id'))->first();
+        if (!$usuario?->empresa) {
+            return response()->json(['estado' => 'error', 'mensaje' => __('No cuenta asociado a ningun negocio.')], 403);
+        }
         $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('cod_empresa', $usuario?->empresa?->id)
             ->first();
@@ -238,7 +241,7 @@ class GeneralController extends Controller
                     foreach ($named as $param) {
                         $nombre = $param->param_name;
                         $valor  = $info[$nombre] ?? $param->example;
-                        if ($contacto && property_exists($contacto, $valor)) {
+                        if ($contacto && is_string($valor) && array_key_exists($valor, $contacto->getAttributes())) {
                             $valor = $contacto->$valor;
                         }
                         $parametros[] = [
@@ -254,7 +257,7 @@ class GeneralController extends Controller
 
                     for ($i = 0; $i < $cantidad; $i++) {
                         $valor = $variables[$i] ?? '';
-                        if ($contacto && property_exists($contacto, $valor)) {
+                        if ($contacto && is_string($valor) && array_key_exists($valor, $contacto->getAttributes())) {
                             $valor = $contacto->$valor;
                         }
                         $parametros[] = ['type' => 'text', 'text' => $valor];
@@ -334,7 +337,7 @@ class GeneralController extends Controller
             $campo = $value;
 
             // Bug corregido: era $contacto (indefinida), debe ser $this->contacto
-            if ($campo && property_exists($contacto, $campo)) {
+            if ($campo && is_string($campo) && array_key_exists($campo, $contacto->getAttributes())) {
                 $valor = $contacto->$campo;
             }
             $valores[$llave] = $valor;

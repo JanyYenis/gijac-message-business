@@ -390,8 +390,29 @@ class WhatsAppOnboardingController extends Controller
             $lista = $get("{$this->graph}/{$account->waba_id}/phone_numbers", ['fields' => $campos], $token)['data'] ?? [];
         }
 
-        $locales = WhatsappNumber::where('whatsapp_account_id', $account->id)
-            ->where('estado', WhatsappAccount::CONECTADO)
+        // Números guardados en la app para esta cuenta (fuente de verdad del listado)
+        $registrados = WhatsappNumber::where('whatsapp_account_id', $account->id)->get();
+
+        // Meta solo devuelve los números de la WABA consultada: si algún número local está en otra WABA
+        // (p. ej. el número de prueba), se consulta también esa WABA.
+        $otrasWabas = $registrados->pluck('waba_id')->filter()->unique()->reject(fn ($w) => (string) $w === (string) $account->waba_id);
+        foreach ($otrasWabas as $otraWaba) {
+            $lista = array_merge($lista, $get("{$this->graph}/{$otraWaba}/phone_numbers", ['fields' => $campos], $token)['data'] ?? []);
+        }
+
+        // Números registrados en la app que Meta no devolvió: se muestran igual, con los datos guardados
+        $idsMeta = array_column($lista, 'id');
+        foreach ($registrados->whereNotIn('phone_number_id', $idsMeta) as $r) {
+            $lista[] = [
+                'id'                   => $r->phone_number_id,
+                'display_phone_number' => $r->phone_number,
+                'verified_name'        => $r->display_name,
+                'status'               => 'UNKNOWN',
+                'code_verification_status' => $r->number_registered ? 'VERIFIED' : '',
+            ];
+        }
+
+        $locales = $registrados->where('estado', WhatsappAccount::CONECTADO)
             ->pluck('phone_number_id')->flip();
 
         $bots = WhatsappNumber::where('whatsapp_account_id', $account->id)->pluck('bot_activo', 'phone_number_id');
@@ -495,6 +516,17 @@ class WhatsAppOnboardingController extends Controller
                 $ver === 'verified' ? 'Negocio verificado.' : 'Sin verificar: tu límite de envío es bajo. Verifica tu negocio en Meta Business Suite para ampliarlo.',
                 false
             );
+        }
+
+        /* Marketing Messages API (marketing sale por esta API; recomendado, no bloquea) */
+        $mm = app(\App\Services\Meta\MarketingMessagesService::class)
+            ->estadoOnboarding(config('facebook.graph_version', 'v26.0'), $account->waba_id, $token);
+        if ($mm === 'ONBOARDED') {
+            $item('mm_api', 'Marketing Messages API', 'ok', 'Tus campañas de marketing se envían por la API de mensajes de marketing de Meta.', false);
+        } elseif ($mm === 'ELIGIBLE') {
+            $item('mm_api', 'Marketing Messages API', 'pendiente', 'Acepta los términos en Meta (WhatsApp Manager > Resumen > Alertas > "Aceptar términos de Marketing Messages API"). Mientras tanto, las campañas siguen saliendo por Cloud API. Desde el 13/oct/2027 será obligatorio.', false);
+        } else {
+            $item('mm_api', 'Marketing Messages API', 'ok', 'No disponible o sin datos para tu cuenta/país: las campañas salen por Cloud API.', false);
         }
 
         /* Plan */

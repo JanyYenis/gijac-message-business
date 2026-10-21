@@ -12,6 +12,7 @@ use App\Models\Mensaje;
 use App\Models\Plantilla;
 use App\Models\Usuario;
 use App\Notifications\WhatsappTokenNotification;
+use App\Services\Meta\MarketingMessagesService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -288,6 +289,12 @@ class SendWhatsAppMessage implements ShouldQueue
         }
     }
 
+    protected function usarMarketingMessagesApi($plantilla): bool
+    {
+        return (bool) config('facebook.mm_api', env('WHATSAPP_MM_API', true))
+            && strtoupper((string) ($plantilla->category ?? '')) === 'MARKETING';
+    }
+
     public function enviarCampana($contacto, $plantilla, $info, $idCampana, $nombres_variables)
     {
         if (!$this->whatsapp_cloud_api || !$plantilla) {
@@ -405,6 +412,23 @@ class SendWhatsAppMessage implements ShouldQueue
         }
 
         if ($plantilla?->name && $plantilla?->language) {
+            // Plantillas de marketing: Marketing Messages API (Cloud API dejará de aceptarlas el 13/oct/2027).
+            // Con product_policy CLOUD_API_FALLBACK, si la cuenta aún no cumple el onboarding Meta las envía por Cloud API.
+            if ($this->usarMarketingMessagesApi($plantilla)) {
+                return app(MarketingMessagesService::class)->enviarPlantilla(
+                    $this->version,
+                    $this->phone_number_id,
+                    $this->token,
+                    $telefono,
+                    $plantilla->name,
+                    $plantilla->language,
+                    $component_header,
+                    $component_body,
+                    $component_buttons,
+                    config('facebook.mm_policy', env('WHATSAPP_MM_POLICY', MarketingMessagesService::POLITICA_FALLBACK))
+                );
+            }
+
             return $this->whatsapp_cloud_api->sendTemplate($telefono, $plantilla->name, $plantilla->language, $components ?? null);
         }
 

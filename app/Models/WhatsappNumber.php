@@ -62,18 +62,34 @@ class WhatsappNumber extends Model
             return null;
         }
 
-        $asignado = static::query()
+        // Cuenta activa: la conectada más reciente de la empresa (la que se está usando ahora)
+        $cuentaActiva = WhatsappAccount::where('cod_empresa', $empresa)
+            ->where('estado', WhatsappAccount::CONECTADO)
+            ->orderByDesc('created_at')
+            ->first();
+
+        $asignados = fn () => static::query()
             ->join('whatsapp_number_usuarios as a', 'a.whatsapp_number_id', '=', 'whatsapp_numbers.id')
             ->where('a.usuario_uuid', $usuario->uuid)
             ->where('whatsapp_numbers.cod_empresa', $empresa)
             ->where('whatsapp_numbers.estado', WhatsappAccount::CONECTADO)
-            ->select('whatsapp_numbers.*')
-            ->first();
+            ->select('whatsapp_numbers.*');
 
-        return $asignado ?? static::where('cod_empresa', $empresa)
+        $principales = fn () => static::where('cod_empresa', $empresa)
             ->where('estado', WhatsappAccount::CONECTADO)
-            ->where('principal', true)
-            ->first();
+            ->where('principal', true);
+
+        if ($cuentaActiva) {
+            // 1) el asignado al usuario en la cuenta activa  2) el principal de la cuenta activa
+            $numero = $asignados()->where('whatsapp_numbers.whatsapp_account_id', $cuentaActiva->id)->first()
+                ?? $principales()->where('whatsapp_account_id', $cuentaActiva->id)->first();
+            if ($numero) {
+                return $numero;
+            }
+        }
+
+        // Respaldo: cualquier asignado o principal conectado de la empresa
+        return $asignados()->first() ?? $principales()->first();
     }
 
     /** phone_number_id que debe usar el usuario (asignado o principal); 404 si la empresa no tiene número */

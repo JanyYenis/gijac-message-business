@@ -34,4 +34,5 @@ return [
     'envio_por_segundo' => env('WHATSAPP_ENVIO_POR_SEGUNDO', 10),
     'mm_api' => env('WHATSAPP_MM_API', true),
     'mm_policy' => env('WHATSAPP_MM_POLICY', 'STRICT'),
+    'default_pin' => env('WHATSAPP_DEFAULT_PIN', 762190),
 ];

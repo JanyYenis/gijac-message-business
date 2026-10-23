@@ -145,7 +145,7 @@ class WhatsAppOnboardingController extends Controller
             /* 4. Guardar PRIMERO (con PIN), para no perderlo si algo falla después */
             // CORREGIDO: Ya no se genera PIN aleatorio. Si el número ya viene VERIFIED de Embedded Signup, no hay que registrar nada.
             $isAlreadyVerified = ($phone['code_verification_status']?? '') === 'VERIFIED';
-            $pinFromFrontend = $data['pin']?? null; // Solo viene si es número nuevo creado en el flujo
+            $pinFromFrontend = $data['pin']?? ($isAlreadyVerified ? null : $this->pinPorDefecto()); // El PIN viene del popup; si no, el general del .env
             $registered = $isAlreadyVerified;
             $limit = str_replace('TIER_', '', $phone['messaging_limit_tier']?? '1K');
             $rating = $phone['quality_rating']?? 'UNKNOWN';
@@ -683,7 +683,11 @@ class WhatsAppOnboardingController extends Controller
 
         $account = $this->currentAccountOrFail();
         $token   = Crypt::decrypt($account->access_token);
-        $this->numeroDeLaCuenta($account, $token, $phone);
+        $n = $this->numeroDeLaCuenta($account, $token, $phone);
+
+        if ($this->esNumeroPrueba($n)) {
+            return response()->json(['success' => true, 'test' => true, 'message' => 'Número de prueba: no requiere código. Pulsa verificar con cualquier código.']);
+        }
 
         $res = $this->phones->requestPhoneVerificationCode($token, $phone, $data['method']);
         if ($this->failed($res)) {
@@ -704,7 +708,11 @@ class WhatsAppOnboardingController extends Controller
 
         $account = $this->currentAccountOrFail();
         $token   = Crypt::decrypt($account->access_token);
-        $this->numeroDeLaCuenta($account, $token, $phone);
+        $n = $this->numeroDeLaCuenta($account, $token, $phone);
+
+        if ($this->esNumeroPrueba($n)) {
+            return response()->json(['success' => true, 'test' => true, 'message' => 'Número de prueba verificado.']);
+        }
 
         $res = $this->phones->verifyPhoneCode($token, $phone, $data['code']);
         if ($this->failed($res)) {
@@ -717,13 +725,19 @@ class WhatsAppOnboardingController extends Controller
     /** POST /numbers/{phone}/register — registra en Cloud API con un PIN y lo guarda en la app */
     public function numberRegister(Request $request, string $phone)
     {
-        $data = $request->validate(['pin' => ['required', 'digits:6']]);
-
         $account = $this->currentAccountOrFail();
         $token   = Crypt::decrypt($account->access_token);
         $n       = $this->numeroDeLaCuenta($account, $token, $phone);
+        $prueba  = $this->esNumeroPrueba($n);
 
-        if (($n['code_verification_status'] ?? '') !== 'VERIFIED') {
+        // En números de prueba el PIN es opcional: se usa el general del .env
+        $data = $request->validate(['pin' => [$prueba ? 'nullable' : 'required', 'digits:6']]);
+        $data['pin'] = $data['pin'] ?? $this->pinPorDefecto();
+        if (! $data['pin']) {
+            return response()->json(['success' => false, 'message' => 'Falta el PIN (o define WHATSAPP_DEFAULT_PIN en el .env).'], 422);
+        }
+
+        if (! $prueba && ($n['code_verification_status'] ?? '') !== 'VERIFIED') {
             return response()->json(['success' => false, 'message' => 'Primero debes verificar el número con el código.'], 422);
         }
 
@@ -748,11 +762,18 @@ class WhatsAppOnboardingController extends Controller
         $token   = Crypt::decrypt($account->access_token);
         $n       = $this->numeroDeLaCuenta($account, $token, $phone);
 
-        if (($n['code_verification_status'] ?? '') !== 'VERIFIED' || ($n['status'] ?? '') !== 'CONNECTED') {
+        $prueba = $this->esNumeroPrueba($n);
+        if (! $prueba && (($n['code_verification_status'] ?? '') !== 'VERIFIED' || ($n['status'] ?? '') !== 'CONNECTED')) {
             return response()->json(['success' => false, 'message' => 'El número aún no está conectado en Meta.'], 422);
         }
 
-        $this->guardarNumero($account, $n, ['registered' => true]);
+        $pin = null;
+        if ($prueba && ($pin = $this->pinPorDefecto()) && ($n['status'] ?? '') !== 'CONNECTED') {
+            // Mejor esfuerzo: si Meta lo deja registrar con el PIN general, queda activo
+            $this->registration->registerPhone($token, $phone, $pin);
+        }
+
+        $this->guardarNumero($account, $n, ['registered' => true] + ($pin ? ['pin' => $pin] : []));
 
         return response()->json(['success' => true, 'message' => 'Número agregado a la app.']);
     }
@@ -903,10 +924,26 @@ class WhatsAppOnboardingController extends Controller
     }
 
     /** Verifica que el número pertenezca a la WABA del usuario y devuelve sus datos de Meta */
+    /** PIN interno para números de prueba / sin PIN del cliente (WHATSAPP_DEFAULT_PIN en .env) */
+    private function pinPorDefecto(): ?string
+    {
+        $pin = (string) config('facebook.default_pin', env('WHATSAPP_DEFAULT_PIN', ''));
+
+        return preg_match('/^\d{6}$/', $pin) ? $pin : null;
+    }
+
+    /** Número de prueba de Meta (+1 555…, o account_mode SANDBOX): no necesita SMS/llamada */
+    private function esNumeroPrueba(array $n): bool
+    {
+        $digitos = preg_replace('/\D/', '', (string) ($n['display_phone_number'] ?? ''));
+
+        return ($n['account_mode'] ?? '') === 'SANDBOX' || str_starts_with($digitos, '1555');
+    }
+
     private function numeroDeLaCuenta(WhatsappAccount $account, string $token, string $phoneId): array
     {
         $res = Http::withToken($token)->timeout(15)->get("{$this->graph}/{$account->waba_id}/phone_numbers", [
-            'fields' => 'id,display_phone_number,verified_name,status,code_verification_status,quality_rating,messaging_limit_tier',
+            'fields' => 'id,display_phone_number,verified_name,status,code_verification_status,quality_rating,messaging_limit_tier,account_mode',
         ]);
 
         foreach ($res->json('data', []) as $n) {

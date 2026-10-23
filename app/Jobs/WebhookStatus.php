@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\MensajeEstado;
 use App\Events\MensajeLeido;
 use App\Models\DetalleErrorMensaje;
 use App\Models\EnvioCampana;
@@ -83,5 +84,8 @@ class WebhookStatus implements ShouldQueue
             EnvioCampana::where('wamid', $idMensaje)->update(['apertura' => EnvioCampana::ABIERTO, 'fecha_apertura' => Carbon::now()]);
         }
         broadcast(new MensajeLeido($validarMensajeEnviado));
+
+        // App móvil: el estado cambia en vivo (✓ → ✓✓ → azul)
+        broadcast(new MensajeEstado($validarMensajeEnviado));
     }
 }

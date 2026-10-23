@@ -239,6 +239,13 @@ class ChatController extends Controller
     {
         $user = $request->user();
 
+        if ($request->hasFile('archivo') && !$request->file('archivo')->isValid()) {
+            return response()->json([
+                'success' => false,
+                'message' => __('El servidor no pudo recibir el archivo (límite de subida: :l). Revisa upload_max_filesize y post_max_size.', ['l' => ini_get('upload_max_filesize')]),
+            ], 413);
+        }
+
         $v = Validator::make($request->all(), [
             'archivo' => 'required|file|max:102400',
             'caption' => 'nullable|string|max:1024',
@@ -265,7 +272,7 @@ class ChatController extends Controller
         }
 
         $archivo = $request->file('archivo');
-        $mime = strtolower((string) $archivo->getMimeType());
+        $mime = $this->mimeNormalizado($archivo);
         $caption = trim((string) $request->input('caption', '')) ?: null;
         $ext = strtolower($archivo->getClientOriginalExtension() ?: $archivo->guessExtension() ?: 'bin');
 
@@ -432,6 +439,27 @@ class ChatController extends Controller
     }
 
     /** [tipo de mensaje, clave de Meta, tamaño máximo en MB] según el tipo MIME real del archivo (límites de Meta) */
+    /**
+     * MIME que Meta entiende. finfo suele devolver 'video/mp4' para un .m4a o 'application/octet-stream'
+     * para videos del teléfono, así que para audio/video manda la extensión.
+     */
+    private function mimeNormalizado($archivo): string
+    {
+        $mime = strtolower((string) $archivo->getMimeType());
+        $ext = strtolower($archivo->getClientOriginalExtension() ?: $archivo->guessExtension() ?: '');
+
+        $porExtension = [
+            'mp4' => 'video/mp4', 'm4v' => 'video/mp4', 'mov' => 'video/mp4', '3gp' => 'video/3gpp', '3gpp' => 'video/3gpp',
+            'm4a' => 'audio/mp4', 'aac' => 'audio/aac', 'mp3' => 'audio/mpeg', 'amr' => 'audio/amr',
+            'ogg' => 'audio/ogg', 'oga' => 'audio/ogg', 'opus' => 'audio/ogg',
+        ];
+        if (isset($porExtension[$ext]) && (str_starts_with($mime, 'audio/') || str_starts_with($mime, 'video/') || $mime === 'application/octet-stream')) {
+            return $porExtension[$ext];
+        }
+
+        return $mime === 'audio/x-m4a' ? 'audio/mp4' : $mime;
+    }
+
     private function claseDeArchivo(string $mime): ?array
     {
         if (in_array($mime, ['image/jpeg', 'image/png'], true)) {
@@ -490,7 +518,15 @@ class ChatController extends Controller
 
         \Illuminate\Support\Facades\Log::warning('Error enviando mensaje móvil a Meta', ['detalle' => mb_substr($detalle, 0, 500)]);
 
-        return response()->json(['success' => false, 'message' => __('No se pudo enviar el mensaje por WhatsApp.')], 502);
+        $motivo = null;
+        if (preg_match('/"(?:error_user_msg|message)"\s*:\s*"((?:[^"\\\\]|\\\\.)*)"/', $detalle, $m)) {
+            $motivo = stripcslashes($m[1]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => __('No se pudo enviar el mensaje por WhatsApp.') . ($motivo ? ' (' . mb_substr($motivo, 0, 180) . ')' : ''),
+        ], 502);
     }
 
     private function parseLastMessage($mensaje)

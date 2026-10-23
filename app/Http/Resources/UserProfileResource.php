@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Apis\Mobile;
+namespace App\Http\Resources;
 
 use App\Http\Controllers\Controller;
 use App\Models\Contacto;

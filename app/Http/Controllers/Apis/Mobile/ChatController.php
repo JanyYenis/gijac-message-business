@@ -12,7 +12,11 @@ use App\Services\Chats\ConversacionAgente;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Netflie\WhatsAppCloudApi\Message\Media\LinkID;
 
 class ChatController extends Controller
@@ -188,7 +192,7 @@ class ChatController extends Controller
                 $waMessageId = $data->messages[0]->id ?? null;
             }
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => __('Error al enviar por WhatsApp: ') . $e->getMessage()], 500);
+            return $this->errorEnvio($e->getMessage());
         }
 
         // 2. Guardar en BD
@@ -209,10 +213,7 @@ class ChatController extends Controller
                 'contacto_id' => $contacto->id,
                 'phone_number_id' => $phoneNumberId,
             ],
-            [
-                'ultima_fecha' => now(),
-                'ultimo_mensaje' => substr($mensajeTexto, 0, 100),
-            ]
+            $this->datosConversacion(substr($mensajeTexto, 0, 100), Mensaje::TEXTO)
         );
 
         // 4. Retornar el mensaje creado para que Flutter lo agregue a la lista al instante
@@ -227,6 +228,159 @@ class ChatController extends Controller
                 'fecha' => $mensaje->created_at->toISOString(),
                 'url_archivo' => null,
             ]
+        ]);
+    }
+
+    /**
+     * ENVIAR ARCHIVO (imagen, video, audio o documento) con texto opcional.
+     * multipart: archivo (obligatorio), caption (opcional). El tipo se detecta en el servidor por el contenido real.
+     */
+    public function sendMedia(Request $request, $numeroCompleto): JsonResponse
+    {
+        $user = $request->user();
+
+        $v = Validator::make($request->all(), [
+            'archivo' => 'required|file|max:102400',
+            'caption' => 'nullable|string|max:1024',
+        ]);
+        if ($v->fails()) {
+            return response()->json(['success' => false, 'message' => $v->errors()->first()], 422);
+        }
+
+        try {
+            $phoneNumberId = $this->getPhoneNumberId($user);
+            $cuenta = $this->cuentaDelNumero($phoneNumberId);
+            $token = Crypt::decrypt($cuenta->access_token);
+        } catch (\Throwable $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
+        }
+
+        $contacto = Contacto::where('numero_completo', $numeroCompleto)->first();
+        if (!$contacto) {
+            return response()->json(['success' => false, 'message' => __('Contacto no encontrado')], 404);
+        }
+
+        if ($bloqueo = ConversacionAgente::reclamar($contacto->id, $phoneNumberId, $user)) {
+            return response()->json(['success' => false, 'message' => $bloqueo], 409);
+        }
+
+        $archivo = $request->file('archivo');
+        $mime = strtolower((string) $archivo->getMimeType());
+        $caption = trim((string) $request->input('caption', '')) ?: null;
+        $ext = strtolower($archivo->getClientOriginalExtension() ?: $archivo->guessExtension() ?: 'bin');
+
+        $clase = $this->claseDeArchivo($mime);
+        if (!$clase) {
+            return response()->json(['success' => false, 'message' => __('Tipo de archivo no permitido por WhatsApp.')], 422);
+        }
+        [$tipoMsg, $claveMeta, $maxMb] = $clase;
+        if ($archivo->getSize() > $maxMb * 1024 * 1024) {
+            return response()->json(['success' => false, 'message' => __('El archivo supera el máximo de :mb MB para este tipo.', ['mb' => $maxMb])], 422);
+        }
+
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
+
+        // 1. Subir el archivo a Meta
+        try {
+            $subida = Http::withToken($token)->timeout(120)
+                ->attach('file', file_get_contents($archivo->getRealPath()), $archivo->getClientOriginalName(), ['Content-Type' => $mime])
+                ->post("https://graph.facebook.com/{$version}/{$phoneNumberId}/media", [
+                    'messaging_product' => 'whatsapp',
+                    'type' => $mime,
+                ]);
+        } catch (\Throwable $e) {
+            return $this->errorEnvio($e->getMessage());
+        }
+        $mediaId = $subida->json('id');
+        if (!$subida->successful() || !$mediaId) {
+            return $this->errorEnvio($subida->body());
+        }
+
+        // 2. Enviar el mensaje con el archivo subido
+        $nombreOriginal = mb_substr(basename($archivo->getClientOriginalName() ?: "archivo.{$ext}"), 0, 150);
+        $objeto = ['id' => $mediaId];
+        if ($caption && in_array($claveMeta, ['image', 'video', 'document'], true)) {
+            $objeto['caption'] = $caption;
+        }
+        if ($claveMeta === 'document') {
+            $objeto['filename'] = $nombreOriginal;
+        }
+
+        try {
+            $envio = Http::withToken($token)->timeout(30)
+                ->post("https://graph.facebook.com/{$version}/{$phoneNumberId}/messages", [
+                    'messaging_product' => 'whatsapp',
+                    'recipient_type' => 'individual',
+                    'to' => $numeroCompleto,
+                    'type' => $claveMeta,
+                    $claveMeta => $objeto,
+                ]);
+        } catch (\Throwable $e) {
+            return $this->errorEnvio($e->getMessage());
+        }
+        if (!$envio->successful()) {
+            return $this->errorEnvio($envio->body());
+        }
+        $waMessageId = $envio->json('messages.0.id');
+
+        // 3. Guardar el archivo con la misma convención que usa el webhook para los entrantes
+        $disco = Storage::disk('public');
+        $body = $caption;
+        $metadata = ['from' => $phoneNumberId, 'id' => $waMessageId, 'timestamp' => time(), 'type' => $claveMeta];
+
+        if ($claveMeta === 'image') {
+            $disco->putFileAs('chats/img', $archivo, "{$mediaId}.jpg");
+            $metadata['image'] = ['caption' => $caption, 'mime_type' => $mime, 'sha256' => null, 'id' => $mediaId];
+        } elseif ($claveMeta === 'video') {
+            $disco->putFileAs('chats/videos', $archivo, "{$mediaId}.mp4");
+            $metadata['video'] = ['caption' => $caption, 'mime_type' => $mime, 'sha256' => null, 'id' => $mediaId];
+        } elseif ($claveMeta === 'audio') {
+            $ruta = "chats/audios/{$mediaId}.{$ext}";
+            $disco->putFileAs('chats/audios', $archivo, "{$mediaId}.{$ext}");
+            $body = url(Storage::url($ruta));
+            $metadata['audio'] = ['mime_type' => $mime, 'id' => $mediaId];
+        } else {
+            $guardado = Str::random(8) . '_' . Str::slug(pathinfo($nombreOriginal, PATHINFO_FILENAME), '_') . ".{$ext}";
+            $disco->putFileAs('chats/documentos', $archivo, $guardado);
+            $metadata['document'] = [
+                'caption' => $caption,
+                'filename' => $guardado,
+                'original_name' => $nombreOriginal,
+                'mime_type' => $mime,
+                'file_size' => $archivo->getSize(),
+                'id' => $mediaId,
+            ];
+        }
+
+        $mensaje = Mensaje::create([
+            'contact_id' => $contacto->id,
+            'wa_message_id' => $waMessageId,
+            'wa_from' => $phoneNumberId,
+            'wa_to' => $numeroCompleto,
+            'type' => $tipoMsg,
+            'body' => $body,
+            'metadata' => $metadata,
+            'estado' => Mensaje::ENVIADO,
+            'sent_at' => now(),
+        ]);
+
+        Conversacion::updateOrCreate(
+            ['contacto_id' => $contacto->id, 'phone_number_id' => $phoneNumberId],
+            $this->datosConversacion($caption ? substr($caption, 0, 100) : '', $tipoMsg)
+        );
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $mensaje->id,
+                'es mio' => true,
+                'tipo' => $mensaje->type,
+                'contenido' => $mensaje->body,
+                'metadata' => $mensaje->metadata,
+                'estado' => $mensaje->estado,
+                'fecha' => $mensaje->created_at->toISOString(),
+                'url_archivo' => $this->getFileUrl($mensaje),
+            ],
         ]);
     }
 
@@ -264,6 +418,81 @@ class ChatController extends Controller
 
     // --- FUNCIONES AUXILIARES ---
 
+    /** Cuenta (con el token) a la que pertenece el número; los secundarios están en whatsapp_numbers */
+    private function cuentaDelNumero($phoneNumberId)
+    {
+        $cuenta = WhatsappAccount::where('phone_number_id', $phoneNumberId)->first()
+            ?? WhatsappNumber::where('phone_number_id', $phoneNumberId)->first()?->cuenta;
+
+        if (!$cuenta || !$cuenta->access_token) {
+            throw new \Exception(__('Token de WhatsApp no configurado.'));
+        }
+
+        return $cuenta;
+    }
+
+    /** [tipo de mensaje, clave de Meta, tamaño máximo en MB] según el tipo MIME real del archivo (límites de Meta) */
+    private function claseDeArchivo(string $mime): ?array
+    {
+        if (in_array($mime, ['image/jpeg', 'image/png'], true)) {
+            return [Mensaje::IMAGEN, 'image', 5];
+        }
+        if (in_array($mime, ['video/mp4', 'video/3gpp'], true)) {
+            return [Mensaje::VIDEO, 'video', 16];
+        }
+        if (in_array($mime, ['audio/aac', 'audio/mp4', 'audio/mpeg', 'audio/amr', 'audio/ogg'], true)) {
+            return [Mensaje::AUDIO, 'audio', 16];
+        }
+        if (in_array($mime, [
+            'application/pdf', 'text/plain', 'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'application/vnd.ms-excel',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+        ], true)) {
+            return [Mensaje::DOCUMENTO, 'document', 100];
+        }
+
+        return null;
+    }
+
+    /** Campos de la conversación tras un envío (tipo_ultimo_mensaje solo si la columna existe) */
+    private function datosConversacion(string $texto, $tipo): array
+    {
+        static $tieneTipo = null;
+        $tieneTipo ??= Schema::hasColumn('conversaciones', 'tipo_ultimo_mensaje');
+
+        $datos = ['ultima_fecha' => now(), 'ultimo_mensaje' => $texto];
+        if ($tieneTipo) {
+            $datos['tipo_ultimo_mensaje'] = $tipo;
+        }
+
+        return $datos;
+    }
+
+    /** Respuesta de error legible para errores de Meta (ventana de 24 h, formato, etc.) */
+    private function errorEnvio(string $detalle): JsonResponse
+    {
+        if (str_contains($detalle, '131047')) {
+            return response()->json([
+                'success' => false,
+                'code' => 'ventana_24h',
+                'message' => __('Pasaron más de 24 horas desde el último mensaje del cliente. Solo puedes enviarle una plantilla aprobada.'),
+            ], 422);
+        }
+        if (str_contains($detalle, '131051')) {
+            return response()->json(['success' => false, 'message' => __('WhatsApp no admite este tipo de archivo.')], 422);
+        }
+        if (preg_match('/"code"\s*:\s*190\b/', $detalle)) {
+            return response()->json(['success' => false, 'message' => __('La conexión con WhatsApp venció. Pide al administrador que reconecte la cuenta.')], 502);
+        }
+
+        \Illuminate\Support\Facades\Log::warning('Error enviando mensaje móvil a Meta', ['detalle' => mb_substr($detalle, 0, 500)]);
+
+        return response()->json(['success' => false, 'message' => __('No se pudo enviar el mensaje por WhatsApp.')], 502);
+    }
+
     private function parseLastMessage($mensaje)
     {
         if (!$mensaje) return '';
@@ -282,7 +511,7 @@ class ChatController extends Controller
             return null;
         }
 
-        if (in_array($mensaje->type, [Mensaje::IMAGEN, Mensaje::VIDEO, Mensaje::DOCUMENTO])) {
+        if (in_array($mensaje->type, [Mensaje::IMAGEN, Mensaje::VIDEO, Mensaje::DOCUMENTO, Mensaje::AUDIO])) {
             $metadata = $mensaje->metadata;
 
             if ($mensaje->type == Mensaje::IMAGEN) {
@@ -310,7 +539,7 @@ class ChatController extends Controller
             }
 
             if ($mensaje->type == Mensaje::AUDIO) {
-                return $mensaje->body;
+                return filter_var($mensaje->body, FILTER_VALIDATE_URL) || str_starts_with((string) $mensaje->body, '/') ? $mensaje->body : null;
             }
         }
         return null;

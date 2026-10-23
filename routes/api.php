@@ -63,6 +63,8 @@ Route::prefix('mobile')->group(function () {
         Route::get('/chats/{numero}', [ChatController::class, 'showMessages']);
         Route::post('/chats/{numero}/messages', [ChatController::class, 'sendMessage']);
         Route::post('/chats/{numero}/read', [ChatController::class, 'markAsRead']);
+
+        Route::post('/chats/{numero}/media', [ChatController::class, 'sendMedia']);
     });
 });
 

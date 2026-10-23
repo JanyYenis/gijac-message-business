@@ -30,6 +30,7 @@ use App\Models\Usuario;
 use App\Models\VariableCampana;
 use App\Services\Meta\CatalogoService;
 use App\Services\Meta\WabaService;
+use App\Services\Meta\WehbookService;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -253,6 +254,8 @@ Route::get('/wompi/callback', [WompiController::class, 'callback'])->name('wompi
 // Route::get('/prueba', [PruebaController::class, 'index']);
 
 Route::get('/prueba', function(){
+    // dd(app(WehbookService::class)->subscribeWaba('EAACsiX5e5eQBSnZCKwAzNe5zEPWhoP5u6ZCIAZC2Ch784dCWyoYrHAMVmCbg0LbLunMSWJ9D34a4YWGZB7Uz5ONJ0gQeG6NBHdZCXUEoyilf03oHtDssRiiHZBYv1isc2zgqi5lMTDGufW6ZBZAPElzLtt5xZAvMKtKgsIr5AHn9fC8hxvYbUy938gcV2af0QZCQZDZD',
+    //     '106202962472888'));
     // dd(Str::uuid());
 
     // dd(Crypt::encrypt('EAACsiX5e5eQBSnZCKwAzNe5zEPWhoP5u6ZCIAZC2Ch784dCWyoYrHAMVmCbg0LbLunMSWJ9D34a4YWGZB7Uz5ONJ0gQeG6NBHdZCXUEoyilf03oHtDssRiiHZBYv1isc2zgqi5lMTDGufW6ZBZAPElzLtt5xZAvMKtKgsIr5AHn9fC8hxvYbUy938gcV2af0QZCQZDZD'));

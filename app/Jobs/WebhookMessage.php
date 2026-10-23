@@ -135,7 +135,7 @@ class WebhookMessage implements ShouldQueue
         // --- 6. Broadcast a la UI si es un mensaje entrante nuevo ---
         if ($estado == Mensaje::ENVIADO && $waFrom != $config->phone_number_id) {
             $store->difundir($waMsgId, $contacto);
-            dispatch(new \App\Jobs\EnviarPushMensaje($waMsgId, $waTo)); // notificación push a la app móvil
+            dispatch(new EnviarPushMensaje($waMsgId, $waTo)); // notificación push a la app móvil
         }
 
         // --- 7. Enrutar al chatbot correspondiente ---

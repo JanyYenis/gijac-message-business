@@ -69,23 +69,26 @@ class ChatController extends Controller
         $user = $request->user();
         $phoneNumberId = $this->getPhoneNumberId($user);
 
+        $p = $phoneNumberId;
+        $ultimo = fn (string $col) => "(SELECT m.{$col} FROM mensajes m
+            WHERE (m.wa_from = contactos.numero_completo AND m.wa_to = ?) OR (m.wa_from = ? AND m.wa_to = contactos.numero_completo)
+            ORDER BY m.created_at DESC LIMIT 1)";
+
+        // El último mensaje, su fecha y los no leídos salen de la tabla mensajes (igual que el chat web),
+        // así la lista siempre está al día aunque la tabla conversaciones no se haya actualizado.
         $contactos = Contacto::query()
-            ->leftJoin('conversaciones', function ($join) use ($phoneNumberId) {
-                $join->on('contactos.id', '=', 'conversaciones.contacto_id')
-                    ->where('conversaciones.phone_number_id', $phoneNumberId);
-            })
-            ->with(['conversacion' => function ($q) use ($phoneNumberId) {
-                $q->where('phone_number_id', $phoneNumberId);
-            }])
             ->where('contactos.estado', Contacto::ACTIVO)
-            ->orderByRaw('conversaciones.ultima_fecha IS NULL, conversaciones.ultima_fecha DESC')
+            ->where('contactos.cod_empresa', $user->cod_empresa)
             ->select('contactos.*')
+            ->selectRaw(
+                $ultimo('body') . ' as ult_body, ' . $ultimo('type') . ' as ult_tipo, ' . $ultimo('created_at') . ' as ult_fecha, '
+                . '(SELECT COUNT(*) FROM mensajes u WHERE u.wa_from = contactos.numero_completo AND u.wa_to = ? AND u.estado IN (?, ?)) as sin_leer',
+                [$p, $p, $p, $p, $p, $p, $p, Mensaje::ENTREGADO, Mensaje::ENVIADO]
+            )
+            ->orderByRaw('ult_fecha IS NULL, ult_fecha DESC')
             ->get();
 
         $chats = $contactos->map(function ($contacto) {
-            // SEGURO: Si no hay conversación, esto será null. Si hay, obtiene la primera.
-            $conversacion = $contacto->conversacion ? $contacto->conversacion->first() : null;
-
             return [
                 'id' => $contacto->numero_completo,
                 'contact_id' => $contacto->id,
@@ -93,12 +96,9 @@ class ChatController extends Controller
                 'telefono' => $contacto->telefono,
                 'codigo_telefono' => $contacto->codigo_telefono,
                 'numero_completo' => $contacto->numero_completo,
-                // Si es null, devuelve 'Sin mensajes'. Si tiene datos, los parsea.
-                'ultimo_mensaje' => $conversacion ? $this->parseLastMessage($conversacion) : '',
-                // Si es null, devuelve null. Si tiene, envía la fecha cruda.
-                'hora_ultimo_mensaje' => $conversacion ? $conversacion->ultima_fecha : null,
-                // Si es null, devuelve 0. Si tiene, envía los no leídos.
-                'no_leidos' => $conversacion ? $conversacion->mensajes_no_leidos : 0,
+                'ultimo_mensaje' => $this->etiquetaUltimo($contacto->ult_tipo, $contacto->ult_body),
+                'hora_ultimo_mensaje' => $contacto->ult_fecha,
+                'no_leidos' => (int) $contacto->sin_leer,
                 'estado_chatbot' => $contacto->estado_chatbot,
             ];
         });
@@ -134,8 +134,8 @@ class ChatController extends Controller
             ->orderByDesc('created_at');
 
         // Paginación hacia arriba (cargar más mensajes antiguos)
-        if ($before_id) {
-            $query->where('id', '<', $before_id);
+        if ($before_id && ($ref = Mensaje::find($before_id))) {
+            $query->where('created_at', '<', $ref->created_at);
         }
 
         $mensajes = $query->take($limit)->get()->reverse(); // Invertir para que queden en orden cronológico
@@ -527,6 +527,19 @@ class ChatController extends Controller
             'success' => false,
             'message' => __('No se pudo enviar el mensaje por WhatsApp.') . ($motivo ? ' (' . mb_substr($motivo, 0, 180) . ')' : ''),
         ], 502);
+    }
+
+    /** Texto del último mensaje para la lista de chats */
+    private function etiquetaUltimo($tipo, $body): string
+    {
+        return match ((int) $tipo) {
+            Mensaje::IMAGEN => '📷 Imagen',
+            Mensaje::VIDEO => '🎬 Video',
+            Mensaje::AUDIO => '🎤 Audio',
+            Mensaje::DOCUMENTO => '📄 Documento',
+            Mensaje::LOCALIZACION => '📍 Ubicación',
+            default => (string) $body,
+        };
     }
 
     private function parseLastMessage($mensaje)

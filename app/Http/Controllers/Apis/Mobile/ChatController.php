@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Apis\Mobile;
 
+use App\Events\MensajeSent;
 use App\Http\Controllers\Controller;
 use App\Models\Contacto;
 use App\Models\Conversacion;
@@ -216,6 +217,9 @@ class ChatController extends Controller
             $this->datosConversacion(substr($mensajeTexto, 0, 100), Mensaje::TEXTO)
         );
 
+        // 3.1 Avisar al chat web y a los demás dispositivos
+        $this->difundirSalida($mensaje, $phoneNumberId);
+
         // 4. Retornar el mensaje creado para que Flutter lo agregue a la lista al instante
         return response()->json([
             'success' => true,
@@ -336,19 +340,19 @@ class ChatController extends Controller
         $metadata = ['from' => $phoneNumberId, 'id' => $waMessageId, 'timestamp' => time(), 'type' => $claveMeta];
 
         if ($claveMeta === 'image') {
-            $disco->putFileAs('chats/img', $archivo, "{$mediaId}.jpg");
+            $this->guardarArchivo($disco, 'chats/img', "{$mediaId}.jpg", $archivo);
             $metadata['image'] = ['caption' => $caption, 'mime_type' => $mime, 'sha256' => null, 'id' => $mediaId];
         } elseif ($claveMeta === 'video') {
-            $disco->putFileAs('chats/videos', $archivo, "{$mediaId}.mp4");
+            $this->guardarArchivo($disco, 'chats/videos', "{$mediaId}.mp4", $archivo);
             $metadata['video'] = ['caption' => $caption, 'mime_type' => $mime, 'sha256' => null, 'id' => $mediaId];
         } elseif ($claveMeta === 'audio') {
             $ruta = "chats/audios/{$mediaId}.{$ext}";
-            $disco->putFileAs('chats/audios', $archivo, "{$mediaId}.{$ext}");
+            $this->guardarArchivo($disco, 'chats/audios', "{$mediaId}.{$ext}", $archivo);
             $body = url(Storage::url($ruta));
             $metadata['audio'] = ['mime_type' => $mime, 'id' => $mediaId];
         } else {
             $guardado = Str::random(8) . '_' . Str::slug(pathinfo($nombreOriginal, PATHINFO_FILENAME), '_') . ".{$ext}";
-            $disco->putFileAs('chats/documentos', $archivo, $guardado);
+            $this->guardarArchivo($disco, 'chats/documentos', $guardado, $archivo);
             $metadata['document'] = [
                 'caption' => $caption,
                 'filename' => $guardado,
@@ -375,6 +379,8 @@ class ChatController extends Controller
             ['contacto_id' => $contacto->id, 'phone_number_id' => $phoneNumberId],
             $this->datosConversacion($caption ? substr($caption, 0, 100) : '', $tipoMsg)
         );
+
+        $this->difundirSalida($mensaje, $phoneNumberId);
 
         return response()->json([
             'success' => true,
@@ -527,6 +533,35 @@ class ChatController extends Controller
             'success' => false,
             'message' => __('No se pudo enviar el mensaje por WhatsApp.') . ($motivo ? ' (' . mb_substr($motivo, 0, 180) . ')' : ''),
         ], 502);
+    }
+
+    /**
+     * Guarda el archivo en el disco público. putFileAs devuelve false sin avisar si la carpeta
+     * no es escribible (p. ej. creada por el worker con otro usuario), así que se comprueba y se deja registro.
+     */
+    private function guardarArchivo($disco, string $dir, string $nombre, $archivo): void
+    {
+        $ok = $disco->putFileAs($dir, $archivo, $nombre);
+        if (! $ok) {
+            $ok = $disco->put("{$dir}/{$nombre}", file_get_contents($archivo->getRealPath()));
+        }
+        if (! $ok) {
+            \Illuminate\Support\Facades\Log::error('No se pudo guardar el archivo del chat móvil (revisa permisos de storage/app/public)', ['ruta' => "{$dir}/{$nombre}"]);
+        }
+    }
+
+    /** Emite el mensaje saliente al chat web y a la app (mismo evento que usa el chat web) */
+    private function difundirSalida(Mensaje $mensaje, string $phoneNumberId): void
+    {
+        try {
+            $mensaje->load('contacto');
+            if ($mensaje->contacto) {
+                $mensaje->nombre_completo = $mensaje->contacto->nombre_completo;
+            }
+            broadcast(new MensajeSent($mensaje, $phoneNumberId));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('No se pudo difundir el mensaje saliente', ['error' => $e->getMessage()]);
+        }
     }
 
     /** Texto del último mensaje para la lista de chats */

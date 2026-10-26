@@ -602,7 +602,7 @@ class ChatController extends Controller
             if ($mensaje->type == Mensaje::IMAGEN) {
                 if (isset($metadata['image']['id'])) {
                     // Usamos Storage::url directamente sin la función url() de Laravel
-                    return Storage::url("chats/img/{$metadata['image']['id']}.jpg");
+                    return url(Storage::url("chats/img/{$metadata['image']['id']}.jpg"));
                 }
                 // Si no hay ID, intenta con el body directo (a veces WA envía la URL ahí)
                 return filter_var($mensaje->body, FILTER_VALIDATE_URL) ? $mensaje->body : null;
@@ -610,7 +610,7 @@ class ChatController extends Controller
 
             if ($mensaje->type == Mensaje::VIDEO) {
                 if (isset($metadata['video']['id'])) {
-                    return Storage::url("chats/videos/{$metadata['video']['id']}.mp4");
+                    return url(Storage::url("chats/videos/{$metadata['video']['id']}.mp4"));
                 }
                 return filter_var($mensaje->body, FILTER_VALIDATE_URL) ? $mensaje->body : null;
             }
@@ -618,7 +618,7 @@ class ChatController extends Controller
             if ($mensaje->type == Mensaje::DOCUMENTO) {
                 if (isset($metadata['document']['filename'])) {
                     $nombre = basename($metadata['document']['filename']);
-                    return Storage::url("chats/documentos/$nombre");
+                    return url(Storage::url("chats/documentos/$nombre"));
                 }
                 return filter_var($mensaje->body, FILTER_VALIDATE_URL) ? $mensaje->body : null;
             }

@@ -17,6 +17,10 @@ class FcmService
     public const TOKEN_INVALIDO = 'invalido';
     public const ERROR = 'error';
 
+    /** Último error (para diagnóstico con el comando fcm:probar) */
+    public static ?string $ultimoError = null;
+    public const CANAL = 'mensajes';
+
     private static function credenciales(): ?array
     {
         $ruta = (string) env('FIREBASE_CREDENTIALS', 'storage/app/firebase/service-account.json');
@@ -28,6 +32,7 @@ class FcmService
         }
         if (! is_file($ruta)) {
             Log::warning('FCM: no se encuentra el archivo de credenciales', ['ruta' => $ruta]);
+            self::$ultimoError = "No existe el archivo de credenciales: {$ruta}";
 
             return null;
         }
@@ -70,21 +75,26 @@ class FcmService
     /** Envía una notificación a un token FCM. Devuelve OK, TOKEN_INVALIDO o ERROR. */
     public static function enviar(string $fcmToken, string $titulo, string $cuerpo, array $data = [], ?string $tag = null): string
     {
+        self::$ultimoError = null;
         $cred = self::credenciales();
         if (! $cred) {
+            self::$ultimoError ??= 'Credenciales de Firebase inválidas (faltan private_key o client_email)';
+
             return self::ERROR;
         }
         $token = self::accessToken($cred);
         if (! $token) {
             Cache::forget('fcm:access_token');
             Log::warning('FCM: no se pudo obtener el access token');
+            self::$ultimoError = 'No se pudo obtener el access token de Google (revisa la fecha/hora del servidor y la cuenta de servicio)';
 
             return self::ERROR;
         }
 
-        $android = ['priority' => 'HIGH'];
+        // Canal de alta importancia (creado en la app) para que se muestre como aviso emergente y con sonido
+        $android = ['priority' => 'HIGH', 'notification' => ['channel_id' => self::CANAL]];
         if ($tag) {
-            $android['notification'] = ['tag' => $tag];
+            $android['notification']['tag'] = $tag;
         }
 
         $res = Http::withToken($token)->timeout(15)
@@ -101,6 +111,7 @@ class FcmService
             return self::OK;
         }
 
+        self::$ultimoError = 'HTTP ' . $res->status() . ': ' . mb_substr($res->body(), 0, 300);
         $estado = (string) $res->json('error.status');
         if ($res->status() === 404 || $estado === 'NOT_FOUND' || $estado === 'UNREGISTERED' || $estado === 'INVALID_ARGUMENT') {
             return self::TOKEN_INVALIDO;

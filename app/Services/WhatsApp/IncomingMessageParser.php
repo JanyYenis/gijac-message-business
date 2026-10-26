@@ -13,8 +13,8 @@ class IncomingMessageParser
     {
         return match (true) {
             $tipoMapped === Mensaje::TEXTO => $this->parseTexto($mensajeData),
-            $tipoMapped === Mensaje::IMAGEN => $this->parseMedia($mensajeData, 'image', 'chats/img', 'jpg', $api),
-            $tipoMapped === Mensaje::VIDEO  => $this->parseMedia($mensajeData, 'video', 'chats/videos', 'mp4', $api),
+            $tipoMapped === Mensaje::IMAGEN => $this->parseMedia($mensajeData, 'image', 'img', 'jpg', $api),
+            $tipoMapped === Mensaje::VIDEO  => $this->parseMedia($mensajeData, 'video', 'videos', 'mp4', $api),
             $tipoMapped === Mensaje::DOCUMENTO => $this->parseDocumento($mensajeData, $api),
             $tipoMapped === Mensaje::AUDIO  => $this->parseAudio($mensajeData, $api),
             $tipoOriginal === 'interactive'  => $this->parseInteractive($mensajeData),

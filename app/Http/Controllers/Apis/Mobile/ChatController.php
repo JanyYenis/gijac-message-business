@@ -243,7 +243,8 @@ class ChatController extends Controller
     {
         $user = $request->user();
 
-        if ($request->hasFile('archivo') && !$request->file('archivo')->isValid()) {
+        // hasFile() es false cuando PHP rechazó la subida por tamaño, por eso se mira el archivo directamente
+        if (($subido = $request->file('archivo')) && !$subido->isValid()) {
             return response()->json([
                 'success' => false,
                 'message' => __('El servidor no pudo recibir el archivo (límite de subida: :l). Revisa upload_max_filesize y post_max_size.', ['l' => ini_get('upload_max_filesize')]),

@@ -14,6 +14,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 /** Notificación push a la app móvil cuando llega un mensaje de un cliente */
 class EnviarPushMensaje implements ShouldQueue
@@ -30,12 +31,14 @@ class EnviarPushMensaje implements ShouldQueue
     {
         $mensaje = Mensaje::where('wa_message_id', $this->waMessageId)->first();
         if (! $mensaje || ! $this->phoneNumberId) {
+            Log::info('PUSH: sin mensaje o phone_number_id', ['wa' => $this->waMessageId, 'pn' => $this->phoneNumberId]);
             return;
         }
 
         $empresa = WhatsappNumber::where('phone_number_id', $this->phoneNumberId)->value('cod_empresa')
             ?? WhatsappAccount::where('phone_number_id', $this->phoneNumberId)->value('cod_empresa');
         if (! $empresa) {
+            Log::info('PUSH: número sin empresa', ['pn' => $this->phoneNumberId]);
             return;
         }
 
@@ -48,10 +51,12 @@ class EnviarPushMensaje implements ShouldQueue
             ->filter(fn ($u) => WhatsappNumber::paraUsuario($u)?->phone_number_id === $this->phoneNumberId)
             ->pluck('uuid')->all();
         if (! $uuids) {
+            Log::info('PUSH: ningún usuario atiende este número', ['pn' => $this->phoneNumberId, 'empresa' => $empresa]);
             return;
         }
 
         $dispositivos = Dispositivo::whereIn('usuario_id', $uuids)->whereNotNull('fcm_token')->get();
+        Log::info('PUSH: enviando', ['usuarios' => count($uuids), 'dispositivos' => $dispositivos->count(), 'chat' => $mensaje->wa_from]);
         foreach ($dispositivos as $d) {
             if ($d->expira_en && \Carbon\Carbon::parse($d->expira_en)->isPast()) {
                 continue;
@@ -63,6 +68,9 @@ class EnviarPushMensaje implements ShouldQueue
                 ['tipo' => 'mensaje', 'chat_id' => (string) $mensaje->wa_from, 'nombre' => $nombre],
                 'chat_' . $mensaje->wa_from
             );
+            if ($resultado !== FcmService::OK) {
+                Log::warning('PUSH: fallo', ['resultado' => $resultado, 'error' => FcmService::$ultimoError]);
+            }
             if ($resultado === FcmService::TOKEN_INVALIDO) {
                 $d->update(['fcm_token' => null]);
             }

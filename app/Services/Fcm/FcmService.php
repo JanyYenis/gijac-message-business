@@ -91,19 +91,25 @@ class FcmService
             return self::ERROR;
         }
 
-        // Canal de alta importancia (creado en la app) para que se muestre como aviso emergente y con sonido
-        $android = ['priority' => 'HIGH', 'notification' => ['channel_id' => self::CANAL]];
+        // Android: mensaje SOLO de datos (la app arma la notificación con "Responder" y "Marcar como leído").
+        // iPhone: alerta APNs con la categoría MENSAJE (acciones registradas en la app).
+        $data = array_map('strval', $data + ['titulo' => mb_substr($titulo, 0, 80), 'cuerpo' => mb_substr($cuerpo, 0, 200)]);
+        $aps = [
+            'alert' => ['title' => mb_substr($titulo, 0, 80), 'body' => mb_substr($cuerpo, 0, 200)],
+            'sound' => 'default',
+            'category' => 'MENSAJE',
+        ];
         if ($tag) {
-            $android['notification']['tag'] = $tag;
+            $aps['thread-id'] = $tag;
         }
 
         $res = Http::withToken($token)->timeout(15)
             ->post("https://fcm.googleapis.com/v1/projects/{$cred['project_id']}/messages:send", [
                 'message' => [
                     'token' => $fcmToken,
-                    'notification' => ['title' => mb_substr($titulo, 0, 80), 'body' => mb_substr($cuerpo, 0, 200)],
-                    'data' => array_map('strval', $data),
-                    'android' => $android,
+                    'data' => $data,
+                    'android' => ['priority' => 'HIGH'],
+                    'apns' => ['headers' => ['apns-priority' => '10'], 'payload' => ['aps' => $aps]],
                 ],
             ]);
 

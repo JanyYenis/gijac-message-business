@@ -68,9 +68,7 @@ class EnviarPushMensaje implements ShouldQueue
                 ['tipo' => 'mensaje', 'chat_id' => (string) $mensaje->wa_from, 'nombre' => $nombre],
                 'chat_' . $mensaje->wa_from
             );
-            if ($resultado !== FcmService::OK) {
-                Log::warning('PUSH: fallo', ['resultado' => $resultado, 'error' => FcmService::$ultimoError]);
-            }
+            Log::info('PUSH: resultado', ['resultado' => $resultado, 'token_fin' => substr($d->fcm_token, -12), 'error' => FcmService::$ultimoError]);
             if ($resultado === FcmService::TOKEN_INVALIDO) {
                 $d->update(['fcm_token' => null]);
             }

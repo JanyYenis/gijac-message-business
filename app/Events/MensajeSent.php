@@ -2,10 +2,9 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Models\Mensaje;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -46,5 +45,35 @@ class MensajeSent implements ShouldBroadcast
     public function broadcastAs(): string
     {
         return 'mensaje.enviado';
+    }
+
+    /**
+     * Mismos datos de siempre (mensaje y phone_number_id) + el contador de no leídos del chat,
+     * para que la app actualice la lista sin tener que consultarla de nuevo.
+     */
+    public function broadcastWith(): array
+    {
+        return [
+            'mensaje' => $this->mensaje,
+            'phone_number_id' => $this->phone_number_id,
+            'no_leidos' => $this->contarNoLeidos(),
+        ];
+    }
+
+    private function contarNoLeidos(): ?int
+    {
+        try {
+            $propio = (string) ($this->phone_number_id ?? $this->mensaje->wa_to);
+            $contacto = (string) $this->mensaje->wa_from === $propio
+                ? $this->mensaje->wa_to
+                : $this->mensaje->wa_from;
+
+            return Mensaje::where('wa_from', $contacto)
+                ->where('wa_to', $propio)
+                ->whereIn('estado', [Mensaje::ENTREGADO, Mensaje::ENVIADO])
+                ->count();
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 }

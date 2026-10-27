@@ -34,6 +34,7 @@ class Dispositivo extends Model
         'id' => 'string',
         'usuario_id' => 'string',
         'vinculado_en' => 'datetime',
+        'expira_en' => 'datetime',
     ];
 
     protected static function boot()

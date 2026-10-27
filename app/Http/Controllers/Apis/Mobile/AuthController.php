@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Apis\Mobile;
 
+use App\Events\DeviceUnlinked;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserProfileResource;
 use App\Models\Usuario;
@@ -55,9 +56,10 @@ class AuthController extends Controller
 
         if ($token) {
             // Eliminar la autenticación específica de este dispositivo
-            Dispositivo::where('usuario_id', $user->id)
+            Dispositivo::where('usuario_id', $user->uuid)
                 ->where('token', $token)
                 ->delete();
+            broadcast(new DeviceUnlinked($user->uuid));
         }
 
         return response()->json([

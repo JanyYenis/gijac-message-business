@@ -122,6 +122,9 @@ mix.js("resources/js/catalogo/principal.js", "public/js/catalogo/principal.js");
 // CALENDARIO
 mix.js("resources/js/calendario/principal.js", "public/js/calendario/principal.js");
 
+// LOGIN QR
+mix.js("resources/js/login-qr/principal.js", "public/js/login-qr/principal.js");
+
 // ----------------------------------------------------------------------------------------------------
 // Carpetas
 mix.copyDirectory('resources/img', 'public/img');

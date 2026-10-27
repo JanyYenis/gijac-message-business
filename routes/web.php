@@ -110,6 +110,9 @@ Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(f
 
     Route::get('/login-qr/refresh', [LoginQrController::class, 'refresh'])
         ->name('login-qr.refresh');
+
+    Route::delete('/login-qr/desconectar', [LoginQrController::class, 'desconectar'])
+        ->name('login-qr.desconectar');
 });
 
 Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Events\DeviceLinked;
+use App\Events\DeviceUnlinked;
 use App\Http\Controllers\Controller;
 use App\Models\Dispositivo;
 use Carbon\Carbon;
@@ -120,6 +121,21 @@ class LoginQrController extends Controller
         return response()->json([
             'qr' => generarQR($qrData),
             'expira_en' => $dispositivo->expira_en->timestamp * 1000,
+        ]);
+    }
+
+    /** Desconecta el/los dispositivos vinculados: se borra su token y la app cierra sesión sola (401) */
+    public function desconectar(Request $request)
+    {
+        $uuid = auth()->user()->uuid;
+
+        Dispositivo::where('usuario_id', $uuid)->whereNotNull('vinculado_en')->delete();
+
+        broadcast(new DeviceUnlinked($uuid))->toOthers();
+
+        return response()->json([
+            'estado' => 'success',
+            'mensaje' => __('Dispositivo desconectado correctamente.'),
         ]);
     }
 }

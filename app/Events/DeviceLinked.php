@@ -5,11 +5,12 @@ namespace App\Events;
 use App\Models\Dispositivo;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class DeviceLinked implements ShouldBroadcast
+/** Un teléfono escaneó el QR: la web pasa a mostrar la sesión con los datos reales */
+class DeviceLinked implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -19,9 +20,7 @@ class DeviceLinked implements ShouldBroadcast
 
     public function broadcastOn(): array
     {
-        return [
-            new PrivateChannel('dispositivos.' . $this->dispositivo->usuario_id),
-        ];
+        return [new PrivateChannel('dispositivos.' . $this->dispositivo->usuario_id)];
     }
 
     public function broadcastAs(): string
@@ -31,11 +30,16 @@ class DeviceLinked implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
+        $d = $this->dispositivo;
+
         return [
-            'nombre_dispositivo' => $this->dispositivo->nombre_dispositivo,
-            'sistema_operativo' => $this->dispositivo->sistema_operativo,
-            'ip' => $this->dispositivo->ip,
-            'vinculado_en' => $this->dispositivo->vinculado_en->diffForHumans(),
+            'id' => $d->id,
+            'nombre_dispositivo' => $d->nombre_dispositivo,
+            'modelo' => $d->modelo,
+            'sistema_operativo' => $d->sistema_operativo,
+            'version_so' => $d->version_so,
+            'ip' => $d->ip,
+            'vinculado_en' => optional($d->vinculado_en)->format('d/m/Y h:i A'),
         ];
     }
 }

@@ -321,6 +321,11 @@
             color: #991B1B;
         }
 
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         /* HIDDEN ELEMENTS */
         .hidden {
             display: none !important;
@@ -401,18 +406,18 @@
                 <div class="divider"></div>
 
                 <div class="info-section">
-                    <div class="info-label">{{ __('Último intento') }}</div>
-                    <div class="info-value" id="lastAttempt">N/A</div>
+                    <div class="info-label">{{ __('Último acceso') }}</div>
+                    <div class="info-value" id="lastAttempt">{{ $dispositivo?->vinculado_en ? $dispositivo->vinculado_en->format('d/m/Y h:i A') : 'N/A' }}</div>
                 </div>
 
                 <div class="info-section">
-                    <div class="info-label">{{ __('Navegador') }}</div>
-                    <div class="info-value">{{ $dispositivo?->vinculado_en ? $dispositivo?->sistema_operativo : 'N/A' }}</div>
+                    <div class="info-label">{{ __('Sistema') }}</div>
+                    <div class="info-value" id="sideSistema">{{ $dispositivo?->vinculado_en ? $dispositivo?->sistema_operativo : 'N/A' }}</div>
                 </div>
 
                 <div class="info-section">
                     <div class="info-label">{{ __('Versión') }}</div>
-                    <div class="info-value">{{ $dispositivo?->vinculado_en ? $dispositivo?->version_so : 'N/A' }}</div>
+                    <div class="info-value" id="sideVersion">{{ $dispositivo?->vinculado_en ? $dispositivo?->version_so : 'N/A' }}</div>
                 </div>
             </div>
         </div>
@@ -436,14 +441,6 @@
                     <span class="spinner-animation"></span>
                     {{ __('Esperando escaneo...') }}
                 </div>
-
-                {{-- <button class="btn-qr" onclick="simularEscaneoQR()">
-                    <i class="fas fa-qrcode"></i> Simular Escaneo QR
-                </button>
-
-                <button class="btn-secondary-light" onclick="mostrarMasOpciones()">
-                    <i class="fas fa-ellipsis-h"></i> Más opciones
-                </button> --}}
             </div>
 
             <!-- SESSION CARD -->
@@ -464,6 +461,10 @@
                         <span class="device-value" id="deviceName">{{ $dispositivo?->vinculado_en ? $dispositivo?->nombre_dispositivo : 'N/A' }}</span>
                     </div>
                     <div class="device-item">
+                        <span class="device-label"><i class="fas fa-tag"></i> {{ __('Modelo') }}</span>
+                        <span class="device-value" id="deviceModel">{{ $dispositivo?->vinculado_en ? ($dispositivo?->modelo ?: 'N/A') : 'N/A' }}</span>
+                    </div>
+                    <div class="device-item">
                         <span class="device-label"><i class="fas fa-microchip"></i> {{ __('Sistema') }}</span>
                         <span class="device-value" id="deviceOS">{{ $dispositivo?->vinculado_en ? $dispositivo?->sistema_operativo : 'N/A' }}</span>
                     </div>
@@ -473,211 +474,26 @@
                     </div>
                     <div class="device-item">
                         <span class="device-label"><i class="fas fa-clock"></i> {{ __('Conectado') }}</span>
-                        <span class="device-value" id="connectionTime">{{ $dispositivo?->vinculado_en ? $dispositivo?->vinculado_en->diffForHumans() : 'N/A' }}</span>
+                        <span class="device-value" id="connectionTime">{{ $dispositivo?->vinculado_en ? $dispositivo?->vinculado_en->format('d/m/Y h:i A') : 'N/A' }}</span>
                     </div>
                 </div>
 
-                <button class="btn-logout" onclick="cerrarSesion()">
-                    <i class="fas fa-sign-out-alt"></i> {{ __('Cerrar Sesión') }}
+                <button class="btn-logout" id="btnDesconectar" type="button">
+                    <i class="fas fa-sign-out-alt"></i> {{ __('Desconectar dispositivo') }}
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- ALERT CONTAINER -->
-    <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999; max-width: 400px;"></div>
 @endsection
 
 @section('scripts')
     <script>
-        // Estado de la aplicación
-        let appState = {
-            sessionActive: false,
-            lastUpdate: new Date().toLocaleTimeString('es-ES')
+        window.loginQr = {
+            uuid: @json(auth()->user()->uuid),
+            vinculado: @json((bool) $dispositivo),
+            expiraEnMs: @json($expiraEnMs ?? null)
         };
-
-        // Mostrar alerta
-        function mostrarAlerta(mensaje, tipo = 'success') {
-            const alertContainer = document.getElementById('alertContainer');
-            const alertId = 'alert-' + Date.now();
-
-            let iconoClase = 'fa-check-circle';
-            let claseAlert = 'alert-success-custom';
-
-            if (tipo === 'error') {
-                iconoClase = 'fa-exclamation-circle';
-                claseAlert = 'alert-error-custom';
-            }
-
-            const alertHTML = `
-                <div class="alert alert-custom ${claseAlert}" id="${alertId}" role="alert">
-                    <i class="fas ${iconoClase}"></i>
-                    <span>${mensaje}</span>
-                </div>
-            `;
-
-            alertContainer.innerHTML += alertHTML;
-
-            // Auto-remove después de 3.5 segundos
-            setTimeout(() => {
-                const element = document.getElementById(alertId);
-                if (element) {
-                    element.style.animation = 'fadeOut 0.3s ease-out';
-                    setTimeout(() => element.remove(), 300);
-                }
-            }, 3500);
-        }
-
-        // Simular escaneo de QR
-        function simularEscaneoQR() {
-            console.log("[v0] Iniciando simulación de escaneo QR");
-
-            const qrCard = document.getElementById('qrCard');
-            const sessionCard = document.getElementById('sessionCard');
-
-            // Animar QR
-            const qrCode = document.getElementById('qrCode');
-            qrCode.style.animation = 'pulse 0.5s ease-in-out';
-
-            setTimeout(() => {
-                qrCard.classList.add('hidden');
-                sessionCard.classList.remove('hidden');
-
-                // Actualizar sidebar
-                actualizarSidebar(true);
-
-                // Mostrar alerta
-                mostrarAlerta('Sesión iniciada correctamente desde dispositivo móvil', 'success');
-
-                appState.sessionActive = true;
-                appState.lastUpdate = new Date().toLocaleTimeString('es-ES');
-
-                console.log("[v0] Sesión activa: ", appState);
-            }, 600);
-        }
-
-        // Cerrar sesión
-        function cerrarSesion() {
-            console.log("[v0] Cerrando sesión");
-
-            const qrCard = document.getElementById('qrCard');
-            const sessionCard = document.getElementById('sessionCard');
-
-            sessionCard.classList.add('hidden');
-            qrCard.classList.remove('hidden');
-
-            // Actualizar sidebar
-            actualizarSidebar(false);
-
-            // Mostrar alerta
-            mostrarAlerta('Sesión cerrada correctamente', 'success');
-
-            appState.sessionActive = false;
-            appState.lastUpdate = new Date().toLocaleTimeString('es-ES');
-
-            console.log("[v0] Sesión cerrada: ", appState);
-        }
-
-        // Actualizar sidebar
-        function actualizarSidebar(conectado) {
-            const statusBadge = document.getElementById('statusBadge');
-            const statusText = document.getElementById('statusText');
-            const lastAttempt = document.getElementById('lastAttempt');
-
-            if (conectado) {
-                statusBadge.classList.remove('disconnected');
-                statusBadge.classList.add('connected');
-                statusText.textContent = 'Conectado';
-                lastAttempt.textContent = 'Ahora mismo';
-                statusBadge.style.animation = 'pulse 0.5s ease-in-out';
-            } else {
-                statusBadge.classList.remove('connected');
-                statusBadge.classList.add('disconnected');
-                statusText.textContent = 'Desconectado';
-                lastAttempt.textContent = 'Hace un momento';
-            }
-        }
-
-        // Mostrar más opciones
-        function mostrarMasOpciones() {
-            console.log("[v0] Mostrando más opciones");
-            mostrarAlerta('Más opciones disponibles en próximas actualizaciones', 'success');
-        }
-
-        // Agregar estilos para animación pulse
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes pulse {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.05); }
-            }
-            @keyframes fadeOut {
-                from { opacity: 1; }
-                to { opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Inicialización
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("[v0] Página de login QR cargada");
-            console.log("[v0] Estado inicial: ", appState);
-        });
-
-        let qrTimer = null;
-
-        function iniciarTemporizadorQR(expiraEnMs) {
-            if (qrTimer) clearTimeout(qrTimer);
-            const msRestantes = expiraEnMs - Date.now();
-
-            if (msRestantes <= 0) {
-                refrescarQR();
-                return;
-            }
-            qrTimer = setTimeout(refrescarQR, msRestantes);
-        }
-
-        async function refrescarQR() {
-            try {
-                const res = await fetch('{{ route("login-qr.refresh") }}', {
-                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
-                });
-                const data = await res.json();
-
-                document.querySelector('#qrCode img').src = data.qr;
-                iniciarTemporizadorQR(data.expira_en);
-            } catch (e) {
-                console.error('[v0] Error refrescando QR:', e);
-                mostrarAlerta('No se pudo actualizar el código QR', 'error');
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            @if(!$dispositivo)
-                iniciarTemporizadorQR({{ $expiraEnMs }});
-            @endif
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            @if(!$dispositivo)
-                iniciarTemporizadorQR({{ $expiraEnMs }});
-            @endif
-
-            Echo.private('dispositivos.{{ auth()->user()->uuid }}')
-                .listen('.device.linked', (data) => {
-                    if (qrTimer) clearTimeout(qrTimer);
-
-                    document.getElementById('qrCard').classList.add('hidden');
-                    document.getElementById('sessionCard').classList.remove('hidden');
-
-                    document.getElementById('deviceName').textContent = data.nombre_dispositivo;
-                    document.getElementById('deviceOS').textContent = data.sistema_operativo;
-                    document.getElementById('deviceIP').textContent = data.ip;
-                    document.getElementById('connectionTime').textContent = data.vinculado_en;
-
-                    actualizarSidebar(true);
-                    mostrarAlerta('Sesión iniciada correctamente desde dispositivo móvil', 'success');
-                });
-        });
     </script>
+    <script src="{{ mix('/js/login-qr/principal.js') }}"></script>
 @endsection

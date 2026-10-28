@@ -55,12 +55,9 @@ class EnviarPushMensaje implements ShouldQueue
             return;
         }
 
-        $dispositivos = Dispositivo::whereIn('usuario_id', $uuids)->whereNotNull('fcm_token')->get();
+        $dispositivos = Dispositivo::whereIn('usuario_id', $uuids)->whereNotNull('fcm_token')->whereNotNull('vinculado_en')->get();
         Log::info('PUSH: enviando', ['usuarios' => count($uuids), 'dispositivos' => $dispositivos->count(), 'chat' => $mensaje->wa_from]);
         foreach ($dispositivos as $d) {
-            if ($d->expira_en && \Carbon\Carbon::parse($d->expira_en)->isPast()) {
-                continue;
-            }
             $resultado = FcmService::enviar(
                 $d->fcm_token,
                 $nombre,

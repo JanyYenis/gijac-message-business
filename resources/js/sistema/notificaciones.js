@@ -28,6 +28,9 @@ Echo.join(`notificacion.${window.user}`).listen('NotificacionEvent', (e) => {
 // Mensajes ya notificados (global: si este archivo se carga dos veces o el evento llega repetido, solo se avisa una vez)
 window.mensajesNotificados = window.mensajesNotificados || new Set();
 
+Echo.join('chat.' + window.numeroTelefono).listen('.mensaje.enviado', e =>
+  console.log('EVT', e.phone_number_id, e.mensaje.wa_from, e.mensaje.wa_to, window.numeroTelefono));
+
 Echo.join(`chat.${window.numeroTelefono}`).listen('.mensaje.enviado', (e) => {
     // Solo mensajes que llegan de clientes: los que envía la empresa (web o app) no generan aviso
     const propio = String(e?.phone_number_id ?? window.numeroTelefono);

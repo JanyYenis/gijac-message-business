@@ -87,7 +87,7 @@
         .status-badge {
             display: inline-block;
             width: 8px;
-            height: 8px;
+            height: 19px;
             border-radius: 50%;
         }
 

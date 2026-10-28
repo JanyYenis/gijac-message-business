@@ -25,7 +25,24 @@ Echo.join(`notificacion.${window.user}`).listen('NotificacionEvent', (e) => {
 //     }, false);
 // });
 
+// Mensajes ya notificados (global: si este archivo se carga dos veces o el evento llega repetido, solo se avisa una vez)
+window.mensajesNotificados = window.mensajesNotificados || new Set();
+
 Echo.join(`chat.${window.numeroTelefono}`).listen('.mensaje.enviado', (e) => {
+    // Solo mensajes que llegan de clientes: los que envía la empresa (web o app) no generan aviso
+    const propio = String(e?.phone_number_id ?? window.numeroTelefono);
+    if (String(e?.mensaje?.wa_from) === propio) {
+        return;
+    }
+
+    const idMensaje = e?.mensaje?.id ?? e?.mensaje?.wa_message_id;
+    if (idMensaje) {
+        if (window.mensajesNotificados.has(idMensaje)) {
+            return;
+        }
+        window.mensajesNotificados.add(idMensaje);
+    }
+
     if (Notification.permission === 'granted') {
         let contenido_mensaje = e?.mensaje?.body ?? 'Tienes un mensaje';
         let tipo = e?.mensaje?.type ?? 1;
@@ -40,7 +57,8 @@ Echo.join(`chat.${window.numeroTelefono}`).listen('.mensaje.enviado', (e) => {
         }
         new Notification('GIJAC MESSAGE BUSINESS', {
             body: (e?.mensaje?.contacto?.nombre_completo ?? e?.mensaje?.wa_from) + ': ' + (contenido_mensaje),
-            icon: '../../img/logo_gmb.png' // opcional
+            icon: '../../img/logo_gmb.png', // opcional
+            tag: idMensaje ? 'gmb-msg-' + idMensaje : undefined // el navegador fusiona avisos con la misma etiqueta
         });
     }
 }).joining(user => {

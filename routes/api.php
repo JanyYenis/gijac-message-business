@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\WhatsAppOnboardingController;
 use App\Http\Controllers\Apis\Mobile\AuthController;
 use App\Http\Controllers\Apis\Mobile\ChatController;
 use App\Http\Controllers\Apis\Mobile\DeviceController;
+use App\Http\Controllers\Apis\Mobile\PerfilMovilController;
 use App\Http\Controllers\ChatbotController;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -67,6 +68,9 @@ Route::prefix('mobile')->group(function () {
 
         Route::post('/chats/{numero}/media', [ChatController::class, 'sendMedia']);
         Route::post('/device/fcm', [DeviceController::class, 'actualizarFcm']);
+
+        Route::put('profile', [PerfilMovilController::class, 'actualizar']);
+        Route::post('profile/photo', [PerfilMovilController::class, 'foto']);
     });
 });
 

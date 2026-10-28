@@ -32,7 +32,7 @@ class UserProfileResource extends JsonResource
             'telefono'      => $this->telefono,
             'codigo_telefono' => $this->codigo_telefono,
             'numero_completo' => $this->numero_completo,
-            'foto'          => $this->foto ? asset('storage/' . $this->foto) : null,
+            'foto'          => $this->urlFoto($this->foto),
             'genero'        => $this->whenLoaded('infoGenero', function () {
                 return [
                     'id'    => $this->genero,
@@ -72,5 +72,22 @@ class UserProfileResource extends JsonResource
             'tiene_2fa'     => !empty($this->google2fa_secret),
             'verificado'    => !is_null($this->email_verified_at),
         ];
+    }
+
+    /**
+     * La web guarda 'storage/perfil/x.jpg'; antes se guardaba la URL completa. Se admiten ambos
+     * (y 'perfil/x.jpg' a secas) sin duplicar el prefijo 'storage/'.
+     */
+    private function urlFoto(?string $foto): ?string
+    {
+        if (! $foto) {
+            return null;
+        }
+        if (preg_match('#^https?://#i', $foto)) {
+            return $foto;
+        }
+        $foto = ltrim($foto, '/');
+
+        return asset(str_starts_with($foto, 'storage/') ? $foto : 'storage/' . $foto);
     }
 }

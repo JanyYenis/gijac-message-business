@@ -18,6 +18,7 @@ class PerfilMovilController extends Controller
             'nombre' => 'required|string|max:100',
             'apellido' => 'nullable|string|max:100',
             'telefono' => 'nullable|digits_between:6,15',
+            'codigo_telefono' => ['nullable', 'regex:/^\+?\d{1,4}$/'],
         ]);
 
         $user = $request->user();
@@ -27,6 +28,14 @@ class PerfilMovilController extends Controller
         ];
         if (! empty($datos['telefono'])) {
             $cambios['telefono'] = $datos['telefono'];
+            if (! empty($datos['codigo_telefono'])) {
+                $cambios['codigo_telefono'] = $datos['codigo_telefono'];
+            }
+            // Si el número completo es una columna (y no un atributo calculado), se mantiene al día
+            if (array_key_exists('numero_completo', $user->getAttributes())) {
+                $codigo = ltrim($cambios['codigo_telefono'] ?? (string) $user->codigo_telefono, '+');
+                $cambios['numero_completo'] = $codigo . $datos['telefono'];
+            }
         }
         $user->forceFill($cambios)->save();
 

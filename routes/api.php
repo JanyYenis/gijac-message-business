@@ -5,6 +5,7 @@ use App\Http\Controllers\Apis\Mobile\AuthController;
 use App\Http\Controllers\Apis\Mobile\ChatController;
 use App\Http\Controllers\Apis\Mobile\DeviceController;
 use App\Http\Controllers\Apis\Mobile\PerfilMovilController;
+use App\Http\Controllers\Apis\Mobile\PerfilWhatsappMovilController;
 use App\Http\Controllers\ChatbotController;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -73,6 +74,10 @@ Route::prefix('mobile')->group(function () {
         Route::post('profile/photo', [PerfilMovilController::class, 'foto']);
         Route::get('profile/options', [PerfilMovilController::class, 'opciones']);
         Route::get('profile/cities/{pais}', [PerfilMovilController::class, 'ciudades']);
+
+        Route::get('whatsapp-profile', [PerfilWhatsappMovilController::class, 'mostrar']);
+        Route::put('whatsapp-profile', [PerfilWhatsappMovilController::class, 'actualizar']);
+        Route::post('whatsapp-profile/photo', [PerfilWhatsappMovilController::class, 'foto']);
     });
 });
 

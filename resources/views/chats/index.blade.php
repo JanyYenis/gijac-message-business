@@ -1039,7 +1039,7 @@
     <div class="messaging-container">.
         <!-- Left Column - Contacts List -->
         <div class="contacts-column" id="contactsColumn">
-            <div class="contacts-header btnPerfilWhatsapp">
+            <div class="contacts-header {{ !\App\Models\WhatsappNumber::paraUsuario(auth()->user())?->es_prueba ? '' : 'btnPerfilWhatsapp' }}">
                 <div class="app-logo">
                     <img class="profile-image" src="{{ $datosPerfilWhatsapp && isset($datosPerfilWhatsapp['profile_picture_url']) ? $datosPerfilWhatsapp['profile_picture_url'] : asset('img/logo_mini.png') }}" alt="Elad Shechter">
                 </div>

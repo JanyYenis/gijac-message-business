@@ -3,12 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SubirFotoPerfilWhatsApp;
+use App\Models\WhatsappNumber;
 use Illuminate\Http\Request;
 
 class PerfilWhatsappController extends Controller
 {
+    /** Meta no permite editar el perfil de los números de prueba */
+    private function respuestaSiEsPrueba()
+    {
+        $numero = WhatsappNumber::paraUsuario(auth()->user());
+        if ($numero?->es_prueba) {
+            return response()->json([
+                'estado' => 'error',
+                'mensaje' => __('Meta no permite editar el perfil de un número de prueba.'),
+            ], 403);
+        }
+
+        return null;
+    }
+
     public function edit(Request $request)
     {
+        if ($bloqueo = $this->respuestaSiEsPrueba()) {
+            return $bloqueo;
+        }
+
         $response = $this->whatsapp_cloud_api->businessProfile('about,address,description,email,profile_picture_url,websites,vertical');
         $datos = json_decode($response->body())?->data[0];
         $info['dato'] = $datos;
@@ -45,6 +64,10 @@ class PerfilWhatsappController extends Controller
 
     public function update(Request $request)
     {
+        if ($bloqueo = $this->respuestaSiEsPrueba()) {
+            return $bloqueo;
+        }
+
         $datos = $request->all();
         // dd($datos, $request->file('profile_picture_url'));
         if (isset($datos['websites'])) {

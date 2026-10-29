@@ -28,6 +28,7 @@ class Controller extends BaseController
     public $demo;
     public $plan;
     public $uuid;
+    public $numero_es_prueba = false;
 
     public function __construct()
     {
@@ -36,23 +37,28 @@ class Controller extends BaseController
             Carbon::setLocale('es');
             if (Auth::check()) { // Verifica si el usuario está autenticado
                 $this->uuid = Auth::user()->empresa?->id ?? null;
+                // Misma cuenta activa que usa WhatsappNumber::paraUsuario (la conectada más reciente)
                 $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
                     ->where('cod_empresa', $this->uuid)
+                    ->orderByDesc('created_at')
                     ->first();
                 $this->demo = Auth::user()->demo;
                 $this->plan = Auth::user()->cod_plan;
                 $this->version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v17.0'));
                 $this->waba_id = $config?->waba_id ?? null;
                 $this->phone_number_id = $config?->phone_number_id ?? null;
-                // Si el usuario tiene otro número asignado, los chats salen por ese (mismo WABA y token)
+                $this->numeroG = $config?->phone_number ?? '573000000000';
+                // El número que corresponde al usuario: el asignado o, si no tiene, el principal activo de la cuenta.
+                // Los chats y el perfil salen por ese número (mismo WABA y token).
                 if ($config) {
                     $asignado = WhatsappNumber::paraUsuario(Auth::user());
-                    if ($asignado && $asignado->waba_id === $config->waba_id) {
+                    if ($asignado) {
                         $this->phone_number_id = $asignado->phone_number_id;
+                        $this->numeroG = $asignado->phone_number ?: $this->numeroG;
+                        $this->numero_es_prueba = (bool) $asignado->es_prueba;
                     }
                 }
                 $this->token = $config?->access_token ? Crypt::decrypt($config?->access_token) : null;
-                $this->numeroG = $config?->phone_number ?? '573000000000';
                 $this->cod_config = $config?->id;
 
                 if ($this->phone_number_id && $this->token && $this->version) {

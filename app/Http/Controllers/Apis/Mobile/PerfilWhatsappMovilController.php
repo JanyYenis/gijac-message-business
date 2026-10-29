@@ -7,7 +7,9 @@ use App\Jobs\SubirFotoPerfilWhatsApp;
 use App\Models\WhatsappNumber;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Perfil de WhatsApp Business desde la app móvil. Se lee y edita el perfil del número que usa el usuario.
@@ -15,7 +17,6 @@ use Illuminate\Support\Facades\Http;
  */
 class PerfilWhatsappMovilController extends Controller
 {
-    private const GRAPH = 'https://graph.facebook.com/v21.0';
     private const CAMPOS = 'about,address,description,email,profile_picture_url,websites,vertical';
 
     private const CATEGORIAS = [
@@ -26,6 +27,26 @@ class PerfilWhatsappMovilController extends Controller
         'RETAIL' => 'Minorista', 'TRAVEL' => 'Viajes', 'RESTAURANT' => 'Restaurante',
     ];
 
+    /** Misma versión de la Graph API que usa la web */
+    private function graph(): string
+    {
+        return 'https://graph.facebook.com/' . config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v17.0'));
+    }
+
+    /** El token se guarda cifrado (igual que en el Controller base de la web) */
+    private function token(WhatsappNumber $numero): ?string
+    {
+        $cifrado = $numero->cuenta?->access_token;
+        if (! $cifrado) {
+            return null;
+        }
+        try {
+            return Crypt::decrypt($cifrado);
+        } catch (\Throwable $e) {
+            return null;
+        }
+    }
+
     /** GET /api/mobile/whatsapp-profile */
     public function mostrar(Request $request): JsonResponse
     {
@@ -33,18 +54,22 @@ class PerfilWhatsappMovilController extends Controller
         if (! $numero) {
             return response()->json(['success' => false, 'message' => 'Tu empresa no tiene un número de WhatsApp conectado.'], 404);
         }
-        $token = $numero->cuenta?->access_token;
+        $token = $this->token($numero);
 
         $perfil = [];
+        $avisoMeta = $token ? null : 'No se pudo leer el token de acceso de la cuenta.';
         $nombreVerificado = null;
         if ($token) {
             $r = Http::withToken($token)->timeout(20)
-                ->get(self::GRAPH . "/{$numero->phone_number_id}/whatsapp_business_profile", ['fields' => self::CAMPOS]);
+                ->get($this->graph() . "/{$numero->phone_number_id}/whatsapp_business_profile", ['fields' => self::CAMPOS]);
             if ($r->successful()) {
                 $perfil = $r->json('data.0') ?? [];
+            } else {
+                $avisoMeta = $r->json('error.message') ?? 'Meta no devolvió el perfil (HTTP ' . $r->status() . ').';
+                Log::warning('PERFIL WA móvil: Meta no devolvió el perfil', ['phone_number_id' => $numero->phone_number_id, 'status' => $r->status(), 'body' => $r->body()]);
             }
             $n = Http::withToken($token)->timeout(20)
-                ->get(self::GRAPH . "/{$numero->phone_number_id}", ['fields' => 'verified_name']);
+                ->get($this->graph() . "/{$numero->phone_number_id}", ['fields' => 'verified_name']);
             $nombreVerificado = $n->successful() ? $n->json('verified_name') : null;
         }
 
@@ -54,6 +79,7 @@ class PerfilWhatsappMovilController extends Controller
                 'phone_number_id' => $numero->phone_number_id,
                 'nombre' => $nombreVerificado ?: $numero->display_name,
                 'telefono' => $numero->phone_number,
+                'aviso_meta' => $avisoMeta,
                 'es_prueba' => (bool) $numero->es_prueba,
                 'editable' => ! $numero->es_prueba && (bool) $token,
                 'about' => $perfil['about'] ?? '',
@@ -104,8 +130,8 @@ class PerfilWhatsappMovilController extends Controller
             'websites' => array_values(array_filter($datos['websites'] ?? [])),
         ];
 
-        $r = Http::withToken($numero->cuenta->access_token)->timeout(30)
-            ->post(self::GRAPH . "/{$numero->phone_number_id}/whatsapp_business_profile", $cuerpo);
+        $r = Http::withToken($this->token($numero))->timeout(30)
+            ->post($this->graph() . "/{$numero->phone_number_id}/whatsapp_business_profile", $cuerpo);
 
         if (! $r->successful()) {
             return response()->json([
@@ -147,7 +173,7 @@ class PerfilWhatsappMovilController extends Controller
     private function numeroEditable(Request $request): array
     {
         $numero = WhatsappNumber::paraUsuario($request->user());
-        if (! $numero || ! $numero->cuenta?->access_token) {
+        if (! $numero || ! $this->token($numero)) {
             return [null, response()->json(['success' => false, 'message' => 'No hay un número de WhatsApp conectado.'], 404)];
         }
         if ($numero->es_prueba) {

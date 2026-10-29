@@ -121,7 +121,7 @@
                         <div class="iqrewfee sy6s5v3r tt8xd2xn jnwc1y2a or9x5nie svoq16ka">
                             <div class="Mk0Bp _30scZ"><span dir="auto" aria-label=""
                                     class="l7jjieqr cw3vfol9 _11JPr selectable-text copyable-text"
-                                    style="min-height: 0px;">{{ $datosNumero && isset($datosNumero['data']) ? $datosNumero['data'][0]['verified_name'] : 'GIJAC MESSAGE BUSINESS'}}</span></div>
+                                    style="min-height: 0px;">{{ $datosNumero && isset($datosNumero['data']) ? (collect($datosNumero['data'])->firstWhere('id', $phoneNumberId)['verified_name'] ?? $datosNumero['data'][0]['verified_name']) : 'GIJAC MESSAGE BUSINESS' }}</span></div>
                         </div>
                     </div>
                     <div class="tt8xd2xn jnwc1y2a brac1wpa svoq16ka f8jlpxt4 sbs3osm6 jgi8eev7">{{ $dato?->vertical ? $categorias[$dato?->vertical] : 'N/A'}}</div>

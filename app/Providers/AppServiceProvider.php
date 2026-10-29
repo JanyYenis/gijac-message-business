@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\WhatsappAccount;
 use App\Models\Sistema\Concepto;
-use App\Models\Usuario;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

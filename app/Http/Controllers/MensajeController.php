@@ -8,6 +8,7 @@ use App\Models\WhatsappAccount;
 use App\Models\Contacto;
 use App\Models\Conversacion;
 use App\Models\Mensaje;
+use App\Models\WhatsappNumber;
 use App\Services\Chats\ConversacionAgente;
 use Carbon\Carbon;
 use DateTime;
@@ -51,6 +52,7 @@ class MensajeController extends Controller
             $info['datosPerfilWhatsapp'] = json_decode($info['datosPerfilWhatsapp'], true)['data'][0];
         }
         $info['datosNumero'] = getPhoneNumbers($this->waba_id, $this->token);
+        $info['numeroTelefonoPrueba'] = WhatsappNumber::paraUsuario(auth()->user())?->es_prueba ? true : false;
 
         return view('chats.index', $info);
     }

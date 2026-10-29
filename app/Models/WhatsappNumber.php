@@ -12,6 +12,13 @@ class WhatsappNumber extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
+    const PRINCIPAL = 1;
+    const NO_PRINCIPAL = 0;
+
+    const TC_ESTADO = '';
+    const ACTIVO = 1;
+    const INACTIVO = 0;
+
     protected $hidden = ['two_factor_pin'];
 
     protected $fillable = [
@@ -76,13 +83,13 @@ class WhatsappNumber extends Model
             ->join('whatsapp_number_usuarios as a', 'a.whatsapp_number_id', '=', 'whatsapp_numbers.id')
             ->where('a.usuario_uuid', $usuario->uuid)
             ->where('whatsapp_numbers.cod_empresa', $empresa)
-            ->where('whatsapp_numbers.estado', WhatsappAccount::CONECTADO)
+            ->where('whatsapp_numbers.estado', self::ACTIVO)
             ->whereHas('cuenta', $cuentaConectada)
             ->select('whatsapp_numbers.*');
 
         $principales = fn () => static::where('cod_empresa', $empresa)
-            ->where('estado', WhatsappAccount::CONECTADO)
-            ->where('principal', true)
+            ->where('estado', self::ACTIVO)
+            ->where('principal', self::PRINCIPAL)
             ->whereHas('cuenta', $cuentaConectada);
 
         if ($cuentaActiva) {

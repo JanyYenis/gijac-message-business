@@ -1039,12 +1039,12 @@
     <div class="messaging-container">.
         <!-- Left Column - Contacts List -->
         <div class="contacts-column" id="contactsColumn">
-            <div class="contacts-header {{ !\App\Models\WhatsappNumber::paraUsuario(auth()->user())?->es_prueba ? '' : 'btnPerfilWhatsapp' }}">
+            <div class="contacts-header {{ !$numeroTelefonoPrueba ? 'btnPerfilWhatsapp' : '' }}">
                 <div class="app-logo">
                     <img class="profile-image" src="{{ $datosPerfilWhatsapp && isset($datosPerfilWhatsapp['profile_picture_url']) ? $datosPerfilWhatsapp['profile_picture_url'] : asset('img/logo_mini.png') }}" alt="Elad Shechter">
                 </div>
                 <div class="user-info">
-                    <h3 class="text-white">{{ $datosNumero && isset($datosNumero['data']) ? $datosNumero['data'][0]['verified_name'] : 'N/A'}}</h3>
+                    <h3 class="text-white">{{ $datosNumero && isset($datosNumero['data']) ? (collect($datosNumero['data'])->firstWhere('id', $numero)['verified_name'] ?? $datosNumero['data'][0]['verified_name']) : 'N/A' }}</h3>
                     <p>{{ __('En línea') }}</p>
                 </div>
             </div>

@@ -71,6 +71,8 @@ Route::prefix('mobile')->group(function () {
 
         Route::put('profile', [PerfilMovilController::class, 'actualizar']);
         Route::post('profile/photo', [PerfilMovilController::class, 'foto']);
+        Route::get('profile/options', [PerfilMovilController::class, 'opciones']);
+        Route::get('profile/cities/{pais}', [PerfilMovilController::class, 'ciudades']);
     });
 });
 

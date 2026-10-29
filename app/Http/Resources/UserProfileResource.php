@@ -33,6 +33,11 @@ class UserProfileResource extends JsonResource
             'codigo_telefono' => $this->codigo_telefono,
             'numero_completo' => $this->numero_completo,
             'foto'          => $this->urlFoto($this->foto),
+            'tipo_identificacion' => $this->tipo_identificacion,
+            'identificacion' => $this->identificacion,
+            'genero_id'     => $this->genero,
+            'pais_id'       => $this->ciudad?->id_pais,
+            'cod_ciudad'    => $this->cod_ciudad,
             'genero'        => $this->whenLoaded('infoGenero', function () {
                 return [
                     'id'    => $this->genero,

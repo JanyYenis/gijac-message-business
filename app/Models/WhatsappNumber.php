@@ -54,6 +54,8 @@ class WhatsappNumber extends Model
     /**
      * Número que debe usar un usuario: el que tiene asignado (si sigue conectado)
      * o, si no tiene ninguno, el principal de su empresa.
+     * Solo se consideran números cuya CUENTA también esté conectada (un número puede quedar
+     * con estado conectado aunque su cuenta ya se haya desconectado o el token haya expirado).
      */
     public static function paraUsuario($usuario): ?self
     {
@@ -68,16 +70,20 @@ class WhatsappNumber extends Model
             ->orderByDesc('created_at')
             ->first();
 
+        $cuentaConectada = fn ($q) => $q->where('estado', WhatsappAccount::CONECTADO);
+
         $asignados = fn () => static::query()
             ->join('whatsapp_number_usuarios as a', 'a.whatsapp_number_id', '=', 'whatsapp_numbers.id')
             ->where('a.usuario_uuid', $usuario->uuid)
             ->where('whatsapp_numbers.cod_empresa', $empresa)
             ->where('whatsapp_numbers.estado', WhatsappAccount::CONECTADO)
+            ->whereHas('cuenta', $cuentaConectada)
             ->select('whatsapp_numbers.*');
 
         $principales = fn () => static::where('cod_empresa', $empresa)
             ->where('estado', WhatsappAccount::CONECTADO)
-            ->where('principal', true);
+            ->where('principal', true)
+            ->whereHas('cuenta', $cuentaConectada);
 
         if ($cuentaActiva) {
             // 1) el asignado al usuario en la cuenta activa  2) el principal de la cuenta activa
@@ -88,7 +94,7 @@ class WhatsappNumber extends Model
             }
         }
 
-        // Respaldo: cualquier asignado o principal conectado de la empresa
+        // Respaldo: cualquier asignado o principal conectado de la empresa (siempre de una cuenta conectada)
         return $asignados()->first() ?? $principales()->first();
     }
 
@@ -96,6 +102,8 @@ class WhatsappNumber extends Model
     public static function idParaUsuario($usuario): string
     {
         return static::paraUsuario($usuario)?->phone_number_id
-            ?? WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)->firstOrFail()->phone_number_id;
+            ?? WhatsappAccount::where('cod_empresa', $usuario?->empresa?->id)
+                ->where('estado', WhatsappAccount::CONECTADO)
+                ->firstOrFail()->phone_number_id;
     }
 }

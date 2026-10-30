@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\WhatsAppOnboardingController;
 use App\Http\Controllers\Apis\Mobile\AuthController;
 use App\Http\Controllers\Apis\Mobile\ChatController;
 use App\Http\Controllers\Apis\Mobile\DeviceController;
+use App\Http\Controllers\Apis\Mobile\NotificacionesMovilController;
 use App\Http\Controllers\Apis\Mobile\PerfilMovilController;
 use App\Http\Controllers\Apis\Mobile\PerfilWhatsappMovilController;
 use App\Http\Controllers\ChatbotController;
@@ -78,6 +79,10 @@ Route::prefix('mobile')->group(function () {
         Route::get('whatsapp-profile', [PerfilWhatsappMovilController::class, 'mostrar']);
         Route::put('whatsapp-profile', [PerfilWhatsappMovilController::class, 'actualizar']);
         Route::post('whatsapp-profile/photo', [PerfilWhatsappMovilController::class, 'foto']);
+
+        Route::get('notifications', [NotificacionesMovilController::class, 'index']);
+        Route::post('notifications/read-all', [NotificacionesMovilController::class, 'marcarTodas']);
+        Route::post('notifications/{id}/read', [NotificacionesMovilController::class, 'marcar']);
     });
 });
 

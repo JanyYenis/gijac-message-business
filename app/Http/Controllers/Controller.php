@@ -54,6 +54,7 @@ class Controller extends BaseController
                     $asignado = WhatsappNumber::paraUsuario(Auth::user());
                     if ($asignado) {
                         $this->phone_number_id = $asignado->phone_number_id;
+                        $this->waba_id = $asignado->waba_id;
                         $this->numeroG = $asignado->phone_number ?: $this->numeroG;
                         $this->numero_es_prueba = (bool) $asignado->es_prueba;
                     }

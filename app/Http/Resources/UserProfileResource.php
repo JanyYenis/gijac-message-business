@@ -60,7 +60,7 @@ class UserProfileResource extends JsonResource
                 return [
                     'id'     => $this->empresa?->uuid,
                     'nombre' => $this->empresa?->razon_social,
-                    'logo'   => $this->empresa?->foto ? $this->empresa->foto : null,
+                    'logo'   => $this->urlLogo($this->empresa?->foto),
                 ];
             }),
             'plan'          => $this->whenLoaded('plan', function () {
@@ -77,6 +77,20 @@ class UserProfileResource extends JsonResource
             'tiene_2fa'     => !empty($this->google2fa_secret),
             'verificado'    => !is_null($this->email_verified_at),
         ];
+    }
+
+    /** Logo de la empresa: URL completa, ruta pública (img/..., storage/...) o ruta del disco public */
+    private function urlLogo(?string $foto): ?string
+    {
+        if (! $foto) {
+            return null;
+        }
+        if (preg_match('#^https?://#i', $foto)) {
+            return $foto;
+        }
+        $foto = ltrim($foto, '/');
+
+        return asset(preg_match('#^(storage|img|images|assets)/#', $foto) ? $foto : 'storage/' . $foto);
     }
 
     /**

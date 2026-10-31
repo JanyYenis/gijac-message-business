@@ -83,6 +83,8 @@ Route::prefix('mobile')->group(function () {
         Route::get('notifications', [NotificacionesMovilController::class, 'index']);
         Route::post('notifications/read-all', [NotificacionesMovilController::class, 'marcarTodas']);
         Route::post('notifications/{id}/read', [NotificacionesMovilController::class, 'marcar']);
+
+        Route::get('summary', [\App\Http\Controllers\Apis\Mobile\ResumenMovilController::class, 'index']);
     });
 });
 

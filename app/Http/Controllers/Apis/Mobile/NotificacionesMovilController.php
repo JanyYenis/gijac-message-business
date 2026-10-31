@@ -32,6 +32,8 @@ class NotificacionesMovilController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
+                // id del canal de tiempo real notificacion.{id} (el mismo que usa la web)
+                'usuario_id' => $user->id,
                 'no_leidas' => $user->unreadNotifications()->count(),
                 'items' => $lista,
             ],

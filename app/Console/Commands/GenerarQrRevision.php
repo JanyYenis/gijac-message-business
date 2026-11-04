@@ -70,12 +70,12 @@ class GenerarQrRevision extends Command
 
         $ruta = storage_path('app/qr-revision-' . now()->format('Ymd-His') . '.png');
 
-        $resultado = (new Builder(
-            writer: new PngWriter(),
-            data: $url,
-            size: 700,
-            margin: 20,
-        ))->build();
+        $resultado = Builder::create()
+            ->writer(new PngWriter())
+            ->data($url)
+            ->size(700)
+            ->margin(20)
+            ->build();
         $resultado->saveToFile($ruta);
 
         $this->info('QR generado.');

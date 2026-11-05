@@ -158,6 +158,7 @@ class ChatController extends Controller
             'contacto' => [
                 'nombre' => $contacto->nombre . ' ' . $contacto->apellido,
                 'telefono' => $contacto->numero_completo,
+                'permiso_envio' => (bool) $contacto->permiso_envio,
             ]
         ]);
     }
@@ -174,6 +175,13 @@ class ChatController extends Controller
         $contacto = Contacto::where('numero_completo', $numeroCompleto)->first();
         if (!$contacto) {
             return response()->json(['success' => false, 'message' => __('Contacto no encontrado')], 404);
+        }
+
+        if (!$contacto->permiso_envio) {
+            return response()->json([
+                'success' => false,
+                'message' => __('Pasaron más de 24 horas desde el último mensaje del cliente. Solo puedes enviarle una plantilla.'),
+            ], 403);
         }
 
         // Otro agente puede estar atendiendo este chat
@@ -270,6 +278,13 @@ class ChatController extends Controller
         $contacto = Contacto::where('numero_completo', $numeroCompleto)->first();
         if (!$contacto) {
             return response()->json(['success' => false, 'message' => __('Contacto no encontrado')], 404);
+        }
+
+        if (!$contacto->permiso_envio) {
+            return response()->json([
+                'success' => false,
+                'message' => __('Pasaron más de 24 horas desde el último mensaje del cliente. Solo puedes enviarle una plantilla.'),
+            ], 403);
         }
 
         if ($bloqueo = ConversacionAgente::reclamar($contacto->id, $phoneNumberId, $user)) {

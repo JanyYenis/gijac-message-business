@@ -3,10 +3,12 @@
 use App\Http\Controllers\Admin\WhatsAppOnboardingController;
 use App\Http\Controllers\Apis\Mobile\AuthController;
 use App\Http\Controllers\Apis\Mobile\ChatController;
+use App\Http\Controllers\Apis\Mobile\ContactoMovilController;
 use App\Http\Controllers\Apis\Mobile\DeviceController;
 use App\Http\Controllers\Apis\Mobile\NotificacionesMovilController;
 use App\Http\Controllers\Apis\Mobile\PerfilMovilController;
 use App\Http\Controllers\Apis\Mobile\PerfilWhatsappMovilController;
+use App\Http\Controllers\Apis\Mobile\ResumenMovilController;
 use App\Http\Controllers\ChatbotController;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
@@ -84,7 +86,12 @@ Route::prefix('mobile')->group(function () {
         Route::post('notifications/read-all', [NotificacionesMovilController::class, 'marcarTodas']);
         Route::post('notifications/{id}/read', [NotificacionesMovilController::class, 'marcar']);
 
-        Route::get('summary', [\App\Http\Controllers\Apis\Mobile\ResumenMovilController::class, 'index']);
+        Route::get('summary', [ResumenMovilController::class, 'index']);
+
+        Route::get('chats/{numero}/detalle', [ContactoMovilController::class, 'detalle']);
+        Route::put('chats/{numero}/automatizacion', [ContactoMovilController::class, 'automatizacion']);
+        Route::get('chats/{numero}/multimedia', [ContactoMovilController::class, 'multimedia']);
+        Route::get('chats/{numero}/buscar', [ContactoMovilController::class, 'buscar']);
     });
 });
 

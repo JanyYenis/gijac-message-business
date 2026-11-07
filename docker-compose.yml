@@ -1,68 +1,68 @@
+# Uso:  docker compose up -d --build
+# Base de datos: NO va en Docker (XAMPP en tu PC / MySQL del VPS) -> DB_HOST=host.docker.internal
+# Compose lee automáticamente el .env de esta carpeta (REDIS_PASSWORD, NGINX_PORT, WS_PORT).
+
+x-php: &php
+  build: .
+  image: gijac-message-business:dev
+  working_dir: /var/www/gijac-message-business
+  environment:
+    COMPOSER_CACHE_DIR: /composer-cache
+  volumes:
+    - ./:/var/www/gijac-message-business
+    # vendor y la caché de composer viven en el disco de Docker (Linux): mucho más rápido que la carpeta de Windows
+    - vendor_data:/var/www/gijac-message-business/vendor
+    - composer_cache:/composer-cache
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  depends_on:
+    - redis
+  restart: unless-stopped
+
 services:
   app:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    container_name: laravel-app
-    restart: unless-stopped
-    ports:
-      - "8000:8000"
-    volumes:
-      - .:/var/www/html          # tu proyecto Laravel
-    env_file:
-      - .env              # variables para este contenedor
-    depends_on:
-      - mysql
+    <<: *php
+    container_name: gijac_app
 
-  mysql:
-    image: mysql:8.0
-    container_name: laravel-mysql
-    restart: unless-stopped
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: gijac_nginx
     ports:
-      - "3306:3306"
-    env_file:
-      - .env              # reutiliza las mismas variables
-    environment:                # ← **mapping, no lista**
-      MYSQL_DATABASE:  ${DB_DATABASE}
-      MYSQL_USER:      ${DB_USERNAME}
-      MYSQL_PASSWORD:  ${DB_PASSWORD}
-      MYSQL_ROOT_PASSWORD: password_gijac
+      - "127.0.0.1:${NGINX_PORT:-8000}:80"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./:/var/www/gijac-message-business:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+      - websocket
+    restart: unless-stopped
 
   websocket:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    container_name: websocket-server
-    command: php artisan websocket:serve
-    depends_on:
-      - app
-    env_file:
-      - .env
-
-  scheduler:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    container_name: scheduler
-    command: |
-      sh -c "while true; do php artisan schedule:run --no-interaction >> /dev/null 2>&1; sleep 60; done"
-    depends_on:
-      - app
-    env_file:
-      - .env
+    <<: *php
+    container_name: gijac_websocket
+    command: php artisan websockets:serve --host=0.0.0.0 --port=6001
+    ports:
+      - "127.0.0.1:${WS_PORT:-6001}:6001"
 
   queue:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    container_name: queue-worker
-    command: php artisan queue:work --tries=3
-    depends_on:
-      - app
-    env_file:
-      - .env
+    <<: *php
+    container_name: gijac_queue
+    command: php artisan queue:work redis --sleep=3 --tries=3 --timeout=120 --max-time=3600
+
+  scheduler:
+    <<: *php
+    container_name: gijac_scheduler
+    command: php artisan schedule:work
+
+  redis:
+    image: redis:7-alpine
+    container_name: gijac_redis
+    command: ["redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-}"]
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
 
 volumes:
-  mysql_data:
+  redis_data:
+  vendor_data:
+  composer_cache:

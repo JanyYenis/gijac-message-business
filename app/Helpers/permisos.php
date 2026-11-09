@@ -99,21 +99,29 @@ if (!function_exists("roleAny")) {
 
 if (!function_exists("servicioPlan")) {
     /**
-     * Valida que el usuario tenga al menos UNO de los roles dados.
-     * @return array - Arreglo con los roles.
+     * Verifica si la empresa del usuario tiene habilitado un servicio
+     * dentro de su plan vigente.
+     *
+     * @param string $servicio
+     * @return bool
      */
     function servicioPlan($servicio)
     {
-        $tiene = false;
-        if (auth()->user()?->empresa) {
-            $empresa = auth()->user()?->empresa;
-            if ($empresa?->facturaVigente) {
-                $factura = $empresa?->facturaVigente ?? null;
-                $plan = Plan::find($factura->cod_plan);
-                $tiene = $plan->tieneServicio($servicio);
-            }
+        $empresa = auth()->user()?->empresa;
+
+        if (!$empresa) {
+            return false;
         }
-        return $tiene;
+
+        $factura = $empresa->facturaVigente;
+
+        if (!$factura) {
+            return false;
+        }
+
+        $plan = Plan::find($factura->cod_plan);
+
+        return $plan?->tieneServicio($servicio) ?? false;
     }
 }
 

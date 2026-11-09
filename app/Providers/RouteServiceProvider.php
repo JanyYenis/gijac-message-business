@@ -123,12 +123,13 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::prefix('chatbots')
                 ->as("chatbots.")
-                ->middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])
+                ->middleware(['web', 'auth', '2fa', 'verified', 'verify.company',
+                    'servicio.plan:chatbots.ia,chatbots.avanzados,chatbot.n8n'])
                 ->group(base_path('routes/web/chatbots/principal.php'));
 
             Route::prefix('clasificacion-ia')
                 ->as("clasificacion-ia.")
-                ->middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])
+                ->middleware(['web', 'auth', '2fa', 'verified', 'verify.company', 'servicio.plan:clasificacion.ia'])
                 ->group(base_path('routes/web/clasificacion-ia/principal.php'));
 
             Route::prefix('negocios')

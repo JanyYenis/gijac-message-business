@@ -49,7 +49,7 @@
                     <!--end::Desc-->
 
                     <!--begin::Link-->
-                    <a href="#" class="link-primary">{{ __('Política de Soporte') }}</a>
+                    <a href="{{ route('politica-soporte-tecnico') }}" class="link-primary">{{ __('Política de Soporte') }}</a>
                     <!--end::Link-->
                 </div>
                 <!--end::Section-->

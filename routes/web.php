@@ -12,7 +12,7 @@ use App\Http\Controllers\PerfilWhatsappController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PreguntasController;
 use App\Http\Controllers\PruebaController;
-use App\Http\Controllers\Sistema\PoliticaPrivacidadController;
+use App\Http\Controllers\Sistema\PoliticaController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\VideotutorialesController;
 use App\Http\Controllers\WompiController;
@@ -173,9 +173,12 @@ Route::get('/pricing', [PlanController::class, 'show'])->name('show');
 include 'web/articulos/principal.php';
 
 // Politicas de privacidad
-Route::get('politicas-de-privacidad', [PoliticaPrivacidadController::class, 'index'])->name('politicas-privacidad');
+Route::get('politicas-de-privacidad', [PoliticaController::class, 'politicasPrivacidad'])->name('politicas-privacidad');
 
-// Politicas de privacidad
+// Politicas de soporte técnico
+Route::get('politica-soporte-tecnico', [PoliticaController::class, 'politicaSoporteTecnico'])->name('politica-soporte-tecnico');
+
+// Terminos y condiciones
 Route::get('terminos-y-condiciones', function() {
     return view('sistema.terminos-condiciones.index');
 })->name('terminos-condiciones');

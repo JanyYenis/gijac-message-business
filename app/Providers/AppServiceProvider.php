@@ -52,8 +52,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Compartir variable con todas las vistas
         view()->composer('layouts.componentes.toolbar', function ($view) {
-            $configs = WhatsappAccount::where('cod_empresa', auth()->user()->empresa->id)
-                ->get();
+            $configs = null;
+            if (auth()->user()?->empresa) {
+                $configs = WhatsappAccount::where('cod_empresa', auth()->user()?->empresa?->id)
+                    ->get();
+            }
             $view->with('configs', $configs);
         });
     }

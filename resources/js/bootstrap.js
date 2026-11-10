@@ -23,7 +23,7 @@ window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: '2C77uk6Ujmqyc11uuAbx',
+    key: process.env.MIX_PUSHER_APP_KEY || '2C77uk6Ujmqyc11uuAbx',
     cluster: 'mt1',
     wsHost: window.location.hostname,
     wsPort: window.location.protocol === 'https:' ? 443 : 6001,

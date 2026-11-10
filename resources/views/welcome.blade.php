@@ -1046,14 +1046,14 @@
                     <div class="download-card glass reveal" data-reveal="up">
                         <span class="download-label">{{ __('Descarga la app') }}</span>
                         <div class="store-row">
-                            <a href="#" class="store-btn magnetic" aria-label="Descargar en App Store">
+                            {{-- <a href="#" class="store-btn magnetic" aria-label="Descargar en App Store">
                                 <i class="bi bi-apple"></i>
                                 <span>
                                     <small>{{ __('Descárgalo en') }}</small>
                                     <strong>{{ __('App Store') }}</strong>
                                 </span>
-                            </a>
-                            <a href="#" class="store-btn magnetic" aria-label="Disponible en Google Play">
+                            </a> --}}
+                            <a href="https://play.google.com/store/apps/details?id=gijac.message.business" class="store-btn magnetic" aria-label="Disponible en Google Play">
                                 <i class="bi bi-google-play"></i>
                                 <span>
                                     <small>{{ __('Disponible en') }}</small>

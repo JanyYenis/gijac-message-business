@@ -1,0 +1,17 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "gijac.message.business",
+      "sha256_cert_fingerprints": [
+        "FC:C2:C6:40:84:1C:B6:FA:41:88:27:C2:14:66:71:C2:8E:54:B7:92:6D:6A:17:C1:A8:51:C5:5F:B6:4C:2B:BA",
+        "57:65:2A:CB:9D:12:21:82:60:70:B2:BE:96:2A:C6:39:EC:A1:7B:05:27:E9:9D:B5:58:6E:13:8C:4D:F3:5A:16",
+        "97:72:AC:A3:32:24:F9:1E:FB:1A:27:C1:4B:E5:CC:B1:13:26:75:B8:A7:18:40:A9:1A:DE:2E:46:7C:C7:04:D9"
+      ]
+    }
+  }
+]

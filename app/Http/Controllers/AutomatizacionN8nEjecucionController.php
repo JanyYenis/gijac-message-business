@@ -11,6 +11,11 @@ class AutomatizacionN8nEjecucionController extends Controller
 {
     public function listado(Request $request, string $automatizacion = '')
     {
+        if (!$automatizacion) {
+            return DataTables::of([])
+                ->make(true);
+        }
+
         $versiones = AutomatizacionN8nEjecucion::where('cod_automatizacion', $automatizacion)
             ->orderByDesc('fecha_ejecucion');
 

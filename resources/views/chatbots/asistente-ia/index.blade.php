@@ -310,63 +310,6 @@
                         @endforeach
                     </div>
                 </div>
-
-                <!-- HORARIO -->
-                <div class="panel">
-                    <div class="mb-2">
-                        <p class="section-title fs-1">
-                            <i class="bi bi-clock-history text-primary fs-1"></i>
-                            {{ __('Horario') }}
-                        </p>
-                    </div>
-                    <div class="form-check form-switch mb-3">
-                        <input class="form-check-input" type="checkbox" id="scheduleSwitch" checked>
-                        <label class="form-check-label fw-semibold" for="scheduleSwitch">{{ __('Respetar horario laboral') }}</label>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col-6">
-                            <label class="form-label fs-6">{{ __('Hora inicio') }}</label>
-                            <input type="time" class="form-control" name="hora_inicio" value="{{ $asistente?->hora_inicio ? \Carbon\Carbon::parse($asistente?->hora_inicio)->format('H:i') : '08:00' }}">
-                        </div>
-                        <div class="col-6">
-                            <label class="form-label fs-6">{{ __('Hora fin') }}</label>
-                            <input type="time" class="form-control" name="hora_fin" value="{{ $asistente?->hora_fin ? \Carbon\Carbon::parse($asistente?->hora_fin)->format('H:i') : '18:00' }}">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- PALABRAS CLAVE -->
-                <div class="panel">
-                    <div class="mb-2">
-                        <p class="section-title fs-1">
-                            <i class="bi bi-key text-primary fs-1"></i>
-                            {{ __('Palabras Clave') }}
-                        </p>
-                        <p class="section-subtitle fs-3">{{ __('Si aparecen, la conversación se transfiere a un agente humano.') }}</p>
-                    </div>
-                    <textarea class="form-control" rows="4" placeholder="{{ __('cotización, precio, asesor, factura, soporte') }}"
-                        name="palabras_clave" id="palabrasClave">{{ $asistente?->palabras_clave ? implode(', ', $asistente?->palabras_clave) : __('cotización, precio, asesor, factura, soporte') }}</textarea>
-                </div>
-
-                <!-- MENSAJES ESPECIALES -->
-                <div class="panel">
-                    <div class="mb-2">
-                        <p class="section-title fs-1">
-                            <i class="bi bi-envelope-paper text-primary fs-1"></i>
-                            {{ __('Mensajes Especiales') }}
-                        </p>
-                    </div>
-                    <label class="form-label fs-6">{{ __('Mensaje de bienvenida') }}</label>
-                    <textarea class="form-control mb-3" rows="2" name="mensaje_bienvenida" id="mensajeBienvenida"
-                        >{{ $asistente?->mensaje_bienvenida ?? __('¡Hola! Soy Gibot, tu asistente de GIJAC WEB. ¿En qué puedo ayudarte hoy?') }}</textarea>
-                    <label class="form-label fs-6">{{ __('Mensaje fuera de horario') }}</label>
-                    <textarea class="form-control mb-3" rows="2" name="mensaje_fuera_horario"
-                        >{{ $asistente?->mensaje_fuera_horario ?? __('Gracias por escribirnos. Nuestro horario es de 8:00 a 18:00. Te responderemos pronto.') }}</textarea>
-                    <label class="form-label fs-6">{{ __('Mensaje de transferencia') }}</label>
-                    <textarea class="form-control" rows="2" name="mensaje_transferencia"
-                        >{{ $asistente?->mensaje_transferencia ?? __('Un momento por favor, te estoy conectando con un asesor humano.') }}</textarea>
-                </div>
-
             </div>
         </div>
     </form>

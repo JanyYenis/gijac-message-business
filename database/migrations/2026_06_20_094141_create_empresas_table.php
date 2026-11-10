@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('tiktok')->nullable();
             $table->string('linkendin')->nullable();
             $table->string('web')->nullable();
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->uuid('cod_usuario');
             $table->string('foto')->nullable();
             $table->integer('estado')->default(1);

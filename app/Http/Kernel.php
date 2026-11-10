@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         'validate_api_key' => \App\Http\Middleware\ValidateApiKey::class,
+        'servicio.plan' => \App\Http\Middleware\VerificarServicioPlan::class,
     ];
 }

@@ -11,6 +11,7 @@ use App\Models\DetalleErrorMensaje;
 use App\Models\DetalleLink;
 use App\Models\VariableCampana;
 use App\Models\Etiqueta;
+use App\Models\EtiquetaContacto;
 use App\Models\Campana;
 use App\Models\Contacto;
 use App\Models\EnvioCampana;
@@ -435,7 +436,10 @@ class CampanaController extends Controller
             numero_completo AS numero_completo_select,
             GROUP_CONCAT(e.nombre SEPARATOR ',') as etiquetas_texto
             ")
-            ->leftJoin('etiquetas_contactos as ec', 'ec.cod_contacto', '=', 'contactos.id')
+            ->leftJoin('etiquetas_contactos as ec', function ($join) {
+                $join->on('ec.cod_contacto', '=', 'contactos.id')
+                    ->where('ec.estado', EtiquetaContacto::ACTIVO);
+            })
             ->leftJoin('etiquetas as e', 'ec.cod_etiqueta', '=', 'e.id')
             ->groupBy('contactos.id', 'contactos.nombre', 'contactos.apellido', 'contactos.numero_completo')
             ->where(function($query) use($etiquetas){

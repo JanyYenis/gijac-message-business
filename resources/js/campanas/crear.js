@@ -13,6 +13,8 @@ var nombres_variables = [];
 
 var validar_carga = 0;
 
+let tablaContactosEnviar = null;
+
 $(function () {
     generalidades.validarFormulario(formCrearCampana, enviarDatos);
 });
@@ -328,13 +330,13 @@ $(document).on('click', '#checkUsarRecurso', function () {
 
 $(document).on('change', '#selectEtiqueta', function () {
     window.contactosSeleccionados = [];
-    listadoContactosEnviar();
     $('.checkSeleccionarTodos').prop("checked", false);
     if ($('#selectEtiqueta').val()?.length) {
         $('.seccionContactos').removeClass('d-none');
     } else {
         $('.seccionContactos').addClass('d-none');
     }
+    listadoContactosEnviar();
 });
 
 const enviarDatos = (form) => {
@@ -420,11 +422,11 @@ const enviarDatos = (form) => {
  */
 const listadoContactosEnviar = () => {
     if ($.fn.DataTable.isDataTable(tablaContactos)) {
-        $(tablaContactos).DataTable().destroy();
-        $(tablaContactos).empty();
+        tablaContactosEnviar.ajax.reload();
+        return;
     }
 
-    var table = $("#tablaContactos").DataTable({
+    tablaContactosEnviar = $("#tablaContactos").DataTable({
         paging: true,
         responsive: true,
         serverSide: false,

@@ -434,7 +434,7 @@ function animateValue(id, start, end, duration) {
 }
 
 $(document).on('click', '#btnLimpiar', function () {
-    var start = moment().subtract(29, "days");
+    var start = moment().startOf("year");
     var end = moment();
     generalidades.resetValidate(fromFiltros);
     $('#selectEtiquetas').val(null).trigger('change');

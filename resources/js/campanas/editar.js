@@ -4,7 +4,7 @@ const rutaEditar = "campanas.edit";
 const seccionEditar = ".seccionEditar";
 const formEditarCampana = '#formEditarCampana';
 const modalEditarCampana = '#modalEditarCampana';
-const tablaContactos = '#tablaContactosEditar';
+const tablaContactosEditar = '#tablaContactosEditar';
 var contenidoCampanaOriginal = '';
 window.contactosSeleccionados_editar = [];
 var datos = {1: __('Nombre')};
@@ -15,6 +15,8 @@ var tipo_variables = null;
 var nombres_variables = [];
 
 var validar_carga = 0;
+
+let tablaContactosEnviar = null;
 
 $(function () {
     generalidades.validarFormulario(formEditarCampana, enviarDatos);
@@ -528,7 +530,12 @@ const enviarDatos = (form) => {
  * Función que permite cargar el listado.
  */
 const listadoContactosEnviar = () => {
-    var table = $("#tablaContactosEditar").DataTable({
+    if ($.fn.DataTable.isDataTable(tablaContactosEditar)) {
+        tablaContactosEnviar.ajax.reload();
+        return;
+    }
+
+    tablaContactosEnviar = $("#tablaContactosEditar").DataTable({
         paging: true,
         responsive: true,
         serverSide: false,
@@ -545,11 +552,11 @@ const listadoContactosEnviar = () => {
             },
             data: function (data) {
                 data.etiquetas = $('#selectEtiquetaEditar').val();
-                generalidades.mostrarCargando(tablaContactos);
+                generalidades.mostrarCargando(tablaContactosEditar);
                 data = Object.assign(data);
             },
             dataSrc: function (json) {
-                generalidades.ocultarCargando(tablaContactos);
+                generalidades.ocultarCargando(tablaContactosEditar);
                 return json.data
             },
         },

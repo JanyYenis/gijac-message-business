@@ -144,12 +144,12 @@ class HomeController extends Controller
             ->count();
         $cantidad_contactos = Contacto::where('cod_empresa', $this->uuid)
             ->whereNot('estado', Contacto::ELIMINADO)
-            ->orWhereHas('etiquetasActivas', function($query) use($request) {
-                if ($request->input('etiquetas')) {
-                    $query->whereIn('cod_etiqueta', $request->input('etiquetas'));
-                }
-            })
             ->where(function($query) use($request){
+                if ($request->input('etiquetas')) {
+                    $query->whereHas('etiquetasActivas', function($q) use($request) {
+                        $q->whereIn('cod_etiqueta', $request->input('etiquetas'));
+                    });
+                }
                 if ($request->input('contactos')) {
                     $query->whereIn('id', $request->input('contactos'));
                 }

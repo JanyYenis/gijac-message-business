@@ -30,47 +30,73 @@ window.iniciarEmoji = () => {
     const emojiPicker = $('#emoji-picker');
     const input = $('#message-box');
 
-    // Alternar visibilidad del picker
-    emojiBtn.on('click', function(e) {
-        e.stopPropagation();
-        const offset = emojiBtn.offset();
+    if (!emojiBtn.length || !emojiPicker.length || !input.length) return;
 
-        // Calcular la altura del picker para colocarlo arriba
-        const pickerHeight = emojiPicker.outerHeight() || 350; // altura estimada
+    // Evitar duplicar el evento del botón
+    emojiBtn.off('click.emoji').on('click.emoji', function (e) {
+        e.stopPropagation();
+
+        const offset = emojiBtn.offset();
+        const pickerHeight = emojiPicker.outerHeight() || 350;
+
         emojiPicker.css({
             display: emojiPicker.is(':visible') ? 'none' : 'block',
-            top: offset.top - pickerHeight - 5, // 👈 lo coloca arriba del botón
+            top: offset.top - pickerHeight - 5,
             left: offset.left
         });
     });
 
-    // Cerrar picker si se hace clic fuera
-    $(document).on('click', function(e) {
-        if (!emojiPicker.is(e.target) && emojiPicker.has(e.target).length === 0 && !emojiBtn.is(e.target)) {
+    // Evitar duplicar el evento de cierre
+    $(document).off('click.emoji').on('click.emoji', function (e) {
+        if (
+            !emojiPicker.is(e.target) &&
+            emojiPicker.has(e.target).length === 0 &&
+            !emojiBtn.is(e.target) &&
+            emojiBtn.has(e.target).length === 0
+        ) {
             emojiPicker.hide();
         }
     });
 
-    // Insertar emoji en el input
-    document.querySelector('#emoji-picker').addEventListener('emoji-click', event => {
+    // Evitar duplicar el evento emoji-click
+    const pickerElement = emojiPicker[0];
+
+    if (pickerElement._emojiClickHandler) {
+        pickerElement.removeEventListener(
+            'emoji-click',
+            pickerElement._emojiClickHandler
+        );
+    }
+
+    pickerElement._emojiClickHandler = function (event) {
         const emoji = event.detail.unicode;
         const inputElem = input[0];
 
-        // Insertar en la posición del cursor o al final
-        const start = inputElem.selectionStart;
-        const end = inputElem.selectionEnd;
-        const text = inputElem.value;
-        inputElem.value = text.slice(0, start) + emoji + text.slice(end);
+        const start = inputElem.selectionStart ?? inputElem.value.length;
+        const end = inputElem.selectionEnd ?? inputElem.value.length;
 
-        // Mover el cursor al final del emoji insertado
+        const text = inputElem.value;
+
+        inputElem.value =
+            text.slice(0, start) +
+            emoji +
+            text.slice(end);
+
+        // Posicionar cursor después del emoji
         const newPos = start + emoji.length;
+
         inputElem.setSelectionRange(newPos, newPos);
         inputElem.focus();
 
-        // Ocultar el picker
+        // Ocultar selector
         emojiPicker.hide();
-    });
-}
+    };
+
+    pickerElement.addEventListener(
+        'emoji-click',
+        pickerElement._emojiClickHandler
+    );
+};
 
 /* image empty error replace with emoji */
 document.addEventListener("DOMContentLoaded", function (event) {
@@ -527,6 +553,19 @@ const actualizarDatosContacto = (checkbox, campo, id) => {
 
 $(document).on('click', '#btnCloseInfo', function() {
     $('#infoColumn').addClass('d-none');
+});
+
+$(document).on('keydown', '#message-box', function (e) {
+    if (e.key === 'Enter') {
+        // Shift + Enter: permitir salto de línea
+        if (e.shiftKey) {
+            return;
+        }
+
+        // Enter solo: enviar formulario
+        e.preventDefault();
+        $(formMensaje).trigger('submit');
+    }
 });
 
 require('./audio');

@@ -129,7 +129,7 @@
                 <div class="audio-player sent mb-1" data-audio-id="{{ $mensaje['wa_message_id'] }}">
                     @if ($mensaje['estado'] == \App\Models\Mensaje::FALLIDO)
                         {{-- BOTÓN DE OPCIONES --}}
-                        <button type="button" style="position: relative; left: 20rem; top: -19px;"
+                        <button type="button" style="position: relative; left: 90%; top: -19px;"
                             data-kt-menu-trigger="click" data-kt-menu-placement="bottom-start" data-kt-menu-offset="-80px, 10px">
                             <i class="las la-angle-down"></i>
                         </button>

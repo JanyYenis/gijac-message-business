@@ -519,6 +519,13 @@ class MensajeController extends Controller
                 }
             ])
             ->where('contactos.estado', Contacto::ACTIVO)
+            ->where(function ($query) use($request) {
+                if ($request->input('valor')) {
+                    $valor = $request->input('valor');
+                    $query->whereRaw("contactos.numero_completo LIKE ?", ["%{$valor}%"])
+                        ->orWhereRaw("CONCAT(contactos.nombre, ' ', contactos.apellido) LIKE ?", ["%{$valor}%"]);
+                }
+            })
             ->orderByDesc('conversaciones.ultima_fecha')
             ->select('contactos.*')
             ->get();

@@ -89,5 +89,6 @@
     "/css/recursos.css": "/css/recursos.css",
     "/css/plantillas.css": "/css/plantillas.css",
     "/css/catalogo.css": "/css/catalogo.css",
-    "/css/calendario.css": "/css/calendario.css"
+    "/css/calendario.css": "/css/calendario.css",
+    "/css/config.css": "/css/config.css"
 }

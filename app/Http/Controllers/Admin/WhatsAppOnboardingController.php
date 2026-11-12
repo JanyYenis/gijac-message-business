@@ -280,7 +280,7 @@ class WhatsAppOnboardingController extends Controller
         $token   = Crypt::decrypt($account->access_token);
 
         $pin = $account->two_factor_pin ? Crypt::decrypt($account->two_factor_pin) : null;
-        if (! $pin) {
+        if (!$pin) {
             return response()->json(['success' => false, 'message' => 'No hay PIN guardado.'], 422);
         }
 

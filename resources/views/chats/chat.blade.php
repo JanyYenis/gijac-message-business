@@ -81,7 +81,7 @@
                     <!--end::Menu item-->
                 </div>
                 <!--end::Menu-->
-                <input type="text" id="message-box" class="seccion-texto" placeholder="{{ __('Escribe un mensaje...') }}">
+                <textarea id="message-box" class="seccion-texto" placeholder="{{ __('Escribe un mensaje...') }}" rows="1"></textarea>
                 <div class="recording-indicator text-center seccion-audio d-none">
                     <div class="recording-dot"></div>
                     <span class="recording-time">0:00</span>

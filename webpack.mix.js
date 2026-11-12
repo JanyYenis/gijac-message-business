@@ -201,3 +201,8 @@ mix.styles(
     "resources/css/calendario.css",
     "public/css/calendario.css"
 );
+
+mix.styles(
+    "resources/css/config.css",
+    "public/css/config.css"
+);

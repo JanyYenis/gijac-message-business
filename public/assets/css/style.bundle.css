@@ -176,6 +176,8 @@
 
     --transition: all .3s ease;
     --radius: .75rem;
+
+    --grad: linear-gradient(135deg, #145962, #1E6F78, #2C8F99);
 }
 
 [data-bs-theme=dark] {

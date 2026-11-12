@@ -4,6 +4,8 @@ use Illuminate\Support\Str;
 
 return [
 
+    'timezone' => '-05:00',
+
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name

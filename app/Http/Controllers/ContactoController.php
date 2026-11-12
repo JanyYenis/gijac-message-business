@@ -117,8 +117,6 @@ class ContactoController extends Controller
         // Cargar el archivo Excel o CSV
         $data = Excel::toArray([], $file[0]);
 
-        // dd(count($data[0]) - 1);
-
         $cantidadRegistros = count($data[0]) - 1;
         $tienePlan = auth()->user()?->empresa?->facturaVigente?->cod_plan ?? null;
         $esDemo = auth()->user()?->demo ?? null;
@@ -151,14 +149,21 @@ class ContactoController extends Controller
                         $cantidadCodigo = strlen($row[4]);
                         $telefono = (string) $row[3];
                         $telefono = preg_replace('/\s+/', '', $telefono);
+                        $numero_completo = $telefono;
                         if ((int) substr($telefono, 0, $cantidadCodigo) != $row[4]) {
                             $telefono = $telefono; // Agrega $row[4] al principio
+                        }
+                        // Verificar si el teléfono ya tiene el código de país
+                        if (!str_starts_with($numero_completo, $cantidadCodigo)) {
+                            $numero_completo = $cantidadCodigo . $numero_completo;
                         }
                         $contacto = Contacto::updateOrCreate([
                             'codigo_telefono' => $row[4] ?? null,
                             'telefono' => $telefono,
-                            'uuid' => auth()->user()->uuid,
+                            'cod_empresa' => auth()->user()->empresa?->id,
                         ],[
+                            'numero_completo' => $numero_completo,
+                            'uuid' => auth()->user()->uuid,
                             'nombre' => $row[0] ?? null,
                             'apellido' => $row[1] ?? null,
                             'estado' => Contacto::ACTIVO,
@@ -209,7 +214,7 @@ class ContactoController extends Controller
 
         return [
             'estado' => !count($datosError) ? 'success' : 'info',
-            'titulo' => !count($datosError) ? __('¡Error!') : __('Importante'),
+            'titulo' => !count($datosError) ? __('¡Exito!') : __('Importante'),
             'mensaje' => !count($datosError) ? __('Se cargo el archivo correctamente') : __("Por favor revise el archivo, recuerde que el numero de telefono, el codigo del pais y el nombre o abreviacion del pais son indispensables"),
         ];
     }

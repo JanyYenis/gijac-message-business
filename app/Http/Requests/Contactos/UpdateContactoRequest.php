@@ -3,7 +3,9 @@
 namespace App\Http\Requests\Contactos;
 
 use App\Classes\FormRequest\FormRequest;
+use App\Models\Contacto;
 use App\Rules\CantidadContacto;
+use Illuminate\Validation\Rule;
 
 class UpdateContactoRequest extends FormRequest
 {
@@ -33,6 +35,16 @@ class UpdateContactoRequest extends FormRequest
      */
     public function rules(): array
     {
+        if ($this->has('estado')) {
+            return [
+                'estado' => [
+                    'numeric',
+                    'required',
+                    Rule::in([Contacto::ACTIVO, Contacto::INACTIVO, Contacto::ELIMINADO]),
+                ],
+            ];
+        }
+
         return [
             'nombre' => [
                 'string',

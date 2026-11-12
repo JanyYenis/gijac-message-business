@@ -95,8 +95,11 @@ class ContactoController extends Controller
             throw new ErrorException(__("El contacto no tiene un ID asignado."));
         }
 
-        if (count($request->input('etiquetas'))) {
-            foreach ($request->input('etiquetas') as $key => $value) {
+        if ($request->input('etiquetas') && count($request->input('etiquetas'))) {
+            $etiquetas = array_filter(explode(',', $request->input('etiquetas')), function ($valor) {
+                return $valor !== null && $valor !== '';
+            });
+            foreach ($etiquetas as $key => $value) {
                 EtiquetaContacto::create([
                     "cod_contacto" => $contacto->id,
                     "cod_etiqueta" => $value,

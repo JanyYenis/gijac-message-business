@@ -49,6 +49,16 @@ class CantidadContacto implements ValidationRule
             }
         }
 
+        $validad_contacto = Contacto::where('telefono', $value)
+            ->where('cod_empresa', $empresa->id)
+            ->where('id', '!=', $this->contactoId)
+            ->where('estado', '!=', Contacto::ELIMINADO)
+            ->first();
+
+        if ($validad_contacto) {
+            $fail(__('El número de teléfono ya está registrado para otro contacto.'));
+        }
+
         $cantidadContactosActivos = Contacto::where('estado', Contacto::ACTIVO)
             ->where('cod_empresa', $empresa->id)
             ->count();

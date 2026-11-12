@@ -293,7 +293,7 @@ class ChatController extends Controller
 
         $archivo = $request->file('archivo');
         $mime = $this->mimeNormalizado($archivo);
-        $caption = trim((string) $request->input('caption', '')) ?: null;
+        $caption = trim((string) $request->input('caption', '')) ?: '';
         $ext = strtolower($archivo->getClientOriginalExtension() ?: $archivo->guessExtension() ?: 'bin');
 
         $clase = $this->claseDeArchivo($mime);

@@ -175,6 +175,7 @@ class MensajeController extends Controller
         $limit = $request->input('limit', 50); // Valor predeterminado 50
 
         $filename = null;
+        $nombreOriginal = null;
 
         $contacto = Contacto::whereRaw("numero_completo = {$request->input('id')}")->first();
         if (!$contacto) {
@@ -381,14 +382,14 @@ class MensajeController extends Controller
             $response = $this->whatsapp_cloud_api->sendAudio($datos['wa_to'], $link_id);
         } elseif ($datos['type'] == Mensaje::IMAGEN) {
             $link_id = new LinkID(url(Storage::url($path)));
-            $response = $this->whatsapp_cloud_api->sendImage($datos['wa_to'], $link_id, $datos['body']);
+            $response = $this->whatsapp_cloud_api->sendImage($datos['wa_to'], $link_id, $datos['body'] ?? '');
         } elseif ($datos['type'] == Mensaje::VIDEO) {
             $link_id = new LinkID(url(Storage::url($path)));
-            $response = $this->whatsapp_cloud_api->sendVideo($datos['wa_to'], $link_id, $datos['body']);
+            $response = $this->whatsapp_cloud_api->sendVideo($datos['wa_to'], $link_id, $datos['body'] ?? '');
         } elseif ($datos['type'] == Mensaje::DOCUMENTO) {
             $document_link = url(Storage::url($path));
             $link_id = new LinkID($document_link);
-            $response = $this->whatsapp_cloud_api->sendDocument($datos['wa_to'], $link_id, $nombreOriginal, $datos['body']);
+            $response = $this->whatsapp_cloud_api->sendDocument($datos['wa_to'], $link_id, $nombreOriginal, $datos['body'] ?? '');
         } else { // TEXTO
             $response = $this->whatsapp_cloud_api->sendTextMessage($datos['wa_to'], $datos['body']);
         }

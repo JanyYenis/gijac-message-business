@@ -304,6 +304,7 @@ class MensajeController extends Controller
                 if ($archivo->getSize() > $maxSize) {
                     throw new ErrorException(__('El archivo excede el tamaño máximo permitido de 16MB.'));
                 }
+                $nombreOriginal = $nombreOriginal . '.mp4';
                 $path = $archivo->storeAs('chats/videos', $nombreOriginal, 'public');
                 $datos['metadata'] = (object) [
                     "from" => $this->phone_number_id,
@@ -319,7 +320,7 @@ class MensajeController extends Controller
                 ];
                 $datos['type'] = Mensaje::VIDEO;
             } else {
-                throw new ErrorException(__('Error al intentar cargar la imagen.'));
+                throw new ErrorException(__('Error al intentar cargar el archivo.'));
             }
 
             // if (!file_exists($datos['metadata'])) {

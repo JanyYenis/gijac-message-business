@@ -360,8 +360,8 @@ class SendWhatsAppMessage implements ShouldQueue
                     } elseif (isset($componente->example->body_text[0])) {
                         $variables = [];
                         foreach (($info['variables'] ?? []) as $index => $variable) {
-                            if ($contacto && property_exists($contacto, $variable)) {
-                                $variable = $contacto->$variable;
+                            if ($contacto && array_key_exists($variable, $contacto->getAttributes())) {
+                                $variable = $contacto->getAttribute($variable);
                             }
                             $variables[$index] = ['type' => 'text', 'text' => $variable];
                         }

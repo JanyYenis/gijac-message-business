@@ -447,6 +447,8 @@ class CampanaController extends Controller
                     $query->where('ec.cod_etiqueta', $etiquetas);
                 }
             })
+            ->where('contactos.estado', Contacto::ACTIVO)
+            ->where('contactos.cod_empresa', auth()->user()->empresa?->id)
             ->get()
             ->map(function($contacto) {
                 // Convertir el string separado por | a array
@@ -824,7 +826,7 @@ class CampanaController extends Controller
     {
         $error = DetalleErrorMensaje::where('wamid', $wamid)->first();
         $tr = new GoogleTranslate('es');
-        foreach ($error->toArray() as $key => $value) {
+        foreach ($error?->toArray() as $key => $value) {
             if ($key == 'title' || $key == 'message' || $key == 'details') {
                 $error->$key = $tr->translate($value);
             }

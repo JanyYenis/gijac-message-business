@@ -477,45 +477,52 @@ class WhatsAppOnboardingController extends Controller
             );
         }
 
-        /* WABA: salud de envío, método de pago y verificación del negocio */
-        $waba = $get("{$this->graph}/{$account->waba_id}", [
-            'fields' => 'health_status,primary_funding_id,business_verification_status',
-        ], $token);
+        /* WABA: cada campo en su propia llamada (si una falla, las otras siguen).
+           primary_funding_id NO se pide: Meta solo lo permite a Business Solution Providers (error 10). */
+        $salud   = $get("{$this->graph}/{$account->waba_id}", ['fields' => 'health_status'], $token);
+        $verWaba = $get("{$this->graph}/{$account->waba_id}", ['fields' => 'business_verification_status'], $token);
+        $waba = [
+            'health_status'                => $salud['health_status'] ?? null,
+            'business_verification_status' => $verWaba['business_verification_status'] ?? null, // null = no se pudo consultar
+        ];
 
-        if ($waba) {
-            $puede = $waba['health_status']['can_send_message'] ?? null;
-            if ($puede) {
-                $detalle = 'Meta permite enviar mensajes.';
-                if ($puede !== 'AVAILABLE') {
-                    $errores = [];
-                    foreach (($waba['health_status']['entities'] ?? []) as $e) {
-                        foreach (($e['errors'] ?? []) as $er) {
-                            $errores[] = trim(($er['error_description'] ?? '') . ' ' . ($er['possible_solution'] ?? ''));
-                        }
+        $puede   = $waba['health_status']['can_send_message'] ?? null;
+        $errPago = false;
+        foreach (($waba['health_status']['entities'] ?? []) as $e) {
+            foreach (($e['errors'] ?? []) as $er) {
+                if ((int) ($er['error_code'] ?? 0) === 141006) { $errPago = true; }
+            }
+        }
+
+        if ($puede) {
+            $detalle = 'Meta permite enviar mensajes.';
+            if ($puede !== 'AVAILABLE') {
+                $errores = [];
+                foreach (($waba['health_status']['entities'] ?? []) as $e) {
+                    foreach (($e['errors'] ?? []) as $er) {
+                        $errores[] = trim(($er['error_description'] ?? '') . ' ' . ($er['possible_solution'] ?? ''));
                     }
-                    $detalle = "Envío {$puede}. " . implode(' | ', array_slice($errores, 0, 2));
                 }
-                $item('salud', 'Meta permite enviar mensajes', $puede === 'AVAILABLE' ? 'ok' : ($puede === 'LIMITED' ? 'pendiente' : 'error'), $detalle);
+                $detalle = "Envío {$puede}. " . implode(' | ', array_slice($errores, 0, 2));
             }
+            $item('salud', 'Meta permite enviar mensajes', $puede === 'AVAILABLE' ? 'ok' : ($puede === 'LIMITED' ? 'pendiente' : 'error'), $detalle);
+        }
 
-            $pago = ! empty($waba['primary_funding_id']);
-            $hayProduccion = collect($numeros)->contains(fn ($n) => ! $n['es_prueba']);
-            if ($pago) {
-                $item('pago', 'Método de pago en Meta', 'ok', 'Método de pago configurado.', false);
-            } elseif (! $hayProduccion) {
-                $item('pago', 'Método de pago en Meta', 'ok', 'No lo necesitas mientras uses el número de prueba. Lo pedirá Meta al enviar con un número de producción.', false);
-            } else {
-                $item('pago', 'Método de pago en Meta', 'pendiente', 'Sin tarjeta, Meta no deja enviar con tu número de producción.', true);
-            }
+        $pago = $puede === 'AVAILABLE' && ! $errPago;
+        if ($errPago) {
+            $item('pago', 'Método de pago en Meta', 'error', 'Meta reporta un error con el método de pago (141006) y bloquea los envíos iniciados por tu negocio. Corrígelo en Meta.', true);
+        } elseif ($pago) {
+            $item('pago', 'Método de pago en Meta', 'ok', 'Meta no reporta problemas con el pago.', false);
+        } else {
+            $item('pago', 'Método de pago en Meta', 'pendiente', 'No se pudo confirmar el método de pago con Meta.', false);
+        }
 
-            $ver = $waba['business_verification_status'] ?? 'not_verified';
-            $item(
-                'verificacion',
-                'Negocio verificado en Meta',
-                $ver === 'verified' ? 'ok' : 'pendiente',
-                $ver === 'verified' ? 'Negocio verificado.' : 'Sin verificar: tu límite de envío es bajo. Verifica tu negocio en Meta Business Suite para ampliarlo.',
-                false
-            );
+        $ver = $waba['business_verification_status'];
+        if ($ver === null) {
+            $item('verificacion', 'Negocio verificado en Meta', 'pendiente', 'No se pudo consultar la verificación en este momento.', false);
+        } else {
+            $item('verificacion', 'Negocio verificado en Meta', $ver === 'verified' ? 'ok' : 'pendiente',
+                $ver === 'verified' ? 'Negocio verificado.' : 'Sin verificar: tu límite de envío es bajo. Verifica tu negocio en Meta Business Suite para ampliarlo.', false);
         }
 
         /* Marketing Messages API (marketing sale por esta API; recomendado, no bloquea) */
@@ -551,8 +558,8 @@ class WhatsAppOnboardingController extends Controller
         $resumen = [
             'numeros'      => $numeros,
             'cupo'         => ['usados' => count($numeros), 'maximo' => $maximo],
-            'verificacion' => $waba['business_verification_status'] ?? 'not_verified',
-            'con_pago'     => ! empty($waba['primary_funding_id']),
+            'verificacion' => $waba['business_verification_status'] ?? 'unknown',
+            'con_pago'     => $pago,
             'enlaces'      => [
                 'pago'         => "https://business.facebook.com/billing_hub/payment_settings?asset_id={$account->waba_id}&business_id={$biz}&placement=standalone",
                 'verificacion' => "https://business.facebook.com/settings/security?business_id={$biz}",
@@ -737,7 +744,7 @@ class WhatsAppOnboardingController extends Controller
             return response()->json(['success' => false, 'message' => 'Falta el PIN (o define WHATSAPP_DEFAULT_PIN en el .env).'], 422);
         }
 
-        if (! $prueba && ($n['code_verification_status'] ?? '') !== 'VERIFIED') {
+        if (! $prueba && ($n['status'] ?? '') !== 'CONNECTED' && ($n['code_verification_status'] ?? '') !== 'VERIFIED') {
             return response()->json(['success' => false, 'message' => 'Primero debes verificar el número con el código.'], 422);
         }
 
@@ -763,7 +770,7 @@ class WhatsAppOnboardingController extends Controller
         $n       = $this->numeroDeLaCuenta($account, $token, $phone);
 
         $prueba = $this->esNumeroPrueba($n);
-        if (! $prueba && (($n['code_verification_status'] ?? '') !== 'VERIFIED' || ($n['status'] ?? '') !== 'CONNECTED')) {
+        if (! $prueba && ($n['status'] ?? '') !== 'CONNECTED') {
             return response()->json(['success' => false, 'message' => 'El número aún no está conectado en Meta.'], 422);
         }
 

@@ -826,7 +826,7 @@ class CampanaController extends Controller
     {
         $error = DetalleErrorMensaje::where('wamid', $wamid)->first();
         $tr = new GoogleTranslate('es');
-        foreach ($error?->toArray() as $key => $value) {
+        foreach ($error->toArray() as $key => $value) {
             if ($key == 'title' || $key == 'message' || $key == 'details') {
                 $error->$key = $tr->translate($value);
             }

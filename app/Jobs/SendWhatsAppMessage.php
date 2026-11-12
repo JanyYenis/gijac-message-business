@@ -45,6 +45,8 @@ class SendWhatsAppMessage implements ShouldQueue
     // Sin límite de intentos: los reintentos por límite de velocidad de Meta se controlan con retryUntil().
     public $tries = 0;
 
+    public $maxExceptions = 2;
+
     // Códigos de Meta que son temporales (límite de velocidad / servicio): se reintenta en vez de marcar fallo.
     const CODIGOS_TEMPORALES = [4, 1, 2, 80004, 80007, 130429, 131000, 131016, 131056];
 
@@ -115,9 +117,18 @@ class SendWhatsAppMessage implements ShouldQueue
             $response = $this->enviarCampana($this->contacto, $this->plantilla, $this->info, $this->idCampana, $this->nombres_variables);
         } catch (\Throwable $e) {
             // Error de red/conexión: se reintenta
-            Log::warning('Error de conexión al enviar campaña', ['cod_campana' => $this->idCampana, 'error' => $e->getMessage()]);
-            $this->release(min(300, 15 * $this->attempts()));
-            return;
+            Log::error('Error inesperado al enviar campaña de WhatsApp', [
+                'cod_campana' => $this->idCampana,
+                'cod_contacto' => $this->contacto?->id,
+                'telefono' => $this->contacto?->numero_completo,
+                'intento' => $this->attempts(),
+                'error' => $e->getMessage(),
+                'archivo' => $e->getFile(),
+                'linea' => $e->getLine(),
+            ]);
+
+            // Dejamos que Laravel gestione el reintento.
+            throw $e;
         }
 
         if (!$response || $response->isError()) {
@@ -174,18 +185,11 @@ class SendWhatsAppMessage implements ShouldQueue
 
     protected function registrarFallo(array $info, $codigo, $titulo, $mensaje, $detalle = null): void
     {
-        $wamid = 'fallo-' . Str::uuid();
-        $info['wamid'] = $wamid;
-
-        EnvioCampana::updateOrCreate([
-            'cod_campana' => $info['cod_campana'],
-            'telefono' => $info['telefono'],
-        ], $info);
-
-        Mensaje::create([
-            'campaign_id'   => $this->idCampana,
-            'contact_id'    => $this->contacto->id,
-            'wa_message_id' => $wamid,
+       $mensaje_actual = Mensaje::firstOrCreate([
+            'campaign_id' => $this->idCampana,
+            'contact_id' => $this->contacto->id,
+        ],
+        [
             'wa_from'       => $this->phone_number_id,
             'wa_to'         => $this->contacto->numero_completo,
             'type'          => Mensaje::PLANTILLA,
@@ -194,8 +198,14 @@ class SendWhatsAppMessage implements ShouldQueue
             'sent_at'       => now(),
         ]);
 
-        DetalleErrorMensaje::create([
-            'wamid' => $wamid,
+        EnvioCampana::updateOrCreate([
+            'cod_campana' => $info['cod_campana'],
+            'telefono' => $info['telefono'],
+        ], ['wamid' => $mensaje_actual->wa_message_id]);
+
+        DetalleErrorMensaje::updateOrCreate([
+            'wamid' => $mensaje_actual->wa_message_id,
+        ], [
             'code' => $codigo,
             'title' => $titulo,
             'message' => $mensaje,
@@ -348,7 +358,7 @@ class SendWhatsAppMessage implements ShouldQueue
                         $variables = [];
                         foreach (($info['variables'] ?? []) as $index => $variable) {
                             if ($contacto && array_key_exists($variable, $contacto->getAttributes())) {
-                                $variable = $contacto->getAttribute($variable);
+                                $variable = $contacto->{$variable};
                             }
                             $variables[$index] = [
                                 'type' => 'text',
@@ -361,7 +371,7 @@ class SendWhatsAppMessage implements ShouldQueue
                         $variables = [];
                         foreach (($info['variables'] ?? []) as $index => $variable) {
                             if ($contacto && array_key_exists($variable, $contacto->getAttributes())) {
-                                $variable = $contacto->getAttribute($variable);
+                                $variable = $contacto->{$variable};
                             }
                             $variables[$index] = ['type' => 'text', 'text' => $variable];
                         }

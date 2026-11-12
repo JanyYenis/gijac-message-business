@@ -273,7 +273,7 @@
                                     </div>
 
                                     <div class="alert alert-info" role="alert">
-                                        <i class="bi bi-info-circle-fill me-2"></i>
+                                        <i class="bi bi-info-circle-fill me-2 text-info"></i>
                                         <strong>{{ __('Importante:') }}</strong> {{ __('Una vez lanzada la campaña, no podrás modificar el contenido ni detener el envío.') }}
                                     </div>
                                 </div>
@@ -289,7 +289,7 @@
                                         </button>
                                         <button type="submit" class="btn btn-secondary-custom" id="launchBtn"
                                              style="display: none;">
-                                            <i class="bi bi-rocket-takeoff-fill me-2"></i>{{ __('Lanzar Campaña') }}
+                                            <i class="bi bi-rocket-takeoff-fill me-2 text-white"></i>{{ __('Lanzar Campaña') }}
                                         </button>
                                     </div>
                                 </div>

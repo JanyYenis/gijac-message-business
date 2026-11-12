@@ -985,7 +985,8 @@
                 expired: ['mb-bad', 'Vencida', 'La verificación venció. Debes repetirla.'],
                 revoked: ['mb-bad', 'Revocada', 'Meta revocó la verificación.'],
                 ineligible: ['mb-warn', 'No elegible', 'Meta no permite verificar este negocio desde aquí. Revisa tus notificaciones en Meta.'],
-                not_verified: ['mb-warn', 'Sin verificar', 'Tu negocio aún no está verificado.']
+                not_verified: ['mb-warn', 'Sin verificar', 'Tu negocio aún no está verificado.'],
+                unknown: ['mb-warn', 'Sin consultar', 'No se pudo consultar la verificación en Meta. Pulsa "Actualizar configuración".']
             };
             const NOMBRE_TXT = {
                 APPROVED: ['mb-ok', 'Aprobado'], AVAILABLE_WITHOUT_REVIEW: ['mb-ok', 'Aprobado'],
@@ -1001,8 +1002,10 @@
                     return '<button type="button" class="btn btn-ghost btn-sm num-act" data-act="' + accion +
                         '" data-id="' + esc(n.id) + '" data-num="' + esc(n.numero) + '">' + texto + '</button>';
                 };
-                if (!n.verificado) return btn('verificar', 'Verificar');
-                if (n.estado !== 'CONNECTED') return btn('registrar', 'Registrar');
+                if (n.estado !== 'CONNECTED') {
+                    if (n.es_prueba || n.verificado) return btn('registrar', 'Registrar'); // la prueba no lleva código SMS
+                    return btn('verificar', 'Verificar');
+                }
                 if (!n.en_app) return btn('vincular', 'Agregar a la app');
                 const agentes = btn('agentes', '<i class="bi bi-people"></i> Agentes' + (n.agentes ? ' (' + n.agentes + ')' : ''));
                 const bot = '<button type="button" class="btn btn-ghost btn-sm num-act" data-act="bot" data-on="' + (n.bot ? 1 : 0) +
@@ -1025,7 +1028,7 @@
                 // Pago
                 if (pago) {
                     $('#payBadge').attr('class', 'mini-badge ' + CHECK_CLS[pago.estado] + ' fs-7')
-                        .html('<span class="q-dot"></span> ' + (r.con_pago ? 'Configurado' : (pago.estado === 'ok' ? 'No necesario' : 'Falta tarjeta')));
+                        .html('<span class="q-dot"></span> ' + (r.con_pago ? 'Configurado' : (pago.estado === 'ok' ? 'Sin problemas' : (pago.estado === 'error' ? 'Error de pago' : 'Sin confirmar'))));
                     $('#payText').text(pago.detalle);
                     $('#payLink').toggleClass('d-none', r.con_pago).attr('href', r.enlaces.pago);
                 }
@@ -1043,9 +1046,9 @@
                 $('#cupoBadge').text(r.cupo.usados + ' de ' + r.cupo.maximo + ' números')
                     .attr('class', 'mini-badge ' + (r.cupo.usados >= r.cupo.maximo ? 'mb-warn' : 'mb-ok') + ' fs-7');
                 const filas = (r.numeros || []).map(function(n) {
-                    const conectado = n.estado === 'CONNECTED' && n.verificado;
+                    const conectado = n.estado === 'CONNECTED';
                     const est = conectado ? badge('mb-ok', 'Conectado')
-                        : badge('mb-warn', n.verificado ? n.estado : 'Sin verificar');
+                        : badge('mb-warn', (n.es_prueba || n.verificado) ? n.estado : 'Sin verificar');
                     const nom = n.nombre_estado && NOMBRE_TXT[n.nombre_estado]
                         ? ' ' + badge(NOMBRE_TXT[n.nombre_estado][0], NOMBRE_TXT[n.nombre_estado][1]) : '';
                     const tipo = n.es_prueba
@@ -1252,7 +1255,8 @@
                     extras: {
                         featureType: 'whatsapp_business_app_onboarding', // OBLIGATORIO para Tech Provider
                         sessionInfoVersion: '3',
-                        setup: {}
+                        setup: {},
+                        features: [{ name: 'marketing_messages_lite' }],
                     }
                 });
             });

@@ -64,6 +64,8 @@ class MensajeController extends Controller
 
         // Buscar contacto por teléfono completo
         $contacto = Contacto::whereRaw("CONCAT(contactos.codigo_telefono, contactos.telefono) LIKE ?", ["%{$contacto}%"])
+            ->where('contactos.estado', Contacto::ACTIVO)
+            ->where('contactos.cod_empresa', auth()->user()->empresa?->id)
             ->first();
 
         if (!$contacto) {

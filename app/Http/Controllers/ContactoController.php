@@ -308,7 +308,7 @@ class ContactoController extends Controller
         return response()->json($respuesta);
     }
 
-    public function update(Request $request, UpdateContactoRequest $contacto)
+    public function update(UpdateContactoRequest $request, Contacto $contacto)
     {
         $datos = $request->all();
         $actualizar = $contacto->update($datos);

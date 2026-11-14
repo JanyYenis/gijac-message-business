@@ -8,6 +8,7 @@ use App\Jobs\WebhookStatus;
 use App\Jobs\WebhookUserPreferences;
 use App\Models\Contacto;
 use App\Models\WhatsappAccount;
+use App\Models\WhatsappNumber;
 use App\Services\Api\ApiWebhookService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -93,7 +94,10 @@ class WebhookController extends Controller
     {
         $empresaId = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
             ->where('waba_id', $wabaId)
-            ->value('cod_empresa');
+            ->value('cod_empresa')
+            ?? WhatsappNumber::where('waba_id', $wabaId)
+                ->where('estado', WhatsappAccount::CONECTADO)
+                ->value('cod_empresa');
 
         // Contactos nuevos: uno por contacto, solo si no existen en ESA empresa
         foreach ($datos['contacts'] ?? [] as $contacto) {

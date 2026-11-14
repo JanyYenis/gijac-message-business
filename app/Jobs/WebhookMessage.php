@@ -64,28 +64,29 @@ class WebhookMessage implements ShouldQueue
     public function messages($datos, $waba_id)
     {
         $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
-        $config = WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)
-            ->where('waba_id', $waba_id)
-            ->first();
+                // Número al que escribieron (si está registrado en whatsapp_numbers) y su cuenta
+        $numeroDestino = $datos['metadata']['phone_number_id'] ?? null;
+        $numero = $numeroDestino
+            ? WhatsappNumber::where('phone_number_id', $numeroDestino)
+                ->where('waba_id', $waba_id)
+                ->where('estado', WhatsappAccount::CONECTADO)
+                ->first()
+            : null;
+
+        // La cuenta se busca por el número; si no está registrado, por la WABA como antes
+        $config = ($numero
+                ? WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->find($numero->whatsapp_account_id)
+                : null)
+            ?? WhatsappAccount::where('estado', WhatsappAccount::CONECTADO)->where('waba_id', $waba_id)->first();
 
         if (!$config) {
             return;
         }
 
-        // Número al que escribieron: si no es el principal, el resto del flujo trabaja con ese
-        $numeroDestino = $datos['metadata']['phone_number_id'] ?? null;
-        $numero = null;
-        if ($numeroDestino) {
-            $numero = WhatsappNumber::where('phone_number_id', $numeroDestino)
-                ->where('waba_id', $waba_id)
-                ->where('estado', WhatsappAccount::CONECTADO)
-                ->first();
-
-            if ($numero && $numero->phone_number_id !== $config->phone_number_id) {
-                $config = $config->replicate(); // copia en memoria, no se guarda
-                $config->phone_number_id = $numero->phone_number_id;
-                $config->phone_number = $numero->phone_number;
-            }
+        // Si no es el principal, el resto del flujo trabaja con ese número (solo en memoria, no se guarda; conserva el id)
+        if ($numero && $numero->phone_number_id !== $config->phone_number_id) {
+            $config->phone_number_id = $numero->phone_number_id;
+            $config->phone_number    = $numero->phone_number;
         }
 
         $token = Crypt::decrypt($config->access_token);

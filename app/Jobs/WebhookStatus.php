@@ -70,13 +70,15 @@ class WebhookStatus implements ShouldQueue
         }
 
         if ($estado == Mensaje::FALLIDO) {
-            DetalleErrorMensaje::create([
-                'wamid' => $datos['statuses'][0]['id'],
-                'code' => $datos['statuses'][0]['errors'][0]['code'],
-                'title' => $datos['statuses'][0]['errors'][0]['title'],
-                'message' => $datos['statuses'][0]['errors'][0]['message'],
-                'details' => $datos['statuses'][0]['errors'][0]['error_data']['details'],
-            ]);
+            $error = $datos['statuses'][0]['errors'][0] ?? [];
+            DetalleErrorMensaje::updateOrCreate(
+                ['wamid' => $idMensaje, 'code' => $error['code'] ?? 0],
+                [
+                    'title'   => $error['title'] ?? null,
+                    'message' => $error['message'] ?? null,
+                    'details' => $error['error_data']['details'] ?? null,
+                ]
+            );
         }
         // -------------------------------------------------------------------------------------------
 

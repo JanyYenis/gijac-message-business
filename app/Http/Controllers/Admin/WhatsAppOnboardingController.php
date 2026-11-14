@@ -12,6 +12,7 @@ use App\Services\Meta\RegistrationService;
 use App\Services\Meta\WehbookService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -151,6 +152,7 @@ class WhatsAppOnboardingController extends Controller
             $rating = $phone['quality_rating']?? 'UNKNOWN';
 
             $attrs = [
+                'waba_id' => $wabaId,
                 'phone_number_id' => $phoneId,
                 'business_id' => $data['business_id'],
                 'access_token' => Crypt::encrypt($token),
@@ -170,7 +172,6 @@ class WhatsAppOnboardingController extends Controller
 
             $account = WhatsappAccount::updateOrCreate([
                 'usuario_id' => auth()->user()->uuid,
-                'waba_id' => $wabaId,
                 'cod_empresa' => auth()->user()->empresa?->id,
             ], $attrs);
 
@@ -804,8 +805,11 @@ class WhatsAppOnboardingController extends Controller
         DB::transaction(function () use ($account, $num, $n) {
             $this->marcarPrincipal($account, $num);
 
+            $wabaAnterior = $account->waba_id;
+
             // whatsapp_accounts refleja el principal: el resto de la app sigue leyendo de ahí
             $account->update([
+                'waba_id'           => $n['waba_id'] ?? $account->waba_id,
                 'phone_number_id'   => $num->phone_number_id,
                 'phone_number'      => $n['display_phone_number'] ?? $num->phone_number,
                 'display_name'      => $n['verified_name'] ?? $num->display_name,
@@ -814,6 +818,10 @@ class WhatsAppOnboardingController extends Controller
                 'quality_rating'    => WhatsappAccount::ratingFromMeta($n['quality_rating'] ?? null),
                 'messaging_limit'   => str_replace('TIER_', '', $n['messaging_limit_tier'] ?? $account->messaging_limit),
             ]);
+
+            if (($n['waba_id'] ?? null) && $n['waba_id'] !== $wabaAnterior) {
+                Artisan::call('sincronizar:plantillas', ['waba_id' => $n['waba_id']]);
+            }
         });
 
         $account->refresh();
@@ -947,15 +955,30 @@ class WhatsAppOnboardingController extends Controller
         return ($n['account_mode'] ?? '') === 'SANDBOX' || str_starts_with($digitos, '1555');
     }
 
+    /** Datos de Meta de un número de la cuenta. whatsapp_accounts guarda un solo número; whatsapp_numbers puede tener
+     *  otros en otras WABA, así que se busca en la WABA del número guardado, la de la cuenta y las de sus demás números.
+     *  Devuelve también 'waba_id' (la WABA donde vive el número). */
     private function numeroDeLaCuenta(WhatsappAccount $account, string $token, string $phoneId): array
     {
-        $res = Http::withToken($token)->timeout(15)->get("{$this->graph}/{$account->waba_id}/phone_numbers", [
-            'fields' => 'id,display_phone_number,verified_name,status,code_verification_status,quality_rating,messaging_limit_tier,account_mode',
-        ]);
+        $locales = WhatsappNumber::where('whatsapp_account_id', $account->id)->get(['phone_number_id', 'waba_id']);
 
-        foreach ($res->json('data', []) as $n) {
-            if ((string) ($n['id'] ?? '') === $phoneId) {
-                return $n;
+        $wabas = collect([$locales->firstWhere('phone_number_id', $phoneId)?->waba_id, $account->waba_id])
+            ->merge($locales->pluck('waba_id'))
+            ->filter()->map(fn ($w) => (string) $w)->unique()->values();
+
+        foreach ($wabas as $waba) {
+            try {
+                $res = Http::withToken($token)->timeout(15)->get("{$this->graph}/{$waba}/phone_numbers", [
+                    'fields' => 'id,display_phone_number,verified_name,status,code_verification_status,quality_rating,messaging_limit_tier,account_mode',
+                ]);
+            } catch (\Throwable $e) {
+                continue;
+            }
+
+            foreach ($res->json('data', []) as $n) {
+                if ((string) ($n['id'] ?? '') === $phoneId) {
+                    return $n + ['waba_id' => $waba];
+                }
             }
         }
 
@@ -970,7 +993,7 @@ class WhatsAppOnboardingController extends Controller
         $attrs = [
             'whatsapp_account_id' => $account->id,
             'cod_empresa'         => $account->cod_empresa,
-            'waba_id'             => $account->waba_id,
+            'waba_id'             => $n['waba_id'] ?? $account->waba_id,
             'phone_number'        => $n['display_phone_number'] ?? '',
             'display_name'        => $n['verified_name'] ?? null,
             'number_registered'   => $extra['registered'] ?? false,

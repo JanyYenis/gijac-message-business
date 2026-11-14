@@ -388,7 +388,8 @@
                         <p class="mt-3 mb-2 fs-6" id="payText" style="color: #6b8083"></p>
                         <p class="mb-3 fs-7" style="color: #8aa0a2">{{ __('El número de prueba no necesita tarjeta. Solo se pide para enviar con un número de producción. Meta no acepta tarjetas prepago, virtuales ni de regalo.') }}</p>
                         <a class="btn btn-glow btn-sm d-none" id="payLink" target="_blank" rel="noopener">
-                            <i class="bi bi-box-arrow-up-right"></i> {{ __('Agregar tarjeta en Meta') }}
+                            <i class="bi bi-box-arrow-up-right text-white"></i>
+                            {{ __('Agregar tarjeta en Meta') }}
                         </a>
                         <details class="mt-3 fs-6">
                             <summary>{{ __('¿Cómo se agrega?') }}</summary>

@@ -75,7 +75,7 @@
     @empty
         <div class="state-box">
             <div class="ic ic-teal">
-                <i class="bi bi-inbox"></i>
+                <i class="bi bi-inbox fs-1 text-white"></i>
             </div>
             <h5 class="fw-bold">{{ __('No se encontraron productos') }}</h5>
             <p class="text-muted mb-0">{{ __('Ajusta los filtros o crea un producto nuevo para empezar.') }}</p>

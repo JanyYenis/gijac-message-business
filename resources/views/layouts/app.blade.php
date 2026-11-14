@@ -953,6 +953,7 @@
         }
 
         .btn-outline-x {
+            display: block;
             width: 100%;
             margin-top: 10px;
             padding: 13px;

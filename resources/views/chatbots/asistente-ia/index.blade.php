@@ -368,7 +368,7 @@
         </div>
     </div>
 
-    <!-- ====== METRICAS ====== -->
+    {{-- <!-- ====== METRICAS ====== -->
     <div class="panel">
         <div class="mb-3">
             <p class="section-title fs-1">
@@ -472,7 +472,7 @@
                 <p class="text-muted fs-7 small mt-2 mb-0">{{ __('Uso general.') }}</p>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endsection
 
 @section('scripts')

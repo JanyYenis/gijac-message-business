@@ -50,13 +50,19 @@ class OllamaService
             ],
         ];
 
+        if (!empty($opciones['format'])) {
+            $payload['format'] = $opciones['format']; // esquema JSON (botones/listas)
+        }
+
         $response = Http::timeout(60)->post("{$this->baseUrl}/api/chat", $payload);
 
         if (!$response->successful()) {
             throw new RuntimeException('Ollama no respondió correctamente: ' . $response->body());
         }
 
-        return $response->json('message.content', '');
+        $contenido = $response->json('message.content', '');
+
+        return trim(preg_replace('/<think>.*?<\/think>/s', '', $contenido));
     }
 
     private function limpiarUtf8(string $texto): string

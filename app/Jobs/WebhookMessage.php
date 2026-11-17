@@ -17,6 +17,7 @@ use App\Models\Mensaje;
 use App\Models\Plan;
 use App\Services\AI\AudioTranscriptionService;
 use App\Services\AI\ChatbotAiPromptBuilder;
+use App\Services\AI\ChatbotAiReply;
 use App\Services\AI\OllamaService;
 use App\Services\Chatbot\ChatbotConfigService;
 use App\Services\Chatbot\ChatbotNodeExecutor;
@@ -280,6 +281,11 @@ class WebhookMessage implements ShouldQueue
      */
     private function runChatbotIaBasico(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto, ChatbotAiAssistant $asistente, string $waMsgId, ?string $textoOverride = null, bool $mantenerContexto = true): bool
     {
+        // Si la configuración general no permite transferencias, el modelo no las ofrece (solo en memoria, no se guarda)
+        if (!ChatbotConfigService::paraEmpresa($config->cod_empresa)->permitir_transferencia) {
+            $asistente->capacidades = array_values(array_diff($asistente->capacidades ?? [], [ChatbotAiAssistant::TRANSFERIR_A_AGENTE_HUMANO]));
+        }
+
         $capacidades = $asistente->capacidades ?? [];
 
         if (!in_array(ChatbotAiAssistant::RESPONDER_AUTOMATICAMENTE, $capacidades)) {
@@ -292,29 +298,6 @@ class WebhookMessage implements ShouldQueue
         $texto = $textoOverride ?: app(MessageContentService::class)->obtenerTexto($mensaje);
         if (!$texto) return true; // sin texto: nada que responder
 
-        // --- Horario ---
-        if ($asistente->respetar_horario && !$this->dentroDeHorarioAsistente($asistente)) {
-            if ($asistente->mensaje_fuera_horario) {
-                $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $asistente->mensaje_fuera_horario, Mensaje::IA);
-            }
-            return true;
-        }
-
-        // --- Palabras clave -> transferencia a humano ---
-        if (in_array(ChatbotAiAssistant::TRANSFERIR_A_AGENTE_HUMANO, $capacidades) && !empty($asistente->palabras_clave)) {
-            $textoLower = mb_strtolower($texto);
-            $coincide = collect($asistente->palabras_clave)
-                ->contains(fn($p) => str_contains($textoLower, mb_strtolower(trim($p))));
-
-            if ($coincide) {
-                if ($asistente->mensaje_transferencia) {
-                    $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $asistente->mensaje_transferencia, Mensaje::HUMANA);
-                }
-                $contacto->update(['estado_chatbot_ia' => Contacto::INACTIVO]);
-                return true;
-            }
-        }
-
         // --- Historial / contexto ---
         $guardarContexto      = $mantenerContexto && in_array(ChatbotAiAssistant::GUARDAR_CONTEXTO, $capacidades);
         $recordarConversacion = $mantenerContexto && in_array(ChatbotAiAssistant::REMEMBRAR_CONVERSACION, $capacidades);
@@ -323,26 +306,39 @@ class WebhookMessage implements ShouldQueue
             ? $this->obtenerHistorialAsistente($contacto)
             : [];
 
-        $systemPrompt = app(ChatbotAiPromptBuilder::class)->construir($asistente);
+        $estructurado = ChatbotAiReply::estructurado($capacidades);
+        $systemPrompt = app(ChatbotAiPromptBuilder::class)->construir($asistente, $texto);
+
+        $opciones = ['temperature' => $asistente->creatividad / 100];
+        if ($estructurado) {
+            $opciones['format'] = ChatbotAiReply::esquema($capacidades);
+        }
 
         try {
-            $respuesta = app(OllamaService::class)->chat(
+            $raw = app(OllamaService::class)->chat(
                 $systemPrompt,
                 array_merge($historial, [['role' => 'user', 'content' => $texto]]),
                 $asistente->modelo,
-                ['temperature' => $asistente->creatividad / 100]
+                $opciones
             );
         } catch (Throwable $e) {
             report($e);
             return false;
         }
 
-        if (!$respuesta) return false;
+        if (!$raw) return false;
 
-        $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $respuesta, Mensaje::IA);
+        $r = ChatbotAiReply::interpretar($raw, $capacidades, $estructurado);
+        if ($r['texto'] === '') return false;
+
+        $this->enviarRespuestaIa($api, $config, $waFrom, $contacto, $r, Mensaje::IA);
 
         if ($guardarContexto) {
-            $this->guardarHistorialAsistente($contacto, $config, $texto, $respuesta);
+            $this->guardarHistorialAsistente($contacto, $config, $texto, ChatbotAiReply::comoTexto($r));
+        }
+
+        if ($r['transferir']) {
+            $this->transferirDesdeIa($config, $api, $waFrom, $contacto);
         }
 
         return true;
@@ -568,16 +564,6 @@ class WebhookMessage implements ShouldQueue
         return $textos->count() > 1 ? $textos->implode("\n") : null;
     }
 
-    private function dentroDeHorarioAsistente(ChatbotAiAssistant $asistente): bool
-    {
-        if (!$asistente->hora_inicio || !$asistente->hora_fin) {
-            return true;
-        }
-
-        $ahora = now()->format('H:i:s');
-        return $ahora >= $asistente->hora_inicio && $ahora <= $asistente->hora_fin;
-    }
-
     private function obtenerHistorialAsistente(Contacto $contacto): array
     {
         $registro = ChatbotAiHistorial::where('contacto_id', $contacto->id)->first();
@@ -599,6 +585,49 @@ class WebhookMessage implements ShouldQueue
 
         $registro->historial = array_slice($historial, -40); // hasta 20 turnos
         $registro->save();
+    }
+
+    /** Envía la respuesta de la IA: con botones/lista si los trae, y como texto si no (o si Meta rechaza el interactivo). */
+    private function enviarRespuestaIa(WhatsAppCloudApi $api, WhatsappAccount $config, string $waFrom, Contacto $contacto, array $r, ?int $responseType): void
+    {
+        $payload = ChatbotAiReply::payloadWhatsApp($waFrom, $r);
+        if (!$payload) {
+            $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, $r['texto'], $responseType);
+            return;
+        }
+
+        $version = config('facebook.graph_version', env('FACEBOOK_GRAPH_VERSION', 'v26.0'));
+        $res = Http::withToken(Crypt::decrypt($config->access_token))->timeout(20)
+            ->post("https://graph.facebook.com/{$version}/{$config->phone_number_id}/messages", $payload);
+
+        if (!$res->successful()) {
+            Log::warning('IA: no se pudo enviar el interactivo, se envía como texto', ['error' => $res->json('error.message')]);
+            $this->enviarYRegistrarRespuestaIa($api, $config, $waFrom, $contacto, ChatbotAiReply::comoTexto($r), $responseType);
+            return;
+        }
+
+        Mensaje::create([
+            'campaign_id'   => null,
+            'contact_id'    => $contacto->id,
+            'wa_message_id' => $res->json('messages.0.id'),
+            'wa_from'       => $config->phone_number_id,
+            'wa_to'         => $waFrom,
+            'type'          => Mensaje::TEXTO,
+            'body'          => ChatbotAiReply::comoTexto($r),
+            'metadata'      => null,
+            'estado'        => Mensaje::ENVIADO,
+            'sent_at'       => now(),
+            'response_type' => $responseType,
+        ]);
+    }
+
+    /** Transferencia pedida por el modelo: usa el mismo flujo y las reglas de la configuración general del chatbot. */
+    private function transferirDesdeIa(WhatsappAccount $config, WhatsAppCloudApi $api, string $waFrom, Contacto $contacto): void
+    {
+        $cfg  = ChatbotConfigService::paraEmpresa($config->cod_empresa);
+        $vars = ['nombre' => $contacto->nombre_completo, 'empresa' => Empresa::find($config->cod_empresa)?->nombre ?? ''];
+
+        $this->transferir($cfg, $contacto, $config, $api, $waFrom, $vars, Cfg::MOTIVO_SOLICITA_ASESOR, false);
     }
 
     private function enviarYRegistrarRespuestaIa(WhatsAppCloudApi $api, WhatsappAccount $config, string $waFrom, Contacto $contacto, string $texto, ?int $responseType): void

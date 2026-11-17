@@ -7,6 +7,7 @@ use App\Models\Chatbots\ChatbotAiAssistant;
 use Illuminate\Http\Request;
 use App\Models\Usuario;
 use App\Services\AI\ChatbotAiPromptBuilder;
+use App\Services\AI\ChatbotAiReply;
 use App\Services\AI\DocumentTextExtractor;
 use App\Services\AI\OllamaService;
 use Illuminate\Support\Facades\Storage;
@@ -17,6 +18,7 @@ class ChatbotAsistenteController extends Controller
 {
     public function __construct(private OllamaService $ollama)
     {
+        parent::__construct();
     }
 
     public function index(Request $request)
@@ -96,21 +98,34 @@ class ChatbotAsistenteController extends Controller
             ->values()
             ->all();
 
+        $cap = $asistente->capacidades ?? [];
+        $estructurado = ChatbotAiReply::estructurado($cap);
+
+        $opciones = ['temperature' => $asistente->creatividad / 100];
+        if ($estructurado) {
+            $opciones['format'] = ChatbotAiReply::esquema($cap);
+        }
+
         try {
-            $respuesta = $this->ollama->chat(
-                app(ChatbotAiPromptBuilder::class)->construir($asistente),
+            $raw = $this->ollama->chat(
+                app(ChatbotAiPromptBuilder::class)->construir($asistente, $request->input('mensaje')),
                 $historial,
                 $asistente->modelo,
-                ['temperature' => $asistente->creatividad / 100]
+                $opciones
             );
         } catch (Throwable $e) {
             report($e);
             throw new ErrorException(__("No se pudo contactar al modelo. Verifica que Ollama esté corriendo: ").$e->getMessage());
         }
 
+        $r = ChatbotAiReply::interpretar($raw, $cap, $estructurado);
+
         return response()->json([
-            'estado'    => 'success',
-            'respuesta' => $respuesta,
+            'estado'     => 'success',
+            'respuesta'  => $r['texto'],
+            'botones'    => $r['botones'],
+            'lista'      => $r['lista'],
+            'transferir' => $r['transferir'],
         ]);
     }
 

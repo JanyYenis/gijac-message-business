@@ -21,15 +21,6 @@ $(function () {
         let formData = new FormData(document.getElementById("formAsistente"));
         formData.append('activo', $(this).is(':checked') ? 1 : 0);
 
-        var palabrasClave = $('#palabrasClave').val()
-            .split(',')
-            .map(k => k.trim())
-            .filter(k => k !== '');
-
-        palabrasClave.forEach((palabra) => {
-            formData.append('palabras_clave[]', palabra);
-        });
-
         const config = {
             'method': 'POST',
             'headers': {

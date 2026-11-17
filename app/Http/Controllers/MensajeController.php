@@ -652,6 +652,7 @@ class MensajeController extends Controller
             DATE(contactos.created_at) as fecha_creacion, estado_chatbot, estado_chatbot_ia, CONCAT(contactos.codigo_telefono, contactos.telefono) as numero')
             ->where("numero_completo", $contacto)
             ->where('cod_empresa', $this->uuid)
+            ->where('estado', Contacto::ACTIVO)
             ->first();
 
         return [

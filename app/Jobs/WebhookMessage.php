@@ -122,7 +122,13 @@ class WebhookMessage implements ShouldQueue
         if ($estado == Mensaje::ENVIADO && $waFrom != $config->phone_number_id) {
             $contacto = Contacto::where('numero_completo', $waFrom)
                 ->where('cod_empresa', $config->cod_empresa)
+                ->where('estado', Contacto::ACTIVO)
                 ->first();
+            if (!$contacto) {
+                $contacto = Contacto::where('numero_completo', $waFrom)
+                    ->where('cod_empresa', $config->cod_empresa)
+                    ->first();
+            }
         }
 
         // --- 4. Guardar el mensaje entrante ---

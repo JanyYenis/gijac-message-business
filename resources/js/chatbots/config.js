@@ -365,13 +365,16 @@ $(function () {
     }
 
     function save() {
-        var $b = $('#btnSave,#btnSaveTop').prop('disabled', true);
+        var $b = $('#btnSave, #btnSaveTop').prop('disabled', true);
         $.ajax({
-            url: "{{ route('chatbots.configuracion.guardar') }}",
+            url: route('chatbots.configuracion.guardar'),
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify(payload()),
-            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}', 'Accept': 'application/json' }
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Accept': 'application/json'
+            }
         }).done(function (response) {
             dirty = false;
             $('#savebar').removeClass('show');

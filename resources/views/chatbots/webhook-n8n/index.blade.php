@@ -190,13 +190,13 @@
         </div>
     </div>
 
-    <!-- MAIN -->
-    <div class="row g-4">
+    <form id="formN8n">
+        <!-- MAIN -->
+        <div class="row g-4">
 
-        <!-- LEFT COLUMN 65% -->
-        <div class="col-lg-8">
+            <!-- LEFT COLUMN 65% -->
+            <div class="col-lg-8">
 
-            <form id="formN8n">
                 <!-- WEBHOOK CONFIG -->
                 <div class="card-mod mb-4">
                     <div class="card-header fs-1">
@@ -342,32 +342,10 @@
                     </div>
                 </div>
 
-                <!-- EVENTS -->
-                <div class="card-mod mb-4">
-                    <div class="card-header fs-1">
-                        <i class="bi bi-bell-fill fs-1 text-warning"></i>
-                        {{ __('Eventos Disponibles') }}
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-2">
-                            @foreach ($eventos as $item)
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input evento-checkbox" type="checkbox" name="eventos[]"
-                                            id="ev{{ $item?->codigo }}" value="{{ $item->codigo }}" checked>
-                                        <label class="form-check-label"
-                                            for="ev{{ $item?->codigo }}">{{ $item?->nombre }}</label>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-
                 <!-- RETRIES -->
                 <div class="card-mod">
                     <div class="card-header fs-1">
-                        <i class="bi bi-arrow-repeat text-secondary"></i>
+                        <i class="bi bi-arrow-repeat text-primary fs-1"></i>
                         {{ __('Reintentos') }}
                     </div>
                     <div class="card-body">
@@ -396,164 +374,184 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- RIGHT COLUMN 35% -->
+            <div class="col-lg-4">
 
-                <button type="submit" id="btnGuardarTodo" class="d-none"></button>
-            </form>
+                <!-- TEMPLATES -->
+                <div class="card-mod mb-4">
+                    <div class="card-header fs-1">
+                        <i class="bi bi-collection-fill text-primary fs-1"></i>
+                        {{ __('Plantillas n8n') }}
+                    </div>
+                    <div class="card-body">
+                        <div class="tpl-item" data-name="Atención al Cliente"
+                            data-desc="Recibe mensajes, clasifica intención y responde automáticamente." data-nodes="5"
+                            data-emoji="📩" data-json="{{ asset('estructuras/Atencion_al_Cliente.json') }}">
+                            <div class="tpl-ico">📩</div>
+                            <div class="flex-grow-1">
+                                <h6>{{ __('Atención al Cliente') }}</h6>
+                                <small>{{ __('5 nodos') }}</small>
+                            </div>
+                            <button class="btn btn-sm btn-wa-outline btn-tpl">
+                                <i class="bi bi-download"></i>
+                            </button>
+                        </div>
+                        {{-- <div class="tpl-item" data-name="Chatbot IA"
+                            data-desc="Integra OpenRouter/Ollama para respuestas inteligentes." data-nodes="11"
+                            data-emoji="🧠">
+                            <div class="tpl-ico">🧠</div>
+                            <div class="flex-grow-1">
+                                <h6>Chatbot IA</h6>
+                                <small>11 nodos</small>
+                            </div>
+                            <button class="btn btn-sm btn-wa-outline btn-tpl">
+                                <i class="bi bi-download"></i>
+                            </button>
+                        </div> --}}
+                        <div class="tpl-item" data-name="Agendamiento"
+                            data-desc="Conecta Google Sheer para reservar citas vía WhatsApp." data-nodes="6" data-emoji="📅"
+                            data-json="{{ asset('estructuras/Agendamiento.json') }}">
+                            <div class="tpl-ico">📅</div>
+                            <div class="flex-grow-1">
+                                <h6>{{ __('Agendamiento') }}</h6>
+                                <small>{{ __('6 nodos') }}</small>
+                            </div>
+                            <button class="btn btn-sm btn-wa-outline btn-tpl">
+                                <i class="bi bi-download"></i>
+                            </button>
+                        </div>
+                        {{-- <div class="tpl-item" data-name="Seguimiento de Ventas"
+                            data-desc="Registra leads en tu CRM y dispara recordatorios." data-nodes="10" data-emoji="🛒">
+                            <div class="tpl-ico">🛒</div>
+                            <div class="flex-grow-1">
+                                <h6>Seguimiento de Ventas</h6>
+                                <small>10 nodos</small>
+                            </div>
+                            <button class="btn btn-sm btn-wa-outline btn-tpl">
+                                <i class="bi bi-download"></i>
+                            </button>
+                        </div>
+                        <div class="tpl-item" data-name="Estado de Pedidos"
+                            data-desc="Consulta tu sistema y notifica el estado del pedido." data-nodes="7" data-emoji="📦">
+                            <div class="tpl-ico">📦</div>
+                            <div class="flex-grow-1">
+                                <h6>Estado de Pedidos</h6>
+                                <small>7 nodos</small>
+                            </div>
+                            <button class="btn btn-sm btn-wa-outline btn-tpl">
+                                <i class="bi bi-download"></i>
+                            </button>
+                        </div> --}}
+                    </div>
+                </div>
+
+                <!-- TEST CONNECTION -->
+                <div class="card-mod mb-4">
+                    <div class="card-header fs-1">
+                        <i class="bi bi-wifi text-primary fs-1"></i>
+                        {{ __('Prueba de Conexión') }}
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-wa w-100 mb-3" id="btnProbar">
+                            <i class="bi bi-play-circle text-white me-1"></i>
+                            {{ __('Probar Webhook') }}
+                        </button>
+                        <button class="btn btn-wa-outline w-100 mb-3" data-bs-toggle="modal" data-bs-target="#modalProbar">
+                            <i class="fa-solid fa-paper-plane me-1"></i>
+                            {{ __('Enviar Prueba Personalizada') }}
+                        </button>
+                        <div class="test-result test-ok" id="resOk">
+                            <i class="bi bi-check-circle-fill text-primary me-1"></i>
+                            {{ __('Conexión Exitosa') }}
+                            <span class="d-block fw-normal small mt-1">
+                                {{ __('Respuesta 200 OK · 312 ms') }}
+                            </span>
+                        </div>
+                        <div class="test-result test-err" id="resErr">
+                            <i class="bi bi-x-circle-fill text-danger me-1"></i>
+                            {{ __('Error de Conexión') }}
+                            <span class="d-block fw-normal small mt-1">
+                                {{ __('Tiempo de espera agotado.') }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DOCS -->
+                <div class="card-mod mb-4">
+                    <div class="card-header fs-1">
+                        <i class="bi bi-journal-text text-secondary"></i>
+                        {{ __('Documentación Rápida') }}
+                    </div>
+                    <div class="card-body">
+                        <div class="step">
+                            <div class="step-num">1</div>
+                            <div>{{ __('Crear workflow en n8n') }}</div>
+                        </div>
+                        <div class="step-arrow">
+                            <i class="bi bi-arrow-down text-primary"></i>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">2</div>
+                            <div>{{ __('Agregar nodo Webhook') }}</div>
+                        </div>
+                        <div class="step-arrow">
+                            <i class="bi bi-arrow-down text-primary"></i>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">3</div>
+                            <div>{{ __('Copiar URL') }}</div>
+                        </div>
+                        <div class="step-arrow">
+                            <i class="bi bi-arrow-down text-primary"></i>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">4</div>
+                            <div>{{ __('Pegar en GIJAC MESSAGE BUSINESS') }}</div>
+                        </div>
+                        <div class="step-arrow">
+                            <i class="bi bi-arrow-down text-primary"></i>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">5</div>
+                            <div>{{ __('Guardar') }}</div>
+                        </div>
+                        <div class="step-arrow">
+                            <i class="bi bi-arrow-down text-primary"></i>
+                        </div>
+                        <div class="step">
+                            <div class="step-num">6</div>
+                            <div>{{ __('Activar') }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EVENTS -->
+                <div class="card-mod mb-4">
+                    <div class="card-header fs-1">
+                        <i class="bi bi-bell-fill fs-1 text-warning"></i>
+                        {{ __('Eventos Disponibles') }}
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-2">
+                            @foreach ($eventos as $item)
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input evento-checkbox" type="checkbox" name="eventos[]"
+                                            id="ev{{ $item?->codigo }}" value="{{ $item->codigo }}" checked>
+                                        <label class="form-check-label"
+                                            for="ev{{ $item?->codigo }}">{{ $item?->nombre }}</label>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" id="btnGuardarTodo" class="d-none"></button>
         </div>
-
-        <!-- RIGHT COLUMN 35% -->
-        <div class="col-lg-4">
-
-            <!-- TEMPLATES -->
-            <div class="card-mod mb-4">
-                <div class="card-header fs-1">
-                    <i class="bi bi-collection-fill text-primary fs-1"></i>
-                    {{ __('Plantillas n8n') }}
-                </div>
-                <div class="card-body">
-                    <div class="tpl-item" data-name="Atención al Cliente"
-                        data-desc="Recibe mensajes, clasifica intención y responde automáticamente." data-nodes="5"
-                        data-emoji="📩" data-json="{{ asset('estructuras/Atencion_al_Cliente.json') }}">
-                        <div class="tpl-ico">📩</div>
-                        <div class="flex-grow-1">
-                            <h6>{{ __('Atención al Cliente') }}</h6>
-                            <small>{{ __('5 nodos') }}</small>
-                        </div>
-                        <button class="btn btn-sm btn-wa-outline btn-tpl">
-                            <i class="bi bi-download"></i>
-                        </button>
-                    </div>
-                    {{-- <div class="tpl-item" data-name="Chatbot IA"
-                        data-desc="Integra OpenRouter/Ollama para respuestas inteligentes." data-nodes="11"
-                        data-emoji="🧠">
-                        <div class="tpl-ico">🧠</div>
-                        <div class="flex-grow-1">
-                            <h6>Chatbot IA</h6>
-                            <small>11 nodos</small>
-                        </div>
-                        <button class="btn btn-sm btn-wa-outline btn-tpl">
-                            <i class="bi bi-download"></i>
-                        </button>
-                    </div> --}}
-                    <div class="tpl-item" data-name="Agendamiento"
-                        data-desc="Conecta Google Sheer para reservar citas vía WhatsApp." data-nodes="6" data-emoji="📅"
-                        data-json="{{ asset('estructuras/Agendamiento.json') }}">
-                        <div class="tpl-ico">📅</div>
-                        <div class="flex-grow-1">
-                            <h6>{{ __('Agendamiento') }}</h6>
-                            <small>{{ __('6 nodos') }}</small>
-                        </div>
-                        <button class="btn btn-sm btn-wa-outline btn-tpl">
-                            <i class="bi bi-download"></i>
-                        </button>
-                    </div>
-                    {{-- <div class="tpl-item" data-name="Seguimiento de Ventas"
-                        data-desc="Registra leads en tu CRM y dispara recordatorios." data-nodes="10" data-emoji="🛒">
-                        <div class="tpl-ico">🛒</div>
-                        <div class="flex-grow-1">
-                            <h6>Seguimiento de Ventas</h6>
-                            <small>10 nodos</small>
-                        </div>
-                        <button class="btn btn-sm btn-wa-outline btn-tpl">
-                            <i class="bi bi-download"></i>
-                        </button>
-                    </div>
-                    <div class="tpl-item" data-name="Estado de Pedidos"
-                        data-desc="Consulta tu sistema y notifica el estado del pedido." data-nodes="7" data-emoji="📦">
-                        <div class="tpl-ico">📦</div>
-                        <div class="flex-grow-1">
-                            <h6>Estado de Pedidos</h6>
-                            <small>7 nodos</small>
-                        </div>
-                        <button class="btn btn-sm btn-wa-outline btn-tpl">
-                            <i class="bi bi-download"></i>
-                        </button>
-                    </div> --}}
-                </div>
-            </div>
-
-            <!-- TEST CONNECTION -->
-            <div class="card-mod mb-4">
-                <div class="card-header fs-1">
-                    <i class="bi bi-wifi text-primary fs-1"></i>
-                    {{ __('Prueba de Conexión') }}
-                </div>
-                <div class="card-body">
-                    <button class="btn btn-wa w-100 mb-3" id="btnProbar">
-                        <i class="bi bi-play-circle text-white me-1"></i>
-                        {{ __('Probar Webhook') }}
-                    </button>
-                    <button class="btn btn-wa-outline w-100 mb-3" data-bs-toggle="modal" data-bs-target="#modalProbar">
-                        <i class="fa-solid fa-paper-plane me-1"></i>
-                        {{ __('Enviar Prueba Personalizada') }}
-                    </button>
-                    <div class="test-result test-ok" id="resOk">
-                        <i class="bi bi-check-circle-fill text-primary me-1"></i>
-                        {{ __('Conexión Exitosa') }}
-                        <span class="d-block fw-normal small mt-1">
-                            {{ __('Respuesta 200 OK · 312 ms') }}
-                        </span>
-                    </div>
-                    <div class="test-result test-err" id="resErr">
-                        <i class="bi bi-x-circle-fill text-danger me-1"></i>
-                        {{ __('Error de Conexión') }}
-                        <span class="d-block fw-normal small mt-1">
-                            {{ __('Tiempo de espera agotado.') }}
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- DOCS -->
-            <div class="card-mod">
-                <div class="card-header fs-1">
-                    <i class="bi bi-journal-text text-secondary"></i>
-                    {{ __('Documentación Rápida') }}
-                </div>
-                <div class="card-body">
-                    <div class="step">
-                        <div class="step-num">1</div>
-                        <div>{{ __('Crear workflow en n8n') }}</div>
-                    </div>
-                    <div class="step-arrow">
-                        <i class="bi bi-arrow-down text-primary"></i>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">2</div>
-                        <div>{{ __('Agregar nodo Webhook') }}</div>
-                    </div>
-                    <div class="step-arrow">
-                        <i class="bi bi-arrow-down text-primary"></i>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">3</div>
-                        <div>{{ __('Copiar URL') }}</div>
-                    </div>
-                    <div class="step-arrow">
-                        <i class="bi bi-arrow-down text-primary"></i>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">4</div>
-                        <div>{{ __('Pegar en GIJAC MESSAGE BUSINESS') }}</div>
-                    </div>
-                    <div class="step-arrow">
-                        <i class="bi bi-arrow-down text-primary"></i>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">5</div>
-                        <div>{{ __('Guardar') }}</div>
-                    </div>
-                    <div class="step-arrow">
-                        <i class="bi bi-arrow-down text-primary"></i>
-                    </div>
-                    <div class="step">
-                        <div class="step-num">6</div>
-                        <div>{{ __('Activar') }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </form>
 
     <!-- MONITOR -->
     <div class="card-mod mt-4">

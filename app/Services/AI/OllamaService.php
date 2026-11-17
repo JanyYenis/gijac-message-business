@@ -11,7 +11,7 @@ class OllamaService
 
     public function __construct()
     {
-        $this->baseUrl = rtrim(config('services.ollama.base_url', 'http://localhost:11434'), '/');
+        $this->baseUrl = rtrim(config('services.ollama.base_url', 'http://127.0.0.1:11434'), '/');
     }
 
     public function listarModelos(): array

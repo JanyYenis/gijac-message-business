@@ -38,7 +38,7 @@ class TranslateLang extends Command
             return self::FAILURE;
         }
 
-        $ollamaUrl = rtrim(config('services.ollama.base_url', 'http://localhost:11434'), '/');
+        $ollamaUrl = rtrim(config('services.ollama.base_url', 'http://127.0.0.1:11434'), '/');
         $model = config('services.ollama.model', 'gpt-oss:120b-cloud');
 
         if (!$this->checkOllama($ollamaUrl)) {

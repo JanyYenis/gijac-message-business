@@ -45,6 +45,19 @@ class UpdateContactoRequest extends FormRequest
             ];
         }
 
+        if ($this->has('estado_chatbot') || $this->has('estado_chatbot_ia')) {
+            return [
+                'estado_chatbot' => [
+                    'numeric',
+                    'nullable'
+                ],
+                'estado_chatbot_ia' => [
+                    'numeric',
+                    'nullable'
+                ],
+            ];
+        }
+
         return [
             'nombre' => [
                 'string',

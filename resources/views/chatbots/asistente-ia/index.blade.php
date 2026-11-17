@@ -231,7 +231,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-12">
+            <div class="col-lg-7 col-12">
                 <!-- MODELO IA -->
                 <div class="panel">
                     <div class="mb-3">
@@ -259,7 +259,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-12">
+            <div class="col-lg-5 col-12">
                 <!-- PERSONALIDAD -->
                 <div class="panel">
                     <div class="mb-3">

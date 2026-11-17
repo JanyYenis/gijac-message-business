@@ -62,6 +62,7 @@ class ChatbotAsistenteController extends Controller
             'mensaje_bienvenida'     => 'nullable|string',
             'mensaje_fuera_horario'  => 'nullable|string',
             'mensaje_transferencia'  => 'nullable|string',
+            'activo'                 => 'boolean',
         ]);
 
         $asistente = $this->asistenteDelUsuario() ?? new ChatbotAiAssistant();

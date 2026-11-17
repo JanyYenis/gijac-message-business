@@ -19,7 +19,7 @@ $(function () {
     /* ===== GUARDAR CONFIGURACIÓN ===== */
     $('#btnSave').on('click', function () {
         let formData = new FormData(document.getElementById("formAsistente"));
-        formData.append('activo', $(this).is(':checked') ? 1 : 0);
+        formData.append('activo', $('#checkEstado').is(':checked') ? 1 : 0);
 
         const config = {
             'method': 'POST',

@@ -88,7 +88,10 @@ class ChatbotController extends Controller
 
         ChatbotConfigService::guardar(auth()->user()->empresa->id, $d);
 
-        return response()->json(['message' => __('Configuración guardada correctamente.')]);
+        return response()->json([
+            'estado' => 'success',
+            'mensaje' => __('Configuración guardada correctamente.')
+        ]);
     }
 
     private function verificarPermiso(): void

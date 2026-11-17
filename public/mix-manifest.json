@@ -29,6 +29,7 @@
     "/js/comentarios/principal.js": "/js/comentarios/principal.js",
     "/js/contactarnos/principal.js": "/js/contactarnos/principal.js",
     "/js/chatbots/principal.js": "/js/chatbots/principal.js",
+    "/js/chatbots/config.js": "/js/chatbots/config.js",
     "/js/chatbots/nodos/principal.js": "/js/chatbots/nodos/principal.js",
     "/js/chatbots/n8n/principal.js": "/js/chatbots/n8n/principal.js",
     "/js/chatbots/n8n/crear.js": "/js/chatbots/n8n/crear.js",
@@ -90,5 +91,6 @@
     "/css/plantillas.css": "/css/plantillas.css",
     "/css/catalogo.css": "/css/catalogo.css",
     "/css/calendario.css": "/css/calendario.css",
-    "/css/config.css": "/css/config.css"
+    "/css/config.css": "/css/config.css",
+    "/css/chatbot-config.css": "/css/chatbot-config.css"
 }

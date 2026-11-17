@@ -101,6 +101,7 @@ mix.js("resources/js/contactarnos/principal.js", "public/js/contactarnos/princip
 
 // CHATBOT
 mix.js("resources/js/chatbots/principal.js", "public/js/chatbots/principal.js");
+mix.js("resources/js/chatbots/config.js", "public/js/chatbots/config.js");
 mix.js("resources/js/chatbots/nodos/principal.js", "public/js/chatbots/nodos/principal.js");
 mix.js("resources/js/chatbots/n8n/principal.js", "public/js/chatbots/n8n/principal.js");
 mix.js("resources/js/chatbots/n8n/crear.js", "public/js/chatbots/n8n/crear.js");
@@ -205,4 +206,9 @@ mix.styles(
 mix.styles(
     "resources/css/config.css",
     "public/css/config.css"
+);
+
+mix.styles(
+    "resources/css/chatbot-config.css",
+    "public/css/chatbot-config.css"
 );

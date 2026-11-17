@@ -169,86 +169,6 @@
                         </span>
                     </div>
                 </div>
-
-                <!-- MODELO IA -->
-                <div class="panel">
-                    <div class="mb-3">
-                        <p class="section-title fs-1">
-                            <i class="bi bi-cpu text-primary fs-1"></i>
-                            {{ __('Modelo IA') }}
-                        </p>
-                        <p class="section-subtitle fs-3">{{ __('Selecciona el proveedor y el modelo que impulsará tu asistente.') }}</p>
-                    </div>
-                    <div class="row g-3">
-                        <div class="col-md-12">
-                            <span class="badge bg-light text-dark mb-2 fs-5">
-                                <i class="bi bi-hdd-network text-dark me-1 fs-5"></i>{{ __('Ollama (modelos locales, 100% gratis)') }}
-                            </span>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label fs-5 required">{{ __('Modelo') }}</label>
-                            <select class="form-select" id="modelSelect" name="modelo" required
-                                data-control="select2" data-placeholder="Seleccione el modelo" data-allow-clear="true">
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row g-3 mt-1" id="modelMeta">
-                        <!-- dynamic -->
-                    </div>
-                </div>
-
-                <!-- PERSONALIDAD -->
-                <div class="panel">
-                    <div class="mb-3">
-                        <p class="section-title fs-1">
-                            <i class="bi bi-sliders text-primary fs-1"></i>
-                            {{ __('Personalidad') }}
-                        </p>
-                        <p class="section-subtitle fs-3">{{ __('Ajusta el tono y estilo de las respuestas del asistente.') }}</p>
-                    </div>
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="slider-row">
-                                <div class="d-flex justify-content-between">
-                                    <span class="form-label fs-6 mb-0">{{ __('Creatividad') }}</span>
-                                    <span id="vCrea">{{ $asistente?->creatividad ?? 60 }}%</span>
-                                </div>
-                                <input type="range" min="0" max="100" value="{{ $asistente?->creatividad ?? 60 }}"
-                                    name="creatividad" id="slider-creatividad"
-                                    oninput="document.getElementById('vCrea').textContent=this.value+'%'">
-                            </div>
-                            <div class="slider-row">
-                                <div class="d-flex justify-content-between">
-                                    <span class="form-label fs-6 mb-0">{{ __('Formalidad') }}</span>
-                                    <span id="vForm">{{ $asistente?->formalidad ?? 75 }}%</span>
-                                </div>
-                                <input type="range" min="0" max="100" value="{{ $asistente?->formalidad ?? 75 }}"
-                                    name="formalidad" id="slider-formalidad"
-                                    oninput="document.getElementById('vForm').textContent=this.value+'%'">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="slider-row">
-                                <div class="d-flex justify-content-between">
-                                    <span class="form-label fs-6 mb-0">{{ __('Brevedad') }}</span>
-                                    <span id="vBrev">{{ $asistente?->brevedad ?? 50 }}%</span>
-                                </div>
-                                <input type="range" min="0" max="100" value="{{ $asistente?->brevedad ?? 50 }}"
-                                    name="brevedad" id="slider-brevedad"
-                                    oninput="document.getElementById('vBrev').textContent=this.value+'%'">
-                            </div>
-                            <div class="slider-row">
-                                <div class="d-flex justify-content-between">
-                                    <span class="form-label fs-6 mb-0">{{ __('Empatía') }}</span>
-                                    <span id="vEmp">{{ $asistente?->empatia ?? 80 }}%</span>
-                                </div>
-                                <input type="range" min="0" max="100" value="{{ $asistente?->empatia ?? 80 }}"
-                                    name="empatia" id="slider-empatia"
-                                    oninput="document.getElementById('vEmp').textContent=this.value+'%'">
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- ===== RIGHT COLUMN 35% ===== -->
@@ -308,6 +228,88 @@
                                 </div>
                             </div>
                         @endforeach
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <!-- MODELO IA -->
+                <div class="panel">
+                    <div class="mb-3">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-cpu text-primary fs-1"></i>
+                            {{ __('Modelo IA') }}
+                        </p>
+                        <p class="section-subtitle fs-3">{{ __('Selecciona el proveedor y el modelo que impulsará tu asistente.') }}</p>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-md-12">
+                            <span class="badge bg-light text-dark mb-2 fs-5">
+                                <i class="bi bi-hdd-network text-dark me-1 fs-5"></i>{{ __('Ollama (modelos locales, 100% gratis)') }}
+                            </span>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label fs-5 required">{{ __('Modelo') }}</label>
+                            <select class="form-select" id="modelSelect" name="modelo" required
+                                data-control="select2" data-placeholder="Seleccione el modelo" data-allow-clear="true">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-1" id="modelMeta">
+                        <!-- dynamic -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <!-- PERSONALIDAD -->
+                <div class="panel">
+                    <div class="mb-3">
+                        <p class="section-title fs-1">
+                            <i class="bi bi-sliders text-primary fs-1"></i>
+                            {{ __('Personalidad') }}
+                        </p>
+                        <p class="section-subtitle fs-3">{{ __('Ajusta el tono y estilo de las respuestas del asistente.') }}</p>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="slider-row">
+                                <div class="d-flex justify-content-between">
+                                    <span class="form-label fs-6 mb-0">{{ __('Creatividad') }}</span>
+                                    <span id="vCrea">{{ $asistente?->creatividad ?? 60 }}%</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="{{ $asistente?->creatividad ?? 60 }}"
+                                    name="creatividad" id="slider-creatividad"
+                                    oninput="document.getElementById('vCrea').textContent=this.value+'%'">
+                            </div>
+                            <div class="slider-row">
+                                <div class="d-flex justify-content-between">
+                                    <span class="form-label fs-6 mb-0">{{ __('Formalidad') }}</span>
+                                    <span id="vForm">{{ $asistente?->formalidad ?? 75 }}%</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="{{ $asistente?->formalidad ?? 75 }}"
+                                    name="formalidad" id="slider-formalidad"
+                                    oninput="document.getElementById('vForm').textContent=this.value+'%'">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="slider-row">
+                                <div class="d-flex justify-content-between">
+                                    <span class="form-label fs-6 mb-0">{{ __('Brevedad') }}</span>
+                                    <span id="vBrev">{{ $asistente?->brevedad ?? 50 }}%</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="{{ $asistente?->brevedad ?? 50 }}"
+                                    name="brevedad" id="slider-brevedad"
+                                    oninput="document.getElementById('vBrev').textContent=this.value+'%'">
+                            </div>
+                            <div class="slider-row">
+                                <div class="d-flex justify-content-between">
+                                    <span class="form-label fs-6 mb-0">{{ __('Empatía') }}</span>
+                                    <span id="vEmp">{{ $asistente?->empatia ?? 80 }}%</span>
+                                </div>
+                                <input type="range" min="0" max="100" value="{{ $asistente?->empatia ?? 80 }}"
+                                    name="empatia" id="slider-empatia"
+                                    oninput="document.getElementById('vEmp').textContent=this.value+'%'">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -52,7 +52,7 @@
                 @if ((servicioPlan('chat.atencion') || esDemo()) || servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
                     <div data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-placement="right-start"
                         class="menu-item py-2 {{request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear')
-                            || request()->is('login-qr') || request()->is('chatbots/configuracion') ? 'here' : ''}}">
+                            || request()->is('login-qr') || request()->is('chatbots/configuracion') || request()->is('chatbots/*') ? 'here' : ''}}">
                         <span class="menu-link menu-center">
                             <span
                                 class="menu-icon me-0">
@@ -624,7 +624,8 @@
                         @endif
                     @endif
                     @if ((servicioPlan('chat.atencion') || esDemo()) || servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
-                        @if (request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') || request()->is('login-qr') || request()->is('chatbots/configuracion'))
+                        @if (request()->is('chats') || request()->is('chatbots') || request()->is('chatbots/crear') ||
+                            request()->is('login-qr') || request()->is('chatbots/configuracion') || request()->is('chatbots/*'))
                             @if ((servicioPlan('chat.atencion') || esDemo()))
                                 <div class="menu-item">
                                     <a href="{{ route('chats.index') }}" class="menu-link {{request()->is('chats') ? 'active' : ''}}">
@@ -639,7 +640,8 @@
                             @endif
                             @if (servicioPlan('chatbots.ia') || servicioPlan('chatbot.n8n') || servicioPlan('chatbots.avanzados'))
                                 <div class="menu-item">
-                                    <a href="{{ route('chatbots.index') }}" class="menu-link {{request()->is('chatbots') || request()->is('chatbots/crear') ? 'active' : ''}}">
+                                    <a href="{{ route('chatbots.index') }}" class="menu-link {{request()->is('chatbots')
+                                        || request()->is('chatbots/crear') || request()->is('chatbots/*') ? 'active' : ''}}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>

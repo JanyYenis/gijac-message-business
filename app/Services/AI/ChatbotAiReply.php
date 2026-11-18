@@ -79,7 +79,7 @@ class ChatbotAiReply
         $botones = [];
         if (in_array(Asistente::ENVIAR_BOTONES, $cap)) {
             $botones = collect($json['botones'] ?? [])
-                ->filter('is_string')
+                ->filter(fn ($b) => is_string($b))
                 ->map(fn ($b) => mb_substr(trim($b), 0, 20))
                 ->filter()->unique()->take(3)->values()->all();
         }

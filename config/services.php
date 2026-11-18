@@ -45,7 +45,8 @@ return [
 
     'ollama' => [
         'base_url' => env('OLLAMA_BASE_URL', 'http://127.0.0.1:11434'),
-        'model' => env('OLLAMA_MODEL', 'gpt-oss:120b-cloud'),
+        'model' => env('OLLAMA_MODEL', 'qwen2.5:3b'),
+        'timeout' => env('OLLAMA_TIMEOUT', 120),
     ],
 
     'epayco' => [

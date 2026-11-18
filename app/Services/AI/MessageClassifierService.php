@@ -21,7 +21,7 @@ class MessageClassifierService
             $response = Http::timeout(30)->post('http://127.0.0.1:8001/etiquetar', [
                 'mensaje' => $mensaje,
                 'prompt_usuario' => $clasificacion?->prompt ?: "Clasificación de Sentimientos: Analiza el sentimiento del mensaje y clasifícalo como 'positivo', 'negativo' o 'neutral'. Considera el tono, las palabras utilizadas y el contexto general.",
-                'model_name' => 'gpt-oss:120b-cloud',
+                'model_name' => 'qwen2.5:3b',
                 'temperature' => 0.3,
             ]);
 

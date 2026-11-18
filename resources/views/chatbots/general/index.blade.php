@@ -408,7 +408,7 @@
                     <section class="card-s">
                         <div class="sec-head">
                             <div class="sec-ico">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <i class="fa-solid fa-wand-magic"></i>
                             </div>
                             <div>
                                 <div class="sec-title">{{ __('Comportamiento de respuesta') }}</div>

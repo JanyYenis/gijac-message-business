@@ -24,6 +24,7 @@ class OllamaService
 
         return collect($response->json('models', []))
             ->filter(fn ($m) => !str_starts_with($m['name'], 'EstebanEscobar/'))
+            ->reject(fn ($m) => str_ends_with($m['name'], 'cloud') || isset($m['remote_host']) || isset($m['remote_model']))
             ->map(fn ($m) => [
                 'id'   => $m['name'],
                 'name' => $m['name'],
@@ -54,7 +55,7 @@ class OllamaService
             $payload['format'] = $opciones['format']; // esquema JSON (botones/listas)
         }
 
-        $response = Http::timeout(60)->post("{$this->baseUrl}/api/chat", $payload);
+        $response = Http::timeout((int) config('services.ollama.timeout', 120))->post("{$this->baseUrl}/api/chat", $payload);
 
         if (!$response->successful()) {
             throw new RuntimeException('Ollama no respondió correctamente: ' . $response->body());

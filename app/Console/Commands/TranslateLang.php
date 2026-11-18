@@ -39,7 +39,7 @@ class TranslateLang extends Command
         }
 
         $ollamaUrl = rtrim(config('services.ollama.base_url', 'http://127.0.0.1:11434'), '/');
-        $model = config('services.ollama.model', 'gpt-oss:120b-cloud');
+        $model = config('services.ollama.model', 'qwen2.5:3b');
 
         if (!$this->checkOllama($ollamaUrl)) {
             $this->error("No se pudo conectar a Ollama en {$ollamaUrl}. ¿Está corriendo? Prueba: ollama serve");

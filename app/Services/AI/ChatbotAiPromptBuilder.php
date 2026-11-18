@@ -43,12 +43,13 @@ class ChatbotAiPromptBuilder
                 $prompt .= ", \"transferir\": false";
             }
             $prompt .= "}.\n";
-            if (in_array(ChatbotAiAssistant::ENVIAR_BOTONES, $capacidades)) {
-                $prompt .= "Usa \"botones\" (máximo 3, de hasta 20 caracteres) cuando ofrezcas 2 o 3 respuestas cortas posibles.\n";
+                        if (in_array(ChatbotAiAssistant::ENVIAR_BOTONES, $capacidades)) {
+                $prompt .= "Usa \"botones\" (máximo 3, de hasta 20 caracteres) SOLO cuando hagas una pregunta con 2 o 3 respuestas cortas posibles.\n";
             }
             if (in_array(ChatbotAiAssistant::ENVIAR_LISTAS, $capacidades)) {
-                $prompt .= "Usa \"lista\" (máximo 10 opciones) cuando haya más de 3 opciones a elegir.\n";
+                $prompt .= "Usa \"lista\" (máximo 10 opciones) SOLO cuando haya 4 o más opciones a elegir.\n";
             }
+            $prompt .= "Si solo estás informando o respondiendo una duda, NO incluyas botones ni lista.\n";
             if (in_array(ChatbotAiAssistant::TRANSFERIR_A_AGENTE_HUMANO, $capacidades)) {
                 $prompt .= "Pon \"transferir\": true solo si el cliente pide hablar con una persona o no puedes resolver su consulta.\n";
             }

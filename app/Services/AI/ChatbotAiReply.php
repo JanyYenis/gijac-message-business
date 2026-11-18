@@ -101,6 +101,15 @@ class ChatbotAiReply
             }
         }
 
+        // Una lista de 3 opciones o menos (títulos cortos) se envía como botones: es más cómodo para el cliente
+        if ($lista && count($lista['opciones']) <= 3 && in_array(Asistente::ENVIAR_BOTONES, $cap)) {
+            $titulos = array_column($lista['opciones'], 'titulo');
+            if (collect($titulos)->every(fn ($t) => mb_strlen($t) <= 20)) {
+                $botones = $titulos;
+                $lista   = null;
+            }
+        }
+
         return [
             'texto'      => trim($json['texto']),
             'botones'    => $botones,

@@ -112,7 +112,7 @@ class ClasificarChat implements ShouldQueue
             . "Categorías:\n{$lista}"
             . ($criterios ? "\n\nCriterios adicionales del negocio:\n{$criterios}" : '');
 
-        $modelo = $empresa->asistenteActivo?->modelo ?: config('services.ollama.model', 'qwen2.5:3b');
+        $modelo = $empresa->asistenteActivo?->modelo ?: config('services.ollama.model', 'qwen2.5:1.5b');
 
         try {
             $respuesta = $ollama->chat($sistema, [['role' => 'user', 'content' => $this->texto]], $modelo, ['temperature' => 0]);

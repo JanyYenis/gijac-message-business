@@ -48,7 +48,10 @@ class OllamaService
             'stream'   => false,
             'options'  => [
                 'temperature' => $opciones['temperature'] ?? 0.7,
+                'num_predict' => (int) config('services.ollama.max_tokens', 250), // tope de la respuesta
+                'num_ctx'     => (int) config('services.ollama.num_ctx', 2048),   // contexto (menos = más rápido)
             ],
+            'keep_alive' => config('services.ollama.keep_alive', '1h'),
         ];
 
         if (!empty($opciones['format'])) {

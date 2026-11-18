@@ -117,7 +117,7 @@ class ChatbotAiReply
         if ($r['lista']) {
             $rows = [];
             foreach ($r['lista']['opciones'] as $i => $o) {
-                $rows[] = array_filter(['id' => 'ia_' . ($i + 1), 'title' => $o['titulo'], 'description' => $o['descripcion']]);
+                $rows[] = array_filter(['id' => 'ia:' . $o['titulo'], 'title' => $o['titulo'], 'description' => $o['descripcion']]);
             }
             $interactive = [
                 'type'   => 'list',
@@ -128,9 +128,9 @@ class ChatbotAiReply
             $interactive = [
                 'type'   => 'button',
                 'body'   => ['text' => $body],
-                'action' => ['buttons' => collect($r['botones'])->map(fn ($b, $i) => [
+                'action' => ['buttons' => collect($r['botones'])->map(fn ($b) => [
                     'type'  => 'reply',
-                    'reply' => ['id' => 'ia_' . ($i + 1), 'title' => $b],
+                    'reply' => ['id' => 'ia:' . $b, 'title' => $b],
                 ])->values()->all()],
             ];
         } else {

@@ -9,7 +9,7 @@ use Netflie\WhatsAppCloudApi\WhatsAppCloudApi;
 
 class IncomingMessageParser
 {
-    public function parse(array $mensajeData, int $tipoMapped, string $tipoOriginal, WhatsAppCloudApi $api): ParsedWhatsAppMessage
+    public function parse(array $mensajeData, ?int $tipoMapped, string $tipoOriginal, WhatsAppCloudApi $api): ParsedWhatsAppMessage
     {
         return match (true) {
             $tipoMapped === Mensaje::TEXTO => $this->parseTexto($mensajeData),

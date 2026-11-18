@@ -475,7 +475,7 @@ class WebhookMessage implements ShouldQueue
     {
         return match ($motor) {
             Cfg::MOTOR_NODOS => $this->runChatbotAvanzado($config, $api, $waFrom, $contacto, $parsed),
-            Cfg::MOTOR_IA => $this->runChatbotIaBasico($config, $api, $waFrom, $contacto, $empresa->asistenteActivo()->first(), $waMsgId, $textoGrupo, $mantenerContexto),
+            Cfg::MOTOR_IA => $this->runChatbotIaBasico($config, $api, $waFrom, $contacto, $empresa->asistenteActivo()->first(), $waMsgId, $this->textoInteractivo($parsed, $tipoOriginal, $textoGrupo), $mantenerContexto),
             Cfg::MOTOR_AUTOMATIZACION => $this->runChatbotWebhook($config, $api, $waFrom, $contacto, $tipoOriginal, $parsed, $waMsgId, $textoGrupo),
             default => false,
         };
@@ -656,5 +656,17 @@ class WebhookMessage implements ShouldQueue
             'sent_at'        => now(),
             'response_type'  => $responseType,
         ]);
+    }
+
+    /** Si el cliente respondió con un botón o lista, el texto para la IA es el de la opción elegida. */
+    private function textoInteractivo(ParsedWhatsAppMessage $parsed, string $tipoOriginal, ?string $textoGrupo): ?string
+    {
+        if ($textoGrupo || $tipoOriginal !== 'interactive') {
+            return $textoGrupo;
+        }
+
+        $valor = (string) $parsed->valorChat;
+
+        return str_starts_with($valor, 'ia:') ? substr($valor, 3) : (trim((string) $parsed->body) ?: null);
     }
 }

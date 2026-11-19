@@ -82,6 +82,10 @@ class ChatbotAiReply
                 ->filter(fn ($b) => is_string($b))
                 ->map(fn ($b) => mb_substr(trim($b), 0, 20))
                 ->filter()->unique()->take(3)->values()->all();
+
+            if (count($botones) < 2) {
+                $botones = []; // un solo botón no es una elección
+            }
         }
 
         $lista = null;
@@ -94,7 +98,7 @@ class ChatbotAiReply
                 ])
                 ->unique('titulo')->take(10)->values()->all();
 
-            if ($opciones) {
+            if (count($opciones) >= 2) {
                 $boton = trim((string) ($json['lista']['boton'] ?? ''));
                 $lista = ['boton' => mb_substr($boton !== '' ? $boton : 'Ver opciones', 0, 20), 'opciones' => $opciones];
                 $botones = []; // la lista tiene prioridad

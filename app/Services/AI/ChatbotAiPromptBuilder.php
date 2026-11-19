@@ -32,29 +32,17 @@ class ChatbotAiPromptBuilder
         }
 
         if (ChatbotAiReply::estructurado($capacidades)) {
-            $prompt .= "\nResponde SIEMPRE con un JSON válido: {\"texto\": \"tu respuesta\"";
+            $prompt .= "\nResponde SIEMPRE con un único objeto JSON válido. Campo obligatorio: \"texto\" (tu respuesta, máximo 400 caracteres; nunca copies el documento ni repitas el mensaje del cliente).";
             if (in_array(ChatbotAiAssistant::ENVIAR_BOTONES, $capacidades)) {
-                $prompt .= ", \"botones\": [\"Opción\"]";
+                $prompt .= " Campo opcional \"botones\": entre 2 y 3 respuestas cortas (máximo 20 caracteres) que el cliente podría elegir, solo si le haces una pregunta con esas opciones.";
             }
             if (in_array(ChatbotAiAssistant::ENVIAR_LISTAS, $capacidades)) {
-                $prompt .= ", \"lista\": {\"boton\": \"Ver opciones\", \"opciones\": [{\"titulo\": \"...\", \"descripcion\": \"...\"}]}";
+                $prompt .= " Campo opcional \"lista\" con \"boton\" (texto del botón) y \"opciones\" (entre 4 y 10, cada una con \"titulo\" y \"descripcion\"), solo cuando haya 4 o más opciones reales para elegir.";
             }
             if (in_array(ChatbotAiAssistant::TRANSFERIR_A_AGENTE_HUMANO, $capacidades)) {
-                $prompt .= ", \"transferir\": false";
+                $prompt .= " Campo opcional \"transferir\" en true solo si el cliente pide hablar con una persona o no puedes resolver su consulta.";
             }
-            $prompt .= "}.\n";
-            if (in_array(ChatbotAiAssistant::ENVIAR_BOTONES, $capacidades)) {
-                $prompt .= "Usa \"botones\" (máximo 3, de hasta 20 caracteres) SOLO cuando hagas una pregunta con 2 o 3 respuestas cortas posibles.\n";
-            }
-            if (in_array(ChatbotAiAssistant::ENVIAR_LISTAS, $capacidades)) {
-                $prompt .= "Usa \"lista\" (máximo 10 opciones) SOLO cuando haya 4 o más opciones a elegir.\n";
-            }
-            $prompt .= "Nunca pongas un solo botón ni repitas tu respuesta como botón.\n";
-            $prompt .= "Si solo estás informando o respondiendo una duda, NO incluyas botones ni lista.\n";
-            if (in_array(ChatbotAiAssistant::TRANSFERIR_A_AGENTE_HUMANO, $capacidades)) {
-                $prompt .= "Pon \"transferir\": true solo si el cliente pide hablar con una persona o no puedes resolver su consulta.\n";
-            }
-            $prompt .= "Si no hace falta ninguna opción, omite esos campos. El \"texto\" nunca debe quedar vacío.\n";
+            $prompt .= "\nSi solo informas o respondes una duda, usa únicamente \"texto\". Los títulos de botones y opciones deben ser palabras reales del tema, nunca \"Opción 1\".\n";
         } else {
             $prompt .= "\nResponde siempre en texto plano, no describas botones ni listas interactivas.\n";
         }

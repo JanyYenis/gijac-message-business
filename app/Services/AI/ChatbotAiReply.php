@@ -69,10 +69,14 @@ class ChatbotAiReply
         }
 
         $json = json_decode($raw, true);
-        if (! is_array($json) && preg_match('/\{.*\}/s', $raw, $m)) {
-            $json = json_decode($m[0], true);
-        }
         if (! is_array($json) || ! is_string($json['texto'] ?? null)) {
+            // JSON cortado o inválido: se rescata el "texto" si se alcanza a leer; nunca se envía JSON crudo al cliente
+            if (preg_match('/"texto"\s*:\s*"((?:[^"\\\\]|\\\\.)*)"/s', $raw, $m)) {
+                $vacio['texto'] = trim((string) (json_decode('"' . $m[1] . '"') ?? $m[1]));
+            } elseif (str_starts_with(ltrim($raw), '{')) {
+                $vacio['texto'] = '';
+            }
+
             return $vacio;
         }
 
@@ -81,7 +85,9 @@ class ChatbotAiReply
             $botones = collect($json['botones'] ?? [])
                 ->filter(fn ($b) => is_string($b))
                 ->map(fn ($b) => mb_substr(trim($b), 0, 20))
-                ->filter()->unique()->take(3)->values()->all();
+                ->filter()
+                ->reject(fn ($b) => self::generico($b))
+                ->unique()->take(3)->values()->all();
 
             if (count($botones) < 2) {
                 $botones = []; // un solo botón no es una elección
@@ -96,6 +102,7 @@ class ChatbotAiReply
                     'titulo'      => mb_substr(trim($o['titulo']), 0, 24),
                     'descripcion' => is_string($o['descripcion'] ?? null) && trim($o['descripcion']) !== '' ? mb_substr(trim($o['descripcion']), 0, 72) : null,
                 ])
+                ->reject(fn ($o) => self::generico($o['titulo']))
                 ->unique('titulo')->take(10)->values()->all();
 
             if (count($opciones) >= 2) {
@@ -173,5 +180,10 @@ class ChatbotAiReply
     public static function estructurado(array $cap): bool
     {
         return self::interactivo($cap) || in_array(Asistente::TRANSFERIR_A_AGENTE_HUMANO, $cap);
+    }
+
+    private static function generico(string $titulo): bool
+    {
+        return (bool) preg_match('/^(opci[oó]n|opcion|option|bot[oó]n)\s*\d*$/iu', trim($titulo));
     }
 }

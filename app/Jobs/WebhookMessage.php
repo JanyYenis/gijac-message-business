@@ -519,6 +519,8 @@ class WebhookMessage implements ShouldQueue
         $contacto->update(['estado_chatbot' => Contacto::INACTIVO, 'estado_chatbot_ia' => Contacto::INACTIVO]);
         Cache::put("bot:transferido:{$contacto->id}", 1, now()->addDays(7));
 
+        EnviarAvisoAtencionHumana::dispatch($contacto->id, $config->phone_number_id);
+
         ChatbotSession::where('telefono_contacto', $waFrom)->whereIn('estado', [ChatbotSession::ACTIVO, ChatbotSession::ESPERANDO])
             ->update(['estado' => ChatbotSession::AGENTE, 'fecha_finalizado' => now()]);
 

@@ -94,5 +94,6 @@
     "/css/config.css": "/css/config.css",
     "/css/chatbot-config.css": "/css/chatbot-config.css",
     "/css/driver.css": "/css/driver.css",
-    "/css/empresas.css": "/css/empresas.css"
+    "/css/empresas.css": "/css/empresas.css",
+    "/css/campanas.css": "/css/campanas.css"
 }

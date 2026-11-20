@@ -1,5 +1,5 @@
-<div class="grid">
-     @if (count($campanas))
+@if (count($campanas))
+    <div class="grid">
         @foreach ($campanas as $campana)
             <article class="c-card in" data-card="c4">
                 <div class="c-head">
@@ -149,12 +149,12 @@
                 </div>
             </article>
         @endforeach
-    @else
-        <div class="text-center">
-            <h1 class="text-gijac">{{ __('Sin resultados.') }}</h1>
-        </div>
-    @endif
-</div>
+    </div>
+@else
+    <div class="text-center">
+        <h1 class="text-gijac">{{ __('Sin resultados.') }}</h1>
+    </div>
+@endif
 
 @component('campanas.paginado')
     @slot('cantidadDatos', $campanas)

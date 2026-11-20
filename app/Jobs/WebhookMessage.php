@@ -545,10 +545,9 @@ class WebhookMessage implements ShouldQueue
         ChatbotSession::where('telefono_contacto', $waFrom)->whereIn('estado', [ChatbotSession::ACTIVO, ChatbotSession::ESPERANDO])
             ->update(['estado' => ChatbotSession::EXPIRADO, 'fecha_finalizado' => now()]);
 
-        // Solo se reactiva si fue el propio chatbot quien lo transfirió (no si alguien lo apagó a mano)
-        if (Cache::pull("bot:transferido:{$contacto->id}")) {
-            $contacto->update(['estado_chatbot' => Contacto::ACTIVO, 'estado_chatbot_ia' => Contacto::ACTIVO]);
-        }
+        // Tras la inactividad el bot vuelve a atender al contacto
+        Cache::forget("bot:transferido:{$contacto->id}");
+        $contacto->update(['estado_chatbot' => Contacto::ACTIVO, 'estado_chatbot_ia' => Contacto::ACTIVO]);
     }
 
     private function esAfirmativo(string $texto): bool

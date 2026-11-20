@@ -222,3 +222,8 @@ mix.styles(
     "resources/css/empresas.css",
     "public/css/empresas.css"
 );
+
+mix.styles(
+    "resources/css/campanas.css",
+    "public/css/campanas.css"
+);

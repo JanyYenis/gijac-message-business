@@ -159,3 +159,4 @@ require('./listado-tarjeta');
 require('./crear');
 require('./detalle');
 require('./editar');
+require('./tutorial');

@@ -81,7 +81,7 @@ class TicketController extends Controller
 
         if ($request->hasFile('archivo')) {
             $archivo = $request->file('archivo');
-            $datos['url_archivo'] = $archivo->store('tickets'); // Guarda en storage/app/archivos_subidos
+            $datos['url_archivo'] = $archivo->store('tickets', 'public'); // Guarda en storage/app/archivos_subidos
         }
 
         $ticket = Ticket::create($datos);

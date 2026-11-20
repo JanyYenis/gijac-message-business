@@ -92,5 +92,7 @@
     "/css/catalogo.css": "/css/catalogo.css",
     "/css/calendario.css": "/css/calendario.css",
     "/css/config.css": "/css/config.css",
-    "/css/chatbot-config.css": "/css/chatbot-config.css"
+    "/css/chatbot-config.css": "/css/chatbot-config.css",
+    "/css/driver.css": "/css/driver.css",
+    "/css/empresas.css": "/css/empresas.css"
 }

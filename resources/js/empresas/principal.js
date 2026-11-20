@@ -143,3 +143,5 @@ const enviarDatos = (form) => {
     generalidades.create(ruta, config, success, error);
     generalidades.mostrarCargando(formEmpresa);
 }
+
+require('./tutorial');

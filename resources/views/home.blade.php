@@ -2,6 +2,11 @@
 
 @section('titulo_drawer', __('Filtros'))
 
+@section('tutorial')
+    @component('layouts.componentes.tutorial')
+    @endcomponent
+@endsection
+
 @section('contenido_drawer')
     <form id="fromFiltros">
         <div class="row">
@@ -58,7 +63,7 @@
 
 <div class="container-fluid main-container">
         <!-- Metric Cards -->
-        <div class="row g-4 mb-4">
+        <div class="row g-4 mb-4" id="driverMetrics">
             <div class="col-lg-3 col-md-6">
                 <div class="card metric-card">
                     <div class="metric-icon contacts">
@@ -142,7 +147,7 @@
         <!-- Charts Row 2 -->
         <div class="row g-4 mb-4">
             <div class="col-lg-6">
-                <div class="card chart-card">
+                <div class="card chart-card" id="driverHorarios">
                     <h5 class="chart-title">
                         <i class="fas fa-clock text-warning"></i>
                         {{ __('Horarios de Apertura por Día') }}

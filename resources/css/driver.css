@@ -1,0 +1,73 @@
+/* ==========================================
+   GIJAC MESSAGE BUSINESS - DRIVER JS
+========================================== */
+
+.driver-popover {
+    background: #ffffff !important;
+    border: 1px solid #e5edf5 !important;
+    border-radius: 14px !important;
+    padding: 22px !important;
+    box-shadow: 0 12px 40px rgba(0, 30, 70, 0.18) !important;
+    font-family: inherit !important;
+    max-width: 360px !important;
+}
+
+.driver-popover-title {
+    color: #102c50 !important;
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    margin-bottom: 10px !important;
+}
+
+.driver-popover-description {
+    color: #64748b !important;
+    font-size: 13px !important;
+    line-height: 1.7 !important;
+}
+
+.driver-popover-progress-text {
+    color: #64748b !important;
+    font-size: 11px !important;
+}
+
+.driver-popover-footer {
+    margin-top: 18px !important;
+}
+
+.driver-popover-prev-btn {
+    background: #f1f5f9 !important;
+    color: #334155 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    text-shadow: none !important;
+}
+
+.driver-popover-next-btn,
+.driver-popover-close-btn {
+    text-shadow: none !important;
+}
+
+.driver-popover-next-btn {
+    background: linear-gradient(135deg, #0755a5, #00b8c7) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 7px 16px !important;
+    font-weight: 600 !important;
+}
+
+.driver-popover-next-btn:hover {
+    opacity: 0.9;
+}
+
+.driver-popover-close-btn {
+    color: #64748b !important;
+}
+
+.driver-popover-arrow {
+    border-color: #ffffff !important;
+}
+
+.driver-overlay {
+    background: rgba(5, 20, 40, 0.75) !important;
+}

@@ -469,3 +469,5 @@ $(function () {
         new bootstrap.Tooltip(this);
     });
 });
+
+require('./tutorial_config');

@@ -98,6 +98,8 @@
                     <!--end::Trigger button-->
                 @endif
 
+                @yield('tutorial')
+
                 <!--begin::Secondary button-->
                 <div class="seccionNotificacionesGeneral m-0">
                     @component('layouts.componentes.notificaciones')

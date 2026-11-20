@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="{{ asset('css/llamada.css') }}" />
 
     <link href="{{ mix('css/cel.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ mix('css/driver.css') }}" rel="stylesheet" type="text/css"/>
 
     <!--begin::Google tag-->
     <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js"></script>

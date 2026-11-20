@@ -236,7 +236,7 @@ class WebhookMessage implements ShouldQueue
             "contact" => [
                 "id" => $contacto->id,
                 "name" => $contacto->nombre_completo,
-                "phone" => $contacto->nombre_completo
+                "phone" => $contacto->numero_completo
             ],
             "message" => [
                 "id" => $waMsgId,

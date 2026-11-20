@@ -18,6 +18,11 @@
 
 @extends('layouts.index')
 
+@section('tutorial')
+    @component('layouts.componentes.tutorial')
+    @endcomponent
+@endsection
+
 @section('css')
     <link rel="stylesheet" href="{{ mix('/css/gmb.css') }}">
 @endsection
@@ -37,7 +42,7 @@
                 <span class="badge-available me-1">
                     <i class="bi bi-check2-circle me-1 text-white"></i>{{ __('3 tipos disponibles') }}
                 </span>
-                <a type="button" class="btn btn-light-wa" href="{{ route('chatbots.configuracion.index') }}">
+                <a type="button" class="btn btn-light-wa" id="driverBtnConfiguracion" href="{{ route('chatbots.configuracion.index') }}">
                     <i class="bi bi-gear text-primary fs-1"></i>
                     {{ __('Configuración') }}
                 </a>
@@ -45,7 +50,7 @@
         </div>
     </div>
     <!-- ====== ESTADÍSTICAS RÁPIDAS ====== -->
-    <div class="row g-3 mb-4">
+    <div class="row g-3 mb-4" id="estadisticasRapidas">
         <div class="col-12 col-sm-6 col-lg-3">
             <div class="stat-card">
                 <div class="stat-icon">
@@ -98,7 +103,7 @@
         <p class="section-subtitle fs-3">{{ __('Selecciona y configura el chatbot que mejor se adapte a tu negocio.') }}</p>
     </div>
 
-    <div class="row g-4 mb-5">
+    <div class="row g-4 mb-5" id="seccionChatbots">
         @if($servicios['nodos'])
             <!-- TARJETA 1 -->
             <div class="col-12 col-lg-{{ $columnas }}">

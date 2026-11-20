@@ -442,3 +442,5 @@ $(document).on('click', '#btnLimpiar', function () {
     $("#inputFechas").data('daterangepicker').setStartDate(start);
     $("#inputFechas").data('daterangepicker').setEndDate(end);
 });
+
+require('./tutorial');

@@ -16,3 +16,5 @@ $(function () {
         }, 900);
     });
 });
+
+require('./tutorial');

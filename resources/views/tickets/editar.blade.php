@@ -60,7 +60,7 @@
                                 <input type="hidden" name="id" value="{{ $ticket->id }}">
                                 @if ($ticket?->url_archivo)
                                     <b>{{ __('Archivo de complemento:') }}</b>
-                                    <a href="{{ asset('storage/'.$ticket->url_archivo) }}" target="_blank">{{ __('Archivo') }}</a>
+                                    <a href="{{ asset($ticket->url_archivo) }}" target="_blank">{{ __('Archivo') }}</a>
                                 @endif
                                 <!--begin::Description-->
                                 <div class="mb-15 fs-5 fw-normal text-gray-800">

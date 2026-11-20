@@ -1,5 +1,10 @@
 @extends('layouts.index')
 
+@section('tutorial')
+    @component('layouts.componentes.tutorial')
+    @endcomponent
+@endsection
+
 @section('css')
     <link rel="stylesheet" href="{{ mix('/css/gmb.css') }}">
     <link rel="stylesheet" href="{{ mix('/css/chatbot-config.css') }}">
@@ -351,7 +356,7 @@
                         </div>
                     </section>
 
-                    <section class="card-s">
+                    <section class="card-s" id="sec-contexto">
                         <div class="sec-head">
                             <div class="sec-ico">
                                 <i class="fa-solid fa-clock-rotate-left"></i>
@@ -405,7 +410,7 @@
                         </label>
                     </section>
 
-                    <section class="card-s">
+                    <section class="card-s" id="sec-comportamiento">
                         <div class="sec-head">
                             <div class="sec-ico">
                                 <i class="fa-solid fa-wand-magic"></i>
@@ -533,7 +538,7 @@
                             </button>
                         </div>
 
-                        <div class="card-s">
+                        <div class="card-s" id="sec-summary">
                             <div class="sec-title mb-2" style="font-size:15px">{{ __('Resumen de configuración') }}</div>
                             <div class="hint mb-3">{{ __('Vista rápida de cómo quedará tu chatbot.') }}</div>
                             <div id="summary"></div>

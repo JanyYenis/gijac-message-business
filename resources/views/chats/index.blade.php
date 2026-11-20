@@ -1,5 +1,10 @@
 @extends('layouts.index')
 
+@section('tutorial')
+    @component('layouts.componentes.tutorial')
+    @endcomponent
+@endsection
+
 @section('css')
     <link rel="stylesheet" href="{{ mix('css/chats.css') }}">
     <link rel="stylesheet" href="{{ mix('css/audio.css') }}">
@@ -11,7 +16,8 @@
     <div class="messaging-container">.
         <!-- Left Column - Contacts List -->
         <div class="contacts-column" id="contactsColumn">
-            <div class="contacts-header {{ $datosNumero && isset($datosNumero['data']) && !$numeroTelefonoPrueba ? 'btnPerfilWhatsapp' : '' }}">
+            <div class="contacts-header {{ $datosNumero && isset($datosNumero['data']) && !$numeroTelefonoPrueba ? 'btnPerfilWhatsapp' : '' }}"
+                id="driverPerfilWhatsapp">
                 <div class="app-logo">
                     <img class="profile-image" src="{{ $datosPerfilWhatsapp && isset($datosPerfilWhatsapp['profile_picture_url']) ? $datosPerfilWhatsapp['profile_picture_url'] : asset('img/logo_mini.png') }}" alt="Elad Shechter">
                 </div>

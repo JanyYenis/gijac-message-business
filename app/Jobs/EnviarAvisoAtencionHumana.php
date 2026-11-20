@@ -69,6 +69,7 @@ class EnviarAvisoAtencionHumana implements ShouldQueue
                 ['tipo' => 'mensaje', 'motivo' => 'atencion_humana', 'chat_id' => (string) $contacto->numero_completo, 'nombre' => $nombre],
                 'humano_' . $contacto->numero_completo
             );
+            Log::info('HUMANO: push', ['resultado' => $resultado, 'token_fin' => substr($d->fcm_token, -12), 'error' => FcmService::$ultimoError]);
             if ($resultado === FcmService::TOKEN_INVALIDO) {
                 $d->update(['fcm_token' => null]);
             }

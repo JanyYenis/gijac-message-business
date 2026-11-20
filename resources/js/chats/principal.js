@@ -571,6 +571,7 @@ $(document).on('keydown', '#message-box', function (e) {
 require('./audio');
 require('./camara');
 require('./documentos');
+require('./tutorial');
 
 // ----------------------------------------------------------------------------------------------
 // Echo

@@ -212,3 +212,13 @@ mix.styles(
     "resources/css/chatbot-config.css",
     "public/css/chatbot-config.css"
 );
+
+mix.styles(
+    "resources/css/driver.css",
+    "public/css/driver.css"
+);
+
+mix.styles(
+    "resources/css/empresas.css",
+    "public/css/empresas.css"
+);

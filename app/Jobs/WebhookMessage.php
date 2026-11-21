@@ -613,15 +613,20 @@ class WebhookMessage implements ShouldQueue
             return;
         }
 
+                $esLista  = (bool) $r['lista'];
+        $opciones = $esLista
+            ? array_map(fn ($o) => array_filter(['type' => 'text', 'text' => $o['titulo'], 'description' => $o['descripcion']]), $r['lista']['opciones'])
+            : array_map(fn ($b) => ['type' => 'text', 'text' => $b], $r['botones']);
+
         Mensaje::create([
             'campaign_id'   => null,
             'contact_id'    => $contacto->id,
             'wa_message_id' => $res->json('messages.0.id'),
             'wa_from'       => $config->phone_number_id,
             'wa_to'         => $waFrom,
-            'type'          => Mensaje::TEXTO,
-            'body'          => ChatbotAiReply::comoTexto($r),
-            'metadata'      => null,
+            'type'          => $esLista ? Mensaje::INTERACCION_LISTADO : Mensaje::INTERACCION_BOTON,
+            'body'          => $r['texto'],
+            'metadata'      => ['buttons' => json_encode($opciones, JSON_UNESCAPED_UNICODE)],
             'estado'        => Mensaje::ENVIADO,
             'sent_at'       => now(),
             'response_type' => $responseType,

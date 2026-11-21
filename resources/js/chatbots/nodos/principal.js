@@ -583,7 +583,7 @@ function renderProps(type, id, data) {
                 </div>
                 <small class="text-muted d-block mt-1">
                     <b>Principal:</b> primer nodo que dispara el bot.
-                    <b>${_('Envío inmediato')}:</b> ${__('el bot envía este nodo sin esperar respuesta del usuario.')}
+                    <b>${__('Envío inmediato')}:</b> ${__('el bot envía este nodo sin esperar respuesta del usuario.')}
                 </small>
             </div>`;
 

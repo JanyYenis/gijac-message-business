@@ -87,7 +87,7 @@ class ChatbotNodeExecutor
 
                 default => null,
             };
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             Log::error('ERROR CRÍTICO ENVIANDO WHATSAPP: ' . $e->getMessage());
         }
 
@@ -141,7 +141,7 @@ class ChatbotNodeExecutor
         $filename = basename(parse_url($mediaUrl, PHP_URL_PATH));
         $datos['body'] = $caption ?? $filename;
 
-        return match ($tipo) {
+        return match ((int) $tipo) {
             ChatbotNode::IMAGE => tap($api->sendImage($waFrom, $linkId, $caption), fn() => $datos['type'] = Mensaje::IMAGEN),
             ChatbotNode::VIDEO => tap($api->sendVideo($waFrom, $linkId, $caption), fn() => $datos['type'] = Mensaje::VIDEO),
             ChatbotNode::DOC   => tap($api->sendDocument($waFrom, $linkId, $filename, $caption ?: $message), fn() => $datos['type'] = Mensaje::DOCUMENTO),

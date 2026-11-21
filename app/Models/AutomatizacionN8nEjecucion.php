@@ -35,6 +35,8 @@ class AutomatizacionN8nEjecucion extends Model
         'id' => 'string',
         'cod_automatizacion' => 'string',
         'cod_contacto' => 'string',
+        'payload_enviado' => 'array',
+        'respuesta' => 'array',
         "created_at" => "date:d/m/Y",
         "fecha_ejecucion" => "date:d/m/Y",
     ];

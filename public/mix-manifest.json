@@ -2,6 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/js/jquery-validator.init.js": "/js/jquery-validator.init.js",
     "/js/home.js": "/js/home.js",
+    "/js/guia.js": "/js/guia.js",
     "/js/prueba.js": "/js/prueba.js",
     "/js/main.js": "/js/main.js",
     "/js/phones-3d.js": "/js/phones-3d.js",
@@ -95,5 +96,8 @@
     "/css/chatbot-config.css": "/css/chatbot-config.css",
     "/css/driver.css": "/css/driver.css",
     "/css/empresas.css": "/css/empresas.css",
-    "/css/campanas.css": "/css/campanas.css"
+    "/css/campanas.css": "/css/campanas.css",
+    "/css/acceso.css": "/css/acceso.css",
+    "/css/acceso-general.css": "/css/acceso-general.css",
+    "/css/graficos.css": "/css/graficos.css"
 }

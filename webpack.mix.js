@@ -37,6 +37,7 @@ mix.js('resources/js/app.js', 'public/js')
 // JS
 mix.js("resources/js/jquery-validator.init.js", "public/js/jquery-validator.init.js");
 mix.js("resources/js/home.js", "public/js/home.js");
+mix.js("resources/js/guia.js", "public/js/guia.js");
 mix.js("resources/js/prueba.js", "public/js/prueba.js");
 
 mix.js("resources/js/main.js", "public/js/main.js");
@@ -226,4 +227,19 @@ mix.styles(
 mix.styles(
     "resources/css/campanas.css",
     "public/css/campanas.css"
+);
+
+mix.styles(
+    "resources/css/acceso.css",
+    "public/css/acceso.css"
+);
+
+mix.styles(
+    "resources/css/acceso-general.css",
+    "public/css/acceso-general.css"
+);
+
+mix.styles(
+    "resources/css/graficos.css",
+    "public/css/graficos.css"
 );

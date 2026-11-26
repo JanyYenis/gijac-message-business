@@ -74,6 +74,8 @@ Route::post('/contactarnos/guardar', [ContactoPaginaController::class, 'store'])
 Route::get('/campanas/redireccion/{telefono}/{idCampana}/{indexBtn}/link', [CampanaController::class, 'redireccionLink']);
 
 Route::middleware(['web', 'auth', '2fa', 'verified', 'verify.company'])->group(function () {
+    Route::get('/guia/estado', [HomeController::class, 'guia'])->name('guia.estado');
+
     // Dashboard
     Route::get('/home', [HomeController::class, 'index'])
         ->name('home');

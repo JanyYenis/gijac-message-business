@@ -7,6 +7,7 @@ use App\Models\Campana;
 use App\Models\EnvioCampana;
 use App\Models\Mensaje;
 use App\Models\Plan;
+use App\Models\WhatsappAccount;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -18,7 +19,36 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $empresa = auth()->user()?->empresa;
+        $cod     = $empresa?->id;
+
+        $pasos = [
+            $empresa !== null,
+            (bool) $cod && WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->exists(),
+            (bool) $cod && Contacto::where('cod_empresa', $cod)->where('estado', '!=', Contacto::ELIMINADO)->exists(),
+            (bool) $cod && Campana::where('cod_empresa', $cod)->where('estado', '!=', Campana::ELIMINADO)->exists(),
+            $empresa !== null && $empresa->facturaVigente()->exists(),
+        ];
+
+        $total       = count($pasos);
+        $completados = collect($pasos)->filter()->count();
+        $pendientes  = $total - $completados;
+        $porcentaje  = (int) round($completados / $total * 100);
+
+        $info['pendientes'] = $pendientes;
+        $info['completados'] = $completados;
+        $info['porcentaje'] = $porcentaje;
+        $info['pasos']      = $pasos;
+        $info['accesos']    = ! in_array(false, $pasos, true);
+
+        return view('home', $info);
+    }
+
+    public function guia()
+    {
+        $html = view('layouts.componentes.guia')->render();
+
+        return response()->json(['estado' => md5($html), 'html' => $html]);
     }
 
     public function precios()

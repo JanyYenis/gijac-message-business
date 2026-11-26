@@ -90,7 +90,7 @@
                         <option value="{{ $config->id }}" disabled {{ $config->estado == 1 ? 'selected' : '' }}>App ID: {{ $config->app_id ?? 'N/A' }}</option>
                     @endforeach
                 </select> --}}
-                @if ($drawer)
+                @if ($drawer && $accesos)
                     <!--begin::Trigger button-->
                     <button id="kt_drawer_example_basic_button" class="btn btn-icon btn-color-gray-600 btn-active-light btn-active-color-primary">
                         <i class="fas fa-search fs-2x"></i>

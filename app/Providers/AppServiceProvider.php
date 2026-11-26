@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Campana;
+use App\Models\Contacto;
 use App\Models\WhatsappAccount;
 use App\Models\Sistema\Concepto;
 use Illuminate\Support\ServiceProvider;
@@ -38,7 +40,20 @@ class AppServiceProvider extends ServiceProvider
 
                 // Compartir la variable (incluso si es null)
                 $view->with('numeroTelefono', optional($config)->phone_number_id);
+                $empresa = auth()->user()?->empresa;
+                $cod     = $empresa?->id;
+
+                $pasos = [
+                    $empresa !== null,
+                    (bool) $cod && WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->exists(),
+                    (bool) $cod && Contacto::where('cod_empresa', $cod)->where('estado', '!=', Contacto::ELIMINADO)->exists(),
+                    (bool) $cod && Campana::where('cod_empresa', $cod)->where('estado', '!=', Campana::ELIMINADO)->exists(),
+                    $empresa !== null && $empresa->facturaVigente()->exists(),
+                ];
+
+                $view->with('accesos', ! in_array(false, $pasos, true));
             } else {
+                $view->with('accesos', false);
                 $view->with('numeroTelefono', null);
             }
         });
@@ -58,6 +73,22 @@ class AppServiceProvider extends ServiceProvider
                     ->get();
             }
             $view->with('configs', $configs);
+        });
+
+        view()->composer('layouts.componentes.guia', function ($view) {
+            $empresa = auth()->user()?->empresa;
+            $cod     = $empresa?->id;
+
+            $pasos = [
+                $empresa !== null,
+                (bool) $cod && WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->exists(),
+                (bool) $cod && Contacto::where('cod_empresa', $cod)->where('estado', '!=', Contacto::ELIMINADO)->exists(),
+                (bool) $cod && Campana::where('cod_empresa', $cod)->where('estado', '!=', Campana::ELIMINADO)->exists(),
+                $empresa !== null && $empresa->facturaVigente()->exists(),
+            ];
+
+            $view->with('pasos', $pasos);
+            $view->with('accesos', ! in_array(false, $pasos, true));
         });
     }
 }

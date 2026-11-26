@@ -28,46 +28,45 @@ Echo.join(`notificacion.${window.user}`).listen('NotificacionEvent', (e) => {
 // Mensajes ya notificados (global: si este archivo se carga dos veces o el evento llega repetido, solo se avisa una vez)
 window.mensajesNotificados = window.mensajesNotificados || new Set();
 
-Echo.join('chat.' + window.numeroTelefono).listen('.mensaje.enviado', e =>
-  console.log('EVT', e.phone_number_id, e.mensaje.wa_from, e.mensaje.wa_to, window.numeroTelefono));
-
-Echo.join(`chat.${window.numeroTelefono}`).listen('.mensaje.enviado', (e) => {
-    // Solo mensajes que llegan de clientes: los que envía la empresa (web o app) no generan aviso
-    const propio = String(e?.phone_number_id ?? window.numeroTelefono);
-    if (String(e?.mensaje?.wa_from) === propio) {
-        return;
-    }
-
-    const idMensaje = e?.mensaje?.id ?? e?.mensaje?.wa_message_id;
-    if (idMensaje) {
-        if (window.mensajesNotificados.has(idMensaje)) {
+if (window.numeroTelefono) {
+    Echo.join(`chat.${window.numeroTelefono}`).listen('.mensaje.enviado', (e) => {
+        // Solo mensajes que llegan de clientes: los que envía la empresa (web o app) no generan aviso
+        const propio = String(e?.phone_number_id ?? window.numeroTelefono);
+        if (String(e?.mensaje?.wa_from) === propio) {
             return;
         }
-        window.mensajesNotificados.add(idMensaje);
-    }
 
-    if (Notification.permission === 'granted') {
-        let contenido_mensaje = e?.mensaje?.body ?? 'Tienes un mensaje';
-        let tipo = e?.mensaje?.type ?? 1;
-        if (tipo == 6) {
-            contenido_mensaje = __('Audio');
-        } else if (tipo == 4) {
-            contenido_mensaje = __('Documento');
-        } else if (tipo == 3) {
-            contenido_mensaje = __('Video');
-        } else if (tipo == 2) {
-            contenido_mensaje = __('Imagen');
+        const idMensaje = e?.mensaje?.id ?? e?.mensaje?.wa_message_id;
+        if (idMensaje) {
+            if (window.mensajesNotificados.has(idMensaje)) {
+                return;
+            }
+            window.mensajesNotificados.add(idMensaje);
         }
-        new Notification('GIJAC MESSAGE BUSINESS', {
-            body: (e?.mensaje?.contacto?.nombre_completo ?? e?.mensaje?.wa_from) + ': ' + (contenido_mensaje),
-            icon: '../../img/logo_gmb.png', // opcional
-            tag: idMensaje ? 'gmb-msg-' + idMensaje : undefined // el navegador fusiona avisos con la misma etiqueta
-        });
-    }
-}).joining(user => {
-}).leaving(user => {
-}).here(users => {
-});
+
+        if (Notification.permission === 'granted') {
+            let contenido_mensaje = e?.mensaje?.body ?? 'Tienes un mensaje';
+            let tipo = e?.mensaje?.type ?? 1;
+            if (tipo == 6) {
+                contenido_mensaje = __('Audio');
+            } else if (tipo == 4) {
+                contenido_mensaje = __('Documento');
+            } else if (tipo == 3) {
+                contenido_mensaje = __('Video');
+            } else if (tipo == 2) {
+                contenido_mensaje = __('Imagen');
+            }
+            new Notification('GIJAC MESSAGE BUSINESS', {
+                body: (e?.mensaje?.contacto?.nombre_completo ?? e?.mensaje?.wa_from) + ': ' + (contenido_mensaje),
+                icon: '../../img/logo_gmb.png', // opcional
+                tag: idMensaje ? 'gmb-msg-' + idMensaje : undefined // el navegador fusiona avisos con la misma etiqueta
+            });
+        }
+    }).joining(user => {
+    }).leaving(user => {
+    }).here(users => {
+    });
+}
 
 Echo.join(`online`)
     .here((users) => {
@@ -104,7 +103,8 @@ Echo.join(`online`)
         // generalidades.get(route('accesos.marca-salida', { usuario: user.id }), config, success, error);
     });
 
-Echo.join(`calls.${window.numeroTelefono}`).listen('CallsEvent', (e) => {
-    console.log('Llamando', e);
-
-});
+if (window.numeroTelefono) {
+    Echo.join(`calls.${window.numeroTelefono}`).listen('CallsEvent', (e) => {
+        console.log('Llamando', e);
+    });
+}

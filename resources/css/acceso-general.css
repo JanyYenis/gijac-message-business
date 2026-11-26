@@ -1,0 +1,965 @@
+.topbar {
+    background: #fff;
+    border-bottom: 1px solid #e1ebed;
+    box-shadow: 0 2px 10px rgba(13, 42, 46, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    color: #0d2a2e;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    white-space: nowrap;
+}
+
+.brand-mark {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: linear-gradient(135deg,
+            #0d2a2e 0%,
+            #145962 55%,
+            #1e6f78 100%);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 1.05rem;
+    box-shadow: 0 6px 14px rgba(13, 42, 46, 0.22);
+}
+
+.brand-sub {
+    color: #2c8f99;
+    font-weight: 700;
+}
+
+.topbar-user {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: #eef6f7;
+    border-radius: 999px;
+    padding: 0.3rem 0.85rem;
+    color: #145962;
+    font-weight: 600;
+    font-size: 0.88rem;
+    white-space: nowrap;
+}
+
+.mock-page {
+    max-width: 960px;
+    padding-top: 1.6rem;
+    padding-bottom: 4rem;
+}
+
+.mock-note {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64818a;
+    font-size: 0.85rem;
+    margin-bottom: 1.3rem;
+}
+
+.mock-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.mock-card {
+    background: #fff;
+    border: 1px solid #e1ebed;
+    border-radius: 16px;
+    padding: 1.1rem;
+    box-shadow: 0 4px 14px rgba(13, 42, 46, 0.06);
+}
+
+.mock-card h3 {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #0d2a2e;
+    margin: 0 0 0.6rem;
+}
+
+.mock-line {
+    height: 10px;
+    border-radius: 999px;
+    background: #eef6f7;
+    margin-bottom: 0.5rem;
+}
+
+.mock-line.w-80 {
+    width: 80%;
+}
+
+.mock-line.w-60 {
+    width: 60%;
+}
+
+.mock-line.w-40 {
+    width: 40%;
+}
+
+/* Controles de demostración (SOLO del prototipo) */
+.demo-panel {
+    background: #fff;
+    border: 1.5px dashed #2c8f99;
+    border-radius: 16px;
+    padding: 1rem 1.15rem;
+    margin-bottom: 1.6rem;
+}
+
+.demo-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    color: #145962;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+}
+
+.demo-hint {
+    color: #64818a;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    flex-basis: 100%;
+}
+
+.demo-switch {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.demo-btn {
+    border: 1.5px solid #e1ebed;
+    background: #fff;
+    color: #2e4649;
+    font-size: 0.84rem;
+    font-weight: 600;
+    padding: 0.45rem 1rem;
+    border-radius: 999px;
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.demo-btn:hover {
+    border-color: #2c8f99;
+    color: #145962;
+}
+
+.demo-btn.active {
+    background: linear-gradient(135deg,
+            #1e6f78 0%,
+            #2c8f99 60%,
+            #1fa9b8 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 6px 14px rgba(31, 169, 184, 0.3);
+}
+
+.demo-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    color: #64818a;
+    font-weight: 600;
+}
+
+.demo-toast {
+    min-width: 280px;
+}
+
+.toast-body-demo {
+    font-size: 0.88rem;
+    color: #0d2a2e;
+}
+
+@media (max-width: 768px) {
+    .mock-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 575px) {
+    .brand-sub {
+        display: none;
+    }
+
+    .topbar-user span.user-name {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+        GIJAC MESSAGE BUSINESS — Widget global de onboarding «Tu configuración»
+        public/css/onboarding-widget.css
+        Identidad: azul oscuro principal, turquesa para destacados, blanco / gris
+        claro, bordes redondeados, sombras suaves, animaciones sutiles.
+        ========================================================================== */
+
+.onb-w {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1030;
+    /* sobre dropdowns (1000); bajo offcanvas (1045), modales (1055) y toasts (1090) */
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: 10px;
+    font-family: "Inter", sans-serif;
+    color: #2e4649;
+}
+
+/* Cuando hay un modal/offcanvas abierto, el widget se aparta (ver JS) */
+.onb-w.is-suppressed {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition:
+        opacity 0.2s linear,
+        transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.onb-w.is-refreshing .onb-w-capsule-slot,
+.onb-w.is-refreshing .onb-w-panel-slot {
+    opacity: 0.55;
+    transition: opacity 0.2s linear;
+}
+
+/* --------------------------------------------------------------------------
+   Cápsula minimizada
+   -------------------------------------------------------------------------- */
+
+.onb-w-capsule-slot {
+    position: relative;
+}
+
+.btn.onb-w-capsule {
+    display: inline-flex;
+    position: relative;
+    right: 3rem;
+    align-items: center;
+    gap: 0.65rem;
+    background: #fff;
+    border: 1px solid #e1ebed;
+    border-radius: 999px;
+    padding: 0.45rem 0.9rem 0.45rem 0.5rem;
+    box-shadow: 0 10px 28px rgba(13, 42, 46, 0.16) !important;
+    cursor: pointer;
+    transition:
+        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        border-color 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    max-width: calc(100vw - 24px);
+}
+
+.btn.onb-w-capsule:hover,
+.btn.onb-w-capsule:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(13, 42, 46, 0.22);
+    border-color: rgba(31, 169, 184, 0.45);
+}
+
+/* Orb con anillo de progreso */
+.onb-w-orb {
+    --onb-w-percent: 0;
+    position: relative;
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: conic-gradient(#1fa9b8 calc(var(--onb-w-percent) * 1%),
+            #e1ebed 0);
+}
+
+.onb-w-orb::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.onb-w-orb i {
+    position: relative;
+    z-index: 1;
+    color: #1e6f78;
+    font-size: 1.05rem;
+}
+
+.onb-w-orb.is-complete {
+    background: linear-gradient(135deg,
+            #1e6f78 0%,
+            #2c8f99 60%,
+            #1fa9b8 100%);
+}
+
+.onb-w-orb.is-complete::before {
+    display: none;
+}
+
+.onb-w-orb.is-complete i {
+    color: #fff;
+}
+
+.onb-w-capsule-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    min-width: 0;
+}
+
+.onb-w-capsule-title {
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: #0d2a2e;
+    white-space: nowrap;
+}
+
+.onb-w-progress-mini {
+    width: 96px;
+    height: 5px;
+    border-radius: 999px;
+    background: #eef6f7;
+    overflow: hidden;
+}
+
+.onb-w-progress-mini-bar {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(135deg,
+            #1e6f78 0%,
+            #2c8f99 60%,
+            #1fa9b8 100%);
+    transition: width 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.onb-w-count {
+    flex: 0 0 auto;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    font-size: 0.8rem;
+    color: #145962;
+    background: #eef6f7;
+    border-radius: 999px;
+    padding: 0.22rem 0.6rem;
+}
+
+.onb-w-count.is-complete {
+    color: #16a34a;
+    background: rgba(22, 163, 74, 0.12);
+}
+
+.onb-w-caret {
+    flex: 0 0 auto;
+    color: #64818a;
+    font-size: 0.8rem;
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.onb-w.is-open .onb-w-caret {
+    transform: rotate(180deg);
+}
+
+/* --------------------------------------------------------------------------
+   Panel expandido
+   -------------------------------------------------------------------------- */
+
+.onb-w-panel-slot {
+    position: relative;
+}
+
+.onb-w-panel {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 372px;
+    max-width: calc(100vw - 24px);
+    background: #fff;
+    border: 1px solid #e1ebed;
+    border-radius: 18px;
+    box-shadow: 0 18px 48px rgba(13, 42, 46, 0.22);
+    overflow: hidden;
+    display: none;
+}
+
+.onb-w.is-open .onb-w-panel {
+    display: block;
+    animation: onb-w-slide-up 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes onb-w-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Botón cerrar */
+.btn.onb-w-close {
+    position: absolute;
+    top: 0.6rem;
+    right: 0.6rem;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(13, 42, 46, 0.06);
+    color: #64818a;
+    display: grid;
+    place-items: center;
+    font-size: 0.8rem;
+    transition:
+        background 0.2s linear,
+        color 0.2s linear;
+}
+
+.btn.onb-w-close:hover {
+    background: rgba(13, 42, 46, 0.12);
+    color: #0d2a2e;
+}
+
+/* Encabezado */
+.onb-w-head {
+    position: relative;
+    background: linear-gradient(180deg, #eef6f7 0%, #f7fbfc 100%);
+    border-bottom: 1px solid #e1ebed;
+    padding: 1.05rem 1.15rem 0.95rem;
+}
+
+.onb-w-title {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    font-size: 1.02rem;
+    color: #0d2a2e;
+    margin: 0 0 0.3rem;
+    padding-right: 2rem;
+    line-height: 1.3;
+}
+
+.onb-w-sub {
+    font-size: 0.82rem;
+    color: #64818a;
+    line-height: 1.5;
+    margin: 0 0 0.8rem;
+    max-width: 46ch;
+}
+
+.onb-w-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.9rem;
+    margin-bottom: 0.6rem;
+}
+
+.onb-w-meta-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #2e4649;
+}
+
+.onb-w-meta-item i {
+    color: #1fa9b8;
+}
+
+.onb-w-meta-percent {
+    margin-left: auto;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    color: #2c8f99;
+    background: #fff;
+    border: 1px solid #e1ebed;
+    border-radius: 999px;
+    padding: 0.1rem 0.55rem;
+}
+
+.progress.onb-w-progress {
+    height: 9px;
+    background: #fff;
+    border: 1px solid #e1ebed;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.onb-w-progress-bar {
+    background: linear-gradient(135deg,
+            #1e6f78 0%,
+            #2c8f99 60%,
+            #1fa9b8 100%);
+    border-radius: 999px;
+    transition: width 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.onb-w-progress-bar.is-complete {
+    background: linear-gradient(135deg, #16a34a 0%, #1fa9b8 100%);
+}
+
+/* Estado de celebración (todos los pasos completados) */
+.onb-w-head.is-done-head {
+    background: linear-gradient(135deg,
+            #1e6f78 0%,
+            #2c8f99 60%,
+            #1fa9b8 100%);
+    color: #fff;
+}
+
+.onb-w-done-badge {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    font-size: 1.3rem;
+    margin-bottom: 0.6rem;
+    animation: onb-w-pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+@keyframes onb-w-pop {
+    from {
+        transform: scale(0.4);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.onb-w-head.is-done-head .onb-w-title {
+    color: #fff;
+}
+
+.onb-w-head.is-done-head .onb-w-sub {
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.onb-w-head.is-done-head .onb-w-meta-item {
+    color: #fff;
+}
+
+.onb-w-head.is-done-head .onb-w-meta-item i {
+    color: #fff;
+}
+
+.onb-w-head.is-done-head .onb-w-meta-percent {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.onb-w-head.is-done-head .progress.onb-w-progress {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.onb-w-head.is-done-head .btn.onb-w-close {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+.onb-w-head.is-done-head .btn.onb-w-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.onb-w-done-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.9rem;
+}
+
+.onb-w-done-actions .btn.onb-w-btn-primary {
+    background: #fff;
+    color: #145962;
+    box-shadow: 0 8px 18px rgba(13, 42, 46, 0.18);
+}
+
+.onb-w-done-actions .btn.onb-w-btn-primary:hover {
+    color: #0d2a2e;
+    box-shadow: 0 12px 24px rgba(13, 42, 46, 0.25);
+}
+
+.onb-w-done-actions .btn.onb-w-btn-ghost {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.45);
+    color: #fff;
+}
+
+.onb-w-done-actions .btn.onb-w-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: #fff;
+    color: #fff;
+}
+
+/* Lista de pasos */
+.onb-w-list {
+    padding: 0.55rem 0.6rem 0.7rem;
+    max-height: 370px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #c6dbde transparent;
+}
+
+.onb-w-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.onb-w-list::-webkit-scrollbar-thumb {
+    background: #c6dbde;
+    border-radius: 999px;
+}
+
+.onb-w-step {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.6rem;
+    border-radius: 13px;
+    border: 1px solid transparent;
+    transition: background 0.2s linear;
+}
+
+.onb-w-step:hover {
+    background: rgba(238, 246, 247, 0.6);
+}
+
+/* Pendientes: la acción ocupa una línea propia a lo ancho (más protagonismo
+   y evita que el título se estreche con etiquetas largas). */
+.onb-w-step.is-pending {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+}
+
+.onb-w-step.is-pending .onb-w-step-body {
+    flex: 1 1 calc(100% - 74px);
+}
+
+.onb-w-step.is-pending .onb-w-step-action {
+    flex: 1 1 100%;
+}
+
+.onb-w-step.is-pending .onb-w-step-action .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+}
+
+.onb-w-step.is-next {
+    background: #eef6f7;
+    border-color: rgba(31, 169, 184, 0.4);
+    box-shadow: 0 6px 16px rgba(31, 169, 184, 0.12);
+}
+
+/* Marcador */
+.onb-w-step-marker {
+    flex: 0 0 auto;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: #fff;
+    border: 1.5px solid #e1ebed;
+    color: #64818a;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 800;
+    font-size: 0.72rem;
+}
+
+.onb-w-step.is-completed .onb-w-step-marker {
+    background: linear-gradient(135deg,
+            #1e6f78 0%,
+            #2c8f99 60%,
+            #1fa9b8 100%);
+    border-color: transparent;
+    color: #fff;
+    font-size: 0.82rem;
+}
+
+.onb-w-step.is-completed .onb-w-step-marker i {
+    color: #fff;
+}
+
+/* Icono del paso */
+.onb-w-step-icon {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    background: #eef6f7;
+    color: #1e6f78;
+    font-size: 1.05rem;
+}
+
+.onb-w-step-icon i {
+    color: #1e6f78;
+}
+
+.onb-w-step.is-completed .onb-w-step-icon {
+    background: rgba(22, 163, 74, 0.1);
+    color: #16a34a;
+}
+
+.onb-w-step.is-completed .onb-w-step-icon i {
+    color: #16a34a;
+}
+
+/* Texto */
+.onb-w-step-body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.onb-w-step-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.onb-w-step-title {
+    font-weight: 700;
+    font-size: 0.84rem;
+    color: #0d2a2e;
+    line-height: 1.3;
+}
+
+.onb-w-step-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-top: 0.15rem;
+}
+
+.onb-w-step-status-pending, .onb-w-step-status-pending i {
+    color: #b45309;
+}
+
+.onb-w-step-status-done, .onb-w-step-status-done i {
+    color: #16a34a;
+}
+
+.onb-w-next-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: #2c8f99;
+    color: #fff;
+    font-size: 0.64rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    padding: 0.12rem 0.5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.onb-w-next-chip i {
+    color: #fff;
+}
+
+/* Acción */
+.onb-w-step-action {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.btn.onb-w-btn-primary {
+    background: linear-gradient(135deg,
+            #1e6f78 0%,
+            #2c8f99 60%,
+            #1fa9b8 100%);
+    border: none;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.76rem;
+    border-radius: 999px;
+    padding: 0.38rem 0.85rem;
+    box-shadow: 0 6px 14px rgba(31, 169, 184, 0.28);
+    transition:
+        transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    white-space: nowrap;
+}
+
+.btn.onb-w-btn-primary:hover,
+.btn.onb-w-btn-primary:focus-visible {
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px rgba(31, 169, 184, 0.38);
+}
+
+.btn.onb-w-btn-ghost {
+    background: #fff;
+    border: 1.5px solid #e1ebed;
+    color: #1e6f78;
+    font-weight: 600;
+    font-size: 0.76rem;
+    border-radius: 999px;
+    padding: 0.34rem 0.8rem;
+    transition:
+        border-color 0.2s linear,
+        background 0.2s linear,
+        color 0.2s linear;
+    white-space: nowrap;
+}
+
+.btn.onb-w-btn-ghost:hover {
+    border-color: #2c8f99;
+    background: #eef6f7;
+    color: #145962;
+}
+
+.onb-w-step-check {
+    display: inline-flex;
+    align-items: center;
+    color: #16a34a;
+    font-size: 1.15rem;
+}
+
+.onb-w-step-check i {
+    color: #16a34a;
+}
+
+.onb-w-step-locked {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #64818a;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+/* Estados atenuados */
+.onb-w-step.is-completed {
+    opacity: 0.74;
+}
+
+.onb-w-step.is-completed .onb-w-step-title {
+    color: #64818a;
+}
+
+.onb-w-step.is-completed .onb-w-step-title i {
+    color: #64818a;
+}
+
+.onb-w-step.is-locked {
+    opacity: 0.8;
+}
+
+/* Accesibilidad de foco */
+.onb-w a:focus-visible,
+.onb-w button:focus-visible {
+    outline: 3px solid rgba(31, 169, 184, 0.5);
+    outline-offset: 2px;
+    border-radius: 999px;
+}
+
+/* --------------------------------------------------------------------------
+   Móviles: el panel se convierte en hoja inferior a ancho completo
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 575px) {
+    .onb-w {
+        bottom: 14px;
+        right: 14px;
+        gap: 8px;
+    }
+
+    .btn.onb-w-capsule {
+        padding: 0.35rem 0.7rem 0.35rem 0.4rem;
+        gap: 0.5rem;
+    }
+
+    .onb-w-capsule-title {
+        font-size: 0.8rem;
+    }
+
+    .onb-w-progress-mini {
+        width: 64px;
+    }
+
+    .onb-w-panel {
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        width: auto;
+        max-width: none;
+        max-height: min(78vh, 560px);
+        overflow-y: auto;
+        z-index: 2;
+        /* por encima de la cápsula mientras la hoja está abierta */
+    }
+
+    /* Con la hoja abierta, la cápsula queda fuera de juego (evita colisiones
+       en la esquina inferior) */
+    .onb-w.is-open .onb-w-capsule-slot {
+        visibility: hidden;
+    }
+
+    .onb-w-list {
+        max-height: none;
+        overflow: visible;
+    }
+}
+
+/* Movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+
+    .onb-w-panel,
+    .onb-w-done-badge,
+    .onb-w-progress-bar,
+    .onb-w-progress-mini-bar,
+    .onb-w-caret,
+    .btn.onb-w-capsule {
+        animation: none !important;
+        transition: none !important;
+    }
+}

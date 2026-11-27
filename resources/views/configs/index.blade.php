@@ -6,14 +6,6 @@
 
 @section('content')
     <main class="dash-content">
-        <!-- PAGE HEADER -->
-        <div class="page-header">
-            <h1 class="text-white">{{ __('Conexión WhatsApp Business API') }}</h1>
-            <p class="text-white">
-                {{ __('Conecta y administra tu número oficial de WhatsApp desde GIJAC Message Business.') }}
-            </p>
-        </div>
-
         <!-- ============================================================
             HERO DE ONBOARDING (composición 3D)
             ============================================================ -->

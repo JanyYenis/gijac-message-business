@@ -7,6 +7,7 @@ use App\Models\Campana;
 use App\Models\EnvioCampana;
 use App\Models\Mensaje;
 use App\Models\Plan;
+use App\Models\Plantilla;
 use App\Models\WhatsappAccount;
 use Illuminate\Http\Request;
 
@@ -22,10 +23,15 @@ class HomeController extends Controller
         $empresa = auth()->user()?->empresa;
         $cod     = $empresa?->id;
 
+        $cuentas = $cod
+            ? WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->pluck('id')
+            : collect();
+
         $pasos = [
             $empresa !== null,
-            (bool) $cod && WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->exists(),
+            $cuentas->isNotEmpty(),
             (bool) $cod && Contacto::where('cod_empresa', $cod)->where('estado', '!=', Contacto::ELIMINADO)->exists(),
+            $cuentas->isNotEmpty() && Plantilla::whereIn('cod_config', $cuentas)->where('status', Plantilla::APROBADO)->exists(),
             (bool) $cod && Campana::where('cod_empresa', $cod)->where('estado', '!=', Campana::ELIMINADO)->exists(),
             $empresa !== null && $empresa->facturaVigente()->exists(),
         ];

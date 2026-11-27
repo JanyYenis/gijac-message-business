@@ -531,6 +531,10 @@
     color: #16a34a;
 }
 
+.onb-status-done i {
+    color: #16a34a;
+}
+
 .onb-next-chip {
     flex: 0 0 auto;
     display: inline-flex;
@@ -604,6 +608,10 @@
         background 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
+.btn.onb-btn-outline i {
+    color: #1e6f78;
+}
+
 .btn.onb-btn-outline:hover {
     border-color: #2c8f99;
     color: #145962;
@@ -617,6 +625,10 @@
     color: #16a34a;
     font-size: 0.85rem;
     font-weight: 600;
+}
+
+.onb-done-note i {
+    color: #16a34a;
 }
 
 .onb-locked-note {

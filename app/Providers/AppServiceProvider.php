@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Campana;
 use App\Models\Contacto;
+use App\Models\Plantilla;
 use App\Models\WhatsappAccount;
 use App\Models\Sistema\Concepto;
 use Illuminate\Support\ServiceProvider;
@@ -43,10 +44,15 @@ class AppServiceProvider extends ServiceProvider
                 $empresa = auth()->user()?->empresa;
                 $cod     = $empresa?->id;
 
+                $cuentas = $cod
+                    ? WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->pluck('id')
+                    : collect();
+
                 $pasos = [
                     $empresa !== null,
-                    (bool) $cod && WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->exists(),
+                    $cuentas->isNotEmpty(),
                     (bool) $cod && Contacto::where('cod_empresa', $cod)->where('estado', '!=', Contacto::ELIMINADO)->exists(),
+                    $cuentas->isNotEmpty() && Plantilla::whereIn('cod_config', $cuentas)->where('status', Plantilla::APROBADO)->exists(),
                     (bool) $cod && Campana::where('cod_empresa', $cod)->where('estado', '!=', Campana::ELIMINADO)->exists(),
                     $empresa !== null && $empresa->facturaVigente()->exists(),
                 ];
@@ -79,10 +85,15 @@ class AppServiceProvider extends ServiceProvider
             $empresa = auth()->user()?->empresa;
             $cod     = $empresa?->id;
 
+            $cuentas = $cod
+                ? WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->pluck('id')
+                : collect();
+
             $pasos = [
                 $empresa !== null,
-                (bool) $cod && WhatsappAccount::where('cod_empresa', $cod)->where('estado', WhatsappAccount::CONECTADO)->exists(),
+                $cuentas->isNotEmpty(),
                 (bool) $cod && Contacto::where('cod_empresa', $cod)->where('estado', '!=', Contacto::ELIMINADO)->exists(),
+                $cuentas->isNotEmpty() && Plantilla::whereIn('cod_config', $cuentas)->where('status', Plantilla::APROBADO)->exists(),
                 (bool) $cod && Campana::where('cod_empresa', $cod)->where('estado', '!=', Campana::ELIMINADO)->exists(),
                 $empresa !== null && $empresa->facturaVigente()->exists(),
             ];

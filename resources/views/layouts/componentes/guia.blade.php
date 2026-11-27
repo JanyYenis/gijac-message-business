@@ -5,6 +5,7 @@
             ['bi-buildings', 'Registra tu empresa', 'Registrar mi empresa', route('negocios.index')],
             ['bi-facebook', 'Conecta tu cuenta de Facebook', 'Conectar con Facebook', route('configs.index')],
             ['bi-person-plus', 'Crea tu primer contacto', 'Crear mi primer contacto', route('contactos.index')],
+            ['bi-file-earmark-text', 'Crea tu primera plantilla', 'Crear mi plantilla', route('plantillas.index')],
             ['bi-megaphone', 'Envía una campaña de prueba', 'Crear mi primera campaña', route('campanas.index')],
             ['bi-gem', 'Adquiere un plan', 'Conocer nuestros planes', route('precios')],
         ];

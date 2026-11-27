@@ -320,7 +320,7 @@
                             </p>
                             <div class="onb-actions">
                                 @if ($pasos[0])
-                                    <a class="btn onb-btn-outline" href="{{ route('negocios.index') }}" data-demo-action="companies.edit|Revisar configuración">
+                                    <a class="btn onb-btn-outline" href="{{ route('negocios.index') }}">
                                         <i class="bi bi-gear me-1" aria-hidden="true"></i>
                                         Revisar configuración
                                     </a>
@@ -329,7 +329,7 @@
                                         Configuración completada
                                     </span>
                                 @else
-                                    <a class="btn onb-btn-primary" href="{{ route('negocios.index') }}" data-demo-action="companies.create|Registrar mi empresa">
+                                    <a class="btn onb-btn-primary" href="{{ route('negocios.index') }}">
                                         Registrar mi empresa
                                         <i class="bi bi-arrow-right ms-2 text-white" aria-hidden="true"></i>
                                     </a>
@@ -372,7 +372,7 @@
                             </p>
                             <div class="onb-actions">
                                 @if ($pasos[1])
-                                    <a class="btn onb-btn-outline" href="{{ route('configs.index') }}" data-demo-action="companies.edit|Revisar configuración">
+                                    <a class="btn onb-btn-outline" href="{{ route('configs.index') }}">
                                         <i class="bi bi-gear me-1" aria-hidden="true"></i>
                                         Ver estado de conexión
                                     </a>
@@ -381,7 +381,7 @@
                                         Configuración completada
                                     </span>
                                 @else
-                                    <a class="btn onb-btn-primary" href="{{ route('configs.index') }}" data-demo-action="whatsapp.connect|Conectar con Facebook">
+                                    <a class="btn onb-btn-primary" href="{{ route('configs.index') }}">
                                         Conectar con Facebook
                                         <i class="bi bi-arrow-right ms-2 text-white" aria-hidden="true"></i>
                                     </a>
@@ -424,7 +424,7 @@
                             </p>
                             <div class="onb-actions">
                                 @if ($pasos[2])
-                                    <a class="btn onb-btn-outline" href="{{ route('contactos.index') }}" data-demo-action="companies.edit|Revisar configuración">
+                                    <a class="btn onb-btn-outline" href="{{ route('contactos.index') }}">
                                         <i class="bi bi-gear me-1" aria-hidden="true"></i>
                                         Ver contactos
                                     </a>
@@ -433,7 +433,7 @@
                                         Configuración completada
                                     </span>
                                 @else
-                                    <a class="btn onb-btn-primary" href="{{ route('contactos.index') }}" data-demo-action="contacts.create|Crear mi primer contacto">
+                                    <a class="btn onb-btn-primary" href="{{ route('contactos.index') }}">
                                         Crear mi primer contacto
                                         <i class="bi bi-arrow-right ms-2 text-white" aria-hidden="true"></i>
                                     </a>
@@ -451,7 +451,7 @@
                                     <i class="bi bi-megaphone text-gijac fs-3"></i>
                                 </span>
                                 <div class="onb-card-titles">
-                                    <h2 class="onb-step-title">PASO 4. Envía una campaña de prueba</h2>
+                                    <h2 class="onb-step-title">PASO 4. Crear plantilla</h2>
                                      @if ($pasos[3])
                                         <span class="onb-status onb-status-done">
                                             <i class="bi bi-check2-circle" aria-hidden="true"></i>
@@ -472,21 +472,21 @@
                                 @endif
                             </div>
                             <p class="onb-step-desc">
-                                Experimenta el potencial de GIJAC MESSAGE BUSINESS enviando tu primera campaña de WhatsApp
+                                Experimenta el potencial de GIJAC MESSAGE BUSINESS creando una plantilla de prueba
                             </p>
                             <div class="onb-actions">
                                 @if ($pasos[3])
-                                    <a class="btn onb-btn-outline" href="{{ route('campanas.index') }}" data-demo-action="companies.edit|Revisar configuración">
+                                    <a class="btn onb-btn-outline" href="{{ route('plantillas.index') }}">
                                         <i class="bi bi-gear me-1" aria-hidden="true"></i>
-                                        Ver campañas
+                                        Ver plantillas
                                     </a>
                                     <span class="onb-done-note">
                                         <i class="bi bi-check2-circle me-1" aria-hidden="true"></i>
                                         Configuración completada
                                     </span>
                                 @else
-                                    <a class="btn onb-btn-primary" href="{{ route('campanas.index') }}" data-demo-action="campaigns.create|Crear mi primera campaña">
-                                        Crear mi primera campaña
+                                    <a class="btn onb-btn-primary" href="{{ route('plantillas.index') }}">
+                                        Crear mi primera plantillas
                                         <i class="bi bi-arrow-right ms-2 text-white" aria-hidden="true"></i>
                                     </a>
                                 @endif
@@ -500,10 +500,10 @@
                         <div class="onb-card">
                             <div class="onb-card-head">
                                 <span class="onb-step-icon" aria-hidden="true">
-                                    <i class="bi bi-gem text-gijac fs-3"></i>
+                                    <i class="bi bi-megaphone text-gijac fs-3"></i>
                                 </span>
                                 <div class="onb-card-titles">
-                                    <h2 class="onb-step-title">PASO 5. Adquiere un plan</h2>
+                                    <h2 class="onb-step-title">PASO 5. Envía una campaña de prueba</h2>
                                      @if ($pasos[4])
                                         <span class="onb-status onb-status-done">
                                             <i class="bi bi-check2-circle" aria-hidden="true"></i>
@@ -524,11 +524,63 @@
                                 @endif
                             </div>
                             <p class="onb-step-desc">
-                                Selecciona el plan que mejor se adapte a las necesidades de tu empresa y desbloquea todas las funcionalidades de GIJAC MESSAGE BUSINESS
+                                Experimenta el potencial de GIJAC MESSAGE BUSINESS enviando tu primera campaña de WhatsApp
                             </p>
                             <div class="onb-actions">
                                 @if ($pasos[4])
-                                    <a class="btn onb-btn-outline" href="{{ route('perfil') }}" data-demo-action="companies.edit|Revisar configuración">
+                                    <a class="btn onb-btn-outline" href="{{ route('campanas.index') }}">
+                                        <i class="bi bi-gear me-1" aria-hidden="true"></i>
+                                        Ver campañas
+                                    </a>
+                                    <span class="onb-done-note">
+                                        <i class="bi bi-check2-circle me-1" aria-hidden="true"></i>
+                                        Configuración completada
+                                    </span>
+                                @else
+                                    <a class="btn onb-btn-primary" href="{{ route('campanas.index') }}">
+                                        Crear mi primera campaña
+                                        <i class="bi bi-arrow-right ms-2 text-white" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    </li>
+                    <li class="onb-step {{ $pasos[5] ? 'is-completed' : 'is-pending is-next' }}">
+                        <div class="onb-marker" aria-hidden="true">
+                            <span class="onb-marker-number">6</span>
+                        </div>
+                        <div class="onb-card">
+                            <div class="onb-card-head">
+                                <span class="onb-step-icon" aria-hidden="true">
+                                    <i class="bi bi-gem text-gijac fs-3"></i>
+                                </span>
+                                <div class="onb-card-titles">
+                                    <h2 class="onb-step-title">PASO 6. Adquiere un plan</h2>
+                                     @if ($pasos[5])
+                                        <span class="onb-status onb-status-done">
+                                            <i class="bi bi-check2-circle" aria-hidden="true"></i>
+                                            Completado
+                                        </span>
+                                    @else
+                                        <span class="onb-status onb-status-pending">
+                                            <i class="bi bi-hourglass-split" aria-hidden="true"></i>
+                                            Pendiente
+                                        </span>
+                                    @endif
+                                </div>
+                                @if (!$pasos[5])
+                                    <span class="onb-next-chip">
+                                        <i class="bi bi-lightning-charge-fill text-white" aria-hidden="true"></i>
+                                        Siguiente paso
+                                    </span>
+                                @endif
+                            </div>
+                            <p class="onb-step-desc">
+                                Selecciona el plan que mejor se adapte a las necesidades de tu empresa y desbloquea todas las funcionalidades de GIJAC MESSAGE BUSINESS
+                            </p>
+                            <div class="onb-actions">
+                                @if ($pasos[5])
+                                    <a class="btn onb-btn-outline" href="{{ route('perfil') }}">
                                         <i class="bi bi-gear me-1" aria-hidden="true"></i>
                                         Ver plan comprado
                                     </a>
@@ -537,7 +589,7 @@
                                         Configuración completada
                                     </span>
                                 @else
-                                    <a class="btn onb-btn-primary" href="{{ route('precios') }}" data-demo-action="plans.index|Conocer nuestros planes">
+                                    <a class="btn onb-btn-primary" href="{{ route('precios') }}">
                                         Conocer nuestros planes
                                         <i class="bi bi-arrow-right ms-2 text-white" aria-hidden="true"></i>
                                     </a>
@@ -554,7 +606,5 @@
 @section('scripts')
     @if ($accesos)
         <script src="{{ mix('/js/home.js') }}"></script>
-    @else
-
     @endif
 @endsection

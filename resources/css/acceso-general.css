@@ -828,6 +828,10 @@
     white-space: nowrap;
 }
 
+.btn.onb-w-btn-primary i {
+    color: #fff;
+}
+
 .btn.onb-w-btn-primary:hover,
 .btn.onb-w-btn-primary:focus-visible {
     color: #fff;
@@ -848,6 +852,10 @@
         background 0.2s linear,
         color 0.2s linear;
     white-space: nowrap;
+}
+
+.btn.onb-w-btn-ghost i {
+    color: #1e6f78;
 }
 
 .btn.onb-w-btn-ghost:hover {

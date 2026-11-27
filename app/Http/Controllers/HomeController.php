@@ -41,11 +41,12 @@ class HomeController extends Controller
         $pendientes  = $total - $completados;
         $porcentaje  = (int) round($completados / $total * 100);
 
-        $info['pendientes'] = $pendientes;
+        $info['total']       = $total;
+        $info['pendientes']  = $pendientes;
         $info['completados'] = $completados;
-        $info['porcentaje'] = $porcentaje;
-        $info['pasos']      = $pasos;
-        $info['accesos']    = ! in_array(false, $pasos, true);
+        $info['porcentaje']  = $porcentaje;
+        $info['pasos']       = $pasos;
+        $info['accesos']     = ! in_array(false, $pasos, true);
 
         return view('home', $info);
     }

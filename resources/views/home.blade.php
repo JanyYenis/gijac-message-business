@@ -273,11 +273,11 @@
                     <div class="onb-progress-head">
                         <span class="onb-progress-text">
                             <i class="bi bi-check2-square me-2" aria-hidden="true"></i>
-                            <strong>{{ $completados ?? 0 }} de 5 pasos completados</strong>
+                            <strong>{{ $completados ?? 0 }} de {{ $total }} pasos completados</strong>
                         </span>
                         <span class="onb-progress-percent">{{ $porcentaje ?? 0}}%</span>
                     </div>
-                    <div class="progress onb-progress" role="progressbar" aria-label="Progreso de la configuración inicial" aria-valuemin="0" aria-valuemax="5" aria-valuenow="{{ $porcentaje }}">
+                    <div class="progress onb-progress" role="progressbar" aria-label="Progreso de la configuración inicial" aria-valuemin="0" aria-valuemax="{{ $total }}" aria-valuenow="{{ $porcentaje }}">
                         <div class="progress-bar onb-progress-bar" style="width: {{ $porcentaje ?? 0 }}%"></div>
                     </div>
                 </div>
